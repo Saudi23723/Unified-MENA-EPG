@@ -959,15 +959,6 @@
     <display-name lang="ar">الرابعة قرآن</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/alrabiaa_quran.png" />
   </channel>
-  <programme start="20261013091400 +0000" stop="20261013113100 +0000" channel="beIN4K.qa">
-    <title lang="en">Main Race - F1 Singapore Grand Prix - FIA Formula 1 World Championship 2026</title>
-    <desc lang="en">24 Grand Prix from the Formula 1 Season are live and exclusive only on beIN.
-All Practices, Qualifiers and Races are available live with a choice of Arabic or English commentary.
-The 2026 season will consist of 6 Sprint Races within the 24 weekends.
-For the first time 11 Teams and 22 Drivers will compete to win the World Formula 1 Championships for</desc>
-    <category lang="ar">بطولة العالم للفورمولا وان</category>
-    <category lang="en">Formula One World Championship</category>
-  </programme>
   <programme start="20261013113100 +0000" stop="20261013133100 +0000" channel="beIN4K.qa">
     <title lang="en">Arsenal v Leeds United - English Premier League 2026/2027</title>
     <desc lang="en">Arsenal have won nine of their last 10 Premier League games against Leeds United, including each of the last seven by an aggregate score of 24-5. Leeds United have lost each of their last five away league games against Arsenal since a 3-2 victory in May 2003. They’ve conceded at least four goals in four of these five visits.</desc>
@@ -2781,14 +2772,6 @@ Arsenal are the defending Champions.</desc>
   <programme start="20261020100000 +0000" stop="20261020130000 +0000" channel="beINSports1.qa">
     <title lang="en">Tottenham Hotspur vs Coventry City - English Premier League 2026/2027 - Week 7</title>
     <desc lang="en">In all competitions, Tottenham Hotspur have won their last five games against Coventry, most recently a 2-1 win in the League Cup in September 2024 under Ange Postecoglou. Coventry are visiting Tottenham for the first time since losing 3-0 in the FA Cup third round in 2012-13. They are winless in five away games at Spurs  since a 2-1 win on the fin</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
-  <programme start="20261013110000 +0000" stop="20261013113000 +0000" channel="beINSports2.qa">
-    <title lang="en">Arsenal vs Leeds United - English Premier League 2026/2027 - Week 6</title>
-    <desc lang="en">All 380 fixtures from the English premier league are live and exclusive only on beIN SPORTS with a choice of Arabic or English commentary.
-The 2026–27 season consists of 33 weekend and five midweek rounds of matches.
-Arsenal are the defending Champions.</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
   </programme>
@@ -5325,12 +5308,6 @@ Mohammed Bin Zayed Stadium Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261013093000 +0000" stop="20261013113000 +0000" channel="beINSports6.qa">
-    <title lang="en">St Etienne vs Rodez - French Ligue 2 - 2026/2027</title>
-    <desc lang="en">Ligue 2 is the second division of French football. Ligue 2 is contested by 18 clubs, the league operates on a system of promotion and relegation with both Ligue 1 and the third division Championnat National. The teams play 34 games each, totaling 306 games in the season. The biggest games from each match Day are live and exclusive on beIN.</desc>
-    <category lang="ar">الدوري الفرنسي - الدرجة الثانية</category>
-    <category lang="en">French League - Ligue 2</category>
-  </programme>
   <programme start="20261013113000 +0000" stop="20261013133000 +0000" channel="beINSports6.qa">
     <title lang="en">Lille vs Havre AC - French Ligue 1 2026/2027 - Week 6</title>
     <desc lang="en">All 306 matches from the Ligue 1 2026 – 2027 season are live and exclusive only on beIN SPORTS. Paris Saint-Germain are the defending Champions having secured their historic 14th top-flight title last season.</desc>
@@ -6018,6 +5995,12 @@ American Express Stadium Stadium</desc>
   </programme>
   <programme start="20261020093000 +0000" stop="20261020113000 +0000" channel="beINSports7.qa">
     <title lang="en">M1 - ATP 250 BNP Paribas Fortis European Open 2026 ‎• Live 🔵‎</title>
+    <category lang="ar">تنس -  فئة 250</category>
+    <category lang="en">Live</category>
+    <category lang="en">Tennis - ATP 250</category>
+  </programme>
+  <programme start="20261020113000 +0000" stop="20261020140000 +0000" channel="beINSports7.qa">
+    <title lang="en">M2 - ATP 250 BNP Paribas Fortis European Open 2026 ‎• Live 🔵‎</title>
     <category lang="ar">تنس -  فئة 250</category>
     <category lang="en">Live</category>
     <category lang="en">Tennis - ATP 250</category>
@@ -8467,6 +8450,12 @@ Daio Wasabi Stayen Stadium Stadium</desc>
     <category lang="ar">كرة قدم</category>
     <category lang="en">Football</category>
   </programme>
+  <programme start="20261020113000 +0000" stop="20261020145000 +0000" channel="beINSportsEn2.qa">
+    <title lang="en">Australia vs Chile - FIFA U-17 Women's World Cup 2026</title>
+    <desc lang="en">Morocco is hosting the 10th edition of the FIFA U-17 Women's World Cup™ from October 17 to November 7, 2026, with 24 teams competing for the global title. This marks the third time the tournament is being held on the African continent, making Morocco the second Arab nation to host the event, following Jordan in 2016. It also represents the second i</desc>
+    <category lang="ar">كرة قدم</category>
+    <category lang="en">Football</category>
+  </programme>
   <programme start="20261013110000 +0000" stop="20261013130000 +0000" channel="beINSportsFr1.qa">
     <title lang="en">Real Madrid vs Villareal - Liga - J08 - FOOTBALL 2026-2027</title>
     <desc lang="en">Sport.</desc>
@@ -10361,12 +10350,6 @@ Daio Wasabi Stayen Stadium Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261013110000 +0000" stop="20261013113000 +0000" channel="beINSportsNews.qa">
-    <title lang="en">News Bulletin</title>
-    <desc lang="en">Latest news from the beIn SPORTS News room, previewing and reviewing developments and scores with contribution from around the world from beIN's reporters.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20261013113000 +0000" stop="20261013120000 +0000" channel="beINSportsNews.qa">
     <title lang="en">Al Hassila   - 13/10/26</title>
     <desc lang="en">"Al Hassila" provides a concise recap of the latest sports matches, highlighting key goals and noteworthy moments from around the world of sports.</desc>
@@ -11793,6 +11776,12 @@ Daio Wasabi Stayen Stadium Stadium</desc>
   <programme start="20261020110000 +0000" stop="20261020113000 +0000" channel="beINSportsNews.qa">
     <title lang="en">News Bulletin</title>
     <desc lang="en">Latest news from the beIn SPORTS News room, previewing and reviewing developments and scores with contribution from around the world from beIN's reporters.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20261020113000 +0000" stop="20261020120000 +0000" channel="beINSportsNews.qa">
+    <title lang="en">Al Hassila   - 20/10/26</title>
+    <desc lang="en">"Al Hassila" provides a concise recap of the latest sports matches, highlighting key goals and noteworthy moments from around the world of sports.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
@@ -54803,4 +54792,4 @@ their little Moomin growing up.</desc>
     <title lang="en">24/7 Program</title>
     <desc lang="ar">IQ| Al Rabiaa Quran — الرابعة قرآن</desc>
   </programme>
-<programme start="20261016215500 +0000" stop="20261017110000 +0000" channel="beIN4K.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261017183000 +0000" stop="20261018123000 +0000" channel="beIN4K.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261017000000 +0000" stop="20261017175000 +0000" channel="beINSports.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261017200000 +0000" stop="20261018180000 +0000" channel="beINSports.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261018201500 +0000" stop="20261019180000 +0000" channel="beINSports.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261016204500 +0000" stop="20261017135000 +0000" channel="beINSports3.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261017204500 +0000" stop="20261018125000 +0000" channel="beINSports3.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261018171500 +0000" stop="20261019185000 +0000" channel="beINSports3.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261016221500 +0000" stop="20261017125000 +0000" channel="beINSports6.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261017180000 +0000" stop="20261018155000 +0000" channel="beINSports6.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261018180000 +0000" stop="20261019145000 +0000" channel="beINSports6.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261016214500 +0000" stop="20261017083000 +0000" channel="beINSports7.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261017200000 +0000" stop="20261018083000 +0000" channel="beINSports7.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261018200000 +0000" stop="20261019100000 +0000" channel="beINSports7.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019200000 +0000" stop="20261020093000 +0000" channel="beINSports7.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261012220600 +0000" stop="20261013182200 +0000" channel="beINSportsEn2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261016210000 +0000" stop="20261017010000 +0000" channel="beINSportsEn2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261017051500 +0000" stop="20261017112000 +0000" channel="beINSportsEn2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261013220000 +0000" stop="20261014040000 +0000" channel="beINSportsFr1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261015205959 +0000" stop="20261016112221 +0000" channel="beINSportsFr1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261015205959 +0000" stop="20261016112221 +0000" channel="beINSportsFr2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261014235959 +0000" stop="20261016112221 +0000" channel="beINStarAction.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261015235959 +0000" stop="20261016112221 +0000" channel="beINStarMovies.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261015235959 +0000" stop="20261016112221 +0000" channel="beINStarWorld.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261014235959 +0000" stop="20261016112221 +0000" channel="beINFoodNetwork.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261014235959 +0000" stop="20261016112221 +0000" channel="beINHGTV.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261013235959 +0000" stop="20261016112221 +0000" channel="beINNatGeo.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261015235959 +0000" stop="20261016112221 +0000" channel="beINNatGeoWild.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261014235959 +0000" stop="20261016112221 +0000" channel="beINBBCEarth.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261014235959 +0000" stop="20261016112221 +0000" channel="beINDiscovery.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261014235959 +0000" stop="20261016112221 +0000" channel="beINDisney.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261014235959 +0000" stop="20261016112221 +0000" channel="beINDisneyJr.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261014235959 +0000" stop="20261016112221 +0000" channel="beINBabyTV.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261014235959 +0000" stop="20261016112221 +0000" channel="beINCartoonito.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261014235959 +0000" stop="20261016112221 +0000" channel="beINCartoonNetwork.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261014235959 +0000" stop="20261016112221 +0000" channel="beINCartoonNetworkArabic.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+<programme start="20261016215500 +0000" stop="20261017110000 +0000" channel="beIN4K.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261017183000 +0000" stop="20261018123000 +0000" channel="beIN4K.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261017000000 +0000" stop="20261017175000 +0000" channel="beINSports.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261017200000 +0000" stop="20261018180000 +0000" channel="beINSports.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261018201500 +0000" stop="20261019180000 +0000" channel="beINSports.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261016204500 +0000" stop="20261017135000 +0000" channel="beINSports3.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261017204500 +0000" stop="20261018125000 +0000" channel="beINSports3.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261018171500 +0000" stop="20261019185000 +0000" channel="beINSports3.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261016221500 +0000" stop="20261017125000 +0000" channel="beINSports6.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261017180000 +0000" stop="20261018155000 +0000" channel="beINSports6.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261018180000 +0000" stop="20261019145000 +0000" channel="beINSports6.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261016214500 +0000" stop="20261017083000 +0000" channel="beINSports7.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261017200000 +0000" stop="20261018083000 +0000" channel="beINSports7.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261018200000 +0000" stop="20261019100000 +0000" channel="beINSports7.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019200000 +0000" stop="20261020093000 +0000" channel="beINSports7.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261012220600 +0000" stop="20261013182200 +0000" channel="beINSportsEn2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261016210000 +0000" stop="20261017010000 +0000" channel="beINSportsEn2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261017051500 +0000" stop="20261017112000 +0000" channel="beINSportsEn2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261013220000 +0000" stop="20261014040000 +0000" channel="beINSportsFr1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261015205959 +0000" stop="20261016114218 +0000" channel="beINSportsFr1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261015205959 +0000" stop="20261016114218 +0000" channel="beINSportsFr2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261014235959 +0000" stop="20261016114218 +0000" channel="beINStarAction.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261015235959 +0000" stop="20261016114218 +0000" channel="beINStarMovies.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261015235959 +0000" stop="20261016114218 +0000" channel="beINStarWorld.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261014235959 +0000" stop="20261016114218 +0000" channel="beINFoodNetwork.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261014235959 +0000" stop="20261016114218 +0000" channel="beINHGTV.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261013235959 +0000" stop="20261016114218 +0000" channel="beINNatGeo.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261015235959 +0000" stop="20261016114218 +0000" channel="beINNatGeoWild.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261014235959 +0000" stop="20261016114218 +0000" channel="beINBBCEarth.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261014235959 +0000" stop="20261016114218 +0000" channel="beINDiscovery.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261014235959 +0000" stop="20261016114218 +0000" channel="beINDisney.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261014235959 +0000" stop="20261016114218 +0000" channel="beINDisneyJr.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261014235959 +0000" stop="20261016114218 +0000" channel="beINBabyTV.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261014235959 +0000" stop="20261016114218 +0000" channel="beINCartoonito.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261014235959 +0000" stop="20261016114218 +0000" channel="beINCartoonNetwork.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261014235959 +0000" stop="20261016114218 +0000" channel="beINCartoonNetworkArabic.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
