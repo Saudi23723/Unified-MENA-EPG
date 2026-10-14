@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-14T02:00:54.867Z",
+  "updated_at": "2026-10-14T02:07:08.951Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -293,12 +293,12 @@
       "longitude": -0.1278,
       "temperature_c": 12.8,
       "humidity": 78,
-      "wind_speed": 6.5,
+      "wind_speed": 6.8,
       "rain_chance": 0,
-      "condition": "غائم",
-      "weather_code": 3,
+      "condition": "صافٍ",
+      "weather_code": 0,
       "observed_at": "2026-10-14T03:00",
-      "feels_c": 11.7,
+      "feels_c": 11.6,
       "utc_offset": 3600,
       "days": [
         {
@@ -310,7 +310,7 @@
         },
         {
           "date": "2026-10-15",
-          "code": 3,
+          "code": 51,
           "max": 20.5,
           "min": 14.9,
           "rain": 6
@@ -363,7 +363,7 @@
       "latitude": 53.4808,
       "longitude": -2.2426,
       "temperature_c": 10.4,
-      "humidity": 78,
+      "humidity": 79,
       "wind_speed": 4.7,
       "rain_chance": 0,
       "condition": "صافٍ",
@@ -381,14 +381,14 @@
         },
         {
           "date": "2026-10-15",
-          "code": 53,
+          "code": 61,
           "max": 18.9,
           "min": 12.1,
           "rain": 65
         },
         {
           "date": "2026-10-16",
-          "code": 61,
+          "code": 3,
           "max": 12.9,
           "min": 9.3,
           "rain": 89
@@ -426,7 +426,7 @@
       "today_min": 9.5,
       "sunrise": "07:33",
       "sunset": "18:15",
-      "uv": 2
+      "uv": 1
     },
     {
       "city": "نيويورك",
