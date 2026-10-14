@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-14T07:50:53.568Z",
+  "updated_at": "2026-10-14T07:57:01.553Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -292,19 +292,19 @@
       "latitude": 51.5074,
       "longitude": -0.1278,
       "temperature_c": 10.9,
-      "humidity": 84,
+      "humidity": 85,
       "wind_speed": 2.2,
       "rain_chance": 0,
       "condition": "صافٍ غالباً",
       "weather_code": 1,
       "observed_at": "2026-10-14T08:45",
-      "feels_c": 10.1,
+      "feels_c": 10.2,
       "utc_offset": 3600,
       "days": [
         {
           "date": "2026-10-14",
           "code": 3,
-          "max": 18.0,
+          "max": 18.3,
           "min": 10.4,
           "rain": 0
         },
@@ -317,7 +317,7 @@
         },
         {
           "date": "2026-10-16",
-          "code": 55,
+          "code": 61,
           "max": 17.0,
           "min": 10.7,
           "rain": 76
@@ -351,7 +351,7 @@
           "rain": 14
         }
       ],
-      "today_max": 18.0,
+      "today_max": 18.3,
       "today_min": 10.4,
       "sunrise": "07:22",
       "sunset": "18:09",
@@ -362,21 +362,21 @@
       "country": "بريطانيا",
       "latitude": 53.4808,
       "longitude": -2.2426,
-      "temperature_c": 9.9,
-      "humidity": 86,
+      "temperature_c": 10.0,
+      "humidity": 87,
       "wind_speed": 8.6,
       "rain_chance": 0,
-      "condition": "صافٍ",
-      "weather_code": 0,
+      "condition": "صافٍ غالباً",
+      "weather_code": 1,
       "observed_at": "2026-10-14T08:45",
-      "feels_c": 8.0,
+      "feels_c": 8.2,
       "utc_offset": 3600,
       "days": [
         {
           "date": "2026-10-14",
           "code": 3,
-          "max": 16.4,
-          "min": 8.9,
+          "max": 16.5,
+          "min": 9.0,
           "rain": 0
         },
         {
@@ -388,7 +388,7 @@
         },
         {
           "date": "2026-10-16",
-          "code": 3,
+          "code": 51,
           "max": 12.9,
           "min": 9.3,
           "rain": 88
@@ -422,8 +422,8 @@
           "rain": 18
         }
       ],
-      "today_max": 16.4,
-      "today_min": 8.9,
+      "today_max": 16.5,
+      "today_min": 9.0,
       "sunrise": "07:33",
       "sunset": "18:15",
       "uv": 1
@@ -459,7 +459,7 @@
         },
         {
           "date": "2026-10-16",
-          "code": 95,
+          "code": 80,
           "max": 20.6,
           "min": 15.1,
           "rain": 87
