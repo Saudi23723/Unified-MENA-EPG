@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-16T09:22:14.331Z",
+  "updated_at": "2026-10-16T09:27:24.421Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -291,19 +291,19 @@
       "country": "بريطانيا",
       "latitude": 51.5074,
       "longitude": -0.1278,
-      "temperature_c": 12.1,
-      "humidity": 82,
-      "wind_speed": 12.2,
+      "temperature_c": 12.0,
+      "humidity": 80,
+      "wind_speed": 13.3,
       "rain_chance": 86,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-10-16T10:15",
-      "feels_c": 10.1,
+      "feels_c": 9.7,
       "utc_offset": 3600,
       "days": [
         {
           "date": "2026-10-16",
-          "code": 61,
+          "code": 53,
           "max": 17.2,
           "min": 10.1,
           "rain": 100
@@ -355,27 +355,27 @@
       "today_min": 10.1,
       "sunrise": "07:26",
       "sunset": "18:05",
-      "uv": 2
+      "uv": 1
     },
     {
       "city": "مانشستر",
       "country": "بريطانيا",
       "latitude": 53.4808,
       "longitude": -2.2426,
-      "temperature_c": 10.5,
-      "humidity": 82,
-      "wind_speed": 9.4,
+      "temperature_c": 10.2,
+      "humidity": 85,
+      "wind_speed": 10.1,
       "rain_chance": 24,
-      "condition": "غائم",
-      "weather_code": 3,
+      "condition": "رذاذ خفيف",
+      "weather_code": 51,
       "observed_at": "2026-10-16T10:15",
-      "feels_c": 8.5,
+      "feels_c": 8.2,
       "utc_offset": 3600,
       "days": [
         {
           "date": "2026-10-16",
           "code": 53,
-          "max": 13.2,
+          "max": 12.8,
           "min": 8.3,
           "rain": 100
         },
@@ -422,7 +422,7 @@
           "rain": 44
         }
       ],
-      "today_max": 13.2,
+      "today_max": 12.8,
       "today_min": 8.3,
       "sunrise": "07:37",
       "sunset": "18:10",
