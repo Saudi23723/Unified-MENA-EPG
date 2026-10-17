@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-17T22:34:53.684Z",
+  "updated_at": "2026-10-17T22:41:18.607Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -434,13 +434,13 @@
       "latitude": 40.7128,
       "longitude": -74.006,
       "temperature_c": 9.0,
-      "humidity": 44,
+      "humidity": 40,
       "wind_speed": 13.2,
       "rain_chance": 0,
-      "condition": "غائم جزئياً",
-      "weather_code": 2,
+      "condition": "صافٍ",
+      "weather_code": 0,
       "observed_at": "2026-10-17T18:30",
-      "feels_c": 4.6,
+      "feels_c": 4.5,
       "utc_offset": -14400,
       "days": [
         {
@@ -508,8 +508,8 @@
       "humidity": 14,
       "wind_speed": 4.8,
       "rain_chance": 1,
-      "condition": "غائم",
-      "weather_code": 3,
+      "condition": "غائم جزئياً",
+      "weather_code": 2,
       "observed_at": "2026-10-17T15:30",
       "feels_c": 30.2,
       "utc_offset": -25200,
@@ -525,7 +525,7 @@
           "date": "2026-10-18",
           "code": 0,
           "max": 31.7,
-          "min": 18.0,
+          "min": 18.1,
           "rain": 1
         },
         {
@@ -576,7 +576,7 @@
       "latitude": 41.8781,
       "longitude": -87.6298,
       "temperature_c": 10.6,
-      "humidity": 65,
+      "humidity": 66,
       "wind_speed": 7.7,
       "rain_chance": 0,
       "condition": "صافٍ",
@@ -647,13 +647,13 @@
       "latitude": 36.1699,
       "longitude": -115.1398,
       "temperature_c": 25.1,
-      "humidity": 15,
+      "humidity": 16,
       "wind_speed": 6.3,
       "rain_chance": 3,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-10-17T15:30",
-      "feels_c": 21.6,
+      "feels_c": 21.8,
       "utc_offset": -25200,
       "days": [
         {
@@ -789,13 +789,13 @@
       "latitude": 37.7749,
       "longitude": -122.4194,
       "temperature_c": 29.6,
-      "humidity": 26,
+      "humidity": 30,
       "wind_speed": 9.6,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-10-17T15:30",
-      "feels_c": 27.7,
+      "feels_c": 28.3,
       "utc_offset": -25200,
       "days": [
         {
