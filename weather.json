@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-17T05:47:55.565Z",
+  "updated_at": "2026-10-17T05:55:49.348Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -7,21 +7,21 @@
       "country": "الأردن",
       "latitude": 31.9454,
       "longitude": 35.9284,
-      "temperature_c": 17.1,
-      "humidity": 64,
-      "wind_speed": 1.4,
+      "temperature_c": 16.7,
+      "humidity": 67,
+      "wind_speed": 1.8,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-10-17T08:45",
-      "feels_c": 17.0,
+      "feels_c": 16.6,
       "utc_offset": 10800,
       "days": [
         {
           "date": "2026-10-17",
-          "code": 2,
-          "max": 24.2,
-          "min": 12.6,
+          "code": 1,
+          "max": 24.0,
+          "min": 12.4,
           "rain": 0
         },
         {
@@ -67,8 +67,8 @@
           "rain": 2
         }
       ],
-      "today_max": 24.2,
-      "today_min": 12.6,
+      "today_max": 24.0,
+      "today_min": 12.4,
       "sunrise": "06:40",
       "sunset": "18:01",
       "uv": 6
@@ -91,15 +91,15 @@
         {
           "date": "2026-10-17",
           "code": 1,
-          "max": 31.0,
-          "min": 22.4,
+          "max": 30.7,
+          "min": 22.3,
           "rain": 0
         },
         {
           "date": "2026-10-18",
           "code": 3,
           "max": 30.7,
-          "min": 22.7,
+          "min": 22.5,
           "rain": 0
         },
         {
@@ -138,8 +138,8 @@
           "rain": 0
         }
       ],
-      "today_max": 31.0,
-      "today_min": 22.4,
+      "today_max": 30.7,
+      "today_min": 22.3,
       "sunrise": "06:42",
       "sunset": "18:07",
       "uv": 6
@@ -220,27 +220,27 @@
       "country": "الإمارات",
       "latitude": 25.2048,
       "longitude": 55.2708,
-      "temperature_c": 31.8,
-      "humidity": 71,
-      "wind_speed": 9.7,
+      "temperature_c": 31.6,
+      "humidity": 72,
+      "wind_speed": 9.2,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-10-17T09:45",
-      "feels_c": 38.1,
+      "feels_c": 37.9,
       "utc_offset": 14400,
       "days": [
         {
           "date": "2026-10-17",
           "code": 0,
-          "max": 34.1,
-          "min": 29.4,
+          "max": 34.0,
+          "min": 29.3,
           "rain": 0
         },
         {
           "date": "2026-10-18",
           "code": 0,
-          "max": 34.1,
+          "max": 33.9,
           "min": 28.9,
           "rain": 0
         },
@@ -280,8 +280,8 @@
           "rain": 0
         }
       ],
-      "today_max": 34.1,
-      "today_min": 29.4,
+      "today_max": 34.0,
+      "today_min": 29.3,
       "sunrise": "06:18",
       "sunset": "17:50",
       "uv": 7
@@ -448,7 +448,7 @@
           "code": 53,
           "max": 17.4,
           "min": 3.3,
-          "rain": 39
+          "rain": 52
         },
         {
           "date": "2026-10-18",
