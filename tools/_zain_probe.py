@@ -1,5 +1,17 @@
-import requests, base64
-for n, u in (("a", "http://photo-tmdb.com/stalker_portal/misc/logos/320/3867.png?ver=88320"), ("b", "http://photo-tmdb.com/stalker_portal/misc/logos/320/13334.jpg?59189")):
-    r = requests.get(u, headers={"User-Agent": "TiviMate/4.7.0"}, timeout=60)
-    print(f"::notice::{n} {r.status_code} {r.headers.get('content-type')} {len(r.content)}")
-    open(f"probe_{n}.bin", "wb").write(r.content)
+import sys, re
+sys.path.insert(0, ".")
+import jordan_football as jf, epg_lib
+from datetime import datetime, timedelta, timezone
+s = epg_lib.new_session()
+out = []
+home = jf.fetch(s, jf.SOURCE).text
+for ev in jf.collect(home):
+    out.append(f"HOME {ev['start']:%m-%d %H:%M}Z | {ev['title']} | {ev.get('competition')} | ch={ev.get('channels')}")
+for url, comp in jf.TOURNAMENTS:
+    for ev in jf.collect_tournament(jf.fetch(s, url).text, comp):
+        if ev["start"] > datetime.now(timezone.utc) - timedelta(days=3):
+            out.append(f"TOURN {ev['start']:%m-%d %H:%M}Z | {ev['title']} | {comp} | ch={ev.get('channels')}")
+for m in re.finditer(r"الفيصلي", home):
+    out.append("RAW " + re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", home[max(0, m.start()-500):m.start()+300]))[:400]); 
+    if len(out) > 60: break
+print("::notice::" + "%0A".join(out)[:9500])
