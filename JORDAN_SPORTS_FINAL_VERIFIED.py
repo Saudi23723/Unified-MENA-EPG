@@ -1030,7 +1030,57 @@ def collect_events() -> list[dict]:
     except Exception as exc:
         warn(f"Jordan Sports football parsing failed: {exc}")
 
-    return dedupe(events)
+    return one_match_at_a_time(dedupe(events))
+
+
+def _pair(title: str) -> frozenset:
+    """The two clubs, either order: "الوحدات - الحسين" == "الحسين - الوحدات"."""
+    sides = re.split(r"\s+(?:-|–|×|vs\.?|v)\s+", title or "", maxsplit=1)
+    return frozenset(norm(x).casefold() for x in sides if x.strip())
+
+
+def one_match_at_a_time(events: list[dict]) -> list[dict]:
+    """A channel shows one match at a time.
+
+    THE FAULT (17 October 2026, "عم تجيب epg قديم مع جديد"). The federation
+    moved الفيصلي - الرمثا and الوحدات - الحسين from the league on the 17th
+    to the Federation Shield on the 18th. Its homepage lists the new dates
+    — and still the old league ones beside them, as does livefootballtv —
+    so the guide showed both: two matches at 17:00 and two at 19:30 on
+    the 17th, and the same two again on the 18th.
+
+    So two matches whose kickoffs are closer than a match lasts cannot both
+    stand. The one that goes is the stale copy: the match whose two clubs
+    are listed again on another day. Failing that, the better source wins
+    (the federation over livefootballtv over the board). Programmes that
+    are not matches (priority under 200) are not touched.
+    """
+    window = jordan_football.ONE_MATCH_AT_A_TIME
+    matches = [ev for ev in events if ev.get("priority", 0) >= 200]
+    others = [ev for ev in events if ev.get("priority", 0) < 200]
+
+    def echoed(ev):
+        pair = _pair(ev["title"])
+        return len(pair) == 2 and any(
+            other is not ev and _pair(other["title"]) == pair
+            and abs(other["start"] - ev["start"]) >= window
+            for other in matches)
+
+    kept: list[dict] = []
+    for ev in sorted(matches, key=lambda e: (-e.get("priority", 0), e["start"])):
+        clash = next((k for k in kept
+                      if abs(k["start"] - ev["start"]) < window), None)
+        if clash is None:
+            kept.append(ev)
+            continue
+        if echoed(clash) and not echoed(ev):
+            log(f"  one match at a time: {ev['title']} replaces "
+                f"{clash['title']} (listed again on another day)")
+            kept[kept.index(clash)] = ev
+        else:
+            log(f"  one match at a time: {ev['title']} dropped — "
+                f"{clash['title']} holds that time")
+    return sorted(kept + others, key=lambda e: e["start"])
 
 
 def build_day_description(d: date, events: list[dict]) -> str:
