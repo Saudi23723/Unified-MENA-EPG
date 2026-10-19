@@ -1,0 +1,1060 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+The owner's own Xtream playlist, in one SMALL file (the day ahead, titles
+only — asked for as "ملف صغير"): its US| NBC / FOX / CBS / ABC
+stations, taken first from the EPG links the owner sent. The "US| AT&T"
+category was taken off this guide at the owner's word ("اشطب لينك ال
+at&t بالكامل"); att_channels.json stays only for the network cable
+channels (FOX NEWS, FS1, BRAVO...) that share its reviewed matches. The playlist's beIN, Alkass and STARZPLAY
+channels are not in it: they are assigned on the existing links by name
+(playlist_aliases.json, written here), and SOLO rides the unified link.
+
+    "قنوات الكأس كلها تعملها assign على link الكأس تبعي"
+    "قنوات solo كلها تعملها 24/7 program"
+
+Asked for in those words: "صلح تبع US| AT&T ... حاول القنوات تكون من
+هدول مصادر رسمية او صحيحة ١٠٠٪" and "خلي لوجو AT&T عليهم".
+
+WHAT THE PLAYLIST GIVES. 846 channels named "AT&T: A&E ᴿᴬᵂ" and so on —
+the DirecTV Stream lineup (once AT&T TV) plus its free channels — and not
+one epg_channel_id. A player can only match them by name, so every
+channel here is published under its exact name in the playlist.
+
+WHERE EACH SCHEDULE COMES FROM. DirecTV's own guide refuses a runner
+(403 from its CDN, 500 from its API, measured 4 October 2026). Every
+channel was then matched once, by hand where the names differ, to the
+source that publishes that very feed — att_channels.json, reviewed:
+
+  US cable networks   epgshare01 US2 — Gracenote's US listings. A West
+                      channel takes the network's own Pacific feed.
+  free channels       the platform the channel is made for: Plex,
+                      Samsung TV Plus, Roku, Pluto (i.mjh.nz reads each
+                      platform's own guide API).
+  MLB, NBA, WNBA      epgshare01 US_SPORTS1 — the team's game schedule.
+  Arabic              this repository's own guides first (Al Jazeera,
+                      Roya, Jordan TV...), then epgshare01 AE1.
+
+A channel with no source anyone can vouch for gets NO programmes rather
+than a neighbour's: a guide that is wrong is worse than an empty one.
+It still gets its name and the AT&T mark.
+
+THE LOGIN never appears in a log. It lives in the repository's secrets
+(XTREAM_URL / XTREAM_USER / XTREAM_PASS, or the whole message the
+provider sent pasted into XTREAM_URL) and every line this prints is
+scrubbed of the address, the user name and the password.
+
+    python att_epg.py            # writes att_epg.xml.gz
+"""
+
+from __future__ import annotations
+
+import copy
+from collections import Counter
+import gzip
+import hashlib
+import json
+import os
+import re
+import sys
+import xml.etree.ElementTree as ET
+from datetime import datetime, timedelta, timezone
+from io import BytesIO
+
+import requests
+
+import playlist_logos as pl
+import playlist_match as pm
+
+OUT = "att_epg.xml.gz"
+MAP = "att_channels.json"
+OWN = "unified_mena_epg.xml"
+CATEGORY = re.compile(r"AT\s*&\s*T", re.I)
+# Small on purpose — asked for as "ملف صغير": the day ahead, titles only.
+BEHIND = timedelta(hours=2)
+AHEAD = timedelta(days=1)
+# How far the channel-name rows reach: as far as every other guide fills
+# (epg_lib.NEVER_BLANK_FOR), so a player that has not refreshed for a day
+# still shows each channel's name, not "No information". Programmes are
+# still only copied for AHEAD — the file stays small.
+NAMED_AHEAD = timedelta(hours=48)
+LOGO_BASE = "https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/"
+# Below this share of mapped channels with programmes, a source is down:
+# keep the guide already published rather than replace it with gaps.
+FLOOR = 0.6
+UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                    "AppleWebKit/537.36 Chrome/128 Safari/537.36"}
+EPGSHARE = "https://epgshare01.online/epgshare01/epg_ripper_{}.xml.gz"
+# The owner's own EPG links, sent for the US networks' stations and asked
+# for by name: "بعتلك ٤ او ٥ links تعمل assign منها". ferteque's guide
+# carries the provider's own channel names and the stations by call sign
+# (kdka.us); iptv-epg.org by network and call sign (CBSKDKA.us). Of the
+# others, iptvx.one carries no US station and gabbarit's file is cut
+# short (measured 4 October 2026).
+USER_LINKS = {
+    "ferteque": ("https://github.com/ferteque/Curated-M3U-Repository/raw/"
+                 "refs/heads/main/epg6.xml.gz"),
+    "iptvepg": "https://iptv-epg.org/files/epg-rhtwyyuokk.xml",
+}
+MJH = {"pluto": "https://i.mjh.nz/PlutoTV/us.xml.gz",
+       "samsung": "https://i.mjh.nz/SamsungTVPlus/us.xml.gz",
+       "roku": "https://i.mjh.nz/Roku/all.xml.gz",
+       "plexmjh": "https://i.mjh.nz/Plex/us.xml.gz"}
+
+
+# --- the login, kept out of every line printed --------------------------
+
+# Every playlist the guide serves, by the prefix of its three secrets. Both
+# go into the one guide on the one link: a channel the two share is listed
+# once, under the names each playlist gives it.
+PLAYLISTS = ("XTREAM", "XTREAM2")
+# Playlists that bring no guide of their own (the second answers
+# xmltv.php with nothing): every one of their channels a trusted source
+# names exactly is given one — see playlist_match.py.
+GUIDELESS = ("XTREAM2",)
+FULL: set[tuple[str, str, str]] = set()
+# (pattern on the playlist name, the brand's mark in logos/), first match wins.
+BRAND_LOGOS = [
+    (r"\bshoof\s*max\b", "shoofmax.png"),
+    (r"\bon\s*time\s*sports?\s*max\b", "onsportmax.png"),
+    (r"\bon\s*time\s*sports?\s*plus\b", "onsportplus.png"),
+    (r"\bon\s*time\s*sports?\b", "onsport1.png"),
+    (r"\broya\b", "roya_tv.png"),
+    (r"\bnetflix\b", "netflix.png"),
+    (r"^\s*shahid\b", "shahid.png"),
+]
+# Channel name -> the provider's own logo for it (see playlist()).
+PROVIDER_ICONS: dict[str, str] = {}
+
+
+def login(prefix: str = "XTREAM") -> tuple[str, str, str]:
+    blob = "\n".join(os.environ.get(f"{prefix}_{k}", "") for k in
+                     ("URL", "USER", "PASS"))
+
+    def pick(pattern: str) -> str:
+        m = re.search(pattern, blob, re.I)
+        return m.group(1).strip() if m else ""
+
+    url = pick(r"(https?://[^\s/?#]+)")
+    user = (os.environ.get(f"{prefix}_USER", "").strip()
+            or pick(r"[?&]username=([^&\s]+)")
+            or pick(r"(?:user\s*name|username|user|اسم المستخدم)\s*[:=]\s*(\S+)"))
+    password = (os.environ.get(f"{prefix}_PASS", "").strip()
+                or pick(r"[?&]password=([^&\s]+)")
+                or pick(r"(?:password|pass|كلمة السر|كلمة المرور)\s*[:=]\s*(\S+)"))
+    return url, user, password
+
+
+SECRETS: list[str] = []
+
+
+def say(text: str) -> None:
+    for secret in SECRETS:
+        text = text.replace(secret, "***")
+    print(text, flush=True)
+
+
+def playlists() -> list[tuple[str, str, str]] | None:
+    """Every configured playlist's channels together, or None.
+
+    A playlist with no secrets is simply not configured. One that is
+    configured but cannot be read makes the whole answer None, so the
+    published guide is kept rather than rebuilt without its channels.
+    """
+    found = False
+    streams: list[tuple[str, str, str]] = []
+    seen: set[tuple[str, str, str]] = set()
+    for prefix in PLAYLISTS:
+        if not any(os.environ.get(f"{prefix}_{k}", "").strip()
+                   for k in ("URL", "USER", "PASS")):
+            continue
+        found = True
+        part = playlist(prefix)
+        if part is None:
+            return None
+        if prefix in GUIDELESS:
+            FULL.update(part)
+        for stream in part:
+            if stream not in seen:
+                seen.add(stream)
+                streams.append(stream)
+    if not found:
+        say("playlist: no login in the secrets")
+        return None
+    return streams
+
+
+def playlist(prefix: str = "XTREAM") -> list[tuple[str, str, str]] | None:
+    """[(category, channel name, epg id)] for the whole playlist, or None."""
+    url, user, password = login(prefix)
+    host = re.sub(r"^https?://", "", url).split(":")[0]
+    SECRETS.extend(x for x in (url, user, password, host) if x)
+    if not (url and user and password):
+        say(f"playlist {prefix}: its login is incomplete in the secrets")
+        return None
+    auth = {"username": user, "password": password}
+    try:
+        def api(**kw):
+            r = requests.get(url + "/player_api.php", params={**auth, **kw},
+                             headers={"User-Agent": "TiviMate/4.7.0"}, timeout=90)
+            r.raise_for_status()
+            return r.json()
+        cats = {str(c["category_id"]): c.get("category_name") or ""
+                for c in api(action="get_live_categories")}
+        raw_streams = api(action="get_live_streams")
+        streams = [(cats.get(str(s.get("category_id")), ""), s["name"].strip(),
+                    (s.get("epg_channel_id") or "").strip())
+                   for s in raw_streams
+                   if (s.get("name") or "").strip()
+                   and not s["name"].lstrip().startswith("#")]
+    except Exception as exc:  # noqa: BLE001 - scrubbed and reported
+        say(f"playlist: unreadable ({type(exc).__name__}: {exc})"[:300])
+        return None
+    say(f"playlist {prefix}: {len(streams)} channel(s) in {len(cats)} categories")
+    for s in raw_streams:
+        if not (s.get("name") or "").strip():
+            continue
+        icon = (s.get("stream_icon") or "").strip()
+        if icon.startswith("http") and host not in icon and \
+                not any(x and x in icon for x in (user, password)) and pm.good_icon(icon):
+            PROVIDER_ICONS.setdefault(s["name"].strip(), icon)
+    return streams
+
+
+# --- names ---------------------------------------------------------------
+
+# --- the sources ---------------------------------------------------------
+
+def source_url(source: str) -> str | None:
+    if source == "own":
+        return None
+    return USER_LINKS.get(source) or MJH.get(source) or EPGSHARE.format(source)
+
+
+# Each source channel's own logo, as its guide publishes it: the playlist's
+# channels that show a plain "TV" tile take it (5 October 2026).
+SOURCE_ICONS: dict[tuple[str, str], str] = {}
+
+
+# A source's stand-in for a schedule it does not have — iptv-epg.org fills
+# Iqraa TV and a thousand more rows with "No Data". Not a programme: the
+# channel is then one no source schedules, and shows its own name.
+PLACEHOLDER = re.compile(r"(?i)^(no data|no information|no programme information|"
+                         r"to be announced|tba|tbc)?$")
+
+
+def read_source(session, source: str, wanted, floor, ceiling, on_channel=None):
+    """{channel id: [programme elements]} for the wanted ids of one source."""
+    if source == "own":
+        handle = open(OWN, "rb")
+    else:
+        r = session.get(source_url(source), headers=UA, timeout=300)
+        r.raise_for_status()
+        raw = r.content
+        handle = BytesIO(gzip.decompress(raw) if raw[:2] == b"\x1f\x8b" else raw)
+    found: dict[str, list[ET.Element]] = {}
+    with handle:
+        for _event, el in ET.iterparse(handle, events=("end",)):
+            if el.tag == "programme":
+                cid = el.get("channel")
+                if (wanted(cid) if callable(wanted) else cid in wanted):
+                    start, stop = when(el.get("start")), when(el.get("stop"))
+                    if start and stop and stop > floor and start < ceiling \
+                            and stop > start and not PLACEHOLDER.match(
+                                (el.findtext("title") or "").strip()):
+                        found.setdefault(cid, []).append(el)
+                        continue
+                el.clear()
+            elif el.tag == "channel":
+                icon = el.find("icon")
+                if icon is not None and (icon.get("src") or "").startswith("http"):
+                    SOURCE_ICONS[(source, el.get("id") or "")] = icon.get("src")
+                if on_channel:
+                    on_channel(el.get("id") or "",
+                               [d.text or "" for d in el.findall("display-name")])
+                el.clear()
+    return found
+
+
+def when(stamp: str | None) -> datetime | None:
+    try:
+        return datetime.strptime((stamp or "").strip(), "%Y%m%d%H%M%S %z")
+    except ValueError:
+        return None
+
+
+# --- the guide -----------------------------------------------------------
+
+# Alkass: the playlist's two AL-KASS categories, each "AL-KASS n", on this
+# repository's own Alkass guide (alkass_epg.py, from the broadcaster's
+# site). KASS SHOOF has no published schedule anywhere and is left alone.
+ALKASS_N = re.compile(r"AL\s*-?\s*KASS\s*(\d|ONE|TWO|THREE|FOUR|FIVE|SIX|SEVEN|EIGHT)\b", re.I)
+WORDS = {"ONE": 1, "TWO": 2, "THREE": 3, "FOUR": 4, "FIVE": 5, "SIX": 6,
+         "SEVEN": 7, "EIGHT": 8}
+
+
+def alkass_number(name: str) -> int | None:
+    m = ALKASS_N.search(name)
+    if not m:
+        return None
+    word = m.group(1).upper()
+    return WORDS.get(word) or int(word)
+ALKASS_IDS = {1: "AlkassOne.qa", 2: "AlkassTwo.qa", 3: "AlkassThree.qa",
+              4: "AlkassFour.qa", 5: "AlkassFive.qa", 6: "AlkassSix.qa",
+              7: "AlkassSeven.qa", 8: "AlkassEight.qa"}
+ALKASS_LOGO = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
+               "main/logos/alkass{}.png")
+# SOLO: channels that each play one thing around the clock, asked for as
+# a "24/7 program" — the programme is the channel's own subject.
+SOLO = re.compile(r"\bSOLO\b", re.I)
+SOLO_BLOCK = timedelta(hours=6)
+
+
+# beIN SPORTS (MENA), in every one of the playlist's beIN categories, on
+# this repository's own beIN guide — read from beIN's own site. Matched
+# by NAME: the provider's epg ids for these say English where the name
+# does not, and its own listing for them runs three hours off beIN's
+# (measured 4 October 2026: Finland v Albania 06:30 there, 03:27 on
+# beIN's site). FRANCE, AFC, NBA and 4K have no guide here — beIN's
+# site answers those with nothing — and are left alone.
+BEIN = re.compile(r"\bbe\s*IN\b", re.I)
+
+
+def bein_target(name: str) -> str | None:
+    text = name.replace("⚽", "O").upper()
+    text = re.sub(r"^[^:]{1,6}:\s*", "", text)
+    text = re.sub(r"[ᴬ-ᵿʰ-˿ᵃ-ᶻ⁰-⁹◉▼]", " ", text)
+    text = re.sub(r"\b0(\d)\b", r"\1", text)
+    if not re.match(r"BEIN\s*SPORTS?\b", text):
+        return None
+    rest = re.sub(r"^BEIN\s*SPORTS?\s*", "", text)
+    rest = re.sub(r"\b(HD|SD|LQ|FHD|UHD|4K|8K|RAW|HEVC)\b|\(.*?\)", " ", rest)
+    rest = re.sub(r"\s+", " ", rest).strip()
+    if re.search(r"FRANCE|\bFR\b|AFC|NBA|PREMIUM|MAX|TURK|ASIA", rest):
+        m = re.fullmatch(r"MAX (\d)", rest)
+        return f"beINSportsMax{m.group(1)}.qa" if m else None
+    m = (re.fullmatch(r"(\d) (?:ENGLISH|ENG|EN)", rest)
+         or re.fullmatch(r"(?:ENGLISH|ENG|EN) (\d)", rest))
+    if m:
+        return f"beINSportsEn{m.group(1)}.qa" if m.group(1) in "12" else None
+    m = re.fullmatch(r"(\d) XTRA", rest) or re.fullmatch(r"XTRA (\d)", rest)
+    if m:
+        return f"beINSportsXtra{m.group(1)}.qa"
+    if re.fullmatch(r"[1-9]", rest):
+        return f"beINSports{rest}.qa"
+    if rest == "NEWS":
+        return "beINSportsNews.qa"
+    if rest in ("", "GLOBAL"):
+        return "beINSports.qa"
+    return None
+
+
+# STARZPLAY's sport channels — AD Sports and friends — on this repository's
+# own STARZPLAY guide, read from STARZPLAY's own EPG API. AD Premium 2 is
+# the feed STARZPLAY itself titles "أبوظبي الرياضية بريميوم 2", Premium 1
+# its sister; AD Sports Asia 1 and 2 are STARZPLAY's adsportsasia01/02.
+STARZ_CATEGORY = re.compile(r"STARZ\s*PLAY\s*SPORT", re.I)
+STARZ_RULES = [
+    (r"AD (?:SPORTS? )?(?:1 PREMIUM|PREMIUM 1)\b", "Starz_starzplaysports1"),
+    (r"AD (?:SPORTS? )?(?:2 PREMIUM|PREMIUM 2)\b", "Starz_starzplaysports2"),
+    (r"AD SPORTS? ASIA 1\b", "Starz_adsportsasia01"),
+    (r"AD SPORTS? ASIA 2\b", "Starz_adsportsasia02"),
+    (r"AD SPORTS? FIGHT\b", "Starz_adfight"),
+    (r"AD SPORTS? 1\b", "Starz_admnadsports1"),
+    (r"AD SPORTS? 2\b", "Starz_admnadsports2"),
+    (r"CRLIFE 1\b", "Starz_criclife1"),
+    (r"GOLF TV\b", "Starz_golflife"),
+]
+
+
+def starz_target(name: str) -> str | None:
+    text = re.sub(r"^[^:]{1,6}:\s*", "", name.upper())
+    for pattern, target in STARZ_RULES:
+        if re.match(pattern, text):
+            return target
+    return None
+
+
+# The US networks' local stations — NBC, FOX, CBS and ABC — each by the
+# call sign in its name, on Gracenote's local listings for that very
+# station (epgshare01 US_LOCALS1). A name whose call sign disagrees with
+# the provider's own id ("CBS (WSBK) BOSTON" filed as WBZ) is left alone:
+# which station it really is cannot be told. Network cable channels in
+# the same categories (FOX NEWS, FS1, NBC's BRAVO...) take the AT&T
+# category's reviewed match.
+US_NETWORK = re.compile(r"^US\|\s*(NBC|FOX|CBS|ABC)\b", re.I)
+CALL = re.compile(r"\b([KW][A-Z]{2,3})\b")
+NOT_CALLS = {"WEST", "WACO", "KIDS", "WILD", "WIDE", "WIRE", "WOW", "WWE"}
+
+
+def call_sign(name: str, epg: str) -> str | None:
+    text = re.sub(r"^[^:]{1,6}:\s*", "", name.upper())
+    inside = [c for part in re.findall(r"\(([^)]*)\)", text)
+              for c in CALL.findall(part) if c not in NOT_CALLS]
+    calls = inside or [c for c in CALL.findall(text) if c not in NOT_CALLS]
+    if not calls:
+        return None
+    filed = re.match(r"([KW][A-Z]{2,3})\.us$", epg or "", re.I)
+    if filed and filed.group(1).upper() != calls[0]:
+        return None
+    return calls[0]
+
+
+# Names in the network categories that are not the AT&T category's words.
+US_ALIASES = {"FOX NEWS CHANNEL": "FOX NEWS", "GOLF": "GOLF CHANNEL"}
+US_EXTRA = {"FOX DEPORTES": ["US2", "Fox.Deportes.HD.us2"],
+            "FOX SPORTS DEPORTES": ["US2", "Fox.Deportes.HD.us2"],
+            "FOX SOCCER PLUS": ["US2", "Fox.Soccer.Plus.HD.us2"]}
+
+
+def us_cable_target(name: str, mapping) -> list[str] | None:
+    key = us_cable_key(name)
+    if not key:
+        return None
+    for k in (key, re.sub(r"^(NBC|FOX|CBS|ABC) ", "", key)):
+        k = US_ALIASES.get(k, k)
+        if k in US_EXTRA:
+            return US_EXTRA[k]
+        if k in mapping:
+            return mapping[k]
+    return None
+
+
+def us_cable_key(name: str) -> str | None:
+    """'US: NBC BRAVO (EAST) (D) ᴿᴬᵂ' -> 'BRAVO', in att_channels.json's terms."""
+    text = re.sub(r"^[^:]{1,6}:\s*", "", name.upper())
+    if re.search(r"\(WEST\)|\bWEST\b|PACIFIC", text):
+        return None
+    text = re.sub(r"[ᴬ-ᵿʰ-˿ᵃ-ᶻ⁰-⁹]", " ", text)
+    text = re.sub(r"\((?:EAST|[A-Z]{1,2}|#)\)", " ", text)
+    text = re.sub(r"\b(HD|SD|FHD|UHD|4K|RAW|NETWORK)\b|\.", " ", text)
+    return re.sub(r"\s+", " ", text).strip()
+
+
+def stamp(moment: datetime) -> str:
+    # In UTC first: a time read from a source keeps the source's offset
+    # (US2 writes -0400), and labelling its wall clock +0000 put the rows
+    # built from it four hours out of place (5 October 2026).
+    return moment.astimezone(timezone.utc).strftime("%Y%m%d%H%M%S +0000")
+
+
+def solo_subject(name: str) -> str:
+    """'BE: SOLO باب الحارة ᴿᴬᵂ' -> 'باب الحارة'; 'BE: SOLO SPORT 1 SD' ->
+    'SOLO SPORT 1'."""
+    name = re.sub(r"^\s*[^:]{1,6}:\s*", "", name)
+    name = re.sub(r"[\sᴬ-ᵿʰ-ʸᵃ-ᶻ⁰-⁹]+$", "", name)
+    name = re.sub(r"\s+(HD|SD|FHD|4K)$", "", name, flags=re.I).strip()
+    rest = re.sub(r"^SOLO\s+", "", name, flags=re.I).strip()
+    return name if re.match(r"SPORT\b", rest, re.I) or not rest else rest
+
+
+def add_channel(root, cid: str, names: list[str], logo: str | None):
+    ch = ET.SubElement(root, "channel", {"id": cid})
+    for name in dict.fromkeys(names):
+        ET.SubElement(ch, "display-name").text = name
+    if logo:
+        ET.SubElement(ch, "icon", {"src": logo})
+
+
+def add_rows(out: list, cid: str, programmes) -> int:
+    """Copies, in time order, without overlaps. Returns how many."""
+    count, last_stop = 0, None
+    for p in sorted(programmes, key=lambda p: when(p.get("start"))):
+        start = when(p.get("start"))
+        if last_stop and start < last_stop:
+            continue                         # an overlap in the source
+        # A copy: two playlist channels can share one feed (DISCOVERY
+        # TURBO and DISCOVERY TURBO TV), and the same element appended
+        # twice would end up under the second channel both times.
+        slim = ET.Element("programme", {"start": p.get("start"),
+                                        "stop": p.get("stop"), "channel": cid})
+        title = p.find("title")
+        if title is not None:
+            slim.append(copy.deepcopy(title))
+        p = slim
+        out.append(p)
+        last_stop = when(p.get("stop"))
+        count += 1
+    return count
+
+
+def no_overlaps(programmes: list) -> list:
+    """Each channel's rows in time order, a row that starts before the
+    previous one ends left out — what the publish step's validation, and
+    every player, require. One that starts inside the previous one is
+    moved to start where it ends."""
+    by_channel: dict[str, list] = {}
+    for p in programmes:
+        by_channel.setdefault(p.get("channel"), []).append(p)
+    out = []
+    for rows in by_channel.values():
+        last = None
+        for p in sorted(rows, key=lambda p: when(p.get("start"))):
+            start, stop = when(p.get("start")), when(p.get("stop"))
+            if not start or not stop or stop <= start:
+                continue
+            if last and start < last:
+                if stop <= last:
+                    continue
+                # Starts where the previous one ends, rather than leaving
+                # the hole dropping it would.
+                p.set("start", stamp(last))
+            out.append(p)
+            last = stop
+    return out
+
+
+def fill_holes(out: list, since: int, cid: str, name: str, floor, ceiling,
+               desc: str = "لا يوجد جدول منشور لهذا الوقت",
+               block: timedelta | None = None) -> None:
+    """Every stretch of floor..ceiling that out[since:] leaves empty, a
+    minute or more, becomes a row with the channel's own name (cut into
+    blocks, when given, so a player shows the title on screen)."""
+    spans = sorted((when(p.get("start")), when(p.get("stop"))) for p in out[since:])
+    cursor, holes = floor, []
+    for start, stop in spans:
+        if start - cursor >= timedelta(minutes=1):
+            holes.append((cursor, start))
+        cursor = max(cursor, stop)
+    if ceiling - cursor >= timedelta(minutes=1):
+        holes.append((cursor, ceiling))
+    pieces = []
+    for start, stop in holes:
+        while block and stop - start > block:
+            pieces.append((start, start + block))
+            start += block
+        pieces.append((start, stop))
+    for start, stop in pieces:
+        p = ET.Element("programme", {"start": stamp(start), "stop": stamp(stop),
+                                     "channel": cid})
+        ET.SubElement(p, "title").text = name
+        ET.SubElement(p, "desc").text = desc
+        out.append(p)
+    out[since:] = sorted(out[since:], key=lambda p: when(p.get("start")))
+
+
+def write_aliases(names: dict[str, list[str]], solo: list[str],
+                  always: dict[str, dict] | None = None,
+                  every: list[str] | None = None) -> None:
+    """playlist_aliases.json — the playlist's names for channels this
+    repository already guides, and its SOLO channels. Every guide written
+    through epg_lib carries these names, so the owner's existing links
+    match these channels: an "assign", not a new link."""
+    subjects: dict[str, list[str]] = {}
+    for name in solo:
+        subjects.setdefault(solo_subject(name), []).append(name)
+    data = {"names": {k: sorted(set(v)) for k, v in sorted(names.items())},
+            "solo": {k: sorted(set(v)) for k, v in sorted(subjects.items())},
+            "always": {k: {**v, "names": sorted(set(v["names"]))}
+                       for k, v in sorted((always or {}).items())},
+            # Every channel name in every playlist: the hand-assign channels
+            # (alwan_channels_epg.PLACEHOLDERS) take each one that is their
+            # own name, so they match in ANY playlist by themselves ("مش بس
+            # فاميلي أي playlist", 8 October 2026).
+            "every": sorted(set(every or []))}
+    with open("playlist_aliases.json", "w", encoding="utf-8") as handle:
+        json.dump(data, handle, ensure_ascii=False, indent=1)
+        handle.write("\n")
+    say(f"aliases: {sum(map(len, data['names'].values()))} name(s) on "
+        f"{len(data['names'])} guided channel(s), {len(subjects)} SOLO, "
+        f"{len(data['always'])} round the clock")
+
+
+def build() -> int:
+    mapping: dict[str, list[str]] = json.load(open(MAP, encoding="utf-8"))
+    streams = playlists()
+    if streams is None:
+        say("guide: playlist unreadable — keeping the published guide")
+        return 0
+
+    # Who goes where. A target is (source, id); every playlist name that
+    # shows the same feed becomes one channel carrying all those names.
+    solo = []
+    groups: dict[tuple[str, str], dict] = {}
+
+    def assign(target, name, logo=None, ids=()):
+        g = groups.setdefault(tuple(target), {"names": [], "logo": logo, "ids": []})
+        g["names"].append(name)
+        g["ids"].extend(i for i in ids if i)
+
+    counts = {"Alkass": 0, "beIN": 0, "STARZPLAY": 0, "US local": 0, "US cable": 0}
+    us_pending: dict[str, str | None] = {}      # name -> call sign, or None
+    for cat, name, epg in streams:
+        number = alkass_number(name)
+        if CATEGORY.search(cat):
+            continue          # AT&T: taken off this guide at the owner's word
+        elif number and number in ALKASS_IDS:
+            assign(("own", ALKASS_IDS[number]), name, ALKASS_LOGO.format(number),
+                   [epg] if re.fullmatch(r"alkass\w+\.qa", epg or "", re.I) else [])
+            counts["Alkass"] += 1
+        elif SOLO.search(cat):
+            solo.append(name)
+        elif BEIN.search(cat) and bein_target(name):
+            assign(("own", bein_target(name)), name)
+            counts["beIN"] += 1
+        elif STARZ_CATEGORY.search(cat) and starz_target(name):
+            assign(("own", starz_target(name)), name)
+            counts["STARZPLAY"] += 1
+        elif US_NETWORK.search(cat):
+            sign = call_sign(name, epg)
+            target = None if sign else us_cable_target(name, mapping)
+            if target:
+                assign(target, name)
+                counts["US cable"] += 1
+            else:
+                us_pending[name] = sign
+        elif (cat, name, epg) in FULL and re.match(r"\s*USA\b", cat, re.I):
+            # The guideless playlist's local stations, by the call sign it
+            # writes in brackets ("ABC 7 (WABC) New York") — and only then.
+            sign = re.search(r"\(([KW][A-Z]{2,3})\)", name.upper())
+            if sign and sign.group(1) not in NOT_CALLS and call_sign(name, epg):
+                us_pending[name] = sign.group(1)
+    say(f"playlist: {len(solo)} SOLO, "
+        + ", ".join(f"{v} {k}" for k, v in counts.items())
+        + f", {len(us_pending)} US station name(s)")
+
+    now = datetime.now(timezone.utc)
+    floor, ceiling = now - BEHIND, now + AHEAD
+    wanted: dict[str, set[str]] = {}
+    for source, cid in groups:
+        wanted.setdefault(source, set()).add(cid)
+
+    session = requests.Session()
+    rows: dict[tuple[str, str], list[ET.Element]] = {}
+
+    def load(source, test, on_channel=None):
+        try:
+            got = read_source(session, source, test, floor, ceiling, on_channel)
+        except Exception as exc:  # noqa: BLE001 - one source down is reported
+            say(f"  {source:13} FAILED ({type(exc).__name__}: {exc})"[:200])
+            return
+        say(f"  {source:13} {len(got):4} channel(s) with programmes")
+        for cid, programmes in got.items():
+            rows[(source, cid)] = programmes
+
+    for source in sorted(wanted):
+        load(source, wanted[source])
+
+    # The US networks' stations, from the owner's own links first: the
+    # provider's exact name in ferteque's guide, then the call sign there,
+    # then the call sign in iptv-epg.org's; Gracenote's listing for the
+    # station last. A station counts only where it has programmes.
+    def settle(source, claims):
+        for name, options in claims.items():
+            live = [cid for cid in options if rows.get((source, cid))]
+            if name in us_pending and live:
+                assign((source, live[0]), name)
+                del us_pending[name]
+
+    def claim_by(pattern, exact):
+        by_name: dict[str, list[str]] = {}
+        by_sign: dict[str, list[str]] = {}
+        claimed: set[str] = set()
+        signs: dict[str, list[str]] = {}
+        for name, sign in us_pending.items():
+            if sign:
+                signs.setdefault(sign, []).append(name)
+
+        def on_channel(cid, names):
+            if exact:
+                for n in names:
+                    if n in us_pending:
+                        by_name.setdefault(n, []).append(cid)
+                        claimed.add(cid)
+            m = re.fullmatch(pattern, cid, re.I)
+            if m:
+                for name in signs.get(m.group(1).upper(), []):
+                    by_sign.setdefault(name, []).append(cid)
+                    claimed.add(cid)
+        return by_name, by_sign, claimed, on_channel
+
+    for source, pattern, exact in (
+            ("ferteque", r"([KW][A-Z]{2,3})(?:DT)?\.us", True),
+            ("iptvepg", r"(?:ABC|CBS|NBC|FOX|CW|MNT|MY|PBS)?(?:East_|West_)?"
+                        r"([KW][A-Z]{2,3})\.us", False),
+            ("US_LOCALS1", r"([KW][A-Z]{2,3})-DT\.us_locals1", False)):
+        if not us_pending:
+            break
+        by_name, by_sign, claimed, on_channel = claim_by(pattern, exact)
+        load(source, claimed.__contains__, on_channel)
+        # The provider's exact name first; then the call sign, a plain
+        # call sign before its DT twin.
+        settle(source, by_name)
+        for name in by_sign:
+            by_sign[name].sort(key=lambda c: ("dt." in c.lower(), c))
+        settle(source, by_sign)
+    say(f"US stations: {len(us_pending)} name(s) left with no listing")
+
+    # The guideless playlist: every channel the rules above did not take is
+    # matched by name — ours first, then its country's sources — or, for
+    # the Quran and the channels that loop one title, given that title
+    # round the clock. See playlist_match.py for why no provider id is used.
+    taken = {n for g in groups.values() for n in g["names"]} | set(solo) | set(us_pending)
+    always: dict[str, dict] = {}
+    pending: dict[str, tuple[str, str]] = {}          # name -> (category, key)
+    own_ids: set[str] = set()
+    own_icons: dict[str, str] = {}
+    try:
+        own_root = ET.parse(OWN).getroot()
+        own = pm.own_index(own_root)
+        own_ids = {c.get("id") for c in own_root.findall("channel")}
+        own_icons = {c.get("id"): c.find("icon").get("src") for c in own_root.findall("channel")
+                     if c.find("icon") is not None and c.find("icon").get("src")}
+    except Exception as exc:  # noqa: BLE001 - reported, the rest goes on
+        say(f"guideless: our own guide unreadable ({type(exc).__name__})")
+        own = {}
+    for cat, name, epg in sorted(FULL):
+        if name in taken or CATEGORY.search(cat):
+            continue
+        if re.fullmatch(r"\s*TOD\s*", cat):
+            target = bein_target(re.sub(r"\bTod\b", "", re.sub(
+                r"(?i)rnglish", "English", name), flags=re.I))
+            if target:
+                assign(("own", target), name)
+                continue
+        target = pm.own_target(own, cat, name)
+        if target:
+            assign(("own", target), name)
+            continue
+        if pm.ISLAMIC.match(cat) or (pm.route(cat, name) in (pm.ARAB, pm.ARAB_WIDE)
+                                     and pm.QURAN_CHANNEL.search(name)):
+            kind = pm.islamic(name)
+            if kind:
+                title, what = kind
+                subject = pm.reciter(name)
+                entry = always.setdefault(f"{what}:{subject}", {
+                    "title": title, "desc": subject,
+                    "logo": {"quran": "quran.png", "azkar": "azkar.png",
+                             "sunnah": "sunnah.png"}.get(what), "names": []})
+                entry["names"].append(name)
+                continue
+        pending[name] = (cat, pm.source_key(name))
+
+    found: dict[str, tuple[str, str]] = {}            # name -> (source, id)
+    for source in pm.SOURCE_ORDER:
+        asking: dict[str, list[str]] = {}
+        for name, (cat, key) in pending.items():
+            sources, countries = pm.route(cat, name)
+            if source in sources and name not in found:
+                asking.setdefault(key, []).append(name)
+        if not asking:
+            continue
+        claims: dict[str, set[str]] = {}
+        countries_of = {name: pm.route(pending[name][0], name)[1]
+                        for names in asking.values() for name in names}
+
+        def on_channel(cid, names, asking=asking, claims=claims):
+            if not pm.usable(cid):
+                return
+            if source == "ferteque":
+                names = pm.trusted_names(names)
+            for key in pm.source_names(names):
+                for name in asking.get(key, ()):
+                    # A West Coast copy runs three hours behind: it is the
+                    # channel only for a name that says West, and only then.
+                    if pm.suffix(cid) in countries_of[name] and \
+                            pm.west(cid + " " + " ".join(names)) == pm.west(name):
+                        claims.setdefault(name, set()).add(cid)
+
+        claimed: set[str] = set()
+
+        def wants(cid, claims=claims, claimed=claimed):
+            if cid in claimed:
+                return True
+            if any(cid in c for c in claims.values()):
+                claimed.add(cid)
+                return True
+            return False
+
+        before = set(rows)
+        load(source, wants, on_channel)
+        for name, cids in claims.items():
+            live = {cid: len(rows.get((source, cid), [])) for cid in cids}
+            live = {cid: n for cid, n in live.items() if n}
+            if live:
+                # One source's duplicates of one name (A2.tr, A2.HD.tr) are
+                # one channel: the copy with the most rows.
+                best = max(live, key=lambda c: (live[c], -len(c)))
+                found[name] = (source, best)
+        keep = set(found.values())
+        for key in set(rows) - before:
+            if key not in keep:
+                del rows[key]
+    for name, (source, cid) in found.items():
+        assign((source, cid), name)
+        del pending[name]
+
+    looped = 0
+    for name, (cat, key) in list(pending.items()):
+        if pm.LOOP.match(cat):
+            subject = pm.loop_subject(name)
+            # The Netflix category's loops wear the Netflix mark already in
+            # logos/ (the owner's screen showed them as a plain "TV" tile).
+            logo = "netflix.png" if re.match(r"\s*Netflix", cat, re.I) else None
+            always.setdefault(f"loop:{subject}", {
+                "title": f"{subject} 24/7", "desc": f"{subject} — على مدار الساعة",
+                "logo": logo, "names": []})["names"].append(name)
+            del pending[name]
+            looped += 1
+    # The rest no trusted source schedules at all. Each still says what it
+    # is — its own name, all day — so no channel of the playlist shows
+    # "No information"; nothing is claimed about what it is airing.
+    named: dict[str, list[str]] = {}
+    for name in pending:
+        named.setdefault(pm.shown_name(name), []).append(name)
+    say(f"guideless: {len(FULL)} channel(s) — {len(found)} matched in a source, "
+        f"{sum(len(v['names']) for v in always.values())} round the clock, "
+        f"{len(pending)} with no trusted source, shown by name")
+
+    # HOW THE OWNER'S PLAYER FINDS THEM. It looks a channel up by the
+    # provider's epg id first and by name after — and the names on the
+    # owner's device are not this account's: "ABC 7 (WABC) New York" and
+    # "Fox News" there, "USA: ABC 7 (WABC) New York" and "Usa: Fox News HD"
+    # here (5 October 2026, every country category but the Islamic one
+    # read "No information"). So each guideless channel carries every form
+    # of its name that points at it alone, and the provider's id where
+    # that id is plainly this channel's.
+    full_names = {name for _cat, name, _epg in FULL}
+    category_of = {name: cat.strip() for cat, name, _epg in FULL}
+    # Real logos before drawn ones: iptv-org's open database by name and
+    # country (the owner: a real logo first, invent one only after).
+    real_logos: dict = {}
+    try:
+        lists = [session.get(u, headers=UA, timeout=120).json() for u in pm.IPTV_ORG]
+        real_logos = pm.logo_index(*lists)
+        say(f"logos: {len(real_logos)} real logo name(s) from iptv-org")
+    except Exception as exc:  # noqa: BLE001 - drawn marks still cover them
+        say(f"logos: iptv-org unreadable ({type(exc).__name__})")
+
+    # A second open logo library, by country (tv-logo/tv-logos), for the
+    # channels iptv-org has none for.
+    try:
+        tree = session.get(pm.TV_LOGOS_TREE, headers=UA, timeout=120).json()
+        added = pm.add_tv_logos(real_logos, tree)
+        say(f"logos: {added} more real logo name(s) from tv-logos")
+    except Exception as exc:  # noqa: BLE001 - iptv-org and drawn marks still cover them
+        say(f"logos: tv-logos unreadable ({type(exc).__name__})")
+
+    def real_logo(names: list[str]) -> str | None:
+        """The channel's original logo: iptv-org, then tv-logos, then the
+        provider's own. None only when all three have searched and found
+        none — and only then is one drawn."""
+        for name in names:
+            if name in category_of:
+                url = pm.real_logo(real_logos, category_of[name], name)
+                if url:
+                    return url
+        for name in names:
+            if PROVIDER_ICONS.get(name):
+                return PROVIDER_ICONS[name]
+        # A channel of a brand with no logo of its own — one series looped,
+        # a numbered feed — wears its brand's original mark: "ShoofMax-
+        # البيت الكبير" is ShoofMax's, "Sport | Ar: On Time Sport Max" is
+        # ON Sport's Max. Only marks this repository already keeps.
+        for name in names:
+            for pattern, logo in BRAND_LOGOS:
+                if re.search(pattern, name, re.I) and \
+                        os.path.exists(os.path.join("logos", logo)):
+                    return LOGO_BASE + logo
+        return None
+    target_of: dict[str, tuple] = {}
+    point: dict[str, set] = {}
+    for key, g in groups.items():
+        for name in g["names"]:
+            point.setdefault(name, set()).add(("group", key))
+            if name in full_names:
+                target_of.setdefault(name, ("group", key))
+    for key, entry in always.items():
+        for name in entry["names"]:
+            target_of.setdefault(name, ("always", key))
+    for subject, names in named.items():
+        for name in names:
+            target_of.setdefault(name, ("named", subject))
+    for name, target in target_of.items():
+        for form in pm.name_variants(name):
+            point.setdefault(form, set()).add(target)
+
+    # Every form, the owner's word (5 October 2026): "assign everything".
+    def widen(names: list[str]) -> list[str]:
+        out = list(names)
+        for name in names:
+            if name in target_of:
+                out += pm.name_variants(name)
+        return list(dict.fromkeys(out))
+
+    for g in groups.values():
+        g["names"] = widen(g["names"])
+    for entry in always.values():
+        entry["names"] = widen(entry["names"])
+    for subject in named:
+        named[subject] = widen(named[subject])
+
+    by_id: dict[str, list[str]] = {}
+    for _cat, name, epg in FULL:
+        if epg and name in target_of:
+            by_id.setdefault(epg, []).append(name)
+    taken_ids = own_ids | {i for g in groups.values() for i in g["ids"]}
+    provider_ids: dict[tuple, list[str]] = {}
+    for epg, names in sorted(by_id.items()):
+        if epg in taken_ids:
+            continue
+        # Every id is carried — the owner's word: "assign everything". One
+        # the provider files under several channels (bbc4.uk under BBC 4 and
+        # BBC World News) goes to the channel it is named after, else to
+        # the first of them.
+        named_after = [n for n in names if pm.squeezed(n) == pm.id_stem(epg)]
+        provider_ids.setdefault(target_of[(named_after or names)[0]], []).append(epg)
+    for (kind, key), ids in provider_ids.items():
+        if kind == "group" and key[0] != "own":
+            g = groups[key]
+            g["ids"] = list(dict.fromkeys(
+                (g["ids"] or ["Playlist." + re.sub(r"[^A-Za-z0-9]+", "", f"{key[0]}.{key[1]}")])
+                + ids))
+    own_extra = {key[1]: ids for (kind, key), ids in provider_ids.items()
+                 if kind == "group" and key[0] == "own"}
+    if own_extra:
+        load("own", set(own_extra))
+    say(f"guideless: {sum(map(len, provider_ids.values()))} provider id(s) carried, "
+        f"{len(point)} name form(s)")
+
+    # A drawn mark for every round-the-clock channel that has none (the
+    # Shoof and Shahid loops): its title on a tile, by category.
+    for key, entry in always.items():
+        if not entry.get("logo"):
+            subject = re.sub(r"\s*24/7$", "", entry["title"])
+            entry["logo_url"] = real_logo(entry["names"]) or \
+                pl.make(subject, category_of.get(entry["names"][0], ""))
+
+    write_aliases({cid: g["names"] for (src, cid), g in groups.items() if src == "own"},
+                  solo, always, [name for _cat, name, _epg in streams])
+
+    root = ET.Element("tv", {"generator-info-name": "Unified MENA EPG — playlist"})
+    # XMLTV puts every <channel> before the first <programme>. A player
+    # reads the channel list at the top and matches against that alone:
+    # written one channel and its programmes at a time, the guide loaded
+    # with nothing matched (4 October 2026).
+    programmes_out: list[ET.Element] = []
+
+    # Everything grouped by feed: Alkass, beIN, STARZPLAY, the US networks.
+    shown = empty = 0
+    used: set[str] = set()
+    for (source, target), g in sorted(groups.items()):
+        if source == "own":
+            continue                     # on the existing links, by name
+        cids = list(dict.fromkeys(g["ids"])) or [
+            "Playlist." + re.sub(r"[^A-Za-z0-9]+", "", f"{source}.{target}")]
+        # Two source ids that differ only in punctuation (Halab.Today.TV.ae,
+        # HalabToday.TV.ae) must not become one channel with both feeds'
+        # rows stacked on it — the 5 October build failed validation so.
+        cids = [c if c not in used else
+                "Playlist." + hashlib.md5(f"{source}\t{target}\t{c}".encode()).hexdigest()[:12]
+                for c in cids]
+        used.update(cids)
+        # THE ORIGINAL LOGO FIRST (the owner: "original logos for all
+        # channels unless there's really no original"). A source's own icon
+        # came first and was often broken or a placeholder — every beIN
+        # France channel showed Télérama's transparent "clear" tile.
+        src_icon = SOURCE_ICONS.get((source, target))
+        logo = g["logo"] or real_logo(g["names"]) or \
+            (src_icon if pm.good_icon(src_icon) else None)
+        if not logo:
+            mine = [n for n in g["names"] if n in category_of]
+            if mine:
+                logo = pl.make(pm.shown_name(mine[0]), category_of[mine[0]])
+        for cid in cids:
+            add_channel(root, cid, g["names"], logo)
+            before = len(programmes_out)
+            added = add_rows(programmes_out, cid, rows.get((source, target), []))
+            shown += bool(added)
+            empty += not added
+            # A source's own holes (and a feed with nothing today) say the
+            # channel's name rather than "No information".
+            fill_holes(programmes_out, before, cid, pm.shown_name(g["names"][0]),
+                       floor, now + NAMED_AHEAD)
+    say(f"feeds: {len(groups)} — {shown} channel(s) with programmes, {empty} without")
+    if (shown + empty) and shown < FLOOR * (shown + empty):
+        say(f"guide: only {shown}/{shown + empty} filled — a source is down; "
+            f"keeping the published guide")
+        return 0
+
+    # SOLO rides the unified link (merge_epg.add_solo), not this file.
+
+    # Ours and the round-the-clock ones under the provider's id too: the
+    # player looks the id up before the name.
+    for cid, ids in sorted(own_extra.items()):
+        names = groups[("own", cid)]["names"]
+        # Our own guide's logo for the channel; else a real one; else drawn.
+        mine = [n for n in names if n in category_of]
+        logo = own_icons.get(cid) or real_logo(names) or (
+            pl.make(pm.shown_name(mine[0]), category_of[mine[0]]) if mine else None)
+        for epg in ids:
+            add_channel(root, epg, names, logo)
+            before = len(programmes_out)
+            add_rows(programmes_out, epg, rows.get(("own", cid), []))
+            fill_holes(programmes_out, before, epg, pm.shown_name(names[0]),
+                       floor, now + NAMED_AHEAD)
+    for (kind, key), ids in sorted(provider_ids.items()):
+        if kind != "always":
+            continue
+        entry = always[key]
+        logo = LOGO_BASE + entry["logo"] if entry.get("logo") else entry.get("logo_url")
+        for epg in ids:
+            add_channel(root, epg, entry["names"], logo)
+            fill_holes(programmes_out, len(programmes_out), epg, entry["title"],
+                       floor, now + NAMED_AHEAD, desc=entry.get("desc") or entry["title"],
+                       block=timedelta(hours=6))
+
+    # The guideless playlist's channels no source schedules: their own
+    # name in six-hour rows, so none of them reads "No information".
+    first = floor.replace(minute=0, second=0, microsecond=0)
+    # A channel no source schedules takes the logo of its sister in the same
+    # category and name family ("Pt: Sport TV 8K" -> Sport TV's), if any.
+    family_logo: dict[tuple, Counter] = {}
+    for (source, target), g in groups.items():
+        logo = g["logo"] or SOURCE_ICONS.get((source, target))
+        if not pm.good_icon(logo):
+            continue
+        for name in g["names"]:
+            if logo and name in category_of:
+                fam = (category_of[name], " ".join(pm.norm(name).split()[:2]))
+                family_logo.setdefault(fam, Counter())[logo] += 1
+    for subject, names in sorted(named.items()):
+        cids = ["Playlist.Name." + hashlib.md5(subject.encode()).hexdigest()[:10]] + \
+            provider_ids.get(("named", subject), [])
+        sister = real_logo(names)
+        for name in names if not sister else ():
+            fam = (category_of.get(name, ""), " ".join(pm.norm(name).split()[:2]))
+            if family_logo.get(fam):
+                sister = family_logo[fam].most_common(1)[0][0]
+                break
+        if not sister:
+            sister = pl.make(subject, category_of.get(names[0], ""))
+        for cid in cids:
+            add_channel(root, cid, names, sister)
+            start = first
+            while start < now + NAMED_AHEAD:
+                stop = start + timedelta(hours=6)
+                p = ET.Element("programme", {"start": stamp(start), "stop": stamp(stop),
+                                             "channel": cid})
+                ET.SubElement(p, "title").text = subject
+                ET.SubElement(p, "desc").text = "لا يوجد جدول منشور لهذه القناة"
+                programmes_out.append(p)
+                start = stop
+
+    root.extend(no_overlaps(programmes_out))
+    ET.indent(root, space=" ")
+    data = ET.tostring(root, encoding="utf-8", xml_declaration=True)
+    with gzip.open(OUT + ".tmp", "wb", compresslevel=9) as handle:
+        handle.write(data)
+    os.replace(OUT + ".tmp", OUT)
+    say(f"wrote {OUT} ({os.path.getsize(OUT) // 1024} KB)")
+    # The guideless playlist's channels as the player shows them — name and
+    # the provider's guide id, nothing of the login — for family_coverage.py.
+    with open("family_channels.json", "w", encoding="utf-8") as handle:
+        json.dump(sorted([name, epg] for _cat, name, epg in FULL), handle,
+                  ensure_ascii=False)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(build())
