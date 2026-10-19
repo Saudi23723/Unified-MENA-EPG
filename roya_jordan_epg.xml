@@ -26640,11 +26640,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">نشرة الأخبار الليلية</title>
     <category lang="ar">أخبار</category>
   </programme>
-  <programme start="20261018150000 +0000" stop="20261018180000 +0000" channel="AlJazeera.qa">
-    <title lang="ar">نشرة الأخبار</title>
-    <desc lang="ar">جولة في أهم الأحداث العربية والعالمية</desc>
-    <category lang="ar">أخبار</category>
-  </programme>
   <programme start="20261018180000 +0000" stop="20261018190500 +0000" channel="AlJazeera.qa">
     <title lang="ar">نشرة الأخبار</title>
     <desc lang="ar">جولة في أهم الأحداث العربية والعالمية</desc>
@@ -26729,13 +26724,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <desc lang="ar">جولة في أهم الأحداث العربية والعالمية</desc>
     <category lang="ar">أخبار</category>
   </programme>
-  <programme start="20261019160000 +0000" stop="20261019180000 +0000" channel="AlJazeera.qa">
+  <programme start="20261019160000 +0000" stop="20261019170000 +0000" channel="AlJazeera.qa">
     <title lang="ar">نشرة الأخبار</title>
     <desc lang="ar">جولة في أهم الأحداث العربية والعالمية</desc>
     <category lang="ar">أخبار</category>
   </programme>
-  <programme start="20261019180000 +0000" stop="20261019190500 +0000" channel="AlJazeera.qa">
-    <title lang="ar">نشرة الاخبار</title>
+  <programme start="20261019170000 +0000" stop="20261019190500 +0000" channel="AlJazeera.qa">
+    <title lang="ar">نشرة الأخبار</title>
     <desc lang="ar">جولة في أهم الأحداث العربية والعالمية</desc>
     <category lang="ar">أخبار</category>
   </programme>
@@ -31924,10 +31919,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <desc lang="ar">الطواريد — بث مستمر ٢٤/٧.
 هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
   </programme>
-  <programme start="20261019050000 +0000" stop="20261019060000 +0000" channel="JordanTV.jo">
-    <title lang="en">New Day</title>
-    <desc lang="en">Talk shows It presents the light morning news. Also it discusses the social topics that are related to the Arab family. Shahd Debaga, Kathy Farag, Lana Zedan, Heba Maray, Ibrahim Jekat.</desc>
-  </programme>
   <programme start="20261019060000 +0000" stop="20261019064500 +0000" channel="JordanTV.jo">
     <title lang="en">Hello Doctor</title>
     <desc lang="en">The doctor answers all the questions that patients have in mind, in an attempt to raise their awareness and enhance their health and life. Jalal Abd Al Hamid, Mohammed Rashid.</desc>
@@ -32004,8 +31995,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Generosity</title>
     <desc lang="en">People Documenting the lives of elderly individuals in Jordan and their professional and humanitarian achievements after retirement, highlighting their experience across generations and their continued contribution to the development of society.</desc>
   </programme>
-  <programme start="20261019160000 +0000" stop="20261019170000 +0000" channel="JordanTV.jo">
-    <title lang="ar">هنا الاردن 962</title>
+  <programme start="20261019160000 +0000" stop="20261019164500 +0000" channel="JordanTV.jo">
+    <title lang="en">962</title>
+    <desc lang="en">Talk shows A daily youth-focused show that captures the heartbeat of Jordanian life, showcasing relatable stories and social issues through an engaging and interactive approach.</desc>
+  </programme>
+  <programme start="20261019164500 +0000" stop="20261019170000 +0000" channel="JordanTV.jo">
+    <title lang="en">I Am The Deputy</title>
+    <desc lang="en">elections approaching, the qualities of the next MP explore the traits of the ideal leader and the projects needed for the nation's future.</desc>
   </programme>
   <programme start="20261019170000 +0000" stop="20261019180000 +0000" channel="JordanTV.jo">
     <title lang="ar">الثامنة</title>
@@ -32358,14 +32354,17 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <desc lang="en">Religion Dr. Zaid Ibrahim Al Kilani explores the lived experiences of people, introducing educational and cultural measures that seek to enrich quality of life and inspire a more informed and aware community.</desc>
   </programme>
   <programme start="20261022023000 +0000" stop="20261022030000 +0000" channel="JordanTV.jo">
+    <title lang="ar">احصاه الله</title>
     <title lang="en">God Counted It</title>
     <desc lang="en">Religion It highlights the interpretation of several verses of the Holy Quran that prove the scientific miracle in many surahs, such as those that discuss the creation of man, the heavens, the earth, and others.</desc>
   </programme>
   <programme start="20261022030000 +0000" stop="20261022031500 +0000" channel="JordanTV.jo">
+    <title lang="ar">السلام الملكي</title>
     <title lang="en">National Anthem</title>
     <desc lang="en">Listening to and enjoying the royal Anthem for the love of the kingdom and king that touches the hearts.</desc>
   </programme>
   <programme start="20261022031500 +0000" stop="20261022034500 +0000" channel="JordanTV.jo">
+    <title lang="ar">القران الكريم - ابتهالات دينية</title>
     <title lang="en">The Holy Quran</title>
     <desc lang="en">Islam Verses from the Holy Quran are being recited in a melodious and reverent manner by a distinguished assembly of esteemed and venerable Quran reciters.</desc>
   </programme>
@@ -32488,10 +32487,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20261022200500 +0000" stop="20261022210000 +0000" channel="JordanTV.jo">
     <title lang="en">God Bless You</title>
     <desc lang="en">With the help of an international school principal, an imposter succeeds in pretending to be an education specialist, hoping to please his ex-wife and make his daughter proud of him. Mostafa Shaban, Amr Abdul Gelil, Cynthia Khalifeh, Leblba, Salah Abdullah, Myrna Noureldin, Karim Afifi, Magdy Al Hawary, Ayman Selim, Mostafa Shabaan, Amr Abdel Galil, Lebleba, Salah Abdallah, Myrna Nour el din, Magdy Elhawwary.</desc>
-  </programme>
-  <programme start="20261019160000 +0000" stop="20261019170000 +0000" channel="AmmanTV.jo">
-    <title lang="ar">أولاد الراعي</title>
-    <desc lang="ar">قناة عمّان — أولاد الراعي</desc>
   </programme>
   <programme start="20261019170000 +0000" stop="20261019180000 +0000" channel="AmmanTV.jo">
     <title lang="ar">بصراحة</title>
@@ -32712,6 +32707,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20261022010000 +0000" stop="20261022023000 +0000" channel="AmmanTV.jo">
     <title lang="ar">فترة دينية</title>
     <desc lang="ar">قناة عمّان — فترة دينية</desc>
+  </programme>
+  <programme start="20261022023000 +0000" stop="20261022033000 +0000" channel="AmmanTV.jo">
+    <title lang="ar">بهار ونار</title>
+    <desc lang="ar">قناة عمّان — بهار ونار</desc>
   </programme>
   <programme start="20261018030500 +0000" stop="20261018040000 +0000" channel="AlMamlaka.jo">
     <title lang="ar">وثائقيات</title>
@@ -34790,10 +34789,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20261022164000 +0000" stop="20261022185500 +0000" channel="RoyaPH.beIN_SPORTS_3_Asia">
     <title lang="en">UEL 2026/27: JUV Vs REN (L)</title>
   </programme>
-  <programme start="20261018170100 +0000" stop="20261018180000 +0000" channel="MBC 1">
-    <title lang="en">Ahla Naseeb — Episode 10</title>
-    <desc lang="en">Rakan and Noura arrive in Riyadh facing family pressure and personal struggles. They fake a marriage as a quick solution, only to find themselves in unexpected situations.</desc>
-  </programme>
   <programme start="20261018180000 +0000" stop="20261018183000 +0000" channel="MBC 1">
     <title lang="en">MBC News</title>
     <desc lang="en">The latest news and exclusive interviews of the Arab and international world.</desc>
@@ -35150,10 +35145,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Min Kothr Hobbi Lak — Episode 28</title>
     <desc lang="en">A Kuwaiti series about the personal lives of residents living in one building, it tells the story of their bond with each other, relationships issues, family problems, crimes, tragedies, and tears.</desc>
   </programme>
-  <programme start="20261018160000 +0000" stop="20261018180000 +0000" channel="MBC 2">
-    <title lang="en">Contagion</title>
-    <desc lang="en">The movie follows the rapid progression of a virus that kills within days. As the epidemic grows, the worldwide medical community races to find a cure and control the panic that spreads faster than the virus itself because contamination is not a matter of ‘if’ … it’s a matter of ‘when’!</desc>
-  </programme>
   <programme start="20261018180000 +0000" stop="20261018183100 +0000" channel="MBC 2">
     <title lang="en">Making The Movies — Episode 44</title>
     <desc lang="en">With exclusive background stories, on and off set, Making the Movies tells you all there is to know about how films come to life from cool technics and engaging themes to all the production trends from Hollywood.</desc>
@@ -35345,10 +35336,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20261021140000 +0000" stop="20261021153000 +0000" channel="MBC 2">
     <title lang="en">How To Train Your Dragon</title>
     <desc lang="en">Hiccup is a young Viking who challenges tradition when he befriends one of his deadliest foes, a ferocious dragon called Toothless. Together, the dubious heroes must fight against all odds to save both their worlds. A mixture of adventure, humor and friendship rolls it into a captivating tale!</desc>
-  </programme>
-  <programme start="20261018173000 +0000" stop="20261018180000 +0000" channel="MBC 3">
-    <title lang="en">Iyanu — Episode 1</title>
-    <desc lang="en">Iyanu chronicles the journey of a teenage girl who suddenly discovers that she has powers rivaling those of ancient legends, setting her on a path that will change her destiny, and the fate of Yorubaland.</desc>
   </programme>
   <programme start="20261018180000 +0000" stop="20261018183000 +0000" channel="MBC 3">
     <title lang="en">Yu-Gi-Oh! Sevens — Episode 41</title>
@@ -36369,10 +36356,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20261021150000 +0000" stop="20261021151500 +0000" channel="MBC 3">
     <title lang="en">Super Monsters — Episode 37</title>
     <desc lang="en">Preschool kids whose parents are the world's most famous monsters try to master their special powers while preparing for kindergarten.</desc>
-  </programme>
-  <programme start="20261018172000 +0000" stop="20261018175600 +0000" channel="MBC 4">
-    <title lang="en">Ma Zelt Fi 17 — Episode 56</title>
-    <desc lang="en">A mysterious message sends Aras on a journey to find his missing brother, Demir. Along the way, he begins a new chapter filled with unexpected twists, discovering love while embracing a path of rebellion.</desc>
   </programme>
   <programme start="20261018175600 +0000" stop="20261018183100 +0000" channel="MBC 4">
     <title lang="en">Wild Heart — Episode 101</title>
@@ -37446,10 +37429,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Mr. Bean — Episode 5</title>
     <desc lang="en">Join the strange but hilariously funny Mr Bean and his life-long best friend (a stuffed teddy) on their hilarious adventures.</desc>
   </programme>
-  <programme start="20261018165600 +0000" stop="20261018175500 +0000" channel="MBC Bollywood">
-    <title lang="en">Jhanak — Episode 331</title>
-    <desc lang="en">Jhanak, a talented girl who sells flowers to support her mother and fund her education, soon finds herself struggling in the face of her family’s traditional values.</desc>
-  </programme>
   <programme start="20261018175500 +0000" stop="20261018183000 +0000" channel="MBC Bollywood">
     <title lang="en">Yeh Rishta Kya Kehlata Hai — Episode 938</title>
     <desc lang="en">Akshara and Abhimanyu are in love with each other, but destiny has other plans, when Aarohi, Akshara's jealous younger sister, also falls for him.</desc>
@@ -37705,10 +37684,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20261021150000 +0000" stop="20261021160000 +0000" channel="MBC Bollywood">
     <title lang="en">La Ahad Sewak — Episode 14</title>
     <desc lang="en">After losing his parents, a boy lives with a foster family but longs for warmth and belonging. With the support of a caring aunt, he holds on to his dream of education and a better future.</desc>
-  </programme>
-  <programme start="20261018170100 +0000" stop="20261018180000 +0000" channel="MBC Drama">
-    <title lang="en">Al-Hufra — Episode 311</title>
-    <desc lang="en">Amid the streets of a neighborhood ruled by crime and conflict, two lovers struggle to withstand family pressures and the harshness of society, where every step could bring them closer or tear them apart forever.</desc>
   </programme>
   <programme start="20261018180000 +0000" stop="20261018190100 +0000" channel="MBC Drama">
     <title lang="en">Abu El-Malayeen — Episode 10</title>
@@ -37989,10 +37964,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20261021150000 +0000" stop="20261021160000 +0000" channel="MBC Drama">
     <title lang="en">Newton's Cradle — Episode 11</title>
     <desc lang="en">Loving couple Hana and Hazem decide to give birth to their first baby in the US for the citizenship. One decision that will change the course of their lives.</desc>
-  </programme>
-  <programme start="20261018170000 +0000" stop="20261018174600 +0000" channel="MBC+ Drama">
-    <title lang="en">Lo'bat Hob — Episode 3</title>
-    <desc lang="en">When Sama's brother falls into debt, she’s forced into an unusual deal to save her family: make the wealthy shoe designer Malek fall in love and marry her.</desc>
   </programme>
   <programme start="20261018174600 +0000" stop="20261018183100 +0000" channel="MBC+ Drama">
     <title lang="en">Min Haqqi Aheb — Episode 16</title>
@@ -38365,10 +38336,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20261021144500 +0000" stop="20261021152600 +0000" channel="MBC+ Drama">
     <title lang="en">Al-Lou'ba — Episode 6</title>
     <desc lang="en">This comic series that brings together several young Egyptian comedians like Hisham Majid and Shiko revolves around two warring families. As they try to get the better of each other, each of their pranks lead to another one until it is a laugh riot!</desc>
-  </programme>
-  <programme start="20261018170700 +0000" stop="20261018180200 +0000" channel="MBC Masr">
-    <title lang="en">Fareed — Episode 353</title>
-    <desc lang="en">To teach his reckless grandson a lesson, rich patriarch Halis Aga decides to get him married to a simple girl from his hometown, but only time will tell if his decision is the right one.</desc>
   </programme>
   <programme start="20261018180200 +0000" stop="20261018190000 +0000" channel="MBC Masr">
     <title lang="en">El Metr Sameer — Episode 14</title>
@@ -39706,10 +39673,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Batman Begins</title>
     <desc lang="en">After his parents' murder, disillusioned heir Bruce Wayne travels the world seeking the means to fight injustice. He returns to Gotham and unveils his alter ego: Batman, a masked crusader who uses high tech deceptions to fight forces that threaten the city.</desc>
   </programme>
-  <programme start="20261018172800 +0000" stop="20261018175800 +0000" channel="MBC Variety">
-    <title lang="en">World Of Movies — Episode 42</title>
-    <desc lang="en">A quick dive into the world of cinema, from the latest releases to upcoming movie projects.</desc>
-  </programme>
   <programme start="20261018175800 +0000" stop="20261018195900 +0000" channel="MBC Variety">
     <title lang="en">The Water Diviner</title>
     <desc lang="en">After Gallipoli, an Australian father crosses into war-torn Turkey, racing against time and fate to find his three missing sons, only to discover that some truths are more devastating than loss itself.</desc>
@@ -40017,10 +39980,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20261021150000 +0000" stop="20261021153000 +0000" channel="MBC Variety">
     <title lang="en">Demon Slayer: Kimetsu no Yaiba:Episode 4</title>
     <desc lang="en">A family is attacked by demons and only two members survive - Tanjiro and his sister Nezuko, who is turning into a demon slowly. Tanjiro sets out to become a demonic slayer to avenge his family and find a cure for his sister.</desc>
-  </programme>
-  <programme start="20261018170000 +0000" stop="20261018180000 +0000" channel="Wanasah">
-    <title lang="en">Wanasah</title>
-    <desc lang="en">A handpicked selection of video clips, concerts and music programs round the clock primarily aimed at Arab youth.</desc>
   </programme>
   <programme start="20261018180000 +0000" stop="20261018190000 +0000" channel="Wanasah">
     <title lang="en">Wanasah</title>
@@ -42770,9 +42729,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Deep in Love</title>
     <desc lang="en">A strong, independent woman lives on the Black Sea coast, facing daily challenges and internal conflicts. One day, a troubled man appears in her life. Their fates intertwine amidst sea storms, beginning a shared journey in which each reveals their strengths and weaknesses. Together, they learn the meaning of courage, love, and resilience in the face of adversity.</desc>
   </programme>
-  <programme start="20261018173740 +0000" stop="20261018175752 +0000" channel="OSNNickJr.osn">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-  </programme>
   <programme start="20261018175752 +0000" stop="20261018181731 +0000" channel="OSNNickJr.osn">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
@@ -43340,9 +43296,8 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20261021152809 +0000" stop="20261021164123 +0000" channel="OSNNickJr.osn">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20261018170000 +0000" stop="20261018180000 +0000" channel="OSNDiscoveryID.osn">
-    <title lang="en">Evil Lives Here:He Got Into My Soul</title>
-    <desc lang="en">People recount their horrifying true stories about living side-by-side with sociopathic friends or family who go on to commit heinous crimes.</desc>
+  <programme start="20261021164123 +0000" stop="20261021174621 +0000" channel="OSNNickJr.osn">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20261018180000 +0000" stop="20261018190000 +0000" channel="OSNDiscoveryID.osn">
     <title lang="en">Toxic:Don't Go Home</title>
@@ -43631,10 +43586,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20261021150000 +0000" stop="20261021160000 +0000" channel="OSNDiscoveryID.osn">
     <title lang="en">The Crimes That Changed Us — Episode 1</title>
     <desc lang="en">This true-crimes series features several of the most outrageous crime stories that rocked the news.</desc>
-  </programme>
-  <programme start="20261018170000 +0000" stop="20261018180000 +0000" channel="OSNFatafeat.osn">
-    <title lang="en">Matbakh Manal Al-Alem: Halaweyat:Episode 3</title>
-    <desc lang="en">Chef Manal Al-Alem, “The Queen of the Arabian Kitchen”, will grace your table with an amazing mix of traditional Arabic sweets &amp; desserts, featuring some original recipes of her own.</desc>
   </programme>
   <programme start="20261018180000 +0000" stop="20261018190000 +0000" channel="OSNFatafeat.osn">
     <title lang="en">Ma'a Sou Attyab — Episode 15</title>
@@ -43988,10 +43939,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Afnan A-Tabkh — Episode 7</title>
     <desc lang="en">Young Saudi pastry chef and cake decorator Afnan Al-Jaadi will help make your Iftar table more delicious this year. With an amazing set menu of soups, salads, main dishes and desserts, get set to enjoy the holy month.</desc>
   </programme>
-  <programme start="20261018170000 +0000" stop="20261018180000 +0000" channel="OSNAnimalPlanet.osn">
-    <title lang="en">Extinct Or Alive:Ivory-Billed Woodpecker</title>
-    <desc lang="en">Forrest is determined to find out if the famously reclusive Ivory Billed Woodpecker still exists in the alligator and snake infested swamps of Louisiana.</desc>
-  </programme>
   <programme start="20261018180000 +0000" stop="20261018190000 +0000" channel="OSNAnimalPlanet.osn">
     <title lang="en">Tanked:Anthony Davis' High Brow Tank</title>
     <desc lang="en">NBA superstar Anthony Davis brings Wayde and Brett on board to transform an entire room into an aquarium! Will they be able to deliver a winning tank?</desc>
@@ -44315,10 +44262,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20261021150000 +0000" stop="20261021160000 +0000" channel="OSNAnimalPlanet.osn">
     <title lang="en">Crikey! It's The Irwins:It's A Baby Giraffe!</title>
     <desc lang="en">There’s huge excitement at Australia Zoo; Rosie the Giraffe is set to give birth! Robert has a bloody encounter with a wild python that entered an enclosure.</desc>
-  </programme>
-  <programme start="20261018173500 +0000" stop="20261018180000 +0000" channel="OSNTLC.osn">
-    <title lang="en">Cake Boss:Colour Festival, Sofia's Graduating and…</title>
-    <desc lang="en">Buddy creates an intricate cake for Sofia’s graduation. And, a colourful cake for the Indian Holi festival brightens the bakery.</desc>
   </programme>
   <programme start="20261018180000 +0000" stop="20261018185000 +0000" channel="OSNTLC.osn">
     <title lang="en">The Family Chantel:The Truth Comes Out</title>
@@ -44691,9 +44634,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20261021141900 +0000" stop="20261021155500 +0000" channel="OSNTLC.osn">
     <title lang="en">90 Day Fiancé:Facing The Firing Squad</title>
     <desc lang="en">Using a unique visa, six couples embark on a 90-day journey. Their foreign mates will travel to the US and have 90 days to get married or leave the country.</desc>
-  </programme>
-  <programme start="20261018170000 +0000" stop="20261018180000 +0000" channel="DubaiTV.ae">
-    <title lang="ar">اقتصاد 101:S3 :2026 - الحلقة 2</title>
   </programme>
   <programme start="20261018180000 +0000" stop="20261018183000 +0000" channel="DubaiTV.ae">
     <title lang="ar">الأخبار العالمية - الحلقة 261</title>
@@ -45620,9 +45560,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20261025000000 +0000" stop="20261025010000 +0000" channel="DubaiOne.ae">
     <title lang="en">HUGO</title>
     <desc lang="en">In 1931 Paris, an orphan living in the walls of a train station gets wrapped up in a mystery involving his late father and an automaton.</desc>
-  </programme>
-  <programme start="20261018165959 +0000" stop="20261018180000 +0000" channel="SamaDubai.ae">
-    <title lang="ar">ذاكرة الاعلام الموسم الثاني - الحلقة 1</title>
   </programme>
   <programme start="20261018180000 +0000" stop="20261018183000 +0000" channel="SamaDubai.ae">
     <title lang="ar">الأخبار المحلية - الحلقة 261</title>
@@ -47094,9 +47031,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20261025003000 +0000" stop="20261025013000 +0000" channel="DubaiSports.ae">
     <title lang="ar">News Sports 2026 - الحلقة 287</title>
   </programme>
-  <programme start="20261018160000 +0000" stop="20261018180000 +0000" channel="DubaiSports2.ae">
-    <title lang="en">Arab Club Basketball Champs. – QF) TBA</title>
-  </programme>
   <programme start="20261018180000 +0000" stop="20261018183000 +0000" channel="DubaiSports2.ae">
     <title lang="ar">News Sports 2026 - الحلقة 281</title>
   </programme>
@@ -47505,11 +47439,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20261025003000 +0000" stop="20261025013000 +0000" channel="DubaiRacing2.ae">
     <title lang="en">Al Asayel 2026 # 13 -24/10/2026</title>
   </programme>
-  <programme start="20261018174500 +0000" stop="20261018180000 +0000" channel="AbuDhabiTV.ae">
-    <title lang="en">Wazen</title>
-    <desc lang="en">Amidst a lyrical tone and casual ambiance, Nabati poets share narratives of what is on the other side of their talent and immersion in this esteemed form of Emirati literary heritage.</desc>
-  </programme>
-  <programme start="20261018180000 +0000" stop="20261018190000 +0000" channel="AbuDhabiTV.ae">
+  <programme start="20261018180500 +0000" stop="20261018190000 +0000" channel="AbuDhabiTV.ae">
     <title lang="en">Al-Mamarr</title>
     <desc lang="en">An exploratory journey with Arab celebrities roaming ‘virtually’ through the passages of their lives to mirror the cumulative experiences that shaped the sense of who each guest is at many levels.</desc>
   </programme>
@@ -47977,11 +47907,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Taht Al-Ard, Mawsem Haar</title>
     <desc lang="en">Rules of the game set by Al-Safi Damascene family change when Jawdat appears out of nowhere to eliminate the family’s supremacy in the tobacco trade and causes a grave diversion in the family tree.</desc>
   </programme>
-  <programme start="20261018174500 +0000" stop="20261018180000 +0000" channel="AlEmaratTV.ae">
-    <title lang="en">Oloum Al-Dar</title>
-    <desc lang="en">A daily comprehensive update on national current affairs and events with a multi-platform of breaking news in politics, sports, business and weather forecasts.</desc>
-  </programme>
-  <programme start="20261018180000 +0000" stop="20261018190000 +0000" channel="AlEmaratTV.ae">
+  <programme start="20261018180500 +0000" stop="20261018190000 +0000" channel="AlEmaratTV.ae">
     <title lang="en">Al-Bakht</title>
     <desc lang="en">Al-Bakht: Ep 19</desc>
   </programme>
@@ -48461,11 +48387,11 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Oloum Al-Dar</title>
     <desc lang="en">A daily comprehensive update on national current affairs and events with a multi-platform of breaking news in politics, sports, business and weather forecasts.</desc>
   </programme>
-  <programme start="20261018174500 +0000" stop="20261018180000 +0000" channel="NatGeoAbuDhabi.ae">
-    <title lang="en">Science of Stupid</title>
-    <desc lang="en">Science of Stupid 3</desc>
+  <programme start="20261022180000 +0000" stop="20261022190000 +0000" channel="AlEmaratTV.ae">
+    <title lang="en">Al-Bakht</title>
+    <desc lang="en">Al-Bakht: Ep 23</desc>
   </programme>
-  <programme start="20261018180000 +0000" stop="20261018190000 +0000" channel="NatGeoAbuDhabi.ae">
+  <programme start="20261018180500 +0000" stop="20261018190000 +0000" channel="NatGeoAbuDhabi.ae">
     <title lang="en">Ocean Wreck Investigation</title>
     <desc lang="en">Ocean Wreck Investigation 1</desc>
   </programme>
@@ -48985,7 +48911,11 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Science of Stupid</title>
     <desc lang="en">Science of Stupid 3</desc>
   </programme>
-  <programme start="20261018174500 +0000" stop="20261018180800 +0000" channel="SharjahTV.ae">
+  <programme start="20261022180000 +0000" stop="20261022190000 +0000" channel="NatGeoAbuDhabi.ae">
+    <title lang="en">Ice Road Rescue</title>
+    <desc lang="en">Ice Road Rescue 8</desc>
+  </programme>
+  <programme start="20261018180500 +0000" stop="20261018180800 +0000" channel="SharjahTV.ae">
     <title lang="ar">لغة وأدب وفن</title>
     <title lang="en">Loghah Wa Adab Wa Fan</title>
     <desc lang="ar">‫‫تتحدث شخصيات بارزة عن عدة فعاليات ثقافية المقامة في إمارة الشارقة، وتسلط الضوء على مواهب إماراتية وعربية.‬‬</desc>
@@ -49735,12 +49665,12 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Cinema 7</title>
     <desc lang="ar">‫‫تسلط المضيفة الضوء على أحدث وأبرز التطورات والأخبار المتعلقة بالأفلام التي صدرت حديثا في عالم السينما.‬‬</desc>
   </programme>
-  <programme start="20261018174500 +0000" stop="20261018180000 +0000" channel="SharqiyaKalba.ae">
-    <title lang="ar">حديث المساء</title>
-    <title lang="en">Hadeeth Al Masaa</title>
-    <desc lang="ar">‫‫تقوم المضيفة بدعوة خبراء لمناقشة آخر وأهم الأخبار والمستجدات الاجتماعية والسياسية والاقتصادية والرياضية في مصر.‬‬</desc>
+  <programme start="20261022180000 +0000" stop="20261022185200 +0000" channel="SharjahTV.ae">
+    <title lang="ar">حديث الذكريات</title>
+    <title lang="en">Hadeth Al Thekrayat</title>
+    <desc lang="ar">‫‫يقوم فريق التقديم بدعوة العديد من الشخصيات الإماراتية من خلفيات مختلفة للحديث عن حياتها ومدى تأثيرها على المجتمع الإماراتي.‬‬</desc>
   </programme>
-  <programme start="20261018180000 +0000" stop="20261018182900 +0000" channel="SharqiyaKalba.ae">
+  <programme start="20261018180500 +0000" stop="20261018182900 +0000" channel="SharqiyaKalba.ae">
     <title lang="ar">الأخبار</title>
     <title lang="en">Al Akhbar</title>
     <desc lang="ar">‫‫يقوم فريق التقديم باستعراض آخر المستجدات والأخبار الراهنة، بالإضافة إلى تقارير مفصلة وأحداث من جميع أنحاء العالم.‬‬</desc>
@@ -50630,7 +50560,12 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Hadeeth Al Masaa</title>
     <desc lang="ar">‫‫تقوم المضيفة بدعوة خبراء لمناقشة آخر وأهم الأخبار والمستجدات الاجتماعية والسياسية والاقتصادية والرياضية في مصر.‬‬</desc>
   </programme>
-  <programme start="20261018174500 +0000" stop="20261018193000 +0000" channel="RotanaClassic.sa">
+  <programme start="20261022180000 +0000" stop="20261022183000 +0000" channel="SharqiyaKalba.ae">
+    <title lang="ar">الأخبار</title>
+    <title lang="en">Al Akhbar</title>
+    <desc lang="ar">‫‫يقوم فريق التقديم باستعراض آخر المستجدات والأخبار الراهنة، بالإضافة إلى تقارير مفصلة وأحداث من جميع أنحاء العالم.‬‬</desc>
+  </programme>
+  <programme start="20261018180500 +0000" stop="20261018193000 +0000" channel="RotanaClassic.sa">
     <title lang="ar">حياتي أنت</title>
     <title lang="en">Hayati Ant</title>
     <desc lang="ar">‫‫تسعى إلهام لإيجاد عمل لحبيبها سمير في إحدى ممتلكات والدتها، لكن قريبها رشدي ينوي السيطرة على تلك الممتلكات من خلال زواجه منها، ويسعى لابتزاز زوج والدتها.‬‬</desc>
@@ -50995,7 +50930,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Al Eyal Kebret</title>
     <desc lang="ar">‫‫يتحد أحد الأبناء ويتعاون مع إخوته الآخرين بهدف منع والدهم من أن يقوم بهجران والدتهم، بعد أن علم بالصدفة بعلاقة والده بامرأة أخرى.‬‬</desc>
   </programme>
-  <programme start="20261018174500 +0000" stop="20261018190000 +0000" channel="RotanaComedy.sa">
+  <programme start="20261018180500 +0000" stop="20261018190000 +0000" channel="RotanaComedy.sa">
     <title lang="ar">قلب أمه</title>
     <title lang="en">Qalb Ommoh</title>
     <desc lang="ar">‫‫ينتهي الأمر برجل العصابات تختوخ بأن يجري عملية زراعة قلب بعد أن يصاب في شجار. يبدأ لاحقا بالتعامل بعطف كبير مع يونس، وهو ابن المرأة التي حصل على القلب منها.‬‬</desc>
@@ -51240,12 +51175,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Ahlam Elfata Eltayesh</title>
     <desc lang="ar">‫‫يتم طرد وحيد من كل وظيفة يحصل عليها بسبب سوء حظه. تنقلب حياته رأسا على عقب عندما يقابل الممثلة نيللي كريم ويقع في غرامها.‬‬</desc>
   </programme>
-  <programme start="20261018174500 +0000" stop="20261018180000 +0000" channel="RotanaDrama.sa">
-    <title lang="ar">نيران العشق</title>
-    <title lang="en">Neran Al E'sheq</title>
-    <desc lang="ar">‫‫بعد وفاة محبوبها، تجبر شابة على الزواج من عمه الثري، مما يقلب حياتها رأسا على عقب. لكن، تأخذ الأمور منحى آخر عندما يحدث ما لم يكن بالحسبان في يوم زفافها.‬‬</desc>
-  </programme>
-  <programme start="20261018180000 +0000" stop="20261018190000 +0000" channel="RotanaDrama.sa">
+  <programme start="20261018180500 +0000" stop="20261018190000 +0000" channel="RotanaDrama.sa">
     <title lang="ar">سعادة المجنون</title>
     <title lang="en">Sa'adat Al Majnoon</title>
     <desc lang="ar">‫م1 ، ح3 : ‫يغذي الجنون والجشع صراعا على السلطة بين ثلاث شخصيات أنانية: رجل يسعى وراء الثروة، وامرأة فاسدة تتوق إلى السيطرة، ورجل أعمال متلاعب يستغل الآخرين.‬‬</desc>
@@ -51665,12 +51595,12 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Neran Al E'sheq</title>
     <desc lang="ar">‫‫بعد وفاة محبوبها، تجبر شابة على الزواج من عمه الثري، مما يقلب حياتها رأسا على عقب. لكن، تأخذ الأمور منحى آخر عندما يحدث ما لم يكن بالحسبان في يوم زفافها.‬‬</desc>
   </programme>
-  <programme start="20261018174500 +0000" stop="20261018180000 +0000" channel="RotanaKhaleejiah.sa">
-    <title lang="ar">يا هلا</title>
-    <title lang="en">Ya Hala</title>
-    <desc lang="ar">‫م1 ، ح16 : ‫‫‫يتناول المضيف قضايا وشؤون التي تتعلق بالمملكة العربية السعودية والوطن العربي بشكل عام، ويحاور خبراء وشخصيات لمناقشتها.‬‬‬‬</desc>
+  <programme start="20261022180000 +0000" stop="20261022190000 +0000" channel="RotanaDrama.sa">
+    <title lang="ar">سعادة المجنون</title>
+    <title lang="en">Sa'adat Al Majnoon</title>
+    <desc lang="ar">‫م1 ، ح7 : ‫يغذي الجنون والجشع صراعا على السلطة بين ثلاث شخصيات أنانية: رجل يسعى وراء الثروة، وامرأة فاسدة تتوق إلى السيطرة، ورجل أعمال متلاعب يستغل الآخرين.‬‬</desc>
   </programme>
-  <programme start="20261018180000 +0000" stop="20261018200000 +0000" channel="RotanaKhaleejiah.sa">
+  <programme start="20261018180500 +0000" stop="20261018200000 +0000" channel="RotanaKhaleejiah.sa">
     <title lang="ar">في الصورة</title>
     <title lang="en">Fel Soura</title>
     <desc lang="ar">‫م1 ، ح7 : ‫يدعو المضيف مجموعة من الشخصيات العربية البارزة للحديث عن عدد من القضايا الاجتماعية التي تواجه الشباب في المجتمع السعودي.‬‬</desc>
@@ -52195,7 +52125,12 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Ya Hala</title>
     <desc lang="ar">‫م1 ، ح20 : ‫‫‫يتناول المضيف قضايا وشؤون التي تتعلق بالمملكة العربية السعودية والوطن العربي بشكل عام، ويحاور خبراء وشخصيات لمناقشتها.‬‬‬‬</desc>
   </programme>
-  <programme start="20261018174500 +0000" stop="20261018190000 +0000" channel="RotanaCinemaKSA.sa">
+  <programme start="20261022180000 +0000" stop="20261022190000 +0000" channel="RotanaKhaleejiah.sa">
+    <title lang="ar">وحوش</title>
+    <title lang="en">Wohoosh</title>
+    <desc lang="ar">‫م1 ، ح6 : ‫مجموعة شاملة من أبرز وأشهر القصص الحقيقية المتعلقة بالجرائم التي حصلت في جميع أنحاء الكويت على مر السنين.‬‬</desc>
+  </programme>
+  <programme start="20261018180500 +0000" stop="20261018190000 +0000" channel="RotanaCinemaKSA.sa">
     <title lang="ar">عنتر ابن ابن ابن ابن شداد</title>
     <title lang="en">Antar Ibn Ibn Ibn Ibn Shaddad</title>
     <desc lang="ar">‫‫يشتبك رجل في عراك مع عصابة منافسة له ليكسب قلب الفتاة التي يحبها، بعد اكتشافه أنه حفيد الشاعر الجاهلي عنترة بن شداد العبسي.‬‬</desc>
@@ -52450,12 +52385,12 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Bekia</title>
     <desc lang="ar">‫‫يحاول الباحث المصري مصطفى العثور على علاج لمرض الإيدز والسرطان. تأخذ الأمور منعطفا غير متوقع عندما تقوم منظمة دولية باختطافه.‬‬</desc>
   </programme>
-  <programme start="20261018174500 +0000" stop="20261018180000 +0000" channel="RotanaCinemaEgypt.sa">
-    <title lang="ar">شعبان الفارس</title>
-    <title lang="en">Sha'ban Al Fares</title>
-    <desc lang="ar">‫‫يحاول شعبان إثبات نفسه لابنه وكسب احترامه، فيقرر المشاركة في برنامج تلفزيوني بعنوان (الفارس الأول). تتبدل الأحوال عندما يركب شعبان سيارة تم استخدامها في جريمة، لكنه يظنها أنها تابعة للبرنامج.‬‬</desc>
+  <programme start="20261022180000 +0000" stop="20261022190000 +0000" channel="RotanaCinemaKSA.sa">
+    <title lang="ar">عرب وود</title>
+    <title lang="en">Arabwood</title>
+    <desc lang="ar">‫م2 ، ح15 : ‫يقدم فريق التقديم آخر أخبار التلفزيون والموسيقى والفن والسينما من المنطقة العربية والعالم، ويحاور أهم النجوم للحديث عن أحدث أعمالهم.‬‬</desc>
   </programme>
-  <programme start="20261018180000 +0000" stop="20261018200000 +0000" channel="RotanaCinemaEgypt.sa">
+  <programme start="20261018180500 +0000" stop="20261018200000 +0000" channel="RotanaCinemaEgypt.sa">
     <title lang="ar">برا المنهج</title>
     <title lang="en">Bara Al Manhaj</title>
     <desc lang="ar">‫‫يحاول نور كسب احترام زملائه بالدخول إلى منزل مهجور أمام المدرسة، ويكتشف أن ساكنه رجل عجوز يتوارى عن العالم.‬‬</desc>
@@ -52705,12 +52640,12 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Akher El Donia</title>
     <desc lang="ar">‫‫تقع المذيعة التلفزيونية الشهيرة سلمى في حب الطبيب النفسي خالد. في وقت لاحق، تكتشف سلمى أن الفتاة التي قتلتها قبل سبع سنوات هي شقيقة خالد.‬‬</desc>
   </programme>
-  <programme start="20261018174500 +0000" stop="20261018180000 +0000" channel="Saudi1.sa">
-    <title lang="ar">صلاة العشاء</title>
-    <title lang="en">Salat Al Isha</title>
-    <desc lang="en">‫‬</desc>
+  <programme start="20261022180000 +0000" stop="20261022190000 +0000" channel="RotanaCinemaEgypt.sa">
+    <title lang="ar">عرب وود</title>
+    <title lang="en">Arabwood</title>
+    <desc lang="ar">‫م2 ، ح15 : ‫يقدم فريق التقديم آخر أخبار التلفزيون والموسيقى والفن والسينما من المنطقة العربية والعالم، ويحاور أهم النجوم للحديث عن أحدث أعمالهم.‬‬</desc>
   </programme>
-  <programme start="20261018180000 +0000" stop="20261018183000 +0000" channel="Saudi1.sa">
+  <programme start="20261018180500 +0000" stop="20261018183000 +0000" channel="Saudi1.sa">
     <title lang="ar">رجال عبد العزيز</title>
     <title lang="en">Rejal Abdulaziz</title>
     <desc lang="ar">‫‫يلقي صانع الفيلم الضوء على حياة وإنجازات الملك عبد العزيز آل سعود خلال عهده، والرجال الذين وقفوا بجانبه وساهموا في عملية صنع القرار.‬‬</desc>
@@ -53445,12 +53380,12 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Salat Al Isha</title>
     <desc lang="en">‫‬</desc>
   </programme>
-  <programme start="20261018174500 +0000" stop="20261018180000 +0000" channel="LBCSat.lb">
-    <title lang="ar">شمس الأصيل</title>
-    <title lang="en">Shams Al Assel</title>
-    <desc lang="ar">‫م1 ، ح22 : ‫يعاني رئيس الحي وزوجته من مشاكل في زواجهما لعدم اتفاقهما على تبني طفل، إلى أن تصل عائلة إلى المدينة ومعها طفل غامض وأسرار عميقة.‬‬</desc>
+  <programme start="20261022180000 +0000" stop="20261022183000 +0000" channel="Saudi1.sa">
+    <title lang="ar">زمن أول</title>
+    <title lang="en">Zaman A'wal</title>
+    <desc lang="ar">‫‫يقوم صانع الأفلام بتسليط الضوء على أحداث الماضي وإبراز أهم معالم التاريخ السعودي، وكيف قد تغير المجتمع عبر مرور الزمن.‬‬</desc>
   </programme>
-  <programme start="20261018180000 +0000" stop="20261018190000 +0000" channel="LBCSat.lb">
+  <programme start="20261018180500 +0000" stop="20261018190000 +0000" channel="LBCSat.lb">
     <title lang="ar">عادي شو</title>
     <title lang="en">Aadi Show</title>
     <desc lang="ar">‫م2 ، ح3 : ‫يقوم فريق التقديم بدعوة المشاهير من مختلف المجالات لتقديم مجموعة متنوعة من الفقرات وإجراء محادثات مليئة بالمرح حول مجموعة من المواضيع.‬‬</desc>
@@ -53870,7 +53805,12 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Shams Al Assel</title>
     <desc lang="ar">‫م1 ، ح30 : ‫يعاني رئيس الحي وزوجته من مشاكل في زواجهما لعدم اتفاقهما على تبني طفل، إلى أن تصل عائلة إلى المدينة ومعها طفل غامض وأسرار عميقة.‬‬</desc>
   </programme>
-  <programme start="20261018174500 +0000" stop="20261018183000 +0000" channel="KanalDDrama.tr">
+  <programme start="20261022180000 +0000" stop="20261022190000 +0000" channel="LBCSat.lb">
+    <title lang="ar">عرب وود</title>
+    <title lang="en">Arabwood</title>
+    <desc lang="ar">‫م1 ، ح15 : ‫يقدم فريق التقديم آخر أخبار التلفزيون والموسيقى والفن والسينما من المنطقة العربية والعالم، ويحاور أهم النجوم للحديث عن أحدث أعمالهم.‬‬</desc>
+  </programme>
+  <programme start="20261018180500 +0000" stop="20261018183000 +0000" channel="KanalDDrama.tr">
     <title lang="ar">لو اكن سحابة</title>
     <title lang="en">Law Akon Sahabah</title>
     <desc lang="ar">‫م1 ، ح44 : ‫يتم تعيين طبيب للعمل في بلدة تقع جنوب شرق الأناضول، حيث تصبح قيمه السبب الأساسي لصرلعه مع عائلة بولوت الثرية وذات النفوذ.‬‬</desc>
@@ -54355,7 +54295,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Fatemah</title>
     <desc lang="ar">‫م1 ، ح127 : ‫لشغفها بالفن والموسيقى، تتعلم فاطمة العزف على الكمان بالرغم من نشأتها في بيئة محافظة لا تحث التعبير عن الذات.‬‬</desc>
   </programme>
-  <programme start="20261018174500 +0000" stop="20261018181500 +0000" channel="ZeeAlwan.ae">
+  <programme start="20261018180500 +0000" stop="20261018181500 +0000" channel="ZeeAlwan.ae">
     <title lang="en">Asmaytouha Guddan S3</title>
     <desc lang="en">Zee Alwan a general entertainment channel, targeting Arabs across the Middle East and North Africa. Featuring an unparalleled selection of top-tier Indian drama, meticulously dubbed in Arabic.</desc>
   </programme>
@@ -54775,7 +54715,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Asmaytouha Guddan S3</title>
     <desc lang="en">Zee Alwan a general entertainment channel, targeting Arabs across the Middle East and North Africa. Featuring an unparalleled selection of top-tier Indian drama, meticulously dubbed in Arabic.</desc>
   </programme>
-  <programme start="20261018174500 +0000" stop="20261018181500 +0000" channel="ZeeAflam.ae">
+  <programme start="20261018180500 +0000" stop="20261018181500 +0000" channel="ZeeAflam.ae">
     <title lang="en">Yaara</title>
     <desc lang="en">Vidyut Jamwal, Amit Sadh, Shruti Haasan, Vijay Verma &amp; others</desc>
   </programme>
@@ -54923,11 +54863,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Vedaa</title>
     <desc lang="en">John Abraham</desc>
   </programme>
-  <programme start="20261018174500 +0000" stop="20261018180000 +0000" channel="MBCPluseLife.ae">
-    <title lang="en">Al Najiya Al Waheeda</title>
-    <desc lang="ar">‫م1 ، ح4 : ‬</desc>
-  </programme>
-  <programme start="20261018180000 +0000" stop="20261018183000 +0000" channel="MBCPluseLife.ae">
+  <programme start="20261018180500 +0000" stop="20261018183000 +0000" channel="MBCPluseLife.ae">
     <title lang="ar">الأخبار MBC</title>
     <title lang="en">Al Akhbar MBC</title>
     <desc lang="ar">‫م2026 ، ح259 : ‫يقوم فريق التقديم بعرض آخر الأخبار والتطورات التي تتعلق بمختلف القضايا الاجتماعية والاقتصادية والسياسية، كما ويقدم المستجدات التي تدور حول الأحداث الجارية.‬‬</desc>
@@ -55407,12 +55343,12 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Al Najiya Al Waheeda</title>
     <desc lang="ar">‫م1 ، ح8 : ‬</desc>
   </programme>
-  <programme start="20261018174500 +0000" stop="20261018180000 +0000" channel="AlWoustaAlDhaid.ae">
-    <title lang="ar">العرابه</title>
-    <title lang="en">Al A'rabh</title>
-    <desc lang="ar">‫م1 ، ح194 : ‫يحاور المضيف أفرادا إماراتيين لمناقشة اللهجة الإماراتية، وإلقاء الضوء على مختلف المفردات والتعابير في مختلف مناطق البلاد.‬‬</desc>
+  <programme start="20261022180000 +0000" stop="20261022183000 +0000" channel="MBCPluseLife.ae">
+    <title lang="ar">الأخبار MBC</title>
+    <title lang="en">Al Akhbar MBC</title>
+    <desc lang="ar">‫م2026 ، ح263 : ‫يقوم فريق التقديم بعرض آخر الأخبار والتطورات التي تتعلق بمختلف القضايا الاجتماعية والاقتصادية والسياسية، كما ويقدم المستجدات التي تدور حول الأحداث الجارية.‬‬</desc>
   </programme>
-  <programme start="20261018180000 +0000" stop="20261018190000 +0000" channel="AlWoustaAlDhaid.ae">
+  <programme start="20261018180500 +0000" stop="20261018190000 +0000" channel="AlWoustaAlDhaid.ae">
     <title lang="ar">تدبرات قرآنية</title>
     <title lang="en">Tadaborat Quraneyyah</title>
     <desc lang="ar">‫م1 ، ح513 : ‫تفسير مجموعة من الآيات والسور القرآنية وتوضيح ما تحمله من معان ومفاهيم بهدف أخذ العبر والدروس والاستفادة منها.‬‬</desc>
@@ -56087,7 +56023,12 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Al Bayt Al Sa'eed</title>
     <desc lang="ar">‫‫يدعو المضيف شخصيات لمناقشة مواضيع متعددة تهم الناس الذين يعيشون في الإمارات العربية المتحدة، وذلك بهدف نشر الوعي.‬‬</desc>
   </programme>
-  <programme start="20261018174500 +0000" stop="20261018190000 +0000" channel="AlHadath.ae">
+  <programme start="20261022180000 +0000" stop="20261022190000 +0000" channel="AlWoustaAlDhaid.ae">
+    <title lang="ar">يوميات الوسطى</title>
+    <title lang="en">Yawmiyat Al-Wousta</title>
+    <desc lang="ar">‫‫يقوم فريق التقديم بدعوة شخصيات من المنطقة الوسطى في دولة الإمارات العربية المتحدة لمناقشة مجموعة من المواضيع والقضايا، ويسلط الضوء على ثقافة المنطقة.‬‬</desc>
+  </programme>
+  <programme start="20261018180500 +0000" stop="20261018190000 +0000" channel="AlHadath.ae">
     <title lang="ar">الأخبار</title>
     <title lang="en">News</title>
     <desc lang="ar">تغطية مباشرة للأخبار المحلية والعالمية مع التركيز على التطورات في العالم، وصولاً إلى عرض دقيق وتحليلات معمقة تهم المشاهدين.</desc>
@@ -56712,7 +56653,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">News</title>
     <desc lang="ar">تغطية مباشرة للأخبار المحلية والعالمية مع التركيز على التطورات في العالم، وصولاً إلى عرض دقيق وتحليلات معمقة تهم المشاهدين.</desc>
   </programme>
-  <programme start="20261018174500 +0000" stop="20261018190000 +0000" channel="AlArabiyaBusiness.ae">
+  <programme start="20261018180500 +0000" stop="20261018190000 +0000" channel="AlArabiyaBusiness.ae">
     <title lang="ar">الأخبار</title>
     <title lang="en">News</title>
     <desc lang="ar">تغطية مباشرة للأخبار المحلية والعالمية مع التركيز على التطورات في العالم، وصولاً إلى عرض دقيق وتحليلات معمقة تهم المشاهدين.</desc>
@@ -57167,12 +57108,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">News</title>
     <desc lang="ar">تغطية مباشرة للأخبار المحلية والعالمية مع التركيز على التطورات في العالم، وصولاً إلى عرض دقيق وتحليلات معمقة تهم المشاهدين.</desc>
   </programme>
-  <programme start="20261018174500 +0000" stop="20261018180000 +0000" channel="CNBCArabiya.ae">
-    <title lang="ar">دبل كليك</title>
-    <title lang="en">Double Click</title>
-    <desc lang="ar">‫‫يعرض المضيف آخر الأخبار والموضوعات المنتشرة على منصات التواصل الاجتماعي، خلال مناقشة تأثيراتها الرئيسية على عالم الأعمال والاقتصاد.‬‬</desc>
-  </programme>
-  <programme start="20261018180000 +0000" stop="20261018183000 +0000" channel="CNBCArabiya.ae">
+  <programme start="20261018180500 +0000" stop="20261018183000 +0000" channel="CNBCArabiya.ae">
     <title lang="ar">قصص</title>
     <title lang="en">CNBC Stories</title>
     <desc lang="en">‫‬</desc>
@@ -57832,12 +57768,12 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Bi Mawdouiyeh</title>
     <desc lang="ar">‫‫يدعو المضيف عددا من الخبراء البارزين من أجل الحديث عن تحليلاتهم المفصلة فيما يتعلق بمختلف القضايا في عالم الاقتصاد العربي.‬‬</desc>
   </programme>
-  <programme start="20261018174500 +0000" stop="20261018180000 +0000" channel="CNNInternational.us">
-    <title lang="ar">إنسايد أفريكا</title>
-    <title lang="en">Inside Africa</title>
-    <desc lang="ar">‫‫يعرض فريق التقديم قصصا متنوعة ومثيرة للاهتمام من وسائل مختلفة مثل الفن والموسيقى والطبيعة والمزيد من قارة أفريقيا.‬‬</desc>
+  <programme start="20261022180000 +0000" stop="20261022181500 +0000" channel="CNBCArabiya.ae">
+    <title lang="ar">وثائقي</title>
+    <title lang="en">Wathaeqi</title>
+    <desc lang="ar">‫‫يسلط صانع الأفلام الضوء على مجموعة من الأحداث المهمة والقضايا الجدلية والأحداث الرائدة من حول العالم.‬‬</desc>
   </programme>
-  <programme start="20261018180000 +0000" stop="20261018190000 +0000" channel="CNNInternational.us">
+  <programme start="20261018180500 +0000" stop="20261018190000 +0000" channel="CNNInternational.us">
     <title lang="ar">سي إن إن نيوزروم سنداي - مباشر</title>
     <title lang="en">CNN Newsroom Sunday - LIVE</title>
     <desc lang="ar">‫‫يعرض فريق التقديم تحليلا متعمقا لبعض أبرز الأنباء والمستجدات والتطورات الاجتماعية والاقتصادية والسياسية الأسبوعية الجارية في جميع أنحاء العالم.‬‬</desc>
@@ -58459,12 +58395,12 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Amanpour</title>
     <desc lang="ar">‫‫تتحدث الصحفية البريطانية الإيرانية كريستيان آمانبور مع شخصيات بارزة حول القضايا الهامة التي تؤثر على الناس. ‬‬</desc>
   </programme>
-  <programme start="20261018174500 +0000" stop="20261018180000 +0000" channel="Spacetoon.ae">
-    <title lang="ar">أبطال الكرة</title>
-    <title lang="en">Abtal Al Kora</title>
-    <desc lang="ar">‫م1 ، ح20 : ‫يجب على مجموعة من الأطفال لعب كرة القدم وعرض مهاراتهم. يتدربون ويشاركون في تمرينات لتعزيز مواهبهم وتحقيق النجاح في لعبة كرة القدم المفضلة لديهم.‬‬</desc>
+  <programme start="20261022180000 +0000" stop="20261022190000 +0000" channel="CNNInternational.us">
+    <title lang="ar">إيسا سواريس تونايت - مباشر</title>
+    <title lang="en">Isa Soares Tonight - LIVE</title>
+    <desc lang="ar">‫‫تتفاعل المضيفة إيسا سواريس مع ضيوف مميزين وتجري محادثة مفيدة معهم حول أهم الأخبار والتقارير من جميع أنحاء العالم.‬‬</desc>
   </programme>
-  <programme start="20261018180000 +0000" stop="20261018183000 +0000" channel="Spacetoon.ae">
+  <programme start="20261018180500 +0000" stop="20261018183000 +0000" channel="Spacetoon.ae">
     <title lang="ar">الدراج المقنع</title>
     <title lang="en">Kamen Rider Zeztz</title>
     <desc lang="ar">‫م1 ، ح41 : يتحول الصحفي شينجي كيدو، الذي يلاحق قضية ما، إلى كامين رايدر أي الدراج المقنع بفضل قوة مجموعة بطاقات يكتشفها أثناء تغطيته الإخبارية. سرعان ما ينجرف إلى عالم المرايا، حيث يكتشف أمر القضية. بينما يقاتل الوحوش لحماية الناس، ينخرط في صراع بين الدراجين.‬</desc>
@@ -59689,10 +59625,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Abtal Al Kora</title>
     <desc lang="ar">‫م1 ، ح20 : ‫يجب على مجموعة من الأطفال لعب كرة القدم وعرض مهاراتهم. يتدربون ويشاركون في تمرينات لتعزيز مواهبهم وتحقيق النجاح في لعبة كرة القدم المفضلة لديهم.‬‬</desc>
   </programme>
-  <programme start="20261018174500 +0000" stop="20261018180500 +0000" channel="CartoonNetworkArabic.ae">
-    <title lang="ar">تين تايتانز غو!</title>
-    <title lang="en">Teen Titans Go!</title>
-    <desc lang="ar">‫‫يعشق الأبطال الخارقون روبن وسايبورغ وستارفاير ورايفن وبيست بوي إنقاذ العالم، لكن بعد انتهاء محاربة الجريمة، لا تسير الأمور دائما كما هو مخطط لها.‬‬</desc>
+  <programme start="20261022180000 +0000" stop="20261022183000 +0000" channel="Spacetoon.ae">
+    <title lang="ar">الدراج المقنع</title>
+    <title lang="en">Kamen Rider Zeztz</title>
+    <desc lang="ar">‫م1 ، ح41 : يتحول الصحفي شينجي كيدو، الذي يلاحق قضية ما، إلى كامين رايدر أي الدراج المقنع بفضل قوة مجموعة بطاقات يكتشفها أثناء تغطيته الإخبارية. سرعان ما ينجرف إلى عالم المرايا، حيث يكتشف أمر القضية. بينما يقاتل الوحوش لحماية الناس، ينخرط في صراع بين الدراجين.‬</desc>
   </programme>
   <programme start="20261018180500 +0000" stop="20261018183000 +0000" channel="CartoonNetworkArabic.ae">
     <title lang="ar">ذي أميزنغ ورلد أوف غامبول</title>
@@ -60514,17 +60450,12 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Teen Titans Go!</title>
     <desc lang="ar">‫م8 : ‫يعشق الأبطال الخارقون روبن وسايبورغ وستارفاير ورايفن وبيست بوي إنقاذ العالم، لكن بعد انتهاء محاربة الجريمة، لا تسير الأمور دائما كما هو مخطط لها.‬‬</desc>
   </programme>
-  <programme start="20261018174500 +0000" stop="20261018175000 +0000" channel="2MMonde.ma">
-    <title lang="ar">بنات لالة منانة</title>
-    <title lang="en">Banat Lallah Mnanah</title>
-    <desc lang="ar">‫‫تتخطى الوالدة الصارمة لالة منانة جميع العادات والتقاليد الاجتماعية في المغرب عندما تقوم بالبحث عن أزواج مناسبين لبناتها الأربعة.‬‬</desc>
+  <programme start="20261022180500 +0000" stop="20261022183000 +0000" channel="CartoonNetworkArabic.ae">
+    <title lang="ar">ذي أميزنغ ورلد أوف غامبول</title>
+    <title lang="en">The Amazing World of Gumball</title>
+    <desc lang="ar">‫‫يعيش القط غامبول واترسون البالغ ١٢ عاما في إلمور ولديه ميول حول التورط في المشاكل برفقة صديقه العزيز السمكة داروين.‬‬</desc>
   </programme>
-  <programme start="20261018175000 +0000" stop="20261018180000 +0000" channel="2MMonde.ma">
-    <title lang="ar">أوتو-موتو</title>
-    <title lang="en">Auto-Moto</title>
-    <desc lang="ar">‫‫يلقي الراوي الضوء على أحدث السيارات وأنواع المركبات المختلفة، كما يسلط الضوء على المركبات ذات التكلفة المعقولة.‬‬</desc>
-  </programme>
-  <programme start="20261018180000 +0000" stop="20261018190000 +0000" channel="2MMonde.ma">
+  <programme start="20261018180500 +0000" stop="20261018190000 +0000" channel="2MMonde.ma">
     <title lang="ar">الخبراء</title>
     <title lang="en">Al Khobara'</title>
     <desc lang="ar">‫‫تدعو المضيفة أطباء وخبراء لمناقشة عدة مواضيع تتعلق بالصحة، بهدف مساعدة الأفراد على الحفاظ على حياة صحية.‬‬</desc>
@@ -61402,4 +61333,4 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">شباب البومب 24/7</title>
     <desc lang="ar">شباب البومب 24/7</desc>
   </programme>
-<programme start="20261020210000 +0000" stop="20261021174621 +0000" channel="Roya_RoyaTV"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020210000 +0000" stop="20261021174621 +0000" channel="Roya_RoyaNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021205041 +0000" stop="20261021210000 +0000" channel="Roya_RoyaComedy"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019205614 +0000" stop="20261019210000 +0000" channel="Roya_RoyaKitchen"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020205956 +0000" stop="20261021174621 +0000" channel="Roya_RoyaKitchen"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020210000 +0000" stop="20261021174621 +0000" channel="Roya_Ch35"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020210000 +0000" stop="20261021174621 +0000" channel="Roya_Ch8"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020210000 +0000" stop="20261021174621 +0000" channel="Roya_Ch37"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020210000 +0000" stop="20261021174621 +0000" channel="Roya_Ch30"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020205939 +0000" stop="20261021174621 +0000" channel="Roya_Ch28"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020210000 +0000" stop="20261021174621 +0000" channel="Roya_Ch31"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020210000 +0000" stop="20261021174621 +0000" channel="Roya_Ch10"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020210000 +0000" stop="20261021174621 +0000" channel="Roya_Ch33"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019205847 +0000" stop="20261019210000 +0000" channel="Roya_Ch36"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020205847 +0000" stop="20261021174621 +0000" channel="Roya_Ch36"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020210000 +0000" stop="20261021174621 +0000" channel="Roya_Ch22"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020210000 +0000" stop="20261021174621 +0000" channel="Roya_Documentaries"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261024000000 +0000" stop="20261024010500 +0000" channel="AlMamlaka.jo"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021160000 +0000" stop="20261021174621 +0000" channel="MBC 1"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021153000 +0000" stop="20261021174621 +0000" channel="MBC 2"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021151500 +0000" stop="20261021174621 +0000" channel="MBC 3"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021151000 +0000" stop="20261021174621 +0000" channel="MBC 4"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021070000 +0000" stop="20261021174621 +0000" channel="MBC 5"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021153000 +0000" stop="20261021174621 +0000" channel="MBC Action"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021160000 +0000" stop="20261021174621 +0000" channel="MBC Bollywood"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021160000 +0000" stop="20261021174621 +0000" channel="MBC Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021152600 +0000" stop="20261021174621 +0000" channel="MBC+ Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021153000 +0000" stop="20261021174621 +0000" channel="MBC Masr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021160000 +0000" stop="20261021174621 +0000" channel="MBC Masr 2"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019054000 +0000" stop="20261019063500 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019070700 +0000" stop="20261019071500 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019080100 +0000" stop="20261019081500 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019095300 +0000" stop="20261019100000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019104000 +0000" stop="20261019104500 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019111000 +0000" stop="20261019112000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019115200 +0000" stop="20261019120000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019151000 +0000" stop="20261019151500 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019154300 +0000" stop="20261019160000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019163200 +0000" stop="20261019170000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019174800 +0000" stop="20261019180000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019184100 +0000" stop="20261019190000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019193500 +0000" stop="20261019200000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019204000 +0000" stop="20261019210000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019212800 +0000" stop="20261019213500 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019220700 +0000" stop="20261019223000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019231800 +0000" stop="20261019232500 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020000600 +0000" stop="20261020001500 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020005000 +0000" stop="20261020010000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020014000 +0000" stop="20261020014500 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020021300 +0000" stop="20261020023000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020030200 +0000" stop="20261020031500 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020040300 +0000" stop="20261020041000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020045100 +0000" stop="20261020050000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020054000 +0000" stop="20261021174621 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020070200 +0000" stop="20261020071000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020075600 +0000" stop="20261020081000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020085100 +0000" stop="20261020090000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020092200 +0000" stop="20261020092900 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020100100 +0000" stop="20261020101000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020105100 +0000" stop="20261020110000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020115200 +0000" stop="20261020120000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020123800 +0000" stop="20261020130000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020134300 +0000" stop="20261020140000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020143600 +0000" stop="20261020150000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020154200 +0000" stop="20261020160000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020163000 +0000" stop="20261020163500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020174700 +0000" stop="20261020180000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020184600 +0000" stop="20261020190000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020194700 +0000" stop="20261020200000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020203000 +0000" stop="20261020203500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020211300 +0000" stop="20261020212500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020220700 +0000" stop="20261020221500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020233600 +0000" stop="20261020234500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021032100 +0000" stop="20261021032900 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021060100 +0000" stop="20261021061500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021065700 +0000" stop="20261021071000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021075300 +0000" stop="20261021080500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021084100 +0000" stop="20261021085500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021095800 +0000" stop="20261021101000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021105200 +0000" stop="20261021110500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021114700 +0000" stop="20261021120000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021123800 +0000" stop="20261021130000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021134300 +0000" stop="20261021140000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021144000 +0000" stop="20261021150000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021154400 +0000" stop="20261021160000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021162900 +0000" stop="20261021163500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021175500 +0000" stop="20261021180000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021184600 +0000" stop="20261021190000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021194300 +0000" stop="20261021195500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021202400 +0000" stop="20261021203000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021210700 +0000" stop="20261021212000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021221000 +0000" stop="20261021221500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021234000 +0000" stop="20261021234500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022060100 +0000" stop="20261022061000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022070200 +0000" stop="20261022071000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022075400 +0000" stop="20261022080000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022084200 +0000" stop="20261022085000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022092000 +0000" stop="20261022093000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022100000 +0000" stop="20261022100500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022105000 +0000" stop="20261022110000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022115200 +0000" stop="20261022120000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022124100 +0000" stop="20261022130000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022134400 +0000" stop="20261022140000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022143900 +0000" stop="20261022150000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022155100 +0000" stop="20261022160000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022174900 +0000" stop="20261022180000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022184800 +0000" stop="20261022190000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022195500 +0000" stop="20261022200000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022210700 +0000" stop="20261022213000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022233900 +0000" stop="20261022234500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021152500 +0000" stop="20261021174621 +0000" channel="MBC Max"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021153000 +0000" stop="20261021174621 +0000" channel="MBC Variety"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021160000 +0000" stop="20261021174621 +0000" channel="Wanasah"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020204500 +0000" stop="20261021174621 +0000" channel="OSNOne.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021063000 +0000" stop="20261021174621 +0000" channel="OSNShowcase.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020203000 +0000" stop="20261021174621 +0000" channel="OSNNow.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020204000 +0000" stop="20261021174621 +0000" channel="OSNComedy.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021062500 +0000" stop="20261021174621 +0000" channel="OSNCrime.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019205500 +0000" stop="20261021174621 +0000" channel="OSNKids.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019200500 +0000" stop="20261021174621 +0000" channel="OSNMoviesPremiere.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019202500 +0000" stop="20261021174621 +0000" channel="OSNMoviesHollywood.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019201500 +0000" stop="20261021174621 +0000" channel="OSNMoviesAction.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021073000 +0000" stop="20261021174621 +0000" channel="OSNMoviesComedy.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019202000 +0000" stop="20261021174621 +0000" channel="OSNMoviesFamily.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021062500 +0000" stop="20261021174621 +0000" channel="OSNYaHala.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021074500 +0000" stop="20261021174621 +0000" channel="OSNYaHalaAflam.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021065000 +0000" stop="20261021174621 +0000" channel="OSNYaHalaBilArabi.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021164123 +0000" stop="20261021174621 +0000" channel="OSNNickJr.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021160000 +0000" stop="20261021174621 +0000" channel="OSNDiscoveryID.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021160000 +0000" stop="20261021174621 +0000" channel="OSNFatafeat.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021160000 +0000" stop="20261021174621 +0000" channel="OSNAnimalPlanet.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021155500 +0000" stop="20261021174621 +0000" channel="OSNTLC.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020100000 +0000" stop="20261020183000 +0000" channel="DubaiSports.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021100000 +0000" stop="20261021183000 +0000" channel="DubaiSports.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022100000 +0000" stop="20261022183000 +0000" channel="DubaiSports.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261023100000 +0000" stop="20261023183000 +0000" channel="DubaiSports.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261024100000 +0000" stop="20261024183000 +0000" channel="DubaiSports.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020030500 +0000" stop="20261021174621 +0000" channel="DubaiSports2.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019061400 +0000" stop="20261019120000 +0000" channel="DubaiRacing.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019130000 +0000" stop="20261019182300 +0000" channel="DubaiRacing.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021130000 +0000" stop="20261021182000 +0000" channel="DubaiRacing.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022023825 +0000" stop="20261022120000 +0000" channel="DubaiRacing.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022130000 +0000" stop="20261023120000 +0000" channel="DubaiRacing.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261023130000 +0000" stop="20261024120000 +0000" channel="DubaiRacing.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019103300 +0000" stop="20261019171900 +0000" channel="DubaiRacing2.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022180000 +0000" stop="20261023003000 +0000" channel="DubaiRacing2.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261023033000 +0000" stop="20261023110000 +0000" channel="DubaiRacing2.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261023180000 +0000" stop="20261024003000 +0000" channel="DubaiRacing2.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261024033000 +0000" stop="20261024110000 +0000" channel="DubaiRacing2.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261024180000 +0000" stop="20261025003000 +0000" channel="DubaiRacing2.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+<programme start="20261020210000 +0000" stop="20261021180628 +0000" channel="Roya_RoyaTV"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020210000 +0000" stop="20261021180628 +0000" channel="Roya_RoyaNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021205041 +0000" stop="20261021210000 +0000" channel="Roya_RoyaComedy"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019205614 +0000" stop="20261019210000 +0000" channel="Roya_RoyaKitchen"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020205956 +0000" stop="20261021180628 +0000" channel="Roya_RoyaKitchen"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020210000 +0000" stop="20261021180628 +0000" channel="Roya_Ch35"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020210000 +0000" stop="20261021180628 +0000" channel="Roya_Ch8"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020210000 +0000" stop="20261021180628 +0000" channel="Roya_Ch37"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020210000 +0000" stop="20261021180628 +0000" channel="Roya_Ch30"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020205939 +0000" stop="20261021180628 +0000" channel="Roya_Ch28"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020210000 +0000" stop="20261021180628 +0000" channel="Roya_Ch31"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020210000 +0000" stop="20261021180628 +0000" channel="Roya_Ch10"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020210000 +0000" stop="20261021180628 +0000" channel="Roya_Ch33"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019205847 +0000" stop="20261019210000 +0000" channel="Roya_Ch36"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020205847 +0000" stop="20261021180628 +0000" channel="Roya_Ch36"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020210000 +0000" stop="20261021180628 +0000" channel="Roya_Ch22"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020210000 +0000" stop="20261021180628 +0000" channel="Roya_Documentaries"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261024000000 +0000" stop="20261024010500 +0000" channel="AlMamlaka.jo"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021160000 +0000" stop="20261021180628 +0000" channel="MBC 1"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021153000 +0000" stop="20261021180628 +0000" channel="MBC 2"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021151500 +0000" stop="20261021180628 +0000" channel="MBC 3"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021151000 +0000" stop="20261021180628 +0000" channel="MBC 4"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021070000 +0000" stop="20261021180628 +0000" channel="MBC 5"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021153000 +0000" stop="20261021180628 +0000" channel="MBC Action"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021160000 +0000" stop="20261021180628 +0000" channel="MBC Bollywood"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021160000 +0000" stop="20261021180628 +0000" channel="MBC Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021152600 +0000" stop="20261021180628 +0000" channel="MBC+ Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021153000 +0000" stop="20261021180628 +0000" channel="MBC Masr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021160000 +0000" stop="20261021180628 +0000" channel="MBC Masr 2"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019054000 +0000" stop="20261019063500 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019070700 +0000" stop="20261019071500 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019080100 +0000" stop="20261019081500 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019095300 +0000" stop="20261019100000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019104000 +0000" stop="20261019104500 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019111000 +0000" stop="20261019112000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019115200 +0000" stop="20261019120000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019151000 +0000" stop="20261019151500 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019154300 +0000" stop="20261019160000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019163200 +0000" stop="20261019170000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019174800 +0000" stop="20261019180000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019184100 +0000" stop="20261019190000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019193500 +0000" stop="20261019200000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019204000 +0000" stop="20261019210000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019212800 +0000" stop="20261019213500 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019220700 +0000" stop="20261019223000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019231800 +0000" stop="20261019232500 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020000600 +0000" stop="20261020001500 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020005000 +0000" stop="20261020010000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020014000 +0000" stop="20261020014500 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020021300 +0000" stop="20261020023000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020030200 +0000" stop="20261020031500 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020040300 +0000" stop="20261020041000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020045100 +0000" stop="20261020050000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020054000 +0000" stop="20261021180628 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020070200 +0000" stop="20261020071000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020075600 +0000" stop="20261020081000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020085100 +0000" stop="20261020090000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020092200 +0000" stop="20261020092900 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020100100 +0000" stop="20261020101000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020105100 +0000" stop="20261020110000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020115200 +0000" stop="20261020120000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020123800 +0000" stop="20261020130000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020134300 +0000" stop="20261020140000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020143600 +0000" stop="20261020150000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020154200 +0000" stop="20261020160000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020163000 +0000" stop="20261020163500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020174700 +0000" stop="20261020180000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020184600 +0000" stop="20261020190000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020194700 +0000" stop="20261020200000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020203000 +0000" stop="20261020203500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020211300 +0000" stop="20261020212500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020220700 +0000" stop="20261020221500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020233600 +0000" stop="20261020234500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021032100 +0000" stop="20261021032900 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021060100 +0000" stop="20261021061500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021065700 +0000" stop="20261021071000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021075300 +0000" stop="20261021080500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021084100 +0000" stop="20261021085500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021095800 +0000" stop="20261021101000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021105200 +0000" stop="20261021110500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021114700 +0000" stop="20261021120000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021123800 +0000" stop="20261021130000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021134300 +0000" stop="20261021140000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021144000 +0000" stop="20261021150000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021154400 +0000" stop="20261021160000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021162900 +0000" stop="20261021163500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021175500 +0000" stop="20261021180000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021184600 +0000" stop="20261021190000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021194300 +0000" stop="20261021195500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021202400 +0000" stop="20261021203000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021210700 +0000" stop="20261021212000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021221000 +0000" stop="20261021221500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021234000 +0000" stop="20261021234500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022060100 +0000" stop="20261022061000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022070200 +0000" stop="20261022071000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022075400 +0000" stop="20261022080000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022084200 +0000" stop="20261022085000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022092000 +0000" stop="20261022093000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022100000 +0000" stop="20261022100500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022105000 +0000" stop="20261022110000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022115200 +0000" stop="20261022120000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022124100 +0000" stop="20261022130000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022134400 +0000" stop="20261022140000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022143900 +0000" stop="20261022150000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022155100 +0000" stop="20261022160000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022174900 +0000" stop="20261022180000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022184800 +0000" stop="20261022190000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022195500 +0000" stop="20261022200000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022210700 +0000" stop="20261022213000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022233900 +0000" stop="20261022234500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021152500 +0000" stop="20261021180628 +0000" channel="MBC Max"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021153000 +0000" stop="20261021180628 +0000" channel="MBC Variety"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021160000 +0000" stop="20261021180628 +0000" channel="Wanasah"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020204500 +0000" stop="20261021180628 +0000" channel="OSNOne.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021063000 +0000" stop="20261021180628 +0000" channel="OSNShowcase.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020203000 +0000" stop="20261021180628 +0000" channel="OSNNow.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020204000 +0000" stop="20261021180628 +0000" channel="OSNComedy.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021062500 +0000" stop="20261021180628 +0000" channel="OSNCrime.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019205500 +0000" stop="20261021180628 +0000" channel="OSNKids.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019200500 +0000" stop="20261021180628 +0000" channel="OSNMoviesPremiere.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019202500 +0000" stop="20261021180628 +0000" channel="OSNMoviesHollywood.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019201500 +0000" stop="20261021180628 +0000" channel="OSNMoviesAction.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021073000 +0000" stop="20261021180628 +0000" channel="OSNMoviesComedy.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019202000 +0000" stop="20261021180628 +0000" channel="OSNMoviesFamily.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021062500 +0000" stop="20261021180628 +0000" channel="OSNYaHala.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021074500 +0000" stop="20261021180628 +0000" channel="OSNYaHalaAflam.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021065000 +0000" stop="20261021180628 +0000" channel="OSNYaHalaBilArabi.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021174621 +0000" stop="20261021180628 +0000" channel="OSNNickJr.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021160000 +0000" stop="20261021180628 +0000" channel="OSNDiscoveryID.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021160000 +0000" stop="20261021180628 +0000" channel="OSNFatafeat.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021160000 +0000" stop="20261021180628 +0000" channel="OSNAnimalPlanet.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021155500 +0000" stop="20261021180628 +0000" channel="OSNTLC.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020100000 +0000" stop="20261020183000 +0000" channel="DubaiSports.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021100000 +0000" stop="20261021183000 +0000" channel="DubaiSports.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022100000 +0000" stop="20261022183000 +0000" channel="DubaiSports.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261023100000 +0000" stop="20261023183000 +0000" channel="DubaiSports.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261024100000 +0000" stop="20261024183000 +0000" channel="DubaiSports.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261020030500 +0000" stop="20261021180628 +0000" channel="DubaiSports2.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019061400 +0000" stop="20261019120000 +0000" channel="DubaiRacing.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019130000 +0000" stop="20261019182300 +0000" channel="DubaiRacing.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021130000 +0000" stop="20261021182000 +0000" channel="DubaiRacing.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022023825 +0000" stop="20261022120000 +0000" channel="DubaiRacing.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022130000 +0000" stop="20261023120000 +0000" channel="DubaiRacing.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261023130000 +0000" stop="20261024120000 +0000" channel="DubaiRacing.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019103300 +0000" stop="20261019171900 +0000" channel="DubaiRacing2.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022180000 +0000" stop="20261023003000 +0000" channel="DubaiRacing2.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261023033000 +0000" stop="20261023110000 +0000" channel="DubaiRacing2.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261023180000 +0000" stop="20261024003000 +0000" channel="DubaiRacing2.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261024033000 +0000" stop="20261024110000 +0000" channel="DubaiRacing2.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261024180000 +0000" stop="20261025003000 +0000" channel="DubaiRacing2.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
