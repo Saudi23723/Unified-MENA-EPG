@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-20T07:47:58.906Z",
+  "updated_at": "2026-10-20T07:53:03.606Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -292,13 +292,13 @@
       "latitude": 51.5074,
       "longitude": -0.1278,
       "temperature_c": 12.3,
-      "humidity": 94,
+      "humidity": 96,
       "wind_speed": 14.0,
       "rain_chance": 62,
       "condition": "رذاذ كثيف",
       "weather_code": 55,
       "observed_at": "2026-10-20T08:45",
-      "feels_c": 10.7,
+      "feels_c": 10.8,
       "utc_offset": 3600,
       "days": [
         {
@@ -310,7 +310,7 @@
         },
         {
           "date": "2026-10-21",
-          "code": 61,
+          "code": 55,
           "max": 12.1,
           "min": 7.6,
           "rain": 77
@@ -363,13 +363,13 @@
       "latitude": 53.4808,
       "longitude": -2.2426,
       "temperature_c": 12.1,
-      "humidity": 92,
+      "humidity": 94,
       "wind_speed": 5.4,
       "rain_chance": 96,
-      "condition": "رذاذ خفيف",
-      "weather_code": 51,
+      "condition": "رذاذ",
+      "weather_code": 53,
       "observed_at": "2026-10-20T08:45",
-      "feels_c": 11.6,
+      "feels_c": 11.7,
       "utc_offset": 3600,
       "days": [
         {
@@ -381,7 +381,7 @@
         },
         {
           "date": "2026-10-21",
-          "code": 63,
+          "code": 55,
           "max": 11.3,
           "min": 7.9,
           "rain": 96
