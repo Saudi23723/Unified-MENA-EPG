@@ -959,15 +959,6 @@
     <display-name lang="ar">الرابعة قرآن</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/alrabiaa_quran.png" />
   </channel>
-  <programme start="20261019183100 +0000" stop="20261019210100 +0000" channel="beIN4K.qa">
-    <title lang="en">Main Race - F1 Singapore Grand Prix - FIA Formula 1 World Championship 2026</title>
-    <desc lang="en">24 Grand Prix from the Formula 1 Season are live and exclusive only on beIN.
-All Practices, Qualifiers and Races are available live with a choice of Arabic or English commentary.
-The 2026 season will consist of 6 Sprint Races within the 24 weekends.
-For the first time 11 Teams and 22 Drivers will compete to win the World Formula 1 Championships for</desc>
-    <category lang="ar">بطولة العالم للفورمولا وان</category>
-    <category lang="en">Formula One World Championship</category>
-  </programme>
   <programme start="20261019210100 +0000" stop="20261019230000 +0000" channel="beIN4K.qa">
     <title lang="en">Everton v Chelsea - English Premier League 2026/2027</title>
     <desc lang="en">Everton are looking for consecutive Premier League wins over Chelsea for the first time since beating them in March and December 2019 under Marco Silva and Duncan Ferguson respectively. Chelsea have won just one of their last nine away Premier League games at Everton, a 1-0 win in August 2022. They've failed to score in seven of those games, includ</desc>
@@ -1277,7 +1268,7 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">English Premier League</category>
   </programme>
-  <programme start="20261023183000 +0000" stop="20261023205900 +0000" channel="beIN4K.qa">
+  <programme start="20261023183000 +0000" stop="20261023204800 +0000" channel="beIN4K.qa">
     <title lang="en">Main Race - F1 Singapore Grand Prix - FIA Formula 1 World Championship 2026</title>
     <desc lang="en">24 Grand Prix from the Formula 1 Season are live and exclusive only on beIN.
 All Practices, Qualifiers and Races are available live with a choice of Arabic or English commentary.
@@ -1847,6 +1838,12 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
     <desc lang="en">Morocco is hosting the 10th edition of the FIFA U-17 Women's World Cup™ from October 17 to November 7, 2026, with 24 teams competing for the global title. This marks the third time the tournament is being held on the African continent, making Morocco the second Arab nation to host the event, following Jordan in 2016. It also represents the second i</desc>
     <category lang="ar">كرة قدم</category>
     <category lang="en">Football</category>
+  </programme>
+  <programme start="20261026210000 +0000" stop="20261026230000 +0000" channel="beINSports.qa">
+    <title lang="en">Aix vs Toulouse - Daikin StarLigue - French Handball - 2026</title>
+    <desc lang="en">features the Liqui Moly StarLigue, France’s top men’s handball division. The competition brings together leading French clubs in a regular-season campaign, with teams battling for points, European qualification and the league title. The season showcases fast-paced action, tactical play and some of the country’s leading handball talent.</desc>
+    <category lang="ar">كرة اليد</category>
+    <category lang="en">Handball</category>
   </programme>
   <programme start="20261019183000 +0000" stop="20261019213000 +0000" channel="beINSports1.qa">
     <title lang="en">Tottenham Hotspur vs Coventry City - English Premier League 2026/2027 - Week 7 ‎• Live 🔵‎</title>
@@ -2930,12 +2927,6 @@ Prince Mohammed Bin Fahd Stadium Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261019190000 +0000" stop="20261019210000 +0000" channel="beINSports2.qa">
-    <title lang="en">Newcastle United vs Aston villa - English Premier League 2026/2027 - Week 7</title>
-    <desc lang="en">Newcastle are winless in their last three Premier League games against Aston Villa, losing 2-0 in their most recent game. They haven’t lost consecutive games against Villa since losing both games in 2004-05, the second game in which saw Steven Taylor, Lee Bowyer and Kieron Dyer all sent off. Aston Villa won 2-0 in their last away Premier League gam</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
   <programme start="20261019210000 +0000" stop="20261019230000 +0000" channel="beINSports2.qa">
     <title lang="en">Trabzonspor A.Ş. vs Beşiktaş A.Ş. - Turkish Super League 2027 - MD8</title>
     <desc lang="en">The Süper Lig is the top tier of Turkish professional football, featuring 18 competing clubs. The current Champions are Galatasaray.</desc>
@@ -3358,14 +3349,6 @@ Al-Awwal Park Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261019185000 +0000" stop="20261019210000 +0000" channel="beINSports3.qa">
-    <title lang="en">Getafe vs Rayo Vallecano - Spanish LaLiga 2026/2027 - Week 9 ‎• Live 🔵‎</title>
-    <desc lang="en">The Spanish 2026–27 La Liga season is live and exclusive only on beIN SPORTS. All 380 matches across 38 matchdays are available with a choice of Arabic and English commentary.
-Barcelona are the two-time defending champions, having won their 29th title last season.</desc>
-    <category lang="ar">الدوري الإسباني لكرة القدم</category>
-    <category lang="en">Live</category>
-    <category lang="en">Spanish League - Primera División</category>
-  </programme>
   <programme start="20261019210000 +0000" stop="20261019224500 +0000" channel="beINSports3.qa">
     <title lang="en">Malaga vs Real Sociedad - Spanish LaLiga 2026/2027 - Week 9</title>
     <desc lang="en">The Spanish 2026–27 La Liga season is live and exclusive only on beIN SPORTS. All 380 matches across 38 matchdays are available with a choice of Arabic and English commentary.
@@ -3740,13 +3723,6 @@ Al-Madina International Stadium Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261019183500 +0000" stop="20261019210000 +0000" channel="beINSports4.qa">
-    <title lang="en">Rodez vs Montpellier - French Ligue 2 - 2026/2027 ‎• Live 🔵‎</title>
-    <desc lang="en">Ligue 2 is the second division of French football. Ligue 2 is contested by 18 clubs, the league operates on a system of promotion and relegation with both Ligue 1 and the third division Championnat National. The teams play 34 games each, totaling 306 games in the season. The biggest games from each match Day are live and exclusive on beIN.</desc>
-    <category lang="ar">الدوري الفرنسي - الدرجة الثانية</category>
-    <category lang="en">Live</category>
-    <category lang="en">French League - Ligue 2</category>
   </programme>
   <programme start="20261019210000 +0000" stop="20261019224800 +0000" channel="beINSports4.qa">
     <title lang="en">Lyon vs Nice - French Ligue 1 2026/2027 - Week 7</title>
@@ -5151,11 +5127,6 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="en">Live</category>
     <category lang="en">Spanish League - Segunda Division</category>
   </programme>
-  <programme start="20261019200000 +0000" stop="20261019211400 +0000" channel="beINSports7.qa">
-    <title lang="en">Andrea Guerrieri (ITA)) vs alex Michelsen (USA) - ATP 250 BNP Paribas Fortis European Open 2026</title>
-    <category lang="ar">تنس -  فئة 250</category>
-    <category lang="en">Tennis - ATP 250</category>
-  </programme>
   <programme start="20261019211400 +0000" stop="20261019223400 +0000" channel="beINSports7.qa">
     <title lang="en">Yannick Hanfmann (GER) vs Martin Damm (USA) - ATP 250 BNP Paribas Fortis European Open 2026</title>
     <category lang="ar">تنس -  فئة 250</category>
@@ -5244,16 +5215,10 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="en">Live</category>
     <category lang="en">Tennis - ATP 250</category>
   </programme>
-  <programme start="20261020200000 +0000" stop="20261020223000 +0000" channel="beINSports7.qa">
+  <programme start="20261020200000 +0000" stop="20261020230000 +0000" channel="beINSports7.qa">
     <title lang="en">Tallon Griekspoor (NED) vs Max Schoenhaus (GER) - ATP 250 BNP Paribas Fortis European Open 2026</title>
     <category lang="ar">تنس -  فئة 250</category>
     <category lang="en">Tennis - ATP 250</category>
-  </programme>
-  <programme start="20261020223000 +0000" stop="20261020230000 +0000" channel="beINSports7.qa">
-    <title lang="en">ATP Tour - Magazine 2026</title>
-    <desc lang="en">ATP Tour This Week It is comprised of the various feature stories created by ATP Media and ATP Tour</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
   </programme>
   <programme start="20261020230000 +0000" stop="20261021003600 +0000" channel="beINSports7.qa">
     <title lang="en">Botic Van De Zandschulp (NED) vs Clement Chidekh (FRA) - ATP 250 BNP Paribas Fortis European Open 20</title>
@@ -5276,21 +5241,15 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="ar">تنس -  فئة 250</category>
     <category lang="en">Tennis - ATP 250</category>
   </programme>
-  <programme start="20261021043000 +0000" stop="20261021063000 +0000" channel="beINSports7.qa">
+  <programme start="20261021043000 +0000" stop="20261021065900 +0000" channel="beINSports7.qa">
     <title lang="en">Nishesh Basavareddy (USA) vs Raphael Collignon (BEL) - ATP 250 BNP Paribas Fortis European Open 2026</title>
     <category lang="ar">تنس -  فئة 250</category>
     <category lang="en">Tennis - ATP 250</category>
   </programme>
-  <programme start="20261021063000 +0000" stop="20261021090000 +0000" channel="beINSports7.qa">
+  <programme start="20261021065900 +0000" stop="20261021093000 +0000" channel="beINSports7.qa">
     <title lang="en">Tallon Griekspoor (NED) vs Max Schoenhaus (GER) - ATP 250 BNP Paribas Fortis European Open 2026</title>
     <category lang="ar">تنس -  فئة 250</category>
     <category lang="en">Tennis - ATP 250</category>
-  </programme>
-  <programme start="20261021090000 +0000" stop="20261021093000 +0000" channel="beINSports7.qa">
-    <title lang="en">ATP Tour - Magazine 2026</title>
-    <desc lang="en">ATP Tour This Week It is comprised of the various feature stories created by ATP Media and ATP Tour</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
   </programme>
   <programme start="20261021093000 +0000" stop="20261021113000 +0000" channel="beINSports7.qa">
     <title lang="en">M1 - ATP 250 BNP Paribas Fortis European Open 2026 ‎• Live 🔵‎</title>
@@ -6118,12 +6077,6 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="ar">كرة التنس - فئة 500</category>
     <category lang="en">Live</category>
     <category lang="en">Tennis - ATP 500</category>
-  </programme>
-  <programme start="20261019180300 +0000" stop="20261019210000 +0000" channel="beINSports9.qa">
-    <title lang="en">Longines Global Champions Tour - Mexico City Jumping - Grand Prix</title>
-    <desc lang="en">Held at Campo Marte in Mexico City, featuring CSI5* show jumping with fences up to 1.60m. The program includes the Global Champions League team competition and the Grand Prix, where riders earn ranking points toward the season standings. Competition takes place at altitude, impacting horse performance and pace.</desc>
-    <category lang="ar">الفروسية</category>
-    <category lang="en">Equestrian</category>
   </programme>
   <programme start="20261019210000 +0000" stop="20261019224500 +0000" channel="beINSports9.qa">
     <title lang="en">Longines Global Champions Tour - Madrid  Jumping - Round 1 - Competition Team</title>
@@ -7597,12 +7550,6 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="en">Live</category>
     <category lang="en">Spanish League - Primera División</category>
   </programme>
-  <programme start="20261019201500 +0000" stop="20261019210000 +0000" channel="beINSportsEn2.qa">
-    <title lang="en">EN One Weekly 2026 - Ep 43</title>
-    <desc lang="en">The weekly show looking back at the best performances of ONE Championship's biggest stars ahead of highly anticipated upcoming bouts.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20261019210000 +0000" stop="20261019230000 +0000" channel="beINSportsEn2.qa">
     <title lang="en">Spain vs Mexico - FIFA U-17 Women's World Cup 2026</title>
     <desc lang="en">Morocco is hosting the 10th edition of the FIFA U-17 Women's World Cup™ from October 17 to November 7, 2026, with 24 teams competing for the global title. This marks the third time the tournament is being held on the African continent, making Morocco the second Arab nation to host the event, following Jordan in 2016. It also represents the second i</desc>
@@ -8183,13 +8130,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Live</category>
     <category lang="en">English League - League Two</category>
   </programme>
-  <programme start="20261019204500 +0000" stop="20261019210000 +0000" channel="beINSportsFr1.qa">
-    <title lang="en">P02 - L2 Extra - Football 2026-2027 ‎• Live 🔵‎</title>
-    <desc lang="en">Sport.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Live</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20261019210000 +0000" stop="20261019230000 +0000" channel="beINSportsFr1.qa">
     <title lang="en">Lyon OU vs Nice - Ligue 1 - J07 - FOOTBALL 2026-2027</title>
     <desc lang="en">Sport.</desc>
@@ -8534,12 +8474,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261019190000 +0000" stop="20261019210000 +0000" channel="beINSportsMax1.qa">
-    <title lang="en">beIN SPORTS MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20261019210000 +0000" stop="20261019230000 +0000" channel="beINSportsMax1.qa">
     <title lang="en">beIN SPORTS MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
@@ -8751,12 +8685,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20261022190000 +0000" stop="20261022205959 +0000" channel="beINSportsMax1.qa">
-    <title lang="en">beIN SPORTS MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261019190000 +0000" stop="20261019210000 +0000" channel="beINSportsMax2.qa">
     <title lang="en">beIN SPORTS MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
@@ -8978,12 +8906,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261019190000 +0000" stop="20261019210000 +0000" channel="beINSportsMax3.qa">
-    <title lang="en">beIN SPORTS MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20261019210000 +0000" stop="20261019230000 +0000" channel="beINSportsMax3.qa">
     <title lang="en">beIN SPORTS MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
@@ -9195,12 +9117,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20261022190000 +0000" stop="20261022205959 +0000" channel="beINSportsMax3.qa">
-    <title lang="en">beIN SPORTS MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261019190000 +0000" stop="20261019210000 +0000" channel="beINSportsMax4.qa">
     <title lang="en">beIN SPORTS MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
@@ -9422,12 +9338,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261019190000 +0000" stop="20261019210000 +0000" channel="beINSportsMax5.qa">
-    <title lang="en">beIN SPORTS MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20261019210000 +0000" stop="20261019230000 +0000" channel="beINSportsMax5.qa">
     <title lang="en">beIN SPORTS MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
@@ -9639,12 +9549,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20261022190000 +0000" stop="20261022205959 +0000" channel="beINSportsMax5.qa">
-    <title lang="en">beIN SPORTS MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261019190000 +0000" stop="20261019210000 +0000" channel="beINSportsMax6.qa">
     <title lang="en">beIN SPORTS MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
@@ -9865,12 +9769,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261019203000 +0000" stop="20261019210000 +0000" channel="beINSportsNews.qa">
-    <title lang="en">UEFA UCL  Magazine2026/2027  -MD3 Preview</title>
-    <desc lang="en">Highlights from the latest Round of UEFA Champions League fixtures.</desc>
-    <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
-    <category lang="en">UEFA Champions League</category>
   </programme>
   <programme start="20261019210000 +0000" stop="20261019220000 +0000" channel="beINSportsNews.qa">
     <title lang="en">Super Monday ‎• Live 🔵‎</title>
@@ -11289,12 +11187,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261019200000 +0000" stop="20261019210000 +0000" channel="beINSportsXtra1.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - October - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20261019210000 +0000" stop="20261019220000 +0000" channel="beINSportsXtra1.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - October - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
@@ -12286,12 +12178,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261019200000 +0000" stop="20261019210000 +0000" channel="beINSportsXtra2.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - October - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20261019210000 +0000" stop="20261019220000 +0000" channel="beINSportsXtra2.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - October - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
@@ -13258,12 +13144,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20261026200000 +0000" stop="20261026205959 +0000" channel="beINSportsXtra2.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - October - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261019200000 +0000" stop="20261019210000 +0000" channel="beINSportsXtra3.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - October - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -14282,12 +14162,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20261026200000 +0000" stop="20261026205959 +0000" channel="beINSportsXtra3.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - October - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261019200000 +0000" stop="20261019210000 +0000" channel="beINSportsXtra4.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - October - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -15320,12 +15194,6 @@ Estadio Coliseum Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261019200000 +0000" stop="20261019210000 +0000" channel="beINSportsXtra5.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - October - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20261019210000 +0000" stop="20261019220000 +0000" channel="beINSportsXtra5.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - October - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
@@ -16300,12 +16168,6 @@ Estadio Coliseum Stadium</desc>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20261026200000 +0000" stop="20261026205959 +0000" channel="beINSportsXtra5.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - October - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261019200000 +0000" stop="20261019210000 +0000" channel="beINSportsXtra6.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - October - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -17297,12 +17159,6 @@ Estadio Coliseum Stadium</desc>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20261026200000 +0000" stop="20261026205959 +0000" channel="beINSportsXtra6.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - October - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261019200000 +0000" stop="20261019210000 +0000" channel="beINSportsXtra7.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - October - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -18316,12 +18172,6 @@ Estadio Coliseum Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261019200000 +0000" stop="20261019210000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - October - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20261019210000 +0000" stop="20261019220000 +0000" channel="beINSportsXtra8.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - October - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
@@ -19325,12 +19175,6 @@ Estadio Coliseum Stadium</desc>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20261026200000 +0000" stop="20261026205959 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - October - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261019200000 +0000" stop="20261019210000 +0000" channel="beINSportsXtra9.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - October - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -23441,7 +23285,7 @@ Director: Cameron Crowe.</desc>
   </programme>
   <programme start="20261020004000 +0000" stop="20261020025000 +0000" channel="beINStarMovies.qa">
     <title lang="ar">ميس سلون</title>
-    <desc lang="ar">فيلم, إثارة, دراما, غموض. (فرنسا, الولايات المتحدة الأمريكية 2017, 132 دقيقة). تشتهر إليزابيث سلون بأنها صاحبة نفوذ قوي في واشنطن، ومعروفة بقدرتها على تحويل المستحيل إلى واقع. ومع ذلك يجبرها التحدي الأحدث والأصعب الذي تواجهه على تقييم التكلفة الحقيقية لتحقيق النصر. تمثيل: جيسيكا تشاستين, مارك سترونج, جوجو مباثا راو, أليسون بيل, مايكل ستولبارج. إخرا</desc>
+    <desc lang="ar">فيلم, إثارة, دراما, جريمة, سياسة, غموض. (فرنسا, المملكة المتحدة 2017, 132 دقيقة). تشتهر إليزابيث سلون بأنها صاحبة نفوذ قوي في واشنطن، ومعروفة بقدرتها على تحويل المستحيل إلى واقع. ومع ذلك يجبرها التحدي الأحدث والأصعب الذي تواجهه على تقييم التكلفة الحقيقية لتحقيق النصر. تمثيل: جيسيكا تشاستين, مارك سترونج, جوجو مباثا راو, أليسون بيل, مايكل ستولبارج, ج</desc>
     <category lang="ar">أفلام</category>
   </programme>
   <programme start="20261020025000 +0000" stop="20261020042500 +0000" channel="beINStarMovies.qa">
@@ -23799,9 +23643,289 @@ Director: Cameron Crowe.</desc>
     <desc lang="ar">مسلسل, كوميدي, دراما, جريمة. (الولايات المتحدة الأمريكية 2025, 44 دقيقة). تدفع معاناة الهجر والطفولة القاسية في نظام الرعاية البديلة العميل ويل ترينت على التفاني في عمله، وألا يلاقي أحد نفس المصير الذي واجهه في صغره؛ حتى استطاع أن يكون من أمهر المحققين في الكشف عن الجريمة. تمثيل: رامون رودريجيز, أيانثا ريتشاردسون, إريكا كريستنسن, جايك ماكلاجلين, سو</desc>
     <category lang="ar">ترفيه</category>
   </programme>
-  <programme start="20261019233500 +0000" stop="20261019235959 +0000" channel="beINStarWorld.qa">
+  <programme start="20261019233500 +0000" stop="20261020004500 +0000" channel="beINStarWorld.qa">
     <title lang="ar">توب شيف (موسم 1، حلقة1)</title>
     <desc lang="ar">برنامج, طهي, مسابقة, تليفزيون الواقع. (الولايات المتحدة الأمريكية 2006, 44 دقيقة). يستغل طهاة واعدون كل إمكانياتهم ومواهبهم ليفوزوا في مسابقة طهي، فيأمل كلٝ منهم أن تنقذه آراء لجنة التحكيم من استبعاده من التحدي. حكم: توم كوليتشيو, جايل سيمونز, ريتشارد بلايس.</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261020004500 +0000" stop="20261020014500 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">سوليفانز كروسينج (موسم 1، حلقة7)</title>
+    <desc lang="ar">مسلسل, إثارة, دراما, الدراما الطبية. (كندا 2025, 42 دقيقة). بعد مواجهتها لمشاكل قانونية كبيرة، تقرر جراحة الأعصاب ماجي سوليفان ترك حياتها في بوسطن وتعود إلى منزل طفولتها في معبر سوليفان، حيث تجد نفسها أمام حاضرها المضطرب وماضيها المؤلم. تمثيل: مورجان كوهان, سكوت باترسون, تشاد مايكل موري, ريد برايس, توم جاكسون, أندريا مينارد, ليندورا, كيت فيرنون. تأ</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261020014500 +0000" stop="20261020030500 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ذي أميزينج ريس (موسم 1، حلقة10)</title>
+    <desc lang="ar">برنامج, رياضة, مغامرة, عائلي, تليفزيون الواقع, أماكن. (الولايات المتحدة الأمريكية 2023, 60 دقيقة). تتواجه عدة فرق مكونة من شخصين في سباق حول العالم للحصول على فرصة للفوز بالجائزة الكبرى التي تٝقدر بمليون دولار. تقديم: فيل كيوجان. إخراج: بيرترام فان مونستر. تأليف: بيرترام فان مونستر.</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261020030500 +0000" stop="20261020041000 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ويل ترينت (موسم 1، حلقة15)</title>
+    <desc lang="ar">مسلسل, كوميدي, دراما, جريمة. (الولايات المتحدة الأمريكية 2025, 44 دقيقة). تدفع معاناة الهجر والطفولة القاسية في نظام الرعاية البديلة العميل ويل ترينت على التفاني في عمله، وألا يلاقي أحد نفس المصير الذي واجهه في صغره؛ حتى استطاع أن يكون من أمهر المحققين في الكشف عن الجريمة. تمثيل: رامون رودريجيز, أيانثا ريتشاردسون, إريكا كريستنسن, جايك ماكلاجلين, سو</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261020041000 +0000" stop="20261020051500 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">سوليفانز كروسينج (موسم 1، حلقة5)</title>
+    <desc lang="ar">مسلسل, إثارة, دراما, الدراما الطبية. (كندا 2025, 42 دقيقة). بعد مواجهتها لمشاكل قانونية كبيرة، تقرر جراحة الأعصاب ماجي سوليفان ترك حياتها في بوسطن وتعود إلى منزل طفولتها في معبر سوليفان، حيث تجد نفسها أمام حاضرها المضطرب وماضيها المؤلم. تمثيل: مورجان كوهان, سكوت باترسون, تشاد مايكل موري, ريد برايس, توم جاكسون, أندريا مينارد, ليندورا, كيت فيرنون. تأ</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261020051500 +0000" stop="20261020062500 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">سوليفانز كروسينج (موسم 1، حلقة6)</title>
+    <desc lang="ar">مسلسل, إثارة, دراما, الدراما الطبية. (كندا 2025, 42 دقيقة). بعد مواجهتها لمشاكل قانونية كبيرة، تقرر جراحة الأعصاب ماجي سوليفان ترك حياتها في بوسطن وتعود إلى منزل طفولتها في معبر سوليفان، حيث تجد نفسها أمام حاضرها المضطرب وماضيها المؤلم. تمثيل: مورجان كوهان, سكوت باترسون, تشاد مايكل موري, ريد برايس, توم جاكسون, أندريا مينارد, ليندورا, كيت فيرنون. تأ</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261020062500 +0000" stop="20261020073500 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">سوليفانز كروسينج (موسم 1، حلقة7)</title>
+    <desc lang="ar">مسلسل, إثارة, دراما, الدراما الطبية. (كندا 2025, 42 دقيقة). بعد مواجهتها لمشاكل قانونية كبيرة، تقرر جراحة الأعصاب ماجي سوليفان ترك حياتها في بوسطن وتعود إلى منزل طفولتها في معبر سوليفان، حيث تجد نفسها أمام حاضرها المضطرب وماضيها المؤلم. تمثيل: مورجان كوهان, سكوت باترسون, تشاد مايكل موري, ريد برايس, توم جاكسون, أندريا مينارد, ليندورا, كيت فيرنون. تأ</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261020073500 +0000" stop="20261020090000 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">توب شيف (موسم 1، حلقة14)</title>
+    <desc lang="ar">برنامج, طهي, مسابقة, تليفزيون الواقع. (الولايات المتحدة الأمريكية 2006, 44 دقيقة). يستغل طهاة واعدون كل إمكانياتهم ومواهبهم ليفوزوا في مسابقة طهي، فيأمل كلٝ منهم أن تنقذه آراء لجنة التحكيم من استبعاده من التحدي. حكم: توم كوليتشيو, جايل سيمونز, ريتشارد بلايس.</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261020090000 +0000" stop="20261020095000 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">توب شيف (موسم 1، حلقة2)</title>
+    <desc lang="ar">برنامج, طهي, مسابقة, تليفزيون الواقع. (الولايات المتحدة الأمريكية 2006, 44 دقيقة). يستغل طهاة واعدون كل إمكانياتهم ومواهبهم ليفوزوا في مسابقة طهي، فيأمل كلٝ منهم أن تنقذه آراء لجنة التحكيم من استبعاده من التحدي. حكم: توم كوليتشيو, جايل سيمونز, ريتشارد بلايس.</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261020095000 +0000" stop="20261020105000 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ذي أميزينج ريس (موسم 1، حلقة10)</title>
+    <desc lang="ar">برنامج, رياضة, مغامرة, عائلي, تليفزيون الواقع, أماكن. (الولايات المتحدة الأمريكية 2023, 60 دقيقة). تتواجه عدة فرق مكونة من شخصين في سباق حول العالم للحصول على فرصة للفوز بالجائزة الكبرى التي تٝقدر بمليون دولار. تقديم: فيل كيوجان. إخراج: بيرترام فان مونستر. تأليف: بيرترام فان مونستر.</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261020105000 +0000" stop="20261020113500 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ويل ترينت (موسم 1، حلقة15)</title>
+    <desc lang="ar">مسلسل, كوميدي, دراما, جريمة. (الولايات المتحدة الأمريكية 2025, 44 دقيقة). تدفع معاناة الهجر والطفولة القاسية في نظام الرعاية البديلة العميل ويل ترينت على التفاني في عمله، وألا يلاقي أحد نفس المصير الذي واجهه في صغره؛ حتى استطاع أن يكون من أمهر المحققين في الكشف عن الجريمة. تمثيل: رامون رودريجيز, أيانثا ريتشاردسون, إريكا كريستنسن, جايك ماكلاجلين, سو</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261020113500 +0000" stop="20261020124000 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ذي أميزينج ريس (موسم 1، حلقة9)</title>
+    <desc lang="ar">برنامج, رياضة, مغامرة, عائلي, تليفزيون الواقع, أماكن. (الولايات المتحدة الأمريكية 2023, 60 دقيقة). تتواجه عدة فرق مكونة من شخصين في سباق حول العالم للحصول على فرصة للفوز بالجائزة الكبرى التي تٝقدر بمليون دولار. تقديم: فيل كيوجان. إخراج: بيرترام فان مونستر. تأليف: بيرترام فان مونستر.</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261020124000 +0000" stop="20261020135000 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ذي أميزينج ريس (موسم 1، حلقة10)</title>
+    <desc lang="ar">برنامج, رياضة, مغامرة, عائلي, تليفزيون الواقع, أماكن. (الولايات المتحدة الأمريكية 2023, 60 دقيقة). تتواجه عدة فرق مكونة من شخصين في سباق حول العالم للحصول على فرصة للفوز بالجائزة الكبرى التي تٝقدر بمليون دولار. تقديم: فيل كيوجان. إخراج: بيرترام فان مونستر. تأليف: بيرترام فان مونستر.</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261020135000 +0000" stop="20261020144000 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ويل ترينت (موسم 1، حلقة13)</title>
+    <desc lang="ar">مسلسل, كوميدي, دراما, جريمة. (الولايات المتحدة الأمريكية 2025, 44 دقيقة). تدفع معاناة الهجر والطفولة القاسية في نظام الرعاية البديلة العميل ويل ترينت على التفاني في عمله، وألا يلاقي أحد نفس المصير الذي واجهه في صغره؛ حتى استطاع أن يكون من أمهر المحققين في الكشف عن الجريمة. تمثيل: رامون رودريجيز, أيانثا ريتشاردسون, إريكا كريستنسن, جايك ماكلاجلين, سو</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261020144000 +0000" stop="20261020152500 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ويل ترينت (موسم 1، حلقة14)</title>
+    <desc lang="ar">مسلسل, كوميدي, دراما, جريمة. (الولايات المتحدة الأمريكية 2025, 44 دقيقة). تدفع معاناة الهجر والطفولة القاسية في نظام الرعاية البديلة العميل ويل ترينت على التفاني في عمله، وألا يلاقي أحد نفس المصير الذي واجهه في صغره؛ حتى استطاع أن يكون من أمهر المحققين في الكشف عن الجريمة. تمثيل: رامون رودريجيز, أيانثا ريتشاردسون, إريكا كريستنسن, جايك ماكلاجلين, سو</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261020152500 +0000" stop="20261020162500 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ذي أميزينج ريس (موسم 1، حلقة10)</title>
+    <desc lang="ar">برنامج, رياضة, مغامرة, عائلي, تليفزيون الواقع, أماكن. (الولايات المتحدة الأمريكية 2023, 60 دقيقة). تتواجه عدة فرق مكونة من شخصين في سباق حول العالم للحصول على فرصة للفوز بالجائزة الكبرى التي تٝقدر بمليون دولار. تقديم: فيل كيوجان. إخراج: بيرترام فان مونستر. تأليف: بيرترام فان مونستر.</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261020162500 +0000" stop="20261020171000 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ويل ترينت (موسم 1، حلقة15)</title>
+    <desc lang="ar">مسلسل, كوميدي, دراما, جريمة. (الولايات المتحدة الأمريكية 2025, 44 دقيقة). تدفع معاناة الهجر والطفولة القاسية في نظام الرعاية البديلة العميل ويل ترينت على التفاني في عمله، وألا يلاقي أحد نفس المصير الذي واجهه في صغره؛ حتى استطاع أن يكون من أمهر المحققين في الكشف عن الجريمة. تمثيل: رامون رودريجيز, أيانثا ريتشاردسون, إريكا كريستنسن, جايك ماكلاجلين, سو</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261020171000 +0000" stop="20261020180000 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">توب شيف (موسم 1، حلقة2)</title>
+    <desc lang="ar">برنامج, طهي, مسابقة, تليفزيون الواقع. (الولايات المتحدة الأمريكية 2006, 44 دقيقة). يستغل طهاة واعدون كل إمكانياتهم ومواهبهم ليفوزوا في مسابقة طهي، فيأمل كلٝ منهم أن تنقذه آراء لجنة التحكيم من استبعاده من التحدي. حكم: توم كوليتشيو, جايل سيمونز, ريتشارد بلايس.</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261020180000 +0000" stop="20261020183000 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ذا أوبين رود (موسم 1، حلقة1)</title>
+    <desc lang="ar">برنامج, رحلات, مغامرة, تليفزيون الواقع. (الإمارات العربية المتحدة 2018, 30 دقيقة). لا تدع الفرصة تفوتك لتكتشف الطرق والأماكن وعيش المغامرة المليئة بالمناظر الطبيعية الخلابة. إخراج: سعدي مقدم. إنتاج: جيما ويل.</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261020183000 +0000" stop="20261020190000 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ذا أوبين رود (موسم 1، حلقة2)</title>
+    <desc lang="ar">برنامج, رحلات, مغامرة, تليفزيون الواقع. (الإمارات العربية المتحدة 2018, 30 دقيقة). لا تدع الفرصة تفوتك لتكتشف الطرق والأماكن وعيش المغامرة المليئة بالمناظر الطبيعية الخلابة. إخراج: سعدي مقدم. إنتاج: جيما ويل.</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261020190000 +0000" stop="20261020200000 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ليتل ديساسترر (موسم 1، حلقة5)</title>
+    <desc lang="ar">مسلسل, إثارة, دراما, غموض, علم النفس. (المملكة المتحدة 2025, 45 دقيقة).  تمثيل: ديان كروجر, جو جوينر, بن بيلي سميث, شيلي كون, إيميلي تاف, ستيفن كامبل مور, جاي جاي فيلد. إخراج: إيفا سيجورداردوتير. تأليف: أماندا ديوك, روث فاولر.</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261020200000 +0000" stop="20261020205500 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ويل ترينت (موسم 1، حلقة16)</title>
+    <desc lang="ar">مسلسل, كوميدي, دراما, جريمة. (الولايات المتحدة الأمريكية 2025, 44 دقيقة). تدفع معاناة الهجر والطفولة القاسية في نظام الرعاية البديلة العميل ويل ترينت على التفاني في عمله، وألا يلاقي أحد نفس المصير الذي واجهه في صغره؛ حتى استطاع أن يكون من أمهر المحققين في الكشف عن الجريمة. تمثيل: رامون رودريجيز, أيانثا ريتشاردسون, إريكا كريستنسن, جايك ماكلاجلين, سو</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261020205500 +0000" stop="20261020213500 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ذا أوبين رود (موسم 1، حلقة1)</title>
+    <desc lang="ar">برنامج, رحلات, مغامرة, تليفزيون الواقع. (الإمارات العربية المتحدة 2018, 40 دقيقة). لا تدع الفرصة تفوتك لتكتشف الطرق والأماكن وعيش المغامرة المليئة بالمناظر الطبيعية الخلابة. إخراج: سعدي مقدم. إنتاج: جيما ويل.</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261020213500 +0000" stop="20261020220500 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ذا أوبين رود (موسم 1، حلقة2)</title>
+    <desc lang="ar">برنامج, رحلات, مغامرة, تليفزيون الواقع. (الإمارات العربية المتحدة 2018, 30 دقيقة). لا تدع الفرصة تفوتك لتكتشف الطرق والأماكن وعيش المغامرة المليئة بالمناظر الطبيعية الخلابة. إخراج: سعدي مقدم. إنتاج: جيما ويل.</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261020220500 +0000" stop="20261020230500 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ليتل ديساسترر (موسم 1، حلقة5)</title>
+    <desc lang="ar">مسلسل, إثارة, دراما, غموض, علم النفس. (المملكة المتحدة 2025, 45 دقيقة).  تمثيل: ديان كروجر, جو جوينر, بن بيلي سميث, شيلي كون, إيميلي تاف, ستيفن كامبل مور, جاي جاي فيلد. إخراج: إيفا سيجورداردوتير. تأليف: أماندا ديوك, روث فاولر.</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261020230500 +0000" stop="20261021000000 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ويل ترينت (موسم 1، حلقة16)</title>
+    <desc lang="ar">مسلسل, كوميدي, دراما, جريمة. (الولايات المتحدة الأمريكية 2025, 44 دقيقة). تدفع معاناة الهجر والطفولة القاسية في نظام الرعاية البديلة العميل ويل ترينت على التفاني في عمله، وألا يلاقي أحد نفس المصير الذي واجهه في صغره؛ حتى استطاع أن يكون من أمهر المحققين في الكشف عن الجريمة. تمثيل: رامون رودريجيز, أيانثا ريتشاردسون, إريكا كريستنسن, جايك ماكلاجلين, سو</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261021000000 +0000" stop="20261021005000 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">توب شيف (موسم 1، حلقة2)</title>
+    <desc lang="ar">برنامج, طهي, مسابقة, تليفزيون الواقع. (الولايات المتحدة الأمريكية 2006, 44 دقيقة). يستغل طهاة واعدون كل إمكانياتهم ومواهبهم ليفوزوا في مسابقة طهي، فيأمل كلٝ منهم أن تنقذه آراء لجنة التحكيم من استبعاده من التحدي. حكم: توم كوليتشيو, جايل سيمونز, ريتشارد بلايس.</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261021005000 +0000" stop="20261021012000 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ذا أوبين رود (موسم 1، حلقة1)</title>
+    <desc lang="ar">برنامج, رحلات, مغامرة, تليفزيون الواقع. (الإمارات العربية المتحدة 2018, 30 دقيقة). لا تدع الفرصة تفوتك لتكتشف الطرق والأماكن وعيش المغامرة المليئة بالمناظر الطبيعية الخلابة. إخراج: سعدي مقدم. إنتاج: جيما ويل.</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261021012000 +0000" stop="20261021020000 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ذا أوبين رود (موسم 1، حلقة2)</title>
+    <desc lang="ar">برنامج, رحلات, مغامرة, تليفزيون الواقع. (الإمارات العربية المتحدة 2018, 40 دقيقة). لا تدع الفرصة تفوتك لتكتشف الطرق والأماكن وعيش المغامرة المليئة بالمناظر الطبيعية الخلابة. إخراج: سعدي مقدم. إنتاج: جيما ويل.</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261021020000 +0000" stop="20261021030000 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">سوليفانز كروسينج (موسم 1، حلقة7)</title>
+    <desc lang="ar">مسلسل, إثارة, دراما, الدراما الطبية. (كندا 2025, 42 دقيقة). بعد مواجهتها لمشاكل قانونية كبيرة، تقرر جراحة الأعصاب ماجي سوليفان ترك حياتها في بوسطن وتعود إلى منزل طفولتها في معبر سوليفان، حيث تجد نفسها أمام حاضرها المضطرب وماضيها المؤلم. تمثيل: مورجان كوهان, سكوت باترسون, تشاد مايكل موري, ريد برايس, توم جاكسون, أندريا مينارد, ليندورا, كيت فيرنون. تأ</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261021030000 +0000" stop="20261021041500 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ليتل ديساسترر (موسم 1، حلقة5)</title>
+    <desc lang="ar">مسلسل, إثارة, دراما, غموض, علم النفس. (المملكة المتحدة 2025, 45 دقيقة).  تمثيل: ديان كروجر, جو جوينر, بن بيلي سميث, شيلي كون, إيميلي تاف, ستيفن كامبل مور, جاي جاي فيلد. إخراج: إيفا سيجورداردوتير. تأليف: أماندا ديوك, روث فاولر.</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261021041500 +0000" stop="20261021050000 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ذا أوبين رود (موسم 1، حلقة1)</title>
+    <desc lang="ar">برنامج, رحلات, مغامرة, تليفزيون الواقع. (الإمارات العربية المتحدة 2018, 45 دقيقة). لا تدع الفرصة تفوتك لتكتشف الطرق والأماكن وعيش المغامرة المليئة بالمناظر الطبيعية الخلابة. إخراج: سعدي مقدم. إنتاج: جيما ويل.</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261021050000 +0000" stop="20261021054500 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ذا أوبين رود (موسم 1، حلقة2)</title>
+    <desc lang="ar">برنامج, رحلات, مغامرة, تليفزيون الواقع. (الإمارات العربية المتحدة 2018, 45 دقيقة). لا تدع الفرصة تفوتك لتكتشف الطرق والأماكن وعيش المغامرة المليئة بالمناظر الطبيعية الخلابة. إخراج: سعدي مقدم. إنتاج: جيما ويل.</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261021054500 +0000" stop="20261021065000 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">سوليفانز كروسينج (موسم 1، حلقة6)</title>
+    <desc lang="ar">مسلسل, إثارة, دراما, الدراما الطبية. (كندا 2025, 42 دقيقة). بعد مواجهتها لمشاكل قانونية كبيرة، تقرر جراحة الأعصاب ماجي سوليفان ترك حياتها في بوسطن وتعود إلى منزل طفولتها في معبر سوليفان، حيث تجد نفسها أمام حاضرها المضطرب وماضيها المؤلم. تمثيل: مورجان كوهان, سكوت باترسون, تشاد مايكل موري, ريد برايس, توم جاكسون, أندريا مينارد, ليندورا, كيت فيرنون. تأ</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261021065000 +0000" stop="20261021074500 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ويل ترينت (موسم 1، حلقة16)</title>
+    <desc lang="ar">مسلسل, كوميدي, دراما, جريمة. (الولايات المتحدة الأمريكية 2025, 44 دقيقة). تدفع معاناة الهجر والطفولة القاسية في نظام الرعاية البديلة العميل ويل ترينت على التفاني في عمله، وألا يلاقي أحد نفس المصير الذي واجهه في صغره؛ حتى استطاع أن يكون من أمهر المحققين في الكشف عن الجريمة. تمثيل: رامون رودريجيز, أيانثا ريتشاردسون, إريكا كريستنسن, جايك ماكلاجلين, سو</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261021074500 +0000" stop="20261021090000 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">توب شيف (موسم 1، حلقة1)</title>
+    <desc lang="ar">برنامج, طهي, مسابقة, تليفزيون الواقع. (الولايات المتحدة الأمريكية 2006, 44 دقيقة). يستغل طهاة واعدون كل إمكانياتهم ومواهبهم ليفوزوا في مسابقة طهي، فيأمل كلٝ منهم أن تنقذه آراء لجنة التحكيم من استبعاده من التحدي. حكم: توم كوليتشيو, جايل سيمونز, ريتشارد بلايس.</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261021090000 +0000" stop="20261021095000 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">توب شيف (موسم 1، حلقة3)</title>
+    <desc lang="ar">برنامج, طهي, مسابقة, تليفزيون الواقع. (الولايات المتحدة الأمريكية 2006, 44 دقيقة). يستغل طهاة واعدون كل إمكانياتهم ومواهبهم ليفوزوا في مسابقة طهي، فيأمل كلٝ منهم أن تنقذه آراء لجنة التحكيم من استبعاده من التحدي. حكم: توم كوليتشيو, جايل سيمونز, ريتشارد بلايس.</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261021095000 +0000" stop="20261021102000 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ذا أوبين رود (موسم 1، حلقة1)</title>
+    <desc lang="ar">برنامج, رحلات, مغامرة, تليفزيون الواقع. (الإمارات العربية المتحدة 2018, 30 دقيقة). لا تدع الفرصة تفوتك لتكتشف الطرق والأماكن وعيش المغامرة المليئة بالمناظر الطبيعية الخلابة. إخراج: سعدي مقدم. إنتاج: جيما ويل.</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261021102000 +0000" stop="20261021105000 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ذا أوبين رود (موسم 1، حلقة2)</title>
+    <desc lang="ar">برنامج, رحلات, مغامرة, تليفزيون الواقع. (الإمارات العربية المتحدة 2018, 30 دقيقة). لا تدع الفرصة تفوتك لتكتشف الطرق والأماكن وعيش المغامرة المليئة بالمناظر الطبيعية الخلابة. إخراج: سعدي مقدم. إنتاج: جيما ويل.</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261021105000 +0000" stop="20261021115000 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ليتل ديساسترر (موسم 1، حلقة5)</title>
+    <desc lang="ar">مسلسل, إثارة, دراما, غموض, علم النفس. (المملكة المتحدة 2025, 45 دقيقة).  تمثيل: ديان كروجر, جو جوينر, بن بيلي سميث, شيلي كون, إيميلي تاف, ستيفن كامبل مور, جاي جاي فيلد. إخراج: إيفا سيجورداردوتير. تأليف: أماندا ديوك, روث فاولر.</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261021115000 +0000" stop="20261021123500 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ويل ترينت (موسم 1، حلقة16)</title>
+    <desc lang="ar">مسلسل, كوميدي, دراما, جريمة. (الولايات المتحدة الأمريكية 2025, 44 دقيقة). تدفع معاناة الهجر والطفولة القاسية في نظام الرعاية البديلة العميل ويل ترينت على التفاني في عمله، وألا يلاقي أحد نفس المصير الذي واجهه في صغره؛ حتى استطاع أن يكون من أمهر المحققين في الكشف عن الجريمة. تمثيل: رامون رودريجيز, أيانثا ريتشاردسون, إريكا كريستنسن, جايك ماكلاجلين, سو</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261021123500 +0000" stop="20261021131000 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ذا أوبين رود (موسم 1، حلقة1)</title>
+    <desc lang="ar">برنامج, رحلات, مغامرة, تليفزيون الواقع. (الإمارات العربية المتحدة 2018, 35 دقيقة). لا تدع الفرصة تفوتك لتكتشف الطرق والأماكن وعيش المغامرة المليئة بالمناظر الطبيعية الخلابة. إخراج: سعدي مقدم. إنتاج: جيما ويل.</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261021131000 +0000" stop="20261021134000 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ذا أوبين رود (موسم 1، حلقة2)</title>
+    <desc lang="ar">برنامج, رحلات, مغامرة, تليفزيون الواقع. (الإمارات العربية المتحدة 2018, 30 دقيقة). لا تدع الفرصة تفوتك لتكتشف الطرق والأماكن وعيش المغامرة المليئة بالمناظر الطبيعية الخلابة. إخراج: سعدي مقدم. إنتاج: جيما ويل.</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261021134000 +0000" stop="20261021142500 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ويل ترينت (موسم 1، حلقة15)</title>
+    <desc lang="ar">مسلسل, كوميدي, دراما, جريمة. (الولايات المتحدة الأمريكية 2025, 44 دقيقة). تدفع معاناة الهجر والطفولة القاسية في نظام الرعاية البديلة العميل ويل ترينت على التفاني في عمله، وألا يلاقي أحد نفس المصير الذي واجهه في صغره؛ حتى استطاع أن يكون من أمهر المحققين في الكشف عن الجريمة. تمثيل: رامون رودريجيز, أيانثا ريتشاردسون, إريكا كريستنسن, جايك ماكلاجلين, سو</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261021142500 +0000" stop="20261021145500 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ذا أوبين رود (موسم 1، حلقة1)</title>
+    <desc lang="ar">برنامج, رحلات, مغامرة, تليفزيون الواقع. (الإمارات العربية المتحدة 2018, 30 دقيقة). لا تدع الفرصة تفوتك لتكتشف الطرق والأماكن وعيش المغامرة المليئة بالمناظر الطبيعية الخلابة. إخراج: سعدي مقدم. إنتاج: جيما ويل.</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261021145500 +0000" stop="20261021152500 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ذا أوبين رود (موسم 1، حلقة2)</title>
+    <desc lang="ar">برنامج, رحلات, مغامرة, تليفزيون الواقع. (الإمارات العربية المتحدة 2018, 30 دقيقة). لا تدع الفرصة تفوتك لتكتشف الطرق والأماكن وعيش المغامرة المليئة بالمناظر الطبيعية الخلابة. إخراج: سعدي مقدم. إنتاج: جيما ويل.</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261021152500 +0000" stop="20261021162500 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ليتل ديساسترر (موسم 1، حلقة5)</title>
+    <desc lang="ar">مسلسل, إثارة, دراما, غموض, علم النفس. (المملكة المتحدة 2025, 45 دقيقة).  تمثيل: ديان كروجر, جو جوينر, بن بيلي سميث, شيلي كون, إيميلي تاف, ستيفن كامبل مور, جاي جاي فيلد. إخراج: إيفا سيجورداردوتير. تأليف: أماندا ديوك, روث فاولر.</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261021162500 +0000" stop="20261021171000 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ويل ترينت (موسم 1، حلقة16)</title>
+    <desc lang="ar">مسلسل, كوميدي, دراما, جريمة. (الولايات المتحدة الأمريكية 2025, 44 دقيقة). تدفع معاناة الهجر والطفولة القاسية في نظام الرعاية البديلة العميل ويل ترينت على التفاني في عمله، وألا يلاقي أحد نفس المصير الذي واجهه في صغره؛ حتى استطاع أن يكون من أمهر المحققين في الكشف عن الجريمة. تمثيل: رامون رودريجيز, أيانثا ريتشاردسون, إريكا كريستنسن, جايك ماكلاجلين, سو</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261021171000 +0000" stop="20261021180000 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">توب شيف (موسم 1، حلقة3)</title>
+    <desc lang="ar">برنامج, طهي, مسابقة, تليفزيون الواقع. (الولايات المتحدة الأمريكية 2006, 44 دقيقة). يستغل طهاة واعدون كل إمكانياتهم ومواهبهم ليفوزوا في مسابقة طهي، فيأمل كلٝ منهم أن تنقذه آراء لجنة التحكيم من استبعاده من التحدي. حكم: توم كوليتشيو, جايل سيمونز, ريتشارد بلايس.</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261021180000 +0000" stop="20261021183000 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ذا أوبين رود (موسم 1، حلقة3)</title>
+    <desc lang="ar">برنامج, رحلات, مغامرة, تليفزيون الواقع. (الإمارات العربية المتحدة 2018, 30 دقيقة). لا تدع الفرصة تفوتك لتكتشف الطرق والأماكن وعيش المغامرة المليئة بالمناظر الطبيعية الخلابة. إخراج: سعدي مقدم. إنتاج: جيما ويل.</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261021183000 +0000" stop="20261021190000 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ذا أوبين رود (موسم 1، حلقة4)</title>
+    <desc lang="ar">برنامج, رحلات, مغامرة, تليفزيون الواقع. (الإمارات العربية المتحدة 2018, 30 دقيقة). لا تدع الفرصة تفوتك لتكتشف الطرق والأماكن وعيش المغامرة المليئة بالمناظر الطبيعية الخلابة. إخراج: سعدي مقدم. إنتاج: جيما ويل.</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261021190000 +0000" stop="20261021200000 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ليتل ديساسترر (موسم 1، حلقة6)</title>
+    <desc lang="ar">مسلسل, إثارة, دراما, غموض, علم النفس. (المملكة المتحدة 2025, 45 دقيقة).  تمثيل: ديان كروجر, جو جوينر, بن بيلي سميث, شيلي كون, إيميلي تاف, ستيفن كامبل مور, جاي جاي فيلد. إخراج: إيفا سيجورداردوتير. تأليف: أماندا ديوك, روث فاولر.</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261021200000 +0000" stop="20261021204500 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ويل ترينت (موسم 1، حلقة17)</title>
+    <desc lang="ar">مسلسل, كوميدي, دراما, جريمة. (الولايات المتحدة الأمريكية 2025, 44 دقيقة). تدفع معاناة الهجر والطفولة القاسية في نظام الرعاية البديلة العميل ويل ترينت على التفاني في عمله، وألا يلاقي أحد نفس المصير الذي واجهه في صغره؛ حتى استطاع أن يكون من أمهر المحققين في الكشف عن الجريمة. تمثيل: رامون رودريجيز, أيانثا ريتشاردسون, إريكا كريستنسن, جايك ماكلاجلين, سو</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261021204500 +0000" stop="20261021212500 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ذا أوبين رود (موسم 1، حلقة3)</title>
+    <desc lang="ar">برنامج, رحلات, مغامرة, تليفزيون الواقع. (الإمارات العربية المتحدة 2018, 40 دقيقة). لا تدع الفرصة تفوتك لتكتشف الطرق والأماكن وعيش المغامرة المليئة بالمناظر الطبيعية الخلابة. إخراج: سعدي مقدم. إنتاج: جيما ويل.</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261021212500 +0000" stop="20261021220500 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ذا أوبين رود (موسم 1، حلقة4)</title>
+    <desc lang="ar">برنامج, رحلات, مغامرة, تليفزيون الواقع. (الإمارات العربية المتحدة 2018, 40 دقيقة). لا تدع الفرصة تفوتك لتكتشف الطرق والأماكن وعيش المغامرة المليئة بالمناظر الطبيعية الخلابة. إخراج: سعدي مقدم. إنتاج: جيما ويل.</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261021220500 +0000" stop="20261021231500 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ليتل ديساسترر (موسم 1، حلقة6)</title>
+    <desc lang="ar">مسلسل, إثارة, دراما, غموض, علم النفس. (المملكة المتحدة 2025, 45 دقيقة).  تمثيل: ديان كروجر, جو جوينر, بن بيلي سميث, شيلي كون, إيميلي تاف, ستيفن كامبل مور, جاي جاي فيلد. إخراج: إيفا سيجورداردوتير. تأليف: أماندا ديوك, روث فاولر.</desc>
+    <category lang="ar">ترفيه</category>
+  </programme>
+  <programme start="20261021231500 +0000" stop="20261021235959 +0000" channel="beINStarWorld.qa">
+    <title lang="ar">ويل ترينت (موسم 1، حلقة17)</title>
+    <desc lang="ar">مسلسل, كوميدي, دراما, جريمة. (الولايات المتحدة الأمريكية 2025, 44 دقيقة). تدفع معاناة الهجر والطفولة القاسية في نظام الرعاية البديلة العميل ويل ترينت على التفاني في عمله، وألا يلاقي أحد نفس المصير الذي واجهه في صغره؛ حتى استطاع أن يكون من أمهر المحققين في الكشف عن الجريمة. تمثيل: رامون رودريجيز, أيانثا ريتشاردسون, إريكا كريستنسن, جايك ماكلاجلين, سو</desc>
     <category lang="ar">ترفيه</category>
   </programme>
   <programme start="20261018000000 +0000" stop="20261018010000 +0000" channel="beINSeries1.qa">
@@ -57063,4 +57187,4 @@ Director: Cameron Crowe.</desc>
     <title lang="en">24/7 Program</title>
     <desc lang="ar">IQ| Al Rabiaa Quran — الرابعة قرآن</desc>
   </programme>
-<programme start="20261023205900 +0000" stop="20261024110000 +0000" channel="beIN4K.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261024184000 +0000" stop="20261025140000 +0000" channel="beIN4K.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261023233000 +0000" stop="20261024110000 +0000" channel="beINSports1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261023210000 +0000" stop="20261024112000 +0000" channel="beINSports2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261024210000 +0000" stop="20261025135000 +0000" channel="beINSports2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261025212500 +0000" stop="20261026133500 +0000" channel="beINSports2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261023210000 +0000" stop="20261024135000 +0000" channel="beINSports3.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261024204500 +0000" stop="20261025135000 +0000" channel="beINSports3.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261025193000 +0000" stop="20261026155000 +0000" channel="beINSports3.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261023204500 +0000" stop="20261024115000 +0000" channel="beINSports4.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261024200000 +0000" stop="20261025135000 +0000" channel="beINSports4.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261025181500 +0000" stop="20261026155000 +0000" channel="beINSports4.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261023210000 +0000" stop="20261024115000 +0000" channel="beINSports5.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261024200000 +0000" stop="20261025135000 +0000" channel="beINSports5.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261025181500 +0000" stop="20261026195000 +0000" channel="beINSports5.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261024034000 +0000" stop="20261024074500 +0000" channel="beINSports6.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261024222500 +0000" stop="20261025125000 +0000" channel="beINSports6.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261023203000 +0000" stop="20261024140000 +0000" channel="beINSports7.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261025011500 +0000" stop="20261025143000 +0000" channel="beINSports7.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261025222000 +0000" stop="20261026123000 +0000" channel="beINSports7.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261024064000 +0000" stop="20261024110000 +0000" channel="beINSportsEn1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021205959 +0000" stop="20261022205310 +0000" channel="beINSportsFr1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021205959 +0000" stop="20261022205310 +0000" channel="beINSportsFr2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021235959 +0000" stop="20261022205310 +0000" channel="beINStarAction.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021235959 +0000" stop="20261022205310 +0000" channel="beINStarMovies.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261019235959 +0000" stop="20261022205310 +0000" channel="beINStarWorld.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021235959 +0000" stop="20261022205310 +0000" channel="beINFoodNetwork.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021235959 +0000" stop="20261022205310 +0000" channel="beINHGTV.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021235959 +0000" stop="20261022205310 +0000" channel="beINNatGeo.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021235959 +0000" stop="20261022205310 +0000" channel="beINNatGeoWild.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021235959 +0000" stop="20261022205310 +0000" channel="beINBBCEarth.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021235959 +0000" stop="20261022205310 +0000" channel="beINDiscovery.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021235959 +0000" stop="20261022205310 +0000" channel="beINDisney.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021235959 +0000" stop="20261022205310 +0000" channel="beINDisneyJr.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021235959 +0000" stop="20261022205310 +0000" channel="beINBabyTV.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021235959 +0000" stop="20261022205310 +0000" channel="beINCartoonito.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021235959 +0000" stop="20261022205310 +0000" channel="beINCartoonNetwork.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021235959 +0000" stop="20261022205310 +0000" channel="beINCartoonNetworkArabic.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+<programme start="20261023204800 +0000" stop="20261024110000 +0000" channel="beIN4K.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261024184000 +0000" stop="20261025140000 +0000" channel="beIN4K.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261023233000 +0000" stop="20261024110000 +0000" channel="beINSports1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261023210000 +0000" stop="20261024112000 +0000" channel="beINSports2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261024210000 +0000" stop="20261025135000 +0000" channel="beINSports2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261025212500 +0000" stop="20261026133500 +0000" channel="beINSports2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261023210000 +0000" stop="20261024135000 +0000" channel="beINSports3.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261024204500 +0000" stop="20261025135000 +0000" channel="beINSports3.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261025193000 +0000" stop="20261026155000 +0000" channel="beINSports3.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261023204500 +0000" stop="20261024115000 +0000" channel="beINSports4.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261024200000 +0000" stop="20261025135000 +0000" channel="beINSports4.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261025181500 +0000" stop="20261026155000 +0000" channel="beINSports4.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261023210000 +0000" stop="20261024115000 +0000" channel="beINSports5.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261024200000 +0000" stop="20261025135000 +0000" channel="beINSports5.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261025181500 +0000" stop="20261026195000 +0000" channel="beINSports5.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261024034000 +0000" stop="20261024074500 +0000" channel="beINSports6.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261024222500 +0000" stop="20261025125000 +0000" channel="beINSports6.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261023203000 +0000" stop="20261024140000 +0000" channel="beINSports7.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261025011500 +0000" stop="20261025143000 +0000" channel="beINSports7.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261025222000 +0000" stop="20261026123000 +0000" channel="beINSports7.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261024064000 +0000" stop="20261024110000 +0000" channel="beINSportsEn1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021205959 +0000" stop="20261022213005 +0000" channel="beINSportsFr1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021205959 +0000" stop="20261022213005 +0000" channel="beINSportsFr2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022205959 +0000" stop="20261022213005 +0000" channel="beINSportsMax1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022205959 +0000" stop="20261022213005 +0000" channel="beINSportsMax2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022205959 +0000" stop="20261022213005 +0000" channel="beINSportsMax3.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022205959 +0000" stop="20261022213005 +0000" channel="beINSportsMax4.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022205959 +0000" stop="20261022213005 +0000" channel="beINSportsMax5.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261022205959 +0000" stop="20261022213005 +0000" channel="beINSportsMax6.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021235959 +0000" stop="20261022213005 +0000" channel="beINStarAction.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021235959 +0000" stop="20261022213005 +0000" channel="beINStarMovies.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021235959 +0000" stop="20261022213005 +0000" channel="beINStarWorld.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021235959 +0000" stop="20261022213005 +0000" channel="beINFoodNetwork.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021235959 +0000" stop="20261022213005 +0000" channel="beINHGTV.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021235959 +0000" stop="20261022213005 +0000" channel="beINNatGeo.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021235959 +0000" stop="20261022213005 +0000" channel="beINNatGeoWild.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021235959 +0000" stop="20261022213005 +0000" channel="beINBBCEarth.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021235959 +0000" stop="20261022213005 +0000" channel="beINDiscovery.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021235959 +0000" stop="20261022213005 +0000" channel="beINDisney.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021235959 +0000" stop="20261022213005 +0000" channel="beINDisneyJr.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021235959 +0000" stop="20261022213005 +0000" channel="beINBabyTV.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021235959 +0000" stop="20261022213005 +0000" channel="beINCartoonito.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021235959 +0000" stop="20261022213005 +0000" channel="beINCartoonNetwork.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261021235959 +0000" stop="20261022213005 +0000" channel="beINCartoonNetworkArabic.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
