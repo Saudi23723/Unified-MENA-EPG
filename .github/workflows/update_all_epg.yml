@@ -9,15 +9,13 @@ name: Build every EPG
 # fix it — 14:27, 14:47, 15:07 and 16:07 were all dropped too. See
 # build_all_epg.py for the measurements.
 #
-# So correctness does not depend on the scheduler firing often. A run
-# builds nine times, twenty minutes apart, publishing each pass as it
-# finishes: one landed event covers not quite three hours on its own.
+# So correctness does not depend on the scheduler firing often. It used
+# to: a run built nine times, twenty minutes apart, three hours on one
+# machine. Now a run is one pass, and the screen chain starts this
+# workflow whenever half an hour passes without one (see the build step).
 #
-# Two events an hour, at :07 and :37, are two chances of starting a fresh
-# ticker after a silence — and cancel-in-progress means a new one
-# replaces the running one instead of queueing behind it, so they can
-# never pile up. A cancellation almost always lands during a sleep, and
-# whatever the cancelled run had already built is already pushed.
+# Two events an hour, at :07 and :37, each start one pass. One that lands
+# while a pass runs waits behind it; GitHub keeps one waiting, never more.
 #
 # :07 and :37 rather than :00 and :30 on purpose. GitHub's own guidance
 # is to avoid the top of the hour, and the load spikes that eat scheduled
@@ -51,19 +49,16 @@ permissions:
 
 concurrency:
   group: build-every-epg
-  # A newly landed event replaces the ticker still running from an
-  # earlier one. Queueing would stack three-hour runs behind each other
-  # for ever; cancelling costs at most one pass, and every pass before it
-  # has already been pushed.
-  cancel-in-progress: true
+  # A run is one six-minute pass now: a new event waits behind it (GitHub
+  # keeps one waiting run, never a pile) instead of cutting a pass short.
+  cancel-in-progress: false
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    # Nine passes twenty minutes apart, the last ending around +166. Each
-    # pass has its own sixteen-minute budget, so this is the outer limit
-    # and not the working one.
-    timeout-minutes: 190
+    # One pass: measured at five to six minutes, each generator held to
+    # its own sixteen-minute budget inside it.
+    timeout-minutes: 45
 
     steps:
       # THE LATEST COMMIT ONLY. fetch-depth: 0 downloaded the whole
@@ -113,12 +108,17 @@ jobs:
       - name: Build every guide, merge them, and publish each pass
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          if [ "${{ github.event_name }}" = "schedule" ]; then
-            python -u build_all_epg.py
-          else
-            python -u build_all_epg.py --once
-          fi
+        # ONE PASS PER RUN, every event alike. The scheduled run used to
+        # stay up for three hours, building every twenty minutes and
+        # sleeping in between — and twice (12 and 19 October 2026) GitHub
+        # shut its machine down during a sleep ("The runner has received
+        # a shutdown signal"): a red run and a failure email for a build
+        # that had published every pass. A run now lives the six minutes
+        # its pass takes. What starts the next one: the :07/:37 schedule,
+        # and the screen chain, which checks after every pass (five
+        # minutes) and starts this workflow when nothing of it is alive
+        # and its newest run is half an hour old (revive_workflows.sh).
+        run: python -u build_all_epg.py --once
 
       # A backstop, not the mechanism: if the script died between writing
       # a guide and pushing it, the work is still on disk and this gets it
