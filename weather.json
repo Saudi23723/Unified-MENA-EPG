@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-20T23:51:41.684Z",
+  "updated_at": "2026-10-20T23:57:37.217Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -7,9 +7,9 @@
       "country": "الأردن",
       "latitude": 31.9454,
       "longitude": 35.9284,
-      "temperature_c": 16.3,
-      "humidity": 63,
-      "wind_speed": 6.3,
+      "temperature_c": 16.1,
+      "humidity": 65,
+      "wind_speed": 5.0,
       "rain_chance": 0,
       "condition": "غائم جزئياً",
       "weather_code": 2,
@@ -20,15 +20,15 @@
         {
           "date": "2026-10-21",
           "code": 2,
-          "max": 24.9,
-          "min": 15.2,
+          "max": 25.1,
+          "min": 15.0,
           "rain": 3
         },
         {
           "date": "2026-10-22",
           "code": 3,
           "max": 27.0,
-          "min": 16.6,
+          "min": 16.9,
           "rain": 0
         },
         {
@@ -67,8 +67,8 @@
           "rain": 11
         }
       ],
-      "today_max": 24.9,
-      "today_min": 15.2,
+      "today_max": 25.1,
+      "today_min": 15.0,
       "sunrise": "06:43",
       "sunset": "17:57",
       "uv": 6
@@ -78,12 +78,12 @@
       "country": "الأردن",
       "latitude": 29.532,
       "longitude": 35.006,
-      "temperature_c": 22.5,
-      "humidity": 61,
-      "wind_speed": 9.4,
+      "temperature_c": 22.6,
+      "humidity": 60,
+      "wind_speed": 9.8,
       "rain_chance": 0,
-      "condition": "صافٍ",
-      "weather_code": 0,
+      "condition": "صافٍ غالباً",
+      "weather_code": 1,
       "observed_at": "2026-10-21T02:45",
       "feels_c": 22.6,
       "utc_offset": 10800,
@@ -91,8 +91,8 @@
         {
           "date": "2026-10-21",
           "code": 1,
-          "max": 29.4,
-          "min": 21.2,
+          "max": 29.3,
+          "min": 21.3,
           "rain": 0
         },
         {
@@ -138,8 +138,8 @@
           "rain": 3
         }
       ],
-      "today_max": 29.4,
-      "today_min": 21.2,
+      "today_max": 29.3,
+      "today_min": 21.3,
       "sunrise": "06:45",
       "sunset": "18:03",
       "uv": 6
@@ -220,28 +220,28 @@
       "country": "الإمارات",
       "latitude": 25.2048,
       "longitude": 55.2708,
-      "temperature_c": 29.1,
+      "temperature_c": 29.3,
       "humidity": 69,
-      "wind_speed": 3.7,
+      "wind_speed": 3.9,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-10-21T03:45",
-      "feels_c": 34.0,
+      "feels_c": 34.2,
       "utc_offset": 14400,
       "days": [
         {
           "date": "2026-10-21",
           "code": 0,
-          "max": 34.8,
-          "min": 28.8,
+          "max": 34.1,
+          "min": 28.9,
           "rain": 0
         },
         {
           "date": "2026-10-22",
           "code": 0,
           "max": 37.0,
-          "min": 27.5,
+          "min": 27.0,
           "rain": 0
         },
         {
@@ -280,8 +280,8 @@
           "rain": 0
         }
       ],
-      "today_max": 34.8,
-      "today_min": 28.8,
+      "today_max": 34.1,
+      "today_min": 28.9,
       "sunrise": "06:20",
       "sunset": "17:46",
       "uv": 7
