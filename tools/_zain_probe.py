@@ -5,12 +5,15 @@ import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 mode = sys.argv[1]
 if mode == "full":
+    pass
+if mode == "full":
     att_epg.GUIDELESS = ("XTREAM", "XTREAM2")
 att_epg.build()
 d = gzip.open("att_epg.xml.gz").read()
 root = ET.fromstring(d)
 now = datetime.now(timezone.utc); w = lambda x: datetime.strptime(x, "%Y%m%d%H%M%S %z")
-live = {p.get("channel") for p in root.findall("programme") if w(p.get("start")) <= now < w(p.get("stop"))}
+FILL = re.compile(r"لم يُعلن البث|No listing|24/7|على مدار الساعة")
+live = {p.get("channel") for p in root.findall("programme") if w(p.get("start")) <= now < w(p.get("stop")) and not FILL.search(p.findtext("title") or "")}
 names = {dn.text: c.get("id") for c in root.findall("channel") for dn in c.findall("display-name")}
 pc = json.load(open("playlist_cache.json"))["XTREAM"]
 g = collections.defaultdict(lambda: [0, 0])

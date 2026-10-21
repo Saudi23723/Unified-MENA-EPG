@@ -14,7 +14,7 @@ jobs:
         with: {python-version: "3.12"}
       - run: sudo apt-get install -y -qq libraqm0 libfribidi0 >/dev/null; pip install -q -r requirements.txt
       - run: git fetch -q --depth=1 origin probe-shasha && git checkout FETCH_HEAD -- tools/_zain_probe.py
-      - run: python tools/_zain_probe.py base 2>&1 | grep "::notice" ; python tools/_zain_probe.py full 2>&1 | grep "::notice"
+      - run: python tools/_zain_probe.py full 2>&1 | grep "::notice"
         env:
           XTREAM_URL: ${{ secrets.XTREAM_URL }}
           XTREAM_USER: ${{ secrets.XTREAM_USER }}
