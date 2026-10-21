@@ -282,6 +282,44 @@ def standin_share(path: str, sourceless: tuple[str, ...] = ()) -> tuple[int, int
             sum(v[0] for v in per.values()))
 
 
+PLAYLIST_GUIDE = ("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/"
+                  "att-epg/att_epg.xml.gz")
+PLAYLIST_GUIDE_AHEAD = timedelta(hours=12)
+
+
+def check_playlist_guide(now: datetime) -> None:
+    """The playlists' own guide (the att-epg branch) must still run ahead.
+
+    It is published by its own workflow on its own branch, and nothing
+    here looked at it: on 21 October 2026 its programmes had run out a day
+    earlier and every playlist channel showed "No information" while every
+    check passed (it had stopped updating on the 18th — one provider
+    refused GitHub, and the run kept the old guide and reported success).
+    Read with the standard library only: this job installs no packages.
+    """
+    import gzip as _gzip
+    import urllib.request
+    try:
+        with urllib.request.urlopen(PLAYLIST_GUIDE, timeout=120) as reply:
+            data = reply.read()
+        if data[:2] == b"\x1f\x8b":
+            data = _gzip.decompress(data)
+        root = ET.fromstring(data)
+    except Exception as exc:                                    # noqa: BLE001
+        note(f"playlist guide could not be read here ({exc}) — not judged")
+        return
+    stops = [parse_stamp(p.get("stop")) for p in root.findall("programme")]
+    last = max((s for s in stops if s), default=None)
+    if last is None or last - now < PLAYLIST_GUIDE_AHEAD:
+        fail(f"playlist guide (att-epg): its programmes end "
+             f"{last:%Y-%m-%d %H:%M} UTC — under {PLAYLIST_GUIDE_AHEAD} ahead, "
+             f"so the playlist channels are about to show nothing. Check the "
+             f"\"Update AT&T EPG\" workflow's last run"
+             if last else "playlist guide (att-epg) has no programmes at all")
+    else:
+        print(f"playlist guide (att-epg): runs to {last:%Y-%m-%d %H:%M} UTC")
+
+
 def check_live_coverage(now: datetime) -> None:
     """No channel may show a blank row at this moment.
 
@@ -608,6 +646,7 @@ def main() -> int:
     if not structure_only:
         check_ceilings(now)
         check_live_coverage(now)
+        check_playlist_guide(now)
 
     for n in notes:
         print(f"NOTE  {n}", flush=True)
