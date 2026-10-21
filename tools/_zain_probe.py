@@ -1,35 +1,26 @@
-import sys, re, gzip, json, requests
+import sys, re, gzip, json, collections
 sys.path.insert(0, ".")
 import att_epg
-from datetime import datetime, timezone
 import xml.etree.ElementTree as ET
-url, user, pw = att_epg.login("XTREAM")
-secrets = [x for x in (url, user, pw, re.sub(r"^https?://", "", url or "").split(":")[0]) if x]
-out = []
-r = requests.get(url + "/xmltv.php", params={"username": user, "password": pw}, headers={"User-Agent": "TiviMate/4.7.0"}, timeout=300)
-d = r.content
-if d[:2] == b"\x1f\x8b": d = gzip.decompress(d)
-out.append(f"xmltv status {r.status_code} bytes {len(d)}")
+from datetime import datetime, timezone
+mode = sys.argv[1]
+if mode == "full":
+    att_epg.GUIDELESS = ("XTREAM", "XTREAM2")
+att_epg.build()
+d = gzip.open("att_epg.xml.gz").read()
 root = ET.fromstring(d)
 now = datetime.now(timezone.utc); w = lambda x: datetime.strptime(x, "%Y%m%d%H%M%S %z")
-ch = {c.get("id") for c in root.findall("channel")}
-live = {}
-for p in root.findall("programme"):
-    try:
-        if w(p.get("start")) <= now < w(p.get("stop")): live[p.get("channel")] = p.findtext("title")
-    except Exception: pass
-out.append(f"provider guide: {len(ch)} channels, {len(live)} on air now")
+live = {p.get("channel") for p in root.findall("programme") if w(p.get("start")) <= now < w(p.get("stop"))}
+names = {dn.text: c.get("id") for c in root.findall("channel") for dn in c.findall("display-name")}
 pc = json.load(open("playlist_cache.json"))["XTREAM"]
-import collections
-groups = collections.defaultdict(lambda: [0, 0])
+g = collections.defaultdict(lambda: [0, 0])
 for cat, name, epg in pc:
-    g = "UK" if name.upper().startswith("UK") else "CBS" if re.search(r"\bCBS\b", name) else "ABC" if re.search(r"\bABC\b", name) else None
-    if not g: continue
-    groups[g][1] += 1
-    if epg and epg in live: groups[g][0] += 1
-for g, (a, b) in groups.items(): out.append(f"{g}: {a}/{b} have a programme now in the provider's guide")
-for i in ("BBC1.uk", "ITV1.uk", "Channel4.uk", "Channel5.uk", "E4.uk", "bbc1.uk"):
-    out.append(f"{i}: {live.get(i)}")
+    k = "UK" if name.upper().startswith("UK") else "CBS" if re.search(r"\bCBS\b", name) else "ABC" if re.search(r"\bABC\b", name) else "ALL"
+    for kk in {k, "ALL"}:
+        g[kk][1] += 1
+        if name in names and names[name] in live: g[kk][0] += 1
+out = [f"{mode}: size {len(open('att_epg.xml.gz','rb').read())//1024} KB gz, {len(root.findall('channel'))} channels"] + [f"  {k}: {a}/{b}" for k, (a, b) in sorted(g.items())]
 text = "%0A".join(out)
-for s in secrets: text = text.replace(s, "***")
+for s in att_epg.SECRETS:
+    if s: text = text.replace(s, "***")
 print("::notice::" + text)
