@@ -111,8 +111,19 @@ PLAYLISTS = ("XTREAM", "XTREAM2")
 # Playlists that bring no guide of their own (the second answers
 # xmltv.php with nothing): every one of their channels a trusted source
 # names exactly is given one — see playlist_match.py.
-GUIDELESS = ("XTREAM2",)
+#
+# The first playlist is in it too (22 October 2026). It does bring a guide
+# of its own, but that guide schedules a fraction of its channels — 427 of
+# its 1,912 UK, 62 of 329 CBS — and this one held only its US stations, so
+# BBC One, ITV, CBS and ABC locals showed nothing wherever the provider's
+# guide had nothing ("و uk و cbs و abc ... كل اشي"). Measured with it in:
+# 19,365 of its 22,387 channels with a real programme, against 1,463.
+GUIDELESS = ("XTREAM", "XTREAM2")
 FULL: set[tuple[str, str, str]] = set()
+# Family4k's own channels, for family_coverage.py — which decides what rides
+# the SAIF ALKASS link for that playlist alone.
+FAMILY_PREFIX = "XTREAM2"
+FAMILY: set[tuple[str, str, str]] = set()
 # (pattern on the playlist name, the brand's mark in logos/), first match wins.
 BRAND_LOGOS = [
     (r"\bshoof\s*max\b", "shoofmax.png"),
@@ -215,6 +226,8 @@ def playlists() -> list[tuple[str, str, str]] | None:
         found = True
         if prefix in GUIDELESS:
             FULL.update(part)
+        if prefix == FAMILY_PREFIX:
+            FAMILY.update(part)
         for stream in part:
             if stream not in seen:
                 seen.add(stream)
@@ -239,6 +252,8 @@ def playlists() -> list[tuple[str, str, str]] | None:
         found = True
         if prefix in GUIDELESS:
             FULL.update(part)
+        if prefix == FAMILY_PREFIX:
+            FAMILY.update(part)
         streams.extend(part)
     if fresh:
         _remember(fresh)
@@ -1115,7 +1130,7 @@ def build() -> int:
     # The guideless playlist's channels as the player shows them — name and
     # the provider's guide id, nothing of the login — for family_coverage.py.
     with open("family_channels.json", "w", encoding="utf-8") as handle:
-        json.dump(sorted([name, epg] for _cat, name, epg in FULL), handle,
+        json.dump(sorted([name, epg] for _cat, name, epg in FAMILY), handle,
                   ensure_ascii=False)
     return 0
 
