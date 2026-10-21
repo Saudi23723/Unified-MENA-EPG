@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-21T01:47:19.120Z",
+  "updated_at": "2026-10-21T01:53:22.680Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -291,28 +291,28 @@
       "country": "بريطانيا",
       "latitude": 51.5074,
       "longitude": -0.1278,
-      "temperature_c": 10.4,
-      "humidity": 84,
-      "wind_speed": 7.9,
+      "temperature_c": 10.2,
+      "humidity": 87,
+      "wind_speed": 6.5,
       "rain_chance": 18,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-10-21T02:45",
-      "feels_c": 8.7,
+      "feels_c": 8.8,
       "utc_offset": 3600,
       "days": [
         {
           "date": "2026-10-21",
           "code": 61,
-          "max": 13.0,
-          "min": 8.2,
+          "max": 11.8,
+          "min": 8.6,
           "rain": 97
         },
         {
           "date": "2026-10-22",
           "code": 55,
-          "max": 14.6,
-          "min": 8.2,
+          "max": 13.9,
+          "min": 9.1,
           "rain": 95
         },
         {
@@ -351,8 +351,8 @@
           "rain": 40
         }
       ],
-      "today_max": 13.0,
-      "today_min": 8.2,
+      "today_max": 11.8,
+      "today_min": 8.6,
       "sunrise": "07:34",
       "sunset": "17:54",
       "uv": 1
@@ -364,26 +364,26 @@
       "longitude": -2.2426,
       "temperature_c": 10.0,
       "humidity": 89,
-      "wind_speed": 9.4,
+      "wind_speed": 7.9,
       "rain_chance": 5,
-      "condition": "صافٍ غالباً",
-      "weather_code": 1,
+      "condition": "غائم جزئياً",
+      "weather_code": 2,
       "observed_at": "2026-10-21T02:45",
-      "feels_c": 8.1,
+      "feels_c": 8.4,
       "utc_offset": 3600,
       "days": [
         {
           "date": "2026-10-21",
           "code": 61,
-          "max": 11.0,
-          "min": 7.7,
+          "max": 11.3,
+          "min": 7.9,
           "rain": 100
         },
         {
           "date": "2026-10-22",
           "code": 55,
-          "max": 11.1,
-          "min": 6.2,
+          "max": 11.8,
+          "min": 6.6,
           "rain": 49
         },
         {
@@ -422,11 +422,11 @@
           "rain": 84
         }
       ],
-      "today_max": 11.0,
-      "today_min": 7.7,
+      "today_max": 11.3,
+      "today_min": 7.9,
       "sunrise": "07:47",
       "sunset": "17:59",
-      "uv": 0
+      "uv": 1
     },
     {
       "city": "نيويورك",
