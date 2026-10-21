@@ -1,17 +1,21 @@
-import sys, re
+import sys, re, requests
 sys.path.insert(0, ".")
-import jordan_football as jf, epg_lib
-from datetime import datetime, timedelta, timezone
-s = epg_lib.new_session()
+import att_epg
+url, user, pw = att_epg.login("XTREAM2")
+secrets = [x for x in (url, user, pw, re.sub(r"^https?://", "", url or "").split(":")[0]) if x]
 out = []
-home = jf.fetch(s, jf.SOURCE).text
-for ev in jf.collect(home):
-    out.append(f"HOME {ev['start']:%m-%d %H:%M}Z | {ev['title']} | {ev.get('competition')} | ch={ev.get('channels')}")
-for url, comp in jf.TOURNAMENTS:
-    for ev in jf.collect_tournament(jf.fetch(s, url).text, comp):
-        if ev["start"] > datetime.now(timezone.utc) - timedelta(days=3):
-            out.append(f"TOURN {ev['start']:%m-%d %H:%M}Z | {ev['title']} | {comp} | ch={ev.get('channels')}")
-for m in re.finditer(r"الفيصلي", home):
-    out.append("RAW " + re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", home[max(0, m.start()-500):m.start()+300]))[:400]); 
-    if len(out) > 60: break
-print("::notice::" + "%0A".join(out)[:9500])
+for ua in ("TiviMate/4.7.0", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/126.0", "okhttp/4.9.0"):
+    for kw in ({}, {"action": "get_live_categories"}):
+        try:
+            r = requests.get(url + "/player_api.php", params={"username": user, "password": pw, **kw}, headers={"User-Agent": ua}, timeout=60)
+            body = r.text[:300]
+            out.append(f"{ua[:12]} {kw or 'auth'} -> {r.status_code} | {body}")
+        except Exception as e:
+            out.append(f"{ua[:12]} {kw} -> {type(e).__name__}")
+try:
+    ip = requests.get("https://api.ipify.org", timeout=20).text
+    out.append(f"runner ip {ip}")
+except Exception: pass
+text = "%0A".join(out)
+for s in secrets: text = text.replace(s, "***")
+print("::notice::" + text[:6000])
