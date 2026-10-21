@@ -154,32 +154,96 @@ def say(text: str) -> None:
     print(text, flush=True)
 
 
+PLAYLIST_CACHE = "playlist_cache.json"
+
+
+def _cached(prefix: str) -> list[tuple[str, str, str]] | None:
+    try:
+        with open(PLAYLIST_CACHE, encoding="utf-8") as handle:
+            rows = json.load(handle).get(prefix)
+    except (OSError, ValueError):
+        return None
+    return [tuple(r) for r in rows] if rows else None
+
+
+def _remember(lists: dict[str, list]) -> None:
+    try:
+        with open(PLAYLIST_CACHE, encoding="utf-8") as handle:
+            data = json.load(handle)
+    except (OSError, ValueError):
+        data = {}
+    data.update({k: sorted(set(map(tuple, v))) for k, v in lists.items()})
+    with open(PLAYLIST_CACHE, "w", encoding="utf-8") as handle:
+        json.dump(data, handle, ensure_ascii=False)
+        handle.write("\n")
+
+
 def playlists() -> list[tuple[str, str, str]] | None:
     """Every configured playlist's channels together, or None.
 
     A playlist with no secrets is simply not configured. One that is
-    configured but cannot be read makes the whole answer None, so the
-    published guide is kept rather than rebuilt without its channels.
+    configured but cannot be read is taken from the last time it WAS read
+    (playlist_cache.json: categories, channel names and epg ids only —
+    nothing of the login). It used to make the whole answer None, so the
+    published guide was kept as it was: on 18 October 2026 Family4k began
+    answering GitHub's servers with HTTP 467, and from then on the guide of
+    BOTH playlists stopped — the first one read perfectly every run — until
+    its programmes ran out and every channel showed "No information" (21
+    October). A channel list changes rarely; the schedules on it are what
+    has to be fresh, and those come from the guides, not the provider.
     """
     found = False
     streams: list[tuple[str, str, str]] = []
     seen: set[tuple[str, str, str]] = set()
+    fresh: dict[str, list] = {}
+    missing: list[str] = []
     for prefix in PLAYLISTS:
         if not any(os.environ.get(f"{prefix}_{k}", "").strip()
                    for k in ("URL", "USER", "PASS")):
             continue
-        found = True
         part = playlist(prefix)
         if part is None:
-            return None
+            part = _cached(prefix)
+            if part is None:
+                missing.append(prefix)
+                continue
+            print(f"::warning::playlist {prefix}: unreadable this run — its last "
+                  f"channel list ({len(part)}) is used, the schedules are fresh",
+                  flush=True)
+        else:
+            fresh[prefix] = part
+        found = True
         if prefix in GUIDELESS:
             FULL.update(part)
         for stream in part:
             if stream not in seen:
                 seen.add(stream)
                 streams.append(stream)
+    # Unreadable and never cached: its names are still in playlist_aliases
+    # .json ("every", written from every playlist the last time all were
+    # read) — the ones no playlist read this run has are its own.
+    for prefix in missing:
+        try:
+            with open("playlist_aliases.json", encoding="utf-8") as handle:
+                every = json.load(handle).get("every") or []
+        except (OSError, ValueError):
+            every = []
+        have = {name for _cat, name, _epg in streams}
+        part = [("", name, "") for name in every if name not in have]
+        if not part:
+            print(f"::warning::playlist {prefix}: unreadable and never read "
+                  f"before — built without it this run", flush=True)
+            continue
+        print(f"::warning::playlist {prefix}: unreadable — rebuilt from the "
+              f"{len(part)} names last read from it", flush=True)
+        found = True
+        if prefix in GUIDELESS:
+            FULL.update(part)
+        streams.extend(part)
+    if fresh:
+        _remember(fresh)
     if not found:
-        say("playlist: no login in the secrets")
+        say("playlist: no playlist could be read")
         return None
     return streams
 

@@ -112,7 +112,11 @@ jobs:
           [ -f playlist_aliases.json ] || exit 0
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # playlist_cache.json: each playlist's channel list from the last
+          # time it was read (names, categories, epg ids — no login), for a
+          # run where its provider refuses GitHub (att_epg.playlists).
           git add playlist_aliases.json
+          [ -f playlist_cache.json ] && git add playlist_cache.json
           if git diff --cached --quiet; then echo "playlist names unchanged"; exit 0; fi
           git commit -q -m "Playlist names for the guided channels"
           for attempt in 1 2 3 4 5; do
