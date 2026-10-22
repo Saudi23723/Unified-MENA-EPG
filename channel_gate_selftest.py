@@ -4332,6 +4332,7 @@ def gate_no_guide_reads_a_stranger() -> None:
         ("mbc_epg.py", "epgshare01.online"),
         ("mbc_epg.py", "www.open-epg.com"),
         ("osn_epg.py", "www.open-epg.com"),
+        ("osn_epg.py", "iptv-epg.org"),
         # Jordan TV (التلفزيون الأردني) and beIN SPORTS 3 Asia, asked for
         # by name on the Roya link. JRTV's own guide (erstream) answers
         # every hour with "معلومات البرنامج غير متوفرة", and beIN Asia
