@@ -1,3 +1,4 @@
+import sys, os; sys.path.insert(0, os.getcwd())
 import osn_epg, requests
 from epg_lib import new_session
 out = []
