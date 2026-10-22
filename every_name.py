@@ -40,7 +40,13 @@ ALSO = {"FS1": ["FOX SPORTS 1"], "FS2": ["FOX SPORTS 2"], "TRUTV": ["TRU TV"],
         "FOX LEAGUE": ["FOX SPORTS 502"], "FOX FOOTY": ["FOX SPORTS 504"],
         "FOX SPORTS MORE": ["FOX SPORTS 507"], "TF1 SERIES FILMS": ["TF1 SERIES"],
         "CANAL+ PREMIER LEAGUE": ["CANAL+ PL"], "13EME RUE": ["13 EME RUE", "13E RUE", "13 EMERUE"],
-        "EUROSPORT 1": ["SKY EUROSPORT 1"], "EUROSPORT 2": ["SKY EUROSPORT 2"]}
+        "EUROSPORT 1": ["SKY EUROSPORT 1"], "EUROSPORT 2": ["SKY EUROSPORT 2"],
+        # Italy: the Argon playlist's spellings of IT1's channels.
+        "RAISPORT": ["RAI SPORT"], "SPORTITALIA": ["SPORT ITALIA"],
+        "EUROSPORT ITALIA": ["SKY EUROSPORT 1", "EUROSPORT 1"],
+        "EUROSPORT 2 ITALIA": ["SKY EUROSPORT 2", "EUROSPORT 2"],
+        "MILAN TV": ["SKY MILAN TV"],
+        **{f"SKY SPORT {250 + n}": [f"SKY CALCIO {n}"] for n in range(1, 9)}}
 
 
 def fold(text: str) -> str:
