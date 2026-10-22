@@ -111,8 +111,16 @@ PLAYLISTS = ("XTREAM", "XTREAM2")
 # Playlists that bring no guide of their own (the second answers
 # xmltv.php with nothing): every one of their channels a trusted source
 # names exactly is given one — see playlist_match.py.
-GUIDELESS = ("XTREAM2",)
+#
+# The first playlist too (22 October 2026): its own guide schedules a
+# fraction of its channels (427 of 1,912 UK, 62 of 329 CBS). Safe only with
+# same_country/no_foreign_names below — without them it filed beIN MENA's
+# schedule under French beIN's id.
+GUIDELESS = ("XTREAM", "XTREAM2")
 FULL: set[tuple[str, str, str]] = set()
+# Family4k's own channels, for family_coverage.py (what rides SAIF ALKASS).
+FAMILY_PREFIX = "XTREAM2"
+FAMILY: set[tuple[str, str, str]] = set()
 # (pattern on the playlist name, the brand's mark in logos/), first match wins.
 BRAND_LOGOS = [
     (r"\bshoof\s*max\b", "shoofmax.png"),
@@ -157,13 +165,40 @@ def say(text: str) -> None:
 PLAYLIST_CACHE = "playlist_cache.json"
 
 
+# The category a playlist name's own country prefix stands for, for rows
+# kept without one (a playlist read from its names while its provider
+# refused GitHub). The category is what routes a channel to its country's
+# source: without it "Fr: BeIN Sports 1 FHD" fell to the Arab route and
+# took beIN MENA's schedule (22 October 2026).
+PREFIX_CATEGORY = (
+    (r"^\s*spt-vip\s*\|", "International Sports"),
+    (r"^\s*fr\s*[:|]", "France"),
+    (r"^\s*uk\s*[:|]", "UK"),
+    (r"^\s*pt\s*[:|]", "Portugal"),
+    (r"^\s*tr\s*[:|]", "Turkish"),
+    (r"^\s*usa?\s*[:|]", "USA"),
+    (r"^\s*news\s*[:|]", "News"),
+    (r"^\s*islam\s*[:|]", "Islamic"),
+)
+
+
+def with_category(row: tuple[str, str, str]) -> tuple[str, str, str]:
+    cat, name, epg = row
+    if cat.strip():
+        return row
+    for pattern, category in PREFIX_CATEGORY:
+        if re.match(pattern, name, re.I):
+            return (category, name, epg)
+    return row
+
+
 def _cached(prefix: str) -> list[tuple[str, str, str]] | None:
     try:
         with open(PLAYLIST_CACHE, encoding="utf-8") as handle:
             rows = json.load(handle).get(prefix)
     except (OSError, ValueError):
         return None
-    return [tuple(r) for r in rows] if rows else None
+    return [with_category(tuple(r)) for r in rows] if rows else None
 
 
 def _remember(lists: dict[str, list]) -> None:
@@ -215,6 +250,8 @@ def playlists() -> list[tuple[str, str, str]] | None:
         found = True
         if prefix in GUIDELESS:
             FULL.update(part)
+        if prefix == FAMILY_PREFIX:
+            FAMILY.update(part)
         for stream in part:
             if stream not in seen:
                 seen.add(stream)
@@ -229,7 +266,7 @@ def playlists() -> list[tuple[str, str, str]] | None:
         except (OSError, ValueError):
             every = []
         have = {name for _cat, name, _epg in streams}
-        part = [("", name, "") for name in every if name not in have]
+        part = [with_category(("", name, "")) for name in every if name not in have]
         if not part:
             print(f"::warning::playlist {prefix}: unreadable and never read "
                   f"before — built without it this run", flush=True)
@@ -239,6 +276,8 @@ def playlists() -> list[tuple[str, str, str]] | None:
         found = True
         if prefix in GUIDELESS:
             FULL.update(part)
+        if prefix == FAMILY_PREFIX:
+            FAMILY.update(part)
         streams.extend(part)
     if fresh:
         _remember(fresh)
@@ -622,6 +661,47 @@ def write_aliases(names: dict[str, list[str]], solo: list[str],
     say(f"aliases: {sum(map(len, data['names'].values()))} name(s) on "
         f"{len(data['names'])} guided channel(s), {len(subjects)} SOLO, "
         f"{len(data['always'])} round the clock")
+
+
+# A name that says its country ("Fr: BeIN Sports 1 FHD") may only sit on a
+# channel of that country, or on one that says none (a Playlist. id). On
+# 22 October 2026 French beIN and Baby TV were filed under Qatar's and
+# Portugal's ids carrying beIN MENA's and an Arabic schedule: the player
+# showed one country's programmes on another's channel. Whatever route put
+# it there, this takes the name off before the guide is written.
+NAME_COUNTRY = ((r"^\s*(?:spt-vip\s*\|\s*)?fr\s*[:|]", "fr"),
+                (r"^\s*(?:spt-vip\s*\|\s*)?uk\s*[:|]", "uk"),
+                (r"^\s*(?:spt-vip\s*\|\s*)?pt\s*[:|]", "pt"),
+                (r"^\s*(?:spt-vip\s*\|\s*)?tr\s*[:|]", "tr"),
+                (r"^\s*(?:spt-vip\s*\|\s*)?usa?\s*[:|]", "us"))
+ID_COUNTRY = {"us2": "us"}
+
+
+def same_country(epg: str, cid: str) -> bool:
+    """Whether provider id `epg` may carry the schedule of our channel `cid`."""
+    a = epg.rsplit(".", 1)[1].lower() if "." in epg else ""
+    b = cid.rsplit(".", 1)[1].lower() if "." in cid else ""
+    a, b = ID_COUNTRY.get(a, a), ID_COUNTRY.get(b, b)
+    arab = {"ae", "sa", "qa", "eg", "lb", "jo", "kw", "iq", "sy", "bh", "om", "ps"}
+    return a == b or (a in arab and b in arab) or not a or not b
+
+
+def no_foreign_names(root) -> int:
+    dropped = 0
+    for ch in root.findall("channel"):
+        cid = ch.get("id") or ""
+        if cid.startswith("Playlist.") or "." not in cid:
+            continue
+        country = cid.rsplit(".", 1)[1].lower()
+        country = ID_COUNTRY.get(country, country)
+        for d in list(ch.findall("display-name")):
+            for pattern, says in NAME_COUNTRY:
+                if re.match(pattern, d.text or "", re.I):
+                    if says != country:
+                        ch.remove(d)
+                        dropped += 1
+                    break
+    return dropped
 
 
 def build() -> int:
@@ -1052,6 +1132,12 @@ def build() -> int:
         logo = own_icons.get(cid) or real_logo(names) or (
             pl.make(pm.shown_name(mine[0]), category_of[mine[0]]) if mine else None)
         for epg in ids:
+            # Only an id of the same country: the provider files feeds under
+            # ids of other countries ("8K: beIN SPORTS 1" under beinsports1.fr),
+            # and the player takes the id before the name — beinsports1.fr
+            # carried beIN MENA's schedule on 22 October 2026.
+            if not same_country(epg, cid):
+                continue
             add_channel(root, epg, names, logo)
             before = len(programmes_out)
             add_rows(programmes_out, epg, rows.get(("own", cid), []))
@@ -1107,6 +1193,9 @@ def build() -> int:
 
     root.extend(no_overlaps(programmes_out))
     ET.indent(root, space=" ")
+    dropped = no_foreign_names(root)
+    if dropped:
+        say(f"guard: {dropped} name(s) taken off a channel of another country")
     data = ET.tostring(root, encoding="utf-8", xml_declaration=True)
     with gzip.open(OUT + ".tmp", "wb", compresslevel=9) as handle:
         handle.write(data)
@@ -1115,7 +1204,7 @@ def build() -> int:
     # The guideless playlist's channels as the player shows them — name and
     # the provider's guide id, nothing of the login — for family_coverage.py.
     with open("family_channels.json", "w", encoding="utf-8") as handle:
-        json.dump(sorted([name, epg] for _cat, name, epg in FULL), handle,
+        json.dump(sorted([name, epg] for _cat, name, epg in FAMILY), handle,
                   ensure_ascii=False)
     return 0
 
