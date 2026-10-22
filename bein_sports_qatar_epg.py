@@ -41,6 +41,7 @@ because third-party image hosts rate-limit and break.
 
 from __future__ import annotations
 
+import os
 import re
 from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
@@ -49,7 +50,7 @@ import xml.etree.ElementTree as ET
 
 from epg_lib import (
     A_MATCHUP, MATCH_ON_AIR, ON_AIR_BY_SPORT, add_programme,
-    discipline_named_by, fetch, log, new_session, run_main, utc_now, warn,
+    discipline_named_by, fetch, keep_from_previous, log, new_session, run_main, utc_now, warn,
     with_live_badge, write_xml_atomic,
 )
 
@@ -171,6 +172,11 @@ def slugify(name: str) -> str:
     return "beINSports" + "".join(titled) + ".qa"
 
 
+# Set when beIN's channel list could not be read, so channels known only
+# from it are missing from this run's roster.
+ROSTER_INCOMPLETE = False
+
+
 def load_channels(session) -> dict[str, tuple[str, str]]:
     """Return {xmltv_id: (display_name, site_id_guid)}; merges live + fallback."""
     channels = dict(FALLBACK_CHANNELS)
@@ -198,6 +204,8 @@ def load_channels(session) -> dict[str, tuple[str, str]]:
         log(f"beIN Qatar live channel list OK: {len(rows)} channels ({added} new vs fallback)")
     except Exception as exc:
         warn(f"beIN Qatar live channel list failed, using fallback roster only: {exc}")
+        global ROSTER_INCOMPLETE
+        ROSTER_INCOMPLETE = True
 
     return channels
 
@@ -563,6 +571,22 @@ def build() -> int:
         alwan_channels_epg.add_others_to(root, "beIN.")
     except Exception as exc:                                # noqa: BLE001
         warn(f"ShoofMax/Netflix skipped: {exc}")
+
+    # A channel whose schedule could not be fetched this run keeps the one
+    # already published rather than leaving the guide until the next run.
+    # When beIN's channel list itself failed, the channels known only from
+    # it are not in the roster, so every published channel is asked for;
+    # ones this run already carries are skipped.
+    lost = [x for x in channels if not per_channel.get(x)]
+    if ROSTER_INCOMPLETE and os.path.exists(OUTPUT):
+        try:
+            lost += [c.get("id") for c in ET.parse(OUTPUT).getroot().iter("channel")]
+        except ET.ParseError:
+            pass
+    kept = keep_from_previous(root, OUTPUT, lost)
+    if kept:
+        warn(f"beIN Qatar: {len(kept)} channel(s) not fetched this run kept "
+             f"from the published guide: {', '.join(kept)}")
 
     write_xml_atomic(root, OUTPUT, generator_name="Unified MENA EPG — beIN Sports Qatar")
     return 0

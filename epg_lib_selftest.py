@@ -553,6 +553,24 @@ def main() -> int:
           len(on_air(at)) == 1 and on_air(at)[0].get("start").startswith("20261011203521"),
           f"{[(p.get('start'), p.get('stop')) for p in seam.findall('programme')]}")
 
+    # A source that fails for one run keeps its channels on the guide.
+    published = ET.Element("tv")
+    for cid in ("lost", "dropped"):
+        ET.SubElement(published, "channel", {"id": cid})
+        for a, b in (("20261022000000", "20261022010000"), ("20261022010000", "20261022020000")):
+            ET.SubElement(published, "programme", {"start": a + " +0000", "stop": b + " +0000",
+                                                   "channel": cid}).text = ""
+    with tempfile.TemporaryDirectory() as folder:
+        path = os.path.join(folder, "guide.xml")
+        ET.ElementTree(published).write(path)
+        fresh = ET.Element("tv")
+        at = datetime(2026, 10, 22, 1, 30, tzinfo=timezone.utc)
+        kept = L.keep_from_previous(fresh, path, ["lost"], now=at)
+        check("a channel whose fetch failed keeps the published schedule still to air",
+              kept == ["lost"] and len(fresh.findall("programme")) == 1, f"{kept}")
+        check("a channel nobody asked to keep is not carried",
+              all(c.get("id") != "dropped" for c in fresh.findall("channel")))
+
     print()
     if failures:
         print(f"{len(failures)} check(s) failed: {', '.join(failures)}")
