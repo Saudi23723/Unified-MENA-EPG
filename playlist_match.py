@@ -107,7 +107,11 @@ def own_target(index, category: str, name: str) -> str | None:
 
 # A source's own spelling of a channel the playlist names otherwise.
 SOURCE_ALIASES = {"sky news arabic": "sky news arabia", "sky stv": "stv",
-                  "sky cinema premier": "sky cinema premiere"}
+                  "sky cinema premier": "sky cinema premiere",
+                  # Kayo numbers Fox Sports where epgshare's AU1 names them.
+                  "fox sports 501": "fox cricket", "fox sports 502": "fox league",
+                  "fox sports 504": "fox footy", "fox sports 507": "fox sports more",
+                  "racing com national": "racing com", "espn 1": "espn"}
 
 
 def source_key(name: str) -> str:
@@ -134,6 +138,8 @@ ROUTES = [
     (r"^FR\s*\|", (["FR1", "ferteque", "iptvepg"], {"fr"})),
     (r"^PT\s*\|", (["PT1", "ferteque", "iptvepg"], {"pt"})),
     (r"^TR\s*\|", (["TR3", "TR1", "ferteque", "iptvepg"], {"tr"})),
+    # Australia: epgshare's AU1 (Fox Sports, ESPN, Seven, Nine, SBS...).
+    (r"^AU\s*\|", (["AU1", "ferteque", "iptvepg"], {"au"})),
 ]
 # The Arab world's own channels — news, faith, sport, MBC — broadcast one
 # feed everywhere: the owner's two links file Al Araby, Iqraa, DW English or
@@ -153,7 +159,7 @@ SPORT_PREFIX = {"de": (["DE1"], {"de"}), "es": (["ES1"], {"es"}),
 # The order the sources are read in, smallest and most exact first.
 SOURCE_ORDER = ["AE1", "SA2", "BEIN1", "ALJAZEERA1", "UK1", "FR1", "PT1",
                 "TR3", "TR1", "US2", "US_SPORTS1", "DE1", "ES1", "IT1", "NL1",
-                "IN1", "IN2", "ferteque", "iptvepg"]
+                "IN1", "IN2", "AU1", "ferteque", "iptvepg"]
 
 
 def route(category: str, name: str) -> tuple[list[str], set[str]]:

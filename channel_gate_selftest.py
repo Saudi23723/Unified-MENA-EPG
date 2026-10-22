@@ -6627,6 +6627,11 @@ def gate_country_shelves_reach_their_country() -> None:
                         ("FR| GENERAL", "FR1"), ("UK| SPORTS", "UK1")):
         check("ROUTE", f"'{cat}' reads {source}",
               source in pm.route(cat, "X")[0], True)
+    check("ROUTE", "'AU| AUSTRALIA VIP' reads AU1",
+          "AU1" in pm.route("AU| AUSTRALIA VIP", "X")[0] and "AU1" in pm.SOURCE_ORDER, True)
+    for kayo, au1 in (("AU: FOX SPORTS 501 HD", "fox cricket"), ("AU: FOX SPORTS 502 HD", "fox league"),
+                      ("AU: FOX SPORTS 504 HD", "fox footy"), ("AU: FOX SPORTS 507 HD", "fox sports more")):
+        check("ROUTE", f"'{kayo}' is AU1's {au1}", pm.source_key(kayo), au1)
     check("ROUTE", "an Arab shelf stays on the Arab files",
           pm.route("AR| MBC", "MBC 1") == pm.ARAB, True)
 
