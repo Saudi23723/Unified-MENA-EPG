@@ -64,7 +64,7 @@ ALSO = {"FS1": ["FOX SPORTS 1"], "FS2": ["FOX SPORTS 2"], "TRUTV": ["TRU TV"],
         "RAISPORT": ["RAI SPORT"], "SPORTITALIA": ["SPORT ITALIA"],
         "EUROSPORT ITALIA": ["SKY EUROSPORT 1", "EUROSPORT 1"],
         "EUROSPORT 2 ITALIA": ["SKY EUROSPORT 2", "EUROSPORT 2"],
-        "MILAN TV": ["SKY MILAN TV"],
+        "MILAN TV": ["SKY MILAN TV"], "VARZESH TV": ["IRIB VARZESH"],
         **{f"SKY SPORT {250 + n}": [f"SKY CALCIO {n}"] for n in range(1, 9)}}
 
 

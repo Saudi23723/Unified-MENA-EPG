@@ -788,7 +788,7 @@ ARAB_LOGOS = {"SY", "PS", "JO", "LB", "IQ", "SA", "AE", "EG", "KW", "QA", "BH", 
               "YE", "LY", "TN", "DZ", "MA", "SD"}
 
 
-def original_logos(root, lists: list) -> int:
+def original_logos(root, lists: list, library: dict | None = None) -> int:
     """Original logos from iptv-org, by name, for any playlist, read or not.
 
     The owner's playlists showed Makan TV, Nablus Live, Arena Sport, Es:
@@ -829,6 +829,12 @@ def original_logos(root, lists: list) -> int:
             found = [by_core[k] for k in every_name.bare(d.text or "", pm.shown_name) if k in by_core]
             pick = next((f[country] for f in found if country in f), None) or \
                 next((next(iter(f.values())) for f in found if len(f) == 1), None)
+            if not pick and library:
+                # tv-logos, the second library: its own country, or a name
+                # only one logo answers to.
+                key = pm.logo_key(pm.shown_name(d.text or ""))
+                one = library.get(("*", key)) or set()
+                pick = library.get((country, key)) or (next(iter(one)) if len(one) == 1 else None)
             if pick:
                 ET.SubElement(ch, "icon", {"src": pick})
                 given += 1
@@ -846,11 +852,13 @@ def original_logos(root, lists: list) -> int:
             continue
         names = []
         for n in [c.get("name") or ""] + list(c.get("alt_names") or []):
+            names += every_name.cores(n)          # Tivibu Spor 2 / TIVIBU SPORT 2
             plain = re.sub(r"(?i)\bAl-", "Al ", n).replace("-", " ")
             bare = [plain, re.sub(r"\s+TV$", "", plain, flags=re.I),
                     plain if re.search(r"\bTV$", plain, re.I) else plain + " TV"]
             bare += [re.sub(r"(?i)\bAl (?=\w)", "Al", b) for b in bare]   # ALSOURIYA
             names += [n, n.upper()]
+            bare += [c for c in every_name.cores(plain) if c not in bare]
             for b in bare:
                 names += [b, b.upper()] + [f"{m}: {b.upper()}" for m in marks_of[country]]
         names = [n.strip() for n in dict.fromkeys(names) if n.strip()]
@@ -864,6 +872,24 @@ def original_logos(root, lists: list) -> int:
         if not free:
             continue
         add_channel(root, "Playlist.Logo." + c["id"], free, logo_of[c["id"]])
+        for n in free:
+            owner[n.casefold()] = root[-1]
+        added += 1
+    # 3. tv-logos' files of these countries the first library has not got,
+    # under the name the file is called by ("makan-tv-ps.png").
+    for (tag, *rest), url in sorted((library or {}).items(), key=lambda kv: str(kv[0])):
+        if tag != "tvl":
+            continue
+        country, key = rest
+        if country not in marks_of:
+            continue
+        title = key.title()
+        names = [title, key.upper(), f"{title} TV", f"{key.upper()} TV"] + \
+            [f"{m}: {b}" for m in marks_of[country] for b in (key.upper(), f"{key.upper()} TV")]
+        free = [n for n in dict.fromkeys(names) if n.casefold() not in owner]
+        if len(free) < len(names) // 2:
+            continue                     # the first library has it already
+        add_channel(root, f"Playlist.Logo.tvl.{country}.{key.replace(' ', '')}", free, url)
         for n in free:
             owner[n.casefold()] = root[-1]
         added += 1
@@ -1515,7 +1541,7 @@ def build() -> int:
         add_channel(root, "Playlist.Logo." + hashlib.md5(subject.encode()).hexdigest()[:10],
                     names, logo)
     say(f"syria: {len(syrian)} channel(s) with no schedule anywhere given their logo")
-    say(f"logos: {original_logos(root, lists if real_logos else [])} channel(s) "
+    say(f"logos: {original_logos(root, lists if real_logos else [], real_logos)} channel(s) "
         f"published under their names with their original logo")
 
     root.extend(no_overlaps(programmes_out))
