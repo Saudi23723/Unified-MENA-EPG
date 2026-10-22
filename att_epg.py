@@ -747,6 +747,48 @@ def no_foreign_names(root) -> int:
     return dropped
 
 
+SYRIA = re.compile(r"syria|سوري", re.I)
+
+
+def link_by_core(root, programmes_out: list, streams) -> int:
+    """Each playlist name the guide does not carry, onto the one channel
+    with a schedule whose name says the same once the marks are off:
+    "AR: HALAB TODAY ᴴᴰ ⁽ᴮᴷ⁾" and "Sy| Aleppo Today TV" onto Halab Today TV,
+    "AR: LANA TV ᴿᴬᵂ ◉" onto Lana TV. A name two different channels answer
+    to is left alone."""
+    # Each channel's schedule, to know copies of one feed for one channel.
+    feed: dict[str, list] = {}
+    for p in programmes_out:
+        feed.setdefault(p.get("channel"), []).append((p.get("start"), p.findtext("title")))
+    scheduled = set(feed)
+    channels = {c.get("id"): c for c in root.findall("channel")}
+    have = {(d.text or "").casefold() for c in channels.values()
+            for d in c.findall("display-name")}
+    index: dict[str, set] = {}
+    for cid, ch in channels.items():
+        if cid not in scheduled:
+            continue
+        for d in ch.findall("display-name"):
+            for key in every_name.bare(d.text or "", pm.shown_name):
+                index.setdefault(key, set()).add(cid)
+    added = 0
+    for _cat, name, _epg in streams:
+        if name.casefold() in have:
+            continue
+        found = set()
+        for key in every_name.bare(name, pm.shown_name):
+            found |= index.get(key, set())
+        # Copies of one feed under several ids carry the same rows: one.
+        kinds = {tuple(sorted(feed[c])[:6]) for c in found}
+        if not found or len(kinds) != 1:
+            continue
+        target = sorted(found, key=lambda c: (not c.startswith("Playlist."), c))[0]
+        ET.SubElement(channels[target], "display-name").text = name
+        have.add(name.casefold())
+        added += 1
+    return added
+
+
 STAND_IN = "لا يوجد جدول منشور لهذه القناة"
 
 
@@ -1201,6 +1243,13 @@ def build() -> int:
         # the provider files under several channels (bbc4.uk under BBC 4 and
         # BBC World News) goes to the channel it is named after, else to
         # the first of them.
+        # AN ID THAT NAMES ANOTHER CHANNEL is not carried: the provider files
+        # Al Jazeera under orienttv.sy, and Orient's own channel would have
+        # read Al Jazeera's schedule.
+        stem = pm.id_stem(epg)
+        if len(stem) >= 4 and not any(stem[:4] in pm.squeezed(n) or pm.squeezed(n)[:4] in stem
+                                      for n in names if pm.squeezed(n)):
+            continue
         named_after = [n for n in names if pm.squeezed(n) == pm.id_stem(epg)]
         provider_ids.setdefault(target_of[(named_after or names)[0]], []).append(epg)
     for (kind, key), ids in provider_ids.items():
@@ -1311,6 +1360,24 @@ def build() -> int:
 
     say(f"every name: {every_names(root, programmes_out, session, floor, ceiling)} "
         f"name(s) and id(s) added for playlists this guide cannot read")
+    say(f"by core: {link_by_core(root, programmes_out, streams)} playlist name(s) "
+        f"put on the one channel with a schedule that bears them")
+
+    # Syria's channels, every one with its logo (the owner, 22 October
+    # 2026). Al Ikhbariya, Syria Drama, Al Souriya and Syria One publish no
+    # schedule anywhere since December 2024 — they post on Telegram — so
+    # these carry the logo and no rows: no row is invented for them.
+    shown_names = {(d.text or "").casefold() for c in root.findall("channel")
+                   for d in c.findall("display-name")}
+    syrian: dict[str, list[str]] = {}
+    for cat, name, _epg in streams:
+        if SYRIA.search(cat) and name.casefold() not in shown_names:
+            syrian.setdefault(pm.shown_name(name), []).append(name)
+    for subject, names in sorted(syrian.items()):
+        logo = real_logo(names) or pl.make(subject, category_of.get(names[0], ""))
+        add_channel(root, "Playlist.Logo." + hashlib.md5(subject.encode()).hexdigest()[:10],
+                    names, logo)
+    say(f"syria: {len(syrian)} channel(s) with no schedule anywhere given their logo")
 
     root.extend(no_overlaps(programmes_out))
     ET.indent(root, space=" ")

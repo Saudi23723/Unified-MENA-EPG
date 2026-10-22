@@ -6642,6 +6642,13 @@ def gate_every_name_answers_the_third_playlist() -> None:
                               ("SuperSport 1", en.COUNTRIES["AL1"][1], "ALB: SUPER SPORT 1"),
                               ("Beinsports 3", en.COUNTRIES["TR1"][1], "TR VIP: BEIN SPORTS 3")):
         check("EVERY", f"'{name}' answers to '{want}'", want in en.forms(name, marks), True)
+    import playlist_match as pm
+    check("EVERY", "a playlist's marks come off a Syrian name",
+          "HALAB TODAY" in en.bare("AR: HALAB TODAY ᴴᴰ ⁽ᴮᴷ⁾", pm.shown_name), True)
+    check("EVERY", "Aleppo Today is Halab Today",
+          "HALAB TODAY TV" in en.bare("Sy| Aleppo Today TV", pm.shown_name), True)
+    check("EVERY", "one word is never a name on its own",
+          "SYRIA" in en.bare("STC: SYRIA TV ʰᵉᵛᶜ", pm.shown_name), False)
     check("EVERY", "the East feed never answers to West's name",
           "US: USA NETWORK WEST" in en.forms("USA Network HD", us), False)
     check("EVERY", "and West never to East's",
