@@ -801,23 +801,35 @@ def link_by_core(root, programmes_out: list, streams) -> int:
     channels = {c.get("id"): c for c in root.findall("channel")}
     have = {(d.text or "").casefold() for c in channels.values()
             for d in c.findall("display-name")}
+    # The name itself first, then its looser forms (with or without TV):
+    # "Alaraby 1" is AE1's "Al Araby" before ferteque's "Al Araby TV".
+    exact: dict[str, set] = {}
     index: dict[str, set] = {}
     for cid, ch in channels.items():
         if cid not in scheduled:
             continue
         for d in ch.findall("display-name"):
-            for key in every_name.bare(d.text or "", pm.shown_name):
+            keys = every_name.bare(d.text or "", pm.shown_name)
+            for key in keys[:1]:
+                exact.setdefault(key, set()).add(cid)
+            for key in keys:
                 index.setdefault(key, set()).add(cid)
     added = 0
     for _cat, name, _epg in streams:
         if name.casefold() in have:
             continue
-        found = set()
-        for key in every_name.bare(name, pm.shown_name):
-            found |= index.get(key, set())
-        # Copies of one feed under several ids carry the same rows: one.
-        kinds = {tuple(sorted(feed[c])[:6]) for c in found}
-        if not found or len(kinds) != 1:
+        found: set = set()
+        for table in (exact, index):
+            for key in every_name.bare(name, pm.shown_name):
+                found = table.get(key, set())
+                # Copies of one feed under several ids carry the same rows:
+                # one channel. Two different feeds: not this key.
+                if found and len({tuple(sorted(feed[c])[:6]) for c in found}) == 1:
+                    break
+                found = set()
+            if found:
+                break
+        if not found:
             continue
         target = sorted(found, key=lambda c: (not c.startswith("Playlist."), c))[0]
         ET.SubElement(channels[target], "display-name").text = name
