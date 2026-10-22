@@ -748,6 +748,9 @@ def no_foreign_names(root) -> int:
     return dropped
 
 
+STAND_IN = "لا يوجد جدول منشور لهذه القناة"
+
+
 def every_names(root, programmes_out: list, session, floor, ceiling) -> int:
     """France's, Australia's and America's channels under every common name.
 
@@ -759,6 +762,9 @@ def every_names(root, programmes_out: list, session, floor, ceiling) -> int:
     """
     channels = {c.get("id"): c for c in root.findall("channel")}
     ids = {cid.casefold() for cid in channels}
+    # The channels that only say their own name, every row the stand-in.
+    real = {p.get("channel") for p in programmes_out if p.findtext("desc") != STAND_IN}
+    stand_ins = {p.get("channel") for p in programmes_out} - real
     by_id: dict[str, set] = {}
     for _cat, name, epg in FULL:
         if epg:
@@ -781,7 +787,8 @@ def every_names(root, programmes_out: list, session, floor, ceiling) -> int:
             source_names = names.get(cid, [])
             free = [f for f in dict.fromkeys(f for n in source_names
                                              for f in every_name.forms(n, marks))
-                    if taken.get(f.casefold(), own) == own]
+                    if taken.get(f.casefold(), own) in (own, None)
+                    or taken[f.casefold()] in stand_ins]
             if target is None:
                 # Every name it has is another channel's (CANAL+.fr beside
                 # Canal+.fr): a channel no name reaches is not added.
@@ -793,13 +800,26 @@ def every_names(root, programmes_out: list, session, floor, ceiling) -> int:
                 add_rows(programmes_out, own, programmes)
             have = {d.text for d in target.findall("display-name")}
             for form in free:
-                if taken.get(form.casefold(), own) == own and form not in have:
+                owner = taken.get(form.casefold(), own)
+                if owner in stand_ins:
+                    # A real schedule takes the name from the stand-in
+                    # that only said the channel's name.
+                    for d in channels[owner].findall("display-name"):
+                        if (d.text or "").casefold() == form.casefold():
+                            channels[owner].remove(d)
+                            # The playlist's own spelling, exactly.
+                            if d.text not in have:
+                                ET.SubElement(target, "display-name").text = d.text
+                                have.add(d.text)
+                    owner = own
+                if owner == own and form not in have:
                     ET.SubElement(target, "display-name").text = form
                     taken[form.casefold()] = own
                     have.add(form)
                     added += 1
             shown = [d.text for d in target.findall("display-name")][:1]
-            for epg in [i for n in source_names[:1]
+            plain = source in every_name.PLAIN_IDS
+            for epg in [i for n in source_names[:1] if plain
                         for i in every_name.plain_ids(n, country)[:1]]:
                 # Not an id a provider files both coasts under: the player
                 # takes the id first, and West would read East's clock.
@@ -810,6 +830,13 @@ def every_names(root, programmes_out: list, session, floor, ceiling) -> int:
                 channels[epg] = root[-1]
                 add_rows(programmes_out, epg, programmes)
                 added += 1
+    # A stand-in every name of which a real schedule took is left out,
+    # with its rows.
+    gone = {cid for cid, ch in channels.items()
+            if cid in stand_ins and ch.find("display-name") is None}
+    for cid in gone:
+        root.remove(channels[cid])
+    programmes_out[:] = [p for p in programmes_out if p.get("channel") not in gone]
     return added
 
 

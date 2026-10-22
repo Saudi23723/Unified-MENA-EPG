@@ -30,7 +30,26 @@ COUNTRIES = {
     "UK1": ("uk", ("UK",)),
     "DE1": ("de", ("DE",)),
     "ES1": ("es", ("ES",)),
+    # The rest of the second playlist's world (22 October 2026: Srb: Arena
+    # Sport, Alb: Tring Sport, TSN, PL: TVP Sport read their own name).
+    # "AR" is not Argentina's mark: playlists use it for Arabic channels.
+    "TR1": ("tr", ("TR",)), "TR3": ("tr", ("TR",)),
+    "RS1": ("rs", ("SRB", "RS", "EXYU")), "HR1": ("hr", ("HR", "CRO", "EXYU")),
+    "BA1": ("ba", ("BA", "BIH", "EXYU")), "AL1": ("al", ("ALB", "AL")),
+    "CA2": ("ca", ("CA",)), "PL1": ("pl", ("PL",)), "PT1": ("pt", ("PT",)),
+    "GR1": ("gr", ("GR",)), "IL1": ("il", ("IL", "IS", "ISR")),
+    "NL1": ("nl", ("NL",)), "IE1": ("ie", ("IE", "IRL")), "RO1": ("ro", ("RO",)),
+    "BG1": ("bg", ("BG",)), "HU1": ("hu", ("HU",)), "CZ1": ("cz", ("CZ",)),
+    "SK1": ("sk", ("SK",)), "CH1": ("ch", ("CH",)), "AT1": ("at", ("AT",)),
+    "SE1": ("se", ("SE",)), "NO1": ("no", ("NO",)), "DK1": ("dk", ("DK",)),
+    "FI1": ("fi", ("FI",)), "NZ1": ("nz", ("NZ",)), "ZA1": ("za", ("ZA",)),
+    "MX1": ("mx", ("MX",)), "BR1": ("br", ("BR",)), "AR1": ("ar", ("ARG",)),
+    "IN1": ("in", ("IN",)),
 }
+# The countries whose channels are also published under a plain provider
+# id (tf1.fr). The others go by name only: the file would otherwise grow
+# by every programme of every country a second time.
+PLAIN_IDS = {"FR1", "AU1", "US2", "IT1", "UK1", "DE1", "ES1"}
 QUALITY = ("", " HD", " FHD", " 4K")
 TRAILING = re.compile(r"(?:\s+(?:HD|FHD|UHD|SD|4K|HEVC)|\s*\(s\))+\s*$", re.I)
 PACIFIC = re.compile(r"\s*\(?\bpacific\b\)?", re.I)
