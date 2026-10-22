@@ -33,7 +33,7 @@ COUNTRIES = {
     # The rest of the second playlist's world (22 October 2026: Srb: Arena
     # Sport, Alb: Tring Sport, TSN, PL: TVP Sport read their own name).
     # "AR" is not Argentina's mark: playlists use it for Arabic channels.
-    "TR1": ("tr", ("TR",)), "TR3": ("tr", ("TR",)),
+    "TR1": ("tr", ("TR", "TR VIP")), "TR3": ("tr", ("TR", "TR VIP")),
     "RS1": ("rs", ("SRB", "RS", "EXYU")), "HR1": ("hr", ("HR", "CRO", "EXYU")),
     "BA1": ("ba", ("BA", "BIH", "EXYU")), "AL1": ("al", ("ALB", "AL")),
     "CA2": ("ca", ("CA",)), "PL1": ("pl", ("PL",)), "PT1": ("pt", ("PT",)),
@@ -89,6 +89,7 @@ def cores(name: str) -> list[str]:
     # SuperSport written apart (Alb: Super Sport 1).
     out += [re.sub(r"\bSPOR\b", "SPORT", c) for c in out]
     out += [re.sub(r"SUPERSPORT", "SUPER SPORT", c) for c in out]
+    out += [re.sub(r"BEINSPORTS", "BEIN SPORTS", c) for c in out]   # TR1's "Beinsports 3"
     if west:
         out = [c if re.search(r"\bWEST\b", c) else c + " WEST" for c in out]
     return list(dict.fromkeys(out))
