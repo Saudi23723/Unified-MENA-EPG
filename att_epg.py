@@ -788,13 +788,18 @@ ARAB_LOGOS = {"SY", "PS", "JO", "LB", "IQ", "SA", "AE", "EG", "KW", "QA", "BH", 
               "YE", "LY", "TN", "DZ", "MA", "SD"}
 
 
-def arab_logos(root, lists: list) -> int:
-    """Every Arab channel iptv-org knows, under its names, with its original
-    logo — for any playlist, read or not: the owner's showed Makan TV,
-    Nablus Live and Al Fadjr TV with the player's grey "TV" tile (22
-    October 2026). A name a channel of this guide already answers to keeps
-    it, and is given the logo if it had none. No rows: a logo is not a
-    schedule."""
+def original_logos(root, lists: list) -> int:
+    """Original logos from iptv-org, by name, for any playlist, read or not.
+
+    The owner's playlists showed Makan TV, Nablus Live, Arena Sport, Es:
+    Movistar and Syria's channels with the player's grey "TV" tile (22
+    October 2026). Every channel of this guide without a logo takes the one
+    iptv-org files under the same name (its own country first); and every
+    channel iptv-org knows in the Arab world and in the countries the
+    playlists carry is published under its names — bare and behind the
+    marks playlists put in front ("Es:", "Srb:", "AR:") — with its logo and
+    no rows: a logo is not a schedule. A name a channel of this guide
+    already answers to stays with it."""
     if len(lists) < 2:
         return 0
     channels_list, logos_list = lists[0], lists[1]
@@ -803,20 +808,51 @@ def arab_logos(root, lists: list) -> int:
                                                   (l.get("format") or "").upper() != "PNG")):
         if logo.get("channel") and logo.get("url"):
             logo_of.setdefault(logo["channel"], logo["url"])
+    marks_of = {country: marks for country, marks in every_name.COUNTRIES.values()}
+    marks_of.update({c.lower(): ("AR", c) for c in ARAB_LOGOS})
+    marks_of.update({"ir": ("IR", "IRN"), "il": ("IL", "IS", "ISR"), "uk": ("UK",)})
+
+    # 1. A logo for every channel of the guide that has none.
+    by_core: dict[str, dict] = {}
+    for c in channels_list:
+        if c["id"] not in logo_of or c.get("closed"):
+            continue
+        for n in [c.get("name") or ""] + list(c.get("alt_names") or []):
+            for key in every_name.bare(n, pm.shown_name):
+                by_core.setdefault(key, {})[(c.get("country") or "").lower()] = logo_of[c["id"]]
+    given = 0
+    for ch in root.findall("channel"):
+        if ch.find("icon") is not None:
+            continue
+        country = (ch.get("id") or "").rsplit(".", 1)[-1].lower().rstrip("0123456789")
+        for d in ch.findall("display-name"):
+            found = [by_core[k] for k in every_name.bare(d.text or "", pm.shown_name) if k in by_core]
+            pick = next((f[country] for f in found if country in f), None) or \
+                next((next(iter(f.values())) for f in found if len(f) == 1), None)
+            if pick:
+                ET.SubElement(ch, "icon", {"src": pick})
+                given += 1
+                break
+
+    # 2. Every channel of these countries under its names, with its logo.
     owner: dict[str, ET.Element] = {}
     for ch in root.findall("channel"):
         for d in ch.findall("display-name"):
             owner.setdefault((d.text or "").casefold(), ch)
     added = 0
     for c in channels_list:
-        if c.get("country") not in ARAB_LOGOS or c.get("closed") or c["id"] not in logo_of:
+        country = (c.get("country") or "").lower()
+        if country not in marks_of or c.get("closed") or c["id"] not in logo_of:
             continue
         names = []
         for n in [c.get("name") or ""] + list(c.get("alt_names") or []):
             plain = re.sub(r"(?i)\bAl-", "Al ", n).replace("-", " ")
-            names += [n, n.upper(), plain, plain.upper(),
-                      re.sub(r"\s+TV$", "", plain, flags=re.I),
-                      plain if re.search(r"\bTV$", plain, re.I) else plain + " TV"]
+            bare = [plain, re.sub(r"\s+TV$", "", plain, flags=re.I),
+                    plain if re.search(r"\bTV$", plain, re.I) else plain + " TV"]
+            bare += [re.sub(r"(?i)\bAl (?=\w)", "Al", b) for b in bare]   # ALSOURIYA
+            names += [n, n.upper()]
+            for b in bare:
+                names += [b, b.upper()] + [f"{m}: {b.upper()}" for m in marks_of[country]]
         names = [n.strip() for n in dict.fromkeys(names) if n.strip()]
         free = []
         for n in names:
@@ -831,6 +867,7 @@ def arab_logos(root, lists: list) -> int:
         for n in free:
             owner[n.casefold()] = root[-1]
         added += 1
+    say(f"logos: {given} channel(s) of the guide given their original logo")
     return added
 
 
@@ -1478,8 +1515,8 @@ def build() -> int:
         add_channel(root, "Playlist.Logo." + hashlib.md5(subject.encode()).hexdigest()[:10],
                     names, logo)
     say(f"syria: {len(syrian)} channel(s) with no schedule anywhere given their logo")
-    say(f"logos: {arab_logos(root, lists if real_logos else [])} Arab channel(s) "
-        f"given their original logo by name")
+    say(f"logos: {original_logos(root, lists if real_logos else [])} channel(s) "
+        f"published under their names with their original logo")
 
     root.extend(no_overlaps(programmes_out))
     ET.indent(root, space=" ")

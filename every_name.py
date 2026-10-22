@@ -90,6 +90,11 @@ def cores(name: str) -> list[str]:
     out += [re.sub(r"\bSPOR\b", "SPORT", c) for c in out]
     out += [re.sub(r"SUPERSPORT", "SUPER SPORT", c) for c in out]
     out += [re.sub(r"BEINSPORTS", "BEIN SPORTS", c) for c in out]   # TR1's "Beinsports 3"
+    # Spain: Movistar Plus+ channels are "M+ ..." in ES1, "Movistar ..." in
+    # playlists, and LaLiga is one word there and two here.
+    out += [re.sub(r"^M\+ ", "MOVISTAR ", c) for c in out]
+    out += [re.sub(r"\bLALIGA( TV)?\b", "LA LIGA", c) for c in out]
+    out += [re.sub(r"\bLALIGA\b", "LIGA", c) for c in out]          # Es: Liga TV BAR
     if west:
         out = [c if re.search(r"\bWEST\b", c) else c + " WEST" for c in out]
     return list(dict.fromkeys(out))
