@@ -1,5 +1,5 @@
 import requests, gzip
-from datetime import datetime, timezone, timedelta
+from datetime import datetime
 import xml.etree.ElementTree as ET
 H = {"User-Agent": "Mozilla/5.0"}
 def load(u):
@@ -7,18 +7,16 @@ def load(u):
     if d[:2] == b"\x1f\x8b": d = gzip.decompress(d)
     return ET.fromstring(d)
 w = lambda x: datetime.strptime(x, "%Y%m%d%H%M%S %z")
-eg = load("https://www.open-epg.com/files/egypt2.xml"); ae = load("https://iptv-epg.org/files/epg-ae.xml"); sa = load("https://iptv-epg.org/files/epg-sa.xml")
+eg1 = load("https://www.open-epg.com/files/egypt1.xml"); ae = load("https://iptv-epg.org/files/epg-ae.xml")
+def rows(r, cid): return sorted((w(p.get("start")), p.findtext("title").strip()) for p in r.findall("programme") if p.get("channel") == cid)
 out = []
-def rows(r, cid): return sorted((w(p.get("start")), w(p.get("stop")), p.findtext("title")) for p in r.findall("programme") if p.get("channel") == cid)
-for egid, aeid in (("OSN TV Crime.eg", "OSNTVCrime.ae"), ("OSN Ya Hala.eg", "OSNTVYahala.ae"), ("Osn Ya Hala Aflam.eg", "OSNTVYahalaAflam.ae")):
-    e = rows(eg, egid); a = rows(ae, aeid)
-    out.append(f"== {aeid}: distinct titles {len({t for _,_,t in a})}/{len(a)}")
-    out += [f"  AE {s:%m-%d %H:%M}-{t2:%H:%M} {t}" for s, t2, t in a[:6]]
-    # clock check: same title in both, start offset
-    ed = {t: s for s, _, t in e}
-    offs = sorted({int((s - ed[t]).total_seconds() // 60) for s, _, t in a if t in ed})
-    out.append(f"  shared titles {sum(1 for _,_,t in a if t in ed)}, start offset minutes vs open-epg egypt2: {offs[:8]}")
-for cid in ("OSNTVKids.ae", "NickJr.ae"):
-    a = rows(ae, cid); out.append(f"== {cid}: distinct titles {len({t for _,_,t in a})}/{len(a)}"); out += [f"  AE {s:%m-%d %H:%M}-{t2:%H:%M} {t}" for s, t2, t in a[:5]]
-a = rows(sa, "OSNTVKids.sa"); out.append(f"== OSNTVKids.sa distinct {len({t for _,_,t in a})}/{len(a)}"); out += [f"  SA {s:%m-%d %H:%M} {t}" for s, _, t in a[:4]]
-print("::notice::" + "%0A".join(out)[:9000])
+for egid, aeid in (("أو إس إن ياهلا.eg", "OSNTVYahala.ae"), ("أو إس إن ياهلا بالعربي.eg", "OSNTVYahalaBilArabi.ae")):
+    e = rows(eg1, egid); a = rows(ae, aeid)
+    ed = {}
+    for s, t in e: ed.setdefault(t, []).append(s)
+    offs = []
+    for s, t in a:
+        if t in ed: offs.append(min((int((s - x).total_seconds() // 60) for x in ed[t]), key=abs))
+    out.append(f"{aeid}: eg1 rows {len(e)} (last {e[-1][0]:%m-%d %H:%M} if e else '-'), ae rows {len(a)} last {a[-1][0]:%m-%d %H:%M}, distinct {len({t for _,t in a})}, shared {len(offs)}, offsets {sorted(set(offs))[:10]}")
+    out += [f"   ae {s:%m-%d %H:%M} {t}" for s, t in a if s.day in (22, 23)][:6]
+print("::notice::" + "%0A".join(out))
