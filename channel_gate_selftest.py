@@ -6615,6 +6615,32 @@ def gate_the_card_is_split_by_the_broadcaster() -> None:
            sky_epg.a_day(EarlyDay(), "3625", "TNT Sports 1", "20260905")],
           ["UFC Fight Night Early Prelims"])
 
+def gate_every_name_answers_the_third_playlist() -> None:
+    """The unreadable playlist's spellings reach the right channel.
+
+    Its channels read "No information" because its names were never
+    learnt (22 October 2026): "FRANCE 2", "TEVA", "US: USA NETWORK WEST",
+    "KAYO - FOX SPORTS 501".
+    """
+    import every_name as en
+    fr, au, us = (en.COUNTRIES[k][1] for k in ("FR1", "AU1", "US2"))
+    for name, marks, want in (("France 2", fr, "FRANCE 2"), ("Téva", fr, "TEVA"),
+                              ("RMC Sport 1", fr, "SP: RMC SPORT 1"),
+                              ("Canal+ Cinéma(s)", fr, "CANAL+ CINEMA"),
+                              ("Fox Cricket", au, "KAYO - FOX SPORTS 501"),
+                              ("ESPN", au, "ESPN 1"),
+                              ("USA Network HD (Pacific)", us, "US: USA NETWORK WEST"),
+                              ("FS1 HD", us, "US: FOX SPORTS 1"),
+                              ("ESPN2 HD", us, "US: ESPN 2")):
+        check("EVERY", f"'{name}' answers to '{want}'", want in en.forms(name, marks), True)
+    check("EVERY", "the East feed never answers to West's name",
+          "US: USA NETWORK WEST" in en.forms("USA Network HD", us), False)
+    check("EVERY", "and West never to East's",
+          "US: USA NETWORK" in en.forms("USA Network HD (Pacific)", us), False)
+    check("EVERY", "a plain provider id", en.plain_ids("Canal+ Sport", "fr")[0],
+          "canalplussport.fr")
+
+
 def gate_country_shelves_reach_their_country() -> None:
     """The first playlist's "US| ..." shelf is looked up in America's guides.
 
@@ -7059,6 +7085,7 @@ def main() -> int:
                  gate_two_sources_naming_one_broadcast_is_one_row,
                  gate_a_playlist_that_was_written_reports_success,
                  gate_country_shelves_reach_their_country,
+                 gate_every_name_answers_the_third_playlist,
                  gate_the_youth_competition_asked_for_by_name,
                  gate_one_clashing_pair_does_not_cost_a_whole_guide,
                  gate_a_game_being_played_is_a_live_event,
