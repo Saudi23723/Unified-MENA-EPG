@@ -735,17 +735,21 @@ def every_names(root, programmes_out: list, session, floor, ceiling) -> int:
         for cid, programmes in sorted(got.items()):
             own = "Playlist." + re.sub(r"[^A-Za-z0-9]+", "", f"{source}.{cid}")
             target = channels.get(own)
+            source_names = names.get(cid, [])
+            free = [f for f in dict.fromkeys(f for n in source_names
+                                             for f in every_name.forms(n, marks))
+                    if taken.get(f.casefold(), own) == own]
             if target is None:
-                if not programmes:
+                # Every name it has is another channel's (CANAL+.fr beside
+                # Canal+.fr): a channel no name reaches is not added.
+                if not programmes or not free:
                     continue
                 logo = SOURCE_ICONS.get((source, cid))
                 add_channel(root, own, [], logo if pm.good_icon(logo) else None)
                 target = channels[own] = root[-1]
                 add_rows(programmes_out, own, programmes)
             have = {d.text for d in target.findall("display-name")}
-            source_names = names.get(cid, [])
-            for form in dict.fromkeys(f for n in source_names
-                                      for f in every_name.forms(n, marks)):
+            for form in free:
                 if taken.get(form.casefold(), own) == own and form not in have:
                     ET.SubElement(target, "display-name").text = form
                     taken[form.casefold()] = own

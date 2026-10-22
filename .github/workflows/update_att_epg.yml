@@ -16,7 +16,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: [att_epg.py, playlist_match.py, family_coverage.py, att_channels.json, .github/workflows/update_att_epg.yml]
+    paths: [att_epg.py, every_name.py, playlist_match.py, family_coverage.py, att_channels.json, .github/workflows/update_att_epg.yml]
 
 permissions:
   contents: write
