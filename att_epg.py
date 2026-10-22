@@ -50,7 +50,6 @@ scrubbed of the address, the user name and the password.
 from __future__ import annotations
 
 import copy
-from collections import Counter
 import gzip
 import hashlib
 import json
@@ -1267,10 +1266,6 @@ def build() -> int:
             added = add_rows(programmes_out, cid, rows.get((source, target), []))
             shown += bool(added)
             empty += not added
-            # A source's own holes (and a feed with nothing today) say the
-            # channel's name rather than "No information".
-            fill_holes(programmes_out, before, cid, pm.shown_name(g["names"][0]),
-                       floor, now + NAMED_AHEAD)
     say(f"feeds: {len(groups)} — {shown} channel(s) with programmes, {empty} without")
     if (shown + empty) and shown < FLOOR * (shown + empty):
         say(f"guide: only {shown}/{shown + empty} filled — a source is down; "
@@ -1297,8 +1292,6 @@ def build() -> int:
             add_channel(root, epg, names, logo)
             before = len(programmes_out)
             add_rows(programmes_out, epg, rows.get(("own", cid), []))
-            fill_holes(programmes_out, before, epg, pm.shown_name(names[0]),
-                       floor, now + NAMED_AHEAD)
     for (kind, key), ids in sorted(provider_ids.items()):
         if kind != "always":
             continue
@@ -1310,42 +1303,11 @@ def build() -> int:
                        floor, now + NAMED_AHEAD, desc=entry.get("desc") or entry["title"],
                        block=timedelta(hours=6))
 
-    # The guideless playlist's channels no source schedules: their own
-    # name in six-hour rows, so none of them reads "No information".
-    first = floor.replace(minute=0, second=0, microsecond=0)
-    # A channel no source schedules takes the logo of its sister in the same
-    # category and name family ("Pt: Sport TV 8K" -> Sport TV's), if any.
-    family_logo: dict[tuple, Counter] = {}
-    for (source, target), g in groups.items():
-        logo = g["logo"] or SOURCE_ICONS.get((source, target))
-        if not pm.good_icon(logo):
-            continue
-        for name in g["names"]:
-            if logo and name in category_of:
-                fam = (category_of[name], " ".join(pm.norm(name).split()[:2]))
-                family_logo.setdefault(fam, Counter())[logo] += 1
-    for subject, names in sorted(named.items()):
-        cids = ["Playlist.Name." + hashlib.md5(subject.encode()).hexdigest()[:10]] + \
-            provider_ids.get(("named", subject), [])
-        sister = real_logo(names)
-        for name in names if not sister else ():
-            fam = (category_of.get(name, ""), " ".join(pm.norm(name).split()[:2]))
-            if family_logo.get(fam):
-                sister = family_logo[fam].most_common(1)[0][0]
-                break
-        if not sister:
-            sister = pl.make(subject, category_of.get(names[0], ""))
-        for cid in cids:
-            add_channel(root, cid, names, sister)
-            start = first
-            while start < now + NAMED_AHEAD:
-                stop = start + timedelta(hours=6)
-                p = ET.Element("programme", {"start": stamp(start), "stop": stamp(stop),
-                                             "channel": cid})
-                ET.SubElement(p, "title").text = subject
-                ET.SubElement(p, "desc").text = "لا يوجد جدول منشور لهذه القناة"
-                programmes_out.append(p)
-                start = stop
+    # A channel no source schedules is left out: a row that only repeated
+    # its name in six-hour blocks read as a schedule it was not (the owner,
+    # 22 October 2026: "padding"). The player shows "No information".
+    say(f"guideless: {sum(len(v) for v in named.values())} channel(s) with no "
+        f"schedule anywhere — left out rather than shown by name")
 
     say(f"every name: {every_names(root, programmes_out, session, floor, ceiling)} "
         f"name(s) and id(s) added for playlists this guide cannot read")
