@@ -115,3 +115,25 @@ def plain_ids(name: str, country: str) -> list[str]:
         if squeezed:
             out += [f"{squeezed}.{country}", f"{squeezed}hd.{country}"]
     return out
+
+
+MARKS = re.compile(r"[\u1d2c-\u1d7f\u02b0-\u02b8\u1d43-\u1dbf\u2070-\u209f\u207d\u207e◉⚽]+")
+# A playlist's word for a channel the guides spell otherwise.
+CALLED = {"ALEPPO TODAY": "HALAB TODAY", "ALSOURIYA": "AL SOURIYA",
+          "AL EKHBARIYA SY": "AL EKHBARIYA SYRIA", "SYRIA AL EKHBARIYA": "AL EKHBARIYA SYRIA"}
+
+
+def bare(name: str, shown) -> list[str]:
+    """What a playlist name says once its marks are off: "AR: HALAB TODAY ᴴᴰ
+    ⁽ᴮᴷ⁾" -> HALAB TODAY, and with or without a closing TV."""
+    text = MARKS.sub(" ", shown(name))
+    text = re.sub(r"\b(RAW|HEVC|BK|LQ|BACKUP)\b", " ", text, flags=re.I)
+    out = []
+    for core in cores(text):
+        plain = re.sub(r"\s+TV$", "", core)
+        plain = CALLED.get(plain, plain)
+        out += [CALLED.get(core, core), plain + " TV"]
+        # Without TV only while a name is left: "SYRIA" alone could be any.
+        if len(plain.split()) > 1:
+            out.append(plain)
+    return [c for c in dict.fromkeys(out) if c]
