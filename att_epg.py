@@ -1042,6 +1042,19 @@ def build() -> int:
     for epg, names in sorted(by_id.items()):
         if epg in taken_ids:
             continue
+        # ONE ID FOR AN EAST AND A WEST FEED (USANetwork.us under both "USA
+        # NETWORK HD" and "USA NETWORK WEST HD"): the player takes the id
+        # before the name, so whichever schedule the id carried, the other
+        # coast read it three hours wrong. Without the id each matches its
+        # own name, and both names are in this guide with their own feed.
+        # Only when every West name found its own feed: a West copy with
+        # none (Nickelodeon West) keeps the id rather than read its name.
+        wests = [n for n in names if pm.west(n)]
+        if epg.lower().endswith(".us") and wests and len(wests) < len(names) and \
+                all(target_of[n][0] == "group" for n in wests) and \
+                {target_of[n] for n in wests}.isdisjoint(
+                    target_of[n] for n in names if not pm.west(n)):
+            continue
         # Every id is carried — the owner's word: "assign everything". One
         # the provider files under several channels (bbc4.uk under BBC 4 and
         # BBC World News) goes to the channel it is named after, else to
