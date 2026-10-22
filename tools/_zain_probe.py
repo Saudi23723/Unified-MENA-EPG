@@ -1,29 +1,29 @@
-import sys, re, gzip, json, collections
-sys.path.insert(0, ".")
-import att_epg
-import xml.etree.ElementTree as ET
+import requests, re, gzip
 from datetime import datetime, timezone
-mode = sys.argv[1]
-if mode == "full":
-    pass
-if mode == "full":
-    att_epg.GUIDELESS = ("XTREAM", "XTREAM2")
-att_epg.build()
-d = gzip.open("att_epg.xml.gz").read()
-root = ET.fromstring(d)
+import xml.etree.ElementTree as ET
+H = {"User-Agent": "Mozilla/5.0"}
 now = datetime.now(timezone.utc); w = lambda x: datetime.strptime(x, "%Y%m%d%H%M%S %z")
-FILL = re.compile(r"لم يُعلن البث|No listing|24/7|على مدار الساعة")
-live = {p.get("channel") for p in root.findall("programme") if w(p.get("start")) <= now < w(p.get("stop")) and not FILL.search(p.findtext("title") or "")}
-names = {dn.text: c.get("id") for c in root.findall("channel") for dn in c.findall("display-name")}
-pc = json.load(open("playlist_cache.json"))["XTREAM"]
-g = collections.defaultdict(lambda: [0, 0])
-for cat, name, epg in pc:
-    k = "UK" if name.upper().startswith("UK") else "CBS" if re.search(r"\bCBS\b", name) else "ABC" if re.search(r"\bABC\b", name) else "ALL"
-    for kk in {k, "ALL"}:
-        g[kk][1] += 1
-        if name in names and names[name] in live: g[kk][0] += 1
-out = [f"{mode}: size {len(open('att_epg.xml.gz','rb').read())//1024} KB gz, {len(root.findall('channel'))} channels"] + [f"  {k}: {a}/{b}" for k, (a, b) in sorted(g.items())]
-text = "%0A".join(out)
-for s in att_epg.SECRETS:
-    if s: text = text.replace(s, "***")
-print("::notice::" + text)
+srcs = {"eg2": "https://www.open-epg.com/files/egypt2.xml", "eg1": "https://www.open-epg.com/files/egypt1.xml",
+        "sa1": "https://www.open-epg.com/files/saudiarabia1.xml", "sa2": "https://www.open-epg.com/files/saudiarabia2.xml",
+        "uae1": "https://www.open-epg.com/files/uae1.xml", "uae2": "https://www.open-epg.com/files/uae2.xml",
+        "kw": "https://www.open-epg.com/files/kuwait1.xml", "qa": "https://www.open-epg.com/files/qatar1.xml",
+        "jo": "https://www.open-epg.com/files/jordan1.xml", "lb": "https://www.open-epg.com/files/lebanon1.xml",
+        "AE1": "https://epgshare01.online/epgshare01/epg_ripper_AE1.xml.gz", "SA1": "https://epgshare01.online/epgshare01/epg_ripper_SA1.xml.gz",
+        "ipe-ae": "https://iptv-epg.org/files/epg-ae.xml", "ipe-sa": "https://iptv-epg.org/files/epg-sa.xml"}
+want = re.compile(r"OSN.*(Crime|Kids|Nick|Ya ?Hala)|Nick ?Jr|Yahala|يا هلا", re.I)
+out = []
+for k, u in srcs.items():
+    try:
+        d = requests.get(u, headers=H, timeout=120).content
+        if d[:2] == b"\x1f\x8b": d = gzip.decompress(d)
+        r = ET.fromstring(d)
+    except Exception as e:
+        out.append(f"{k}: ERR {type(e).__name__}"); continue
+    for c in r.findall("channel"):
+        nm = " / ".join((x.text or "") for x in c.findall("display-name"))[:60]
+        if want.search(nm + " " + c.get("id")):
+            ps = [p for p in r.findall("programme") if p.get("channel") == c.get("id")]
+            last = max((w(p.get("stop")) for p in ps), default=None)
+            cur = [p.findtext("title") for p in ps if w(p.get("start")) <= now < w(p.get("stop"))]
+            out.append(f"{k}: {c.get('id')} | {nm} | rows {len(ps)} | last {last:%m-%d %H:%M}" if last else f"{k}: {c.get('id')} | {nm} | rows 0")
+print("::notice::" + "%0A".join(out)[:9000])
