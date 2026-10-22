@@ -126,6 +126,14 @@ ROUTES = [
     (r"^Portugal", (["PT1", "ferteque", "iptvepg"], {"pt"})),
     (r"^Turkish", (["TR3", "TR1", "ferteque", "iptvepg"], {"tr"})),
     (r"^USA", (["US2", "US_SPORTS1", "ferteque", "iptvepg"], {"us", "us2"})),
+    # The first playlist's shelves are "US| ENTERTAINMENT", "TR| ...",
+    # "PT| ...": the same countries under a two-letter mark. Without these
+    # its 12,000 American channels were looked up in the Arab files only
+    # and showed their own name all day (USA Network, 22 October 2026).
+    (r"^US\s*\|", (["US2", "US_SPORTS1", "ferteque", "iptvepg"], {"us", "us2"})),
+    (r"^FR\s*\|", (["FR1", "ferteque", "iptvepg"], {"fr"})),
+    (r"^PT\s*\|", (["PT1", "ferteque", "iptvepg"], {"pt"})),
+    (r"^TR\s*\|", (["TR3", "TR1", "ferteque", "iptvepg"], {"tr"})),
 ]
 # The Arab world's own channels — news, faith, sport, MBC — broadcast one
 # feed everywhere: the owner's two links file Al Araby, Iqraa, DW English or
