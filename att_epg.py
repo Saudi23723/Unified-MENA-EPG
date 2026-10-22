@@ -313,7 +313,15 @@ def playlist(prefix: str = "XTREAM") -> list[tuple[str, str, str]] | None:
                    and not s["name"].lstrip().startswith("#")]
     except Exception as exc:  # noqa: BLE001 - scrubbed and reported
         say(f"playlist: unreadable ({type(exc).__name__}: {exc})"[:300])
-        return None
+        # THE M3U, WHEN THE API IS REFUSED. The second provider answers
+        # player_api.php with 467 to GitHub's machines but serves get.php,
+        # the same channels as a playlist file (22 October 2026); without
+        # this its channel list was the one cached on 18 October.
+        streams = playlist_m3u(url, auth)
+        if streams is None:
+            return None
+        say(f"playlist {prefix}: {len(streams)} channel(s) from its m3u")
+        return streams
     say(f"playlist {prefix}: {len(streams)} channel(s) in {len(cats)} categories")
     for s in raw_streams:
         if not (s.get("name") or "").strip():
@@ -323,6 +331,41 @@ def playlist(prefix: str = "XTREAM") -> list[tuple[str, str, str]] | None:
                 not any(x and x in icon for x in (user, password)) and pm.good_icon(icon):
             PROVIDER_ICONS.setdefault(s["name"].strip(), icon)
     return streams
+
+
+EXTINF = re.compile(r'#EXTINF:[^,]*?(?P<attrs>(?:\s+[\w-]+="[^"]*")*)\s*,(?P<name>.*)')
+ATTR = re.compile(r'([\w-]+)="([^"]*)"')
+
+
+def playlist_m3u(url: str, auth: dict) -> list[tuple[str, str, str]] | None:
+    """[(category, name, epg id)] of the live channels in get.php's m3u."""
+    try:
+        r = requests.get(url + "/get.php", params={**auth, "type": "m3u_plus", "output": "ts"},
+                         headers={"User-Agent": "TiviMate/4.7.0"}, timeout=180)
+        r.raise_for_status()
+        text = r.text
+    except Exception as exc:  # noqa: BLE001 - scrubbed and reported
+        say(f"playlist m3u: unreadable ({type(exc).__name__}: {exc})"[:300])
+        return None
+    if not text.lstrip().startswith("#EXTM3U"):
+        say("playlist m3u: not a playlist")
+        return None
+    streams, pending = [], None
+    for line in text.splitlines():
+        line = line.strip()
+        m = EXTINF.match(line)
+        if m:
+            attrs = dict(ATTR.findall(m.group("attrs")))
+            pending = (attrs.get("group-title", ""), m.group("name").strip(),
+                       attrs.get("tvg-id", "").strip())
+        elif pending and line and not line.startswith("#"):
+            # Films and series are in the same file; only live channels
+            # have a guide.
+            if not re.search(r"/(movie|series)/", line) and pending[1] and \
+                    not pending[1].startswith("#"):
+                streams.append(pending)
+            pending = None
+    return streams or None
 
 
 # --- names ---------------------------------------------------------------
