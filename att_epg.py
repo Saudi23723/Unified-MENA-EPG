@@ -442,6 +442,15 @@ def one_schedule_many_names(found: dict, called: dict) -> dict:
         if len(rows) >= 4:
             by_rows.setdefault(rows, []).append(cid)
     drop = set()
+    # One title all day that is only the channel's name spelt another way
+    # ("AlAraby TV" every three hours on Alaraby 1): padding as well.
+    for cid, programmes in found.items():
+        titles = {pm.squeezed(p.findtext("title") or "") for p in programmes}
+        names = {pm.squeezed(n) for n in called.get(cid, ())} | {pm.id_stem(cid)}
+        if len(titles) == 1 and len(programmes) >= 3:
+            title = next(iter(titles))
+            if title and any(n and (title[:5] in n or n[:5] in title) for n in names):
+                drop.add(cid)
     for cids in by_rows.values():
         firsts = {(pm.norm(pm.shown_name(sorted(called.get(c) or {c})[0])).split() or [c])[0]
                   for c in cids}

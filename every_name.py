@@ -120,7 +120,9 @@ def plain_ids(name: str, country: str) -> list[str]:
 MARKS = re.compile(r"[\u1d2c-\u1d7f\u02b0-\u02b8\u1d43-\u1dbf\u2070-\u209f\u207d\u207e◉⚽]+")
 # A playlist's word for a channel the guides spell otherwise.
 CALLED = {"ALEPPO TODAY": "HALAB TODAY", "ALSOURIYA": "AL SOURIYA",
-          "AL EKHBARIYA SY": "AL EKHBARIYA SYRIA", "SYRIA AL EKHBARIYA": "AL EKHBARIYA SYRIA"}
+          "AL EKHBARIYA SY": "AL EKHBARIYA SYRIA", "SYRIA AL EKHBARIYA": "AL EKHBARIYA SYRIA",
+          "ALARABY": "AL ARABY", "ALARABY 1": "AL ARABY", "AL ARABY 1": "AL ARABY",
+          "ALARABY 2": "AL ARABY 2"}
 
 
 def bare(name: str, shown) -> list[str]:
