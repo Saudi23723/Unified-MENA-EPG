@@ -63,6 +63,7 @@ from io import BytesIO
 
 import requests
 
+import every_name
 import playlist_logos as pl
 import playlist_match as pm
 
@@ -704,6 +705,67 @@ def no_foreign_names(root) -> int:
     return dropped
 
 
+def every_names(root, programmes_out: list, session, floor, ceiling) -> int:
+    """France's, Australia's and America's channels under every common name.
+
+    The third playlist cannot be read from GitHub (its provider answers
+    403), so its names are not learnt the way the other two's are. Each
+    channel of these countries' guides is published under the spellings
+    and plain ids playlists use for it; see every_name. A name or id the
+    guide already gives another channel is left to it.
+    """
+    channels = {c.get("id"): c for c in root.findall("channel")}
+    ids = {cid.casefold() for cid in channels}
+    by_id: dict[str, set] = {}
+    for _cat, name, epg in FULL:
+        if epg:
+            by_id.setdefault(epg.casefold(), set()).add(pm.west(name))
+    coasts = {epg for epg, wests in by_id.items() if len(wests) > 1}
+    taken = {(d.text or "").casefold(): c.get("id")
+             for c in root.findall("channel") for d in c.findall("display-name")}
+    added = 0
+    for source, (country, marks) in every_name.COUNTRIES.items():
+        names: dict[str, list[str]] = {}
+        try:
+            got = read_source(session, source, lambda cid: True, floor, ceiling,
+                              lambda cid, ns: names.setdefault(cid, ns))
+        except Exception as exc:  # noqa: BLE001 - one source down is reported
+            say(f"  every name: {source} FAILED ({type(exc).__name__})")
+            continue
+        for cid, programmes in sorted(got.items()):
+            own = "Playlist." + re.sub(r"[^A-Za-z0-9]+", "", f"{source}.{cid}")
+            target = channels.get(own)
+            if target is None:
+                if not programmes:
+                    continue
+                logo = SOURCE_ICONS.get((source, cid))
+                add_channel(root, own, [], logo if pm.good_icon(logo) else None)
+                target = channels[own] = root[-1]
+                add_rows(programmes_out, own, programmes)
+            have = {d.text for d in target.findall("display-name")}
+            source_names = names.get(cid, [])
+            for form in dict.fromkeys(f for n in source_names
+                                      for f in every_name.forms(n, marks)):
+                if taken.get(form.casefold(), own) == own and form not in have:
+                    ET.SubElement(target, "display-name").text = form
+                    taken[form.casefold()] = own
+                    have.add(form)
+                    added += 1
+            shown = [d.text for d in target.findall("display-name")][:1]
+            for epg in [i for n in source_names[:1]
+                        for i in every_name.plain_ids(n, country)[:1]]:
+                # Not an id a provider files both coasts under: the player
+                # takes the id first, and West would read East's clock.
+                if epg.casefold() in ids or epg.casefold() in coasts or not shown:
+                    continue
+                ids.add(epg.casefold())
+                add_channel(root, epg, shown, None)
+                channels[epg] = root[-1]
+                add_rows(programmes_out, epg, programmes)
+                added += 1
+    return added
+
+
 def build() -> int:
     mapping: dict[str, list[str]] = json.load(open(MAP, encoding="utf-8"))
     streams = playlists()
@@ -1203,6 +1265,9 @@ def build() -> int:
                 ET.SubElement(p, "desc").text = "لا يوجد جدول منشور لهذه القناة"
                 programmes_out.append(p)
                 start = stop
+
+    say(f"every name: {every_names(root, programmes_out, session, floor, ceiling)} "
+        f"name(s) and id(s) added for playlists this guide cannot read")
 
     root.extend(no_overlaps(programmes_out))
     ET.indent(root, space=" ")
