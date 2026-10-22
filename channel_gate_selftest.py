@@ -4332,6 +4332,7 @@ def gate_no_guide_reads_a_stranger() -> None:
         ("mbc_epg.py", "epgshare01.online"),
         ("mbc_epg.py", "www.open-epg.com"),
         ("osn_epg.py", "www.open-epg.com"),
+        ("osn_epg.py", "iptv-epg.org"),
         # Jordan TV (التلفزيون الأردني) and beIN SPORTS 3 Asia, asked for
         # by name on the Roya link. JRTV's own guide (erstream) answers
         # every hour with "معلومات البرنامج غير متوفرة", and beIN Asia
@@ -4460,9 +4461,10 @@ def gate_no_guide_reads_a_stranger() -> None:
     # second playlist's real logos, and to fifteen for the owner's own
     # TiviMate links, read only to know which channels they already guide
     # (family_coverage.py) — no schedule is taken from them — and to
-    # seventeen for tv-logos, a second logo library.
-    check("SOURCES", "exactly seventeen aggregated-feed reads, all declared",
-          len(KNOWN), 17)
+    # seventeen for tv-logos, a second logo library, and to eighteen for
+    # iptv-epg's AE file, OSN Ya Hala's schedule after open-epg dropped it.
+    check("SOURCES", "exactly eighteen aggregated-feed reads, all declared",
+          len(KNOWN), 18)
 
 
 

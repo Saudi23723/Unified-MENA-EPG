@@ -118,7 +118,7 @@ CHANNELS = [
 ]
 
 # What a feed writes where it has no programme to name.
-NOT_A_PROGRAMME = re.compile(r"TV guide is not available|^\s*$", re.I)
+NOT_A_PROGRAMME = re.compile(r"TV guide is not available|^\s*$|^\s*No Data\s*$", re.I)
 
 KEEP_BEHIND = timedelta(days=1)
 
@@ -127,7 +127,8 @@ def title_of(raw: str) -> str:
     """"ليلى:الحلقة 193" -> "ليلى — الحلقة 193"; "Nadina:Episode 36" likewise."""
     head, colon, tail = norm(raw).partition(":")
     if colon and re.match(r"\s*(?:الحلقة|Episode)\b", tail):
-        return f"{head.strip()} — {tail.strip()}"
+        # ":Episode 39" with no programme name says nothing to show.
+        return f"{head.strip()} — {tail.strip()}" if head.strip() else ""
     return norm(raw)
 
 
