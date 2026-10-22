@@ -6613,6 +6613,22 @@ def gate_the_card_is_split_by_the_broadcaster() -> None:
            sky_epg.a_day(EarlyDay(), "3625", "TNT Sports 1", "20260905")],
           ["UFC Fight Night Early Prelims"])
 
+def gate_country_shelves_reach_their_country() -> None:
+    """The first playlist's "US| ..." shelf is looked up in America's guides.
+
+    It went to the Arab files, so USA Network on that playlist read its own
+    name all day while America's guide had its schedule (22 October 2026).
+    """
+    import playlist_match as pm
+    for cat, source in (("US| ENTERTAINMENT", "US2"), ("USA", "US2"),
+                        ("TR| ULUSAL", "TR3"), ("PT| DESPORTO", "PT1"),
+                        ("FR| GENERAL", "FR1"), ("UK| SPORTS", "UK1")):
+        check("ROUTE", f"'{cat}' reads {source}",
+              source in pm.route(cat, "X")[0], True)
+    check("ROUTE", "an Arab shelf stays on the Arab files",
+          pm.route("AR| MBC", "MBC 1") == pm.ARAB, True)
+
+
 def gate_a_playlist_that_was_written_reports_success() -> None:
     """An exit code is not a truth value, and the two read opposite ways.
 
@@ -7035,6 +7051,7 @@ def main() -> int:
                  gate_turkish_is_spelled_the_way_turkey_writes_it,
                  gate_two_sources_naming_one_broadcast_is_one_row,
                  gate_a_playlist_that_was_written_reports_success,
+                 gate_country_shelves_reach_their_country,
                  gate_the_youth_competition_asked_for_by_name,
                  gate_one_clashing_pair_does_not_cost_a_whole_guide,
                  gate_a_game_being_played_is_a_live_event,
