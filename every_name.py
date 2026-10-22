@@ -85,6 +85,10 @@ def cores(name: str) -> list[str]:
     out += [re.sub(r"(?<=[A-Z])(?=\d)", " ", out[0]),     # ESPN2 -> ESPN 2
             re.sub(r"(?<=[A-Z]) (?=\d+$)", "", out[0])]    # ESPN 2 -> ESPN2
     out += [also for c in list(out) for also in ALSO.get(c, [])]
+    # Turkish "Spor" for "Sport" (TiviBu Spor 2 / TR: TiviBu Sport 2), and
+    # SuperSport written apart (Alb: Super Sport 1).
+    out += [re.sub(r"\bSPOR\b", "SPORT", c) for c in out]
+    out += [re.sub(r"SUPERSPORT", "SUPER SPORT", c) for c in out]
     if west:
         out = [c if re.search(r"\bWEST\b", c) else c + " WEST" for c in out]
     return list(dict.fromkeys(out))
