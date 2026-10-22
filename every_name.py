@@ -24,6 +24,12 @@ COUNTRIES = {
     "FR1": ("fr", ("FR", "SP")),
     "AU1": ("au", ("AU", "KAYO")),
     "US2": ("us", ("US", "USA")),
+    # The Argon playlist's Italian group ("IT: SKY SPORT UNO"), and the
+    # other European guides alongside, so no country is left out.
+    "IT1": ("it", ("IT",)),
+    "UK1": ("uk", ("UK",)),
+    "DE1": ("de", ("DE",)),
+    "ES1": ("es", ("ES",)),
 }
 QUALITY = ("", " HD", " FHD", " 4K")
 TRAILING = re.compile(r"(?:\s+(?:HD|FHD|UHD|SD|4K|HEVC)|\s*\(s\))+\s*$", re.I)
@@ -33,7 +39,8 @@ ALSO = {"FS1": ["FOX SPORTS 1"], "FS2": ["FOX SPORTS 2"], "TRUTV": ["TRU TV"],
         "ESPN": ["ESPN 1"], "FOX CRICKET": ["FOX SPORTS 501"],
         "FOX LEAGUE": ["FOX SPORTS 502"], "FOX FOOTY": ["FOX SPORTS 504"],
         "FOX SPORTS MORE": ["FOX SPORTS 507"], "TF1 SERIES FILMS": ["TF1 SERIES"],
-        "CANAL+ PREMIER LEAGUE": ["CANAL+ PL"], "13EME RUE": ["13 EME RUE", "13E RUE", "13 EMERUE"]}
+        "CANAL+ PREMIER LEAGUE": ["CANAL+ PL"], "13EME RUE": ["13 EME RUE", "13E RUE", "13 EMERUE"],
+        "EUROSPORT 1": ["SKY EUROSPORT 1"], "EUROSPORT 2": ["SKY EUROSPORT 2"]}
 
 
 def fold(text: str) -> str:
