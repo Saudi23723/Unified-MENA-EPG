@@ -1,20 +1,10 @@
-import sys, os, re, time, collections; sys.path.insert(0, os.getcwd())
 import requests
-s = requests.Session(); s.headers["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/128 Safari/537.36"
-pat = re.compile(r"سوري|سما|لنا|إخبارية|الاخبارية|حلب|شام|syria|sama|lana|halab|sham|ikhbar|اليوم|غوار|المشرق|زنوبيا|تلاقي|نور|دراما", re.I)
-codes = collections.Counter()
-for i in range(1090, 1460):
-    for attempt in range(3):
-        try:
-            r = s.get(f"https://elcinema.com/ar/tvguide/{i}/", timeout=40)
-        except Exception:
-            time.sleep(3); continue
-        if r.status_code == 429:
-            time.sleep(10); continue
-        break
-    codes[r.status_code] += 1
-    if r.status_code == 200:
-        t = re.search(r"<title>([^<]*)</title>", r.text); t = t.group(1) if t else ""
-        if pat.search(t): print("HIT", i, t[:70], r.text.count('class="boxed-category-'), flush=True)
-    time.sleep(0.7)
-print(dict(codes))
+ch = {c["id"]: c for c in requests.get("https://iptv-org.github.io/api/channels.json", timeout=120).json()}
+g = requests.get("https://iptv-org.github.io/api/guides.json", timeout=120).json()
+by = {}
+for x in g:
+    by.setdefault(x.get("channel"), []).append(f'{x.get("site")}:{x.get("site_id")}')
+sy = sorted((c for c in ch.values() if c.get("country") == "SY"), key=lambda c: c["name"])
+print("syrian channels:", len(sy))
+for c in sy:
+    print(c["id"], "|", c["name"], "|", (by.get(c["id"]) or "-"), "| logo" if c.get("logo") else "")
