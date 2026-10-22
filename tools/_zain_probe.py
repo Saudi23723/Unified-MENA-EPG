@@ -1,13 +1,13 @@
-import sys, os; sys.path.insert(0, os.getcwd())
+import sys, os, re; sys.path.insert(0, os.getcwd())
 import requests, att_epg
-for pre in ("XTREAM2", "XTREAM3"):
-    url, user, pw = att_epg.login(pre)
-    auth = {"username": user, "password": pw}
-    for path, extra in (("/player_api.php", {}), ("/get.php", {"type": "m3u_plus", "output": "ts"}), ("/xmltv.php", {})):
-        for ua in ("TiviMate/4.7.0", "okhttp/4.12.0", "VLC/3.0.20 LibVLC/3.0.20", "IPTVSmartersPro", "Mozilla/5.0 (Linux; Android 12) AppleWebKit/537.36 Chrome/120 Mobile Safari/537.36"):
-            try:
-                r = requests.get(url + path, params={**auth, **extra}, headers={"User-Agent": ua}, timeout=40, stream=True)
-                head = r.raw.read(200, decode_content=True)
-                print(pre, path, ua[:14], r.status_code, len(head), head[:20].replace(b"\n", b" ") if r.status_code == 200 else b"")
-            except Exception as e:
-                print(pre, path, ua[:14], "ERR", type(e).__name__)
+url, user, pw = att_epg.login("XTREAM3")
+secrets = [x for x in (url, user, pw, re.sub(r"^https?://", "", url).split(":")[0]) if x]
+def clean(t):
+    for s in secrets: t = t.replace(s, "***")
+    return t
+print("scheme", url.split(":")[0], "has port", bool(re.search(r":\d+$", url)), "user len", len(user), "pass len", len(pw))
+r = requests.get(url + "/player_api.php", params={"username": user, "password": pw}, headers={"User-Agent": "TiviMate/4.7.0"}, timeout=40)
+print("status", r.status_code, "server", clean(r.headers.get("server", "")), "ctype", r.headers.get("content-type"))
+print("body:", clean(r.text[:300]).replace("\n", " "))
+r = requests.get(url + "/", headers={"User-Agent": "TiviMate/4.7.0"}, timeout=40)
+print("root status", r.status_code, clean(r.text[:120]).replace("\n", " "))
