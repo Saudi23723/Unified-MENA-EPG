@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-22T03:05:09.281Z",
+  "updated_at": "2026-10-22T03:10:44.059Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -171,7 +171,7 @@
           "code": 0,
           "max": 35.3,
           "min": 27.7,
-          "rain": 0
+          "rain": 2
         },
         {
           "date": "2026-10-24",
@@ -185,7 +185,7 @@
           "code": 55,
           "max": 34.5,
           "min": 30.0,
-          "rain": 4
+          "rain": 2
         },
         {
           "date": "2026-10-26",
@@ -199,7 +199,7 @@
           "code": 45,
           "max": 34.3,
           "min": 26.4,
-          "rain": 0
+          "rain": 2
         },
         {
           "date": "2026-10-28",
@@ -294,7 +294,7 @@
       "temperature_c": 10.0,
       "humidity": 94,
       "wind_speed": 13.7,
-      "rain_chance": 98,
+      "rain_chance": 100,
       "condition": "رذاذ خفيف",
       "weather_code": 51,
       "observed_at": "2026-10-22T04:00",
@@ -306,7 +306,7 @@
           "code": 61,
           "max": 13.9,
           "min": 8.8,
-          "rain": 98
+          "rain": 100
         },
         {
           "date": "2026-10-23",
@@ -327,21 +327,21 @@
           "code": 3,
           "max": 13.3,
           "min": 10.9,
-          "rain": 70
+          "rain": 78
         },
         {
           "date": "2026-10-26",
           "code": 61,
           "max": 17.7,
           "min": 10.1,
-          "rain": 53
+          "rain": 59
         },
         {
           "date": "2026-10-27",
           "code": 61,
           "max": 17.0,
           "min": 10.3,
-          "rain": 42
+          "rain": 41
         },
         {
           "date": "2026-10-28",
@@ -365,7 +365,7 @@
       "temperature_c": 6.9,
       "humidity": 95,
       "wind_speed": 5.8,
-      "rain_chance": 69,
+      "rain_chance": 75,
       "condition": "رذاذ خفيف",
       "weather_code": 51,
       "observed_at": "2026-10-22T04:00",
@@ -377,7 +377,7 @@
           "code": 61,
           "max": 11.3,
           "min": 6.4,
-          "rain": 92
+          "rain": 94
         },
         {
           "date": "2026-10-23",
@@ -398,21 +398,21 @@
           "code": 53,
           "max": 10.6,
           "min": 8.5,
-          "rain": 91
+          "rain": 92
         },
         {
           "date": "2026-10-26",
           "code": 63,
           "max": 17.1,
           "min": 7.5,
-          "rain": 80
+          "rain": 84
         },
         {
           "date": "2026-10-27",
           "code": 63,
           "max": 15.4,
           "min": 8.6,
-          "rain": 71
+          "rain": 72
         },
         {
           "date": "2026-10-28",
