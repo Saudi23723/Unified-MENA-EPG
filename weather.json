@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-22T00:21:05.966Z",
+  "updated_at": "2026-10-22T00:26:54.094Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -291,21 +291,21 @@
       "country": "بريطانيا",
       "latitude": 51.5074,
       "longitude": -0.1278,
-      "temperature_c": 9.7,
-      "humidity": 76,
-      "wind_speed": 10.4,
+      "temperature_c": 9.6,
+      "humidity": 78,
+      "wind_speed": 11.2,
       "rain_chance": 25,
-      "condition": "غائم",
-      "weather_code": 3,
+      "condition": "رذاذ خفيف",
+      "weather_code": 51,
       "observed_at": "2026-10-22T01:15",
-      "feels_c": 7.2,
+      "feels_c": 7.0,
       "utc_offset": 3600,
       "days": [
         {
           "date": "2026-10-22",
-          "code": 51,
+          "code": 55,
           "max": 14.0,
-          "min": 9.3,
+          "min": 9.1,
           "rain": 98
         },
         {
@@ -352,7 +352,7 @@
         }
       ],
       "today_max": 14.0,
-      "today_min": 9.3,
+      "today_min": 9.1,
       "sunrise": "07:36",
       "sunset": "17:52",
       "uv": 2
@@ -362,14 +362,14 @@
       "country": "بريطانيا",
       "latitude": 53.4808,
       "longitude": -2.2426,
-      "temperature_c": 7.1,
-      "humidity": 87,
-      "wind_speed": 4.3,
+      "temperature_c": 7.3,
+      "humidity": 86,
+      "wind_speed": 7.9,
       "rain_chance": 2,
-      "condition": "صافٍ غالباً",
-      "weather_code": 1,
+      "condition": "غائم",
+      "weather_code": 3,
       "observed_at": "2026-10-22T01:15",
-      "feels_c": 5.3,
+      "feels_c": 4.9,
       "utc_offset": 3600,
       "days": [
         {
@@ -508,15 +508,15 @@
       "humidity": 89,
       "wind_speed": 6.5,
       "rain_chance": 68,
-      "condition": "غائم",
-      "weather_code": 3,
+      "condition": "رذاذ خفيف",
+      "weather_code": 51,
       "observed_at": "2026-10-21T17:15",
       "feels_c": 20.4,
       "utc_offset": -25200,
       "days": [
         {
           "date": "2026-10-21",
-          "code": 53,
+          "code": 63,
           "max": 24.1,
           "min": 15.8,
           "rain": 75
