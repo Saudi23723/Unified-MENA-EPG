@@ -6634,7 +6634,10 @@ def gate_every_name_answers_the_third_playlist() -> None:
                               ("ESPN2 HD", us, "US: ESPN 2"),
                               ("Sky Sport Uno HD", en.COUNTRIES["IT1"][1], "IT: SKY SPORT UNO"),
                               ("Sky Sport  251", en.COUNTRIES["IT1"][1], "IT: SKY CALCIO 1"),
-                              ("RaiSport", en.COUNTRIES["IT1"][1], "IT: RAI SPORT")):
+                              ("RaiSport", en.COUNTRIES["IT1"][1], "IT: RAI SPORT"),
+                              ("Arena Sport 1", en.COUNTRIES["RS1"][1], "SRB: ARENA SPORT 1"),
+                              ("TSN1", en.COUNTRIES["CA2"][1], "TSN 1"),
+                              ("TVP Sport HD", en.COUNTRIES["PL1"][1], "PL: TVP SPORT")):
         check("EVERY", f"'{name}' answers to '{want}'", want in en.forms(name, marks), True)
     check("EVERY", "the East feed never answers to West's name",
           "US: USA NETWORK WEST" in en.forms("USA Network HD", us), False)
