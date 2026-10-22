@@ -17,7 +17,7 @@ jobs:
           git fetch -q --depth=1 origin probe-shasha && git checkout FETCH_HEAD -- tools/_zain_probe.py
           git fetch -q --depth=1 origin claude/epg-channels-not-updating-pa2732 && git checkout FETCH_HEAD -- att_epg.py
           git fetch -q --depth=1 origin probe-shasha && git checkout FETCH_HEAD -- osn_epg.py mbc_epg.py playlist_match.py every_name.py
-      - run: python tools/_zain_probe.py 2>&1 | tail -120
+      - run: python tools/_zain_probe.py 2>&1 | tail -60
         env:
           XTREAM_URL: ${{ secrets.XTREAM_URL }}
           XTREAM_USER: ${{ secrets.XTREAM_USER }}

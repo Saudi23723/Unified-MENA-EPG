@@ -1,27 +1,33 @@
-import sys, os; sys.path.insert(0, os.getcwd())
-import requests, gzip, xml.etree.ElementTree as ET, re
+import sys, os, re; sys.path.insert(0, os.getcwd())
+import requests, gzip, xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 now = datetime.now(timezone.utc)
-want = {"TR": ["beIN Sports 1", "beIN Sports 2", "TiviBu Spor 2", "S Sport", "Eurosport 1"],
-        "RS": ["Arena Sport 1", "Arena Sport 2", "Sport Klub 1", "Sport Klub 4"],
-        "AL": ["Tring Sport 1", "SuperSport 1", "RTSH Sport", "Eurosport 1"],
-        "CA": ["TSN 1", "TSN 2", "TSN 4", "Sportsnet ONE"], "PL": ["TVP Sport", "Polsat Sport"],
-        "IL": ["Sport 1", "Sport 5", "Yes Sport"], "PT": ["Sport TV 1"], "GR": ["Nova Sports 1"], "HR": ["Arena Sport 1", "Sport Klub 1"], "BA": ["Arena Sport 1"]}
-for cc in ["TR1", "TR2", "TR3", "RS1", "RS2", "AL1", "AL2", "CA1", "CA2", "CA3", "PL1", "PL2", "IL1", "IL2", "PT1", "GR1", "HR1", "BA1", "MK1", "ME1", "SI1", "RO1", "BG1", "HU1", "CZ1", "SK1", "NL1", "BE1", "CH1", "AT1", "SE1", "NO1", "DK1", "FI1", "IE1", "NZ1", "ZA1", "IN1", "MX1", "BR1", "AR1"]:
+PAT = re.compile(r"syria|souri|suri|sooria|sama\b|sama tv|lana|ikhbar|ekhbar|halab|aleppo|al ?yaum|sham|drama|rojava|qanat 9|ghouta|orient|سوري|سما|لنا|الإخبارية|حلب|شام", re.I)
+URLS = {f"es:{c}": f"https://epgshare01.online/epgshare01/epg_ripper_{c}.xml.gz" for c in ("SY1", "AE1", "AE2", "SA1", "SA2", "LB1", "JO1", "IQ1", "EG1", "ALL_SOURCES1", "QA1", "KW1", "TR1")}
+URLS.update({"ipe-sy": "https://iptv-epg.org/files/epg-sy.xml", "ipe-ae": "https://iptv-epg.org/files/epg-ae.xml", "ipe-lb": "https://iptv-epg.org/files/epg-lb.xml", "ipe-sa": "https://iptv-epg.org/files/epg-sa.xml",
+             "oe-syria": "https://www.open-epg.com/files/syria1.xml", "oe-syria2": "https://www.open-epg.com/files/syria2.xml", "oe-leb": "https://www.open-epg.com/files/lebanon1.xml", "oe-uae1": "https://www.open-epg.com/files/uae1.xml",
+             "ferteque": "https://github.com/ferteque/Curated-M3U-Repository/raw/refs/heads/main/epg6.xml.gz"})
+for key, url in URLS.items():
     try:
-        r = requests.get(f"https://epgshare01.online/epgshare01/epg_ripper_{cc}.xml.gz", timeout=120)
+        r = requests.get(url, timeout=180, headers={"User-Agent": "Mozilla/5.0"})
         if r.status_code != 200:
-            print(cc, r.status_code); continue
-        root = ET.fromstring(gzip.decompress(r.content))
+            print(key, r.status_code); continue
+        raw = r.content
+        root = ET.fromstring(gzip.decompress(raw) if raw[:2] == b"\x1f\x8b" else raw)
     except Exception as e:
-        print(cc, "ERR", type(e).__name__); continue
-    fut = {}
+        print(key, "ERR", type(e).__name__); continue
+    fut, titles = {}, {}
     for p in root.iter("programme"):
-        if datetime.strptime(p.get("stop"), "%Y%m%d%H%M%S %z") > now:
-            fut[p.get("channel")] = fut.get(p.get("channel"), 0) + 1
-    names = {(d.text or "").strip().lower(): ch.get("id") for ch in root.findall("channel") for d in ch.findall("display-name")}
+        try:
+            if datetime.strptime(p.get("stop"), "%Y%m%d%H%M%S %z") > now:
+                fut[p.get("channel")] = fut.get(p.get("channel"), 0) + 1
+                titles.setdefault(p.get("channel"), set()).add(p.findtext("title") or "")
+        except Exception:
+            pass
     hits = []
-    for w in want.get(cc[:2], []):
-        k = [n for n in names if re.sub(r"\W", "", n).startswith(re.sub(r"\W", "", w.lower())) and fut.get(names[n])]
-        hits.append(f"{w}:{'Y' if k else '-'}")
-    print(cc, len(root.findall("channel")), "ch,", len(fut), "with rows |", " ".join(hits))
+    for ch in root.findall("channel"):
+        n = " / ".join(d.text or "" for d in ch.findall("display-name"))
+        if PAT.search(n + " " + ch.get("id", "")) and (".sy" in ch.get("id", "").lower() or re.search(r"syria|souri|sooria|سوري|lana|sama\b|sama tv|ikhbar|ekhbar|halab|aleppo|yaum|sham|rojava", n + ch.get("id", ""), re.I)):
+            c = ch.get("id")
+            hits.append(f"{c}={n[:40]}:{fut.get(c,0)}r/{len(titles.get(c, ()))}t")
+    print(key, len(root.findall("channel")), "ch |", "; ".join(hits)[:1500])
