@@ -118,7 +118,7 @@ CHANNELS = [
 ]
 
 # What a feed writes where it has no programme to name.
-NOT_A_PROGRAMME = re.compile(r"TV guide is not available|^\s*$", re.I)
+NOT_A_PROGRAMME = re.compile(r"TV guide is not available|^\s*$|^\s*No Data\s*$", re.I)
 
 KEEP_BEHIND = timedelta(days=1)
 

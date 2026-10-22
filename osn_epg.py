@@ -21,6 +21,12 @@ title — and egypt1 against egypt2 on OSN One (five titles) and OSN
 Movies Action (fourteen): delta 0 on every one. Declared offsets are
 read as they stand.
 
+iptv-epg's AE file carries Ya Hala and Ya Hala Bil Arabi after open-epg
+stopped (21 October 2026). Its clock was measured against egypt1 on both:
+the same titles in the same daily slots, within five minutes. Its Crime,
+Ya Hala Aflam, Kids and Nick Jr are "No Data" in equal blocks, so they
+are not read from it.
+
 WHAT IS LEFT OUT, AND WHY. OSN Kidzone, Mezze, News and Showcase Classics
 are listed by the feeds that know them with nothing, or two rows, under
 them. A channel with no schedule is not given one here.
@@ -45,6 +51,7 @@ FEEDS = {
     "sa_ar": "https://www.open-epg.com/files/saudiarabia1.xml",
     "sa_en": "https://www.open-epg.com/files/saudiarabia2.xml",
     "uae2": "https://www.open-epg.com/files/uae2.xml",
+    "ipe_ae": "https://iptv-epg.org/files/epg-ae.xml",
 }
 
 LOGO_VERSION = "v5"
@@ -86,14 +93,15 @@ CHANNELS = [
      ["OSN Movies Family", "OSN: MOVIES FAMILY", "OSN MOVIES Family", "OSN TV Movies Family", "OSN Family Movies", "أو إس إن فاميلي موفيز"],
      [("eg_en", "OSN TV Movies Family.eg"), ("eg_ar", "أو إس إن فاميلي موفيز.eg")]),
     ("OSNYaHala.osn", "osn_yahala", ["OSN Yahala", "OSN: YAHALA", "OSN Ya Hala", "OSN TV Yahala", "أو إس إن ياهلا"],
-     [("eg_en", "OSN Ya Hala.eg"), ("eg_ar", "أو إس إن ياهلا.eg")]),
+     [("eg_en", "OSN Ya Hala.eg"), ("eg_ar", "أو إس إن ياهلا.eg"), ("ipe_ae", "OSNTVYahala.ae")]),
     ("OSNYaHalaAflam.osn", "osn_yahala_aflam",
      ["OSN Yahala Aflam", "OSN: YAHALA AFLAM", "OSN Ya Hala Aflam", "أو إس إن ياهلا أفلام"],
      [("eg_en", "Osn Ya Hala Aflam.eg"), ("eg_ar", "أو إس إن ياهلا أفلام.eg")]),
     ("OSNYaHalaBilArabi.osn", "osn_yahala_bilarabi",
      ["OSN Yahala Bil Arabi", "OSN: YAHALA BIL ARABI", "OSN Ya Hala Bil Arabi", "OSN TV Yahala Bil Arabi",
       "أو إس إن ياهلا بالعربي"],
-     [("eg_en", "OSN TV Yahala Bil Arabi.eg"), ("eg_ar", "أو إس إن ياهلا بالعربي.eg")]),
+     [("eg_en", "OSN TV Yahala Bil Arabi.eg"), ("eg_ar", "أو إس إن ياهلا بالعربي.eg"),
+      ("ipe_ae", "OSNTVYahalaBilArabi.ae")]),
     # THREE MORE OF THE PACKAGE, asked for from a photograph of the list.
     # saudiarabia1 carries Discovery ID and Fatafeat in Arabic (its clock
     # measured for the MBC guide), uae2 carries Nick Jr — its clock
