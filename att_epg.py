@@ -111,8 +111,16 @@ PLAYLISTS = ("XTREAM", "XTREAM2")
 # Playlists that bring no guide of their own (the second answers
 # xmltv.php with nothing): every one of their channels a trusted source
 # names exactly is given one — see playlist_match.py.
-GUIDELESS = ("XTREAM2",)
+#
+# The first playlist too (22 October 2026): its own guide schedules a
+# fraction of its channels (427 of 1,912 UK, 62 of 329 CBS). Safe only with
+# same_country/no_foreign_names below — without them it filed beIN MENA's
+# schedule under French beIN's id.
+GUIDELESS = ("XTREAM", "XTREAM2")
 FULL: set[tuple[str, str, str]] = set()
+# Family4k's own channels, for family_coverage.py (what rides SAIF ALKASS).
+FAMILY_PREFIX = "XTREAM2"
+FAMILY: set[tuple[str, str, str]] = set()
 # (pattern on the playlist name, the brand's mark in logos/), first match wins.
 BRAND_LOGOS = [
     (r"\bshoof\s*max\b", "shoofmax.png"),
@@ -242,6 +250,8 @@ def playlists() -> list[tuple[str, str, str]] | None:
         found = True
         if prefix in GUIDELESS:
             FULL.update(part)
+        if prefix == FAMILY_PREFIX:
+            FAMILY.update(part)
         for stream in part:
             if stream not in seen:
                 seen.add(stream)
@@ -266,6 +276,8 @@ def playlists() -> list[tuple[str, str, str]] | None:
         found = True
         if prefix in GUIDELESS:
             FULL.update(part)
+        if prefix == FAMILY_PREFIX:
+            FAMILY.update(part)
         streams.extend(part)
     if fresh:
         _remember(fresh)
@@ -1192,7 +1204,7 @@ def build() -> int:
     # The guideless playlist's channels as the player shows them — name and
     # the provider's guide id, nothing of the login — for family_coverage.py.
     with open("family_channels.json", "w", encoding="utf-8") as handle:
-        json.dump(sorted([name, epg] for _cat, name, epg in FULL), handle,
+        json.dump(sorted([name, epg] for _cat, name, epg in FAMILY), handle,
                   ensure_ascii=False)
     return 0
 
