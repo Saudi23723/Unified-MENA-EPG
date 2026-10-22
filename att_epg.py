@@ -399,19 +399,25 @@ def read_source(session, source: str, wanted, floor, ceiling, on_channel=None):
         raw = r.content
         handle = BytesIO(gzip.decompress(raw) if raw[:2] == b"\x1f\x8b" else raw)
     found: dict[str, list[ET.Element]] = {}
+    called: dict[str, set] = {}
     with handle:
         for _event, el in ET.iterparse(handle, events=("end",)):
             if el.tag == "programme":
                 cid = el.get("channel")
                 if (wanted(cid) if callable(wanted) else cid in wanted):
                     start, stop = when(el.get("start")), when(el.get("stop"))
+                    title = (el.findtext("title") or "").strip()
+                    # A row that only says the channel's name ("Lana TV"
+                    # every three hours) is the source's padding, not a show.
                     if start and stop and stop > floor and start < ceiling \
-                            and stop > start and not PLACEHOLDER.match(
-                                (el.findtext("title") or "").strip()):
+                            and stop > start and not PLACEHOLDER.match(title) \
+                            and title.casefold() not in called.get(cid, ()):
                         found.setdefault(cid, []).append(el)
                         continue
                 el.clear()
             elif el.tag == "channel":
+                called[el.get("id") or ""] = {(d.text or "").strip().casefold()
+                                              for d in el.findall("display-name")}
                 icon = el.find("icon")
                 if icon is not None and (icon.get("src") or "").startswith("http"):
                     SOURCE_ICONS[(source, el.get("id") or "")] = icon.get("src")
@@ -419,7 +425,29 @@ def read_source(session, source: str, wanted, floor, ceiling, on_channel=None):
                     on_channel(el.get("id") or "",
                                [d.text or "" for d in el.findall("display-name")])
                 el.clear()
-    return found
+    return one_schedule_many_names(found, called)
+
+
+def one_schedule_many_names(found: dict, called: dict) -> dict:
+    """Without the schedules a source files under three or more different
+    channels at once. AE1 gave Syria TV's rows to Al Qanat 9, Syria One,
+    Ekhbaria, Jordan Sama and Rojava FM (22 October 2026), "Friday Prayer"
+    on a Thursday: a schedule that is everyone's is nobody's. Copies of one
+    channel (MBC 1, MBC 1 HD) and one network's cities (7TWO Sydney, 7TWO
+    Melbourne) begin with the same word, and stay."""
+    by_rows: dict[tuple, list[str]] = {}
+    for cid, programmes in found.items():
+        rows = tuple(sorted((p.get("start"), (p.findtext("title") or "").strip())
+                            for p in programmes)[:8])
+        if len(rows) >= 4:
+            by_rows.setdefault(rows, []).append(cid)
+    drop = set()
+    for cids in by_rows.values():
+        firsts = {(pm.norm(pm.shown_name(sorted(called.get(c) or {c})[0])).split() or [c])[0]
+                  for c in cids}
+        if len(firsts) >= 3:
+            drop.update(cids)
+    return {cid: p for cid, p in found.items() if cid not in drop}
 
 
 def when(stamp: str | None) -> datetime | None:
