@@ -9,8 +9,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with: {ref: probe-shasha}
+        with: {ref: main}
       - uses: actions/setup-python@v5
         with: {python-version: "3.12"}
-      - run: pip install -q requests
-      - run: python tools/_zain_probe.py
+      - run: sudo apt-get install -y -qq libraqm0 libfribidi0 >/dev/null; pip install -q -r requirements.txt
+      - run: |
+          git fetch -q --depth=1 origin probe-shasha && git checkout FETCH_HEAD -- tools/_zain_probe.py
+          git fetch -q --depth=1 origin claude/epg-channels-not-updating-pa2732 && git checkout FETCH_HEAD -- att_epg.py
+      - run: python tools/_zain_probe.py 2>&1 | grep "::notice"
+        env:
+          XTREAM_URL: ${{ secrets.XTREAM_URL }}
+          XTREAM_USER: ${{ secrets.XTREAM_USER }}
+          XTREAM_PASS: ${{ secrets.XTREAM_PASS }}
+          XTREAM2_URL: ${{ secrets.XTREAM2_URL }}
+          XTREAM2_USER: ${{ secrets.XTREAM2_USER }}
+          XTREAM2_PASS: ${{ secrets.XTREAM2_PASS }}

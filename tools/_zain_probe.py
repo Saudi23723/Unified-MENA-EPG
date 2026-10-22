@@ -1,25 +1,31 @@
-import requests, gzip
-from datetime import datetime
+import sys, re, gzip, json, collections
+sys.path.insert(0, ".")
+import att_epg
 import xml.etree.ElementTree as ET
-H = {"User-Agent": "Mozilla/5.0"}
-def load(u):
-    d = requests.get(u, headers=H, timeout=120).content
-    if d[:2] == b"\x1f\x8b": d = gzip.decompress(d)
-    return ET.fromstring(d)
-w = lambda x: datetime.strptime(x, "%Y%m%d%H%M%S %z")
-eg1 = load("https://www.open-epg.com/files/egypt1.xml"); ae = load("https://iptv-epg.org/files/epg-ae.xml")
-import re
-def base(t): return re.split(r"\s*[:\-]\s*(?:الحلقة|Episode|الموسم)", t)[0].strip()
-def rows(r, cid): return sorted((w(p.get("start")), base(p.findtext("title").strip())) for p in r.findall("programme") if p.get("channel") == cid)
+from datetime import datetime, timezone
+att_epg.build()
+root = ET.fromstring(gzip.open("att_epg.xml.gz").read())
+now = datetime.now(timezone.utc); w = lambda x: datetime.strptime(x, "%Y%m%d%H%M%S %z")
+FILL = re.compile(r"لم يُعلن البث|No listing|No Data|24/7|على مدار الساعة")
+cur = {}
+for p in root.findall("programme"):
+    if w(p.get("start")) <= now < w(p.get("stop")): cur[p.get("channel")] = p.findtext("title")
+idx = collections.defaultdict(list)
+for c in root.findall("channel"):
+    for d in c.findall("display-name"): idx[d.text].append(c.get("id"))
 out = []
-for egid, aeid in (("أو إس إن ياهلا.eg", "OSNTVYahala.ae"), ("أو إس إن ياهلا بالعربي.eg", "OSNTVYahalaBilArabi.ae")):
-    e = rows(eg1, egid); a = rows(ae, aeid)
-    ed = {}
-    for s, t in e: ed.setdefault(t, []).append(s)
-    offs = []
-    for s, t in a:
-        if t in ed: offs.append(min((int((s - x).total_seconds() // 60) for x in ed[t]), key=abs))
-    out.append(f"{aeid}: eg1 rows {len(e)} (last {e[-1][0]:%m-%d %H:%M} if e else '-'), ae rows {len(a)} last {a[-1][0]:%m-%d %H:%M}, distinct {len({t for _,t in a})}, shared {len(offs)}, offsets {sorted(set(offs))[:10]}")
-    out += [f"   eg {s:%m-%d %H:%M} {t}" for s, t in e][:6]
-    out += [f"   ae {s:%m-%d %H:%M} {t}" for s, t in a if s.day in (22, 23)][:6]
-print("::notice::" + "%0A".join(out))
+for n in ("Fr: BeIN Sports 1 FHD", "Fr: BeIN Sports 2 FHD", "Fr: BeIN Sports 3 HD", "Fr: Baby TV", "Fr: Canal+", "Fr: TF1", "Fr: RMC Sport 1", "UK: BBC One", "TR: beIN Sports 1"):
+    out.append(f"{n} -> {[(i, (cur.get(i) or '')[:40]) for i in idx.get(n, [])]}")
+for cid in ("beinsports1.fr", "beinsports1.tr", "babytv.pt", "BabyTV.pt"):
+    c = [x for x in root.findall("channel") if x.get("id") == cid]
+    out.append(f"id {cid}: {[d.text for d in c[0].findall('display-name')][:3] if c else 'absent'} now {cur.get(cid, '')[:40]}")
+pc = json.load(open("playlist_cache.json"))
+for k in pc:
+    tot = len(pc[k]); good = sum(1 for _, n, _ in pc[k] if any(i in cur and not FILL.search(cur[i] or "") for i in idx.get(n, [])))
+    out.append(f"{k}: {good}/{tot} with a real programme now")
+fr = [n for k in pc for _, n, _ in pc[k] if re.match(r"\s*fr\s*[:|]", n, re.I)]
+out.append(f"French: {sum(1 for n in fr if any(i in cur and not FILL.search(cur[i] or '') for i in idx.get(n, [])))}/{len(fr)}")
+text = "%0A".join(out)
+for s in att_epg.SECRETS:
+    if s: text = text.replace(s, "***")
+print("::notice::" + text[:9000])
