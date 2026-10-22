@@ -275,6 +275,49 @@ def collapsed_against_previous(root: ET.Element, output_path: str) -> str:
     return ""
 
 
+def keep_from_previous(root: ET.Element, output_path: str, ids,
+                       now: datetime | None = None) -> list[str]:
+    """Carry the previous file's schedule for channels this run lost.
+
+    A source that fails for one run (beIN's sports API did, and 31 sports
+    channels left the guide for twenty minutes) must not take its channels
+    off a viewer's guide. For each id in ``ids`` that this tree does not
+    carry but the published file does, the old channel and every programme
+    still to end are put back. Only ids the caller names are carried, so a
+    channel removed on purpose is never kept alive by this.
+    """
+    now = now or datetime.now(timezone.utc)
+    have = {c.get("id") for c in root.findall("channel")}
+    wanted = {i for i in ids if i not in have}
+    if not wanted or not os.path.exists(output_path):
+        return []
+    try:
+        old = ET.parse(output_path).getroot()
+    except (ET.ParseError, OSError):
+        return []
+    kept: list[str] = []
+    for channel in old.findall("channel"):
+        if channel.get("id") not in wanted:
+            continue
+        rows = []
+        for programme in old.findall("programme"):
+            if programme.get("channel") != channel.get("id"):
+                continue
+            try:
+                stop = datetime.strptime(programme.get("stop", ""),
+                                         "%Y%m%d%H%M%S %z")
+            except ValueError:
+                continue
+            if stop > now:
+                rows.append(programme)
+        if not rows:
+            continue
+        root.append(channel)
+        root.extend(rows)
+        kept.append(channel.get("id"))
+    return kept
+
+
 def order_for_xmltv(root: ET.Element) -> int:
     """Put every <channel> before every <programme>, in place.
 
