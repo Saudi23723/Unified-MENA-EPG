@@ -25,3 +25,6 @@ jobs:
           XTREAM2_URL: ${{ secrets.XTREAM2_URL }}
           XTREAM2_USER: ${{ secrets.XTREAM2_USER }}
           XTREAM2_PASS: ${{ secrets.XTREAM2_PASS }}
+          XTREAM3_URL: ${{ secrets.XTREAM3_URL }}
+          XTREAM3_USER: ${{ secrets.XTREAM3_USER }}
+          XTREAM3_PASS: ${{ secrets.XTREAM3_PASS }}
