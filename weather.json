@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-23T12:16:45.926Z",
+  "updated_at": "2026-10-23T12:23:27.167Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -151,12 +151,12 @@
       "longitude": 54.3773,
       "temperature_c": 33.5,
       "humidity": 46,
-      "wind_speed": 11.8,
+      "wind_speed": 13.0,
       "rain_chance": 4,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-10-23T16:15",
-      "feels_c": 35.7,
+      "feels_c": 35.5,
       "utc_offset": 14400,
       "days": [
         {
@@ -291,19 +291,19 @@
       "country": "بريطانيا",
       "latitude": 51.5074,
       "longitude": -0.1278,
-      "temperature_c": 12.4,
-      "humidity": 91,
-      "wind_speed": 17.3,
+      "temperature_c": 12.2,
+      "humidity": 92,
+      "wind_speed": 16.6,
       "rain_chance": 100,
-      "condition": "مطر خفيف",
-      "weather_code": 61,
+      "condition": "مطر",
+      "weather_code": 63,
       "observed_at": "2026-10-23T13:15",
-      "feels_c": 10.2,
+      "feels_c": 10.1,
       "utc_offset": 3600,
       "days": [
         {
           "date": "2026-10-23",
-          "code": 61,
+          "code": 63,
           "max": 13.2,
           "min": 8.5,
           "rain": 100
@@ -362,21 +362,21 @@
       "country": "بريطانيا",
       "latitude": 53.4808,
       "longitude": -2.2426,
-      "temperature_c": 9.8,
-      "humidity": 95,
-      "wind_speed": 15.8,
+      "temperature_c": 10.0,
+      "humidity": 93,
+      "wind_speed": 11.9,
       "rain_chance": 67,
-      "condition": "رذاذ كثيف",
-      "weather_code": 55,
+      "condition": "غائم",
+      "weather_code": 3,
       "observed_at": "2026-10-23T13:15",
-      "feels_c": 7.2,
+      "feels_c": 7.9,
       "utc_offset": 3600,
       "days": [
         {
           "date": "2026-10-23",
           "code": 61,
-          "max": 11.0,
-          "min": 7.1,
+          "max": 10.8,
+          "min": 7.3,
           "rain": 100
         },
         {
@@ -422,8 +422,8 @@
           "rain": 10
         }
       ],
-      "today_max": 11.0,
-      "today_min": 7.1,
+      "today_max": 10.8,
+      "today_min": 7.3,
       "sunrise": "07:50",
       "sunset": "17:54",
       "uv": 0
