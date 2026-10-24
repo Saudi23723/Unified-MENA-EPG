@@ -16,11 +16,28 @@ from collections import defaultdict
 SRC = "unified_mena_epg.xml"
 # One guide per playlist: its name map -> the file DreamTV is pointed at.
 PLAYLISTS = [("argon_names.json", "argon_epg.xml"), ("hydra_names.json", "hydra_epg.xml")]
+# Compact guides (m3u4u-style): 2 h back, 24 h ahead, one title + short description per show, one line each.
+COMPACT = {"hydra_epg.xml"}
 now = datetime.datetime.now(datetime.timezone.utc)
 lo = (now - datetime.timedelta(hours=3)).strftime("%Y%m%d%H%M%S")
 hi = (now + datetime.timedelta(hours=48)).strftime("%Y%m%d%H%M%S")
 
+lo2 = (now - datetime.timedelta(hours=2)).strftime("%Y%m%d%H%M%S")
+hi2 = (now + datetime.timedelta(hours=24)).strftime("%Y%m%d%H%M%S")
+
 text = open(SRC, encoding="utf-8").read()
+
+
+def compact(p):
+  head = re.match(r'<programme\b[^>]*>', p).group(0)
+  t = re.search(r'<title[^>]*>(.*?)</title>', p, re.S)
+  d = re.search(r'<desc[^>]*>(.*?)</desc>', p, re.S)
+  out = head + f'<title>{t.group(1).strip() if t else ""}</title>'
+  if d:
+    dd = " ".join(d.group(1).split())
+    if len(dd) > 160: dd = dd[:157].rsplit(" ", 1)[0] + "..."
+    out += f'<desc>{dd}</desc>'
+  return out + '</programme>'
 
 
 def build(NAMES, OUT):
@@ -28,8 +45,10 @@ def build(NAMES, OUT):
   progs = defaultdict(list)
   for m in re.finditer(r'<programme\b[^>]*?start="(\d{14})[^"]*"[^>]*?stop="(\d{14})[^"]*"'
                        r'[^>]*?channel="([^"]*)"[^>]*>.*?</programme>', text, re.S):
-      if m.group(3) in names and m.group(2) >= lo and m.group(1) <= hi:
-          progs[m.group(3)].append(re.sub(r'\s*<icon[^>]*/>', "", m.group(0)))
+      small = OUT in COMPACT
+      if m.group(3) in names and m.group(2) >= (lo2 if small else lo) and m.group(1) <= (hi2 if small else hi):
+          p = re.sub(r'\s*<icon[^>]*/>', "", m.group(0))
+          progs[m.group(3)].append(compact(p) if small else p)
 
   out = ['<?xml version="1.0" encoding="UTF-8"?>', '<tv generator-info-name="Unified-MENA-EPG argon_epg">']
   body = []
