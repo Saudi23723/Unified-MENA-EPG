@@ -65,6 +65,7 @@ import requests
 import every_name
 import playlist_logos as pl
 import playlist_match as pm
+import us_station_calls
 
 OUT = "att_epg.xml.gz"
 MAP = "att_channels.json"
@@ -566,6 +567,12 @@ def starz_target(name: str) -> str | None:
 # the same categories (FOX NEWS, FS1, NBC's BRAVO...) take the AT&T
 # category's reviewed match.
 US_NETWORK = re.compile(r"^US\|\s*(NBC|FOX|CBS|ABC)\b", re.I)
+# The CW stations and the "US| TV" categories (A3 / city feeds of the same
+# local stations) join them by call sign only, and only when that station's
+# listing is found: one that is not keeps the guide it had (the owner: "ABC,
+# NBC, FOX, CBS add for every states channel ... check if it is already
+# avaliable or not if not add every single one", 24 October 2026).
+US_MORE = re.compile(r"^US\|\s*(CW|TV)\b", re.I)
 CALL = re.compile(r"\b([KW][A-Z]{2,3})\b")
 NOT_CALLS = {"WEST", "WACO", "KIDS", "WILD", "WIDE", "WIRE", "WOW", "WWE"}
 
@@ -576,11 +583,30 @@ def call_sign(name: str, epg: str) -> str | None:
               for c in CALL.findall(part) if c not in NOT_CALLS]
     calls = inside or [c for c in CALL.findall(text) if c not in NOT_CALLS]
     if not calls:
+        # "ABC 7 HD [BUFFALO]": network, number and city name the station.
+        known = us_station_calls.lookup(name)
+        calls = [known] if known else []
+    if not calls:
         return None
     filed = re.match(r"([KW][A-Z]{2,3})\.us$", epg or "", re.I)
     if filed and filed.group(1).upper() != calls[0]:
         return None
     return calls[0]
+
+
+# In the CW / TV categories a four-letter word is a call sign only where the
+# name shows it as one: in brackets, next to a network ("WABE PBS 30"), or
+# from us_station_calls. "TV: KING OF THE HILL" is not KING Seattle.
+STATION_WORD = r"(?:ABC|CBS|NBC|FOX|CW|PBS|MNT|MY|IND|ION|TEL|UNI|UMA|TBD|ANT|ME|COZI|IND)"
+
+
+def station_like(name: str, sign: str) -> bool:
+    text = re.sub(r"^[^:]{1,6}:\s*", "", name.upper())
+    if re.search(rf"\(\s*{sign}(?:-?DT\d?)?\s*\)", text):
+        return True
+    if re.search(rf"\b{sign}\b\s+{STATION_WORD}\b|\b{STATION_WORD}\s+\d*\s*\(?{sign}\b", text):
+        return True
+    return us_station_calls.lookup(name) == sign
 
 
 # Names in the network categories that are not the AT&T category's words.
@@ -1069,6 +1095,7 @@ def build() -> int:
 
     counts = {"Alkass": 0, "beIN": 0, "STARZPLAY": 0, "US local": 0, "US cable": 0}
     us_pending: dict[str, str | None] = {}      # name -> call sign, or None
+    us_optional: set[str] = set()                # CW / TV names: released if not found
     for cat, name, epg in streams:
         number = alkass_number(name)
         if CATEGORY.search(cat):
@@ -1093,6 +1120,13 @@ def build() -> int:
                 counts["US cable"] += 1
             else:
                 us_pending[name] = sign
+        elif US_MORE.search(cat):
+            sign = call_sign(name, epg)
+            if sign and not station_like(name, sign):
+                sign = None
+            if sign:
+                us_pending[name] = sign
+                us_optional.add(name)
         elif (cat, name, epg) in FULL and re.match(r"\s*USA\b", cat, re.I):
             # The guideless playlist's local stations, by the call sign it
             # writes in brackets ("ABC 7 (WABC) New York") — and only then.
@@ -1174,6 +1208,10 @@ def build() -> int:
             by_sign[name].sort(key=lambda c: ("dt." in c.lower(), c))
         settle(source, by_sign)
     say(f"US stations: {len(us_pending)} name(s) left with no listing")
+    # A CW / TV name whose station has no listing goes back to the name
+    # matching below, exactly as before it was tried here.
+    for name in [n for n in us_pending if n in us_optional]:
+        del us_pending[name]
 
     # The guideless playlist: every channel the rules above did not take is
     # matched by name — ours first, then its country's sources — or, for
