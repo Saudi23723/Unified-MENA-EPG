@@ -25,13 +25,15 @@ jobs:
           python-version: "3.12"
       - name: Build argon_epg.xml and hydra_epg.xml
         run: python argon_epg.py
+      - name: Build Xtream guide for the DreamTV relay (xtream/)
+        run: python xtream_epg.py
       - name: Validate XMLTV
         run: python -c "import xml.etree.ElementTree as E; [E.parse(f) for f in ('argon_epg.xml','hydra_epg.xml')]; print('VALID')"
       - name: Commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add argon_epg.xml hydra_epg.xml
+          git add argon_epg.xml hydra_epg.xml xtream
           git diff --cached --quiet && { echo "No changes."; exit 0; }
           git commit -m "Update Argon EPG"
           for attempt in 1 2 3 4 5; do
