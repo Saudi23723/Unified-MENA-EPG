@@ -6,7 +6,7 @@ The relay answers from files built here. Names only: no links or logins anywhere
 
 Input  xtream/<playlist>/channels.json  [{stream_id, name, group, epg}]
        epg = "<id>" or "u:<id>"  -> unified_mena_epg.xml (this repo)
-             "e:<id>"            -> epgshare01 ALL_SOURCES (public XMLTV)
+             "e:<id>"            -> reserved for an approved public source (none yet)
 Output (main branch, small, change rarely)
        xtream/<playlist>/live_categories.json, live_streams.json, cat/<category_id>.json
        xtream/epg/<id>.json      guide for unified ids (kept for the first Hydra relay)
@@ -14,10 +14,9 @@ Output (_data/, published to the xtream-data branch with no history)
        epg/u/<id>.json, epg/e/<id>.json   {"epg_listings": [...]}, 3 h back, 36 h ahead
        map/<playlist>/<n>.json            {stream_id: "u/<id>"}, n = stream_id % 256
 """
-import base64, datetime, glob, gzip, html, json, os, re, shutil, sys, urllib.request
+import base64, datetime, glob, html, json, os, re, shutil
 
 SRC = "unified_mena_epg.xml"
-EXTRA = "https://epgshare01.online/epgshare01/epg_ripper_ALL_SOURCES1.xml.gz"
 now = datetime.datetime.now(datetime.timezone.utc)
 lo, hi = now - datetime.timedelta(hours=3), now + datetime.timedelta(hours=36)
 OUT = "_data"
@@ -119,33 +118,8 @@ for m in re.finditer(r'<programme\b([^>]*)>(.*?)</programme>', src, re.S):
         listings["u"][c].append(it)
 del src
 
-# 3) public guide for the other channels (streamed, never kept whole)
-if want["e"]:
-    try:
-        req = urllib.request.Request(EXTRA, headers={"User-Agent": "Mozilla/5.0"})
-        with urllib.request.urlopen(req, timeout=600) as r, gzip.GzipFile(fileobj=r) as g:
-            buf = ""
-            for chunk in iter(lambda: g.read(1 << 20), b""):
-                buf += chunk.decode("utf-8", "replace")
-                last = buf.rfind("</programme>")
-                if last < 0:
-                    continue
-                part, buf = buf[:last + 12], buf[last + 12:]
-                for m in re.finditer(r'<programme\b([^>]*)>(.*?)</programme>', part, re.S):
-                    a = m.group(1)
-                    c = re.search(r'channel="([^"]*)"', a)
-                    c = html.unescape(c.group(1)) if c else None
-                    if c not in listings["e"]:
-                        continue
-                    t = re.search(r"<title\b[^>]*>(.*?)</title>", m.group(2), re.S)
-                    d = re.search(r"<desc\b[^>]*>(.*?)</desc>", m.group(2), re.S)
-                    st = re.search(r'start="([^"]*)"', a); sp = re.search(r'stop="([^"]*)"', a)
-                    if st and sp:
-                        it = item(c, st.group(1), sp.group(1), t and t.group(1), d and d.group(1))
-                        if it:
-                            listings["e"][c].append(it)
-    except Exception as e:
-        print("public guide not read this run:", e, file=sys.stderr)
+# 3) "e:" ids (non-Arabic channels such as TSN) wait for an approved public source: this repository's
+#    gate (channel_gate_selftest.py) allows no aggregated dump that is not on its named list.
 
 # 4) write
 shutil.rmtree(OUT, ignore_errors=True)
