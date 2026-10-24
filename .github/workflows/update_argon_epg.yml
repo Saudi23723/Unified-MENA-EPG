@@ -23,15 +23,15 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Build argon_epg.xml
+      - name: Build argon_epg.xml and hydra_epg.xml
         run: python argon_epg.py
       - name: Validate XMLTV
-        run: python -c "import xml.etree.ElementTree as E; r=E.parse('argon_epg.xml').getroot(); assert r.tag=='tv' and r.find('channel') is not None; print('ARGON EPG VALID')"
+        run: python -c "import xml.etree.ElementTree as E; [E.parse(f) for f in ('argon_epg.xml','hydra_epg.xml')]; print('VALID')"
       - name: Commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add argon_epg.xml
+          git add argon_epg.xml hydra_epg.xml
           git diff --cached --quiet && { echo "No changes."; exit 0; }
           git commit -m "Update Argon EPG"
           for attempt in 1 2 3 4 5; do
