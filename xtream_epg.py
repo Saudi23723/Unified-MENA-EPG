@@ -7,6 +7,8 @@ The relay answers from files built here. Names only: no links or logins anywhere
 Input  xtream/<playlist>/channel_map.json  [{stream_id, name, group, epg}]
        epg = "<id>" or "u:<id>"  -> unified_mena_epg.xml (this repo)
              "o:<id>"            -> official_sports_epg.xml (this repo: Sky, TNT, TSN, Sportsnet)
+             "a:<id>"            -> att_epg.xml.gz (this repo's guide for the same Xtream playlist,
+                                    att-epg branch; the workflow copies it in with git)
              "e:<id>"            -> reserved for an approved public source (none yet)
 Output (main branch, small, change rarely)
        xtream/<playlist>/live_categories.json, live_streams.json, cat/<category_id>.json
@@ -15,10 +17,11 @@ Output (_data/, published to the xtream-data branch with no history)
        epg/u|o|e/<id>.json   {"epg_listings": [...]}, 3 h back, 36 h ahead
        map/<playlist>/<n>.json            {stream_id: "u/<id>"}, n = stream_id % 256
 """
-import base64, datetime, glob, html, json, os, re, shutil
+import base64, datetime, glob, gzip, html, json, os, re, shutil
 
 SRC = "unified_mena_epg.xml"
 OFFICIAL = "official_sports_epg.xml"
+ATT = "att_epg.xml.gz"
 now = datetime.datetime.now(datetime.timezone.utc)
 lo, hi = now - datetime.timedelta(hours=3), now + datetime.timedelta(hours=36)
 OUT = "_data"
@@ -64,13 +67,13 @@ def item(cid, start, stop, title, desc):
 def split(epg):
     if not epg:
         return None
-    if epg.startswith(("u:", "o:", "e:")):
+    if epg.startswith(("u:", "o:", "a:", "e:")):
         return epg[0], epg[2:]
     return "u", epg
 
 
 # 1) channel lists -> Xtream answers + what guides are needed
-want = {"u": set(), "o": set(), "e": set()}
+want = {"u": set(), "o": set(), "a": set(), "e": set()}
 hydra_compat = set()
 maps = {}
 for f in sorted(glob.glob("xtream/*/channel_map.json")):
@@ -105,10 +108,10 @@ for f in sorted(glob.glob("xtream/*/channel_map.json")):
 listings = {k: {c: [] for c in v} for k, v in want.items()}
 
 # 2) this repository's own guides: the unified one, and the broadcasters' own (official_sports_epg.py)
-for kind, path in (("u", SRC), ("o", OFFICIAL)):
+for kind, path in (("u", SRC), ("o", OFFICIAL), ("a", ATT)):
     if not os.path.exists(path):
         continue
-    src = open(path, encoding="utf-8").read()
+    src = (gzip.open(path) if path.endswith(".gz") else open(path, "rb")).read().decode("utf-8", "replace")
     for m in re.finditer(r'<programme\b([^>]*)>(.*?)</programme>', src, re.S):
         a = m.group(1)
         c = re.search(r'channel="([^"]*)"', a)
@@ -128,7 +131,7 @@ for kind, path in (("u", SRC), ("o", OFFICIAL)):
 
 # 4) write
 shutil.rmtree(OUT, ignore_errors=True)
-for kind in ("u", "o", "e"):
+for kind in ("u", "o", "a", "e"):
     os.makedirs(f"{OUT}/epg/{kind}", exist_ok=True)
     for c, items in listings[kind].items():
         items.sort(key=lambda x: int(x["start_timestamp"]))
@@ -144,7 +147,7 @@ for old in glob.glob("xtream/epg/*.json"):
 for kind, c in hydra_compat:
     json.dump({"epg_listings": listings[kind][c]}, open(f"xtream/epg/{safe(c)}.json", "w", encoding="utf-8"),
               ensure_ascii=True)
-for kind in ("u", "o", "e"):
+for kind in ("u", "o", "a", "e"):
     full = sum(1 for v in listings[kind].values() if v)
     print(f"xtream {kind}: {full}/{len(listings[kind])} guide channels with programmes, "
           f"{sum(map(len, listings[kind].values()))} programmes")

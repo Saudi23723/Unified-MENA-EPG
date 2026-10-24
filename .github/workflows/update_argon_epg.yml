@@ -28,6 +28,9 @@ jobs:
           python-version: "3.12"
       - name: Build argon_epg.xml and hydra_epg.xml
         run: python argon_epg.py
+      - name: Copy this repository's AT&T guide in (att-epg branch)
+        run: |
+          git fetch -q --depth 1 origin att-epg && git show FETCH_HEAD:att_epg.xml.gz > att_epg.xml.gz || rm -f att_epg.xml.gz
       - name: Build Xtream data for the DreamTV relays (xtream/ and _data/)
         run: python xtream_epg.py
       - name: Validate XMLTV
