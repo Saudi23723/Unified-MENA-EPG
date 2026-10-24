@@ -74,7 +74,8 @@ def channel_key(name: str):
     # the channel's number sorts after its words: beIN SPORTS 1..9, then beIN SPORTS XTRA 1..9
     numbers = [int(w) for w in rest if w.isdigit()]
     words_only = " ".join(w for w in rest if not w.isdigit())
-    qrank = min((QUALITY.index(w) for w in q), default=len(QUALITY))
+    # a name with no picture word is the plain HD feed
+    qrank = min((QUALITY.index(w) for w in q), default=QUALITY.index("HD"))
     return natural(words_only), numbers, qrank, natural(name)
 
 
