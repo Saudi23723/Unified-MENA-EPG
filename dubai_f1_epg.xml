@@ -5,18 +5,6 @@
     <display-name lang="ar">الفورمولا 1</display-name>
     <display-name lang="en">Formula 1</display-name>
   </channel>
-  <programme start="20261023200000 +0000" stop="20261023210000 +0000" channel="Formula1Dubai">
-    <title lang="en">🏁 United States Grand Prix</title>
-    <desc lang="ar">United States Grand Prix
-بتوقيت الإمارات
-
-FP1 — الجمعة 21:30
-FP2 — السبت 01:00
-FP3 — السبت 21:30
-QUALI — الأحد 01:00
-RACE — الاثنين 00:00</desc>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/dubai_f1_0.png" />
-  </programme>
   <programme start="20261023210000 +0000" stop="20261023220000 +0000" channel="Formula1Dubai">
     <title lang="en">🏎️ FP2 · United States Grand Prix</title>
     <desc lang="ar">United States Grand Prix
@@ -66,7 +54,7 @@ RACE — الاثنين 00:00</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/dubai_f1_0.png" />
   </programme>
   <programme start="20261024210000 +0000" stop="20261024220000 +0000" channel="Formula1Dubai">
-    <title lang="en">🏎️ QUALI · United States Grand Prix</title>
+    <title lang="en">🏎️ QUALI · United States Grand Prix • Live 🟢</title>
     <desc lang="ar">United States Grand Prix
 بتوقيت الإمارات
 
@@ -75,6 +63,7 @@ FP2 — السبت 01:00
 FP3 — السبت 21:30
 QUALI — الأحد 01:00
 RACE — الاثنين 00:00</desc>
+    <category lang="en">Live</category>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/dubai_f1_0.png" />
   </programme>
   <programme start="20261024220000 +0000" stop="20261025200000 +0000" channel="Formula1Dubai">
