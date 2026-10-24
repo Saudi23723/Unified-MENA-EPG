@@ -6,6 +6,9 @@ on:
   schedule:
     - cron: "23 */6 * * *"
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths: [xtream_epg.py, "xtream/*/channels.json", .github/workflows/update_argon_epg.yml]
 
 permissions:
   contents: write
@@ -17,7 +20,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -25,7 +28,7 @@ jobs:
           python-version: "3.12"
       - name: Build argon_epg.xml and hydra_epg.xml
         run: python argon_epg.py
-      - name: Build Xtream guide for the DreamTV relay (xtream/)
+      - name: Build Xtream data for the DreamTV relays (xtream/ and _data/)
         run: python xtream_epg.py
       - name: Validate XMLTV
         run: python -c "import xml.etree.ElementTree as E; [E.parse(f) for f in ('argon_epg.xml','hydra_epg.xml')]; print('VALID')"
@@ -33,6 +36,10 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # guide files change every run: publish them on their own branch with no history
+          ( cd _data && git init -q -b xtream-data && git add -A \
+            && git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -q -m "Xtream guide data" \
+            && git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" xtream-data )
           git add argon_epg.xml hydra_epg.xml xtream
           git diff --cached --quiet && { echo "No changes."; exit 0; }
           git commit -m "Update Argon EPG"
