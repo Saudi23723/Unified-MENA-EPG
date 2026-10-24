@@ -92,7 +92,7 @@ for f in sorted(glob.glob("xtream/*/channels.json")):
             mp.setdefault(str(c["stream_id"] % 256), {})[str(c["stream_id"])] = f"{sp[0]}/{safe(sp[1])}"
             if name == "hydra" and sp[0] == "u":
                 hydra_compat.add(sp[1])
-    dump = lambda o, p: json.dump(o, open(p, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
+    dump = lambda o, p: json.dump(o, open(p, "w", encoding="utf-8"), ensure_ascii=True, separators=(",", ":"))
     dump([{"category_id": str(i + 1), "category_name": g, "parent_id": 0} for i, g in enumerate(cats)],
          f"{play}/live_categories.json")
     dump(streams, f"{play}/live_streams.json")
@@ -154,7 +154,7 @@ for kind in ("u", "e"):
     for c, items in listings[kind].items():
         items.sort(key=lambda x: int(x["start_timestamp"]))
         json.dump({"epg_listings": items}, open(f"{OUT}/epg/{kind}/{safe(c)}.json", "w", encoding="utf-8"),
-                  ensure_ascii=False, separators=(",", ":"))
+                  ensure_ascii=True, separators=(",", ":"))
 for name, mp in maps.items():
     os.makedirs(f"{OUT}/map/{name}", exist_ok=True)
     for shard, d in mp.items():
@@ -164,7 +164,7 @@ for old in glob.glob("xtream/epg/*.json"):
     os.remove(old)
 for c in hydra_compat:
     json.dump({"epg_listings": listings["u"][c]}, open(f"xtream/epg/{safe(c)}.json", "w", encoding="utf-8"),
-              ensure_ascii=False)
+              ensure_ascii=True)
 for kind in ("u", "e"):
     full = sum(1 for v in listings[kind].values() if v)
     print(f"xtream {kind}: {full}/{len(listings[kind])} guide channels with programmes, "
