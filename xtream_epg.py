@@ -9,6 +9,7 @@ Input  xtream/<playlist>/channel_map.json  [{stream_id, name, group, epg}]
              "o:<id>"            -> official_sports_epg.xml (this repo: Sky, TNT, TSN, Sportsnet)
              "a:<id>"            -> att_epg.xml.gz (this repo's guide for the same Xtream playlist,
                                     att-epg branch; the workflow copies it in with git)
+             "l:<src>/<id>"      -> the owner's own EPG links, as TiviMate shows them (OWNER_LINKS)
              "e:<id>"            -> reserved for an approved public source (none yet)
 Output (main branch, small, change rarely)
        xtream/<playlist>/live_categories.json, live_streams.json, cat/<category_id>.json
@@ -17,11 +18,26 @@ Output (_data/, published to the xtream-data branch with no history)
        epg/u|o|e/<id>.json   {"epg_listings": [...]}, 3 h back, 36 h ahead
        map/<playlist>/<n>.json            {stream_id: "u/<id>"}, n = stream_id % 256
 """
-import base64, datetime, glob, gzip, html, json, os, re, shutil
+import base64, datetime, glob, gzip, html, json, os, re, shutil, sys, urllib.request, zlib
 
 SRC = "unified_mena_epg.xml"
 OFFICIAL = "official_sports_epg.xml"
 ATT = "att_epg.xml.gz"
+# The owner's own EPG links, read off their TiviMate EPG sources (24 October 2026),
+# for the countries this repository has no guide of its own for ("check from my
+# tivimate app how is there guide for ... Italy, Morocco, NOW TV UK, Australia,
+# Switzerland, Portugal, Turkey, Bulgaria"). Only the ones a playlist uses are read.
+OWNER_LINKS = {
+    "italy": "https://cdn.epg.guru/7dayiptv/Italy.xml",
+    "swiss": "https://cdn.epg.guru/7dayiptv/Switzerland.xml.gz",
+    "germany": "https://cdn.epg.guru/7dayiptv/Germany.xml.gz",
+    "portugal": "https://iptv-epg.org/files/epg-pt.xml",
+    "turkey": "https://iptv-epg.org/files/epg-tr.xml",
+    "romania": "https://iptv-epg.org/files/epg-ro.xml",
+    "slovenia": "https://iptv-epg.org/files/epg-si.xml",
+    "combined": "https://iptv-epg.org/files/epg-rhtwyyuokk.xml",
+    "iptvx": "https://iptvx.one/EPG",
+}
 now = datetime.datetime.now(datetime.timezone.utc)
 lo, hi = now - datetime.timedelta(hours=3), now + datetime.timedelta(hours=36)
 OUT = "_data"
@@ -67,13 +83,13 @@ def item(cid, start, stop, title, desc):
 def split(epg):
     if not epg:
         return None
-    if epg.startswith(("u:", "o:", "a:", "e:")):
+    if epg.startswith(("u:", "o:", "a:", "l:", "e:")):
         return epg[0], epg[2:]
     return "u", epg
 
 
 # 1) channel lists -> Xtream answers + what guides are needed
-want = {"u": set(), "o": set(), "a": set(), "e": set()}
+want = {"u": set(), "o": set(), "a": set(), "l": set(), "e": set()}
 hydra_compat = set()
 maps = {}
 for f in sorted(glob.glob("xtream/*/channel_map.json")):
@@ -126,12 +142,59 @@ for kind, path in (("u", SRC), ("o", OFFICIAL), ("a", ATT)):
             listings[kind][c].append(it)
     del src
 
-# 3) "e:" ids (non-Arabic channels such as TSN) wait for an approved public source: this repository's
+# 3) the owner's own links ("l:<src>/<id>"), streamed, never kept whole
+by_src = {}
+for full in want["l"]:
+    src_name, cid = full.split("/", 1)
+    by_src.setdefault(src_name, set()).add(cid)
+
+
+def programmes_from(url):
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/126.0"})
+    with urllib.request.urlopen(req, timeout=600) as r:
+        first = r.read(2)
+        unzip = zlib.decompressobj(16 + zlib.MAX_WBITS) if first == b"\x1f\x8b" else None
+        buf = ""
+        chunk = first
+        while chunk:
+            data = unzip.decompress(chunk) if unzip else chunk
+            buf += data.decode("utf-8", "replace")
+            last = buf.rfind("</programme>")
+            if last >= 0:
+                part, buf = buf[:last + 12], buf[last + 12:]
+                yield from re.finditer(r'<programme\b([^>]*)>(.*?)</programme>', part, re.S)
+            chunk = r.read(1 << 20)
+
+
+for src_name, ids in sorted(by_src.items()):
+    url = OWNER_LINKS.get(src_name)
+    if not url:
+        continue
+    got = 0
+    try:
+        for m in programmes_from(url):
+            a = m.group(1)
+            c = re.search(r'channel="([^"]*)"', a)
+            c = html.unescape(c.group(1)) if c else None
+            if c not in ids:
+                continue
+            st = re.search(r'start="([^"]*)"', a); sp = re.search(r'stop="([^"]*)"', a)
+            t = re.search(r"<title\b[^>]*>(.*?)</title>", m.group(2), re.S)
+            d = re.search(r"<desc\b[^>]*>(.*?)</desc>", m.group(2), re.S)
+            if st and sp:
+                it = item(c, st.group(1), sp.group(1), t and t.group(1), d and d.group(1))
+                if it:
+                    listings["l"][f"{src_name}/{c}"].append(it); got += 1
+    except Exception as exc:  # noqa: BLE001 - one link down: its channels wait for the next run
+        print(f"owner link {src_name} not read this run: {exc}", file=sys.stderr)
+    print(f"owner link {src_name}: {got} programmes for {len(ids)} channel(s)")
+
+# 3b) "e:" ids (non-Arabic channels such as TSN) wait for an approved public source: this repository's
 #    gate (channel_gate_selftest.py) allows no aggregated dump that is not on its named list.
 
 # 4) write
 shutil.rmtree(OUT, ignore_errors=True)
-for kind in ("u", "o", "a", "e"):
+for kind in ("u", "o", "a", "l", "e"):
     os.makedirs(f"{OUT}/epg/{kind}", exist_ok=True)
     for c, items in listings[kind].items():
         items.sort(key=lambda x: int(x["start_timestamp"]))
@@ -147,7 +210,7 @@ for old in glob.glob("xtream/epg/*.json"):
 for kind, c in hydra_compat:
     json.dump({"epg_listings": listings[kind][c]}, open(f"xtream/epg/{safe(c)}.json", "w", encoding="utf-8"),
               ensure_ascii=True)
-for kind in ("u", "o", "a", "e"):
+for kind in ("u", "o", "a", "l", "e"):
     full = sum(1 for v in listings[kind].values() if v)
     print(f"xtream {kind}: {full}/{len(listings[kind])} guide channels with programmes, "
           f"{sum(map(len, listings[kind].values()))} programmes")
