@@ -1,0 +1,28 @@
+== tsn tsn2: 200 items=13
+== tsn tsn3: 200 items=24
+== tsn tsn4: 200 items=21
+== tsn tsn5: 200 items=20
+== https://www.sportsnet.ca/tv-schedule/: ERR len=25
+HTTP Error 404: Not Found
+hints: 
+== https://www.sportsnet.ca/watch/tv-schedule/: ERR len=25
+HTTP Error 404: Not Found
+hints: 
+== https://www.sportsnet.ca/schedule/: 200 len=19203
+<!doctype html><html data-ticker-type="league" data-display-leagues="no-init-leagues" data-display-days="28" lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,user-scalable=yes"/><meta name="google-site-verification" content="fph
+hints: 
+== https://www.sportsnet.ca/wp-json/sportsnet/v1/tv-schedule: ERR len=25
+HTTP Error 404: Not Found
+hints: 
+== https://www.sportsnet.ca/wp-json/sportsnet/v2/tv-schedule: ERR len=25
+HTTP Error 404: Not Found
+hints: 
+== https://mobile-ifs.sportsnet.ca/schedule: ERR len=52
+<urlopen error [Errno -2] Name or service not known>
+hints: 
+== https://www.sportsnetnow.ca/schedule: ERR len=52
+<urlopen error [Errno 104] Connection reset by peer>
+hints: 
+== https://watch.sportsnet.ca/schedule: 200 len=1065803
+<!DOCTYPE html><html lang="en" dir="ltr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=1"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="theme-color" content="#22a7f0"
+hints: 
