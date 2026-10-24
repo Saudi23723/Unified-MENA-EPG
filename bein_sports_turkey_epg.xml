@@ -184,10 +184,6 @@
     <display-name lang="en">TR: beIN SPORTS VIP 5</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_vip5.png" />
   </channel>
-  <programme start="20261023060000 +0000" stop="20261023074500 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">Amedspor - T. Konyaspor</title>
-    <category lang="en">Sports</category>
-  </programme>
   <programme start="20261023074500 +0000" stop="20261023093000 +0000" channel="beINSPORTS1.tr">
     <title lang="en">Kasımpaşa - Samsunspor</title>
     <category lang="en">Sports</category>
@@ -330,8 +326,60 @@
     <title lang="en">SUPER LIG (26-27) 9. HAFTA SAMSUNSPOR - AMEDSPOR - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261023054500 +0000" stop="20261023073000 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">Kayserispor - Batman P.</title>
+  <programme start="20261025040000 +0000" stop="20261025054500 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">SUPER LIG (26-27) 9. HAFTA EYUPSPOR - KASIMPASA - BANT -</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025054500 +0000" stop="20261025073000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">SUPER LIG (26-27) 9. HAFTA GAZIANTEP FK - ERZURUMSPOR - BANT -</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025073000 +0000" stop="20261025091500 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">SUPER LIG (26-27) 9. HAFTA SAMSUNSPOR - AMEDSPOR - BANT -</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025091500 +0000" stop="20261025103000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">beIN Süper Lig Maç Sonu (26-27) 09.Hafta Cumartesi / Bant</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025103000 +0000" stop="20261025113000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Trio (26-27) 9.Hafta - Cumartesi / Bant</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025113000 +0000" stop="20261025120000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Arşiv Süper Lig (26-27) 9.Hafta Galatasaray - Fenerbahçe</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025120000 +0000" stop="20261025130000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Arşiv Süper Lig (26-27) 9.Hafta Konyaspor - Gençlerbirliği</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025130000 +0000" stop="20261025150000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">SUPER LIG (26-27) 09. HAFTA KONYASPOR - GENCLERBIRLIGI - CANLI</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025150000 +0000" stop="20261025160000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">beIN Süper Lig Maç Önü (26-27) 09.Hafta Pazar / Canlı</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025160000 +0000" stop="20261025214500 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">SUPER LIG (26-27) 09. HAFTA GOZTEPE - CORUM FK - CANLI</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025214500 +0000" stop="20261025224500 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">Trio (26-27) 9.Hafta - Pazar / Bant</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025224500 +0000" stop="20261026003000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">SUPER LIG (26-27) 9. HAFTA KONYASPOR - GENCLERBIRLIGI - BANT -</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261026003000 +0000" stop="20261026021500 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">SUPER LIG (26-27) 9. HAFTA GOZTEPE - CORUM FK - BANT -</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261026021500 +0000" stop="20261026040000 +0000" channel="beINSPORTS1.tr">
+    <title lang="en">SUPER LIG (26-27) 9. HAFTA EYUPSPOR - KASIMPASA - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20261023073000 +0000" stop="20261023091500 +0000" channel="beINSPORTS2.tr">
@@ -487,8 +535,52 @@
     <title lang="en">TFF 1.LIG (26-27) 12. HAFTA SARIYER - FATIH KARAGUMRUK - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261023054500 +0000" stop="20261023074500 +0000" channel="beINSPORTS3.tr">
-    <title lang="en">Man City - Ipswich</title>
+  <programme start="20261025043000 +0000" stop="20261025061500 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">TFF 1.LIG (26-27) 12. HAFTA UMRANIYESPOR - SIVASSPOR - BANT -</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025061500 +0000" stop="20261025080000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">TFF 1.LIG (26-27) 12. HAFTA BANDIRMASPOR - IGDIR FK - BANT -</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025080000 +0000" stop="20261025094500 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">TFF 1.LIG (26-27) 12. HAFTA MUGLASPOR - ISTANBULSPOR - BANT -</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025094500 +0000" stop="20261025101000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">TFF 1. Lig Maç Özetleri (26-27) 12. Hafta - Haber / Cumartesi</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025101000 +0000" stop="20261025103000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">TFF 1.Lig Maç Önü Canlı / 20 DK</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025103000 +0000" stop="20261025123000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">TFF 1.LIG (26-27) 12. HAFTA PENDIKSPOR - KAYSERISPOR - CANLI</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025123000 +0000" stop="20261025124500 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">TFF 1. Lig Maç Özetleri (26-27) 12. Hafta - Haber / Cumartesi</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025124500 +0000" stop="20261025130000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">TFF 1.Lig Maç Önü Canlı / 15 DK</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025130000 +0000" stop="20261025150000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">TFF 1.LIG (26-27) 12. HAFTA ANTALYASPOR - BODRUMSPOR - CANLI</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025150000 +0000" stop="20261025154000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">Arşiv Süper Lig (26-27) 9.Hafta Rizespor - Trabzonspor</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025154000 +0000" stop="20261025160000 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">TFF 1.Lig Maç Önü Canlı / 20 DK</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025160000 +0000" stop="20261025205900 +0000" channel="beINSPORTS2.tr">
+    <title lang="en">TFF 1.LIG (26-27) 12. HAFTA KECIORENGUCU - BURSASPOR - CANLI</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20261023074500 +0000" stop="20261023093000 +0000" channel="beINSPORTS3.tr">
@@ -630,63 +722,71 @@
     <title lang="en">PREMIER LEAGUE (26-27) 8. HAFTA CHELSEA - TOTTENHAM - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261023060000 +0000" stop="20261023074500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">LIGUE 1 (26-27) 7. HAFTA STRASBOURG - PARIS SG - BANT -</title>
+  <programme start="20261025040500 +0000" stop="20261025054500 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">PREMIER LEAGUE (26-27) 8. HAFTA IPSWICH - FOREST - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261023074500 +0000" stop="20261023093000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">LIGUE 1 (26-27) 7. HAFTA LILLE - BREST - BANT -</title>
+  <programme start="20261025054500 +0000" stop="20261025073000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">PREMIER LEAGUE (26-27) 8. HAFTA VILLA - MAN CITY - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261023093000 +0000" stop="20261023111500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">LIGUE 1 (26-27) 7. HAFTA TROYES - LENS - BANT -</title>
+  <programme start="20261025073000 +0000" stop="20261025091500 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">PREMIER LEAGUE (26-27) 8. HAFTA ARSENAL - EVERTON - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261023111500 +0000" stop="20261023130000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">LIGUE 1 (26-27) 7. HAFTA ANGERS - MARSEILLE - BANT -</title>
+  <programme start="20261025091500 +0000" stop="20261025110000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">PREMIER LEAGUE (26-27) 8. HAFTA COVENTRY - FULHAM - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261023130000 +0000" stop="20261023144500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">LIGUE 1 (26-27) 7. HAFTA LORIENT - MONACO - BANT -</title>
+  <programme start="20261025110000 +0000" stop="20261025133000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">PREMIER LEAGUE (26-27) 8. HAFTA CHELSEA - TOTTENHAM - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261023144500 +0000" stop="20261023163200 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">LIGUE 1 (26-27) 7. HAFTA PARIS FC - RENNES - BANT -</title>
+  <programme start="20261025133000 +0000" stop="20261025135000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Premier League National Pride 1.Bölüm</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261023163200 +0000" stop="20261023164400 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Ligue 1 Haftanın Golleri (26-27) 07.Hafta</title>
+  <programme start="20261025135000 +0000" stop="20261025140000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Premier League Maç Önü 10 DK / Canlı</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261023164400 +0000" stop="20261023165800 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Formula 2 Azerbaycan (2026) Sprint Yarışı - Geniş Özet</title>
+  <programme start="20261025140000 +0000" stop="20261025160000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">PREMIER LEAGUE (26-27) 8. HAFTA LIVERPOOL - BRIGHTON - CANLI</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261023165800 +0000" stop="20261023171100 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Formula 2 Azerbaycan (2026) Yarış 1 - Geniş Özet</title>
+  <programme start="20261025160000 +0000" stop="20261025162000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Premier League National Pride 2.Bölüm</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261023171100 +0000" stop="20261023172500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Formula 2 Azerbaycan (2026) Yarış 2 - Geniş Özet</title>
+  <programme start="20261025162000 +0000" stop="20261025163000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">Premier League Maç Önü 10 DK / Canlı</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261023172500 +0000" stop="20261023173000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Seans Önü 5 DK - Canlı</title>
+  <programme start="20261025163000 +0000" stop="20261025214500 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">PREMIER LEAGUE (26-27) 8. HAFTA SUNDERLAND - LEEDS - CANLI</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261023173000 +0000" stop="20261023210000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Formula 1 ABD GP (2026) 1.Antrenman / Canlı</title>
+  <programme start="20261025214500 +0000" stop="20261025233000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">PREMIER LEAGUE (26-27) 8. HAFTA LIVERPOOL - BRIGHTON - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261023210000 +0000" stop="20261023221500 +0000" channel="beINSPORTS4.tr">
+  <programme start="20261025233000 +0000" stop="20261026011500 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">PREMIER LEAGUE (26-27) 8. HAFTA MAN UTD - BOURNEMOUTH - BANT -</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261026011500 +0000" stop="20261026030000 +0000" channel="beINSPORTS3.tr">
+    <title lang="en">PREMIER LEAGUE (26-27) 8. HAFTA HULL - BRENTFORD - BANT -</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261023210100 +0000" stop="20261023221500 +0000" channel="beINSPORTS4.tr">
     <title lang="en">Formula 1 ABD GP (2026) 2.Antrenman / Canlı</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261023221500 +0000" stop="20261023223000 +0000" channel="beINSPORTS4.tr">
+  <programme start="20261023221500 +0000" stop="20261023223100 +0000" channel="beINSPORTS4.tr">
     <title lang="en">Formula 2 İspanya (2026) Sprint Yarışı - Geniş Özet</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261023223000 +0000" stop="20261023224500 +0000" channel="beINSPORTS4.tr">
+  <programme start="20261023223100 +0000" stop="20261023224500 +0000" channel="beINSPORTS4.tr">
     <title lang="en">Formula 2 İspanya (2026) Yarış - Geniş Özet</title>
     <category lang="en">Sports</category>
   </programme>
@@ -694,64 +794,56 @@
     <title lang="en">Yarış Önü 5 DK - Canlı</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261023225000 +0000" stop="20261023234500 +0000" channel="beINSPORTS4.tr">
+  <programme start="20261023225000 +0000" stop="20261023233100 +0000" channel="beINSPORTS4.tr">
     <title lang="en">F1 Academy ABD (2026) - Açılış Yarışı / Canlı</title>
     <category lang="en">Sports</category>
   </programme>
+  <programme start="20261023233100 +0000" stop="20261023234500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Formula 2 Azerbaycan (2026) Yarış 1 - Geniş Özet</title>
+    <category lang="en">Sports</category>
+  </programme>
   <programme start="20261023234500 +0000" stop="20261024000000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Formula 1 İtalya GP (2026) Yarış - Geniş Özet</title>
+    <title lang="en">Formula 2 Azerbaycan (2026) Yarış 2 - Geniş Özet</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261024000000 +0000" stop="20261024011500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Formula 1 ABD GP (2026) 1.Antrenman / Bant</title>
+  <programme start="20261024000000 +0000" stop="20261024014500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">LIGUE 1 (26-27) 8. HAFTA BREST - NICE - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261024011500 +0000" stop="20261024023000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Formula 1 ABD GP (2026) 2.Antrenman / Bant</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20261024023000 +0000" stop="20261024033000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">F1 Academy ABD (2026) - Açılış Yarışı / Bant</title>
+  <programme start="20261024014500 +0000" stop="20261024033000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">PORTEKIZ LIG (26-27) 8. HAFTA BRAGA - SPORTING - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20261024033000 +0000" stop="20261024051500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">PORTEKIZ LIG (26-27) 8. HAFTA MARITIMO - PORTO - BANT -</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261024051500 +0000" stop="20261024070000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">PORTEKIZ LIG (26-27) 8. HAFTA BENFICA - VITORIA SC - BANT -</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261024070000 +0000" stop="20261024084500 +0000" channel="beINSPORTS4.tr">
     <title lang="en">LIGUE 1 (26-27) 8. HAFTA BREST - NICE - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261024051500 +0000" stop="20261024061500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">F1 Academy ABD (2026) - Antrenman / Bant</title>
+  <programme start="20261024084500 +0000" stop="20261024094500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Gran Turismo World Series (2026) Singapur Özet</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261024061500 +0000" stop="20261024071500 +0000" channel="beINSPORTS4.tr">
+  <programme start="20261024094500 +0000" stop="20261024103000 +0000" channel="beINSPORTS4.tr">
     <title lang="en">F1 Academy ABD (2026) - Sıralama / Bant</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261024071500 +0000" stop="20261024081500 +0000" channel="beINSPORTS4.tr">
+  <programme start="20261024103000 +0000" stop="20261024111700 +0000" channel="beINSPORTS4.tr">
     <title lang="en">F1 Academy ABD (2026) - Açılış Yarışı / Bant</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261024081500 +0000" stop="20261024093000 +0000" channel="beINSPORTS4.tr">
+  <programme start="20261024111700 +0000" stop="20261024123100 +0000" channel="beINSPORTS4.tr">
     <title lang="en">Formula 1 ABD GP (2026) 1.Antrenman / Bant</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261024093000 +0000" stop="20261024104500 +0000" channel="beINSPORTS4.tr">
+  <programme start="20261024123100 +0000" stop="20261024135000 +0000" channel="beINSPORTS4.tr">
     <title lang="en">Formula 1 ABD GP (2026) 2.Antrenman / Bant</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20261024104500 +0000" stop="20261024110000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Formula 1 İspanya GP (2026) Yarış - Geniş Özet</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20261024110000 +0000" stop="20261024111500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Formula 1 Barcelona GP (2026) Yarış - Geniş Özet</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20261024111500 +0000" stop="20261024120000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Formula 3 İspanya (2026) Yarış - Geniş Özet</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20261024120000 +0000" stop="20261024135000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">LIGUE 1 (26-27) 8. HAFTA BREST - NICE - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20261024135000 +0000" stop="20261024140000 +0000" channel="beINSPORTS4.tr">
@@ -762,24 +854,12 @@
     <title lang="en">PREMIER LEAGUE (26-27) 8. HAFTA COVENTRY - FULHAM - CANLI</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261024160000 +0000" stop="20261024161500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Formula 1 Hollanda GP (2026) Sprint - Geniş Özet</title>
+  <programme start="20261024160000 +0000" stop="20261024163000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">FIA European Truck Racing Championship (2026) Jarama / Özet</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261024161500 +0000" stop="20261024163000 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Formula 1 Hollanda GP (2026) Yarış - Geniş Özet</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20261024163000 +0000" stop="20261024164500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Formula 2 Azerbaycan (2026) Yarış 1 - Geniş Özet</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20261024164500 +0000" stop="20261024170500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Formula 1 Bahreyn GP (2026) Yarış - Geniş Özet</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20261024170500 +0000" stop="20261024172500 +0000" channel="beINSPORTS4.tr">
-    <title lang="en">Formula 1 Singapur GP (2026) Yarış - Geniş Özet</title>
+  <programme start="20261024163000 +0000" stop="20261024172500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Gran Turismo World Series (2026) Singapur Özet</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20261024172500 +0000" stop="20261024173000 +0000" channel="beINSPORTS4.tr">
@@ -822,47 +902,75 @@
     <title lang="en">LIGUE 1 (26-27) 8. HAFTA LENS - PARIS FC - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261023060000 +0000" stop="20261023080000 +0000" channel="beINSPORTS5.tr">
-    <title lang="en">BSL (26-27) 04.Hafta Bordo Bandırma - Türk Telekom / Bant</title>
+  <programme start="20261025040000 +0000" stop="20261025054500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">LIGUE 2 (26-27) 10. HAFTA SAINT-ETIENNE - NANTES - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261023080000 +0000" stop="20261023094500 +0000" channel="beINSPORTS5.tr">
-    <title lang="en">BSL (26-27) 04.Hafta Bursaspor Basketbol - Bahçeşehir / Bant</title>
+  <programme start="20261025054500 +0000" stop="20261025073000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">PORTEKIZ LIG (26-27) 9. HAFTA GIL VICENTE - PORTO - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261023094500 +0000" stop="20261023114500 +0000" channel="beINSPORTS5.tr">
-    <title lang="en">BSL (26-27) 04.Hafta Körfez Basket - Tofaş / Bant</title>
+  <programme start="20261025073000 +0000" stop="20261025091500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">LIGUE 1 (26-27) 8. HAFTA LENS - PARIS FC - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261023114500 +0000" stop="20261023133000 +0000" channel="beINSPORTS5.tr">
-    <title lang="en">BSL (26-27) 04.Hafta Denizli Basket - Trabzonspor / Bant</title>
+  <programme start="20261025091500 +0000" stop="20261025110000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">LIGUE 2 (26-27) 10. HAFTA SAINT-ETIENNE - NANTES - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261023133000 +0000" stop="20261023151400 +0000" channel="beINSPORTS5.tr">
-    <title lang="en">BSL (26-27) 04.Hafta Fenerbahçe Tarfin - Aliağa Petkim / Bant</title>
+  <programme start="20261025110000 +0000" stop="20261025135000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">PORTEKIZ LIG (26-27) 9. HAFTA GIL VICENTE - PORTO - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261023151400 +0000" stop="20261023154000 +0000" channel="beINSPORTS5.tr">
-    <title lang="en">Basketbol Süper Ligi Raporu (26-27) 4.Bölüm</title>
+  <programme start="20261025135000 +0000" stop="20261025140000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Premier League Maç Önü 10 DK / Canlı</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261023154000 +0000" stop="20261023160000 +0000" channel="beINSPORTS5.tr">
-    <title lang="en">Basketbol Süper Ligi Maç Başlıyor 20 DK / Canlı</title>
+  <programme start="20261025140000 +0000" stop="20261025160000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">PREMIER LEAGUE (26-27) 8. HAFTA MAN UTD - BOURNEMOUTH - CANLI</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261023160000 +0000" stop="20261023210000 +0000" channel="beINSPORTS5.tr">
-    <title lang="en">BSL (26-27) 05.Hafta Çayırova Belediyesi - Bursaspor Basketbol / Canlı</title>
+  <programme start="20261025160000 +0000" stop="20261025161500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Formula 3 İspanya (2026) Yarış - Geniş Özet</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025161500 +0000" stop="20261025163000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Formula 2 Azerbaycan (2026) Yarış 1 - Geniş Özet</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025163000 +0000" stop="20261025165500 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Formula 1 Bahreyn GP (2026) Yarış - Geniş Özet</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025165500 +0000" stop="20261025170000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Yarış Önü 5 DK - Canlı</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025170000 +0000" stop="20261025223000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">F1 Academy ABD (2026) - Yarış / Canlı</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025223000 +0000" stop="20261026000000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Finish Line - ABD GP 2026 / Canlı</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261026000000 +0000" stop="20261026010000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">F1 Academy ABD (2026) - Yarış / Bant</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261026010000 +0000" stop="20261026033000 +0000" channel="beINSPORTS4.tr">
+    <title lang="en">Formula 1 ABD GP (2026) Yarış / Bant</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20261023210000 +0000" stop="20261023224500 +0000" channel="beINSPORTS5.tr">
     <title lang="en">BSL (26-27) 05.Hafta Çayırova Belediyesi - Bursaspor Basketbol / Bant</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261023224500 +0000" stop="20261024001500 +0000" channel="beINSPORTS5.tr">
+  <programme start="20261023224500 +0000" stop="20261024001700 +0000" channel="beINSPORTS5.tr">
     <title lang="en">Starligue (26-27) 08.Hafta Aıx - Toulouse / Bant</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261024001500 +0000" stop="20261024020000 +0000" channel="beINSPORTS5.tr">
+  <programme start="20261024001700 +0000" stop="20261024020000 +0000" channel="beINSPORTS5.tr">
     <title lang="en">BSL (26-27) 04.Hafta Fenerbahçe Tarfin - Aliağa Petkim / Bant</title>
     <category lang="en">Sports</category>
   </programme>
@@ -874,11 +982,11 @@
     <title lang="en">BSL (26-27) 04.Hafta Esenler Erokspor - Anadolu Efes / Bant</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261024054500 +0000" stop="20261024071500 +0000" channel="beINSPORTS5.tr">
+  <programme start="20261024054500 +0000" stop="20261024071700 +0000" channel="beINSPORTS5.tr">
     <title lang="en">Starligue (26-27) 08.Hafta Aıx - Toulouse / Bant</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261024071500 +0000" stop="20261024090000 +0000" channel="beINSPORTS5.tr">
+  <programme start="20261024071700 +0000" stop="20261024090000 +0000" channel="beINSPORTS5.tr">
     <title lang="en">BSL (26-27) 05.Hafta Çayırova Belediyesi - Bursaspor Basketbol / Bant</title>
     <category lang="en">Sports</category>
   </programme>
@@ -911,11 +1019,11 @@
     <category lang="en">Sports</category>
   </programme>
   <programme start="20261024144500 +0000" stop="20261024150000 +0000" channel="beINSPORTS5.tr">
-    <title lang="en">Chasing The Dream (2026) 13.Bölüm</title>
+    <title lang="en">WTA 2026 Dubai Final Geniş Özet Elina Svitolina - Jessica Pegula</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20261024150000 +0000" stop="20261024151500 +0000" channel="beINSPORTS5.tr">
-    <title lang="en">WTA 2026 Pekin Final Geniş Özet Qinwen Zheng - Mirra Andreeva</title>
+    <title lang="en">WTA 2026 Austin Final Geniş Özet Taylor Townsend - Peyton Stearns</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20261024151500 +0000" stop="20261024171000 +0000" channel="beINSPORTS5.tr">
@@ -950,32 +1058,84 @@
     <title lang="en">BSL (26-27) Maç Özetleri 05.Hafta / Cumartesi</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261023063000 +0000" stop="20261023083000 +0000" channel="beINSPORTSMAX1.tr">
-    <title lang="en">WTA Osaka: Çeyrek Final</title>
+  <programme start="20261025031500 +0000" stop="20261025050000 +0000" channel="beINSPORTS5.tr">
+    <title lang="en">BSL (26-27) 05.Hafta Çayırova Belediyesi - Bursaspor Basketbol / Bant</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261023083000 +0000" stop="20261023103000 +0000" channel="beINSPORTSMAX1.tr">
-    <title lang="en">WTA Osaka: Çeyrek Final</title>
+  <programme start="20261025050000 +0000" stop="20261025064500 +0000" channel="beINSPORTS5.tr">
+    <title lang="en">BSL (26-27) 05.Hafta Türk Telekom - Denizli Basket / Bant</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261023103000 +0000" stop="20261023110000 +0000" channel="beINSPORTSMAX1.tr">
-    <title lang="en">beIN Sports Max 1</title>
+  <programme start="20261025064500 +0000" stop="20261025083000 +0000" channel="beINSPORTS5.tr">
+    <title lang="en">BSL (26-27) 05.Hafta Bahçeşehir - Beşiktaş / Bant</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261023110000 +0000" stop="20261023130000 +0000" channel="beINSPORTSMAX1.tr">
-    <title lang="en">beIN Sports Max 1</title>
+  <programme start="20261025083000 +0000" stop="20261025090000 +0000" channel="beINSPORTS5.tr">
+    <title lang="en">BSL (26-27) Maç Özetleri 05.Hafta / Cumartesi</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261023130000 +0000" stop="20261023150000 +0000" channel="beINSPORTSMAX1.tr">
-    <title lang="en">beIN Sports Max 1</title>
+  <programme start="20261025090000 +0000" stop="20261025095000 +0000" channel="beINSPORTS5.tr">
+    <title lang="en">beIN Basketbol (26-27) / Canlı</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261023150000 +0000" stop="20261023170000 +0000" channel="beINSPORTSMAX1.tr">
-    <title lang="en">beIN Sports Max 1</title>
+  <programme start="20261025095000 +0000" stop="20261025100000 +0000" channel="beINSPORTS5.tr">
+    <title lang="en">Basketbol Süper Ligi Maç Başlıyor 10 DK / Canlı</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261023170000 +0000" stop="20261023210000 +0000" channel="beINSPORTSMAX1.tr">
-    <title lang="en">beIN Sports Max 1</title>
+  <programme start="20261025100000 +0000" stop="20261025120000 +0000" channel="beINSPORTS5.tr">
+    <title lang="en">BSL (26-27) 05.Hafta Anadolu Efes - Körfez Basket / Canlı</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025120000 +0000" stop="20261025121000 +0000" channel="beINSPORTS5.tr">
+    <title lang="en">Basketbol Süper Ligi Maç Sonu 10 DK / Canlı</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025121000 +0000" stop="20261025123000 +0000" channel="beINSPORTS5.tr">
+    <title lang="en">Basketbol Süper Ligi Maç Başlıyor 20 DK / Canlı</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025123000 +0000" stop="20261025143000 +0000" channel="beINSPORTS5.tr">
+    <title lang="en">BSL (26-27) 05.Hafta Karşıyaka - Fenerbahçe Tarfin / Canlı</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025143000 +0000" stop="20261025144000 +0000" channel="beINSPORTS5.tr">
+    <title lang="en">Basketbol Süper Ligi Maç Sonu 10 DK / Canlı</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025144000 +0000" stop="20261025150000 +0000" channel="beINSPORTS5.tr">
+    <title lang="en">Basketbol Süper Ligi Maç Başlıyor 20 DK / Canlı</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025150000 +0000" stop="20261025170000 +0000" channel="beINSPORTS5.tr">
+    <title lang="en">BSL (26-27) 05.Hafta Tofaş - Aliağa Petkim / Canlı</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025170000 +0000" stop="20261025171000 +0000" channel="beINSPORTS5.tr">
+    <title lang="en">Basketbol Süper Ligi Maç Sonu 10 DK / Canlı</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025171000 +0000" stop="20261025173000 +0000" channel="beINSPORTS5.tr">
+    <title lang="en">Basketbol Süper Ligi Maç Başlıyor 20 DK / Canlı</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025173000 +0000" stop="20261025210000 +0000" channel="beINSPORTS5.tr">
+    <title lang="en">BSL (26-27) 05.Hafta Galatasaray - Bordo Bandırma / Canlı</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025210000 +0000" stop="20261025224500 +0000" channel="beINSPORTS5.tr">
+    <title lang="en">BSL (26-27) 05.Hafta Karşıyaka - Fenerbahçe Tarfin / Bant</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025224500 +0000" stop="20261026003000 +0000" channel="beINSPORTS5.tr">
+    <title lang="en">BSL (26-27) 05.Hafta Karşıyaka - Fenerbahçe Tarfin / Bant</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261026003000 +0000" stop="20261026021500 +0000" channel="beINSPORTS5.tr">
+    <title lang="en">BSL (26-27) 05.Hafta Galatasaray - Bordo Bandırma / Bant</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261026021500 +0000" stop="20261026040000 +0000" channel="beINSPORTS5.tr">
+    <title lang="en">BSL (26-27) 05.Hafta Çayırova Belediyesi - Bursaspor Basketbol / Bant</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20261023210000 +0000" stop="20261023230000 +0000" channel="beINSPORTSMAX1.tr">
@@ -1038,28 +1198,52 @@
     <title lang="en">beIN Sports Max 1</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261023070000 +0000" stop="20261023090000 +0000" channel="beINSPORTSMAX2.tr">
-    <title lang="en">WTA Ningbo</title>
+  <programme start="20261025030000 +0000" stop="20261025050000 +0000" channel="beINSPORTSMAX1.tr">
+    <title lang="en">beIN Sports Max 1</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261023090000 +0000" stop="20261023110000 +0000" channel="beINSPORTSMAX2.tr">
-    <title lang="en">beIN Sports Max 2</title>
+  <programme start="20261025050000 +0000" stop="20261025070000 +0000" channel="beINSPORTSMAX1.tr">
+    <title lang="en">beIN Sports Max 1</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261023110000 +0000" stop="20261023130000 +0000" channel="beINSPORTSMAX2.tr">
-    <title lang="en">beIN Sports Max 2</title>
+  <programme start="20261025070000 +0000" stop="20261025090000 +0000" channel="beINSPORTSMAX1.tr">
+    <title lang="en">beIN Sports Max 1</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261023130000 +0000" stop="20261023150000 +0000" channel="beINSPORTSMAX2.tr">
-    <title lang="en">beIN Sports Max 2</title>
+  <programme start="20261025090000 +0000" stop="20261025103000 +0000" channel="beINSPORTSMAX1.tr">
+    <title lang="en">beIN Sports Max 1</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261023150000 +0000" stop="20261023170000 +0000" channel="beINSPORTSMAX2.tr">
-    <title lang="en">beIN Sports Max 2</title>
+  <programme start="20261025103000 +0000" stop="20261025123000 +0000" channel="beINSPORTSMAX1.tr">
+    <title lang="en">Batmanspor - Erokspor</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261023170000 +0000" stop="20261023210000 +0000" channel="beINSPORTSMAX2.tr">
-    <title lang="en">beIN Sports Max 2</title>
+  <programme start="20261025123000 +0000" stop="20261025140000 +0000" channel="beINSPORTSMAX1.tr">
+    <title lang="en">beIN Sports Max 1</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025140000 +0000" stop="20261025160000 +0000" channel="beINSPORTSMAX1.tr">
+    <title lang="en">Hull City - Brentford</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025160000 +0000" stop="20261025161500 +0000" channel="beINSPORTSMAX1.tr">
+    <title lang="en">beIN Sports Max 1</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025161500 +0000" stop="20261025210000 +0000" channel="beINSPORTSMAX1.tr">
+    <title lang="en">Olympique de Marseille - Havre</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025210000 +0000" stop="20261025230000 +0000" channel="beINSPORTSMAX1.tr">
+    <title lang="en">beIN Sports Max 1</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025230000 +0000" stop="20261026010000 +0000" channel="beINSPORTSMAX1.tr">
+    <title lang="en">beIN Sports Max 1</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261026010000 +0000" stop="20261026030000 +0000" channel="beINSPORTSMAX1.tr">
+    <title lang="en">beIN Sports Max 1</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20261023210000 +0000" stop="20261023230000 +0000" channel="beINSPORTSMAX2.tr">
@@ -1130,8 +1314,48 @@
     <title lang="en">beIN Sports Max 2</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261023060000 +0000" stop="20261023071500 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">beIN Sabah</title>
+  <programme start="20261025030000 +0000" stop="20261025050000 +0000" channel="beINSPORTSMAX2.tr">
+    <title lang="en">beIN Sports Max 2</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025050000 +0000" stop="20261025070000 +0000" channel="beINSPORTSMAX2.tr">
+    <title lang="en">beIN Sports Max 2</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025070000 +0000" stop="20261025090000 +0000" channel="beINSPORTSMAX2.tr">
+    <title lang="en">beIN Sports Max 2</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025090000 +0000" stop="20261025110000 +0000" channel="beINSPORTSMAX2.tr">
+    <title lang="en">beIN Sports Max 2</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025110000 +0000" stop="20261025130000 +0000" channel="beINSPORTSMAX2.tr">
+    <title lang="en">beIN Sports Max 2</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025130000 +0000" stop="20261025140000 +0000" channel="beINSPORTSMAX2.tr">
+    <title lang="en">beIN Sports Max 2</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025140000 +0000" stop="20261025160000 +0000" channel="beINSPORTSMAX2.tr">
+    <title lang="en">Monaco - Lille</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025160000 +0000" stop="20261025161500 +0000" channel="beINSPORTSMAX2.tr">
+    <title lang="en">beIN Sports Max 2</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261025161500 +0000" stop="20261025205900 +0000" channel="beINSPORTSMAX2.tr">
+    <title lang="en">Rennes - Strasbourg</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261023063000 +0000" stop="20261023070000 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Trendyol 1. Lig Maç Özetleri</title>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261023070000 +0000" stop="20261023071500 +0000" channel="beINSPORTSHABER.tr">
+    <title lang="en">Süper Lig Haftanın Golleri</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20261023071500 +0000" stop="20261023073000 +0000" channel="beINSPORTSHABER.tr">
@@ -2246,8 +2470,8 @@
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20261023040000 +0000" stop="20261023054500 +0000" channel="TivibuSpor1.tr">
-    <title lang="en">Beyoğlu Yeni Çarşı Spor- Sakaryaspor</title>
+  <programme start="20261026045924 +0000" stop="20261026053625 +0000" channel="TivibuSpor.tr">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20261023054500 +0000" stop="20261023073000 +0000" channel="TivibuSpor1.tr">
@@ -2550,6 +2774,10 @@
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
+  <programme start="20261026045924 +0000" stop="20261026053625 +0000" channel="TivibuSpor1.tr">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
   <programme start="20261023020000 +0000" stop="20261023070000 +0000" channel="TivibuSpor2.tr">
     <title lang="en">Tivibu Spor Tanıtım</title>
     <category lang="en">Spor</category>
@@ -2827,6 +3055,10 @@
     <category lang="en">Spor</category>
   </programme>
   <programme start="20261026031603 +0000" stop="20261026045924 +0000" channel="TivibuSpor2.tr">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20261026045924 +0000" stop="20261026053625 +0000" channel="TivibuSpor2.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
@@ -3110,6 +3342,10 @@
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
+  <programme start="20261026045924 +0000" stop="20261026053625 +0000" channel="TivibuSpor3.tr">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
   <programme start="20261023020000 +0000" stop="20261023070000 +0000" channel="TivibuSpor4.tr">
     <title lang="en">Tivibu Spor Tanıtım</title>
     <category lang="en">Spor</category>
@@ -3387,6 +3623,10 @@
     <category lang="en">Spor</category>
   </programme>
   <programme start="20261026031603 +0000" stop="20261026045924 +0000" channel="TivibuSpor4.tr">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
+    <category lang="en">Spor</category>
+  </programme>
+  <programme start="20261026045924 +0000" stop="20261026053625 +0000" channel="TivibuSpor4.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
@@ -5630,4 +5870,4 @@
     <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
 هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
   </programme>
-<programme start="20261023203000 +0000" stop="20261023211700 +0000" channel="beINSPORTS1.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261024173000 +0000" stop="20261024180000 +0000" channel="beINSPORTS1.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261024203000 +0000" stop="20261024214500 +0000" channel="beINSPORTS1.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261025040000 +0000" stop="20261026053625 +0000" channel="beINSPORTS1.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261024173000 +0000" stop="20261024213000 +0000" channel="beINSPORTS2.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261025043000 +0000" stop="20261026053625 +0000" channel="beINSPORTS2.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261023190000 +0000" stop="20261023210100 +0000" channel="beINSPORTS3.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261024180000 +0000" stop="20261024192500 +0000" channel="beINSPORTS3.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261024193000 +0000" stop="20261024210000 +0000" channel="beINSPORTS3.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261025040500 +0000" stop="20261026053625 +0000" channel="beINSPORTS3.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261025040000 +0000" stop="20261026053625 +0000" channel="beINSPORTS4.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261025031500 +0000" stop="20261026053625 +0000" channel="beINSPORTS5.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261024183000 +0000" stop="20261024210000 +0000" channel="beINSPORTSMAX1.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261025030000 +0000" stop="20261026053625 +0000" channel="beINSPORTSMAX1.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261024183000 +0000" stop="20261024210000 +0000" channel="beINSPORTSMAX2.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261025030000 +0000" stop="20261026053625 +0000" channel="beINSPORTSMAX2.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261023083000 +0000" stop="20261023090000 +0000" channel="beINSPORTSHABER.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261023113000 +0000" stop="20261023120000 +0000" channel="beINSPORTSHABER.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261023144000 +0000" stop="20261023150000 +0000" channel="beINSPORTSHABER.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261023210000 +0000" stop="20261023213000 +0000" channel="beINSPORTSHABER.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261024190000 +0000" stop="20261024210000 +0000" channel="beINSPORTSHABER.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261025201500 +0000" stop="20261025210000 +0000" channel="beINSPORTSHABER.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261027201500 +0000" stop="20261027210000 +0000" channel="beINSPORTSHABER.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261026045924 +0000" stop="20261026053625 +0000" channel="TivibuSpor.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261026045924 +0000" stop="20261026053625 +0000" channel="TivibuSpor1.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261026045924 +0000" stop="20261026053625 +0000" channel="TivibuSpor2.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261026045924 +0000" stop="20261026053625 +0000" channel="TivibuSpor3.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261026045924 +0000" stop="20261026053625 +0000" channel="TivibuSpor4.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+<programme start="20261023203000 +0000" stop="20261023211700 +0000" channel="beINSPORTS1.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261024173000 +0000" stop="20261024180000 +0000" channel="beINSPORTS1.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261024203000 +0000" stop="20261024214500 +0000" channel="beINSPORTS1.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261026040000 +0000" stop="20261026060842 +0000" channel="beINSPORTS1.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261024173000 +0000" stop="20261024213000 +0000" channel="beINSPORTS2.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261025205900 +0000" stop="20261026060842 +0000" channel="beINSPORTS2.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261023190000 +0000" stop="20261023210100 +0000" channel="beINSPORTS3.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261024180000 +0000" stop="20261024192500 +0000" channel="beINSPORTS3.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261024193000 +0000" stop="20261024210000 +0000" channel="beINSPORTS3.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261026030000 +0000" stop="20261026060842 +0000" channel="beINSPORTS3.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261026033000 +0000" stop="20261026060842 +0000" channel="beINSPORTS4.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261026040000 +0000" stop="20261026060842 +0000" channel="beINSPORTS5.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261024183000 +0000" stop="20261024210000 +0000" channel="beINSPORTSMAX1.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261026030000 +0000" stop="20261026060842 +0000" channel="beINSPORTSMAX1.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261024183000 +0000" stop="20261024210000 +0000" channel="beINSPORTSMAX2.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261025205900 +0000" stop="20261026060842 +0000" channel="beINSPORTSMAX2.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261023083000 +0000" stop="20261023090000 +0000" channel="beINSPORTSHABER.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261023113000 +0000" stop="20261023120000 +0000" channel="beINSPORTSHABER.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261023144000 +0000" stop="20261023150000 +0000" channel="beINSPORTSHABER.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261023210000 +0000" stop="20261023213000 +0000" channel="beINSPORTSHABER.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261024190000 +0000" stop="20261024210000 +0000" channel="beINSPORTSHABER.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261025201500 +0000" stop="20261025210000 +0000" channel="beINSPORTSHABER.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261027201500 +0000" stop="20261027210000 +0000" channel="beINSPORTSHABER.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261026053625 +0000" stop="20261026060842 +0000" channel="TivibuSpor.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261026053625 +0000" stop="20261026060842 +0000" channel="TivibuSpor1.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261026053625 +0000" stop="20261026060842 +0000" channel="TivibuSpor2.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261026053625 +0000" stop="20261026060842 +0000" channel="TivibuSpor3.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261026053625 +0000" stop="20261026060842 +0000" channel="TivibuSpor4.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
