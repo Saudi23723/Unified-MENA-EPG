@@ -9,6 +9,8 @@ Input  xtream/<playlist>/channel_map.json  [{stream_id, name, group, epg}]
              "o:<id>"            -> official_sports_epg.xml (this repo: Sky, TNT, TSN, Sportsnet)
              "a:<id>"            -> att_epg.xml.gz (this repo's guide for the same Xtream playlist,
                                     att-epg branch; the workflow copies it in with git)
+             "r:<file>/<id>"     -> one of this repository's own guides (<file>.xml), e.g. Turkey's beIN,
+                                    Tivibu and tabii (bein_sports_turkey_epg, tabii_spor_1_10_epg)
              "l:<src>/<id>"      -> the owner's own EPG links, as TiviMate shows them (OWNER_LINKS)
              "e:<id>"            -> reserved for an approved public source (none yet)
 Output (main branch, small, change rarely)
@@ -83,13 +85,13 @@ def item(cid, start, stop, title, desc):
 def split(epg):
     if not epg:
         return None
-    if epg.startswith(("u:", "o:", "a:", "l:", "e:")):
+    if epg.startswith(("u:", "o:", "a:", "r:", "l:", "e:")):
         return epg[0], epg[2:]
     return "u", epg
 
 
 # 1) channel lists -> Xtream answers + what guides are needed
-want = {"u": set(), "o": set(), "a": set(), "l": set(), "e": set()}
+want = {"u": set(), "o": set(), "a": set(), "r": set(), "l": set(), "e": set()}
 hydra_compat = set()
 maps = {}
 for f in sorted(glob.glob("xtream/*/channel_map.json")):
@@ -141,6 +143,27 @@ for kind, path in (("u", SRC), ("o", OFFICIAL), ("a", ATT)):
         if it:
             listings[kind][c].append(it)
     del src
+
+# 2b) the repository's other own guides ("r:<file>/<id>")
+by_file = {}
+for full in want["r"]:
+    f, cid = full.split("/", 1)
+    by_file.setdefault(f, set()).add(cid)
+for f, ids in sorted(by_file.items()):
+    if not re.fullmatch(r"[a-z0-9_]+", f) or not os.path.exists(f + ".xml"):
+        continue
+    for m in re.finditer(r'<programme\b([^>]*)>(.*?)</programme>', open(f + ".xml", encoding="utf-8").read(), re.S):
+        a = m.group(1)
+        c = re.search(r'channel="([^"]*)"', a)
+        c = html.unescape(c.group(1)) if c else None
+        if c not in ids:
+            continue
+        t = re.search(r"<title\b[^>]*>(.*?)</title>", m.group(2), re.S)
+        d = re.search(r"<desc\b[^>]*>(.*?)</desc>", m.group(2), re.S)
+        it = item(c, re.search(r'start="([^"]*)"', a).group(1), re.search(r'stop="([^"]*)"', a).group(1),
+                  t and t.group(1), d and d.group(1))
+        if it:
+            listings["r"][f"{f}/{c}"].append(it)
 
 # 3) the owner's own links ("l:<src>/<id>"), streamed, never kept whole
 by_src = {}
@@ -194,7 +217,7 @@ for src_name, ids in sorted(by_src.items()):
 
 # 4) write
 shutil.rmtree(OUT, ignore_errors=True)
-for kind in ("u", "o", "a", "l", "e"):
+for kind in ("u", "o", "a", "r", "l", "e"):
     os.makedirs(f"{OUT}/epg/{kind}", exist_ok=True)
     for c, items in listings[kind].items():
         items.sort(key=lambda x: int(x["start_timestamp"]))
@@ -210,7 +233,7 @@ for old in glob.glob("xtream/epg/*.json"):
 for kind, c in hydra_compat:
     json.dump({"epg_listings": listings[kind][c]}, open(f"xtream/epg/{safe(c)}.json", "w", encoding="utf-8"),
               ensure_ascii=True)
-for kind in ("u", "o", "a", "l", "e"):
+for kind in ("u", "o", "a", "r", "l", "e"):
     full = sum(1 for v in listings[kind].values() if v)
     print(f"xtream {kind}: {full}/{len(listings[kind])} guide channels with programmes, "
           f"{sum(map(len, listings[kind].values()))} programmes")
