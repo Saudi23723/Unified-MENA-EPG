@@ -6,7 +6,8 @@ The relay answers from files built here. Names only: no links or logins anywhere
 
 Input  xtream/<playlist>/channel_map.json  [{stream_id, name, group, epg}]
        epg = "<id>" or "u:<id>"  -> unified_mena_epg.xml (this repo)
-             "o:<id>"            -> official_sports_epg.xml (this repo: Sky, TNT, TSN, Sportsnet)
+             "o:<id>"            -> official_sports_epg.xml / official_tv_epg.xml (this repo: Sky, TNT,
+                                    TSN, Sportsnet / BBC, Al Arabiya, MBC on Shahid)
              "a:<id>"            -> att_epg.xml.gz (this repo's guide for the same Xtream playlist,
                                     att-epg branch; the workflow copies it in with git)
              "r:<file>/<id>"     -> one of this repository's own guides (<file>.xml), e.g. Turkey's beIN,
@@ -22,8 +23,11 @@ Output (_data/, published to the xtream-data branch with no history)
 """
 import base64, datetime, glob, gzip, html, json, os, re, shutil, sys, urllib.request, zlib
 
+import xtream_order
+
 SRC = "unified_mena_epg.xml"
 OFFICIAL = "official_sports_epg.xml"
+OFFICIAL_TV = "official_tv_epg.xml"
 ATT = "att_epg.xml.gz"
 # The owner's own EPG links, read off their TiviMate EPG sources (24 October 2026),
 # for the countries this repository has no guide of its own for ("check from my
@@ -96,7 +100,7 @@ hydra_compat = set()
 maps = {}
 for f in sorted(glob.glob("xtream/*/channel_map.json")):
     play = os.path.dirname(f); name = os.path.basename(play)
-    chans = json.load(open(f, encoding="utf-8"))
+    chans = xtream_order.order(json.load(open(f, encoding="utf-8")))
     cats = []
     for c in chans:
         if c["group"] not in cats:
@@ -126,7 +130,7 @@ for f in sorted(glob.glob("xtream/*/channel_map.json")):
 listings = {k: {c: [] for c in v} for k, v in want.items()}
 
 # 2) this repository's own guides: the unified one, and the broadcasters' own (official_sports_epg.py)
-for kind, path in (("u", SRC), ("o", OFFICIAL), ("a", ATT)):
+for kind, path in (("u", SRC), ("o", OFFICIAL), ("o", OFFICIAL_TV), ("a", ATT)):
     if not os.path.exists(path):
         continue
     src = (gzip.open(path) if path.endswith(".gz") else open(path, "rb")).read().decode("utf-8", "replace")
