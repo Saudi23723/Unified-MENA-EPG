@@ -1,23 +1,23 @@
-import gzip, os, re, urllib.request, traceback
-UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/126.0"}
-SRC = {"italy": "https://cdn.epg.guru/7dayiptv/Italy.xml", "swiss": "https://cdn.epg.guru/7dayiptv/Switzerland.xml.gz",
-       "germany": "https://cdn.epg.guru/7dayiptv/Germany.xml.gz", "portugal": "https://iptv-epg.org/files/epg-pt.xml",
-       "turkey": "https://iptv-epg.org/files/epg-tr.xml", "combined": "https://iptv-epg.org/files/epg-rhtwyyuokk.xml",
-       "iptvx": "https://iptvx.one/EPG", "grabber": "http://gabbarit.epg.one/epg_1.xml.gz",
-       "romania": "https://iptv-epg.org/files/epg-ro.xml", "slovenia": "https://iptv-epg.org/files/epg-si.xml"}
-os.makedirs("scan", exist_ok=True); log = []
-for k, u in SRC.items():
+import urllib.request, os, re, json, datetime
+os.makedirs("scan", exist_ok=True); out = []
+UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/126.0", "Accept": "*/*"}
+def get(u):
     try:
-        b = urllib.request.urlopen(urllib.request.Request(u, headers=UA), timeout=300).read()
-        if b[:2] == b"\x1f\x8b": b = gzip.decompress(b)
-        t = b.decode("utf-8", "replace")
-        ch = []
-        for m in re.finditer(r'<channel\s+id="([^"]*)"[^>]*>(.*?)</channel>', t, re.S):
-            ch.append((m.group(1), " | ".join(re.findall(r'<display-name[^>]*>([^<]*)<', m.group(2)))))
-        pr = {}
-        for c in re.findall(r'<programme[^>]*channel="([^"]*)"', t): pr[c] = pr.get(c, 0) + 1
-        open(f"scan/src_{k}.tsv", "w").write("\n".join(f"{a}\t{b}\t{pr.get(a,0)}" for a, b in ch))
-        log.append(f"{k}\t{len(ch)} channels\t{sum(pr.values())} programmes\t{len(t)//1048576} MB")
+        r = urllib.request.urlopen(urllib.request.Request(u, headers=UA), timeout=60); return r.status, r.read().decode("utf-8", "replace")
     except Exception as e:
-        log.append(f"{k}\tERR {e}")
-open("scan/src_log.txt", "w").write("\n".join(log)); print("\n".join(log))
+        return "ERR", str(e)
+d = datetime.datetime.utcnow().strftime("%Y-%m-%d")
+for ch in ["bbc_one_london", "bbc_news24", "bbc_world_news", "bbc_arabic", "bbc_two_england", "bbc_one_scotland"]:
+    s, b = get(f"https://ibl.api.bbc.co.uk/ibl/v1/channels/{ch}/broadcasts?per_page=5")
+    out.append(f"== ibl {ch}: {s} {b[:400]}")
+s, b = get("https://ibl.api.bbc.co.uk/ibl/v1/channels"); out.append(f"== ibl channels: {s} " + " ".join(re.findall(r'"id":"(bbc_[a-z0-9_]+)"', b)[:80]))
+for u in ["https://www.bbc.co.uk/schedules/p00fzl9r", "https://www.bbc.com/arabic/tv-and-radio-schedule", "https://www.bbc.com/arabic/tv",
+          "https://www.alarabiya.net/schedule", "https://www.alarabiya.net/programs", "https://www.alhadath.net/schedule", "https://www.alarabiya.net/tv-schedule",
+          f"https://www.bbc.co.uk/schedules/p00fzl9r/{d.replace('-','/')}"]:
+    s, b = get(u)
+    hints = sorted(set(re.findall(r'https?://[A-Za-z0-9.-]+/[A-Za-z0-9./_?=&%-]*(?:schedul|epg|guide|broadcast|programm)[A-Za-z0-9./_?=&%-]*', b, re.I)))[:15]
+    out.append(f"== {u}: {s} len={len(b)} title={re.findall(r'<title>([^<]*)', b)[:1]} hints={hints}")
+    for w in ["startTime", "start_time", "\"start\"", "broadcast", "schedule"]:
+        i = b.find(w)
+        if i > 0: out.append(f"   {w}: " + b[max(0,i-150):i+300].replace("\n", " ")); break
+open("scan/probe_bbc.txt", "w").write("\n".join(out))
