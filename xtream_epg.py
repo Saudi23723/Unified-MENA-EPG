@@ -4,7 +4,7 @@
 DreamTV shows a guide only for Xtream logins, from the server's get_simple_data_table answer.
 The relay answers from files built here. Names only: no links or logins anywhere.
 
-Input  xtream/<playlist>/channels.json  [{stream_id, name, group, epg}]
+Input  xtream/<playlist>/channel_map.json  [{stream_id, name, group, epg}]
        epg = "<id>" or "u:<id>"  -> unified_mena_epg.xml (this repo)
              "e:<id>"            -> reserved for an approved public source (none yet)
 Output (main branch, small, change rarely)
@@ -71,7 +71,7 @@ def split(epg):
 want = {"u": set(), "e": set()}
 hydra_compat = set()
 maps = {}
-for f in sorted(glob.glob("xtream/*/channels.json")):
+for f in sorted(glob.glob("xtream/*/channel_map.json")):
     play = os.path.dirname(f); name = os.path.basename(play)
     chans = json.load(open(f, encoding="utf-8"))
     cats = []
