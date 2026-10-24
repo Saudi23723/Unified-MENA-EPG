@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-24T09:04:30.812Z",
+  "updated_at": "2026-10-24T09:14:27.563Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -36,21 +36,21 @@
           "code": 3,
           "max": 29.8,
           "min": 17.4,
-          "rain": 3
+          "rain": 6
         },
         {
           "date": "2026-10-27",
           "code": 3,
           "max": 25.7,
           "min": 18.7,
-          "rain": 30
+          "rain": 28
         },
         {
           "date": "2026-10-28",
           "code": 80,
           "max": 22.1,
           "min": 16.4,
-          "rain": 35
+          "rain": 30
         },
         {
           "date": "2026-10-29",
@@ -107,21 +107,21 @@
           "code": 3,
           "max": 33.3,
           "min": 24.9,
-          "rain": 2
+          "rain": 0
         },
         {
           "date": "2026-10-27",
           "code": 80,
           "max": 30.0,
           "min": 22.5,
-          "rain": 80
+          "rain": 63
         },
         {
           "date": "2026-10-28",
           "code": 3,
           "max": 27.5,
           "min": 22.5,
-          "rain": 54
+          "rain": 42
         },
         {
           "date": "2026-10-29",
@@ -206,7 +206,7 @@
           "code": 3,
           "max": 37.0,
           "min": 26.7,
-          "rain": 2
+          "rain": 0
         }
       ],
       "today_max": 34.0,
@@ -291,91 +291,91 @@
       "country": "بريطانيا",
       "latitude": 51.5074,
       "longitude": -0.1278,
-      "temperature_c": 9.4,
-      "humidity": 82,
-      "wind_speed": 10.4,
+      "temperature_c": 9.3,
+      "humidity": 81,
+      "wind_speed": 10.1,
       "rain_chance": 12,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-10-24T10:00",
-      "feels_c": 7.0,
+      "feels_c": 6.9,
       "utc_offset": 3600,
       "days": [
         {
           "date": "2026-10-24",
           "code": 63,
-          "max": 15.7,
+          "max": 15.9,
           "min": 7.5,
           "rain": 100
         },
         {
           "date": "2026-10-25",
           "code": 51,
-          "max": 12.9,
+          "max": 13.2,
           "min": 9.1,
           "rain": 83
         },
         {
           "date": "2026-10-26",
           "code": 53,
-          "max": 17.1,
-          "min": 9.0,
+          "max": 16.2,
+          "min": 8.9,
           "rain": 100
         },
         {
           "date": "2026-10-27",
-          "code": 53,
-          "max": 16.4,
-          "min": 11.1,
+          "code": 51,
+          "max": 16.3,
+          "min": 10.8,
           "rain": 57
         },
         {
           "date": "2026-10-28",
-          "code": 2,
-          "max": 15.9,
-          "min": 9.5,
+          "code": 3,
+          "max": 16.6,
+          "min": 10.3,
           "rain": 0
         },
         {
           "date": "2026-10-29",
-          "code": 3,
-          "max": 12.5,
-          "min": 10.5,
+          "code": 45,
+          "max": 15.2,
+          "min": 9.2,
           "rain": 6
         },
         {
           "date": "2026-10-30",
           "code": 3,
-          "max": 13.6,
-          "min": 8.9,
-          "rain": 12
+          "max": 15.9,
+          "min": 10.7,
+          "rain": 14
         }
       ],
-      "today_max": 15.7,
+      "today_max": 15.9,
       "today_min": 7.5,
       "sunrise": "07:39",
       "sunset": "17:48",
-      "uv": 1
+      "uv": 0
     },
     {
       "city": "مانشستر",
       "country": "بريطانيا",
       "latitude": 53.4808,
       "longitude": -2.2426,
-      "temperature_c": 7.9,
-      "humidity": 88,
-      "wind_speed": 13.0,
+      "temperature_c": 8.2,
+      "humidity": 86,
+      "wind_speed": 13.7,
       "rain_chance": 25,
-      "condition": "رذاذ خفيف",
-      "weather_code": 51,
+      "condition": "غائم",
+      "weather_code": 3,
       "observed_at": "2026-10-24T10:00",
-      "feels_c": 5.0,
+      "feels_c": 5.2,
       "utc_offset": 3600,
       "days": [
         {
           "date": "2026-10-24",
           "code": 63,
-          "max": 13.2,
+          "max": 13.8,
           "min": 7.4,
           "rain": 100
         },
@@ -383,46 +383,46 @@
           "date": "2026-10-25",
           "code": 51,
           "max": 11.2,
-          "min": 9.3,
+          "min": 9.4,
           "rain": 100
         },
         {
           "date": "2026-10-26",
-          "code": 61,
-          "max": 16.1,
-          "min": 7.3,
+          "code": 55,
+          "max": 15.7,
+          "min": 7.5,
           "rain": 96
         },
         {
           "date": "2026-10-27",
           "code": 53,
-          "max": 16.2,
-          "min": 9.7,
+          "max": 16.0,
+          "min": 9.8,
           "rain": 84
         },
         {
           "date": "2026-10-28",
-          "code": 51,
-          "max": 13.3,
-          "min": 8.7,
+          "code": 53,
+          "max": 15.0,
+          "min": 9.8,
           "rain": 68
         },
         {
           "date": "2026-10-29",
           "code": 3,
-          "max": 11.8,
-          "min": 8.1,
+          "max": 13.3,
+          "min": 9.6,
           "rain": 12
         },
         {
           "date": "2026-10-30",
-          "code": 3,
-          "max": 12.2,
-          "min": 8.9,
-          "rain": 29
+          "code": 51,
+          "max": 16.0,
+          "min": 11.1,
+          "rain": 18
         }
       ],
-      "today_max": 13.2,
+      "today_max": 13.8,
       "today_min": 7.4,
       "sunrise": "07:52",
       "sunset": "17:52",
