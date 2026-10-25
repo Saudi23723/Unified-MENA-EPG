@@ -120,6 +120,13 @@ ONE_DAY_SOURCES = {
     "dubai_multi_sport_epg.xml":
         "the Emirates-time multi-sport board publishes a rolling guide, "
         "one row while no Games are on",
+    # The Emirates-time copy of today's other sports: today's events in the
+    # Gulf's clock, so its day ends at midnight there (20:00 UTC) and on a
+    # day with nothing announced for tomorrow it holds under half a day by
+    # mid-morning (25 October 2026, 09:55 UTC: 0.4 day, every row real).
+    "dubai_sports_epg.xml":
+        "the Emirates-time sports board lists today's events in the Gulf's "
+        "clock, so its day ends at midnight there",
 }
 
 # How long a one-day guide may sit with nothing ahead before it counts as
