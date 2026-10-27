@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-27T13:22:26.061Z",
+  "updated_at": "2026-10-27T13:27:46.315Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -10,7 +10,7 @@
       "temperature_c": 20.9,
       "humidity": 78,
       "wind_speed": 11.6,
-      "rain_chance": 50,
+      "rain_chance": 68,
       "condition": "صافٍ غالباً",
       "weather_code": 1,
       "observed_at": "2026-10-27T16:15",
@@ -22,14 +22,14 @@
           "code": 80,
           "max": 24.9,
           "min": 18.0,
-          "rain": 58
+          "rain": 68
         },
         {
           "date": "2026-10-28",
           "code": 80,
           "max": 22.4,
           "min": 14.7,
-          "rain": 23
+          "rain": 28
         },
         {
           "date": "2026-10-29",
@@ -81,7 +81,7 @@
       "temperature_c": 29.1,
       "humidity": 59,
       "wind_speed": 7.2,
-      "rain_chance": 5,
+      "rain_chance": 13,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-10-27T16:15",
@@ -93,14 +93,14 @@
           "code": 80,
           "max": 30.6,
           "min": 23.9,
-          "rain": 25
+          "rain": 48
         },
         {
           "date": "2026-10-28",
           "code": 3,
           "max": 30.2,
           "min": 23.7,
-          "rain": 10
+          "rain": 18
         },
         {
           "date": "2026-10-29",
@@ -436,7 +436,7 @@
       "temperature_c": 12.6,
       "humidity": 52,
       "wind_speed": 14.5,
-      "rain_chance": 1,
+      "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-10-27T09:15",
@@ -587,7 +587,7 @@
       "days": [
         {
           "date": "2026-10-27",
-          "code": 45,
+          "code": 3,
           "max": 19.0,
           "min": 11.7,
           "rain": 6
@@ -720,7 +720,7 @@
       "temperature_c": 17.8,
       "humidity": 71,
       "wind_speed": 3.8,
-      "rain_chance": 2,
+      "rain_chance": 1,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-10-27T08:15",
