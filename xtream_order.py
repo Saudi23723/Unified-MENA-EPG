@@ -52,6 +52,33 @@ PLAYLIST_DROP = {"hydra": r"^(YEMEN|OMAN|QATAR|SHOWTIME\b.*)$"}
 # Channels that always lead their group (Hydra, 25 October 2026: "Sportsnet and TSN always at the start of the group").
 PLAYLIST_CHANNEL_FIRST = {"hydra": r"^(SPORTSNET|TSN)\b"}
 
+# Channels that lead a kind of group, in every playlist, in this order (owner, 27 October 2026):
+# Jordan: Jordan TV, Al Mamlaka, Roya; Lebanon: Al Jadeed, Al Mayadeen, Al Manar; Arabic news: Al Jazeera,
+# Al Arabiya, Al Araby 1 and 2, Al Mashhad; US news: Fox News, LiveNOW from Fox, NBC, ABC, the weather
+# channels, BBC World News; UK news: BBC World News; UK channels: Sky Sports, TNT Sports, MUTV.
+_Q = r"(\s+(UHD|FHD|HD|SD|4K|8K|HEVC|RAW|TV))*\s*$"
+GROUP_LEADS = [
+    (r"JORDAN|ROYA|الأردن|رؤيا", [r"^(JORDAN|الأردن|التلفزيون الأردني)" + _Q, r"MAMLAKA|المملكة", r"^(ROYA|رؤيا)" + _Q]),
+    (r"LEBANON|لبنان", [r"JADEED|الجديد", r"MAYADEEN|MAYDEEN|الميادين", r"MANAR|المنار"]),
+    (r"^(AR\s*\|\s*)?NEWS\b(?!.*NETWORK)|^الأخبار|^اخبار", [r"JAZEERA(?!.*(ENGLISH|\bEN\b|DOCUMENT|MUBASH|BALKAN|إنجليزي))|^الجزيرة$",
+                                                       r"^(AL\s*)?ARABIYA(?!.*BUSINESS)|^العربية", r"^(AL\s*)?ARAB(Y|I)\b(?!.*BUSINESS)|^العربي", r"MASHHAD|المشهد"]),
+    (r"^US\b.*NEWS|NEWS NETWORK", [r"FOX NEWS", r"LIVE\s?NOW", r"^NBC(\s+NEWS\b.*)?" + _Q, r"^ABC(\s+NEWS\b.*)?" + _Q, r"WEATHER", r"BBC WORLD"]),
+    (r"^UK\b.*NEWS", [r"BBC WORLD"]),
+    (r"^UK\b|^SPORTS$|^NOW TV$", [r"^(UK:?\s*)?SKY ?SPORTS?\b", r"^(UK:?\s*)?TNT ?SPORTS?\b", r"\bMUTV\b"]),
+]
+
+
+def group_lead(group: str, name: str) -> int:
+    g, n = group.strip().upper(), " ".join(name.upper().split())
+    n = re.sub(r"^(LBN|LEB|AR|UK|US)\s*\|\s*", "", n)
+    for grx, leads in GROUP_LEADS:
+        if re.search(grx, g):
+            for i, rx in enumerate(leads):
+                if re.search(rx, n):
+                    return i
+            return len(leads)
+    return 0
+
 
 def group_rank(group: str, country: dict | None = None) -> float:
     g = group.upper()
@@ -136,4 +163,4 @@ def order(chans: list[dict], playlist: str | None = None) -> list[dict]:
     top = lambda g: (0 if first and re.search(first, g.upper()) else 1, saved.get(g, len(saved)))
     # an optional "sort" in channel_map.json puts a group's main channels first (TRT 1, ATV, Show TV...)
     return sorted(chans, key=lambda c: (top(c["group"]), group_rank(c["group"], country), group_quality(c["group"]), first_seen[c["group"]],
-                                          lead_rank(c["name"]), sky_rank(c["name"]), c.get("sort", 999), channel_key(c["name"])))
+                                          lead_rank(c["name"]), group_lead(c["group"], c["name"]), sky_rank(c["name"]), c.get("sort", 999), channel_key(c["name"])))
