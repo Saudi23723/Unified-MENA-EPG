@@ -24,6 +24,7 @@ Output (_data/, published to the xtream-data branch with no history)
 import base64, datetime, glob, gzip, html, json, os, re, shutil, sys, urllib.request, zlib
 
 import xtream_order
+import official_fill  # official guides for channels the maps leave without one (27 Oct 2026)
 
 SRC = "unified_mena_epg.xml"
 OFFICIAL = "official_sports_epg.xml"
@@ -121,7 +122,7 @@ for f in sorted(glob.glob("xtream/*/channel_map.json")):
             catid[g] = str(i + 1)
     streams, bycat, mp = [], {}, {}
     for n, c in enumerate(chans, 1):
-        sp = split(c.get("epg"))
+        sp = split(c.get("epg") or official_fill.fill(c["name"], c["group"]))
         cid = catid[c["group"]]
         s = {"num": n, "name": c["name"], "stream_type": "live", "stream_id": c["stream_id"], "stream_icon": "",
              "epg_channel_id": sp[1] if sp else None, "added": "0", "category_id": cid, "custom_sid": "",

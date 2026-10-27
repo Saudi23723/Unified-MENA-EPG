@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: [xtream_epg.py, xtream_order.py, "xtream/*/channel_map.json", "xtream/*/group_order.json", .github/workflows/update_argon_epg.yml]
+    paths: [xtream_epg.py, xtream_order.py, official_fill.py, "xtream/*/channel_map.json", "xtream/*/group_order.json", .github/workflows/update_argon_epg.yml]
 
 permissions:
   contents: write
