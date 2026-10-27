@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-27T04:00:06.107Z",
+  "updated_at": "2026-10-27T04:05:09.617Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -9,12 +9,12 @@
       "longitude": 35.9284,
       "temperature_c": 19.2,
       "humidity": 73,
-      "wind_speed": 6.1,
+      "wind_speed": 4.7,
       "rain_chance": 13,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-10-27T07:00",
-      "feels_c": 19.7,
+      "feels_c": 19.9,
       "utc_offset": 10800,
       "days": [
         {
@@ -22,14 +22,14 @@
           "code": 80,
           "max": 24.1,
           "min": 18.2,
-          "rain": 58
+          "rain": 45
         },
         {
           "date": "2026-10-28",
           "code": 80,
           "max": 21.9,
           "min": 15.1,
-          "rain": 20
+          "rain": 18
         },
         {
           "date": "2026-10-29",
@@ -64,7 +64,7 @@
           "code": 3,
           "max": 25.3,
           "min": 17.2,
-          "rain": 8
+          "rain": 46
         }
       ],
       "today_max": 24.1,
@@ -80,12 +80,12 @@
       "longitude": 35.006,
       "temperature_c": 25.5,
       "humidity": 73,
-      "wind_speed": 4.4,
-      "rain_chance": 15,
+      "wind_speed": 2.6,
+      "rain_chance": 10,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-10-27T07:00",
-      "feels_c": 28.8,
+      "feels_c": 29.1,
       "utc_offset": 10800,
       "days": [
         {
@@ -93,14 +93,14 @@
           "code": 80,
           "max": 29.4,
           "min": 23.8,
-          "rain": 53
+          "rain": 30
         },
         {
           "date": "2026-10-28",
           "code": 3,
           "max": 29.6,
           "min": 23.5,
-          "rain": 18
+          "rain": 5
         },
         {
           "date": "2026-10-29",
@@ -135,7 +135,7 @@
           "code": 3,
           "max": 32.1,
           "min": 21.8,
-          "rain": 0
+          "rain": 1
         }
       ],
       "today_max": 29.4,
@@ -222,7 +222,7 @@
       "longitude": 55.2708,
       "temperature_c": 27.8,
       "humidity": 79,
-      "wind_speed": 5.9,
+      "wind_speed": 5.8,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
