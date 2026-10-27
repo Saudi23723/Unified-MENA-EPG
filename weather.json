@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-27T01:51:38.329Z",
+  "updated_at": "2026-10-27T01:56:51.627Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -22,14 +22,14 @@
           "code": 80,
           "max": 24.2,
           "min": 18.3,
-          "rain": 58
+          "rain": 45
         },
         {
           "date": "2026-10-28",
           "code": 80,
           "max": 22.8,
           "min": 15.6,
-          "rain": 20
+          "rain": 18
         },
         {
           "date": "2026-10-29",
@@ -64,7 +64,7 @@
           "code": 3,
           "max": 25.3,
           "min": 17.2,
-          "rain": 8
+          "rain": 46
         }
       ],
       "today_max": 24.2,
@@ -81,7 +81,7 @@
       "temperature_c": 25.2,
       "humidity": 78,
       "wind_speed": 2.9,
-      "rain_chance": 5,
+      "rain_chance": 8,
       "condition": "غائم جزئياً",
       "weather_code": 2,
       "observed_at": "2026-10-27T04:45",
@@ -93,14 +93,14 @@
           "code": 3,
           "max": 29.9,
           "min": 24.7,
-          "rain": 53
+          "rain": 30
         },
         {
           "date": "2026-10-28",
           "code": 3,
           "max": 29.8,
           "min": 23.8,
-          "rain": 18
+          "rain": 5
         },
         {
           "date": "2026-10-29",
@@ -135,7 +135,7 @@
           "code": 3,
           "max": 32.1,
           "min": 21.8,
-          "rain": 0
+          "rain": 1
         }
       ],
       "today_max": 29.9,
@@ -292,26 +292,26 @@
       "latitude": 51.5074,
       "longitude": -0.1278,
       "temperature_c": 16.3,
-      "humidity": 85,
-      "wind_speed": 25.6,
+      "humidity": 83,
+      "wind_speed": 27.0,
       "rain_chance": 0,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-10-27T01:45",
-      "feels_c": 13.8,
+      "feels_c": 13.4,
       "utc_offset": 0,
       "days": [
         {
           "date": "2026-10-27",
           "code": 61,
-          "max": 16.8,
-          "min": 10.0,
+          "max": 16.7,
+          "min": 9.9,
           "rain": 100
         },
         {
           "date": "2026-10-28",
           "code": 3,
-          "max": 15.5,
+          "max": 15.8,
           "min": 8.7,
           "rain": 2
         },
@@ -351,8 +351,8 @@
           "rain": 2
         }
       ],
-      "today_max": 16.8,
-      "today_min": 10.0,
+      "today_max": 16.7,
+      "today_min": 9.9,
       "sunrise": "06:45",
       "sunset": "16:42",
       "uv": 1
@@ -363,27 +363,27 @@
       "latitude": 53.4808,
       "longitude": -2.2426,
       "temperature_c": 16.2,
-      "humidity": 82,
-      "wind_speed": 30.2,
+      "humidity": 79,
+      "wind_speed": 30.6,
       "rain_chance": 31,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-10-27T01:45",
-      "feels_c": 12.7,
+      "feels_c": 12.6,
       "utc_offset": 0,
       "days": [
         {
           "date": "2026-10-27",
-          "code": 53,
+          "code": 55,
           "max": 16.2,
-          "min": 8.8,
+          "min": 9.4,
           "rain": 94
         },
         {
           "date": "2026-10-28",
           "code": 51,
-          "max": 15.0,
-          "min": 8.8,
+          "max": 14.9,
+          "min": 8.9,
           "rain": 90
         },
         {
@@ -423,7 +423,7 @@
         }
       ],
       "today_max": 16.2,
-      "today_min": 8.8,
+      "today_min": 9.4,
       "sunrise": "06:58",
       "sunset": "16:46",
       "uv": 1
