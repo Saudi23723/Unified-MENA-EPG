@@ -68,6 +68,49 @@ GROUP_LEADS = [
 ]
 
 
+# --- Event / pay-per-view groups (owner, 27 October 2026: "the PPV is all mixed up, order it properly").
+# Their channel names carry the event of the day they were exported (stale a day later) and sort badly by name.
+# Each such channel is shown by its slot ("NBA 06", "ESPN+ 389", "DAZN PPV 23") and the slots go in number order;
+# channels without a slot (NFL Network, Sky Box Office, team channels) stay first, in the provider's order.
+EVENT_GROUP = re.compile(r"(?!.*24/7)(?:PPV|PAY PER VIEW|EVENT|PACKAGE|ESPN\+|TSN\+|SN\+|PEACOCK|PARAMOUNT|^STAN$|^MAX$|^SOCCER$|^DAZN$|CUP GAMES|NFL SPORTS|DAZN EVENTS)", re.I)
+_JUNK = r"[ⓧâ§§ⓧ]+"
+_Q = r"(\s*(UHD|FHD|HD|SD|4K|8K|HEVC|RAW|3840P))?"
+def event_label(name, group):
+    n = re.sub(_JUNK, "", name).strip()
+    if n.startswith("24/7"):
+        return None
+    # "Flo (FLSP) 193: ..."
+    m = re.match(r"^[A-Za-z+ ]+?\s*\(([A-Za-z+]+)\)\s*0*(\d{1,4})\b", n)
+    if m:
+        return m.group(1), int(m.group(2))
+    # "... | 8K EXCLUSIVE | US: ESPN+ PPV 12"
+    m = re.search(r"\|\s*(?:[A-Z]{2}:\s*)?([A-Z][A-Za-z0-9+&/ .]*?)\s+0*(\d{1,4})\s*$", n)
+    if m and "EXCLUSIVE" in n.upper():
+        return m.group(1).strip(), int(m.group(2))
+    # "US (ESPN+ 001) | ...", "(FLSP 001) | ...", "(US) (BTN+ 001) | ...", "(Apple) (MLS) 001 | ...", "AU (STAN 01) | ..."
+    m = re.match(r"^(?:[A-Z]{2}\s*)?(?:\([A-Za-z]+\)\s*)?\(([A-Za-z+ .]+?)\s*0*(\d{1,4})\)", n) or re.match(r"^\([A-Za-z]+\)\s*\(([A-Za-z+ ]+)\)\s*0*(\d{1,4})\b", n)
+    if m:
+        return m.group(1).strip(), int(m.group(2))
+    # "... @ Oct 24 8:30 PM :NBA 06", "... :Paramount+ 01 FHD", "...: USA: SOCCER 4 FHD", "... :Flo College 01"
+    m = re.search(r":\s*([A-Za-z][A-Za-z0-9+ .]*?)\s+0*(\d{1,4})" + _Q + r"\s*$", n)
+    if m and not re.search(r"\d\s*$", m.group(1)):
+        return m.group(1).strip(), int(m.group(2))
+    # leading "NFL | 03 - ...", "Live Football 01 : ...", "NCAAF 01: ...", "Boxing 6: ...", "PSF01 | ...", "NBA 01: ..."
+    m = re.match(r"^([A-Za-z][A-Za-z+&. ]*?)\s*\|?\s*0*(\d{1,4})\s*(?:[:|\-]|$|\s+[A-Za-z(])", n)
+    if m and len(m.group(1)) <= 24:
+        return m.group(1).strip(" |"), int(m.group(2))
+    # Argon packages: "02 - 9:30am Steelers at Saints FHD" -> group's sport + number
+    m = re.match(r"^0*(\d{1,3})\b", n)
+    if m:
+        base = re.sub(r"\s*(PACKAGE|PPV|EVENTS?|AND INTERNATIONAL)\b.*$", "", group, flags=re.I).strip() or group
+        return base.title() if base.isupper() and len(base) > 4 else base, int(m.group(1))
+    return None
+
+
+def event_name(base: str, num: int) -> str:
+    return f"{base} {num:02d}"
+
+
 def group_lead(group: str, name: str) -> int:
     g, n = group.strip().upper(), " ".join(name.upper().split())
     n = re.sub(r"^(LBN|LEB|AR|UK|US)\s*\|\s*", "", n)
@@ -154,6 +197,21 @@ def order(chans: list[dict], playlist: str | None = None) -> list[dict]:
         chans = [c for c in chans if not re.search(drop, c["group"].strip().upper())]
     lead = PLAYLIST_CHANNEL_FIRST.get(playlist or "")
     lead_rank = lambda n: 0 if lead and re.search(lead, n.strip().upper()) else 1
+    # event groups: slot names and slot order
+    ev_key = {}
+    renamed = []
+    for i, c in enumerate(chans):
+        if EVENT_GROUP.search(c["group"]):
+            lab = event_label(c["name"], c["group"])
+            if lab:
+                c = dict(c, name=event_name(*lab))
+                ev_key[id(c)] = (1, lab[0].upper(), lab[1])
+            else:
+                c = dict(c, name=re.sub(_JUNK, "", c["name"]).strip())
+                ev_key[id(c)] = (0, "", i)
+        renamed.append(c)
+    chans = renamed
+    evk = lambda c: ev_key.get(id(c), (0, "", 0))
     first_seen = {}
     for i, c in enumerate(chans):
         first_seen.setdefault(c["group"], i)
@@ -163,4 +221,4 @@ def order(chans: list[dict], playlist: str | None = None) -> list[dict]:
     top = lambda g: (0 if first and re.search(first, g.upper()) else 1, saved.get(g, len(saved)))
     # an optional "sort" in channel_map.json puts a group's main channels first (TRT 1, ATV, Show TV...)
     return sorted(chans, key=lambda c: (top(c["group"]), group_rank(c["group"], country), group_quality(c["group"]), first_seen[c["group"]],
-                                          lead_rank(c["name"]), group_lead(c["group"], c["name"]), sky_rank(c["name"]), c.get("sort", 999), channel_key(c["name"])))
+                                          evk(c), lead_rank(c["name"]), group_lead(c["group"], c["name"]), sky_rank(c["name"]), c.get("sort", 999), channel_key(c["name"])))
