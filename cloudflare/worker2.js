@@ -25,6 +25,46 @@ async function pass(url, ttl, empty) {
   return new Response(r.body, { headers: { ...JSONH, "Cache-Control": `max-age=${Math.min(ttl, 300)}` } });
 }
 
+const MEMO = new Map();  // login -> { t, list } for this worker instance
+
+async function digest(t) {
+  const b = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(t));
+  return [...new Uint8Array(b)].slice(0, 12).map((x) => x.toString(16).padStart(2, "0")).join("");
+}
+
+// The repo's list with today's event names and the provider's logos where the repo has none (owner, 27 Oct 2026).
+async function merged(user, pass_, req) {
+  const [mine, cats] = await Promise.all([
+    fetch(MAIN + "live_streams.json", { cf: { cacheTtl: 900, cacheEverything: true } }).then((r) => (r.ok ? r.json() : [])),
+    fetch(MAIN + "live_categories.json", { cf: { cacheTtl: 900, cacheEverything: true } }).then((r) => (r.ok ? r.json() : [])),
+  ]);
+  const live = await Promise.race([
+    fetch(`${PROVIDER}/player_api.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass_)}&action=get_live_streams`,
+      { headers: { "User-Agent": req.headers.get("User-Agent") || "" }, cf: { cacheTtl: 300, cacheEverything: true } })
+      .then((r) => (r.ok ? r.json() : [])).catch(() => []),
+    new Promise((r) => setTimeout(() => r(null), 4000)),
+  ]);
+  const strip = (l) => l.map((s) => (s.stream_icon ? { ...s, stream_icon: String(s.stream_icon).replace(/#weak$/, "") } : s));
+  if (!Array.isArray(live) || !live.length) return { list: strip(mine), fresh: false };
+  const ev = new Set(cats.filter((c) => EVENT_GROUP.test(c.category_name || "")).map((c) => String(c.category_id)));
+  const now = new Map();
+  for (const s of live) now.set(String(s.stream_id), s);
+  for (const s of mine) {
+    const p = now.get(String(s.stream_id));
+    if (!p) continue;
+    if ((!s.stream_icon || String(s.stream_icon).endsWith("#weak")) && p.stream_icon) s.stream_icon = p.stream_icon;
+    if (ev.has(String(s.category_id)) && p.name)
+      s.name = String(p.name).replace(/[\u24e7\u00a7]/g, "").replace(/\s+/g, " ").trim();
+  }
+  const base = (s) => String(s.category_id) + "|" + String(s.name || "").toUpperCase()
+    .replace(/\b(UHD|FHD|HD|SD|LQ|4K|8K|HEVC|RAW|3840P|60FPS|50FPS|HDR|BACKUP|BK)\b/g, " ").replace(/[^A-Z0-9\u0600-\u06FF+]/g, "");
+  const weak = (s) => !s.stream_icon || String(s.stream_icon).endsWith("#weak");
+  const logo = new Map();
+  for (const s of mine) if (!weak(s) && !logo.has(base(s))) logo.set(base(s), s.stream_icon);
+  for (const s of mine) if (weak(s)) { const l = logo.get(base(s)); if (l) s.stream_icon = l; }
+  return { list: strip(mine), fresh: true };
+}
+
 export default {
   async fetch(req) {
     const url = new URL(req.url);
@@ -77,37 +117,19 @@ export default {
         if (!LIVE_EVENT_NAMES) return pass(file, 900, []);
         // Event / PPV channels: the provider renames them for each match ("Hawks vs Rockets :NBA 06"); the repo's
         // copy is from the export day, so take today's names from the provider (owner, 27 October 2026).
+        // Speed (owner, 28 Oct 2026: DreamTV hangs on start): the provider's full list is read only for the full
+        // list request, at most once per 10 minutes per login (kept in this worker's memory), and only if the
+        // provider answers within 4 s; a single category is cut from that copy or served straight from the repo.
         try {
-          const [mine, cats, live] = await Promise.all([
-            fetch(file, { cf: { cacheTtl: 900, cacheEverything: true } }).then((r) => (r.ok ? r.json() : [])),
-            fetch(MAIN + "live_categories.json", { cf: { cacheTtl: 900, cacheEverything: true } }).then((r) => (r.ok ? r.json() : [])),
-            fetch(`${PROVIDER}/player_api.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass_)}&action=get_live_streams`,
-              { headers: { "User-Agent": req.headers.get("User-Agent") || "" }, cf: { cacheTtl: 300, cacheEverything: true } })
-              .then((r) => (r.ok ? r.json() : [])).catch(() => []),
-          ]);
-          const ev = new Set(cats.filter((c) => EVENT_GROUP.test(c.category_name || "")).map((c) => String(c.category_id)));
-          if (!Array.isArray(live) || !live.length) return json(mine, 300);
-          const now = new Map();
-          for (const s of live) now.set(String(s.stream_id), s);
-          for (const s of mine) {
-            const p = now.get(String(s.stream_id));
-            if (!p) continue;
-            // the provider's logo where the repo has none (owner, 27 October 2026)
-            // "#weak" = the repo only had a brand / group logo: the provider's own picture is better
-            if ((!s.stream_icon || String(s.stream_icon).endsWith("#weak")) && p.stream_icon)
-              s.stream_icon = p.stream_icon;
-            if (ev.has(String(s.category_id)) && p.name)
-              s.name = String(p.name).replace(/[\u24e7\u00a7]/g, "").replace(/\s+/g, " ").trim();
+          const k = await digest(user + "\n" + pass_);
+          const c = MEMO.get(k);
+          if (c && Date.now() - c.t < 600000) {
+            return json(cat ? c.list.filter((s) => String(s.category_id) === String(cat)) : c.list, 300);
           }
-          // the same channel in another picture quality shares the logo ("TNT Sports 1 FHD HEVC" <- "TNT Sports 1 FHD")
-          const base = (s) => String(s.category_id) + "|" + String(s.name || "").toUpperCase()
-            .replace(/\b(UHD|FHD|HD|SD|LQ|4K|8K|HEVC|RAW|3840P|60FPS|50FPS|HDR|BACKUP|BK)\b/g, " ").replace(/[^A-Z0-9\u0600-\u06FF+]/g, "");
-          const logo = new Map();
-          const weak = (s) => !s.stream_icon || String(s.stream_icon).endsWith("#weak");
-          for (const s of mine) if (!weak(s) && !logo.has(base(s))) logo.set(base(s), s.stream_icon);
-          for (const s of mine) if (weak(s)) { const l = logo.get(base(s)); if (l) s.stream_icon = l; }
-          for (const s of mine) if (s.stream_icon) s.stream_icon = String(s.stream_icon).replace(/#weak$/, "");
-          return json(mine, 300);
+          if (cat) return pass(file, 900, []);
+          const all = await merged(user, pass_, req);
+          if (all.fresh) { MEMO.set(k, { t: Date.now(), list: all.list }); if (MEMO.size > 20) MEMO.delete(MEMO.keys().next().value); }
+          return json(all.list, 300);
         } catch (e) {
           return pass(file, 900, []);
         }
