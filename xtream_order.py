@@ -64,6 +64,8 @@ GROUP_LEADS = [
                                                        r"MASHHAD|المشهد",  # owner: Al Mashhad right under Al Jazeera
                                                        r"^(AL\s*)?ARABIYA(?!.*BUSINESS)|^العربية", r"^(AL\s*)?ARAB(Y|I)\b(?!.*BUSINESS)|^العربي"]),
     (r"^USA?\b.*NEWS|NEWS NETWORK|^🇺🇲 \| USA$", [r"FOX NEWS", r"\bCNN\b(?!.*(INTERNATIONAL|BRASIL|TURK|ESPAÑOL))", r"LIVE\s?NOW", r"^NBC(\s+NEWS\b.*)?" + _Q, r"^ABC(\s+NEWS\b.*)?" + _Q, r"WEATHER", r"BBC WORLD"]),
+    (r"SAUDI ARABIA|السعودية|\bKSA\b", [r"QURAN|القرآن|القران", r"AL\s*AAN|ALAAN|الآن|الان", r"SUNNA|السنة",
+                                          r"SAUDI\s*1\b|SAUDI\s*TV\s*1|السعودية\s*(1|الأولى)"]),  # owner, 28 Oct
     (r"^UK\b.*NEWS", [r"BBC WORLD"]),
     (r"AUSTRALIA|ᴀᴜꜱᴛʀᴀʟɪᴀ", [r"\bESPN\b", r"\bFOX\b"]),  # owner: ESPN and Fox first in Australia
     (r"^UK\b|^SPORTS$|^NOW TV$", [r"^(UK:?\s*)?SKY ?SPORTS?\b", r"^(UK:?\s*)?TNT ?SPORTS?\b", r"\bMUTV\b"]),
