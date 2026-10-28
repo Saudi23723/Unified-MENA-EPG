@@ -94,8 +94,7 @@ export default {
             if (!p) continue;
             // the provider's logo where the repo has none (owner, 27 October 2026)
             // "#weak" = the repo only had a brand / group logo: the provider's own picture is better
-            // Strong: the same pictures as the owner's TiviMate, i.e. the provider's own (owner, 27 October 2026)
-            if ((PLAYLIST === "strong" || !s.stream_icon || String(s.stream_icon).endsWith("#weak")) && p.stream_icon)
+            if ((!s.stream_icon || String(s.stream_icon).endsWith("#weak")) && p.stream_icon)
               s.stream_icon = p.stream_icon;
             if (ev.has(String(s.category_id)) && p.name)
               s.name = String(p.name).replace(/[\u24e7\u00a7]/g, "").replace(/\s+/g, " ").trim();

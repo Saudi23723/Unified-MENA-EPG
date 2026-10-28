@@ -50,6 +50,19 @@ FIRST = [
     (r"LEBANON|^LB", r"^((LBN|LEB)\s*\|\s*)?ONE\b", ""),
     (r"LEBANON|^LB", r"\bMTV\b", LB + "mtv-lebanon-lb.png"),
     (None, r"^(LBN|LEB)\s*\|\s*MTV\b", LB + "mtv-lebanon-lb.png"),
+    # owner's photos, 27 Oct 2026
+    (None, r"FAJE?R", "https://i.imgur.com/1xERxmB.png"),
+    (None, r"^((AR|[A-Z0-9]{1,4})\s*:\s*)?(AL\s*)?ARABY\s*2\b", "https://i.imgur.com/YMqWEe4.png"),
+    (None, r"\bSOLO\b", "REPO:solo_sports.png"),
+    (r"SHOOF\s*(ᴍᴀx|MAX)", r".", "REPO:shoofmax.png"),
+    (r"FORMULA\s*1", r".", "REPO:f1.png"),
+    (None, r"^F1\s*:", "REPO:f1.png"),
+    (None, r"(ROYA|رؤيا)\s*(كوميدي|COMEDY)", "https://img.roya.tv/imagechanger/Size01Q40R927/storage/app/public/images/channels/GACtHgmN6t9X6RO.png"),
+    (None, r"(ROYA|رؤيا)\s*(الوثائقية|DOCUMENTAR)", "https://img.roya.tv/imagechanger/Size01Q40R927/storage/app/public/images/channels/O3Ghqm99JvIWQe7.png"),
+    (None, r"(ROYA|رؤيا)\s*(KITCHEN|مطبخ)", "REPO:roya_kitchen.png"),
+    (None, r"(ROYA|رؤيا)\s*(KIDS|أطفال|اطفال)", "REPO:roya_kids.png"),
+    (None, r"(ROYA|رؤيا)\s*(NEWS|الإخبارية|الاخبارية)", "REPO:roya_news.png"),
+    (None, r"ROYA|رؤيا", "https://img.roya.tv/imagechanger/Size01Q40R927/storage/app/public/images/channels/iMoPuU3u5qnqMsL.png"),
 ]
 # Brand rules, used when nothing more exact was found.
 BRANDS = [
@@ -252,8 +265,8 @@ class Logos:
         up = html.unescape(str(name)).upper()
         g = str(group).upper()
         for grx, nrx, url in FIRST:
-            if (not grx or re.search(grx, g)) and re.search(nrx, up):
-                return url
+            if (not grx or re.search(grx, g, re.I)) and re.search(nrx, up):
+                return REPO + url[5:] if url.startswith("REPO:") else url
         if epg_src in ("u", "a") and epg_id and self.by_id[epg_src].get(epg_id):
             return self.by_id[epg_src][epg_id]
         r = region(group, playlist)
@@ -338,6 +351,7 @@ class Logos:
         for grx, nrx, url in BRANDS:
             if not grx and re.search(nrx, up):
                 return url if url.startswith("http") else REPO + url
+        return ""
         r = region(group, playlist)
         for k in self.keys(g):
             if len(k) >= 3:
