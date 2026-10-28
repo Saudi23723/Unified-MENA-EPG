@@ -97,6 +97,12 @@ export default {
             if (ev.has(String(s.category_id)) && p.name)
               s.name = String(p.name).replace(/[\u24e7\u00a7]/g, "").replace(/\s+/g, " ").trim();
           }
+          // the same channel in another picture quality shares the logo ("TNT Sports 1 FHD HEVC" <- "TNT Sports 1 FHD")
+          const base = (s) => String(s.category_id) + "|" + String(s.name || "").toUpperCase()
+            .replace(/\b(UHD|FHD|HD|SD|LQ|4K|8K|HEVC|RAW|3840P|60FPS|50FPS|HDR|BACKUP|BK)\b/g, " ").replace(/[^A-Z0-9\u0600-\u06FF+]/g, "");
+          const logo = new Map();
+          for (const s of mine) if (s.stream_icon && !logo.has(base(s))) logo.set(base(s), s.stream_icon);
+          for (const s of mine) if (!s.stream_icon) { const l = logo.get(base(s)); if (l) s.stream_icon = l; }
           return json(mine, 300);
         } catch (e) {
           return pass(file, 900, []);
