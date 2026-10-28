@@ -59,6 +59,8 @@ RULES: list[tuple[str, str, object]] = [
     (r"^(UK:?\s*)?BBC ?(THREE|3)" + _Q, "o:BBCThree.uk", True), (r"^(UK:?\s*)?BBC ?(FOUR|4)" + _Q, "o:BBCFour.uk", True),
     (r"^(UK:?\s*)?BBC ?NEWS" + _Q, "o:BBCNews.uk", True), (r"^(UK:?\s*)?BBC ?PARLIA?MENT" + _Q, "o:BBCParliament.uk", True),
     (r"^(UK:?\s*)?BBC ?SCOTLAND" + _Q, "o:BBCScotland.uk", True), (r"^(UK:?\s*)?BBC ?ALBA" + _Q, "o:BBCAlba.uk", True),
+    # --- Fox News (owner, 28 Oct 2026: Strong "US: FOX NEWS" had no guide)
+    (r"^(US:?\s*|OSN\s*)?FOX\s*NEWS(\s*CHANNEL)?\b(?!.*(WEATHER|RADIO|NOW|TALK|BUSINESS|INTERNATIONAL))", "a:Playlist.US2FoxNewsChannelHDus2", None),
     # --- TNT Sports UK (owner, 28 Oct 2026: Dream4k "NOW TNT SPORTS 1 UHD" had no guide)
     (r"^(NOW\s*|D\+\s*|UK:?\s*)?TNT\s*SPORTS?\s*1" + _Q, "o:TNTSports1.uk", None),
     (r"^(NOW\s*|D\+\s*|UK:?\s*)?TNT\s*SPORTS?\s*2" + _Q, "o:TNTSports2.uk", None),
