@@ -60,9 +60,9 @@ _Q = r"(\s+(UHD|FHD|HD|SD|4K|8K|HEVC|RAW|TV))*\s*$"
 GROUP_LEADS = [
     (r"JORDAN|ROYA|الأردن|رؤيا", [r"^(JORDAN|الأردن|التلفزيون الأردني)" + _Q, r"MAMLAKA|المملكة", r"^(ROYA|رؤيا)" + _Q]),
     (r"LEBANON|لبنان", [r"JADEED|الجديد", r"MAYADEEN|MAYDEEN|الميادين", r"MANAR|المنار"]),
-    (r"^(AR\s*\|\s*)?NEWS\b(?!.*NETWORK)|^الأخبار|^اخبار", [r"JAZEERA(?!.*(ENGLISH|\bEN\b|DOCUMENT|MUBASH|BALKAN|إنجليزي))|^الجزيرة$",
+    (r"^(AR\s*\|\s*)?(ARABIC\s+)?NEWS\b(?!.*NETWORK)|^الأخبار|^اخبار", [r"JAZEERA(?!.*(ENGLISH|\bEN\b|DOCUMENT|MUBASH|BALKAN|إنجليزي))|^الجزيرة$",
                                                        r"^(AL\s*)?ARABIYA(?!.*BUSINESS)|^العربية", r"^(AL\s*)?ARAB(Y|I)\b(?!.*BUSINESS)|^العربي", r"MASHHAD|المشهد"]),
-    (r"^USA?\b.*NEWS|NEWS NETWORK", [r"FOX NEWS", r"LIVE\s?NOW", r"^NBC(\s+NEWS\b.*)?" + _Q, r"^ABC(\s+NEWS\b.*)?" + _Q, r"WEATHER", r"BBC WORLD"]),
+    (r"^USA?\b.*NEWS|NEWS NETWORK", [r"FOX NEWS", r"\bCNN\b(?!.*(INTERNATIONAL|BRASIL|TURK|ESPAÑOL))", r"LIVE\s?NOW", r"^NBC(\s+NEWS\b.*)?" + _Q, r"^ABC(\s+NEWS\b.*)?" + _Q, r"WEATHER", r"BBC WORLD"]),
     (r"^UK\b.*NEWS", [r"BBC WORLD"]),
     (r"^UK\b|^SPORTS$|^NOW TV$", [r"^(UK:?\s*)?SKY ?SPORTS?\b", r"^(UK:?\s*)?TNT ?SPORTS?\b", r"\bMUTV\b"]),
 ]
@@ -113,6 +113,7 @@ def event_name(base: str, num: int) -> str:
 
 def group_lead(group: str, name: str) -> int:
     g, n = group.strip().upper(), " ".join(name.upper().split())
+    g = re.sub(r"^\|?([A-Z]{2,3})\|\s*✪?\s*", r"\1 | ", g)  # Dream4k: "|AR| ✪ ARABIC NEWS"
     n = re.sub(r"^(LBN|LEB|AR|UK|US)\s*\|\s*", "", n)
     for grx, leads in GROUP_LEADS:
         if re.search(grx, g):

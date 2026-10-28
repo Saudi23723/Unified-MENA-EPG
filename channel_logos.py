@@ -163,6 +163,7 @@ def _post(n: str) -> str:
 
 def region(group: str, playlist: str) -> str | None:
     g = group.upper().strip()
+    g = re.sub(r"^\|?([A-Z]{2,3})\|\s*✪?\s*", r"\1 | ", g)  # Dream4k: "|UK| ✪ SPORTS"
     m = re.match(r"^([A-Z]{2})\s*\|", g)
     if m:
         cc = m.group(1)
@@ -174,7 +175,7 @@ def region(group: str, playlist: str) -> str | None:
                   (r"SPAIN|ESPA", "ES")]:
         if re.search(rx, g):
             return r
-    if playlist in ("hydra", "argon", "aroma"):
+    if playlist in ("hydra", "argon", "aroma", "dream4k"):
         return "AR"
     return None
 
