@@ -95,17 +95,10 @@ def split(epg):
     return "u", epg
 
 
-# Channel logos (owner, 27 October 2026: "why is there no logo on any channel"): the repo's own logos, as the
-# unified guide lists them for each channel id. Channels without one get the provider's logo in the worker.
-LOGOS = {}
-try:
-    _u = open("unified_mena_epg.xml", encoding="utf-8").read()
-    for _cid, _body in re.findall(r'<channel id="([^"]+)">(.*?)</channel>', _u, re.S):
-        _m = re.search(r'<icon src="([^"]+)"', _body)
-        if _m:
-            LOGOS[html.unescape(_cid)] = html.unescape(_m.group(1))
-except OSError:
-    pass
+# Channel logos (owner, 27 October 2026): repo logos first, then the public tv-logos collection (channel_logos.py);
+# the worker fills the rest with the provider's logo.
+import channel_logos
+LOGOS = channel_logos.Logos()
 
 
 # 1) channel lists -> Xtream answers + what guides are needed
@@ -137,7 +130,7 @@ for f in sorted(glob.glob("xtream/*/channel_map.json")):
     for n, c in enumerate(chans, 1):
         sp = split(c.get("epg") or official_fill.fill(c["name"], c["group"]))
         cid = catid[c["group"]]
-        icon = LOGOS.get(sp[1], "") if sp and sp[0] == "u" else ""
+        icon = LOGOS.find(c["name"], c["group"], name, sp[0] if sp else None, sp[1] if sp else None)
         s = {"num": n, "name": c["name"], "stream_type": "live", "stream_id": c["stream_id"], "stream_icon": icon,
              "epg_channel_id": sp[1] if sp else None, "added": "0", "category_id": cid, "custom_sid": "",
              "tv_archive": 0, "direct_source": "", "tv_archive_duration": 0}
