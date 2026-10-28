@@ -158,13 +158,16 @@ export default {
             fetch(MAIN + file, { cf: { cacheTtl: 900, cacheEverything: true } }),
           ]);
           if (cr.ok) {
-            const cats = await cr.json();
+            let cats = await cr.json();
             if (!or.ok || !Array.isArray(cats)) return json(cats, 300);
             const want = await or.json(), pos = {};
             (want.visible || (Array.isArray(want) ? want : [])).forEach((n, i) => { pos[String(n).trim()] = i; });
             // "first": patterns for groups that always lead, whatever the provider calls them
             // (Hydra, 25 October 2026: "Turkish series always first")
             const first = (want.first || []).map((f) => new RegExp(f, "i"));
+            // "hide": patterns for groups the owner does not want at all (Family4k, 28 October 2026)
+            const hide = (want.hide || []).map((f) => new RegExp(f, "i"));
+            if (hide.length) cats = cats.filter((c) => !hide.some((r) => r.test(String(c.category_name || ""))));
             const lead = (name) => { const i = first.findIndex((r) => r.test(name)); return i < 0 ? first.length : i; };
             const rank = (c) => { const n = String(c.category_name || "").trim(); return lead(n) * 1e7 + (pos[n] ?? 1e6); };
             return json(cats.map((c, i) => [c, i]).sort((a, b) => rank(a[0]) - rank(b[0]) || a[1] - b[1]).map((x) => x[0]), 300);
