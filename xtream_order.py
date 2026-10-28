@@ -70,8 +70,8 @@ GROUP_LEADS = [
 
 # --- Event / pay-per-view groups (owner, 27 October 2026: "the PPV is all mixed up, order it properly").
 # Their channel names carry the event of the day they were exported (stale a day later) and sort badly by name.
-# Each such channel is shown by its slot ("NBA 06", "ESPN+ 389", "DAZN PPV 23") and the slots go in number order;
-# channels without a slot (NFL Network, Sky Box Office, team channels) stay first, in the provider's order.
+# They go in slot-number order (NBA 01, NBA 02...; the names themselves stay the provider's); channels without
+# a slot (NFL Network, Sky Box Office, team channels) stay first, in the provider's order.
 EVENT_GROUP = re.compile(r"(?!.*24/7)(?:PPV|PAY PER VIEW|EVENT|PACKAGE|ESPN\+|TSN\+|SN\+|PEACOCK|PARAMOUNT|^STAN$|^MAX$|^SOCCER$|^DAZN$|CUP GAMES|NFL SPORTS|DAZN EVENTS)", re.I)
 _JUNK = r"[ⓧâ§§ⓧ]+"
 _Q = r"(\s*(UHD|FHD|HD|SD|4K|8K|HEVC|RAW|3840P))?"
@@ -203,12 +203,9 @@ def order(chans: list[dict], playlist: str | None = None) -> list[dict]:
     for i, c in enumerate(chans):
         if EVENT_GROUP.search(c["group"]):
             lab = event_label(c["name"], c["group"])
-            if lab:
-                c = dict(c, name=event_name(*lab))
-                ev_key[id(c)] = (1, lab[0].upper(), lab[1])
-            else:
-                c = dict(c, name=re.sub(_JUNK, "", c["name"]).strip())
-                ev_key[id(c)] = (0, "", i)
+            # the owner wants the provider's own names kept (27 Oct): only the ORDER follows the slot numbers
+            c = dict(c)
+            ev_key[id(c)] = (1, lab[0].upper(), lab[1]) if lab else (0, "", i)
         renamed.append(c)
     chans = renamed
     evk = lambda c: ev_key.get(id(c), (0, "", 0))

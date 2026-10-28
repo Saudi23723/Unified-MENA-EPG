@@ -11,6 +11,9 @@ const DATA = REPO + "xtream-data/";
 
 const CORS = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "*" };
 const JSONH = { ...CORS, "Content-Type": "application/json; charset=utf-8" };
+// Live names for event / PPV channels, read from the provider with the viewer's own login (see get_live_streams).
+const LIVE_EVENT_NAMES = true;
+const EVENT_GROUP = /^(?!.*24\/7)(?:.*(PPV|PAY PER VIEW|EVENT|PACKAGE|ESPN\+|TSN\+|SN\+|PEACOCK|PARAMOUNT|CUP GAMES|NFL SPORTS)|STAN|MAX|SOCCER|DAZN)$|^(?!.*24\/7).*(PPV|PAY PER VIEW|EVENT|PACKAGE|ESPN\+|TSN\+|SN\+|PEACOCK|PARAMOUNT|CUP GAMES|NFL SPORTS)/i;
 // ASCII-only JSON (\u escapes): DreamTV reads answers as Latin-1, so Arabic / Turkish names must be escaped.
 const asciiJson = (o) => JSON.stringify(o).replace(/[\u007f-\uffff]/g, (c) => "\\u" + c.charCodeAt(0).toString(16).padStart(4, "0"));
 const json = (o, ttl = 60) => new Response(asciiJson(o), { headers: { ...JSONH, "Cache-Control": `max-age=${ttl}` } });
@@ -70,8 +73,31 @@ export default {
       if (action === "get_live_categories") return pass(MAIN + "live_categories.json", 900, []);
       if (action === "get_live_streams") {
         const cat = q.get("category_id");
-        return cat ? pass(MAIN + `cat/${encodeURIComponent(cat)}.json`, 900, [])
-                   : pass(MAIN + "live_streams.json", 900, []);
+        const file = cat ? MAIN + `cat/${encodeURIComponent(cat)}.json` : MAIN + "live_streams.json";
+        if (!LIVE_EVENT_NAMES) return pass(file, 900, []);
+        // Event / PPV channels: the provider renames them for each match ("Hawks vs Rockets :NBA 06"); the repo's
+        // copy is from the export day, so take today's names from the provider (owner, 27 October 2026).
+        try {
+          const [mine, cats, live] = await Promise.all([
+            fetch(file, { cf: { cacheTtl: 900, cacheEverything: true } }).then((r) => (r.ok ? r.json() : [])),
+            fetch(MAIN + "live_categories.json", { cf: { cacheTtl: 900, cacheEverything: true } }).then((r) => (r.ok ? r.json() : [])),
+            fetch(`${PROVIDER}/player_api.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass_)}&action=get_live_streams`,
+              { headers: { "User-Agent": req.headers.get("User-Agent") || "" }, cf: { cacheTtl: 300, cacheEverything: true } })
+              .then((r) => (r.ok ? r.json() : [])).catch(() => []),
+          ]);
+          const ev = new Set(cats.filter((c) => EVENT_GROUP.test(c.category_name || "")).map((c) => String(c.category_id)));
+          if (!ev.size || !Array.isArray(live) || !live.length) return json(mine, 300);
+          const now = new Map();
+          for (const s of live) now.set(String(s.stream_id), s.name);
+          for (const s of mine) {
+            if (!ev.has(String(s.category_id))) continue;
+            const n = now.get(String(s.stream_id));
+            if (n) s.name = String(n).replace(/[\u24e7\u00a7]/g, "").replace(/\s+/g, " ").trim();
+          }
+          return json(mine, 300);
+        } catch (e) {
+          return pass(file, 900, []);
+        }
       }
       if (action === "get_simple_data_table" || action === "get_short_epg") {
         const id = q.get("stream_id") || "";
