@@ -16,6 +16,8 @@ const LIVE_EVENT_NAMES = true;
 const EVENT_GROUP = /^(?!.*24\/7)(?:.*(PPV|PAY PER VIEW|EVENT|PACKAGE|ESPN\+|TSN\+|SN\+|PEACOCK|PARAMOUNT|CUP GAMES|NFL SPORTS)|STAN|MAX|SOCCER|DAZN)$|^(?!.*24\/7).*(PPV|PAY PER VIEW|EVENT|PACKAGE|ESPN\+|TSN\+|SN\+|PEACOCK|PARAMOUNT|CUP GAMES|NFL SPORTS|ᴘᴘᴠ|ᴇᴠᴇɴᴛ|ᴱᵛᵉⁿᵗ|NBA PASS|DAZN|STAN\b|SOCCER)/i;
 // ASCII-only JSON (\u escapes): DreamTV reads answers as Latin-1, so Arabic / Turkish names must be escaped.
 const asciiJson = (o) => JSON.stringify(o).replace(/[\u007f-\uffff]/g, (c) => "\\u" + c.charCodeAt(0).toString(16).padStart(4, "0"));
+const ESC = new Array(65536);
+const esc = (c) => { const k = c.charCodeAt(0); return ESC[k] || (ESC[k] = "\\u" + k.toString(16).padStart(4, "0")); };
 const json = (o, ttl = 60) => new Response(asciiJson(o), { headers: { ...JSONH, "Cache-Control": `max-age=${ttl}` } });
 
 // Pass a repo file straight through (no parsing, so big lists cost almost no CPU).
@@ -174,7 +176,20 @@ export default {
           }
         } catch (e) { /* fall through to the provider */ }
       }
-      // Movies / series: answered by the provider itself.
+      // Movie / series lists and details: some providers (Argon, 28 Oct 2026) send raw UTF-8, which DreamTV reads
+      // as Latin-1 ("AR - Ù…Ø³Ù„Ø³Ù„"); pass them through here with non-ASCII as \u escapes. ASCII answers are
+      // passed unchanged.
+      if (/^get_(series|vod_streams|series_info|vod_info)$/.test(action)) {
+        try {
+          const r = await fetch(`${PROVIDER}/player_api.php${url.search}`, { headers: { "User-Agent": req.headers.get("User-Agent") || "" } });
+          if (r.ok) {
+            const t = await r.text();
+            const out = /[^\x00-\x7f]/.test(t) ? t.replace(/[^\x00-\x7f]/g, esc) : t;
+            return new Response(out, { headers: { ...JSONH, "Cache-Control": "max-age=300" } });
+          }
+        } catch (e) { /* fall through to the provider */ }
+      }
+      // Anything else: answered by the provider itself.
       return Response.redirect(`${PROVIDER}/player_api.php${url.search}`, 302);
     }
     // Video links (live / movie / series / timeshift): straight to the provider.
