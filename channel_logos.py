@@ -140,7 +140,12 @@ def key(name: str) -> str:
     n = re.sub(_Q, " ", n)
     n = re.sub(r"[^A-Z0-9؀-ۿ]", "", n)
     n = re.sub(r"^AL", "", n)
-    return n
+    return _post(n)
+
+
+def _post(n: str) -> str:
+    """"TNT SPORT 1" and "TNT SPORTS 1" are the same channel."""
+    return n.replace("SPORTS", "SPORT")
 
 
 def region(group: str, playlist: str) -> str | None:
@@ -239,7 +244,8 @@ class Logos:
             pass
         self.tv = {}
         if os.path.exists(index):
-            self.tv = json.load(open(index, encoding="utf-8")).get("regions", {})
+            self.tv = {r: {_post(k): v for k, v in d.items()}
+                       for r, d in json.load(open(index, encoding="utf-8")).get("regions", {}).items()}
 
     # ---- one channel -------------------------------------------------------------------------------
     def find(self, name: str, group: str, playlist: str, epg_src: str | None, epg_id: str | None) -> str:
