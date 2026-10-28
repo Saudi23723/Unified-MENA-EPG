@@ -93,7 +93,8 @@ export default {
             const p = now.get(String(s.stream_id));
             if (!p) continue;
             // the provider's logo where the repo has none (owner, 27 October 2026)
-            if (!s.stream_icon && p.stream_icon) s.stream_icon = p.stream_icon;
+            // "#weak" = the repo only had a brand / group logo: the provider's own picture is better
+            if ((!s.stream_icon || String(s.stream_icon).endsWith("#weak")) && p.stream_icon) s.stream_icon = p.stream_icon;
             if (ev.has(String(s.category_id)) && p.name)
               s.name = String(p.name).replace(/[\u24e7\u00a7]/g, "").replace(/\s+/g, " ").trim();
           }
@@ -101,8 +102,10 @@ export default {
           const base = (s) => String(s.category_id) + "|" + String(s.name || "").toUpperCase()
             .replace(/\b(UHD|FHD|HD|SD|LQ|4K|8K|HEVC|RAW|3840P|60FPS|50FPS|HDR|BACKUP|BK)\b/g, " ").replace(/[^A-Z0-9\u0600-\u06FF+]/g, "");
           const logo = new Map();
-          for (const s of mine) if (s.stream_icon && !logo.has(base(s))) logo.set(base(s), s.stream_icon);
-          for (const s of mine) if (!s.stream_icon) { const l = logo.get(base(s)); if (l) s.stream_icon = l; }
+          const weak = (s) => !s.stream_icon || String(s.stream_icon).endsWith("#weak");
+          for (const s of mine) if (!weak(s) && !logo.has(base(s))) logo.set(base(s), s.stream_icon);
+          for (const s of mine) if (weak(s)) { const l = logo.get(base(s)); if (l) s.stream_icon = l; }
+          for (const s of mine) if (s.stream_icon) s.stream_icon = String(s.stream_icon).replace(/#weak$/, "");
           return json(mine, 300);
         } catch (e) {
           return pass(file, 900, []);

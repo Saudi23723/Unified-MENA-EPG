@@ -140,6 +140,7 @@ for f in sorted(glob.glob("xtream/*/channel_map.json")):
             mp.setdefault(str(c["stream_id"] % 256), {})[str(c["stream_id"])] = f"{sp[0]}/{safe(sp[1])}"
             if name == "hydra" and sp[0] in ("u", "o"):
                 hydra_compat.add((sp[0], sp[1]))
+    LOGOS.fill_playlist(streams, {catid[g]: g for g in cats}, name)
     dump = lambda o, p: json.dump(o, open(p, "w", encoding="utf-8"), ensure_ascii=True, separators=(",", ":"))
     dump([{"category_id": catid[g], "category_name": g, "parent_id": 0} for g in cats],
          f"{play}/live_categories.json")
