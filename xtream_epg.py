@@ -121,6 +121,10 @@ maps = {}
 for f in sorted(glob.glob("xtream/*/channel_map.json")):
     play = os.path.dirname(f); name = os.path.basename(play)
     chans = xtream_order.order(json.load(open(f, encoding="utf-8")), name)
+    # one entry per stream id: DreamTV keeps only the LAST channel with a given id, so a channel listed in two
+    # groups vanished from the first one (Strong's Fox News left the USA group, owner 28 Oct 2026)
+    _seen = set()
+    chans = [c for c in chans if not (c["stream_id"] in _seen or _seen.add(c["stream_id"]))]
     cats = []
     for c in chans:
         if c["group"] not in cats:
