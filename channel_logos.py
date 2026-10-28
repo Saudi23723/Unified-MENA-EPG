@@ -188,7 +188,7 @@ def region(group: str, playlist: str) -> str | None:
                   (r"SPAIN|ESPA", "ES")]:
         if re.search(rx, g):
             return r
-    if playlist in ("hydra", "argon", "aroma", "dream4k"):
+    if playlist in ("hydra", "argon", "aroma", "dream4k", "family4k"):
         return "AR"
     return None
 
