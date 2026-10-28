@@ -161,6 +161,8 @@ export default {
           ]);
           if (cr.ok) {
             let cats = await cr.json();
+            // group names only (no login) in the worker log, so the owner's hide / order lists can be written
+            if (Array.isArray(cats)) console.log(action + " " + JSON.stringify(cats.map((c) => c.category_name)));
             if (!or.ok || !Array.isArray(cats)) return json(cats, 300);
             const want = await or.json(), pos = {};
             (want.visible || (Array.isArray(want) ? want : [])).forEach((n, i) => { pos[String(n).trim()] = i; });
