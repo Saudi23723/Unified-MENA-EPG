@@ -165,7 +165,12 @@ export default {
             if (Array.isArray(cats)) console.log(action + " " + JSON.stringify(cats.map((c) => c.category_name)));
             if (!or.ok || !Array.isArray(cats)) return json(cats, 300);
             const want = await or.json(), pos = {};
-            (want.visible || (Array.isArray(want) ? want : [])).forEach((n, i) => { pos[String(n).trim()] = i; });
+            // "tidy": names compared (and shown) without the "|AR| ✪ " prefix and the stretching dashes
+            // ("افــــلام" -> "افلام"); "only": groups not in "visible" are hidden (Dream4k, 28 October 2026)
+            const tidy = (n) => String(n || "").replace(/^\s*\|[A-Z]{2,6}\|\s*✪?\s*/, "").replace(/\u0640/g, "").replace(/\s+/g, " ").trim();
+            if (want.tidy && Array.isArray(cats)) cats = cats.map((c) => ({ ...c, category_name: tidy(c.category_name) }));
+            (want.visible || (Array.isArray(want) ? want : [])).forEach((n, i) => { pos[want.tidy ? tidy(n) : String(n).trim()] = i; });
+            if (want.only && Array.isArray(cats)) cats = cats.filter((c) => String(c.category_name || "").trim() in pos);
             // "first": patterns for groups that always lead, whatever the provider calls them
             // (Hydra, 25 October 2026: "Turkish series always first")
             const first = (want.first || []).map((f) => new RegExp(f, "i"));
