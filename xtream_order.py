@@ -113,8 +113,11 @@ def event_name(base: str, num: int) -> str:
     return f"{base} {num:02d}"
 
 
+_SMALLCAPS = str.maketrans("ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴘǫʀꜱᴛᴜᴠᴡʏᴢѕ", "ABCDEFGHIJKLMNOPQRSTUVWYZS")
+
+
 def group_lead(group: str, name: str) -> int:
-    g, n = group.strip().upper(), " ".join(name.upper().split())
+    g, n = group.strip().translate(_SMALLCAPS).upper(), " ".join(name.upper().split())
     g = re.sub(r"^\|?([A-Z]{2,3})\|\s*✪?\s*", r"\1 | ", g)  # Dream4k: "|AR| ✪ ARABIC NEWS"
     n = re.sub(r"^(LBN|LEB|AR|UK|US)\s*\|\s*", "", n)
     for grx, leads in GROUP_LEADS:
