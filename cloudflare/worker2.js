@@ -67,6 +67,40 @@ async function merged(user, pass_, req) {
   return { list: strip(mine), fresh: true };
 }
 
+// The provider's movie / series groups in the owner's order (xtream/<playlist>/vod_order.json or series_order.json).
+// Returns null when the provider does not answer; filtered = some groups are hidden.
+async function groups(action, url, req) {
+  const file = action === "get_vod_categories" ? "vod_order.json" : "series_order.json";
+  const q = new URLSearchParams(url.search); q.set("action", action); q.delete("category_id");
+  const [cr, or] = await Promise.all([
+    fetch(`${PROVIDER}/player_api.php?${q}`, { headers: { "User-Agent": req.headers.get("User-Agent") || "" }, cf: { cacheTtl: 300, cacheEverything: true } }),
+    // short cache: a new or changed order file shows within 2 minutes (a cached "not found" kept
+    // Dream4k's new lists away, 28 Oct 2026)
+    fetch(MAIN + file + "?v=" + Math.floor(Date.now() / 120000), { cf: { cacheTtl: 120, cacheEverything: true } }),
+  ]);
+  if (!cr.ok) return null;
+  let cats = await cr.json();
+  if (!or.ok || !Array.isArray(cats)) return { cats, filtered: false };
+  const want = await or.json(), pos = {};
+  const n0 = cats.length;
+  // "tidy": names compared (and shown) without the "|AR| ✪ " prefix and the stretching dashes
+  // ("افــــلام" -> "افلام"); "only": groups not in "visible" are hidden (Dream4k, 28 October 2026)
+  const tidy = (n) => String(n || "").replace(/^\s*\|[A-Z]{2,6}\|\s*✪?\s*/, "").replace(/\u0640/g, "").replace(/\s+/g, " ").trim();
+  if (want.tidy) cats = cats.map((c) => ({ ...c, category_name: tidy(c.category_name) }));
+  (want.visible || (Array.isArray(want) ? want : [])).forEach((n, i) => { pos[want.tidy ? tidy(n) : String(n).trim()] = i; });
+  if (want.only) cats = cats.filter((c) => String(c.category_name || "").trim() in pos);
+  // "first": patterns for groups that always lead, whatever the provider calls them
+  // (Hydra, 25 October 2026: "Turkish series always first")
+  const first = (want.first || []).map((f) => new RegExp(f, "i"));
+  // "hide": patterns for groups the owner does not want at all (Family4k, 28 October 2026)
+  const hide = (want.hide || []).map((f) => new RegExp(f, "i"));
+  if (hide.length) cats = cats.filter((c) => !hide.some((r) => r.test(String(c.category_name || ""))));
+  const lead = (name) => { const i = first.findIndex((r) => r.test(name)); return i < 0 ? first.length : i; };
+  const rank = (c) => { const n = String(c.category_name || "").trim(); return lead(n) * 1e7 + (pos[n] ?? 1e6); };
+  cats = cats.map((c, i) => [c, i]).sort((a, b) => rank(a[0]) - rank(b[0]) || a[1] - b[1]).map((x) => x[0]);
+  return { cats, filtered: cats.length < n0 };
+}
+
 export default {
   async fetch(req) {
     const url = new URL(req.url);
@@ -153,46 +187,34 @@ export default {
       // Movie / series groups: the provider's own list, put in the owner's order when the repo has one
       // (xtream/<playlist>/vod_order.json or series_order.json: names in order; groups not listed follow).
       if (action === "get_vod_categories" || action === "get_series_categories") {
-        const file = action === "get_vod_categories" ? "vod_order.json" : "series_order.json";
         try {
-          const [cr, or] = await Promise.all([
-            fetch(`${PROVIDER}/player_api.php${url.search}`, { headers: { "User-Agent": req.headers.get("User-Agent") || "" } }),
-            // short cache: a new or changed order file shows within 2 minutes (a cached "not found" kept
-            // Dream4k's new lists away, 28 Oct 2026)
-            fetch(MAIN + file + "?v=" + Math.floor(Date.now() / 120000), { cf: { cacheTtl: 120, cacheEverything: true } }),
-          ]);
-          if (cr.ok) {
-            let cats = await cr.json();
-            // group names only (no login) in the worker log, so the owner's hide / order lists can be written
-            if (Array.isArray(cats)) console.log(action + " " + JSON.stringify(cats.map((c) => c.category_name)));
-            if (!or.ok || !Array.isArray(cats)) return json(cats, 300);
-            const want = await or.json(), pos = {};
-            // "tidy": names compared (and shown) without the "|AR| ✪ " prefix and the stretching dashes
-            // ("افــــلام" -> "افلام"); "only": groups not in "visible" are hidden (Dream4k, 28 October 2026)
-            const tidy = (n) => String(n || "").replace(/^\s*\|[A-Z]{2,6}\|\s*✪?\s*/, "").replace(/\u0640/g, "").replace(/\s+/g, " ").trim();
-            if (want.tidy && Array.isArray(cats)) cats = cats.map((c) => ({ ...c, category_name: tidy(c.category_name) }));
-            (want.visible || (Array.isArray(want) ? want : [])).forEach((n, i) => { pos[want.tidy ? tidy(n) : String(n).trim()] = i; });
-            if (want.only && Array.isArray(cats)) cats = cats.filter((c) => String(c.category_name || "").trim() in pos);
-            // "first": patterns for groups that always lead, whatever the provider calls them
-            // (Hydra, 25 October 2026: "Turkish series always first")
-            const first = (want.first || []).map((f) => new RegExp(f, "i"));
-            // "hide": patterns for groups the owner does not want at all (Family4k, 28 October 2026)
-            const hide = (want.hide || []).map((f) => new RegExp(f, "i"));
-            if (hide.length) cats = cats.filter((c) => !hide.some((r) => r.test(String(c.category_name || ""))));
-            const lead = (name) => { const i = first.findIndex((r) => r.test(name)); return i < 0 ? first.length : i; };
-            const rank = (c) => { const n = String(c.category_name || "").trim(); return lead(n) * 1e7 + (pos[n] ?? 1e6); };
-            return json(cats.map((c, i) => [c, i]).sort((a, b) => rank(a[0]) - rank(b[0]) || a[1] - b[1]).map((x) => x[0]), 300);
-          }
+          const g = await groups(action, url, req);
+          if (g) return json(g.cats, 300);
         } catch (e) { /* fall through to the provider */ }
       }
       // Movie / series lists and details: some providers (Argon, 28 Oct 2026) send raw UTF-8, which DreamTV reads
       // as Latin-1 ("AR - Ù…Ø³Ù„Ø³Ù„"); pass them through here with non-ASCII as \u escapes. ASCII answers are
-      // passed unchanged.
+      // passed unchanged. Titles of hidden groups are left out too: DreamTV otherwise shows them under bare
+      // group numbers ("2588", "343"... Dream4k, 28 Oct 2026).
       if (/^get_(series|vod_streams|series_info|vod_info)$/.test(action)) {
         try {
-          const r = await fetch(`${PROVIDER}/player_api.php${url.search}`, { headers: { "User-Agent": req.headers.get("User-Agent") || "" } });
+          const list = action === "get_series" || action === "get_vod_streams";
+          const catAction = action === "get_series" ? "get_series_categories" : "get_vod_categories";
+          const [r, g] = await Promise.all([
+            fetch(`${PROVIDER}/player_api.php${url.search}`, { headers: { "User-Agent": req.headers.get("User-Agent") || "" } }),
+            list ? groups(catAction, url, req).catch(() => null) : null,
+          ]);
           if (r.ok) {
-            const t = await r.text();
+            let t = await r.text();
+            if (g && g.filtered) {
+              const keep = new Set(g.cats.map((c) => String(c.category_id)));
+              const cat = url.searchParams.get("category_id");
+              if (cat) { if (!keep.has(String(cat))) t = "[]"; }
+              else {
+                const items = JSON.parse(t);
+                if (Array.isArray(items)) t = JSON.stringify(items.filter((x) => keep.has(String(x.category_id))));
+              }
+            }
             const out = /[^\x00-\x7f]/.test(t) ? t.replace(/[^\x00-\x7f]/g, esc) : t;
             return new Response(out, { headers: { ...JSONH, "Cache-Control": "max-age=300" } });
           }
