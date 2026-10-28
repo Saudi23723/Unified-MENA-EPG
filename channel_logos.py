@@ -164,6 +164,9 @@ def _post(n: str) -> str:
 def region(group: str, playlist: str) -> str | None:
     g = group.upper().strip()
     g = re.sub(r"^\|?([A-Z]{2,3})\|\s*✪?\s*", r"\1 | ", g)  # Dream4k: "|UK| ✪ SPORTS"
+    for flag, cc in (("🇺🇸", "US"), ("🇺🇲", "US"), ("🇬🇧", "UK"), ("🏴", "UK"), ("🇨🇦", "CA"), ("🇦🇺", "AU"), ("🇭🇲", "AU"), ("🇹🇷", "TR")):
+        if g.startswith(flag):  # Strong-style names: "🇬🇧 | SKY ᴄɪɴᴇᴍᴀ"
+            return cc
     m = re.match(r"^([A-Z]{2})\s*\|", g)
     if m:
         cc = m.group(1)

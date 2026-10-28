@@ -60,9 +60,10 @@ _Q = r"(\s+(UHD|FHD|HD|SD|4K|8K|HEVC|RAW|TV))*\s*$"
 GROUP_LEADS = [
     (r"JORDAN|ROYA|الأردن|رؤيا", [r"^(JORDAN|الأردن|التلفزيون الأردني)" + _Q, r"MAMLAKA|المملكة", r"^(ROYA|رؤيا)" + _Q]),
     (r"LEBANON|لبنان", [r"JADEED|الجديد", r"MAYADEEN|MAYDEEN|الميادين", r"MANAR|المنار"]),
-    (r"^(AR\s*\|\s*)?(ARABIC\s+)?NEWS\b(?!.*NETWORK)|^الأخبار|^اخبار", [r"JAZEERA(?!.*(ENGLISH|\bEN\b|DOCUMENT|MUBASH|BALKAN|إنجليزي))|^الجزيرة$",
-                                                       r"^(AL\s*)?ARABIYA(?!.*BUSINESS)|^العربية", r"^(AL\s*)?ARAB(Y|I)\b(?!.*BUSINESS)|^العربي", r"MASHHAD|المشهد"]),
-    (r"^USA?\b.*NEWS|NEWS NETWORK", [r"FOX NEWS", r"\bCNN\b(?!.*(INTERNATIONAL|BRASIL|TURK|ESPAÑOL))", r"LIVE\s?NOW", r"^NBC(\s+NEWS\b.*)?" + _Q, r"^ABC(\s+NEWS\b.*)?" + _Q, r"WEATHER", r"BBC WORLD"]),
+    (r"^(AR\s*\|\s*)?(ARABIC\s+)?NEWS\b(?!.*NETWORK)|^الأخبار|^اخبار|قنوات الأخبار", [r"JAZEERA(?!.*(ENGLISH|\bEN\b|DOCUMENT|MUBASH|BALKAN|إنجليزي|\b2\b|360))|^الجزيرة$",
+                                                       r"MASHHAD|المشهد",  # owner: Al Mashhad right under Al Jazeera
+                                                       r"^(AL\s*)?ARABIYA(?!.*BUSINESS)|^العربية", r"^(AL\s*)?ARAB(Y|I)\b(?!.*BUSINESS)|^العربي"]),
+    (r"^USA?\b.*NEWS|NEWS NETWORK|^🇺🇲 \| USA$", [r"FOX NEWS", r"\bCNN\b(?!.*(INTERNATIONAL|BRASIL|TURK|ESPAÑOL))", r"LIVE\s?NOW", r"^NBC(\s+NEWS\b.*)?" + _Q, r"^ABC(\s+NEWS\b.*)?" + _Q, r"WEATHER", r"BBC WORLD"]),
     (r"^UK\b.*NEWS", [r"BBC WORLD"]),
     (r"^UK\b|^SPORTS$|^NOW TV$", [r"^(UK:?\s*)?SKY ?SPORTS?\b", r"^(UK:?\s*)?TNT ?SPORTS?\b", r"\bMUTV\b"]),
 ]
@@ -72,7 +73,7 @@ GROUP_LEADS = [
 # Their channel names carry the event of the day they were exported (stale a day later) and sort badly by name.
 # They go in slot-number order (NBA 01, NBA 02...; the names themselves stay the provider's); channels without
 # a slot (NFL Network, Sky Box Office, team channels) stay first, in the provider's order.
-EVENT_GROUP = re.compile(r"(?!.*24/7)(?:PPV|PAY PER VIEW|EVENT|PACKAGE|ESPN\+|TSN\+|SN\+|PEACOCK|PARAMOUNT|^STAN$|^MAX$|^SOCCER$|^DAZN$|CUP GAMES|NFL SPORTS|DAZN EVENTS)", re.I)
+EVENT_GROUP = re.compile(r"(?!.*24/7)(?:PPV|PAY PER VIEW|EVENT|PACKAGE|ESPN\+|TSN\+|SN\+|PEACOCK|PARAMOUNT|^STAN$|^MAX$|^SOCCER$|^DAZN$|CUP GAMES|NFL SPORTS|DAZN EVENTS|ᴘᴘᴠ|ᴇᴠᴇɴᴛ|ᴱᵛᵉⁿᵗ|NBA PASS|\bDAZN\b|\bSTAN\b)", re.I)
 _JUNK = r"[ⓧâ§§ⓧ]+"
 _Q = r"(\s*(UHD|FHD|HD|SD|4K|8K|HEVC|RAW|3840P))?"
 def event_label(name, group):
