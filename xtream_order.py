@@ -66,6 +66,10 @@ GROUP_LEADS = [
     (r"^USA?\b.*NEWS|NEWS NETWORK|^🇺🇲 \| USA$", [r"FOX NEWS", r"\bCNN\b(?!.*(INTERNATIONAL|BRASIL|TURK|ESPAÑOL))", r"LIVE\s?NOW", r"^NBC(\s+NEWS\b.*)?" + _Q, r"^ABC(\s+NEWS\b.*)?" + _Q, r"WEATHER", r"BBC WORLD"]),
     (r"SAUDI ARABIA|السعودية|\bKSA\b", [r"QURAN|القرآن|القران", r"AL\s*AAN|ALAAN|الآن|الان", r"SUNNA|السنة",
                                           r"SAUDI\s*1\b|SAUDI\s*TV\s*1|السعودية\s*(1|الأولى)"]),  # owner, 28 Oct
+    # owner, 28 Oct 2026: Egypt starts with these, in this order
+    (r"\bEGYPT\b(?!IAN)", [r"(KAHERA|QAHERA)\s*WA(L)?\s*(AL)?\s*NAS(?!.*(\+|PLUS|\b2\b))", r"(KAHERA|QAHERA)\s*WA(L)?\s*(AL)?\s*NAS",
+                            r"^AL\s*NAHAR\b(?!.*(DRAMA|LIFE))", r"^AL\s*NAS\b", r"^CBC\b(?!.*(DRAMA|SOFRA|EXTRA))", r"^CBC\s*DRAMA",
+                            r"^DMC\b(?!.*DRAMA)", r"^DMC\s*DRAMA", r"^NILE\b", r"^SADA\s*(EL|AL)\s*BA?LA?D"]),
     (r"^UK\b.*NEWS", [r"BBC WORLD"]),
     (r"AUSTRALIA|ᴀᴜꜱᴛʀᴀʟɪᴀ", [r"\bESPN\b", r"\bFOX\b"]),  # owner: ESPN and Fox first in Australia
     (r"^UK\b|^SPORTS$|^NOW TV$", [r"^(UK:?\s*)?SKY ?SPORTS?\b", r"^(UK:?\s*)?TNT ?SPORTS?\b", r"\bMUTV\b"]),
