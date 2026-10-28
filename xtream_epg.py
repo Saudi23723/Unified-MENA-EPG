@@ -99,6 +99,9 @@ def split(epg):
 # the worker fills the rest with the provider's logo.
 import channel_logos
 LOGOS = channel_logos.Logos()
+# A small mark after every group name, so the owner can tell the playlists apart now that they share
+# Strong's layout (owner, 27 October 2026). Display only: ids, order and guides use the plain names.
+MARK = {"strong": " ˢᵀᴿ", "dream4k": " ᴰ⁴ᴷ", "argon": " ᴬᴿᴳ", "hydra": " ᴴʸᴰ", "aroma": " ᴬᴿᴼ"}
 
 
 # 1) channel lists -> Xtream answers + what guides are needed
@@ -142,7 +145,8 @@ for f in sorted(glob.glob("xtream/*/channel_map.json")):
                 hydra_compat.add((sp[0], sp[1]))
     LOGOS.fill_playlist(streams, {catid[g]: g for g in cats}, name)
     dump = lambda o, p: json.dump(o, open(p, "w", encoding="utf-8"), ensure_ascii=True, separators=(",", ":"))
-    dump([{"category_id": catid[g], "category_name": g, "parent_id": 0} for g in cats],
+    mark = MARK.get(name, "")
+    dump([{"category_id": catid[g], "category_name": g.rstrip() + mark, "parent_id": 0} for g in cats],
          f"{play}/live_categories.json")
     dump(streams, f"{play}/live_streams.json")
     shutil.rmtree(f"{play}/cat", ignore_errors=True); os.makedirs(f"{play}/cat")
