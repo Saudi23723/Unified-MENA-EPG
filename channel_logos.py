@@ -123,6 +123,16 @@ BRANDS = [
 ]
 # A group's own brand, for its channels that have nothing better (always weak: the provider's picture wins).
 GROUP_BRANDS = [
+    (r"ROYA|رؤيا", "https://img.roya.tv/imagechanger/Size01Q40R927/storage/app/public/images/channels/iMoPuU3u5qnqMsL.png"),
+    (r"SHOOF\s*(ᴄᴏᴍᴇᴅʏ|COMEDY)", "gen/shoof_comedy.png"),
+    (r"SHOOF", "shoofmax.png"),
+    (r"NOOR\s*PLAY", "gen/noor_play.png"),
+    (r"MOTO\s*GP", "gen/motogp.png"),
+    (r"TENNIS", "gen/tennis.png"),
+    (r"ONBOARD|FORMULA", "f1.png"),
+    (r"HBO\s*MAX|^🇬🇧 \| MAX|\bMAX\s*(ᴘᴘᴠ|PPV)", "gen/max_ppv.png"),
+    (r"SOCCER|CUP GAMES|FOOTBALL|UEFA|EPL", "gen/football.png"),
+    (r"PPV EVENT|PAY PER VIEW|LIVE EVENTS?$|^🔥", "gen/ppv.png"),
     (r"ISLAM|اسلام|إسلام|QURAN|قرآن", "quran.png"),
     (r"\bSN\s*\+|SPORTSNET|ROGERS", TVLOGOS + "countries/canada/sportsnet-ca.png"),
     (r"\bTSN", TVLOGOS + "countries/canada/tsn-ca.png"),

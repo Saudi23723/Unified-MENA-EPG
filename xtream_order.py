@@ -65,6 +65,7 @@ GROUP_LEADS = [
                                                        r"^(AL\s*)?ARABIYA(?!.*BUSINESS)|^العربية", r"^(AL\s*)?ARAB(Y|I)\b(?!.*BUSINESS)|^العربي"]),
     (r"^USA?\b.*NEWS|NEWS NETWORK|^🇺🇲 \| USA$", [r"FOX NEWS", r"\bCNN\b(?!.*(INTERNATIONAL|BRASIL|TURK|ESPAÑOL))", r"LIVE\s?NOW", r"^NBC(\s+NEWS\b.*)?" + _Q, r"^ABC(\s+NEWS\b.*)?" + _Q, r"WEATHER", r"BBC WORLD"]),
     (r"^UK\b.*NEWS", [r"BBC WORLD"]),
+    (r"AUSTRALIA|ᴀᴜꜱᴛʀᴀʟɪᴀ", [r"\bESPN\b", r"\bFOX\b"]),  # owner: ESPN and Fox first in Australia
     (r"^UK\b|^SPORTS$|^NOW TV$", [r"^(UK:?\s*)?SKY ?SPORTS?\b", r"^(UK:?\s*)?TNT ?SPORTS?\b", r"\bMUTV\b"]),
 ]
 
