@@ -101,7 +101,7 @@ import channel_logos
 LOGOS = channel_logos.Logos()
 # A small mark after every group name, so the owner can tell the playlists apart now that they share
 # Strong's layout (owner, 27 October 2026). Display only: ids, order and guides use the plain names.
-MARK = {"strong": " ⁸ᴷ", "dream4k": " ᴰ⁴ᴷ", "argon": "", "hydra": " ᴴʸᴰ", "aroma": " ᴬᴿᴼ", "up1": " ᵁᴾ¹"}
+MARK = {"strong": " ⁸ᴷ", "dream4k": " ᴰ⁴ᴷ", "argon": "", "hydra": "", "aroma": " ᴬᴿᴼ", "up1": " ᵁᴾ¹"}
 # Up1 keeps its own (Turkish-first) order; only the shown names get the same look as the others.
 FLAG = {"TR": "🇹🇷", "UK": "🇬🇧", "US": "🇺🇲"}
 
