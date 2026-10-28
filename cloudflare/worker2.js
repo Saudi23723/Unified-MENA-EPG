@@ -48,7 +48,7 @@ export default {
       const clean = (t) => String(t || "").replace(/[",\r\n]/g, " ");
       const out = ["#EXTM3U"];
       for (const s of streams) {
-        out.push(`#EXTINF:-1 tvg-id="${clean(s.epg_channel_id)}" tvg-name="${clean(s.name)}" group-title="${clean(group[s.category_id])}",${clean(s.name)}`);
+        out.push(`#EXTINF:-1 tvg-id="${clean(s.epg_channel_id)}" tvg-name="${clean(s.name)}" tvg-logo="${clean(s.stream_icon)}" group-title="${clean(group[s.category_id])}",${clean(s.name)}`);
         out.push(`${base}${s.stream_id}.${ext}`);
       }
       return new Response(out.join("\n") + "\n", { headers: { ...CORS, "Content-Type": "audio/x-mpegurl; charset=utf-8",
@@ -86,13 +86,16 @@ export default {
               .then((r) => (r.ok ? r.json() : [])).catch(() => []),
           ]);
           const ev = new Set(cats.filter((c) => EVENT_GROUP.test(c.category_name || "")).map((c) => String(c.category_id)));
-          if (!ev.size || !Array.isArray(live) || !live.length) return json(mine, 300);
+          if (!Array.isArray(live) || !live.length) return json(mine, 300);
           const now = new Map();
-          for (const s of live) now.set(String(s.stream_id), s.name);
+          for (const s of live) now.set(String(s.stream_id), s);
           for (const s of mine) {
-            if (!ev.has(String(s.category_id))) continue;
-            const n = now.get(String(s.stream_id));
-            if (n) s.name = String(n).replace(/[\u24e7\u00a7]/g, "").replace(/\s+/g, " ").trim();
+            const p = now.get(String(s.stream_id));
+            if (!p) continue;
+            // the provider's logo where the repo has none (owner, 27 October 2026)
+            if (!s.stream_icon && p.stream_icon) s.stream_icon = p.stream_icon;
+            if (ev.has(String(s.category_id)) && p.name)
+              s.name = String(p.name).replace(/[\u24e7\u00a7]/g, "").replace(/\s+/g, " ").trim();
           }
           return json(mine, 300);
         } catch (e) {
