@@ -191,7 +191,13 @@ def saved_group_order(playlist: str | None) -> dict:
     return {g: i for i, g in enumerate(json.load(open(path, encoding="utf-8")).get("visible", []))}
 
 
+# Playlists copied channel by channel from the owner's own TiviMate: channel_map.json is already in his order
+PLAYLIST_EXACT = {"strong"}
+
+
 def order(chans: list[dict], playlist: str | None = None) -> list[dict]:
+    if playlist in PLAYLIST_EXACT:
+        return list(chans)
     drop = PLAYLIST_DROP.get(playlist or "")
     if drop:
         chans = [c for c in chans if not re.search(drop, c["group"].strip().upper())]
