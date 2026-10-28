@@ -15,7 +15,7 @@ from __future__ import annotations
 
 import re
 
-_Q = r"(\s+(UHD|FHD|HD|SD|LQ|4K|8K|HEVC|RAW|VIP|HDR|TV|60FPS|50FPS|\(.*?\)|/\s*4K))*\s*$"
+_Q = r"(\s+(UHD|FHD|HD|SD|LQ|4K|8K|HEVC|RAW|VIP|HDR|TV|60FPS|50FPS|50 FPS|60 FPS|\(.*?\)|/\s*4K))*\s*$"
 _FOREIGN = re.compile(r"\b(IT|ITA|ITALIA|ITALY|DE|GER|GERMANY|NZ|MX|BR|AT|CH)\b|ESPA|DEUTSCH", re.I)
 _UK_GROUP_BAD = re.compile(r"ITALY|ITALIA|GERMAN|DEUTSCH|SKY SPORTS NZ|HONGKONG|SWITZERLAND|^DE\b|^IT\b|^CH\b|AUSTRALIA|^AU\b", re.I)
 
@@ -59,6 +59,12 @@ RULES: list[tuple[str, str, object]] = [
     (r"^(UK:?\s*)?BBC ?(THREE|3)" + _Q, "o:BBCThree.uk", True), (r"^(UK:?\s*)?BBC ?(FOUR|4)" + _Q, "o:BBCFour.uk", True),
     (r"^(UK:?\s*)?BBC ?NEWS" + _Q, "o:BBCNews.uk", True), (r"^(UK:?\s*)?BBC ?PARLIA?MENT" + _Q, "o:BBCParliament.uk", True),
     (r"^(UK:?\s*)?BBC ?SCOTLAND" + _Q, "o:BBCScotland.uk", True), (r"^(UK:?\s*)?BBC ?ALBA" + _Q, "o:BBCAlba.uk", True),
+    # --- TNT Sports UK (owner, 28 Oct 2026: Dream4k "NOW TNT SPORTS 1 UHD" had no guide)
+    (r"^(NOW\s*|D\+\s*|UK:?\s*)?TNT\s*SPORTS?\s*1" + _Q, "o:TNTSports1.uk", None),
+    (r"^(NOW\s*|D\+\s*|UK:?\s*)?TNT\s*SPORTS?\s*2" + _Q, "o:TNTSports2.uk", None),
+    (r"^(NOW\s*|D\+\s*|UK:?\s*)?TNT\s*SPORTS?\s*3" + _Q, "o:TNTSports3.uk", None),
+    (r"^(NOW\s*|D\+\s*|UK:?\s*)?TNT\s*SPORTS?\s*4" + _Q, "o:TNTSports4.uk", None),
+    (r"^(NOW\s*|D\+\s*|UK:?\s*)?TNT\s*SPORTS?\s*(EXTRA\s*)?5" + _Q, "a:Playlist.UK1TNTSports5HDuk", None),
     # --- MBC group, Al Arabiya, Asharq, MTV Lebanon (Shahid)
     (r"^(AL\s*)?ARABIYA" + _Q, "o:Shahid387286.mbc", "ar"),
     (r"^(AL\s*)?ARABIYA\s*(AL\s*)?HADATH" + _Q + r"|^(AL\s*)?HADATH" + _Q, "o:Shahid387288.mbc", "ar"),
