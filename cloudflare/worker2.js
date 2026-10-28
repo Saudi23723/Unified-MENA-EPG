@@ -157,7 +157,9 @@ export default {
         try {
           const [cr, or] = await Promise.all([
             fetch(`${PROVIDER}/player_api.php${url.search}`, { headers: { "User-Agent": req.headers.get("User-Agent") || "" } }),
-            fetch(MAIN + file, { cf: { cacheTtl: 900, cacheEverything: true } }),
+            // short cache: a new or changed order file shows within 2 minutes (a cached "not found" kept
+            // Dream4k's new lists away, 28 Oct 2026)
+            fetch(MAIN + file + "?v=" + Math.floor(Date.now() / 120000), { cf: { cacheTtl: 120, cacheEverything: true } }),
           ]);
           if (cr.ok) {
             let cats = await cr.json();
