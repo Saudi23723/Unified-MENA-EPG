@@ -141,7 +141,7 @@ for f in sorted(glob.glob("xtream/*/channel_map.json")):
             catid[g] = str(i + 1)
     streams, bycat, mp = [], {}, {}
     for n, c in enumerate(chans, 1):
-        sp = split(c.get("epg") or official_fill.fill(c["name"], c["group"]))
+        sp = split(official_fill.override(c["name"]) or c.get("epg") or official_fill.fill(c["name"], c["group"]))
         cid = catid[c["group"]]
         icon = LOGOS.find(c["name"], c["group"], name, sp[0] if sp else None, sp[1] if sp else None)
         s = {"num": n, "name": c["name"], "stream_type": "live", "stream_id": c["stream_id"], "stream_icon": icon,

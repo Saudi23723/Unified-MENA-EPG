@@ -124,3 +124,37 @@ def fill(name: str, group: str) -> str | None:
                 return None
             return epg
     return None
+
+
+# Roya's own sub-channels (roya.tv guide, unified ids). These win over a channel_map guide: providers
+# label e.g. "Roya 911" with the main Roya TV guide (owner, 28 Oct 2026: "Roya SPORTS" had no guide).
+_ROYA_SUB = [(re.compile(rx, re.I), epg) for rx, epg in [
+    (r"SPORTS?|رياض", "u:Roya_RoyaSport"),
+    (r"DO[CU]+ME?NT|وثائق", "u:Roya_Documentaries"),
+    (r"PAL[AE]ST|فلسطين", "u:Roya_Ch38"),
+    (r"PRODUCTION|إنتاجات|انتاجات", "u:Roya_Ch40"),
+    (r"CARAVAN|كرفان", "u:Roya_Ch41"),
+    (r"SIT\s*AL\s*N?KHAT|NAKHAT|النكهات", "u:Roya_Ch13"),
+    (r"CHE?IE?F\s*MANN?|شيف مان", "u:Roya_Ch8"),
+    (r"ADVENTURE|مغامرات", "u:Roya_Ch26"),
+    (r"AROUND\s*THE\s*WORLD|حول العالم", "u:Roya_Ch37"),
+    (r"WORLD\s*BEAUTIFUL|حلوة يا دنيا", "u:Roya_Ch30"),
+    (r"BIG\s*WORLDS?|العالم الكبير", "u:Roya_Ch28"),
+    (r"911|٩١١", "u:Roya_Ch31"),
+    (r"GALTA|جلطة", "u:Roya_Ch9"),
+    (r"WATAN\s*(ALA|A)?\s*WATAR|وطن ع", "u:Roya_Ch10"),
+    (r"STORIES|القصة", "u:Roya_Ch33"),
+    (r"VARIOUS|منوّع|منوع", "u:Roya_Ch36"),
+    (r"SOCIAL|مجتمعي", "u:Roya_Ch22"),
+]]
+
+
+def override(name: str) -> str | None:
+    n = clean(name)
+    m = re.match(r"^\s*(?:VIP\s+)?(?:ROYA|رؤيا)\s+(.+)$", n, re.I)
+    if not m or re.search(r"KIDS", m.group(1), re.I):  # Roya Kids Songs / Stories are not on roya.tv
+        return None
+    for rx, epg in _ROYA_SUB:
+        if rx.search(m.group(1)):
+            return epg
+    return None
