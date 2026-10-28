@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-28T06:18:21.400Z",
+  "updated_at": "2026-10-28T06:25:16.122Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -293,18 +293,18 @@
       "longitude": -0.1278,
       "temperature_c": 8.3,
       "humidity": 81,
-      "wind_speed": 8.6,
+      "wind_speed": 9.4,
       "rain_chance": 0,
-      "condition": "صافٍ",
-      "weather_code": 0,
+      "condition": "غائم جزئياً",
+      "weather_code": 2,
       "observed_at": "2026-10-28T06:15",
-      "feels_c": 5.9,
+      "feels_c": 5.8,
       "utc_offset": 0,
       "days": [
         {
           "date": "2026-10-28",
           "code": 3,
-          "max": 15.4,
+          "max": 15.5,
           "min": 8.3,
           "rain": 0
         },
@@ -351,7 +351,7 @@
           "rain": 4
         }
       ],
-      "today_max": 15.4,
+      "today_max": 15.5,
       "today_min": 8.3,
       "sunrise": "06:46",
       "sunset": "16:40",
@@ -362,21 +362,21 @@
       "country": "بريطانيا",
       "latitude": 53.4808,
       "longitude": -2.2426,
-      "temperature_c": 10.0,
+      "temperature_c": 9.8,
       "humidity": 86,
       "wind_speed": 18.4,
       "rain_chance": 69,
       "condition": "رذاذ خفيف",
       "weather_code": 51,
       "observed_at": "2026-10-28T06:15",
-      "feels_c": 6.7,
+      "feels_c": 6.5,
       "utc_offset": 0,
       "days": [
         {
           "date": "2026-10-28",
-          "code": 51,
-          "max": 14.7,
-          "min": 7.9,
+          "code": 53,
+          "max": 14.4,
+          "min": 7.8,
           "rain": 100
         },
         {
@@ -422,11 +422,11 @@
           "rain": 0
         }
       ],
-      "today_max": 14.7,
-      "today_min": 7.9,
+      "today_max": 14.4,
+      "today_min": 7.8,
       "sunrise": "07:00",
       "sunset": "16:44",
-      "uv": 0
+      "uv": 1
     },
     {
       "city": "نيويورك",
