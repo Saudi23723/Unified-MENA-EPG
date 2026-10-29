@@ -21,6 +21,9 @@ class ZoomImageView @JvmOverloads constructor(
     var onSwipe: ((Int) -> Unit)? = null
     var onTap: (() -> Unit)? = null
 
+    /** A single tap, at a point of the picture in its own pixels (not the screen). */
+    var onTapAt: ((Float, Float) -> Unit)? = null
+
     private val m = Matrix()
     private val values = FloatArray(9)
     private var minScale = 1f
@@ -64,6 +67,14 @@ class ZoomImageView @JvmOverloads constructor(
 
         override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
             onTap?.invoke()
+            onTapAt?.let { cb ->
+                val inverse = Matrix()
+                if (m.invert(inverse)) {
+                    val pt = floatArrayOf(e.x, e.y)
+                    inverse.mapPoints(pt)
+                    cb(pt[0], pt[1])
+                }
+            }
             return true
         }
     })
