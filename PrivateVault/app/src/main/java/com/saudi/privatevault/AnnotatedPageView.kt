@@ -24,6 +24,9 @@ class AnnotatedPageView @JvmOverloads constructor(
     var color = MarkPainter.INK[0]
     var widthLevel = 1
 
+    /** The highlighter draws a straight band, level with the line of text, unless set free. */
+    var straightMarker = true
+
     /** False once a stylus has been seen: then only the stylus writes. */
     var fingerDraws = true
 
@@ -121,7 +124,7 @@ class AnnotatedPageView @JvmOverloads constructor(
                     // Placed on lift, so a small slip of the finger does not matter.
                 } else {
                     currentPoints = arrayListOf(pt[0], pt[1])
-                    if (tool != Tool.PEN && tool != Tool.HIGHLIGHT) currentPoints.addAll(listOf(pt[0], pt[1]))
+                    if (!freehand()) currentPoints.addAll(listOf(pt[0], pt[1]))
                     current = build()
                 }
             }
@@ -130,12 +133,13 @@ class AnnotatedPageView @JvmOverloads constructor(
                     for (i in 0 until event.historySize) eraseAt(event.getHistoricalX(i), event.getHistoricalY(i))
                     eraseAt(event.x, event.y)
                 } else if (current != null) {
-                    if (tool == Tool.PEN || tool == Tool.HIGHLIGHT) {
+                    if (freehand()) {
                         for (i in 0 until event.historySize) addPoint(event.getHistoricalX(i), event.getHistoricalY(i))
                         addPoint(event.x, event.y)
                     } else if (toPage(event.x, event.y)) {
                         currentPoints[2] = pt[0]
                         currentPoints[3] = pt[1]
+                        if (tool == Tool.HIGHLIGHT) level()
                     }
                     current = build()
                 }
@@ -162,6 +166,15 @@ class AnnotatedPageView @JvmOverloads constructor(
         }
         invalidate()
         return true
+    }
+
+    private fun freehand() = tool == Tool.PEN || (tool == Tool.HIGHLIGHT && !straightMarker)
+
+    /** A highlight dragged roughly along a line of text lies exactly along it. */
+    private fun level() {
+        val dx = (currentPoints[2] - currentPoints[0]) * pageW()
+        val dy = (currentPoints[3] - currentPoints[1]) * pageH()
+        if (kotlin.math.abs(dy) < kotlin.math.abs(dx) * 0.3f) currentPoints[3] = currentPoints[1]
     }
 
     private fun addPoint(x: Float, y: Float) {

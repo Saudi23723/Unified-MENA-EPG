@@ -396,6 +396,15 @@ class PdfViewerActivity : BaseActivity() {
             Triple(Tool.TEXT, R.drawable.ic_tool_text, R.string.pen_text),
         )
         for ((tool, icon, label) in tools) toolButtons[tool] = button(icon, label) { pick(tool) }
+        // A long press on the highlighter switches between a straight band and free hand.
+        p.straightMarker = VaultLock.prefs(this).getBoolean("straight_marker", true)
+        toolButtons[Tool.HIGHLIGHT]?.setOnLongClickListener {
+            p.straightMarker = !p.straightMarker
+            VaultLock.prefs(this).edit().putBoolean("straight_marker", p.straightMarker).apply()
+            pick(Tool.HIGHLIGHT, quiet = true)
+            Toast.makeText(this, if (p.straightMarker) R.string.pen_marker_straight else R.string.pen_marker_free, Toast.LENGTH_SHORT).show()
+            true
+        }
         bar.addView(View(this).apply { setBackgroundColor(0x33000000) }, LinearLayout.LayoutParams(dp(1), dp(28)).apply { setMargins(dp(6), 0, dp(6), 0) })
         colorButton = button(R.drawable.ic_tool_pen, R.string.pen_color) { chooseColor() }
         sizeButton = button(R.drawable.ic_tool_pen, R.string.pen_size) {
