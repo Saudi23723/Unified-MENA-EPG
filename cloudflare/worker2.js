@@ -42,6 +42,7 @@ async function digest(t) {
 // provider's full list, at most every 15 minutes, and kept in KV (binding LIVE, key = playlist) so every worker
 // instance and every category request gets it (owner, 28 Oct 2026: NBA PASS names stayed on yesterday's games).
 const PATCH_AGE = 15 * 60000;
+const DYN = { id: "9001", name: "🤼 | FLO WRESTLING", from: /\bFLO\b|FLOSPORT/i, match: /WRESTL|مصارع/i };
 let PATCH = null, BUILDING = 0;
 // playlists whose provider refuses the relay's live-list request: their names come from GitHub (tools/live_patch.py)
 const GITHUB_LIVE = new Set(["strong", "dream4k"]);
@@ -259,10 +260,20 @@ export default {
             time_now: new Date().toISOString().slice(0, 19).replace("T", " ") },
         }, 0);
       }
-      if (action === "get_live_categories") return pass(MAIN + "live_categories.json", 900, []);
+      if (action === "get_live_categories") {
+        // a group that follows today's names: Flo channels showing wrestling (owner, 28 Oct 2026)
+        try {
+          const r = await fetch(fresh(MAIN + "live_categories.json"), { cf: { cacheTtl: 120, cacheEverything: true } });
+          const cats = r.ok ? await r.json() : [];
+          const i = cats.findIndex((c) => DYN.from.test(c.category_name || ""));
+          if (i >= 0) cats.splice(i, 0, { category_id: DYN.id, category_name: DYN.name, parent_id: 0 });
+          return json(cats, 120);
+        } catch (e) { return pass(MAIN + "live_categories.json", 900, []); }
+      }
       if (action === "get_live_streams") {
         const cat = q.get("category_id");
-        const file = cat ? MAIN + `cat/${encodeURIComponent(cat)}.json` : MAIN + "live_streams.json";
+        const dynCat = cat === DYN.id;
+        const file = cat && !dynCat ? MAIN + `cat/${encodeURIComponent(cat)}.json` : MAIN + "live_streams.json";
         if (!LIVE_EVENT_NAMES) return pass(file, 900, []);
         // Event / PPV channels: the provider renames them for each match ("Hawks vs Rockets :NBA 06"); the repo's
         // copy is from the export day, so today's names come from the provider (see buildPatch).
@@ -275,10 +286,16 @@ export default {
             // first open already shows today's games instead of only the next one (owner, 28 Oct 2026)
             if (!pt) { await Promise.race([b, new Promise((r) => setTimeout(r, 4000))]); pt = PATCH; }
           }
-          if (!pt) return pass(file, 900, []);
-          const r = await fetch(fresh(file), { cf: { cacheTtl: 120, cacheEverything: true } });
+          if (!pt && !dynCat) return pass(file, 900, []);
+          const [r, cr] = await Promise.all([fetch(fresh(file), { cf: { cacheTtl: 120, cacheEverything: true } }),
+            fetch(fresh(MAIN + "live_categories.json"), { cf: { cacheTtl: 120, cacheEverything: true } })]);
           if (!r.ok) return json([], 60);
-          return json(applyPatch(await r.json(), pt, cat), 120);
+          let L = applyPatch(await r.json(), pt || { n: {}, i: {} }, dynCat ? null : cat);
+          // Flo channels whose name today is a wrestling event go to the wrestling group
+          const flo = new Set((cr.ok ? await cr.json() : []).filter((c) => DYN.from.test(c.category_name || "")).map((c) => String(c.category_id)));
+          if (flo.size) for (const x of L) if (flo.has(String(x.category_id)) && DYN.match.test(String(x.name || ""))) x.category_id = DYN.id;
+          if (cat) L = L.filter((x) => String(x.category_id) === String(cat));
+          return json(L, 120);
         } catch (e) {
           return pass(file, 900, []);
         }
