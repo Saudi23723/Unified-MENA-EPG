@@ -87,6 +87,16 @@ def main():
         st, data, _ = c.call("PUT", "/api/upload?name=notes.txt", raw="مرحبا".encode())
         notes = json.loads(data)
 
+        # Files sent from the phone land in their folders once, however often they are sent.
+        phone_path = "/api/upload?src=phone:abc&path=" + urllib.request.quote("الهاتف/دروس/pdf1.pdf")
+        st, data, _ = c.call("PUT", phone_path, raw=b"%PDF-1.4 one")
+        first = json.loads(data)
+        st, data, _ = c.call("PUT", phone_path, raw=b"%PDF-1.4 one")
+        assert json.loads(data)["id"] == first["id"] and first["src"] == "phone:abc"
+        st, idx = c.json("GET", "/api/index")
+        assert sum(1 for i in idx["items"] if i.get("src") == "phone:abc") == 1
+        c.json("POST", "/api/delete", {"kind": "folder", "id": [d for d in idx["folders"] if d["name"] == "الهاتف"][0]["id"]})
+
         st, idx = c.json("GET", "/api/index")
         names = {d["name"]: d for d in idx["folders"]}
         assert set(names) == {"أفلام", "رحلة", "يوم 1"}, names

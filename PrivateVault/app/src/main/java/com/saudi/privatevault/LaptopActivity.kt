@@ -36,6 +36,8 @@ class LaptopActivity : BaseActivity() {
     private var laptopName = ""
     private var folders: List<Folder> = emptyList()
     private var items: List<VaultItem> = emptyList()
+    private var sentFromPhone: Set<String> = emptySet()
+    private var sending = false
     private var folderId: String? = null
     private var query = ""
     private var loaded = false
@@ -57,7 +59,10 @@ class LaptopActivity : BaseActivity() {
         setSupportActionBar(b.toolbar)
         b.toolbar.setNavigationIcon(R.drawable.ic_back)
         b.toolbar.setNavigationOnClickListener { onBackPressedDispatcher.onBackPressed() }
-        b.fab.visibility = View.GONE
+        // One tap puts everything on the phone into the laptop's vault.
+        b.fab.setText(R.string.send_phone_short)
+        b.fab.setIconResource(R.drawable.ic_upload)
+        b.fab.setOnClickListener { sendPhoneFiles() }
         folderId = savedInstanceState?.getString("folder")
 
         adapter = VaultAdapter(::open, ::showMenu)
@@ -115,6 +120,7 @@ class LaptopActivity : BaseActivity() {
                     laptopName = result.name
                     folders = result.folders
                     items = result.items
+                    sentFromPhone = result.sources
                     loaded = true
                     render()
                 }
@@ -315,6 +321,79 @@ class LaptopActivity : BaseActivity() {
         }
     }
 
+    // ---- sending the phone's vault to the laptop ----
+
+    /** The phone file's place on the laptop: the "phone" folder, then its folders on the phone. */
+    private fun laptopPath(item: VaultItem): String {
+        val names = mutableListOf(item.name.replace('/', '-'))
+        var cur = VaultStore.folder(item.folderId)
+        while (cur != null) {
+            names.add(0, cur.name.replace('/', '-'))
+            cur = VaultStore.folder(cur.parentId)
+        }
+        names.add(0, getString(R.string.send_phone_folder))
+        return names.joinToString("/")
+    }
+
+    private fun sendPhoneFiles() {
+        if (sending || !loaded) return
+        val pending = VaultStore.items.filter { !it.isLink && "phone:" + it.id !in sentFromPhone }
+        if (pending.isEmpty()) {
+            Toast.makeText(this, R.string.send_phone_none, Toast.LENGTH_LONG).show()
+            return
+        }
+        val total = pending.sumOf { it.size }
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.send_phone)
+            .setMessage(getString(R.string.send_phone_confirm, pending.size, android.text.format.Formatter.formatFileSize(this, total)))
+            .setPositiveButton(R.string.send_phone_go) { _, _ -> runSend(pending) }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
+    private fun runSend(pending: List<VaultItem>) {
+        sending = true
+        val dialog = MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.send_phone)
+            .setMessage(getString(R.string.send_phone_progress, 1, pending.size, 0))
+            .setCancelable(false)
+            .show()
+        // The screen stays on so a long send is not cut by the phone sleeping.
+        window.addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        lifecycleScope.launch {
+            var failed = 0
+            for ((i, item) in pending.withIndex()) {
+                val size = item.size.coerceAtLeast(1)
+                val ok = withContext(Dispatchers.IO) {
+                    try {
+                        var last = -1
+                        LaptopClient.upload(this@LaptopActivity, VaultStore.fileOf(item), laptopPath(item), "phone:" + item.id) { done ->
+                            val pct = (done * 100 / size).toInt()
+                            if (pct != last) {
+                                last = pct
+                                runOnUiThread { dialog.setMessage(getString(R.string.send_phone_progress, i + 1, pending.size, pct)) }
+                            }
+                        }
+                        true
+                    } catch (e: IOException) {
+                        false
+                    }
+                }
+                if (!ok) failed++
+            }
+            window.clearFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+            dialog.dismiss()
+            sending = false
+            val sent = pending.size - failed
+            Toast.makeText(
+                this@LaptopActivity,
+                if (failed == 0) getString(R.string.send_phone_done, sent) else getString(R.string.send_phone_partial, sent, failed),
+                Toast.LENGTH_LONG,
+            ).show()
+            load()
+        }
+    }
+
     // ---- linking ----
 
     private fun connectDialog() {
@@ -414,6 +493,7 @@ class LaptopActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.l_refresh -> load()
+            R.id.l_send_phone -> sendPhoneFiles()
             R.id.l_unlink -> {
                 LaptopClient.unlink(this)
                 folders = emptyList()

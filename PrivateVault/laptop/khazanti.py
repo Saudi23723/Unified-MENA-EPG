@@ -202,7 +202,11 @@ class Vault:
             except OSError:
                 pass
 
-    def add_upload(self, name, folder, stream, length):
+    def by_source(self, src):
+        with self.lock:
+            return next((i for i in self.items if src and i.get("src") == src), None)
+
+    def add_upload(self, name, folder, stream, length, src=None):
         name = clean_name(name)
         ext = os.path.splitext(name)[1].lower()
         iid = str(uuid.uuid4())
@@ -228,6 +232,9 @@ class Vault:
         mime = mimetypes.guess_type(name)[0] or "application/octet-stream"
         item = {"id": iid, "name": name, "file": stored, "mime": mime, "size": length,
                 "added": int(time.time() * 1000), "folder": folder}
+        if src:
+            # Where it came from, e.g. "phone:<id>", so sending again skips it.
+            item["src"] = src[:120]
         with self.lock:
             if folder is not None and self.folder(folder) is None:
                 item["folder"] = None
@@ -621,7 +628,18 @@ class Handler(BaseHTTPRequestHandler):
         length = int(self.headers.get("Content-Length") or -1)
         if length < 0:
             return self._error(411, "length required")
-        item = self.app.vault.add_upload(parts[-1], folder, self.rfile, length)
+        src = (q.get("src") or [None])[0]
+        existing = self.app.vault.by_source(src)
+        if existing is not None:
+            # Already here from an earlier send: drain the body and keep the one we have.
+            left = length
+            while left > 0:
+                chunk = self.rfile.read(min(CHUNK, left))
+                if not chunk:
+                    break
+                left -= len(chunk)
+            return self._json(existing)
+        item = self.app.vault.add_upload(parts[-1], folder, self.rfile, length, src)
         self._json(item)
 
     def _send_file(self, item, download):

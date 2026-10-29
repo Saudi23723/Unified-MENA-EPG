@@ -26,7 +26,8 @@ object LaptopClient {
         object Unreachable : LoginResult()
     }
 
-    class Index(val name: String, val folders: List<Folder>, val items: List<VaultItem>)
+    /** [sources]: the "phone:<id>" marks of files already sent from this phone. */
+    class Index(val name: String, val folders: List<Folder>, val items: List<VaultItem>, val sources: Set<String>)
 
     class NotAuthorized : IOException("not authorized")
 
@@ -116,9 +117,11 @@ object LaptopClient {
             folders.add(Folder(o.getString("id"), o.getString("name"), o.nullableString("parent"), o.optLong("created")))
         }
         val items = mutableListOf<VaultItem>()
+        val sources = mutableSetOf<String>()
         val ia = json.getJSONArray("items")
         for (i in 0 until ia.length()) {
             val o = ia.getJSONObject(i)
+            o.nullableString("src")?.let { sources.add(it) }
             items.add(
                 VaultItem(
                     o.getString("id"), o.getString("name"), "", o.optString("mime"), o.optLong("size"),
@@ -126,7 +129,7 @@ object LaptopClient {
                 )
             )
         }
-        return Index(status.optString("name"), folders, items)
+        return Index(status.optString("name"), folders, items, sources)
     }
 
     /** Address the player streams from; the token rides along because players cannot add headers. */
@@ -163,6 +166,38 @@ object LaptopClient {
                 tmp.delete()
                 throw IOException("could not save")
             }
+        } finally {
+            conn.disconnect()
+        }
+    }
+
+    /** Sends one phone file into [path] on the laptop ("الهاتف/folder/name"); [src] makes repeats no-ops. */
+    fun upload(ctx: Context, file: File, path: String, src: String, progress: (Long) -> Unit) {
+        val base = url(ctx) ?: throw NotAuthorized()
+        val q = "path=" + Uri.encode(path) + "&src=" + Uri.encode(src)
+        val conn = open("$base/api/upload?$q", token(ctx))
+        try {
+            conn.requestMethod = "PUT"
+            conn.doOutput = true
+            conn.readTimeout = 120000
+            // Stream big videos instead of holding them in memory.
+            conn.setFixedLengthStreamingMode(file.length())
+            conn.setRequestProperty("Content-Type", "application/octet-stream")
+            conn.outputStream.use { out ->
+                file.inputStream().use { inp ->
+                    val buf = ByteArray(256 * 1024)
+                    var done = 0L
+                    while (true) {
+                        val n = inp.read(buf)
+                        if (n < 0) break
+                        out.write(buf, 0, n)
+                        done += n
+                        progress(done)
+                    }
+                }
+            }
+            if (conn.responseCode == 401) throw NotAuthorized()
+            if (conn.responseCode != 200) throw IOException("HTTP ${conn.responseCode}")
         } finally {
             conn.disconnect()
         }
