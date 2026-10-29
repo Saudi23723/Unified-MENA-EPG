@@ -31,8 +31,14 @@ jobs:
           PROVIDER_PASS: ${{ secrets.STRONG_PASS }}
         run: |
           set +e
-          python tools/live_patch.py strong _patch/strong.json
-          echo "code=$?" >> "$GITHUB_OUTPUT"
+          python tools/live_patch.py strong _patch/strong.json > _msg.txt 2>&1
+          c=$?
+          echo "code=$c" >> "$GITHUB_OUTPUT"
+          # what happened, without any login (the script never prints it), on its own small branch
+          mkdir -p _status && { date -u; echo "exit $c"; tail -3 _msg.txt; } > _status/strong.txt
+          ( cd _status && git init -q -b live-status && git add -A \
+            && git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -q -m status \
+            && git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" live-status )
       - name: Refused - switch this job off
         if: steps.build.outputs.code == '3'
         env:
