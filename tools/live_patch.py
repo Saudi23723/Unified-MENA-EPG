@@ -27,11 +27,14 @@ EVENT_GROUP = re.compile(
 def key(t):
     import unicodedata
     t = unicodedata.normalize("NFKC", str(t)).upper()
-    return re.sub(r"[^A-Z0-9\u0600-\u06FF]", "", re.sub(r"^[A-Z]{2,3}\s*[:|]\s*", "", t))
+    t = re.sub(r"\b(UHD|FHD|HD|SD|4K|8K|HEVC|RAW|\d{3,4}P)\b", "", re.sub(r"^[A-Z]{2,3}\s*[:|]\s*", "", t))
+    return re.sub(r"[^A-Z0-9\u0600-\u06FF]", "", t)
 
 
 def clean(n):
-    return re.sub(r"\s+", " ", re.sub(r"[ⓧ§]", "", str(n or ""))).strip()
+    # the provider's quality tag ("[1080p]") is dropped: the owner's names carry none
+    n = re.sub(r"\s*\[(\d{3,4}p|4K|UHD|FHD|HD|SD)\]\s*$", "", re.sub(r"[ⓧ§]", "", str(n or "")), flags=re.I)
+    return re.sub(r"\s+", " ", n).strip()
 
 
 def main(playlist, out):
