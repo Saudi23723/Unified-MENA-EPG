@@ -9,9 +9,18 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.ParcelFileDescriptor
 import android.text.InputType
+import android.graphics.drawable.GradientDrawable
+import android.view.View
+import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.FrameLayout
+import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -41,6 +50,20 @@ class PdfViewerActivity : BaseActivity() {
     // Pages left by following a link or the contents, so Back returns to them.
     private val history = ArrayList<Int>()
 
+    // What is written on the pages, and each page's undo and redo.
+    private lateinit var marks: DocumentMarks
+    private val undo = HashMap<Int, ArrayDeque<AnnotatedPageView.Edit>>()
+    private val redo = HashMap<Int, ArrayDeque<AnnotatedPageView.Edit>>()
+    private var writing = false
+    private var chromeShown = true
+    private var penColor = MarkPainter.INK[0]
+    private var markerColor = MarkPainter.MARKER[0]
+    private val toolButtons = HashMap<Tool, ImageButton>()
+    private var colorButton: ImageButton? = null
+    private var sizeButton: ImageButton? = null
+    private var undoButton: ImageButton? = null
+    private var redoButton: ImageButton? = null
+
     // PdfRenderer allows one page at a time, so every render goes through one thread.
     @OptIn(ExperimentalCoroutinesApi::class)
     private val pdfThread = Dispatchers.IO.limitedParallelism(1)
@@ -63,6 +86,16 @@ class PdfViewerActivity : BaseActivity() {
         setContentView(b.root)
         val item = VaultStore.item(intent.getStringExtra(Viewers.EXTRA_ID)) ?: return finish()
         itemId = item.id
+        // The page always fills the screen; the bars float over it and slide away.
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        ViewCompat.setOnApplyWindowInsetsListener(b.root) { _, insets ->
+            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            b.topBar.setPadding(bars.left, bars.top, bars.right, 0)
+            b.bottomBar.setPadding(bars.left, 0, bars.right, bars.bottom)
+            insets
+        }
+        marks = DocumentMarks.forItem(this, itemId)
+        setUpPen()
         b.toolbar.title = item.name
         b.toolbar.setNavigationOnClickListener { finish() }
         b.toolbar.inflateMenu(R.menu.reader_menu)
@@ -71,11 +104,18 @@ class PdfViewerActivity : BaseActivity() {
                 R.id.v_read_mode -> ReadingMode.choose(this) { applyMode(it) }
                 R.id.v_contents -> showContents()
                 R.id.v_goto -> askPage()
+                R.id.v_write -> startWriting()
+                R.id.v_finger -> {
+                    b.page.fingerDraws = !b.page.fingerDraws
+                    mi.isChecked = b.page.fingerDraws
+                    VaultLock.prefs(this).edit().putBoolean("finger_draws", b.page.fingerDraws).apply()
+                }
                 else -> Viewers.openWith(this, item)
             }
             true
         }
         applyMode(ReadingMode.current(this))
+        b.toolbar.menu.findItem(R.id.v_finger)?.isChecked = b.page.fingerDraws
         // Reading should not be cut off by the screen going dark.
         window.addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
@@ -106,6 +146,8 @@ class PdfViewerActivity : BaseActivity() {
         b.toolbar.menu.findItem(R.id.v_goto).isVisible = true
         setUpSlider(count)
         b.page.post { show() }
+        // A moment to see where things are, then the page alone.
+        b.root.postDelayed({ if (!writing) setChrome(false) }, 2500)
 
         val file = VaultStore.fileOf(item)
         lifecycleScope.launch {
@@ -218,7 +260,9 @@ class PdfViewerActivity : BaseActivity() {
             if (bmp != null && index == pageIndex) {
                 shownWidth = bmp.width
                 shownIndex = index
+                b.page.marks = marks.on(index)
                 b.page.setImageBitmap(bmp)
+                refreshUndo()
             }
         }
     }
@@ -263,9 +307,12 @@ class PdfViewerActivity : BaseActivity() {
     }
 
     private fun tapped(x: Float, y: Float) {
-        val l = links ?: return
+        val l = links
         val index = shownIndex
-        if (index != pageIndex || shownWidth <= 0) return
+        if (l == null || index != pageIndex || shownWidth <= 0) {
+            toggleChrome()
+            return
+        }
         val width = shownWidth
         lifecycleScope.launch {
             val pageLinks = withContext(linkThread) { l.linksOn(index) } ?: return@launch
@@ -283,14 +330,214 @@ class PdfViewerActivity : BaseActivity() {
                 return@launch
             }
             // No real link: a line of the printed contents goes to the page with that number.
-            val p = printed
-            if (p == null) {
-                if (index < 40) Toast.makeText(this@PdfViewerActivity, R.string.pdf_preparing_wait, Toast.LENGTH_SHORT).show()
-                return@launch
-            }
-            val target = p.hit(index, px, py, pageLinks.width)
-            if (target >= 0) jump(target)
+            val target = printed?.hit(index, px, py, pageLinks.width) ?: -1
+            if (target >= 0) jump(target) else toggleChrome()
         }
+    }
+
+    // ---- reading full screen ----
+
+    private fun toggleChrome() {
+        if (!writing) setChrome(!chromeShown)
+    }
+
+    /** The bars and the phone's own bars come and go together; the page never moves. */
+    private fun setChrome(shown: Boolean) {
+        chromeShown = shown
+        b.topBar.animate().translationY(if (shown) 0f else -b.topBar.height.toFloat()).setDuration(180).start()
+        b.navBar.visibility = if (shown && !writing) View.VISIBLE else View.GONE
+        val ctl = WindowCompat.getInsetsController(window, window.decorView)
+        ctl.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        if (shown) ctl.show(WindowInsetsCompat.Type.systemBars()) else ctl.hide(WindowInsetsCompat.Type.systemBars())
+    }
+
+    // ---- writing on the page ----
+
+    private fun dp(v: Int) = (v * resources.displayMetrics.density).toInt()
+
+    private fun setUpPen() {
+        val p = b.page
+        p.fingerDraws = VaultLock.prefs(this).getBoolean("finger_draws", true)
+        p.onStylusSeen = {
+            if (!VaultLock.prefs(this).contains("finger_draws")) {
+                Toast.makeText(this, R.string.pen_stylus_found, Toast.LENGTH_LONG).show()
+            } else {
+                p.fingerDraws = VaultLock.prefs(this).getBoolean("finger_draws", false)
+            }
+            VaultLock.prefs(this).edit().putBoolean("finger_draws", p.fingerDraws).apply()
+            b.toolbar.menu.findItem(R.id.v_finger)?.isChecked = p.fingerDraws
+        }
+        p.onEdit = { e ->
+            undo.getOrPut(pageIndex) { ArrayDeque() }.addLast(e)
+            redo[pageIndex]?.clear()
+            saveMarks()
+        }
+        p.onTextAt = { x, y -> askText(x, y) }
+
+        val bar = b.penTools
+        fun button(icon: Int, label: Int, onClick: () -> Unit) = ImageButton(this).apply {
+            setImageResource(icon)
+            contentDescription = getString(label)
+            tooltipText = getString(label)
+            background = null
+            setPadding(dp(10), dp(10), dp(10), dp(10))
+            setOnClickListener { onClick() }
+            bar.addView(this, LinearLayout.LayoutParams(dp(46), dp(46)).apply { setMargins(dp(2), 0, dp(2), 0) })
+        }
+        val tools = listOf(
+            Triple(Tool.HAND, R.drawable.ic_tool_hand, R.string.pen_hand),
+            Triple(Tool.PEN, R.drawable.ic_tool_pen, R.string.pen_pen),
+            Triple(Tool.HIGHLIGHT, R.drawable.ic_tool_highlight, R.string.pen_highlight),
+            Triple(Tool.ERASER, R.drawable.ic_tool_eraser, R.string.pen_eraser),
+            Triple(Tool.LINE, R.drawable.ic_tool_line, R.string.pen_line),
+            Triple(Tool.ARROW, R.drawable.ic_tool_arrow, R.string.pen_arrow),
+            Triple(Tool.RECT, R.drawable.ic_tool_rect, R.string.pen_rect),
+            Triple(Tool.OVAL, R.drawable.ic_tool_oval, R.string.pen_oval),
+            Triple(Tool.TEXT, R.drawable.ic_tool_text, R.string.pen_text),
+        )
+        for ((tool, icon, label) in tools) toolButtons[tool] = button(icon, label) { pick(tool) }
+        bar.addView(View(this).apply { setBackgroundColor(0x33000000) }, LinearLayout.LayoutParams(dp(1), dp(28)).apply { setMargins(dp(6), 0, dp(6), 0) })
+        colorButton = button(R.drawable.ic_tool_pen, R.string.pen_color) { chooseColor() }
+        sizeButton = button(R.drawable.ic_tool_pen, R.string.pen_size) {
+            p.widthLevel = (p.widthLevel + 1) % 3
+            VaultLock.prefs(this).edit().putInt("pen_width", p.widthLevel).apply()
+            paintSwatches()
+        }
+        undoButton = button(R.drawable.ic_undo, R.string.pen_undo) { undoLast() }
+        redoButton = button(R.drawable.ic_redo, R.string.pen_redo) { redoLast() }
+        button(R.drawable.ic_check, R.string.pen_done) { stopWriting() }
+        p.widthLevel = VaultLock.prefs(this).getInt("pen_width", 1)
+        penColor = VaultLock.prefs(this).getInt("pen_color", penColor)
+        markerColor = VaultLock.prefs(this).getInt("marker_color", markerColor)
+        pick(Tool.PEN, quiet = true)
+        p.tool = Tool.HAND
+    }
+
+    private fun startWriting() {
+        writing = true
+        setChrome(false)
+        b.penBar.visibility = View.VISIBLE
+        pick(if (b.page.tool == Tool.HAND) Tool.PEN else b.page.tool)
+    }
+
+    private fun stopWriting() {
+        writing = false
+        b.page.tool = Tool.HAND
+        b.penBar.visibility = View.GONE
+        setChrome(true)
+    }
+
+    private fun pick(tool: Tool, quiet: Boolean = false) {
+        val p = b.page
+        p.tool = tool
+        p.color = if (tool == Tool.HIGHLIGHT) markerColor else penColor
+        for ((t, btn) in toolButtons) btn.background = if (t == tool) getDrawable(R.drawable.tool_selected_bg) else null
+        paintSwatches()
+        if (!quiet && tool == Tool.HAND) Toast.makeText(this, R.string.pen_hand_hint, Toast.LENGTH_SHORT).show()
+    }
+
+    /** The colour button shows the colour, the size button a dot of the line's thickness. */
+    private fun paintSwatches() {
+        val p = b.page
+        colorButton?.setImageDrawable(GradientDrawable().apply {
+            shape = GradientDrawable.OVAL
+            setColor(p.color)
+            setStroke(dp(2), 0x33000000)
+            setSize(dp(22), dp(22))
+        })
+        val d = intArrayOf(6, 11, 17)[p.widthLevel.coerceIn(0, 2)]
+        sizeButton?.setImageDrawable(GradientDrawable().apply {
+            shape = GradientDrawable.OVAL
+            setColor(0xFF616161.toInt())
+            setSize(dp(d), dp(d))
+        })
+    }
+
+    private fun chooseColor() {
+        val p = b.page
+        val marker = p.tool == Tool.HIGHLIGHT
+        val colors = if (marker) MarkPainter.MARKER else MarkPainter.INK
+        val row = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            setPadding(dp(16), dp(12), dp(16), dp(4))
+            layoutDirection = View.LAYOUT_DIRECTION_LTR
+        }
+        val dialog = MaterialAlertDialogBuilder(this).setTitle(R.string.pen_color).setView(row).show()
+        for (c in colors) {
+            row.addView(View(this).apply {
+                background = GradientDrawable().apply {
+                    shape = GradientDrawable.OVAL
+                    setColor(c)
+                    setStroke(dp(if (c == p.color) 4 else 1), if (c == p.color) 0xFF424242.toInt() else 0x33000000)
+                }
+                setOnClickListener {
+                    if (marker) markerColor = c else penColor = c
+                    VaultLock.prefs(this@PdfViewerActivity).edit()
+                        .putInt(if (marker) "marker_color" else "pen_color", c).apply()
+                    p.color = c
+                    paintSwatches()
+                    dialog.dismiss()
+                }
+            }, LinearLayout.LayoutParams(dp(40), dp(40)).apply { setMargins(dp(6), dp(6), dp(6), dp(6)) })
+        }
+    }
+
+    private fun askText(x: Float, y: Float) {
+        val input = EditText(this).apply {
+            hint = getString(R.string.pen_text_hint)
+            minLines = 2
+        }
+        val box = FrameLayout(this).apply {
+            setPadding(dp(20), dp(8), dp(20), 0)
+            addView(input)
+        }
+        val dialog = MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.pen_text)
+            .setView(box)
+            .setPositiveButton(R.string.ok) { _, _ ->
+                val t = input.text.toString().trimEnd()
+                if (t.isNotBlank()) b.page.addText(x, y, t)
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+        input.requestFocus()
+        dialog.window?.setSoftInputMode(android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+    }
+
+    private fun undoLast() {
+        val e = undo[pageIndex]?.removeLastOrNull() ?: return
+        val list = marks.on(pageIndex)
+        when (e) {
+            is AnnotatedPageView.Edit.Added -> list.remove(e.mark)
+            is AnnotatedPageView.Edit.Removed -> for ((i, m) in e.removed.asReversed()) list.add(i.coerceAtMost(list.size), m)
+        }
+        redo.getOrPut(pageIndex) { ArrayDeque() }.addLast(e)
+        b.page.invalidate()
+        saveMarks()
+    }
+
+    private fun redoLast() {
+        val e = redo[pageIndex]?.removeLastOrNull() ?: return
+        val list = marks.on(pageIndex)
+        when (e) {
+            is AnnotatedPageView.Edit.Added -> list.add(e.mark)
+            is AnnotatedPageView.Edit.Removed -> for ((_, m) in e.removed) list.remove(m)
+        }
+        undo.getOrPut(pageIndex) { ArrayDeque() }.addLast(e)
+        b.page.invalidate()
+        saveMarks()
+    }
+
+    private fun refreshUndo() {
+        undoButton?.alpha = if (undo[pageIndex].isNullOrEmpty()) 0.35f else 1f
+        redoButton?.alpha = if (redo[pageIndex].isNullOrEmpty()) 0.35f else 1f
+    }
+
+    /** Written right away, so nothing is lost if the app is closed. */
+    private fun saveMarks() {
+        refreshUndo()
+        val text = marks.snapshot()
+        CoroutineScope(Dispatchers.IO).launch { marks.write(text) }
     }
 
     private fun openUri(uri: String) {

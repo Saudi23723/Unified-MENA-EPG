@@ -12,7 +12,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import kotlin.math.abs
 
 /** Image view with pinch zoom, drag, double-tap zoom, and swipe when not zoomed. */
-class ZoomImageView @JvmOverloads constructor(
+open class ZoomImageView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
 ) : AppCompatImageView(context, attrs) {

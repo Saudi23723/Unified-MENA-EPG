@@ -2,6 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/v_write"
+        android:icon="@drawable/ic_tool_pen"
+        android:title="@string/pen_write"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/v_contents"
         android:icon="@drawable/ic_contents"
         android:title="@string/pdf_contents"
@@ -17,6 +22,11 @@
         android:icon="@drawable/ic_moon"
         android:title="@string/read_mode"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/v_finger"
+        android:checkable="true"
+        android:title="@string/pen_finger"
+        app:showAsAction="never" />
     <item
         android:id="@+id/v_open_with"
         android:title="@string/open_with"
