@@ -154,9 +154,14 @@ def main():
         assert not os.path.exists(clip_path)
         assert idx["rev"] > rev_before
 
-        # Running from source never offers to update itself.
+        # Running from source never offers to update itself. The built program
+        # must reach the update source from inside the .exe (network and TLS).
         st, u = c.json("GET", "/api/update")
-        assert st == 200 and u["available"] is False, u
+        if os.environ.get("EXPECT_BUILD"):
+            assert st == 200 and isinstance(u["latest"], int), u
+            print("update check from the .exe:", u)
+        else:
+            assert st == 200 and u["available"] is False, u
 
         # Wrong passwords are counted and then refused for a while.
         anon = Client(base)
