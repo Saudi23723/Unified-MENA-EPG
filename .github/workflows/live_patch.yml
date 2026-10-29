@@ -1,0 +1,46 @@
+name: Live names (providers that refuse Cloudflare)
+
+# Strong's provider refuses the Cloudflare relay (403, 28 Oct 2026). This job reads its live list every 15 minutes
+# with the login kept in the repository secrets STRONG_HOST / STRONG_USER / STRONG_PASS (never printed) and
+# publishes only the names patch on the "live-patch" branch, which the relay reads. If the provider refuses
+# GitHub too, the job switches itself off instead of asking again.
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: live-patch
+  cancel-in-progress: false
+
+jobs:
+  strong:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the Strong names patch
+        id: build
+        env:
+          PROVIDER_HOST: ${{ secrets.STRONG_HOST }}
+          PROVIDER_USER: ${{ secrets.STRONG_USER }}
+          PROVIDER_PASS: ${{ secrets.STRONG_PASS }}
+        run: |
+          set +e
+          python tools/live_patch.py strong _patch/strong.json
+          echo "code=$?" >> "$GITHUB_OUTPUT"
+      - name: Refused - switch this job off
+        if: steps.build.outputs.code == '3'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow disable live_patch.yml -R "${{ github.repository }}"
+      - name: Publish (live-patch branch, no history)
+        if: steps.build.outputs.code == '0' && hashFiles('_patch/strong.json') != ''
+        run: |
+          cd _patch && git init -q -b live-patch && git add -A \
+            && git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -q -m "Live names" \
+            && git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" live-patch

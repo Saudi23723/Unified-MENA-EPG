@@ -47,6 +47,14 @@ const note = (r) => { if (r && (r.status === 403 || r.status === 401)) REFUSED =
 
 async function readPatch(env) {
   if (PATCH && Date.now() - PATCH.t < PATCH_AGE) return PATCH;
+  // playlists whose provider refuses Cloudflare get the patch from GitHub (tools/live_patch.py, branch live-patch)
+  if (refused() || PLAYLIST === "strong") {
+    try {
+      const r = await fetch(REPO + "live-patch/" + PLAYLIST + ".json?v=" + Math.floor(Date.now() / 120000), { cf: { cacheTtl: 120, cacheEverything: true } });
+      if (r.ok) { const k = await r.json(); if (k && k.t && (!PATCH || k.t > PATCH.t)) PATCH = k; }
+    } catch (e) {}
+    if (PATCH) return PATCH;
+  }
   if (env && env.LIVE) {
     try { const k = await env.LIVE.get(PLAYLIST, { type: "json", cacheTtl: 60 }); if (k && (!PATCH || k.t > PATCH.t)) PATCH = k; } catch (e) {}
   }
@@ -54,7 +62,7 @@ async function readPatch(env) {
 }
 
 async function buildPatch(env, user, pass_, ua) {
-  if (Date.now() - BUILDING < 120000 || refused()) return;
+  if (Date.now() - BUILDING < 120000 || refused() || PLAYLIST === "strong") return;
   BUILDING = Date.now();
   try {
     const [mine, cats, live] = await Promise.all([
