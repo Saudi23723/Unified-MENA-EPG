@@ -41,6 +41,7 @@ def get(host, user, pw, action):
 
 def tidy(n):
     n = re.sub(r"^\s*\|[A-Z]{2,6}\|\s*✪?\s*", "", str(n or "")).replace("ـ", "")
+    n = re.sub(r"\s*\[(\d{3,4}p)\]\s*$", "", re.sub(r"^\s*[A-Z]{2,6}\s*:\s*", "", n), flags=re.I)
     return re.sub(r"\s+", " ", n).strip()
 
 

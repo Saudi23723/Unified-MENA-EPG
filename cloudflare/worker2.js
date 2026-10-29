@@ -194,7 +194,9 @@ async function groups(action, url, req) {
   const n0 = cats.length;
   // "tidy": names compared (and shown) without the "|AR| ✪ " prefix and the stretching dashes
   // ("افــــلام" -> "افلام"); "only": groups not in "visible" are hidden (Dream4k, 28 October 2026)
-  const tidy = (n) => String(n || "").replace(/^\s*\|[A-Z]{2,6}\|\s*✪?\s*/, "").replace(/\u0640/g, "").replace(/\s+/g, " ").trim();
+  // also "EN: " / "ARA: " / "MULTI: " in front and a plain "[1080p]" / "[720p]" behind (Argon, 28 Oct 2026)
+  const tidy = (n) => String(n || "").replace(/^\s*\|[A-Z]{2,6}\|\s*✪?\s*/, "").replace(/^\s*[A-Z]{2,6}\s*:\s*/, "")
+    .replace(/\s*\[(\d{3,4}p)\]\s*$/i, "").replace(/\u0640/g, "").replace(/\s+/g, " ").trim();
   if (want.tidy) cats = cats.map((c) => ({ ...c, category_name: tidy(c.category_name) }));
   (want.visible || (Array.isArray(want) ? want : [])).forEach((n, i) => { pos[want.tidy ? tidy(n) : String(n).trim()] = i; });
   if (want.only) cats = cats.filter((c) => String(c.category_name || "").trim() in pos);
