@@ -28,7 +28,7 @@
 ## مفتاح التوقيع (حتى تُثبَّت التحديثات فوق القديمة)
 التحديث يُثبَّت فوق النسخة القديمة ويحافظ على الملفات فقط إذا كان موقّعاً بنفس المفتاح.
 لمفتاح ثابت دائماً أضف في المستودع (Settings → Secrets and variables → Actions):
-- `VAULT_KEYSTORE_BASE64`: ملف �`.jks` بصيغة base64
+- `VAULT_KEYSTORE_BASE64`: ملف `.jks` بصيغة base64
   (`keytool -genkeypair -keystore vault.jks -alias vault -keyalg RSA -validity 36500` ثم `base64 -w0 vault.jks`)
 - `VAULT_KEYSTORE_PASSWORD`: كلمة سر الملف
 
