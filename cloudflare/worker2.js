@@ -86,7 +86,9 @@ async function buildPatch(env, user, pass_, ua) {
       if (!pv) continue;
       if (ev.has(String(x.category_id)) && pv.name) {
         const nm = String(pv.name).replace(/[\u24e7\u00a7]/g, "").replace(/\s+/g, " ").trim();
-        if (nm && nm !== x.name) n[x.stream_id] = nm;
+        // the same channel with only a country prefix / quality marks / spacing changed keeps the owner's name
+        const key = (t) => String(t).normalize("NFKC").toUpperCase().replace(/^[A-Z]{2,3}\s*[:|]\s*/, "").replace(/[^A-Z0-9\u0600-\u06FF]/g, "");
+        if (nm && nm !== x.name && key(nm) !== key(x.name)) n[x.stream_id] = nm;
       }
       if (weak(x) && pv.stream_icon) i[x.stream_id] = pv.stream_icon;
     }

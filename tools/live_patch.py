@@ -24,6 +24,12 @@ EVENT_GROUP = re.compile(
     re.I)
 
 
+def key(t):
+    import unicodedata
+    t = unicodedata.normalize("NFKC", str(t)).upper()
+    return re.sub(r"[^A-Z0-9\u0600-\u06FF]", "", re.sub(r"^[A-Z]{2,3}\s*[:|]\s*", "", t))
+
+
 def clean(n):
     return re.sub(r"\s+", " ", re.sub(r"[ⓧ§]", "", str(n or ""))).strip()
 
@@ -87,7 +93,7 @@ def main(playlist, out):
             continue
         if str(x["category_id"]) in ev and p.get("name"):
             nm = clean(p["name"])
-            if nm and nm != x["name"]:
+            if nm and nm != x["name"] and key(nm) != key(x["name"]):  # only a prefix / quality marks changed: keep ours
                 n[str(x["stream_id"])] = nm
         if weak(x) and p.get("stream_icon"):
             i[str(x["stream_id"])] = p["stream_icon"]
