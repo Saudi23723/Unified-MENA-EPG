@@ -32,7 +32,7 @@
   (`keytool -genkeypair -keystore vault.jks -alias vault -keyalg RSA -validity 36500` ثم `base64 -w0 vault.jks`)
 - `VAULT_KEYSTORE_PASSWORD`: كلمة سر الملف
 
-بدونهما يُستخدم مفتاح تجريبي محفوظ في ذاكرة GitHub المؤقتة (يعمل، لكنه قد يتغير إذا لم يُبنَ التطبيق لأكثر من 7 أيام).
+بدونهما يصنع أول بناء مفتاحاً ويحفظه في ذاكرة GitHub المؤقتة لباقي البناءات (يعمل، لكن GitHub قد يحذفه إذا لم يُبنَ التطبيق لأكثر من 7 أيام، وعندها يلزم حذف التطبيق وتثبيته من جديد).
 
 ## البناء يدوياً
 Android Studio أو سطر الأوامر (JDK 17 + Android SDK):

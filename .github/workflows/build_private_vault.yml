@@ -34,28 +34,38 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v4
 
-      # Without the secret, keep the runner's debug key between builds so
-      # updates still install over the previous APK.
-      - name: Keep debug signing key
+      # Every build must be signed with the same key, or Android refuses to
+      # install it over the previous one. The key comes from the
+      # VAULT_KEYSTORE_BASE64 secret when set; otherwise one is made on the
+      # first build and kept in the Actions cache for the builds after it.
+      - name: Keep signing key
         uses: actions/cache@v4
         with:
-          path: ~/.android/debug.keystore
-          key: private-vault-debug-keystore
+          path: ~/vault-signing
+          key: private-vault-signing-v1
 
-      - name: Signing key from secrets
+      - name: Signing key
         env:
           KEYSTORE_B64: ${{ secrets.VAULT_KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.VAULT_KEYSTORE_PASSWORD }}
         run: |
           if [ -n "$KEYSTORE_B64" ]; then
             echo "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/vault.jks"
             echo "VAULT_KEYSTORE=$RUNNER_TEMP/vault.jks" >> "$GITHUB_ENV"
+            echo "::add-mask::$KEYSTORE_PASSWORD"
+            echo "VAULT_KEYSTORE_PASSWORD=$KEYSTORE_PASSWORD" >> "$GITHUB_ENV"
           else
-            echo "::warning::VAULT_KEYSTORE_BASE64 secret not set; signing with the cached debug key."
+            mkdir -p ~/vault-signing
+            if [ ! -f ~/vault-signing/vault.jks ]; then
+              echo "::warning::No cached signing key; making a new one. Uninstall older builds once before installing this one."
+              keytool -genkeypair -keystore ~/vault-signing/vault.jks -storepass vaultcache \
+                -alias vault -keyalg RSA -keysize 2048 -validity 36500 -dname "CN=Private Vault"
+            fi
+            echo "VAULT_KEYSTORE=$HOME/vault-signing/vault.jks" >> "$GITHUB_ENV"
+            echo "VAULT_KEYSTORE_PASSWORD=vaultcache" >> "$GITHUB_ENV"
           fi
 
       - name: Build APK
-        env:
-          VAULT_KEYSTORE_PASSWORD: ${{ secrets.VAULT_KEYSTORE_PASSWORD }}
         run: |
           chmod +x gradlew
           ./gradlew assembleRelease --no-daemon --stacktrace
