@@ -208,6 +208,8 @@ class AnnotatedPageView @JvmOverloads constructor(
                 } else {
                     currentPoints = arrayListOf(pt[0], pt[1])
                     if (!freehand()) currentPoints.addAll(listOf(pt[0], pt[1]))
+                    levelDecided = false
+                    levelLocked = false
                     current = build()
                 }
             }
@@ -255,11 +257,26 @@ class AnnotatedPageView @JvmOverloads constructor(
 
     private fun freehand() = tool == Tool.PEN || (tool == Tool.HIGHLIGHT && !straightMarker)
 
+    // Whether this highlight is held level: decided once, after the first stretch of
+    // the drag, so the band does not jump between level and slanted while moving.
+    private var levelDecided = false
+    private var levelLocked = false
+
     /** A highlight dragged roughly along a line of text lies exactly along it. */
     private fun level() {
-        val dx = (currentPoints[2] - currentPoints[0]) * pageW()
-        val dy = (currentPoints[3] - currentPoints[1]) * pageH()
-        if (kotlin.math.abs(dy) < kotlin.math.abs(dx) * 0.3f) currentPoints[3] = currentPoints[1]
+        val s = scaleNow()
+        val dx = (currentPoints[2] - currentPoints[0]) * pageW() * s
+        val dy = (currentPoints[3] - currentPoints[1]) * pageH() * s
+        if (!levelDecided) {
+            // Until the finger has gone a little way, keep the band level.
+            if (dx * dx + dy * dy < dpx(28f) * dpx(28f)) {
+                currentPoints[3] = currentPoints[1]
+                return
+            }
+            levelDecided = true
+            levelLocked = kotlin.math.abs(dy) < kotlin.math.abs(dx) * 0.36f
+        }
+        if (levelLocked) currentPoints[3] = currentPoints[1]
     }
 
     // ---- picking, moving and resizing ----
