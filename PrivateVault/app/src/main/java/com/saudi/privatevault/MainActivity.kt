@@ -87,6 +87,7 @@ class MainActivity : BaseActivity() {
 
     override fun onUnlockedResume() {
         refresh()
+        Updater.checkQuietly(this)
         // Files shared from another app are only taken in once the PIN is entered.
         if (pendingShared.isNotEmpty() && !importing) {
             val uris = pendingShared
@@ -257,6 +258,7 @@ class MainActivity : BaseActivity() {
                 )
                 .setPositiveButton(android.R.string.ok, null)
                 .show()
+            R.id.action_update -> Updater.check(this, quiet = false)
             R.id.action_lock -> {
                 VaultLock.unlocked = false
                 startActivity(Intent(this, LockActivity::class.java))

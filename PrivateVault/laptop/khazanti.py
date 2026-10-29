@@ -39,6 +39,13 @@ MAX_TRIES = 5
 LOCKOUT_SECONDS = 30
 CHUNK = 1024 * 1024
 
+# Builds published for the one-click update: the vault-builds-windows branch
+# holds latest.json and Khazanti.exe, read through GitHub or its jsDelivr mirror.
+UPDATE_SOURCES = [
+    "https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/vault-builds-windows/",
+    "https://cdn.jsdelivr.net/gh/Saudi23723/Unified-MENA-EPG@vault-builds-windows/",
+]
+
 mimetypes.add_type("video/x-matroska", ".mkv")
 mimetypes.add_type("video/webm", ".webm")
 mimetypes.add_type("video/mp4", ".m4v")
@@ -340,6 +347,71 @@ def lan_addresses() -> list:
     return out
 
 
+def current_build() -> int:
+    """The CI build number baked into the .exe; 0 when run from source."""
+    try:
+        with open(resource("build_info.json"), encoding="utf-8") as f:
+            return int(json.load(f).get("build", 0))
+    except (OSError, ValueError):
+        return 0
+
+
+def fetch(url: str, timeout=15):
+    import urllib.request
+    req = urllib.request.Request(url, headers={"User-Agent": "Khazanti/" + VERSION})
+    return urllib.request.urlopen(req, timeout=timeout)
+
+
+def latest_release():
+    """{"build": n, "exe": url} from the first source that answers, or None."""
+    for base in UPDATE_SOURCES:
+        try:
+            with fetch(base + "latest.json?t=" + str(int(time.time()))) as r:
+                info = json.loads(r.read().decode("utf-8"))
+            return {"build": int(info["build"]), "exe": base + info.get("exe", "Khazanti.exe")}
+        except Exception:
+            continue
+    return None
+
+
+def apply_update(latest) -> None:
+    """Download the new .exe beside this one, then swap it in once this process exits and start it."""
+    if not getattr(sys, "frozen", False) or os.name != "nt":
+        raise RuntimeError("updates apply to the installed Khazanti.exe only")
+    exe = sys.executable
+    new = exe + ".new"
+    urls = [latest["exe"]] + [b + "Khazanti.exe" for b in UPDATE_SOURCES if b + "Khazanti.exe" != latest["exe"]]
+    for url in urls:
+        try:
+            with fetch(url, timeout=60) as r, open(new, "wb") as out:
+                while True:
+                    chunk = r.read(CHUNK)
+                    if not chunk:
+                        break
+                    out.write(chunk)
+            if os.path.getsize(new) > 1_000_000:
+                break
+        except Exception:
+            pass
+    else:
+        raise RuntimeError("download failed")
+    bat = exe + ".update.bat"
+    with open(bat, "w", encoding="utf-8") as f:
+        # The running .exe is locked until it exits; keep trying the swap until then.
+        f.write(
+            "@echo off\r\n"
+            ":wait\r\n"
+            "ping -n 2 127.0.0.1 >nul\r\n"
+            f'move /y "{new}" "{exe}" >nul 2>&1 || goto wait\r\n'
+            f'start "" "{exe}" --no-window\r\n'
+            'del "%~f0"\r\n'
+        )
+    import subprocess
+    subprocess.Popen(["cmd", "/c", bat], creationflags=0x08000000 | 0x00000008)  # no window, detached
+    # Let the browser receive the reply before this process goes away.
+    threading.Timer(1.5, lambda: os._exit(0)).start()
+
+
 class App:
     def __init__(self, home: str, port: int):
         os.makedirs(home, exist_ok=True)
@@ -441,6 +513,13 @@ class Handler(BaseHTTPRequestHandler):
             })
         if not self._authed():
             return self._error(401, "login required")
+        if path == "/api/update":
+            latest = latest_release()
+            mine = current_build()
+            return self._json({
+                "current": mine, "latest": latest["build"] if latest else None,
+                "available": bool(latest and mine and latest["build"] > mine),
+            })
         if path == "/api/rev":
             return self._json({"rev": self.app.vault.rev})
         if path == "/api/index":
@@ -499,6 +578,15 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/api/delete":
             vault.delete(body.get("kind"), body["id"])
             return self._json({"ok": True})
+        if path == "/api/update/apply":
+            latest = latest_release()
+            if not latest:
+                return self._error(502, "no update source reachable")
+            try:
+                apply_update(latest)
+            except RuntimeError as e:
+                return self._error(500, str(e))
+            return self._json({"ok": True, "build": latest["build"]})
         if path == "/api/password":
             if not auth.check_password(str(body.get("old", ""))):
                 return self._error(403, "wrong password")
@@ -657,6 +745,7 @@ def run_tray(server, port):
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--headless", action="store_true", help="serve only: no window, no tray icon")
+    ap.add_argument("--no-window", action="store_true", help="start in the tray without opening the window")
     ap.add_argument("--port", type=int, default=int(os.environ.get("KHAZANTI_PORT", DEFAULT_PORT)))
     args = ap.parse_args(argv)
 
@@ -675,7 +764,8 @@ def main(argv=None):
         server.serve_forever()
         return
     threading.Thread(target=server.serve_forever, daemon=True).start()
-    open_window(args.port)
+    if not args.no_window:
+        open_window(args.port)
     try:
         run_tray(server, args.port)
     except Exception:

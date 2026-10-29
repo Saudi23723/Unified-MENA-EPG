@@ -92,6 +92,8 @@ header .grow { flex: 1; }
 .addr { font-family: Consolas, monospace; font-size: 17px; background: var(--bg); padding: 6px 10px; border-radius: 8px;
   display: inline-block; margin: 3px 0; direction: ltr; }
 .small { color: var(--muted); font-size: 13px; }
+#updateBar { margin: 12px 18px 0; padding: 10px 14px; border-radius: 12px; background: var(--brand-soft);
+  display: flex; gap: 12px; align-items: center; justify-content: space-between; }
 .dev { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--line); }
 </style>
 </head>
@@ -135,6 +137,7 @@ header .grow { flex: 1; }
     <button id="btnLock">🔒 قفل</button>
     <input type="file" id="fileInput" multiple class="hidden">
   </header>
+  <div id="updateBar" class="hidden">تحديث جديد لخزنتي متوفر <button class="primary" id="btnUpdate">تحديث الآن</button></div>
   <div class="bar" id="filters">
     <button class="chip on" data-f="all">الكل</button>
     <button class="chip" data-f="video">فيديو</button>
@@ -629,7 +632,32 @@ async function refresh(force) {
     render();
   } catch (e) {}
 }
+async function checkUpdate() {
+  try {
+    const u = await api("/api/update");
+    $("#updateBar").classList.toggle("hidden", !u.available);
+  } catch (e) {}
+}
+$("#btnUpdate").onclick = async () => {
+  const b = $("#btnUpdate");
+  b.disabled = true; b.textContent = "جاري التحديث…";
+  try {
+    await api("/api/update/apply", {});
+  } catch (e) {
+    b.disabled = false; b.textContent = "تحديث الآن";
+    return alert("تعذر التحديث، تأكد من الإنترنت وحاول مرة أخرى");
+  }
+  // The program restarts itself; come back once it answers again.
+  const started = Date.now();
+  const wait = setInterval(async () => {
+    try {
+      const r = await fetch("/api/status", { cache: "no-store" });
+      if (r.ok && Date.now() - started > 4000) { clearInterval(wait); location.reload(); }
+    } catch (e) {}
+  }, 1500);
+};
 function showMain() {
+  checkUpdate();
   $("#lock").classList.add("hidden");
   $("#main").classList.remove("hidden");
   refresh(true);

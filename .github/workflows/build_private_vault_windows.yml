@@ -40,10 +40,26 @@ jobs:
       - name: Build Khazanti.exe
         run: |
           python -c "import khazanti; khazanti.tray_icon_image().resize((256, 256)).save('icon.ico', sizes=[(256, 256), (64, 64), (32, 32), (16, 16)])"
-          pyinstaller --onefile --noconsole --name Khazanti --icon icon.ico --add-data "index.html;." --hidden-import pystray._win32 khazanti.py
+          echo "{\"build\": ${{ github.run_number }}}" > build_info.json
+          pyinstaller --onefile --noconsole --name Khazanti --icon icon.ico --add-data "index.html;." --add-data "build_info.json;." --hidden-import pystray._win32 khazanti.py
 
       - name: Test the built program
         run: python khazanti_selftest.py dist/Khazanti.exe
+
+      # The program updates itself from this branch (see UPDATE_SOURCES).
+      - name: Publish for one-click updates
+        shell: bash
+        run: |
+          dir="$RUNNER_TEMP/updates"
+          mkdir -p "$dir" && cp dist/Khazanti.exe "$dir/"
+          echo "{\"build\": ${{ github.run_number }}, \"exe\": \"Khazanti.exe\"}" > "$dir/latest.json"
+          cd "$dir"
+          git init -q -b vault-builds-windows
+          git add -A
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -q -m "Khazanti build ${{ github.run_number }}"
+          git push -q -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}" HEAD:vault-builds-windows
+          curl -sS "https://purge.jsdelivr.net/gh/${{ github.repository }}@vault-builds-windows/latest.json" > /dev/null || true
 
       - uses: actions/upload-artifact@v4
         with:

@@ -124,6 +124,10 @@ def main():
         assert not os.path.exists(clip_path)
         assert idx["rev"] > rev_before
 
+        # Running from source never offers to update itself.
+        st, u = c.json("GET", "/api/update")
+        assert st == 200 and u["available"] is False, u
+
         # Wrong passwords are counted and then refused for a while.
         anon = Client(base)
         for _ in range(4):

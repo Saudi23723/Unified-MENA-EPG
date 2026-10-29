@@ -11,8 +11,11 @@ android {
         applicationId = "com.saudi.privatevault"
         minSdk = 26
         targetSdk = 35
-        versionCode = 5
-        versionName = "1.4"
+        // CI numbers every build, so each one is newer than the last and the
+        // in-app updater can tell; local builds count as build 0.
+        val build = System.getenv("GITHUB_RUN_NUMBER")?.toIntOrNull() ?: 0
+        versionCode = 100 + build
+        versionName = "1.$build"
     }
 
     // Builds are signed with the key from the VAULT_KEYSTORE* environment
