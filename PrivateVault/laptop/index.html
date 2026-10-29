@@ -86,6 +86,9 @@ header .grow { flex: 1; }
 #viewer .body { flex: 1; display: grid; place-items: center; overflow: hidden; }
 #viewer video, #viewer img { max-width: 100%; max-height: 100%; }
 #viewer iframe { width: 100%; height: 100%; border: 0; background: #fff; }
+/* Reading modes for documents: dark for night, warm paper for long reading. */
+#viewer iframe.night { filter: invert(0.88) hue-rotate(180deg); }
+#viewer iframe.warm { filter: sepia(0.35) brightness(0.97); }
 .addr { font-family: Consolas, monospace; font-size: 17px; background: var(--bg); padding: 6px 10px; border-radius: 8px;
   display: inline-block; margin: 3px 0; direction: ltr; }
 .small { color: var(--muted); font-size: 13px; }
@@ -152,6 +155,7 @@ header .grow { flex: 1; }
     <span class="t" id="vTitle"></span>
     <button id="vPrev">السابق</button>
     <button id="vNext">التالي</button>
+    <button id="vMode" title="وضع القراءة">🌙 عادي</button>
     <button id="vDownload">حفظ نسخة</button>
     <button id="vClose">✕ إغلاق</button>
   </div>
@@ -436,8 +440,22 @@ function showView() {
     const img = document.createElement("img"); img.src = fileUrl(it); body.appendChild(img);
   } else {
     const f = document.createElement("iframe"); f.src = fileUrl(it); body.appendChild(f);
+    applyMode();
   }
+  $("#vMode").classList.toggle("hidden", !["pdf", "text"].includes(k));
 }
+const MODES = [["normal", "🌙 عادي"], ["night", "🌙 ليلي"], ["warm", "🌙 دافئ"]];
+function applyMode() {
+  const m = localGet("readMode") || "normal";
+  const f = $("#vBody iframe");
+  if (f) { f.classList.toggle("night", m === "night"); f.classList.toggle("warm", m === "warm"); }
+  $("#vMode").textContent = (MODES.find((x) => x[0] === m) || MODES[0])[1];
+}
+$("#vMode").onclick = () => {
+  const i = MODES.findIndex((x) => x[0] === (localGet("readMode") || "normal"));
+  localSet("readMode", MODES[(i + 1) % MODES.length][0]);
+  applyMode();
+};
 function closeView() { $("#viewer").classList.add("hidden"); $("#vBody").innerHTML = ""; }
 $("#vClose").onclick = closeView;
 $("#vPrev").onclick = () => { if (viewIndex > 0) { viewIndex--; showView(); } };

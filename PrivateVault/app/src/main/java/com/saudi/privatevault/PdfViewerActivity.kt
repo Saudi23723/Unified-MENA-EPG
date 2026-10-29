@@ -33,8 +33,15 @@ class PdfViewerActivity : BaseActivity() {
         itemId = item.id
         b.toolbar.title = item.name
         b.toolbar.setNavigationOnClickListener { finish() }
-        b.toolbar.inflateMenu(R.menu.viewer_menu)
-        b.toolbar.setOnMenuItemClickListener { Viewers.openWith(this, item); true }
+        b.toolbar.inflateMenu(R.menu.reader_menu)
+        b.toolbar.setOnMenuItemClickListener { mi ->
+            if (mi.itemId == R.id.v_read_mode) ReadingMode.choose(this) { applyMode(it) }
+            else Viewers.openWith(this, item)
+            true
+        }
+        applyMode(ReadingMode.current(this))
+        // Reading should not be cut off by the screen going dark.
+        window.addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         renderer = try {
             PdfRenderer(ParcelFileDescriptor.open(VaultStore.fileOf(item), ParcelFileDescriptor.MODE_READ_ONLY))
@@ -54,6 +61,11 @@ class PdfViewerActivity : BaseActivity() {
         b.next.setOnClickListener { go(pageIndex + 1) }
         b.page.onSwipe = { dir -> go(pageIndex + dir) }
         b.page.post { show() }
+    }
+
+    private fun applyMode(mode: ReadingMode) {
+        b.page.colorFilter = mode.pageFilter()
+        b.page.setBackgroundColor(if (mode == ReadingMode.NORMAL) 0xFF9E9E9E.toInt() else mode.background)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
