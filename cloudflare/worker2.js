@@ -244,8 +244,14 @@ export default {
         // Event / PPV channels: the provider renames them for each match ("Hawks vs Rockets :NBA 06"); the repo's
         // copy is from the export day, so today's names come from the provider (see buildPatch).
         try {
-          const pt = await readPatch(env);
-          if ((!pt || Date.now() - pt.t > PATCH_AGE) && ctx) ctx.waitUntil(buildPatch(env, user, pass_, req.headers.get("User-Agent") || ""));
+          let pt = await readPatch(env);
+          if (!pt || Date.now() - pt.t > PATCH_AGE) {
+            const b = buildPatch(env, user, pass_, req.headers.get("User-Agent") || "");
+            if (ctx) ctx.waitUntil(b);
+            // no names yet in this worker instance: wait for them a little (Dream4k builds in under 2 s), so the
+            // first open already shows today's games instead of only the next one (owner, 28 Oct 2026)
+            if (!pt) { await Promise.race([b, new Promise((r) => setTimeout(r, 4000))]); pt = PATCH; }
+          }
           if (!pt) return pass(file, 900, []);
           const r = await fetch(file, { cf: { cacheTtl: 900, cacheEverything: true } });
           if (!r.ok) return json([], 60);
