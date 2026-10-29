@@ -133,7 +133,7 @@ class MainActivity : BaseActivity() {
         if (searching) {
             val q = query.trim()
             VaultStore.folders.filter { it.name.contains(q, ignoreCase = true) }
-                .sortedBy { it.name.lowercase() }
+                .sortedWith(compareBy(NaturalOrder) { it.name })
                 .forEach { list.add(Entry.FolderEntry(it, VaultStore.countIn(it.id), VaultStore.pathOf(it.parentId))) }
             sortItems(VaultStore.items.filter { it.name.contains(q, ignoreCase = true) && passes(it) })
                 .forEach { list.add(Entry.FileEntry(it, VaultStore.pathOf(it.folderId))) }
@@ -142,7 +142,7 @@ class MainActivity : BaseActivity() {
             // "videos" at the top level means all videos in the vault.
             val scoped = filter != R.id.chip_all
             if (!scoped) {
-                VaultStore.childFolders(folderId).sortedBy { it.name.lowercase() }
+                VaultStore.childFolders(folderId).sortedWith(compareBy(NaturalOrder) { it.name })
                     .forEach { list.add(Entry.FolderEntry(it, VaultStore.countIn(it.id), null)) }
                 sortItems(VaultStore.itemsIn(folderId)).forEach { list.add(Entry.FileEntry(it, null)) }
             } else {
@@ -163,9 +163,9 @@ class MainActivity : BaseActivity() {
     }
 
     private fun sortItems(list: List<VaultItem>): List<VaultItem> =
-        when (VaultLock.prefs(this).getInt("sort", 0)) {
+        when (VaultLock.prefs(this).getInt("sort_v2", SORT_DEFAULT)) {
             1 -> list.sortedBy { it.added }
-            2 -> list.sortedBy { it.name.lowercase() }
+            2 -> list.sortedWith(compareBy(NaturalOrder) { it.name })
             3 -> list.sortedByDescending { it.size }
             else -> list.sortedByDescending { it.added }
         }
@@ -271,11 +271,11 @@ class MainActivity : BaseActivity() {
             getString(R.string.sort_newest), getString(R.string.sort_oldest),
             getString(R.string.sort_name), getString(R.string.sort_size),
         )
-        val current = VaultLock.prefs(this).getInt("sort", 0)
+        val current = VaultLock.prefs(this).getInt("sort_v2", SORT_DEFAULT)
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.sort)
             .setSingleChoiceItems(labels, current) { d, which ->
-                VaultLock.prefs(this).edit().putInt("sort", which).apply()
+                VaultLock.prefs(this).edit().putInt("sort_v2", which).apply()
                 d.dismiss()
                 refresh()
             }
@@ -461,7 +461,7 @@ class MainActivity : BaseActivity() {
     /** Pick a destination folder; null means the top level. */
     private fun chooseFolder(exclude: Set<String>, done: (String?) -> Unit) {
         val targets = listOf<Folder?>(null) + VaultStore.folders.filter { it.id !in exclude }
-            .sortedBy { VaultStore.pathOf(it.id).lowercase() }
+            .sortedWith(compareBy(NaturalOrder) { VaultStore.pathOf(it.id) })
         val labels = targets.map { if (it == null) getString(R.string.root) else VaultStore.pathOf(it.id) }
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.move)

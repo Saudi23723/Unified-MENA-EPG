@@ -120,9 +120,9 @@ header .grow { flex: 1; }
     <h1><svg width="26" height="26"><use href="#i-lock"/></svg> خزنتي</h1>
     <input id="search" type="search" placeholder="بحث…">
     <select id="sort" title="الترتيب">
+      <option value="name">حسب الاسم</option>
       <option value="new">الأحدث أولاً</option>
       <option value="old">الأقدم أولاً</option>
-      <option value="name">حسب الاسم</option>
       <option value="size">حسب الحجم</option>
     </select>
     <span class="grow"></span>
@@ -161,7 +161,7 @@ header .grow { flex: 1; }
 <script>
 "use strict";
 const $ = (s) => document.querySelector(s);
-const state = { folders: [], items: [], rev: -1, folder: null, filter: "all", query: "", sort: localGet("sort") || "new" };
+const state = { folders: [], items: [], rev: -1, folder: null, filter: "all", query: "", sort: localGet("sort2") || "name" };
 
 function localGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
 function localSet(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
@@ -218,7 +218,8 @@ function sortItems(list) {
   if (state.sort === "old") l.sort((a, b) => a.added - b.added);
   else if (state.sort === "name") l.sort((a, b) => a.name.localeCompare(b.name, "ar", { numeric: true }));
   else if (state.sort === "size") l.sort((a, b) => b.size - a.size);
-  else l.sort((a, b) => b.added - a.added);
+  else if (state.sort === "new") l.sort((a, b) => b.added - a.added);
+  else l.sort((a, b) => a.name.localeCompare(b.name, "ar", { numeric: true }));
   return l;
 }
 const byName = (a, b) => a.name.localeCompare(b.name, "ar", { numeric: true });
@@ -598,7 +599,7 @@ $("#btnFolder").onclick = async () => {
 $("#btnPhone").onclick = phonePanel;
 $("#search").oninput = (e) => { state.query = e.target.value; render(); };
 $("#sort").value = state.sort;
-$("#sort").onchange = (e) => { state.sort = e.target.value; localSet("sort", state.sort); render(); };
+$("#sort").onchange = (e) => { state.sort = e.target.value; localSet("sort2", state.sort); render(); };
 document.querySelectorAll("#filters .chip").forEach((c) => c.onclick = () => setFilter(c.dataset.f));
 
 async function refresh(force) {

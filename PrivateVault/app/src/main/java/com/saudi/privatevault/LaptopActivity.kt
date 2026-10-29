@@ -163,9 +163,9 @@ class LaptopActivity : BaseActivity() {
     }
 
     private fun sortItems(list: List<VaultItem>): List<VaultItem> =
-        when (VaultLock.prefs(this).getInt("sort", 0)) {
+        when (VaultLock.prefs(this).getInt("sort_v2", SORT_DEFAULT)) {
             1 -> list.sortedBy { it.added }
-            2 -> list.sortedBy { it.name.lowercase() }
+            2 -> list.sortedWith(compareBy(NaturalOrder) { it.name })
             3 -> list.sortedByDescending { it.size }
             else -> list.sortedByDescending { it.added }
         }
@@ -182,7 +182,7 @@ class LaptopActivity : BaseActivity() {
         val q = query.trim()
         return when {
             q.isNotEmpty() -> Pair(
-                folders.filter { it.name.contains(q, ignoreCase = true) }.sortedBy { it.name.lowercase() },
+                folders.filter { it.name.contains(q, ignoreCase = true) }.sortedWith(compareBy(NaturalOrder) { it.name }),
                 sortItems(items.filter { it.name.contains(q, ignoreCase = true) && passes(it) })
                     .map { it to pathOf(it.folderId) },
             )
@@ -195,7 +195,7 @@ class LaptopActivity : BaseActivity() {
                 )
             }
             else -> Pair(
-                folders.filter { it.parentId == folderId }.sortedBy { it.name.lowercase() },
+                folders.filter { it.parentId == folderId }.sortedWith(compareBy(NaturalOrder) { it.name }),
                 sortItems(items.filter { it.folderId == folderId }).map { it to null },
             )
         }

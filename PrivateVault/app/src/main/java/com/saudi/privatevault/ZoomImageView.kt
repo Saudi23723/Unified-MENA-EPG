@@ -25,8 +25,14 @@ class ZoomImageView @JvmOverloads constructor(
     private val values = FloatArray(9)
     private var minScale = 1f
 
+    // Where the current touch began, and whether it turned into a pinch.
+    private var downX = 0f
+    private var downY = 0f
+    private var pinched = false
+
     private val scaleDetector = ScaleGestureDetector(context, object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
         override fun onScale(detector: ScaleGestureDetector): Boolean {
+            pinched = true
             val cur = currentScale()
             val target = (cur * detector.scaleFactor).coerceIn(minScale, minScale * 8f)
             val f = target / cur
@@ -60,22 +66,22 @@ class ZoomImageView @JvmOverloads constructor(
             onTap?.invoke()
             return true
         }
-
-        override fun onFling(e1: MotionEvent?, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
-            if (isZoomed() || e1 == null) return false
-            val dx = e2.x - e1.x
-            if (abs(dx) > width / 5f && abs(dx) > abs(e2.y - e1.y)) {
-                // In a right-to-left layout the next item sits to the left.
-                val towardsNext = if (layoutDirection == LAYOUT_DIRECTION_RTL) dx > 0 else dx < 0
-                onSwipe?.invoke(if (towardsNext) 1 else -1)
-                return true
-            }
-            return false
-        }
     })
 
     init {
         scaleType = ScaleType.MATRIX
+    }
+
+    /**
+     * Like turning a page: dragging up or to the left goes forward, down or
+     * to the right goes back. Pages follow the document, not the RTL screen.
+     */
+    private fun swipe(dx: Float, dy: Float) {
+        val horizontal = abs(dx) > abs(dy)
+        val far = if (horizontal) abs(dx) > width / 8f else abs(dy) > height / 10f
+        if (!far) return
+        val forward = if (horizontal) dx < 0 else dy < 0
+        onSwipe?.invoke(if (forward) 1 else -1)
     }
 
     override fun setImageBitmap(bm: Bitmap?) {
@@ -130,6 +136,14 @@ class ZoomImageView @JvmOverloads constructor(
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
+        when (event.actionMasked) {
+            MotionEvent.ACTION_DOWN -> {
+                downX = event.x
+                downY = event.y
+                pinched = false
+            }
+            MotionEvent.ACTION_UP -> if (!pinched && !isZoomed()) swipe(event.x - downX, event.y - downY)
+        }
         scaleDetector.onTouchEvent(event)
         gestures.onTouchEvent(event)
         parent?.requestDisallowInterceptTouchEvent(isZoomed())

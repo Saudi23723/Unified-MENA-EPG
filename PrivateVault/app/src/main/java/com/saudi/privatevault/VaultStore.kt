@@ -52,6 +52,41 @@ fun kindOf(mime: String, name: String): Kind {
     }
 }
 
+/** By name first: "2- Intro" comes before "10- Landing". */
+const val SORT_DEFAULT = 2
+
+/**
+ * Compares names the way people number things: digit runs by their value,
+ * the rest ignoring case, so "2-" sorts before "10-".
+ */
+object NaturalOrder : Comparator<String> {
+    override fun compare(a: String, b: String): Int {
+        var i = 0
+        var j = 0
+        while (i < a.length && j < b.length) {
+            val ca = a[i]
+            val cb = b[j]
+            if (ca.isDigit() && cb.isDigit()) {
+                val si = i
+                val sj = j
+                while (i < a.length && a[i].isDigit()) i++
+                while (j < b.length && b[j].isDigit()) j++
+                val na = a.substring(si, i).trimStart('0')
+                val nb = b.substring(sj, j).trimStart('0')
+                if (na.length != nb.length) return na.length - nb.length
+                val c = na.compareTo(nb)
+                if (c != 0) return c
+            } else {
+                val c = ca.lowercaseChar().compareTo(cb.lowercaseChar())
+                if (c != 0) return c
+                i++
+                j++
+            }
+        }
+        return (a.length - i) - (b.length - j)
+    }
+}
+
 /**
  * Everything the vault holds lives in the app's private storage: the files
  * under vault_files/, small previews under vault_thumbs/, and the list of
