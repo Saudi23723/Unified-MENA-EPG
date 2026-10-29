@@ -66,6 +66,15 @@ FIRST = [
 ]
 # Brand rules, used when nothing more exact was found.
 BRANDS = [
+    # brand logos for numbered event / extra channels (owner, 28 Oct 2026: groups without logos)
+    (None, r"SKY\s*SPORTS?\s*(\+|PLUS)|SKY\s*SPORT\+", TVLOGOS + "countries/united-kingdom/sky-sports-plus-icon-uk.png"),
+    (None, r"^(UK:?\s*)?SKY\s*SPORTS?\s*(UK\s*)?\d+\b", TVLOGOS + "countries/united-kingdom/sky-sports-icon-uk.png"),
+    (None, r"SKY\s*(BOX\s*OFFICE)", TVLOGOS + "countries/united-kingdom/sky-sports-box-office-uk.png"),
+    (None, r"^(UK:?\s*)?SKY\s*(MOVIES|CINEMA)", TVLOGOS + "countries/united-kingdom/sky-cinema-uk.png"),
+    (None, r"^(UK:?\s*)?SKY\s*MIX", TVLOGOS + "countries/united-kingdom/sky-mix-uk.png"),
+    (None, r"NETFLIX", TVLOGOS + "countries/international/netflix-int.png"),
+    (None, r"^HUB\s*(PREMIER|SPORTS?)", "gen/football.png"),
+    (None, r"^DAZN\b|\bDAZN\s*(EVENT|\d)", TVLOGOS + "countries/international/dazn-int.png"),
     (None, r"FAJE?R\b|FAJR\b", "fajer.png"),
     (None, r"KOFIYA|KUFIYA", "alkofiya.png"),
     (None, r"QUDS\s*(AL)?\s*(TODAY|ALYAWM|AL YAWM)", "alquds_today.png"),
@@ -123,6 +132,17 @@ BRANDS = [
 ]
 # A group's own brand, for its channels that have nothing better (always weak: the provider's picture wins).
 GROUP_BRANDS = [
+    # generic marks for groups of 24/7 series / music / kids channels that have no logo of their own (28 Oct 2026)
+    (r"EGYPT\w*\s*SERIES|مسلسلات مصرية", "gen/series_egypt.png"),
+    (r"SYRIA\w*\s*SERIES|مسلسلات سورية", "gen/series_syria.png"),
+    (r"TURK\w*\s*SERIES|مسلسلات تركية|YERLI\s*DIZI|YABANCI\s*DIZI", "gen/series_turkish.png"),
+    (r"KIDS\s*SERIES|مسلسلات أطفال|COCUK|ÇOCUK", "gen/series_kids.png"),
+    (r"MANZARA|RELAX", "gen/relax.png"),
+    (r"24/7\s*SHOW|24/7", "gen/tv247.png"),
+    (r"MUSIC|MUZIK|MÜZIK|أغاني|موسيقى", "gen/music.png"),
+    (r"KITCHEN|مطبخ", "gen/kitchen.png"),
+    (r"\|\s*KIDS\b|أطفال", "gen/kids.png"),
+    (r"MOVIES\s*▶|أفلام$", "gen/movies.png"),
     (r"ROYA|رؤيا", "https://img.roya.tv/imagechanger/Size01Q40R927/storage/app/public/images/channels/iMoPuU3u5qnqMsL.png"),
     (r"SHOOF\s*(ᴄᴏᴍᴇᴅʏ|COMEDY)", "gen/shoof_comedy.png"),
     (r"SHOOF", "shoofmax.png"),
@@ -289,9 +309,25 @@ class Logos:
             hit = self._look(k, r)
             if hit:
                 return hit + (WEAK if i else weak)
+        # "SKY Action", "Skyanimation", "SKY Scfi/Hor": Sky Cinema channels under their short names (Argon NOW TV)
+        m = re.match(r"^(?:UK:?\s*)?SKY\s*(ACTION|GREATS|ANIMATION|SCI-?FI|SCFI|FAMILY|COMEDY|DRAMA|THRILLER|PREMIERE|HITS|SELECT|"
+                     r"BOURNE|CHRISTMAS|KIDS|SPOTLIGHT)\b", up)
+        if m and "CINEMA" not in up:
+            alias = "SKY CINEMA " + {"SCFI": "SCI-FI HORROR", "SCIFI": "SCI-FI HORROR", "SCI-FI": "SCI-FI HORROR"}.get(m.group(1), m.group(1))
+            for k in self.keys(alias):
+                hit = self._look(k, r or "UK")
+                if hit:
+                    return hit
         for grx, nrx, url in BRANDS:
             if (not grx or re.search(grx, g)) and re.search(nrx, up):
                 return (url if url.startswith("http") else REPO + url) + WEAK
+        # last: the exact name in another country's collection (a provider logo, if any, still wins: "#weak")
+        k0 = self.keys(name)[:1]
+        if k0 and len(k0[0]) >= 4:
+            for reg in ("UK", "US", "INT", "CA", "AU", "FR", "DE", "IT", "ES", "PT", "TR", "CH", "AR"):
+                p = self.tv.get(reg, {}).get(k0[0])
+                if p:
+                    return TVLOGOS + p + WEAK
         return ""
 
     @staticmethod
@@ -330,6 +366,19 @@ class Logos:
         return ""
 
     # ---- a whole playlist -------------------------------------------------------------------------
+    shared: dict = {}
+
+    def share_from(self, streams: list, group_of: dict, playlist: str) -> None:
+        """Remember this playlist's real (not "#weak") logos for the other playlists, by country and name."""
+        for s in streams:
+            ic = s.get("stream_icon") or ""
+            if not ic or ic.endswith(WEAK):
+                continue
+            r = region(group_of.get(s["category_id"], ""), playlist)
+            for k in self.keys(s["name"])[:1]:
+                if len(k) >= 4:
+                    self.shared.setdefault((r, k), ic)
+
     def fill_playlist(self, streams: list, group_of: dict, playlist: str) -> None:
         """Second pass over one playlist's live_streams (dicts with name/stream_icon/category_id)."""
         have = {}
@@ -347,6 +396,16 @@ class Logos:
                 if have.get(k):
                     s["stream_icon"] = have[k]
                     break
+        # the same channel in another playlist (same country) that has a real logo (owner, 28 Oct 2026:
+        # "check the others for logos")
+        for s in streams:
+            if s.get("stream_icon") or blocked(s):
+                continue
+            r = region(group_of.get(s["category_id"], ""), playlist)
+            for k in self.keys(s["name"])[:1]:
+                hit = self.shared.get((r, k)) if len(k) >= 4 else None
+                if hit:
+                    s["stream_icon"] = hit
         for s in streams:
             if s.get("stream_icon") or blocked(s):
                 continue

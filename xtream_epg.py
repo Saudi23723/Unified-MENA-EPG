@@ -99,6 +99,14 @@ def split(epg):
 # the worker fills the rest with the provider's logo.
 import channel_logos
 LOGOS = channel_logos.Logos()
+# logos shared between playlists: the last build's real logos of every playlist (xtream/*/live_streams.json)
+for _f in glob.glob("xtream/*/live_streams.json"):
+    try:
+        _p = os.path.basename(os.path.dirname(_f))
+        _cats = {c["category_id"]: c["category_name"] for c in json.load(open(os.path.dirname(_f) + "/live_categories.json", encoding="utf-8"))}
+        LOGOS.share_from(json.load(open(_f, encoding="utf-8")), _cats, _p)
+    except Exception:
+        pass
 # A small mark after every group name, so the owner can tell the playlists apart now that they share
 # Strong's layout (owner, 27 October 2026). Display only: ids, order and guides use the plain names.
 MARK = {}  # owner, 28 Oct 2026: no marks
@@ -158,6 +166,7 @@ for f in sorted(glob.glob("xtream/*/channel_map.json")):
             if name == "hydra" and sp[0] in ("u", "o"):
                 hydra_compat.add((sp[0], sp[1]))
     LOGOS.fill_playlist(streams, {catid[g]: g for g in cats}, name)
+    LOGOS.share_from(streams, {catid[g]: g for g in cats}, name)
     dump = lambda o, p: json.dump(o, open(p, "w", encoding="utf-8"), ensure_ascii=True, separators=(",", ":"))
     dump([{"category_id": catid[g], "category_name": shown(g, name), "parent_id": 0} for g in cats],
          f"{play}/live_categories.json")
