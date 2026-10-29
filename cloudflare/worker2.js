@@ -15,9 +15,9 @@ const JSONH = { ...CORS, "Content-Type": "application/json; charset=utf-8" };
 const LIVE_EVENT_NAMES = true;
 const EVENT_GROUP = /^(?!.*24\/7)(?:.*(PPV|PAY PER VIEW|EVENT|PACKAGE|ESPN\+|TSN\+|SN\+|PEACOCK|PARAMOUNT|CUP GAMES|NFL SPORTS)|STAN|MAX|SOCCER|DAZN)$|^(?!.*24\/7).*(PPV|PAY PER VIEW|EVENT|PACKAGE|ESPN\+|TSN\+|SN\+|PEACOCK|PARAMOUNT|CUP GAMES|NFL SPORTS|ᴘᴘᴠ|ᴇᴠᴇɴᴛ|ᴱᵛᵉⁿᵗ|NBA PASS|DAZN|STAN\b|SOCCER)/i;
 // ASCII-only JSON (\u escapes): DreamTV reads answers as Latin-1, so Arabic / Turkish names must be escaped.
-const asciiJson = (o) => JSON.stringify(o).replace(/[\u007f-\uffff]/g, (c) => "\\u" + c.charCodeAt(0).toString(16).padStart(4, "0"));
 const ESC = new Array(65536);
 const esc = (c) => { const k = c.charCodeAt(0); return ESC[k] || (ESC[k] = "\\u" + k.toString(16).padStart(4, "0")); };
+const asciiJson = (o) => JSON.stringify(o).replace(/[\u007f-\uffff]/g, esc);
 const json = (o, ttl = 60) => new Response(asciiJson(o), { headers: { ...JSONH, "Cache-Control": `max-age=${ttl}` } });
 
 // Pass a repo file straight through (no parsing, so big lists cost almost no CPU).
@@ -27,44 +27,74 @@ async function pass(url, ttl, empty) {
   return new Response(r.body, { headers: { ...JSONH, "Cache-Control": `max-age=${Math.min(ttl, 300)}` } });
 }
 
-const MEMO = new Map();  // login -> { t, list } for this worker instance
 
 async function digest(t) {
   const b = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(t));
   return [...new Uint8Array(b)].slice(0, 12).map((x) => x.toString(16).padStart(2, "0")).join("");
 }
 
-// The repo's list with today's event names and the provider's logos where the repo has none (owner, 27 Oct 2026).
-async function merged(user, pass_, req) {
-  const [mine, cats] = await Promise.all([
-    fetch(MAIN + "live_streams.json", { cf: { cacheTtl: 900, cacheEverything: true } }).then((r) => (r.ok ? r.json() : [])),
-    fetch(MAIN + "live_categories.json", { cf: { cacheTtl: 900, cacheEverything: true } }).then((r) => (r.ok ? r.json() : [])),
-  ]);
-  const live = await Promise.race([
-    fetch(`${PROVIDER}/player_api.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass_)}&action=get_live_streams`,
-      { headers: { "User-Agent": req.headers.get("User-Agent") || "" }, cf: { cacheTtl: 300, cacheEverything: true } })
-      .then((r) => (r.ok ? r.json() : [])).catch(() => []),
-    new Promise((r) => setTimeout(() => r(null), 4000)),
-  ]);
-  const strip = (l) => l.map((s) => (s.stream_icon ? { ...s, stream_icon: String(s.stream_icon).replace(/#weak$/, "") } : s));
-  if (!Array.isArray(live) || !live.length) return { list: strip(mine), fresh: false };
-  const ev = new Set(cats.filter((c) => EVENT_GROUP.test(c.category_name || "")).map((c) => String(c.category_id)));
-  const now = new Map();
-  for (const s of live) now.set(String(s.stream_id), s);
-  for (const s of mine) {
-    const p = now.get(String(s.stream_id));
-    if (!p) continue;
-    if ((!s.stream_icon || String(s.stream_icon).endsWith("#weak")) && p.stream_icon) s.stream_icon = p.stream_icon;
-    if (ev.has(String(s.category_id)) && p.name)
-      s.name = String(p.name).replace(/[\u24e7\u00a7]/g, "").replace(/\s+/g, " ").trim();
+// Today's event names and the provider's logos where the repo has none (owner, 27 Oct 2026), as a small patch
+// { t, n: {stream_id: name}, i: {stream_id: logo} }. Built in the background (never makes DreamTV wait) from the
+// provider's full list, at most every 15 minutes, and kept in KV (binding LIVE, key = playlist) so every worker
+// instance and every category request gets it (owner, 28 Oct 2026: NBA PASS names stayed on yesterday's games).
+const PATCH_AGE = 15 * 60000;
+let PATCH = null, BUILDING = 0;
+
+async function readPatch(env) {
+  if (PATCH && Date.now() - PATCH.t < PATCH_AGE) return PATCH;
+  if (env && env.LIVE) {
+    try { const k = await env.LIVE.get(PLAYLIST, { type: "json", cacheTtl: 60 }); if (k && (!PATCH || k.t > PATCH.t)) PATCH = k; } catch (e) {}
   }
-  const base = (s) => String(s.category_id) + "|" + String(s.name || "").toUpperCase()
+  return PATCH;
+}
+
+async function buildPatch(env, user, pass_, ua) {
+  if (Date.now() - BUILDING < 120000) return;
+  BUILDING = Date.now();
+  try {
+    const [mine, cats, live] = await Promise.all([
+      fetch(MAIN + "live_streams.json", { cf: { cacheTtl: 900, cacheEverything: true } }).then((r) => (r.ok ? r.json() : [])),
+      fetch(MAIN + "live_categories.json", { cf: { cacheTtl: 900, cacheEverything: true } }).then((r) => (r.ok ? r.json() : [])),
+      fetch(`${PROVIDER}/player_api.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass_)}&action=get_live_streams`,
+        { headers: { "User-Agent": ua } }).then((r) => (r.ok ? r.json() : [])).catch(() => []),
+    ]);
+    if (!Array.isArray(live) || !live.length) return;
+    const ev = new Set(cats.filter((c) => EVENT_GROUP.test(c.category_name || "")).map((c) => String(c.category_id)));
+    const now = new Map();
+    for (const x of live) now.set(String(x.stream_id), x);
+    const n = {}, i = {};
+    const weak = (x) => !x.stream_icon || String(x.stream_icon).endsWith("#weak");
+    for (const x of mine) {
+      const pv = now.get(String(x.stream_id));
+      if (!pv) continue;
+      if (ev.has(String(x.category_id)) && pv.name) {
+        const nm = String(pv.name).replace(/[\u24e7\u00a7]/g, "").replace(/\s+/g, " ").trim();
+        if (nm && nm !== x.name) n[x.stream_id] = nm;
+      }
+      if (weak(x) && pv.stream_icon) i[x.stream_id] = pv.stream_icon;
+    }
+    PATCH = { t: Date.now(), n, i };
+    if (env && env.LIVE) await env.LIVE.put(PLAYLIST, JSON.stringify(PATCH));
+  } catch (e) { /* next request tries again */ } finally { BUILDING = 0; }
+}
+
+// The repo's list (or one category) with the patch applied; "#weak" logos without a provider logo take the logo
+// of the same channel in another quality, else stay as they are.
+function applyPatch(list, pt) {
+  const base = (x) => String(x.category_id) + "|" + String(x.name || "").toUpperCase()
     .replace(/\b(UHD|FHD|HD|SD|LQ|4K|8K|HEVC|RAW|3840P|60FPS|50FPS|HDR|BACKUP|BK)\b/g, " ").replace(/[^A-Z0-9\u0600-\u06FF+]/g, "");
-  const weak = (s) => !s.stream_icon || String(s.stream_icon).endsWith("#weak");
+  const weak = (x) => !x.stream_icon || String(x.stream_icon).endsWith("#weak");
+  for (const x of list) {
+    if (pt && pt.n[x.stream_id]) x.name = pt.n[x.stream_id];
+    if (pt && weak(x) && pt.i[x.stream_id]) x.stream_icon = pt.i[x.stream_id];
+  }
   const logo = new Map();
-  for (const s of mine) if (!weak(s) && !logo.has(base(s))) logo.set(base(s), s.stream_icon);
-  for (const s of mine) if (weak(s)) { const l = logo.get(base(s)); if (l) s.stream_icon = l; }
-  return { list: strip(mine), fresh: true };
+  for (const x of list) if (!weak(x) && !logo.has(base(x))) logo.set(base(x), x.stream_icon);
+  for (const x of list) {
+    if (weak(x)) { const l = logo.get(base(x)); if (l) x.stream_icon = l; }
+    if (x.stream_icon) x.stream_icon = String(x.stream_icon).replace(/#weak$/, "");
+  }
+  return list;
 }
 
 // The provider's movie / series groups in the owner's order (xtream/<playlist>/vod_order.json or series_order.json).
@@ -102,7 +132,7 @@ async function groups(action, url, req) {
 }
 
 export default {
-  async fetch(req) {
+  async fetch(req, env, ctx) {
     const url = new URL(req.url);
     if (req.method === "OPTIONS") return new Response(null, { headers: CORS });
     const p = url.pathname;
@@ -152,20 +182,14 @@ export default {
         const file = cat ? MAIN + `cat/${encodeURIComponent(cat)}.json` : MAIN + "live_streams.json";
         if (!LIVE_EVENT_NAMES) return pass(file, 900, []);
         // Event / PPV channels: the provider renames them for each match ("Hawks vs Rockets :NBA 06"); the repo's
-        // copy is from the export day, so take today's names from the provider (owner, 27 October 2026).
-        // Speed (owner, 28 Oct 2026: DreamTV hangs on start): the provider's full list is read only for the full
-        // list request, at most once per 10 minutes per login (kept in this worker's memory), and only if the
-        // provider answers within 4 s; a single category is cut from that copy or served straight from the repo.
+        // copy is from the export day, so today's names come from the provider (see buildPatch).
         try {
-          const k = await digest(user + "\n" + pass_);
-          const c = MEMO.get(k);
-          if (c && Date.now() - c.t < 600000) {
-            return json(cat ? c.list.filter((s) => String(s.category_id) === String(cat)) : c.list, 300);
-          }
-          if (cat) return pass(file, 900, []);
-          const all = await merged(user, pass_, req);
-          if (all.fresh) { MEMO.set(k, { t: Date.now(), list: all.list }); if (MEMO.size > 20) MEMO.delete(MEMO.keys().next().value); }
-          return json(all.list, 300);
+          const pt = await readPatch(env);
+          if ((!pt || Date.now() - pt.t > PATCH_AGE) && ctx) ctx.waitUntil(buildPatch(env, user, pass_, req.headers.get("User-Agent") || ""));
+          if (!pt) return pass(file, 900, []);
+          const r = await fetch(file, { cf: { cacheTtl: 900, cacheEverything: true } });
+          if (!r.ok) return json([], 60);
+          return json(applyPatch(await r.json(), pt), 120);
         } catch (e) {
           return pass(file, 900, []);
         }
