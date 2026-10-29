@@ -515,6 +515,280 @@ class PdfIndexes:
                 self.working.discard(iid)
 
 
+# ---- sending the vault to the cloud ----
+#
+# The originals stay on the laptop. Each file not yet in the cloud copy of
+# the vault is sent there with its folders; videos are first shrunk to
+# 720p H.264 in a temporary file, which is deleted after the upload, so the
+# laptop needs no extra room and the cloud holds the small copies.
+
+import subprocess
+import shutil
+
+FFMPEG_SOURCES = [
+    "https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip",
+    "https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-win64-gpl.zip",
+]
+NO_WINDOW = 0x08000000 if os.name == "nt" else 0
+VIDEO_EXT = {".mp4", ".mkv", ".webm", ".3gp", ".mov", ".avi", ".m4v", ".ts", ".wmv", ".flv", ".mpg", ".mpeg"}
+
+
+def is_video(item) -> bool:
+    return (item.get("mime") or "").startswith("video/") or os.path.splitext(item["name"])[1].lower() in VIDEO_EXT
+
+
+class CloudSync:
+    def __init__(self, app):
+        self.app = app
+        self.tools = os.path.join(app.vault.home, "tools")
+        self.work = os.path.join(app.vault.home, "cloud-tmp")
+        self.lock = threading.Lock()
+        self.thread = None
+        self.stop_flag = False
+        self.proc = None
+        self.state = {"running": False}
+
+    # -- link --
+
+    @property
+    def link(self):
+        return self.app.auth.cfg.get("cloud") or {}
+
+    def connect(self, url: str, password: str) -> None:
+        url = url.strip().rstrip("/")
+        if not url.startswith(("http://", "https://")):
+            url = "https://" + url
+        token = self._login(url, password)
+        with self.app.auth.lock:
+            self.app.auth.cfg["cloud"] = {"url": url, "token": token}
+            self.app.auth._save()
+
+    def disconnect(self):
+        with self.app.auth.lock:
+            self.app.auth.cfg.pop("cloud", None)
+            self.app.auth._save()
+
+    @staticmethod
+    def _login(url, password):
+        import urllib.request
+        import urllib.error
+        body = json.dumps({"password": password, "device": "لابتوب " + socket.gethostname()}).encode()
+        req = urllib.request.Request(url + "/api/login", data=body, method="POST",
+                                     headers={"Content-Type": "application/json"})
+        try:
+            with urllib.request.urlopen(req, timeout=20) as r:
+                return json.loads(r.read().decode())["token"]
+        except urllib.error.HTTPError as e:
+            raise ValueError("wrong password" if e.code in (403, 429) else f"cloud answered {e.code}")
+        except Exception:
+            raise ValueError("cloud unreachable")
+
+    def _get(self, path):
+        import urllib.request
+        req = urllib.request.Request(self.link["url"] + path, headers={"Authorization": "Bearer " + self.link["token"]})
+        with urllib.request.urlopen(req, timeout=60) as r:
+            return json.loads(r.read().decode())
+
+    # -- ffmpeg --
+
+    def ffmpeg(self):
+        for name in ("ffmpeg.exe", "ffmpeg"):
+            p = os.path.join(self.tools, name)
+            if os.path.exists(p):
+                return p
+        return os.environ.get("KHAZANTI_FFMPEG") or shutil.which("ffmpeg")
+
+    def _fetch_ffmpeg(self):
+        """One download of ffmpeg on first use (Windows), kept in the vault's tools folder."""
+        import zipfile
+        os.makedirs(self.tools, exist_ok=True)
+        zpath = os.path.join(self.tools, "ffmpeg.zip")
+        for url in FFMPEG_SOURCES:
+            try:
+                with fetch(url, timeout=60) as r, open(zpath, "wb") as out:
+                    total = int(r.headers.get("Content-Length") or 0)
+                    done = 0
+                    while True:
+                        chunk = r.read(CHUNK)
+                        if not chunk:
+                            break
+                        out.write(chunk)
+                        done += len(chunk)
+                        self._set(phase="ffmpeg", pct=int(done * 100 / total) if total else 0)
+                with zipfile.ZipFile(zpath) as z:
+                    for member in z.namelist():
+                        base = member.rsplit("/", 1)[-1].lower()
+                        if base in ("ffmpeg.exe", "ffprobe.exe"):
+                            with z.open(member) as src, open(os.path.join(self.tools, base), "wb") as dst:
+                                shutil.copyfileobj(src, dst)
+                os.remove(zpath)
+                if self.ffmpeg():
+                    return
+            except Exception:
+                continue
+        raise RuntimeError("could not download ffmpeg")
+
+    def _duration(self, path) -> float:
+        ff = self.ffmpeg()
+        probe = os.path.join(os.path.dirname(ff), "ffprobe" + (".exe" if ff.endswith(".exe") else ""))
+        if not os.path.exists(probe):
+            probe = shutil.which("ffprobe") or probe
+        try:
+            out = subprocess.run([probe, "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", path],
+                                 capture_output=True, text=True, timeout=60, creationflags=NO_WINDOW).stdout
+            return float(out.strip() or 0)
+        except Exception:
+            return 0.0
+
+    def shrink(self, src, dst) -> bool:
+        """720p H.264 copy of a video for the phone; False if it fails or is not smaller."""
+        duration = self._duration(src)
+        cmd = [self.ffmpeg(), "-y", "-hide_banner", "-loglevel", "error", "-i", src,
+               "-map", "0:v:0", "-map", "0:a:0?",
+               "-vf", "scale=-2:'min(720,ih)'", "-c:v", "libx264", "-preset", "veryfast", "-crf", "26",
+               "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "96k", "-movflags", "+faststart",
+               "-progress", "pipe:1", "-nostats", dst]
+        self.proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True,
+                                     creationflags=NO_WINDOW)
+        for line in self.proc.stdout:
+            if line.startswith("out_time_us=") and duration > 0:
+                try:
+                    self._set(pct=min(99, int(int(line.split("=")[1]) / 1e6 * 100 / duration)))
+                except ValueError:
+                    pass
+            if self.stop_flag:
+                self.proc.kill()
+        ok = self.proc.wait() == 0 and not self.stop_flag
+        self.proc = None
+        return ok and os.path.exists(dst) and 0 < os.path.getsize(dst) < os.path.getsize(src) * 0.95
+
+    # -- upload --
+
+    def upload(self, path, rel, src):
+        import http.client
+        u = urllib.parse.urlsplit(self.link["url"])
+        conn_cls = http.client.HTTPSConnection if u.scheme == "https" else http.client.HTTPConnection
+        conn = conn_cls(u.hostname, u.port, timeout=300)
+        size = os.path.getsize(path)
+        q = urllib.parse.urlencode({"path": rel, "src": src})
+        try:
+            conn.putrequest("PUT", (u.path or "") + "/api/upload?" + q)
+            conn.putheader("Authorization", "Bearer " + self.link["token"])
+            conn.putheader("Content-Type", "application/octet-stream")
+            conn.putheader("Content-Length", str(size))
+            conn.endheaders()
+            done = 0
+            with open(path, "rb") as f:
+                while True:
+                    chunk = f.read(CHUNK)
+                    if not chunk:
+                        break
+                    conn.send(chunk)
+                    done += len(chunk)
+                    self._set(pct=int(done * 100 / size) if size else 100)
+                    if self.stop_flag:
+                        raise RuntimeError("stopped")
+            r = conn.getresponse()
+            r.read()
+            if r.status == 401:
+                raise PermissionError("cloud login expired")
+            if r.status != 200:
+                raise RuntimeError(f"cloud answered {r.status}")
+        finally:
+            conn.close()
+
+    # -- the run --
+
+    def _set(self, **kw):
+        with self.lock:
+            self.state.update(kw)
+
+    def status(self):
+        with self.lock:
+            s = dict(self.state)
+        s["linked"] = bool(self.link)
+        s["url"] = self.link.get("url")
+        return s
+
+    def start(self, compress=True, folder=None):
+        if not self.link:
+            raise ValueError("not linked")
+        if self.thread and self.thread.is_alive():
+            return
+        self.stop_flag = False
+        self.state = {"running": True, "phase": "start", "done": 0, "total": 0, "sent": 0, "failed": 0,
+                      "saved": 0, "name": "", "pct": 0, "error": None}
+        self.thread = threading.Thread(target=self._run, args=(compress, folder), daemon=True)
+        self.thread.start()
+
+    def stop(self):
+        self.stop_flag = True
+        p = self.proc
+        if p:
+            try:
+                p.kill()
+            except Exception:
+                pass
+
+    def _rel_path(self, item):
+        vault = self.app.vault
+        names = [item["name"]]
+        d = vault.folder(item.get("folder"))
+        while d:
+            names.insert(0, d["name"])
+            d = vault.folder(d.get("parent"))
+        return "/".join(n.replace("/", "-") for n in names)
+
+    def _run(self, compress, folder):
+        try:
+            self._set(phase="index")
+            remote = self._get("/api/index")
+            have = {i.get("src") for i in remote.get("items", []) if i.get("src")}
+            snap = self.app.vault.snapshot()
+            scope = self.app.vault.subtree(folder) if folder else None
+            items = [i for i in snap["items"] if (scope is None or i.get("folder") in scope)
+                     and "laptop:" + i["id"] not in have]
+            if compress and any(is_video(i) for i in items) and not self.ffmpeg():
+                self._fetch_ffmpeg()
+            self._set(total=len(items), phase="send")
+            os.makedirs(self.work, exist_ok=True)
+            for n, item in enumerate(items, 1):
+                if self.stop_flag:
+                    break
+                self._set(done=n - 1, name=item["name"], pct=0)
+                original = self.app.vault.path_of(item)
+                if not os.path.exists(original):
+                    self._set(failed=self.state["failed"] + 1)
+                    continue
+                send, rel = original, self._rel_path(item)
+                tmp = os.path.join(self.work, item["id"] + ".mp4")
+                try:
+                    if compress and is_video(item):
+                        self._set(phase="shrink")
+                        if self.shrink(original, tmp):
+                            send = tmp
+                            rel = os.path.splitext(rel)[0] + ".mp4"
+                            self._set(saved=self.state["saved"] + os.path.getsize(original) - os.path.getsize(tmp))
+                    if self.stop_flag:
+                        break
+                    self._set(phase="upload", pct=0)
+                    self.upload(send, rel, "laptop:" + item["id"])
+                    self._set(sent=self.state["sent"] + 1)
+                except PermissionError as e:
+                    self._set(error=str(e))
+                    break
+                except Exception:
+                    self._set(failed=self.state["failed"] + 1)
+                finally:
+                    if os.path.exists(tmp):
+                        os.remove(tmp)
+            self._set(done=self.state.get("total", 0) if not self.stop_flag else self.state.get("done", 0))
+        except Exception as e:
+            self._set(error=str(e))
+        finally:
+            self._set(running=False, phase="stopped" if self.stop_flag else "finished", pct=0)
+
+
 class App:
     def __init__(self, home: str, port: int):
         os.makedirs(home, exist_ok=True)
@@ -522,6 +796,7 @@ class App:
         self.auth = Auth(home)
         self.pdf_indexes = PdfIndexes(home)
         self.port = port
+        self.cloud = CloudSync(self)
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -622,8 +897,11 @@ class Handler(BaseHTTPRequestHandler):
             mine = current_build()
             return self._json({
                 "current": mine, "latest": latest["build"] if latest else None,
-                "available": bool(latest and mine and latest["build"] > mine),
+                # Only the Windows program replaces itself; a cloud server updates by its own timer.
+                "available": bool(latest and mine and latest["build"] > mine and getattr(sys, "frozen", False)),
             })
+        if path == "/api/cloud":
+            return self._json(self.app.cloud.status())
         if path == "/api/rev":
             return self._json({"rev": self.app.vault.rev})
         if path == "/api/index":
@@ -704,6 +982,22 @@ class Handler(BaseHTTPRequestHandler):
             if len(new) < 4:
                 return self._error(400, "password too short")
             auth.set_password(new)
+            return self._json({"ok": True})
+        if path == "/api/cloud/link":
+            try:
+                self.app.cloud.connect(str(body.get("url", "")), str(body.get("password", "")))
+            except ValueError as e:
+                return self._error(400, str(e))
+            return self._json(self.app.cloud.status())
+        if path == "/api/cloud/unlink":
+            self.app.cloud.stop()
+            self.app.cloud.disconnect()
+            return self._json({"ok": True})
+        if path == "/api/cloud/start":
+            self.app.cloud.start(bool(body.get("compress", True)), body.get("folder"))
+            return self._json(self.app.cloud.status())
+        if path == "/api/cloud/stop":
+            self.app.cloud.stop()
             return self._json({"ok": True})
         if path == "/api/devices/revoke":
             if body.get("all"):
@@ -793,7 +1087,9 @@ class Handler(BaseHTTPRequestHandler):
 
 def make_server(app: App) -> ThreadingHTTPServer:
     handler = type("BoundHandler", (Handler,), {"app": app})
-    server = ThreadingHTTPServer(("0.0.0.0", app.port), handler)
+    # On a cloud server the vault sits behind an HTTPS proxy and listens on
+    # 127.0.0.1 only (KHAZANTI_BIND); on the laptop the phone reaches it directly.
+    server = ThreadingHTTPServer((os.environ.get("KHAZANTI_BIND", "0.0.0.0"), app.port), handler)
     server.daemon_threads = True
     return server
 
@@ -901,8 +1197,19 @@ def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--headless", action="store_true", help="serve only: no window, no tray icon")
     ap.add_argument("--no-window", action="store_true", help="start in the tray without opening the window")
+    ap.add_argument("--set-password", action="store_true", help="set the vault password from standard input, then exit")
     ap.add_argument("--port", type=int, default=int(os.environ.get("KHAZANTI_PORT", DEFAULT_PORT)))
     args = ap.parse_args(argv)
+
+    if args.set_password:
+        # For a server install: the password is set before anyone can reach the page.
+        pw = sys.stdin.readline().strip()
+        if len(pw) < 4:
+            raise SystemExit("password too short")
+        os.makedirs(data_home(), exist_ok=True)
+        Auth(data_home()).set_password(pw)
+        print("password set")
+        return
 
     if already_running(args.port):
         other = running_build(args.port)

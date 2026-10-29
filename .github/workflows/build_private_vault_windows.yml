@@ -7,6 +7,7 @@ on:
   push:
     paths:
       - 'PrivateVault/laptop/**'
+      - 'PrivateVault/cloud/**'
       - '.github/workflows/build_private_vault_windows.yml'
   workflow_dispatch:
 
@@ -53,12 +54,21 @@ jobs:
       - name: Test a one-click update
         run: python khazanti_update_check.py dist/Khazanti.exe
 
+      # Sending to the cloud: ffmpeg is fetched as the program does on first
+      # use, then a 1080p video goes from one vault to another as 720p.
+      - name: Test sending to the cloud
+        run: |
+          python khazanti_ffmpeg_check.py
+          python khazanti_cloud_check.py dist/Khazanti.exe
+
       # The program updates itself from this branch (see UPDATE_SOURCES).
       - name: Publish for one-click updates
         shell: bash
         run: |
           dir="$RUNNER_TEMP/updates"
           mkdir -p "$dir" && cp dist/Khazanti.exe "$dir/"
+          # The cloud server installs and updates itself from the same branch.
+          cp khazanti.py index.html build_info.json ../cloud/install-cloud.sh "$dir/"
           echo "{\"build\": ${{ github.run_number }}, \"exe\": \"Khazanti.exe\"}" > "$dir/latest.json"
           cd "$dir"
           git init -q -b vault-builds-windows
@@ -83,3 +93,27 @@ jobs:
             حمّل Khazanti.exe وشغّله. إذا ظهر «Windows protected your PC» اضغط More info ثم Run anyway.
             عند السؤال عن جدار الحماية اختر السماح للشبكات الخاصة حتى يصل الهاتف إلى الخزنة.
           files: PrivateVault/laptop/dist/Khazanti.exe
+
+  # The cloud install, on a fresh Ubuntu machine, from the files just published.
+  cloud-install:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install as on a cloud server
+        env:
+          KHAZANTI_PASSWORD: test-pass-1234
+        run: |
+          sleep 60   # let the raw files of the new publish be served
+          sudo -E bash PrivateVault/cloud/install-cloud.sh ci-check-khazanti not-a-real-token
+      - name: The vault answers behind the proxy, with its password
+        run: |
+          curl -fsS http://127.0.0.1:47801/api/status
+          code=$(curl -s -o /dev/null -w "%{http_code}" -X POST -H "Content-Type: application/json" \
+            -d '{"password":"test-pass-1234"}' http://127.0.0.1:47801/api/login)
+          test "$code" = 200
+          systemctl is-active khazanti
+          systemctl is-active caddy
+          sudo /usr/local/bin/khazanti-update && echo "update script ran"
+

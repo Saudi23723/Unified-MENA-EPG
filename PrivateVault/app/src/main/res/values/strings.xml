@@ -71,7 +71,7 @@
     <string name="items_count">%d عنصر</string>
     <string name="details_text">الاسم: %1$s\nالنوع: %2$s\nالحجم: %3$s\nتاريخ الإضافة: %4$s</string>
 
-    <string name="laptop">اللابتوب</string>
+    <string name="laptop">اللابتوب والسحابة</string>
     <string name="laptop_loading">جاري الاتصال باللابتوب…</string>
     <string name="laptop_offline">تعذر الوصول إلى اللابتوب.
 تأكد أن خزنتي شغّالة على اللابتوب وأن الهاتف على نفس الواي فاي، ثم اختر «تحديث» من القائمة.</string>
@@ -80,8 +80,10 @@
 اسحب الملفات إلى نافذة خزنتي على اللابتوب.</string>
     <string name="laptop_relink">انتهى الربط، أدخل كلمة السر مرة أخرى</string>
     <string name="laptop_link_title">ربط اللابتوب</string>
-    <string name="laptop_link_help">شغّل خزنتي على اللابتوب، ثم اضغط «بحث تلقائي» أو اكتب العنوان الظاهر في نافذة «الهاتف» على اللابتوب، وكلمة سر خزنة اللابتوب.</string>
-    <string name="laptop_address">عنوان اللابتوب (مثل 192.168.1.5:47801)</string>
+    <string name="laptop_link_help">للابتوب: شغّل خزنتي عليه واضغط «بحث تلقائي» أو اكتب العنوان الظاهر في نافذة «الهاتف».
+للسحابة: اكتب عنوانها (مثل khazanti-me.duckdns.org).
+ثم كلمة سر تلك الخزنة.</string>
+    <string name="laptop_address">العنوان (192.168.1.5 أو khazanti-me.duckdns.org)</string>
     <string name="laptop_password">كلمة سر خزنة اللابتوب</string>
     <string name="laptop_connect">ربط</string>
     <string name="laptop_find">بحث تلقائي</string>

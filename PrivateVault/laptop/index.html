@@ -141,6 +141,7 @@ header .grow { flex: 1; }
     <button id="btnFolder">📁 مجلد جديد</button>
     <button class="primary" id="btnUpload">⬆ إضافة ملفات</button>
     <button id="btnPhone">📱 الهاتف</button>
+    <button id="btnCloud">☁️ السحابة <span id="cloudBadge"></span></button>
     <button id="btnLock">🔒 قفل</button>
     <input type="file" id="fileInput" multiple class="hidden">
   </header>
@@ -701,6 +702,97 @@ $("#btnFolder").onclick = async () => {
   refresh(true);
 };
 $("#btnPhone").onclick = phonePanel;
+$("#btnCloud").onclick = cloudPanel;
+
+// ---------- cloud ----------
+// The originals stay here; the cloud gets 720p copies of the videos, sent
+// with their folders, and files already there are skipped.
+const PHASES = { start: "يبدأ…", index: "يقارن مع السحابة…", ffmpeg: "تحميل أداة الضغط (مرة واحدة)…",
+  shrink: "ضغط الفيديو", upload: "رفع", send: "يرسل…", finished: "انتهى ✅", stopped: "متوقف" };
+function cloudLine(s) {
+  if (!s.phase) return "";
+  let t = PHASES[s.phase] || s.phase;
+  if (s.running && (s.phase === "shrink" || s.phase === "upload")) t += ` ${s.pct}% — ${esc(s.name)}`;
+  else if (s.running && s.phase === "ffmpeg") t += ` ${s.pct}%`;
+  const counts = s.total ? `<br>${s.done} من ${s.total} · أُرسل ${s.sent}` + (s.failed ? ` · تعذر ${s.failed}` : "") +
+    (s.saved ? ` · وُفّر ${fmtSize(s.saved)}` : "") : "";
+  const err = s.error ? `<br><span style="color:var(--danger)">${esc(cloudError(s.error))}</span>` : "";
+  return t + counts + err;
+}
+function cloudError(e) {
+  if (e.includes("expired")) return "انتهى ربط السحابة، اربطها من جديد";
+  if (e.includes("ffmpeg")) return "تعذر تحميل أداة الضغط، تأكد من الإنترنت";
+  return "تعذر الاتصال بالسحابة: " + e;
+}
+let cloudTimer = null;
+async function refreshCloudBadge() {
+  try {
+    const s = await api("/api/cloud");
+    $("#cloudBadge").textContent = s.running ? `${s.done}/${s.total}` : "";
+    return s;
+  } catch (e) { return null; }
+}
+setInterval(refreshCloudBadge, 5000);
+async function cloudPanel() {
+  const s = await refreshCloudBadge();
+  if (!s) return;
+  if (!s.linked) {
+    modal(`<h2>ربط السحابة</h2>
+      <p class="small">عنوان خزنتك على السحابة وكلمة سرها (من خطوات تركيب السيرفر).</p>
+      <form><input id="cUrl" placeholder="مثلاً khazanti-me.duckdns.org" dir="ltr"><br><br>
+      <input id="cPw" type="password" placeholder="كلمة سر خزنة السحابة"><div class="err" id="cErr"></div>
+      <div class="actions"><button class="primary" type="submit">ربط</button><button type="button" id="cNo">إلغاء</button></div></form>`,
+      (w, close) => {
+        w.querySelector("#cNo").onclick = close;
+        w.querySelector("form").onsubmit = async (e) => {
+          e.preventDefault();
+          const err = w.querySelector("#cErr");
+          err.textContent = "جاري الربط…";
+          try {
+            await api("/api/cloud/link", { url: w.querySelector("#cUrl").value, password: w.querySelector("#cPw").value });
+            close(); cloudPanel();
+          } catch (ex) {
+            err.textContent = ex.message.includes("wrong") ? "كلمة السر خاطئة" : "تعذر الوصول إلى هذا العنوان";
+          }
+        };
+      });
+    return;
+  }
+  modal(`<h2>☁️ السحابة</h2>
+    <p class="small" dir="ltr">${esc(s.url)}</p>
+    <p>يرفع كل ما ليس في السحابة بعد، بنفس المجلدات. الأصل يبقى على اللابتوب.</p>
+    <label><input type="checkbox" id="cZip" checked> ضغط الفيديوهات إلى 720p قبل الرفع (أصغر بكثير)</label>
+    <div id="cState" style="margin-top:14px;min-height:44px"></div>
+    <div class="actions">
+      <button class="primary" id="cGo">⬆ رفع الكل إلى السحابة</button>
+      <button id="cStop">إيقاف</button>
+      <button id="cClose">إغلاق</button>
+      <button class="danger" id="cUnlink">إلغاء الربط</button>
+    </div>`,
+    (w, close) => {
+      const paint = (st) => {
+        w.querySelector("#cState").innerHTML = cloudLine(st);
+        w.querySelector("#cGo").disabled = st.running;
+        w.querySelector("#cStop").disabled = !st.running;
+      };
+      paint(s);
+      cloudTimer = setInterval(async () => {
+        if (!document.body.contains(w)) return clearInterval(cloudTimer);
+        const st = await refreshCloudBadge();
+        if (st) paint(st);
+      }, 1500);
+      w.querySelector("#cClose").onclick = close;
+      w.querySelector("#cGo").onclick = async () => {
+        try { paint(await api("/api/cloud/start", { compress: w.querySelector("#cZip").checked })); } catch (e) { toastErr(e); }
+      };
+      w.querySelector("#cStop").onclick = () => api("/api/cloud/stop", {}).catch(() => {});
+      w.querySelector("#cUnlink").onclick = async () => {
+        if (!(await confirmBox("إلغاء ربط السحابة؟ (الملفات في السحابة تبقى)"))) return;
+        await api("/api/cloud/unlink", {}).catch(() => {});
+        close();
+      };
+    });
+}
 $("#search").oninput = (e) => { state.query = e.target.value; render(); };
 $("#sort").value = state.sort;
 $("#sort").onchange = (e) => { state.sort = e.target.value; localSet("sort2", state.sort); render(); };

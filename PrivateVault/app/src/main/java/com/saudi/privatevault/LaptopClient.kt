@@ -39,12 +39,20 @@ object LaptopClient {
         VaultLock.prefs(ctx).edit().remove("laptop_token").apply()
     }
 
-    /** Typed addresses may lack the scheme or the port. */
+    /**
+     * Typed addresses may lack the scheme or the port: a laptop on the home
+     * network is plain http on port 47801, a cloud vault (a name such as
+     * khazanti-me.duckdns.org) is https on the standard port.
+     */
     fun normalize(input: String): String {
         var s = input.trim().trimEnd('/')
-        if (!s.startsWith("http://") && !s.startsWith("https://")) s = "http://$s"
+        if (!s.startsWith("http://") && !s.startsWith("https://")) {
+            val host = s.substringBefore('/').substringBefore(':')
+            val local = host == "localhost" || host.matches(Regex("[0-9.]+"))
+            s = (if (local) "http://" else "https://") + s
+        }
         val uri = Uri.parse(s)
-        if (uri.port == -1) s = "${uri.scheme}://${uri.host}:47801"
+        if (uri.port == -1 && uri.scheme == "http") s = "http://${uri.host}:47801"
         return s
     }
 
