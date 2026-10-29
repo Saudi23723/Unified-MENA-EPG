@@ -852,10 +852,15 @@ class PdfViewerActivity : BaseActivity() {
             Toast.makeText(this, R.string.ai_link_first, Toast.LENGTH_LONG).show()
             return
         }
-        val items = arrayOf(getString(R.string.ai_summary_page), getString(R.string.ai_explain_page), getString(R.string.ai_ask_page))
+        val items = arrayOf(getString(R.string.ai_summary_page), getString(R.string.ai_explain_page),
+            getString(R.string.ai_ask_page), getString(R.string.ai_key_title))
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.ai_title)
             .setItems(items) { _, which ->
+                if (which == 3) {
+                    AiKey.ask(this)
+                    return@setItems
+                }
                 pageText { text ->
                     when (which) {
                         0 -> runAssistant("summary", selected ?: text, "")

@@ -351,41 +351,6 @@ class LaptopActivity : BaseActivity() {
         }
     }
 
-    /** The Gemini key lives on the vault, so every device uses it. */
-    private fun askAiKey() {
-        val input = EditText(this).apply {
-            setSingleLine()
-            hint = "AIza…"
-            inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-        }
-        val pad = (resources.displayMetrics.density * 20).toInt()
-        val box = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-            setPadding(pad, pad / 2, pad, 0)
-            addView(input)
-        }
-        MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.ai_key_title)
-            .setMessage(R.string.ai_key_help)
-            .setView(box)
-            .setPositiveButton(R.string.ok) { _, _ -> saveAiKey(input.text.toString().trim()) }
-            .setNeutralButton(R.string.ai_key_remove) { _, _ -> saveAiKey("") }
-            .setNegativeButton(R.string.cancel, null)
-            .show()
-    }
-
-    private fun saveAiKey(key: String) {
-        lifecycleScope.launch {
-            val st = withContext(Dispatchers.IO) { LaptopClient.setAiKey(this@LaptopActivity, key) }
-            val msg = when {
-                st == null -> getString(R.string.ai_offline)
-                st.optBoolean("gemini") -> getString(R.string.ai_key_saved)
-                else -> getString(R.string.ai_key_removed)
-            } + "\n" + getString(if (st?.optBoolean("local") == true) R.string.ai_local_ready else R.string.ai_local_not_ready)
-            Toast.makeText(this@LaptopActivity, msg, Toast.LENGTH_LONG).show()
-        }
-    }
-
     // ---- sending the phone's vault to the laptop ----
 
     /** The phone file's place on the laptop: the "phone" folder, then its folders on the phone. */
@@ -559,7 +524,7 @@ class LaptopActivity : BaseActivity() {
         when (item.itemId) {
             R.id.l_refresh -> load()
             R.id.l_send_phone -> sendPhoneFiles()
-            R.id.l_ai_key -> askAiKey()
+            R.id.l_ai_key -> AiKey.ask(this)
             R.id.l_unlink -> {
                 LaptopClient.unlink(this)
                 folders = emptyList()
