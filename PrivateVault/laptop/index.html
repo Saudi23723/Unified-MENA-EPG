@@ -144,7 +144,7 @@ header .grow { flex: 1; }
     <button id="btnLock">🔒 قفل</button>
     <input type="file" id="fileInput" multiple class="hidden">
   </header>
-  <div id="updateBar" class="hidden">تحديث جديد لخزنتي متوفر <button class="primary" id="btnUpdate">تحديث الآن</button></div>
+  <div id="updateBar" class="hidden"><span id="updateText">تحديث جديد لخزنتي متوفر</span> <button class="primary" id="btnUpdate">تحديث الآن</button></div>
   <div class="bar" id="filters">
     <button class="chip on" data-f="all">الكل</button>
     <button class="chip" data-f="video">فيديو</button>
@@ -708,6 +708,7 @@ async function checkUpdate() {
   try {
     const u = await api("/api/update");
     $("#updateBar").classList.toggle("hidden", !u.available);
+    if (u.available) $("#updateText").textContent = `تحديث جديد لخزنتي متوفر: نسخة ${u.latest} (عندك ${u.current})`;
   } catch (e) {}
 }
 $("#btnUpdate").onclick = async () => {
