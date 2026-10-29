@@ -424,8 +424,16 @@ let viewList = [], viewIndex = 0;
 function fileUrl(it, dl) { return "/api/file/" + encodeURIComponent(it.id) + (dl ? "?download=1" : ""); }
 function download(it) { const a = document.createElement("a"); a.href = fileUrl(it, true); a.download = it.name; a.click(); }
 
-function openItem(it) {
-  const k = kindOf(it);
+const OFFICE_EXT = ["doc","docx","odt","rtf","ppt","pptx","odp","xls","xlsx","ods","pages"];
+async function openItem(it) {
+  let k = kindOf(it);
+  if (k === "other" && OFFICE_EXT.includes((it.name.split(".").pop() || "").toLowerCase())) {
+    // Read Word, PowerPoint and Excel as PDF where this vault can convert them.
+    try {
+      const r = await fetch("/api/pdf/" + encodeURIComponent(it.id), { method: "HEAD" });
+      if (r.ok) { viewList = [it]; viewIndex = 0; return showView(true); }
+    } catch (e) {}
+  }
   if (k === "other") return download(it);
   // Videos and audio play on through the rest of the folder; pictures page through it.
   const same = (x) => (k === "video" || k === "audio") ? ["video", "audio"].includes(kindOf(x)) : kindOf(x) === k;
@@ -434,8 +442,8 @@ function openItem(it) {
   viewIndex = viewList.indexOf(it);
   showView();
 }
-function showView() {
-  const it = viewList[viewIndex], k = kindOf(it), body = $("#vBody");
+function showView(asPdf) {
+  const it = viewList[viewIndex], k = asPdf === true ? "pdf" : kindOf(it), body = $("#vBody");
   $("#viewer").classList.remove("hidden");
   $("#vTitle").textContent = it.name + (viewList.length > 1 ? `  (${viewIndex + 1}/${viewList.length})` : "");
   $("#vPrev").disabled = viewIndex <= 0;
@@ -452,7 +460,7 @@ function showView() {
   } else if (k === "image") {
     const img = document.createElement("img"); img.src = fileUrl(it); body.appendChild(img);
   } else {
-    const f = document.createElement("iframe"); f.src = fileUrl(it); body.appendChild(f);
+    const f = document.createElement("iframe"); f.src = asPdf === true ? "/api/pdf/" + encodeURIComponent(it.id) : fileUrl(it); body.appendChild(f);
     applyMode();
   }
   body.classList.remove("withToc");
@@ -467,7 +475,7 @@ function showView() {
 function pdfAt(it, page) {
   const old = $("#vBody iframe");
   const f = document.createElement("iframe");
-  f.src = fileUrl(it) + "#page=" + page;
+  f.src = (old ? old.getAttribute("src").split("#")[0] : fileUrl(it)) + "#page=" + page;
   old.replaceWith(f);
   applyMode();
 }

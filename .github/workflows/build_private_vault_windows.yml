@@ -117,4 +117,14 @@ jobs:
           systemctl is-active khazanti
           systemctl is-active caddy
           sudo /usr/local/bin/khazanti-update && echo "update script ran"
+      - name: A Word file comes back as PDF
+        run: |
+          token=$(curl -fsS -X POST -H "Content-Type: application/json" -d '{"password":"test-pass-1234"}' \
+            http://127.0.0.1:47801/api/login | python3 -c 'import json,sys;print(json.load(sys.stdin)["token"])')
+          printf 'Four forces of flight\nLift, weight, thrust, drag\n' > notes.txt
+          soffice --headless --convert-to docx notes.txt >/dev/null
+          id=$(curl -fsS -X PUT -H "Authorization: Bearer $token" --data-binary @notes.docx \
+            "http://127.0.0.1:47801/api/upload?name=notes.docx" | python3 -c 'import json,sys;print(json.load(sys.stdin)["id"])')
+          curl -fsS -H "Authorization: Bearer $token" "http://127.0.0.1:47801/api/pdf/$id" -o out.pdf
+          head -c 4 out.pdf | grep -q '%PDF' && echo "word to pdf works on the cloud server"
 

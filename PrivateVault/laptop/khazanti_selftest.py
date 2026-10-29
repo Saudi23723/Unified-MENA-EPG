@@ -2,6 +2,7 @@
 
 import json
 import os
+import shutil
 import socket
 import subprocess
 import sys
@@ -153,6 +154,22 @@ def main():
         assert [i["name"] for i in idx["items"]] == ["ملاحظات.txt"]
         assert not os.path.exists(clip_path)
         assert idx["rev"] > rev_before
+
+        # Word files come back as PDF where LibreOffice is installed.
+        if shutil.which("soffice"):
+            src = os.path.join(home, "letter.txt")
+            with open(src, "w") as f:
+                f.write("Lift and drag\nFour forces of flight\n")
+            subprocess.run(["soffice", "--headless", "--convert-to", "docx", "--outdir", home, src],
+                           capture_output=True, timeout=180)
+            with open(os.path.join(home, "letter.docx"), "rb") as f:
+                st, data, _ = c.call("PUT", "/api/upload?name=letter.docx", raw=f.read())
+            doc = json.loads(data)
+            st, data, h = c.call("GET", f"/api/pdf/{doc['id']}")
+            assert st == 200 and data.startswith(b"%PDF") and h["Content-Type"] == "application/pdf", (st, data[:20])
+            assert c.call("GET", f"/api/pdf/{notes['id']}")[0] == 415
+            c.json("POST", "/api/delete", {"kind": "item", "id": doc["id"]})
+            print("word to pdf works")
 
         # Running from source never offers to update itself. The built program
         # must reach the update source from inside the .exe (network and TLS).

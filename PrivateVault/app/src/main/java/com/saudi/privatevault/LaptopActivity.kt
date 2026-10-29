@@ -255,6 +255,20 @@ class LaptopActivity : BaseActivity() {
             return
         }
         val dir = laptopCache().apply { mkdirs() }
+        if (LaptopClient.isOffice(item.name) && !item.name.startsWith("~")) {
+            // Word, PowerPoint, Excel: read as PDF, with the pen and the contents.
+            val pdf = File(dir, item.id + ".pdf")
+            fetch(item, pdf, asPdf = true, onNoConverter = { openOther(item, dir) }) {
+                val local = VaultItem("laptop:" + item.id, item.name, pdf.absolutePath, "application/pdf", pdf.length(), item.added, null)
+                VaultStore.viewOnly(local)
+                startActivity(Intent(this, PdfViewerActivity::class.java).putExtra(Viewers.EXTRA_ID, local.id))
+            }
+            return
+        }
+        openOther(item, dir)
+    }
+
+    private fun openOther(item: VaultItem, dir: File) {
         val ext = item.name.substringAfterLast('.', "").lowercase()
         val target = File(dir, item.id + if (ext.isNotEmpty() && ext.length <= 6) ".$ext" else "")
         fetch(item, target) {
@@ -272,29 +286,45 @@ class LaptopActivity : BaseActivity() {
     }
 
     /** Downloads with a progress dialog, then runs [done] on the main thread. */
-    private fun fetch(item: VaultItem, target: File, done: () -> Unit) {
-        if (target.exists() && target.length() == item.size) {
+    private fun fetch(
+        item: VaultItem,
+        target: File,
+        asPdf: Boolean = false,
+        onNoConverter: (() -> Unit)? = null,
+        done: () -> Unit,
+    ) {
+        if (target.exists() && (asPdf || target.length() == item.size)) {
             done()
             return
         }
         val dialog = MaterialAlertDialogBuilder(this)
             .setTitle(item.name)
-            .setMessage(getString(R.string.downloading, 0))
+            .setMessage(getString(if (asPdf) R.string.converting else R.string.downloading, 0))
             .setCancelable(false)
             .show()
         lifecycleScope.launch {
-            val ok = withContext(Dispatchers.IO) {
+            // 0 done, 1 failed, 2 this vault cannot make a PDF.
+            val result = withContext(Dispatchers.IO) {
                 try {
-                    LaptopClient.download(this@LaptopActivity, item.id, target) { pct ->
+                    LaptopClient.download(this@LaptopActivity, item.id, target, asPdf) { pct ->
                         runOnUiThread { dialog.setMessage(getString(R.string.downloading, pct)) }
                     }
-                    true
+                    0
+                } catch (e: LaptopClient.NoConverter) {
+                    2
                 } catch (e: IOException) {
-                    false
+                    1
                 }
             }
             dialog.dismiss()
-            if (ok) done() else Toast.makeText(this@LaptopActivity, R.string.download_failed, Toast.LENGTH_LONG).show()
+            when {
+                result == 0 -> done()
+                result == 2 && onNoConverter != null -> {
+                    Toast.makeText(this@LaptopActivity, R.string.no_converter, Toast.LENGTH_LONG).show()
+                    onNoConverter()
+                }
+                else -> Toast.makeText(this@LaptopActivity, R.string.download_failed, Toast.LENGTH_LONG).show()
+            }
         }
     }
 

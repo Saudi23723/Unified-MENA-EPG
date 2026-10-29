@@ -33,6 +33,11 @@ apt-get update -q
 apt-get install -y -q python3 python3-venv curl ca-certificates gnupg debian-keyring debian-archive-keyring \
   apt-transport-https iptables-persistent
 
+# Word, PowerPoint and Excel are shown as PDF; these fonts keep their layout,
+# Arabic included (Carlito and Caladea stand in for Calibri and Cambria).
+OFFICE_PKGS="libreoffice-writer-nogui libreoffice-calc-nogui libreoffice-impress-nogui fonts-liberation fonts-dejavu-core fonts-noto-core fonts-crosextra-carlito fonts-crosextra-caladea"
+apt-get install -y -q --no-install-recommends $OFFICE_PKGS
+
 echo "== 2/7 Caddy (HTTPS) =="
 if ! command -v caddy >/dev/null; then
   curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | gpg --dearmor --yes -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
@@ -65,6 +70,7 @@ cat > /usr/local/bin/khazanti-update <<UPD
 #!/bin/sh
 # Daily: take the newest published vault code, restart if it changed.
 set -e
+command -v soffice >/dev/null || apt-get install -y -q --no-install-recommends $OFFICE_PKGS
 latest=\$(curl -fsSL "$BASE/latest.json?t=\$(date +%s)" | python3 -c 'import json,sys;print(json.load(sys.stdin)["build"])')
 mine=\$(python3 -c 'import json;print(json.load(open("$APP/build_info.json"))["build"])' 2>/dev/null || echo 0)
 [ "\$latest" -gt "\$mine" ] || exit 0

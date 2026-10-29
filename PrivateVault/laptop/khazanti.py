@@ -789,6 +789,69 @@ class CloudSync:
             self._set(running=False, phase="stopped" if self.stop_flag else "finished", pct=0)
 
 
+# ---- Word, PowerPoint and Excel as PDF ----
+#
+# The phone reads documents in its PDF reader (pen, highlighter, contents),
+# so office files are turned into a PDF once, with LibreOffice where it is
+# installed (the cloud server installs it), and the PDF is kept.
+
+OFFICE_EXT = {".doc", ".docx", ".odt", ".rtf", ".ppt", ".pptx", ".odp", ".xls", ".xlsx", ".ods", ".pages"}
+
+
+def find_soffice():
+    found = shutil.which("soffice") or shutil.which("libreoffice")
+    if found:
+        return found
+    for base in (os.environ.get("ProgramFiles"), os.environ.get("ProgramFiles(x86)")):
+        if base:
+            p = os.path.join(base, "LibreOffice", "program", "soffice.exe")
+            if os.path.exists(p):
+                return p
+    return None
+
+
+class Converter:
+    def __init__(self, home):
+        self.dir = os.path.join(home, "converted")
+        self.profile = os.path.join(home, "lo-profile")
+        self.lock = threading.Lock()
+
+    @staticmethod
+    def wants(item) -> bool:
+        return os.path.splitext(item["name"])[1].lower() in OFFICE_EXT
+
+    def pdf_for(self, vault, item):
+        """The PDF of an office file, made on first use; None when it cannot be made here."""
+        out = os.path.join(self.dir, item["id"] + ".pdf")
+        if os.path.exists(out):
+            return out
+        soffice = find_soffice()
+        if not soffice:
+            return None
+        os.makedirs(self.dir, exist_ok=True)
+        src = vault.path_of(item)
+        work = os.path.join(self.dir, item["id"] + ".work")
+        os.makedirs(work, exist_ok=True)
+        # LibreOffice reads the type from the name, so give the copy its real extension.
+        named = os.path.join(work, "document" + os.path.splitext(item["name"])[1].lower())
+        try:
+            shutil.copyfile(src, named)
+            with self.lock:  # one LibreOffice at a time
+                profile = "file:///" + self.profile.replace("\\", "/").lstrip("/")
+                subprocess.run([soffice, "-env:UserInstallation=" + profile, "--headless", "--norestore",
+                                "--convert-to", "pdf", "--outdir", work, named],
+                               capture_output=True, timeout=300, creationflags=NO_WINDOW)
+            made = os.path.join(work, "document.pdf")
+            if not os.path.exists(made) or os.path.getsize(made) == 0:
+                return None
+            os.replace(made, out)
+            return out
+        except Exception:
+            return None
+        finally:
+            shutil.rmtree(work, ignore_errors=True)
+
+
 class App:
     def __init__(self, home: str, port: int):
         os.makedirs(home, exist_ok=True)
@@ -797,6 +860,7 @@ class App:
         self.pdf_indexes = PdfIndexes(home)
         self.port = port
         self.cloud = CloudSync(self)
+        self.converter = Converter(home)
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -919,6 +983,17 @@ class Handler(BaseHTTPRequestHandler):
                 return self._error(404, "not found")
             index = self.app.pdf_indexes.get(self.app.vault, item)
             return self._json(index if index is not None else {"working": True})
+        if path.startswith("/api/pdf/"):
+            item = self.app.vault.item(path[len("/api/pdf/"):])
+            if item is None:
+                return self._error(404, "not found")
+            if not Converter.wants(item):
+                return self._error(415, "not an office document")
+            pdf = self.app.converter.pdf_for(self.app.vault, item)
+            if pdf is None:
+                return self._error(501, "no converter on this computer")
+            name = os.path.splitext(item["name"])[0] + ".pdf"
+            return self._send_file(dict(item, mime="application/pdf", name=name), False, pdf)
         if path.startswith("/api/file/"):
             item = self.app.vault.item(path[len("/api/file/"):])
             if item is None:
@@ -1039,8 +1114,8 @@ class Handler(BaseHTTPRequestHandler):
         item = self.app.vault.add_upload(parts[-1], folder, self.rfile, length, src)
         self._json(item)
 
-    def _send_file(self, item, download):
-        path = self.app.vault.path_of(item)
+    def _send_file(self, item, download, path=None):
+        path = path or self.app.vault.path_of(item)
         try:
             size = os.path.getsize(path)
         except OSError:

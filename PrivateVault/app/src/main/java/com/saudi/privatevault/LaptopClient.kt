@@ -31,6 +31,13 @@ object LaptopClient {
 
     class NotAuthorized : IOException("not authorized")
 
+    /** The vault cannot turn this file into a PDF (no LibreOffice there). */
+    class NoConverter : IOException("no converter")
+
+    private val OFFICE = setOf("doc", "docx", "odt", "rtf", "ppt", "pptx", "odp", "xls", "xlsx", "ods", "pages")
+
+    fun isOffice(name: String) = name.substringAfterLast('.', "").lowercase() in OFFICE
+
     fun url(ctx: Context): String? = VaultLock.prefs(ctx).getString("laptop_url", null)
     private fun token(ctx: Context): String? = VaultLock.prefs(ctx).getString("laptop_token", null)
     fun isLinked(ctx: Context) = url(ctx) != null && token(ctx) != null
@@ -145,10 +152,14 @@ object LaptopClient {
         "${url(ctx)}/api/file/${Uri.encode(id)}?t=${Uri.encode(token(ctx) ?: "")}"
 
     /** Copies one laptop file to [target], reporting progress from 0 to 100. */
-    fun download(ctx: Context, id: String, target: File, progress: (Int) -> Unit) {
-        val conn = open(fileUrl(ctx, id), null)
+    fun download(ctx: Context, id: String, target: File, asPdf: Boolean = false, progress: (Int) -> Unit) {
+        val url = if (asPdf) "${url(ctx)}/api/pdf/${Uri.encode(id)}?t=${Uri.encode(token(ctx) ?: "")}" else fileUrl(ctx, id)
+        val conn = open(url, null)
+        // Turning a long document into a PDF can take a while the first time.
+        if (asPdf) conn.readTimeout = 300000
         try {
             if (conn.responseCode == 401) throw NotAuthorized()
+            if (conn.responseCode == 501 || conn.responseCode == 415) throw NoConverter()
             if (conn.responseCode != 200) throw IOException("HTTP ${conn.responseCode}")
             val total = conn.contentLengthLong
             val tmp = File(target.path + ".part")
