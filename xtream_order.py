@@ -72,6 +72,8 @@ GROUP_LEADS = [
                             r"^DMC\b(?!.*DRAMA)", r"^DMC\s*DRAMA", r"^NILE\b", r"^SADA\s*(EL|AL)\s*BA?LA?D"]),
     (r"^UK\b.*NEWS", [r"BBC WORLD"]),
     (r"AUSTRALIA|ᴀᴜꜱᴛʀᴀʟɪᴀ", [r"\bESPN\b", r"\bFOX\b"]),  # owner: ESPN and Fox first in Australia
+    # owner, 28 Oct 2026: Sky Sports, then TNT Sports right after, then MUTV, then the rest
+    (r"SKY SPORTS\s*🔺\s*TNT", [r"^(UK:?\s*)?SKY\s*SPORTS?\b", r"^(NOW\s*|D\+\s*|UK:?\s*)?TNT\b", r"\bMUTV\b"]),
     (r"^UK\b|^SPORTS$|^NOW TV$", [r"^(UK:?\s*)?SKY ?SPORTS?\b", r"^(UK:?\s*)?TNT ?SPORTS?\b", r"\bMUTV\b"]),
 ]
 
