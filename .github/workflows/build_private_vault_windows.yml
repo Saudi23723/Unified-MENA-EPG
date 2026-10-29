@@ -56,10 +56,11 @@ jobs:
 
       # Sending to the cloud: ffmpeg is fetched as the program does on first
       # use, then a 1080p video goes from one vault to another as 720p.
+      - name: Fetch ffmpeg as the program does
+        run: python khazanti_ffmpeg_check.py
+
       - name: Test sending to the cloud
-        run: |
-          python khazanti_ffmpeg_check.py
-          python khazanti_cloud_check.py dist/Khazanti.exe
+        run: python khazanti_cloud_check.py dist/Khazanti.exe
 
       # The program updates itself from this branch (see UPDATE_SOURCES).
       - name: Publish for one-click updates
