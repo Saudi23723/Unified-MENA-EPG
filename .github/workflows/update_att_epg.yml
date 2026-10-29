@@ -45,7 +45,7 @@ jobs:
       - name: Bring back any build GitHub has let die
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: bash tools/revive_workflows.sh update_today_matches.yml update_all_epg.yml:30
+        run: bash tools/revive_workflows.sh update_today_matches.yml update_all_epg.yml:30 live_patch.yml:30
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
