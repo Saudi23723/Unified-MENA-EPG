@@ -31,6 +31,17 @@ def clean(n):
 def main(playlist, out):
     host = os.environ.get("PROVIDER_HOST", "").rstrip("/")
     user, pw = os.environ.get("PROVIDER_USER", ""), os.environ.get("PROVIDER_PASS", "")
+    # or one secret with the whole playlist link: http://host/get.php?username=..&password=..&type=m3u_plus
+    link = os.environ.get("PROVIDER_URL", "").strip()
+    if link and not (user and pw):
+        u = urllib.parse.urlsplit(link)
+        q0 = urllib.parse.parse_qs(u.query)
+        host = f"{u.scheme}://{u.netloc}"
+        user, pw = (q0.get("username") or [""])[0], (q0.get("password") or [""])[0]
+        if not (user and pw):  # http://host/live/user/pass/... style
+            parts = [x for x in u.path.split("/") if x]
+            if len(parts) >= 3 and parts[0] in ("live", "movie", "series"):
+                user, pw = parts[1], parts[2]
     if not (host and user and pw):
         print("login secrets not set - nothing done")
         return 0

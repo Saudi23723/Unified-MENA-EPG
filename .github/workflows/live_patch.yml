@@ -29,6 +29,7 @@ jobs:
           PROVIDER_HOST: ${{ secrets.STRONG_HOST }}
           PROVIDER_USER: ${{ secrets.STRONG_USER }}
           PROVIDER_PASS: ${{ secrets.STRONG_PASS }}
+          PROVIDER_URL: ${{ secrets.STRONG_URL }}
         run: |
           set +e
           python tools/live_patch.py strong _patch/strong.json > _msg.txt 2>&1
