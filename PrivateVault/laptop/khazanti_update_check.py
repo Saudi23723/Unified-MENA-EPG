@@ -59,8 +59,8 @@ def main():
     target = update["latest"]
     applied = call("POST", "/api/update/apply", {}, token=token, timeout=180)
     print("applied:", applied)
-    # The old process exits, the file is swapped, the new one starts by itself.
-    wait(lambda: status() is None, 60, "the old copy to exit")
+    # The old process exits, the file is swapped, the new one starts by itself
+    # (quickly enough that the port may never look free between two looks).
     # The published build may lag behind a cached copy by one; any published
     # build other than this one, running by itself, shows the swap worked.
     wait(lambda: (status() or {}).get("build") not in (None, before), 120, f"build {target} to start by itself")
