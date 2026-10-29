@@ -1,37 +1,19 @@
 name: Probe aviation data sources
-
-# One-off check of which public FAA and NOAA sources answer, to build the
-# map on. Runs only when this file changes.
-
 on:
   push:
     paths:
       - '.github/workflows/probe_aviation_sources.yml'
-
 jobs:
   probe:
     runs-on: ubuntu-latest
     steps:
-      - name: FAA tile services
+      - name: Airport codes and chart zooms
         run: |
-          echo "== list =="; curl -sS -m 30 "https://tiles.arcgis.com/tiles/ssFJjBXIUyZDrSYZ/arcgis/rest/services?f=json" | head -c 3000; echo
-          # A tile over Boulder City / Las Vegas at zoom 10 (x=180, y=405).
-          for s in VFR_Sectional VFR_Terminal IFR_AreaLow IFR_High IFR_Low; do
-            code=$(curl -sS -m 30 -o t.bin -w "%{http_code} %{content_type}" "https://tiles.arcgis.com/tiles/ssFJjBXIUyZDrSYZ/arcgis/rest/services/$s/MapServer/tile/10/405/180")
-            echo "$s -> $code $(stat -c %s t.bin) bytes"
-            curl -sS -m 30 "https://tiles.arcgis.com/tiles/ssFJjBXIUyZDrSYZ/arcgis/rest/services/$s/MapServer?f=json" | head -c 600; echo
+          Q="https://services6.arcgis.com/ssFJjBXIUyZDrSYZ/arcgis/rest/services/US_Airport/FeatureServer/0/query"
+          curl -sS -m 30 "$Q?where=STATE%3D%27NV%27&outFields=TYPE_CODE,PRIVATEUSE&returnDistinctValues=true&returnGeometry=false&f=json" | head -c 1500; echo
+          curl -sS -m 30 "$Q?where=STATE%3D%27NV%27%20AND%20TYPE_CODE%3D%27AD%27%20AND%20PRIVATEUSE%3D0&returnCountOnly=true&f=json"; echo
+          curl -sS -m 30 "$Q?where=STATE%3D%27CA%27%20AND%20TYPE_CODE%3D%27AD%27%20AND%20PRIVATEUSE%3D0&outFields=IDENT,ICAO_ID,NAME,ELEVATION,SERVCITY&returnGeometry=true&outSR=4326&f=json&resultRecordCount=2" | head -c 1500; echo
+          for s in VFR_Sectional VFR_Terminal IFR_AreaLow; do
+            echo "$s:"; curl -sS -m 30 "https://tiles.arcgis.com/tiles/ssFJjBXIUyZDrSYZ/arcgis/rest/services/$s/MapServer?f=json" | python3 -c 'import json,sys;d=json.load(sys.stdin);l=d["tileInfo"]["lods"];print("levels",l[0]["level"],"-",l[-1]["level"],"rows",d["tileInfo"]["rows"],"fmt",d["tileInfo"]["format"])'
           done
-      - name: Airports and airspace feature services
-        run: |
-          curl -sS -m 30 "https://services6.arcgis.com/ssFJjBXIUyZDrSYZ/arcgis/rest/services?f=json" | head -c 4000; echo
-          curl -sS -m 30 "https://services6.arcgis.com/ssFJjBXIUyZDrSYZ/arcgis/rest/services/US_Airport/FeatureServer/0/query?where=IDENT%3D%27BVU%27&outFields=*&f=json" | head -c 2500; echo
-      - name: Weather
-        run: |
-          curl -sS -m 30 "https://aviationweather.gov/api/data/metar?ids=KBVU,KLAS,KHND&format=json" | head -c 1500; echo
-          curl -sS -m 30 "https://aviationweather.gov/api/data/taf?ids=KLAS&format=json" | head -c 800; echo
-          curl -sS -m 30 -o /dev/null -w "rainviewer %{http_code}\n" "https://api.rainviewer.com/public/weather-maps.json"
-      - name: FAA product release API and basemaps
-        run: |
-          curl -sS -m 30 "https://external-api.faa.gov/apra/vfr/sectional/chart?geoname=Las_Vegas&edition=current&format=tiff" | head -c 800; echo
-          curl -sS -m 30 -o /dev/null -w "esri topo %{http_code} %{content_type}\n" "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/10/405/180"
-          curl -sS -m 30 -o /dev/null -w "esri imagery %{http_code} %{content_type}\n" "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/10/405/180"
+          for z in 12 13; do curl -sS -m 30 -o t.bin -w "TAC z$z %{http_code} " "https://tiles.arcgis.com/tiles/ssFJjBXIUyZDrSYZ/arcgis/rest/services/VFR_Terminal/MapServer/tile/$z/$((1622*2**(z-12)))/$((723*2**(z-12)))"; stat -c %s t.bin; done
