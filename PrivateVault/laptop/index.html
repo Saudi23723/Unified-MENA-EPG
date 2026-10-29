@@ -1,0 +1,623 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>خزنتي</title>
+<style>
+:root {
+  --bg: #f4f5fb; --card: #fff; --text: #1c1d24; --muted: #6b6f80; --line: #e2e4ee;
+  --brand: #3f51b5; --brand-soft: #e8eaf6; --danger: #d32f2f; --shadow: 0 1px 3px rgba(0,0,0,.08);
+  --folder: #f9a825; --video: #e53935; --doc: #1e88e5; --image: #43a047;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #14151b; --card: #1e2029; --text: #ecedf3; --muted: #9a9eb0; --line: #2d303c;
+    --brand: #8c9eff; --brand-soft: #262a40; --shadow: none; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text);
+  font: 15px/1.5 "Segoe UI", Tahoma, Arial, sans-serif; }
+button, input, select { font: inherit; color: inherit; }
+button { cursor: pointer; border: 0; border-radius: 10px; padding: 8px 14px; background: var(--brand-soft); }
+button.primary { background: var(--brand); color: #fff; }
+button.danger { color: var(--danger); }
+button:disabled { opacity: .5; cursor: default; }
+input, select { border: 1px solid var(--line); background: var(--card); border-radius: 10px; padding: 8px 12px; }
+.hidden { display: none !important; }
+
+/* lock screen */
+#lock { min-height: 100vh; display: grid; place-items: center; }
+#lock .box { background: var(--card); padding: 32px; border-radius: 18px; box-shadow: var(--shadow);
+  width: min(360px, 92vw); text-align: center; }
+#lock h1 { margin: 8px 0 4px; font-size: 24px; }
+#lock p { color: var(--muted); margin: 0 0 18px; }
+#lock input { width: 100%; margin-bottom: 10px; text-align: center; }
+#lock button { width: 100%; padding: 10px; }
+.err { color: var(--danger); min-height: 22px; margin-top: 8px; }
+
+/* main */
+header { position: sticky; top: 0; z-index: 5; background: var(--card); box-shadow: var(--shadow);
+  padding: 10px 18px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+header h1 { font-size: 20px; margin: 0 0 0 12px; display: flex; align-items: center; gap: 8px; }
+header .grow { flex: 1; }
+#search { width: 220px; }
+.bar { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; padding: 12px 18px 0; }
+.chip { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 5px 14px; }
+.chip.on { background: var(--brand); color: #fff; border-color: var(--brand); }
+#crumbs { padding: 12px 18px 0; display: flex; gap: 4px; flex-wrap: wrap; align-items: center; color: var(--muted); }
+#crumbs a { color: var(--brand); cursor: pointer; padding: 2px 6px; border-radius: 6px; }
+#crumbs a.drop { background: var(--brand-soft); }
+#grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px; padding: 14px 18px 120px; }
+.card { background: var(--card); border-radius: 14px; box-shadow: var(--shadow); padding: 14px 12px 10px;
+  cursor: pointer; position: relative; border: 2px solid transparent; user-select: none; }
+.card:hover { border-color: var(--line); }
+.card.drop { border-color: var(--brand); background: var(--brand-soft); }
+.card .ic { width: 48px; height: 48px; margin: 4px auto 8px; display: block; }
+.card .nm { font-weight: 600; text-align: center; word-break: break-word; display: -webkit-box;
+  -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 2.9em; }
+.card .meta { color: var(--muted); font-size: 12px; text-align: center; margin-top: 2px; }
+.card .more { position: absolute; top: 6px; left: 6px; background: transparent; padding: 2px 8px; font-size: 18px;
+  color: var(--muted); }
+#empty { text-align: center; color: var(--muted); padding: 60px 20px; font-size: 17px; }
+
+/* drop overlay, uploads, menus, dialogs */
+#dropzone { position: fixed; inset: 0; background: rgba(63,81,181,.18); border: 4px dashed var(--brand);
+  display: grid; place-items: center; font-size: 26px; font-weight: 700; color: var(--brand); z-index: 20;
+  pointer-events: none; }
+#uploads { position: fixed; bottom: 16px; left: 16px; width: 340px; max-height: 50vh; overflow: auto;
+  background: var(--card); border-radius: 14px; box-shadow: 0 6px 24px rgba(0,0,0,.18); z-index: 15; padding: 10px 14px; }
+#uploads .row { font-size: 13px; margin: 6px 0; }
+#uploads .row .n { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#uploads progress { width: 100%; height: 6px; }
+#menu { position: fixed; z-index: 30; background: var(--card); border-radius: 12px; box-shadow: 0 6px 24px rgba(0,0,0,.2);
+  padding: 6px; min-width: 170px; }
+#menu button { display: block; width: 100%; text-align: right; background: transparent; padding: 8px 12px; }
+#menu button:hover { background: var(--brand-soft); }
+.modal { position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 40; display: grid; place-items: center; }
+.modal .box { background: var(--card); border-radius: 16px; padding: 20px; width: min(460px, 94vw); max-height: 90vh; overflow: auto; }
+.modal h2 { margin: 0 0 12px; font-size: 18px; }
+.modal .actions { display: flex; gap: 8px; justify-content: flex-start; margin-top: 16px; }
+.modal input { width: 100%; }
+.modal .list button { display: block; width: 100%; text-align: right; margin: 4px 0; background: var(--bg); }
+#viewer { position: fixed; inset: 0; background: #000; z-index: 50; display: flex; flex-direction: column; }
+#viewer .top { display: flex; align-items: center; gap: 10px; padding: 8px 12px; color: #fff; background: #111; }
+#viewer .top .t { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#viewer .top button { background: #2a2a2a; color: #fff; }
+#viewer .body { flex: 1; display: grid; place-items: center; overflow: hidden; }
+#viewer video, #viewer img { max-width: 100%; max-height: 100%; }
+#viewer iframe { width: 100%; height: 100%; border: 0; background: #fff; }
+.addr { font-family: Consolas, monospace; font-size: 17px; background: var(--bg); padding: 6px 10px; border-radius: 8px;
+  display: inline-block; margin: 3px 0; direction: ltr; }
+.small { color: var(--muted); font-size: 13px; }
+.dev { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--line); }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="i-folder" viewBox="0 0 24 24"><path fill="var(--folder)" d="M10,4H4c-1.1,0 -2,0.9 -2,2v12c0,1.1 0.9,2 2,2h16c1.1,0 2,-0.9 2,-2V8c0,-1.1 -0.9,-2 -2,-2h-8l-2,-2z"/></symbol>
+  <symbol id="i-video" viewBox="0 0 24 24"><path fill="var(--video)" d="M18,4l2,4h-3l-2,-4h-2l2,4h-3l-2,-4H8l2,4H7L5,4H4c-1.1,0 -2,0.9 -2,2v12c0,1.1 0.9,2 2,2h16c1.1,0 2,-0.9 2,-2V4h-4z"/></symbol>
+  <symbol id="i-audio" viewBox="0 0 24 24"><path fill="var(--video)" d="M12,3v10.55c-0.59,-0.34 -1.27,-0.55 -2,-0.55 -2.21,0 -4,1.79 -4,4s1.79,4 4,4 4,-1.79 4,-4V7h4V3h-6z"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><path fill="var(--image)" d="M21,19V5c0,-1.1 -0.9,-2 -2,-2H5c-1.1,0 -2,0.9 -2,2v14c0,1.1 0.9,2 2,2h14c1.1,0 2,-0.9 2,-2zM8.5,13.5l2.5,3.01L14.5,12l4.5,6H5l3.5,-4.5z"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path fill="var(--doc)" d="M14,2H6c-1.1,0 -2,0.9 -2,2v16c0,1.1 0.89,2 2,2h12c1.1,0 2,-0.9 2,-2V8l-6,-6zM16,18H8v-2h8v2zM16,14H8v-2h8v2zM13,9V3.5L18.5,9H13z"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><path fill="var(--brand)" d="M18,8h-1V6c0,-2.76 -2.24,-5 -5,-5S7,3.24 7,6v2H6c-1.1,0 -2,0.9 -2,2v10c0,1.1 0.9,2 2,2h12c1.1,0 2,-0.9 2,-2V10c0,-1.1 -0.9,-2 -2,-2zM12,17c-1.1,0 -2,-0.9 -2,-2s0.9,-2 2,-2 2,0.9 2,2 -0.9,2 -2,2zM15.1,8H8.9V6c0,-1.71 1.39,-3.1 3.1,-3.1 1.71,0 3.1,1.39 3.1,3.1v2z"/></symbol>
+</svg>
+
+<section id="lock" class="hidden">
+  <form class="box" id="lockForm">
+    <svg class="ic" width="64" height="64"><use href="#i-lock"/></svg>
+    <h1>خزنتي</h1>
+    <p id="lockMsg">أدخل كلمة السر</p>
+    <input type="password" id="pw1" autocomplete="current-password" placeholder="كلمة السر" autofocus>
+    <input type="password" id="pw2" class="hidden" autocomplete="new-password" placeholder="أعد كتابة كلمة السر">
+    <button class="primary" type="submit" id="lockBtn">فتح</button>
+    <div class="err" id="lockErr"></div>
+  </form>
+</section>
+
+<section id="main" class="hidden">
+  <header>
+    <h1><svg width="26" height="26"><use href="#i-lock"/></svg> خزنتي</h1>
+    <input id="search" type="search" placeholder="بحث…">
+    <select id="sort" title="الترتيب">
+      <option value="new">الأحدث أولاً</option>
+      <option value="old">الأقدم أولاً</option>
+      <option value="name">حسب الاسم</option>
+      <option value="size">حسب الحجم</option>
+    </select>
+    <span class="grow"></span>
+    <button id="btnFolder">📁 مجلد جديد</button>
+    <button class="primary" id="btnUpload">⬆ إضافة ملفات</button>
+    <button id="btnPhone">📱 الهاتف</button>
+    <button id="btnLock">🔒 قفل</button>
+    <input type="file" id="fileInput" multiple class="hidden">
+  </header>
+  <div class="bar" id="filters">
+    <button class="chip on" data-f="all">الكل</button>
+    <button class="chip" data-f="video">فيديو</button>
+    <button class="chip" data-f="docs">مستندات</button>
+    <button class="chip" data-f="images">صور</button>
+  </div>
+  <nav id="crumbs"></nav>
+  <div id="grid"></div>
+  <div id="empty" class="hidden"></div>
+</section>
+
+<div id="dropzone" class="hidden">أفلت الملفات أو المجلدات هنا لإضافتها</div>
+<div id="uploads" class="hidden"></div>
+<div id="menu" class="hidden"></div>
+
+<div id="viewer" class="hidden">
+  <div class="top">
+    <span class="t" id="vTitle"></span>
+    <button id="vPrev">السابق</button>
+    <button id="vNext">التالي</button>
+    <button id="vDownload">حفظ نسخة</button>
+    <button id="vClose">✕ إغلاق</button>
+  </div>
+  <div class="body" id="vBody"></div>
+</div>
+
+<script>
+"use strict";
+const $ = (s) => document.querySelector(s);
+const state = { folders: [], items: [], rev: -1, folder: null, filter: "all", query: "", sort: localGet("sort") || "new" };
+
+function localGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+function localSet(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+
+async function api(path, body) {
+  const opts = body === undefined ? {} : { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) };
+  const r = await fetch(path, opts);
+  let data = {};
+  try { data = await r.json(); } catch (e) {}
+  if (r.status === 401) { showLock(); throw new Error("login"); }
+  if (!r.ok) { const err = new Error(data.error || r.status); err.data = data; err.status = r.status; throw err; }
+  return data;
+}
+
+// ---------- kinds & formatting ----------
+const VIDEO_EXT = ["mp4","mkv","webm","3gp","mov","avi","m4v","ts"], AUDIO_EXT = ["mp3","m4a","aac","wav","ogg","opus","flac","amr"];
+const IMAGE_EXT = ["jpg","jpeg","png","gif","webp","bmp","heic","heif"], TEXT_EXT = ["txt","md","csv","json","log","xml","srt","html"];
+function kindOf(it) {
+  const m = it.mime || "", ext = (it.name.split(".").pop() || "").toLowerCase();
+  if (m.startsWith("video/") || VIDEO_EXT.includes(ext)) return "video";
+  if (m.startsWith("audio/") || AUDIO_EXT.includes(ext)) return "audio";
+  if (m.startsWith("image/") || IMAGE_EXT.includes(ext)) return "image";
+  if (m === "application/pdf" || ext === "pdf") return "pdf";
+  if (m.startsWith("text/") || TEXT_EXT.includes(ext)) return "text";
+  return "other";
+}
+const ICON = { video: "i-video", audio: "i-audio", image: "i-image" };
+function fmtSize(n) {
+  const u = ["B","KB","MB","GB","TB"]; let i = 0; n = Number(n) || 0;
+  while (n >= 1024 && i < u.length - 1) { n /= 1024; i++; }
+  return (i ? n.toFixed(n < 10 ? 1 : 0) : n) + " " + u[i];
+}
+function fmtDate(ms) { return new Date(ms).toLocaleDateString("ar", { year: "numeric", month: "short", day: "numeric" }); }
+function esc(s) { return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
+
+// ---------- data helpers ----------
+const folderById = (id) => state.folders.find((d) => d.id === id);
+function subtree(id) {
+  const out = new Set([id]); let grew = true;
+  while (grew) { grew = false; for (const d of state.folders) if (out.has(d.parent) && !out.has(d.id)) { out.add(d.id); grew = true; } }
+  return out;
+}
+function pathOf(id) { const n = []; let d = folderById(id); while (d) { n.unshift(d.name); d = folderById(d.parent); } return n.join(" / "); }
+function countIn(id) { const s = subtree(id); return state.items.filter((i) => s.has(i.folder)).length; }
+function passes(it) {
+  const k = kindOf(it);
+  if (state.filter === "video") return k === "video" || k === "audio";
+  if (state.filter === "docs") return k === "pdf" || k === "text" || k === "other";
+  if (state.filter === "images") return k === "image";
+  return true;
+}
+function sortItems(list) {
+  const l = list.slice();
+  if (state.sort === "old") l.sort((a, b) => a.added - b.added);
+  else if (state.sort === "name") l.sort((a, b) => a.name.localeCompare(b.name, "ar", { numeric: true }));
+  else if (state.sort === "size") l.sort((a, b) => b.size - a.size);
+  else l.sort((a, b) => b.added - a.added);
+  return l;
+}
+const byName = (a, b) => a.name.localeCompare(b.name, "ar", { numeric: true });
+
+// What the grid shows: same rules as the phone app.
+function visible() {
+  const q = state.query.trim().toLowerCase();
+  if (q) {
+    return {
+      folders: state.folders.filter((d) => d.name.toLowerCase().includes(q)).sort(byName),
+      items: sortItems(state.items.filter((i) => i.name.toLowerCase().includes(q) && passes(i))),
+      withPath: true,
+    };
+  }
+  if (state.filter !== "all") {
+    const scope = state.folder ? subtree(state.folder) : null;
+    return { folders: [], items: sortItems(state.items.filter((i) => (!scope || scope.has(i.folder)) && passes(i))), withPath: true };
+  }
+  return {
+    folders: state.folders.filter((d) => (d.parent || null) === state.folder).sort(byName),
+    items: sortItems(state.items.filter((i) => (i.folder || null) === state.folder)),
+    withPath: false,
+  };
+}
+
+// ---------- rendering ----------
+function render() {
+  if (state.folder && !folderById(state.folder)) state.folder = null;
+  const crumbs = $("#crumbs");
+  crumbs.innerHTML = "";
+  const chain = []; let d = folderById(state.folder);
+  while (d) { chain.unshift(d); d = folderById(d.parent); }
+  const addCrumb = (label, id) => {
+    const a = document.createElement("a"); a.textContent = label;
+    a.onclick = () => { state.folder = id; render(); };
+    makeDropTarget(a, id);
+    crumbs.appendChild(a);
+  };
+  addCrumb("الرئيسية", null);
+  for (const f of chain) { crumbs.appendChild(document.createTextNode("›")); addCrumb(f.name, f.id); }
+
+  const v = visible();
+  const grid = $("#grid");
+  grid.innerHTML = "";
+  for (const f of v.folders) {
+    const meta = (v.withPath && f.parent ? pathOf(f.parent) + " · " : "") + countIn(f.id) + " عنصر";
+    grid.appendChild(card({ kind: "folder", obj: f, icon: "i-folder", name: f.name, meta }));
+  }
+  for (const it of v.items) {
+    const k = kindOf(it);
+    const where = v.withPath && it.folder !== state.folder ? (pathOf(it.folder) || "الرئيسية") + " · " : "";
+    grid.appendChild(card({ kind: "item", obj: it, icon: ICON[k] || "i-doc", name: it.name, meta: where + fmtSize(it.size) + " · " + fmtDate(it.added) }));
+  }
+  const empty = $("#empty");
+  const none = !v.folders.length && !v.items.length;
+  empty.classList.toggle("hidden", !none);
+  empty.textContent = state.query ? "لا توجد نتائج" : "لا يوجد شيء هنا بعد — اسحب الملفات أو المجلدات إلى هذه النافذة، أو اضغط «إضافة ملفات»";
+}
+
+function card({ kind, obj, icon, name, meta }) {
+  const el = document.createElement("div");
+  el.className = "card"; el.draggable = true;
+  el.innerHTML = `<button class="more" title="خيارات">⋯</button><svg class="ic"><use href="#${icon}"/></svg>` +
+    `<div class="nm" title="${esc(name)}">${esc(name)}</div><div class="meta">${esc(meta)}</div>`;
+  el.onclick = (e) => {
+    if (e.target.closest(".more")) return showMenu(e, kind, obj);
+    if (kind === "folder") { state.folder = obj.id; state.query = ""; $("#search").value = ""; setFilter("all"); }
+    else openItem(obj);
+  };
+  el.oncontextmenu = (e) => { e.preventDefault(); showMenu(e, kind, obj); };
+  el.ondragstart = (e) => { e.dataTransfer.setData("application/x-khazanti", JSON.stringify({ kind, id: obj.id })); e.dataTransfer.effectAllowed = "move"; };
+  if (kind === "folder") makeDropTarget(el, obj.id);
+  return el;
+}
+
+// Cards dragged onto a folder (or a crumb) move there.
+function makeDropTarget(el, folderId) {
+  el.addEventListener("dragover", (e) => {
+    if (!e.dataTransfer.types.includes("application/x-khazanti")) return;
+    e.preventDefault(); e.stopPropagation(); el.classList.add("drop");
+  });
+  el.addEventListener("dragleave", () => el.classList.remove("drop"));
+  el.addEventListener("drop", async (e) => {
+    const raw = e.dataTransfer.getData("application/x-khazanti");
+    el.classList.remove("drop");
+    if (!raw) return;
+    e.preventDefault(); e.stopPropagation();
+    const m = JSON.parse(raw);
+    if (m.id === folderId) return;
+    try { await api("/api/move", { kind: m.kind, id: m.id, parent: folderId }); } catch (err) { toastErr(err); }
+    refresh(true);
+  });
+}
+
+function setFilter(f) {
+  state.filter = f;
+  document.querySelectorAll("#filters .chip").forEach((c) => c.classList.toggle("on", c.dataset.f === f));
+  render();
+}
+
+// ---------- menus & dialogs ----------
+function showMenu(e, kind, obj) {
+  e.stopPropagation();
+  const menu = $("#menu");
+  const entries = kind === "folder"
+    ? [["إعادة تسمية", () => rename(kind, obj)], ["نقل إلى مجلد", () => moveTo(kind, obj)], ["حذف", () => remove(kind, obj), "danger"]]
+    : [["فتح", () => openItem(obj)], ["حفظ نسخة على اللابتوب", () => download(obj)], ["إعادة تسمية", () => rename(kind, obj)],
+       ["نقل إلى مجلد", () => moveTo(kind, obj)], ["حذف", () => remove(kind, obj), "danger"]];
+  menu.innerHTML = "";
+  for (const [label, fn, cls] of entries) {
+    const b = document.createElement("button"); b.textContent = label; if (cls) b.className = cls;
+    b.onclick = () => { hideMenu(); fn(); };
+    menu.appendChild(b);
+  }
+  menu.classList.remove("hidden");
+  const r = menu.getBoundingClientRect();
+  menu.style.left = Math.max(8, Math.min(e.clientX - r.width, innerWidth - r.width - 8)) + "px";
+  menu.style.top = Math.min(e.clientY, innerHeight - r.height - 8) + "px";
+}
+function hideMenu() { $("#menu").classList.add("hidden"); }
+document.addEventListener("click", (e) => { if (!e.target.closest("#menu")) hideMenu(); });
+
+function modal(html, onReady) {
+  const wrap = document.createElement("div");
+  wrap.className = "modal";
+  wrap.innerHTML = `<div class="box">${html}</div>`;
+  wrap.addEventListener("mousedown", (e) => { if (e.target === wrap) wrap.remove(); });
+  document.body.appendChild(wrap);
+  const close = () => wrap.remove();
+  onReady && onReady(wrap, close);
+  return close;
+}
+function ask(title, value, okLabel) {
+  return new Promise((resolve) => {
+    modal(`<h2>${esc(title)}</h2><form><input id="askIn" value="${esc(value || "")}"><div class="actions">` +
+      `<button class="primary" type="submit">${esc(okLabel || "حفظ")}</button><button type="button" id="askNo">إلغاء</button></div></form>`,
+      (w, close) => {
+        const inp = w.querySelector("#askIn"); inp.focus(); inp.select();
+        w.querySelector("form").onsubmit = (e) => { e.preventDefault(); close(); resolve(inp.value.trim() || null); };
+        w.querySelector("#askNo").onclick = () => { close(); resolve(null); };
+      });
+  });
+}
+function confirmBox(msg) {
+  return new Promise((resolve) => {
+    modal(`<h2>${esc(msg)}</h2><div class="actions"><button class="primary danger" id="cYes">حذف</button><button id="cNo">إلغاء</button></div>`,
+      (w, close) => {
+        w.querySelector("#cYes").onclick = () => { close(); resolve(true); };
+        w.querySelector("#cNo").onclick = () => { close(); resolve(false); };
+      });
+  });
+}
+function toastErr(err) { if (err && err.message !== "login") alert("حدث خطأ: " + (err.message || err)); }
+
+async function rename(kind, obj) {
+  const name = await ask("إعادة تسمية", obj.name);
+  if (!name) return;
+  try { await api("/api/rename", { kind, id: obj.id, name }); } catch (e) { toastErr(e); }
+  refresh(true);
+}
+async function remove(kind, obj) {
+  const msg = kind === "folder" ? `حذف المجلد "${obj.name}" وكل ما بداخله نهائياً؟` : `حذف "${obj.name}" نهائياً؟`;
+  if (!(await confirmBox(msg))) return;
+  try { await api("/api/delete", { kind, id: obj.id }); } catch (e) { toastErr(e); }
+  refresh(true);
+}
+function moveTo(kind, obj) {
+  const exclude = kind === "folder" ? subtree(obj.id) : new Set();
+  const targets = [null, ...state.folders.filter((d) => !exclude.has(d.id)).map((d) => d.id)]
+    .sort((a, b) => (pathOf(a) || "").localeCompare(pathOf(b) || "", "ar"));
+  const rows = targets.map((t) => `<button data-id="${t || ""}">${esc(t ? pathOf(t) : "الرئيسية")}</button>`).join("");
+  modal(`<h2>نقل "${esc(obj.name)}" إلى…</h2><div class="list">${rows}</div><div class="actions"><button id="mNo">إلغاء</button></div>`,
+    (w, close) => {
+      w.querySelector("#mNo").onclick = close;
+      w.querySelectorAll(".list button").forEach((b) => b.onclick = async () => {
+        close();
+        try { await api("/api/move", { kind, id: obj.id, parent: b.dataset.id || null }); } catch (e) { toastErr(e); }
+        refresh(true);
+      });
+    });
+}
+
+// ---------- viewer ----------
+let viewList = [], viewIndex = 0;
+function fileUrl(it, dl) { return "/api/file/" + encodeURIComponent(it.id) + (dl ? "?download=1" : ""); }
+function download(it) { const a = document.createElement("a"); a.href = fileUrl(it, true); a.download = it.name; a.click(); }
+
+function openItem(it) {
+  const k = kindOf(it);
+  if (k === "other") return download(it);
+  // Videos and audio play on through the rest of the folder; pictures page through it.
+  const same = (x) => (k === "video" || k === "audio") ? ["video", "audio"].includes(kindOf(x)) : kindOf(x) === k;
+  const list = visible().items.filter(same);
+  viewList = list.length && list.includes(it) ? list : [it];
+  viewIndex = viewList.indexOf(it);
+  showView();
+}
+function showView() {
+  const it = viewList[viewIndex], k = kindOf(it), body = $("#vBody");
+  $("#viewer").classList.remove("hidden");
+  $("#vTitle").textContent = it.name + (viewList.length > 1 ? `  (${viewIndex + 1}/${viewList.length})` : "");
+  $("#vPrev").disabled = viewIndex <= 0;
+  $("#vNext").disabled = viewIndex >= viewList.length - 1;
+  body.innerHTML = "";
+  if (k === "video" || k === "audio") {
+    const v = document.createElement("video");
+    v.src = fileUrl(it); v.controls = true; v.autoplay = true;
+    const key = "pos_" + it.id, saved = Number(localGet(key) || 0);
+    v.addEventListener("loadedmetadata", () => { if (saved > 0 && saved < v.duration - 3) v.currentTime = saved; });
+    v.addEventListener("timeupdate", () => localSet(key, String(Math.floor(v.currentTime))));
+    v.addEventListener("ended", () => { localSet(key, "0"); if (viewIndex < viewList.length - 1) { viewIndex++; showView(); } });
+    body.appendChild(v);
+  } else if (k === "image") {
+    const img = document.createElement("img"); img.src = fileUrl(it); body.appendChild(img);
+  } else {
+    const f = document.createElement("iframe"); f.src = fileUrl(it); body.appendChild(f);
+  }
+}
+function closeView() { $("#viewer").classList.add("hidden"); $("#vBody").innerHTML = ""; }
+$("#vClose").onclick = closeView;
+$("#vPrev").onclick = () => { if (viewIndex > 0) { viewIndex--; showView(); } };
+$("#vNext").onclick = () => { if (viewIndex < viewList.length - 1) { viewIndex++; showView(); } };
+$("#vDownload").onclick = () => download(viewList[viewIndex]);
+document.addEventListener("keydown", (e) => {
+  if ($("#viewer").classList.contains("hidden")) return;
+  if (e.key === "Escape") closeView();
+  // In a right-to-left page the left arrow means "next".
+  if (e.key === "ArrowLeft" && !(e.target instanceof HTMLVideoElement)) $("#vNext").click();
+  if (e.key === "ArrowRight" && !(e.target instanceof HTMLVideoElement)) $("#vPrev").click();
+});
+
+// ---------- uploads ----------
+const queue = []; let uploading = 0, refreshTimer = null;
+function enqueue(file, relPath) {
+  const row = document.createElement("div");
+  row.className = "row";
+  row.innerHTML = `<div class="n">${esc(relPath || file.name)}</div><progress max="100" value="0"></progress>`;
+  const box = $("#uploads"); box.classList.remove("hidden"); box.appendChild(row);
+  queue.push({ file, relPath: relPath || file.name, folder: state.folder, row });
+  pump();
+}
+function pump() {
+  while (uploading < 2 && queue.length) {
+    const job = queue.shift(); uploading++;
+    const xhr = new XMLHttpRequest();
+    const q = new URLSearchParams({ path: job.relPath }); if (job.folder) q.set("folder", job.folder);
+    xhr.open("PUT", "/api/upload?" + q.toString());
+    const bar = job.row.querySelector("progress");
+    xhr.upload.onprogress = (e) => { if (e.lengthComputable) bar.value = (e.loaded / e.total) * 100; };
+    xhr.onloadend = () => {
+      uploading--;
+      if (xhr.status === 200) { job.row.remove(); } else { job.row.querySelector(".n").textContent += " — تعذر الرفع"; bar.remove(); }
+      if (!$("#uploads").children.length) $("#uploads").classList.add("hidden");
+      clearTimeout(refreshTimer); refreshTimer = setTimeout(() => refresh(true), 300);
+      pump();
+    };
+    xhr.send(job.file);
+  }
+}
+$("#btnUpload").onclick = () => $("#fileInput").click();
+$("#fileInput").onchange = (e) => { for (const f of e.target.files) enqueue(f); e.target.value = ""; };
+
+// Whole folders dropped from Explorer keep their structure.
+function walk(entry, prefix) {
+  return new Promise((resolve) => {
+    if (entry.isFile) { entry.file((f) => { enqueue(f, prefix + f.name); resolve(); }, () => resolve()); return; }
+    if (!entry.isDirectory) return resolve();
+    const reader = entry.createReader(), all = [];
+    const read = () => reader.readEntries(async (batch) => {
+      if (!batch.length) { for (const c of all) await walk(c, prefix + entry.name + "/"); return resolve(); }
+      all.push(...batch); read();
+    }, () => resolve());
+    read();
+  });
+}
+let dragDepth = 0;
+const isFileDrag = (e) => e.dataTransfer && Array.from(e.dataTransfer.types).includes("Files");
+window.addEventListener("dragenter", (e) => { if (!isFileDrag(e) || $("#main").classList.contains("hidden")) return; dragDepth++; $("#dropzone").classList.remove("hidden"); });
+window.addEventListener("dragleave", (e) => { if (!isFileDrag(e)) return; if (--dragDepth <= 0) { dragDepth = 0; $("#dropzone").classList.add("hidden"); } });
+window.addEventListener("dragover", (e) => { if (isFileDrag(e)) e.preventDefault(); });
+window.addEventListener("drop", (e) => {
+  if (!isFileDrag(e)) return;
+  e.preventDefault(); dragDepth = 0; $("#dropzone").classList.add("hidden");
+  if ($("#main").classList.contains("hidden")) return;
+  const items = Array.from(e.dataTransfer.items || []);
+  const entries = items.map((i) => i.webkitGetAsEntry && i.webkitGetAsEntry()).filter(Boolean);
+  if (entries.length) entries.forEach((en) => walk(en, ""));
+  else for (const f of e.dataTransfer.files) enqueue(f);
+});
+
+// ---------- phone panel ----------
+async function phonePanel() {
+  let info;
+  try { info = await api("/api/info"); } catch (e) { return toastErr(e); }
+  const addrs = info.addresses.length ? info.addresses.map((a) => `<div class="addr">${esc(a)}:${info.port}</div>`).join("<br>")
+    : `<div class="small">لا يوجد اتصال بشبكة واي فاي</div>`;
+  const devs = info.devices.map((d) => `<div class="dev"><span>${esc(d.name)}${d.id === info.me ? " (هذه النافذة)" : ""}<br>` +
+    `<span class="small">${fmtDate(d.created)}</span></span>${d.id === info.me ? "" : `<button class="danger" data-rev="${d.id}">إلغاء الربط</button>`}</div>`).join("");
+  modal(`<h2>ربط الهاتف</h2>
+    <p>على الهاتف: افتح خزنتي ← ⋮ ← «اللابتوب» ← «بحث تلقائي»، أو اكتب هذا العنوان، ثم كلمة سر الخزنة:</p>
+    ${addrs}
+    <p class="small">الهاتف واللابتوب على نفس الواي فاي، وخزنتي شغّالة على اللابتوب (أيقونتها بجانب الساعة).
+    من خارج البيت: ثبّت Tailscale المجاني على الجهازين واستخدم عنوان Tailscale للابتوب.
+    إذا سألك Windows عن جدار الحماية، اختر «السماح» للشبكات الخاصة.</p>
+    <h2 style="margin-top:18px">الأجهزة المربوطة</h2>${devs || '<div class="small">لا يوجد</div>'}
+    <p class="small" style="margin-top:14px">المساحة: ${fmtSize(info.bytes)} · ${info.count} ملف<br>مكان الملفات: <span dir="ltr">${esc(info.home)}</span></p>
+    <div class="actions"><button id="pClose" class="primary">تم</button><button id="pPass">تغيير كلمة السر</button></div>`,
+    (w, close) => {
+      w.querySelector("#pClose").onclick = close;
+      w.querySelector("#pPass").onclick = () => { close(); changePassword(); };
+      w.querySelectorAll("[data-rev]").forEach((b) => b.onclick = async () => {
+        try { await api("/api/devices/revoke", { id: b.dataset.rev }); } catch (e) { toastErr(e); }
+        close(); phonePanel();
+      });
+    });
+}
+function changePassword() {
+  modal(`<h2>تغيير كلمة السر</h2><form><input type="password" id="o" placeholder="كلمة السر الحالية"><br><br>
+    <input type="password" id="n1" placeholder="كلمة السر الجديدة"><br><br><input type="password" id="n2" placeholder="أعد كتابتها">
+    <div class="err" id="pe"></div><div class="actions"><button class="primary" type="submit">حفظ</button><button type="button" id="pn">إلغاء</button></div></form>`,
+    (w, close) => {
+      w.querySelector("#pn").onclick = close;
+      w.querySelector("form").onsubmit = async (e) => {
+        e.preventDefault();
+        const o = w.querySelector("#o").value, n1 = w.querySelector("#n1").value, n2 = w.querySelector("#n2").value;
+        if (n1.length < 4) return w.querySelector("#pe").textContent = "4 أحرف على الأقل";
+        if (n1 !== n2) return w.querySelector("#pe").textContent = "كلمتا السر غير متطابقتين";
+        try { await api("/api/password", { old: o, new: n1 }); close(); alert("تم تغيير كلمة السر"); }
+        catch (err) { w.querySelector("#pe").textContent = err.status === 403 ? "كلمة السر الحالية خاطئة" : String(err.message); }
+      };
+    });
+}
+
+// ---------- lock / startup ----------
+let setupMode = false;
+async function start() {
+  const s = await api("/api/status");
+  if (s.authed) return showMain();
+  setupMode = !s.setup;
+  showLock();
+}
+function showLock() {
+  closeView();
+  $("#main").classList.add("hidden");
+  $("#lock").classList.remove("hidden");
+  $("#pw2").classList.toggle("hidden", !setupMode);
+  $("#lockMsg").textContent = setupMode ? "أول مرة: اختر كلمة سر للخزنة (4 أحرف على الأقل)" : "أدخل كلمة السر";
+  $("#lockBtn").textContent = setupMode ? "حفظ وفتح" : "فتح";
+  $("#pw1").value = ""; $("#pw2").value = ""; $("#pw1").focus();
+}
+$("#lockForm").onsubmit = async (e) => {
+  e.preventDefault();
+  const pw = $("#pw1").value, err = $("#lockErr");
+  err.textContent = "";
+  try {
+    if (setupMode) {
+      if (pw.length < 4) return err.textContent = "4 أحرف على الأقل";
+      if (pw !== $("#pw2").value) return err.textContent = "كلمتا السر غير متطابقتين";
+      await api("/api/setup", { password: pw, device: "نافذة اللابتوب" });
+    } else {
+      await api("/api/login", { password: pw, device: "نافذة اللابتوب" });
+    }
+    showMain();
+  } catch (ex) {
+    const wait = ex.data && ex.data.wait;
+    err.textContent = wait ? `محاولات كثيرة، انتظر ${wait} ثانية` : (ex.status === 403 ? "كلمة سر خاطئة" : "تعذر الفتح");
+    $("#pw1").select();
+  }
+};
+$("#btnLock").onclick = async () => { try { await api("/api/logout", {}); } catch (e) {} setupMode = false; showLock(); };
+$("#btnFolder").onclick = async () => {
+  const name = await ask("مجلد جديد", "", "إنشاء");
+  if (!name) return;
+  try { await api("/api/folders", { name, parent: state.folder }); } catch (e) { toastErr(e); }
+  refresh(true);
+};
+$("#btnPhone").onclick = phonePanel;
+$("#search").oninput = (e) => { state.query = e.target.value; render(); };
+$("#sort").value = state.sort;
+$("#sort").onchange = (e) => { state.sort = e.target.value; localSet("sort", state.sort); render(); };
+document.querySelectorAll("#filters .chip").forEach((c) => c.onclick = () => setFilter(c.dataset.f));
+
+async function refresh(force) {
+  if ($("#main").classList.contains("hidden")) return;
+  try {
+    if (!force) { const r = await api("/api/rev"); if (r.rev === state.rev) return; }
+    const data = await api("/api/index");
+    state.folders = data.folders; state.items = data.items; state.rev = data.rev;
+    render();
+  } catch (e) {}
+}
+function showMain() {
+  $("#lock").classList.add("hidden");
+  $("#main").classList.remove("hidden");
+  refresh(true);
+}
+// Changes made from the phone show up here within a few seconds.
+setInterval(() => refresh(false), 4000);
+start().catch(() => showLock());
+</script>
+</body>
+</html>

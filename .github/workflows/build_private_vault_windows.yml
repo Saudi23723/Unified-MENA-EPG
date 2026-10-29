@@ -1,0 +1,62 @@
+name: Build Private Vault for Windows
+
+# Builds the laptop program in PrivateVault/laptop/ into one Khazanti.exe,
+# checks it end to end, and publishes it as a release.
+
+on:
+  push:
+    paths:
+      - 'PrivateVault/laptop/**'
+      - '.github/workflows/build_private_vault_windows.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: private-vault-windows-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: PrivateVault/laptop
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install build tools
+        run: pip install -r requirements.txt
+
+      - name: Test the server
+        run: python test_khazanti.py
+
+      - name: Build Khazanti.exe
+        run: |
+          python -c "import khazanti; khazanti.tray_icon_image().resize((256, 256)).save('icon.ico', sizes=[(256, 256), (64, 64), (32, 32), (16, 16)])"
+          pyinstaller --onefile --noconsole --name Khazanti --icon icon.ico --add-data "index.html;." --hidden-import pystray._win32 khazanti.py
+
+      - name: Test the built program
+        run: python test_khazanti.py dist/Khazanti.exe
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Khazanti-windows
+          path: PrivateVault/laptop/dist/Khazanti.exe
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: private-vault-windows-${{ github.run_number }}
+          name: خزنتي للابتوب - Windows (build ${{ github.run_number }})
+          target_commitish: ${{ github.sha }}
+          body: |
+            حمّل Khazanti.exe وشغّله. إذا ظهر «Windows protected your PC» اضغط More info ثم Run anyway.
+            عند السؤال عن جدار الحماية اختر السماح للشبكات الخاصة حتى يصل الهاتف إلى الخزنة.
+          files: PrivateVault/laptop/dist/Khazanti.exe
