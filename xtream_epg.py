@@ -177,6 +177,12 @@ for f in sorted(glob.glob("xtream/*/channel_map.json")):
     maps[name] = mp
 
 listings = {k: {c: [] for c in v} for k, v in want.items()}
+# a shifted copy ("<id>@+180", see 2a) needs its base guide read too
+for _k in ("u", "o", "a"):
+    for _c in list(listings[_k]):
+        _m = re.fullmatch(r"(.+)@\+(\d{1,4})", _c)
+        if _m:
+            listings[_k].setdefault(_m.group(1), [])
 
 # 2) this repository's own guides: the unified one, and the broadcasters' own (official_sports_epg.py)
 for kind, path in (("u", SRC), ("o", OFFICIAL), ("o", OFFICIAL_TV), ("a", ATT)):
@@ -196,6 +202,20 @@ for kind, path in (("u", SRC), ("o", OFFICIAL), ("o", OFFICIAL_TV), ("a", ATT)):
         if it:
             listings[kind][c].append(it)
     del src
+
+# 2a) West-coast feeds whose own guide is stale: "<id>@+180" = that guide 180 minutes later
+#     (TNT / TBS / truTV / USA Network West air the East schedule three hours later; owner, 28 Oct 2026)
+for kind in ("u", "o", "a"):
+    for c in list(listings[kind]):
+        m = re.fullmatch(r"(.+)@\+(\d{1,4})", c)
+        if not m:
+            continue
+        base, mins = m.group(1), int(m.group(2))
+        shift = mins * 60
+        for it in listings[kind].get(base, []):
+            s, e = int(it["start_timestamp"]) + shift, int(it["stop_timestamp"]) + shift
+            listings[kind][c].append(dict(it, id=str(s), epg_id=c, channel_id=c, start=fmt(s), end=fmt(e),
+                                          start_timestamp=str(s), stop_timestamp=str(e)))
 
 # 2b) the repository's other own guides ("r:<file>/<id>")
 by_file = {}
