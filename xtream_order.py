@@ -223,7 +223,8 @@ def order(chans: list[dict], playlist: str | None = None) -> list[dict]:
             lab = event_label(c["name"], c["group"])
             # the owner wants the provider's own names kept (27 Oct): only the ORDER follows the slot numbers
             c = dict(c)
-            ev_key[id(c)] = (1, lab[0].upper(), lab[1]) if lab else (0, "", i)
+            # owner, 28 Oct 2026: live game slots on top, team channels / NBA TV / others below them
+            ev_key[id(c)] = (0, lab[0].upper(), lab[1]) if lab else (1, "", i)
         renamed.append(c)
     chans = renamed
     evk = lambda c: ev_key.get(id(c), (0, "", 0))
