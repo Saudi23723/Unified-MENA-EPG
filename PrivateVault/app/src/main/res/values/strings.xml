@@ -112,8 +112,10 @@
     <string name="update_allow">اسمح لخزنتي بتثبيت التحديثات، ثم ارجع واضغط «تحديث» مرة أخرى</string>
 
     <string name="pdf_contents">الفهرس</string>
-    <string name="pdf_no_contents">هذا الملف بدون فهرس، لكن روابط صفحة المحتويات تعمل إن وُجدت</string>
+    <string name="pdf_no_contents">لم أجد فهرساً في هذا الكتاب. استخدم الشريط أو اضغط رقم الصفحة للتنقل</string>
     <string name="pdf_goto">الذهاب إلى صفحة</string>
+    <string name="pdf_preparing">تجهيز الفهرس… %1$d من %2$d (أول مرة فقط)</string>
+    <string name="pdf_preparing_wait">جاري تجهيز فهرس الكتاب، حاول بعد قليل (أول مرة فقط)</string>
     <string name="pdf_goto_hint">رقم الصفحة (1 إلى %d)</string>
     <string name="pdf_go">اذهب</string>
     <string name="pdf_open_link">فتح الرابط؟</string>

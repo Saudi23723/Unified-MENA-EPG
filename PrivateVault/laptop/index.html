@@ -84,6 +84,13 @@ header .grow { flex: 1; }
 #viewer .top .t { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 #viewer .top button { background: #2a2a2a; color: #fff; }
 #viewer .body { flex: 1; display: grid; place-items: center; overflow: hidden; }
+#viewer .body.withToc { display: flex; align-items: stretch; }
+#viewer .body.withToc iframe { flex: 1; }
+#toc { width: 320px; overflow: auto; background: #1b1c22; color: #e8e8ee; padding: 8px 0; }
+#toc .t { padding: 6px 14px; cursor: pointer; display: flex; justify-content: space-between; gap: 10px; font-size: 14px; }
+#toc .t:hover { background: #2c2f3a; }
+#toc .t .l { color: #9aa0b4; direction: ltr; }
+#toc .msg { padding: 14px; color: #9aa0b4; font-size: 14px; }
 #viewer video, #viewer img { max-width: 100%; max-height: 100%; }
 #viewer iframe { width: 100%; height: 100%; border: 0; background: #fff; }
 /* Reading modes for documents: dark for night, warm paper for long reading. */
@@ -158,6 +165,8 @@ header .grow { flex: 1; }
     <span class="t" id="vTitle"></span>
     <button id="vPrev">السابق</button>
     <button id="vNext">التالي</button>
+    <button id="vToc" class="hidden">📑 الفهرس</button>
+    <input id="vPage" class="hidden" type="number" min="1" placeholder="صفحة" title="اكتب رقم الصفحة ثم Enter" style="width:90px">
     <button id="vMode" title="وضع القراءة">🌙 عادي</button>
     <button id="vDownload">حفظ نسخة</button>
     <button id="vClose">✕ إغلاق</button>
@@ -445,8 +454,58 @@ function showView() {
     const f = document.createElement("iframe"); f.src = fileUrl(it); body.appendChild(f);
     applyMode();
   }
+  body.classList.remove("withToc");
+  $("#vToc").classList.toggle("hidden", k !== "pdf");
+  $("#vPage").classList.toggle("hidden", k !== "pdf");
+  $("#vPage").value = "";
+  if (k === "pdf" && localGet("tocOpen") === "1") showToc(it);
   $("#vMode").classList.toggle("hidden", !["pdf", "text"].includes(k));
 }
+// Contents of the book: built on the laptop from the printed contents pages,
+// because many books' contents lines are not links.
+function pdfAt(it, page) {
+  const old = $("#vBody iframe");
+  const f = document.createElement("iframe");
+  f.src = fileUrl(it) + "#page=" + page;
+  old.replaceWith(f);
+  applyMode();
+}
+async function showToc(it) {
+  const body = $("#vBody");
+  let panel = $("#toc");
+  if (!panel) { panel = document.createElement("div"); panel.id = "toc"; }
+  body.classList.add("withToc");
+  body.prepend(panel);
+  panel.innerHTML = '<div class="msg">جاري قراءة فهرس الكتاب… (أول مرة فقط)</div>';
+  for (let tries = 0; tries < 200; tries++) {
+    if (viewList[viewIndex] !== it || !body.contains(panel)) return;
+    let idx;
+    try { idx = await api("/api/pdfindex/" + encodeURIComponent(it.id)); } catch (e) { return; }
+    if (!idx.working) {
+      if (!idx.toc.length) { panel.innerHTML = '<div class="msg">لم أجد فهرساً مطبوعاً في هذا الكتاب. استخدم خانة «صفحة» للتنقل.</div>'; return; }
+      panel.innerHTML = "";
+      for (const e of idx.toc) {
+        const row = document.createElement("div");
+        row.className = "t";
+        row.innerHTML = `<span>${esc(e.title)}</span><span class="l">${esc(e.label)}</span>`;
+        row.onclick = () => pdfAt(it, e.page + 1);
+        panel.appendChild(row);
+      }
+      return;
+    }
+    await new Promise((r) => setTimeout(r, 2000));
+  }
+}
+$("#vToc").onclick = () => {
+  const panel = $("#toc"), it = viewList[viewIndex];
+  if (panel && $("#vBody").contains(panel)) { panel.remove(); $("#vBody").classList.remove("withToc"); localSet("tocOpen", "0"); }
+  else { localSet("tocOpen", "1"); showToc(it); }
+};
+$("#vPage").addEventListener("keydown", (e) => {
+  if (e.key !== "Enter") return;
+  const n = parseInt($("#vPage").value, 10);
+  if (n > 0) pdfAt(viewList[viewIndex], n);
+});
 const MODES = [["normal", "🌙 عادي"], ["night", "🌙 ليلي"], ["warm", "🌙 دافئ"]];
 function applyMode() {
   const m = localGet("readMode") || "normal";

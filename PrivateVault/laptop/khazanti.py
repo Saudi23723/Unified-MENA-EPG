@@ -419,11 +419,103 @@ def apply_update(latest) -> None:
     threading.Timer(1.5, lambda: os._exit(0)).start()
 
 
+# ---- printed contents of PDF books ----
+#
+# Many books print a contents page ("Lift ........ 5-3") without making its
+# lines links, so nothing happens when they are clicked. The book's own page
+# footers say which printed number each page carries, so the two can be
+# joined: "5-3" in the contents is the page whose footer reads 5-3.
+
+import re
+
+LABEL = r"(?:\d{1,2}-\d{1,3}|[ivxlcdm]{1,7})"
+LABEL_LINE = re.compile(r"^\s*(" + LABEL + r")\s*$", re.I | re.M)
+TOC_LINE = re.compile(
+    r"([^\n.][^\n]*?)[ \t]*\n?[ \t]*\.{3,}[ \t]*\n?[ \t]*(" + LABEL + r")(?=\s|$)", re.I)
+
+
+def page_label(text: str):
+    """The printed page number of a page: a line holding only that number, the last such (the footer)."""
+    found = LABEL_LINE.findall(text or "")
+    return found[-1].lower() if found else None
+
+
+def toc_entries(text: str):
+    out = []
+    for m in TOC_LINE.finditer(text or ""):
+        title = m.group(1).strip(" .\t")
+        if len(title) >= 2:
+            out.append((title, m.group(2).lower()))
+    return out
+
+
+def build_pdf_index(path: str) -> dict:
+    """{"pages": n, "labels": [...], "toc": [{"title", "label", "page"}]} for one PDF."""
+    from pypdf import PdfReader
+    reader = PdfReader(path)
+    n = len(reader.pages)
+    labels = []
+    toc = []
+    for i, page in enumerate(reader.pages):
+        try:
+            text = page.extract_text() or ""
+        except Exception:
+            text = ""
+        labels.append(page_label(text))
+        # Contents pages sit near the front of a book.
+        if i < 40:
+            toc.extend(toc_entries(text))
+    first = {}
+    for i, lab in enumerate(labels):
+        if lab and lab not in first:
+            first[lab] = i
+    entries = []
+    seen = set()
+    for title, lab in toc:
+        if lab in first and (title, first[lab]) not in seen:
+            seen.add((title, first[lab]))
+            entries.append({"title": title, "label": lab, "page": first[lab]})
+    # Two-column contents come out interleaved; book order is page order.
+    entries.sort(key=lambda e: e["page"])
+    return {"pages": n, "labels": labels, "toc": entries}
+
+
+class PdfIndexes:
+    """Builds each book's index once, in the background, and keeps it on disk."""
+
+    def __init__(self, home):
+        self.dir = os.path.join(home, "pdfindex")
+        os.makedirs(self.dir, exist_ok=True)
+        self.lock = threading.Lock()
+        self.working = set()
+
+    def get(self, vault, item):
+        path = os.path.join(self.dir, item["id"] + ".json")
+        if os.path.exists(path):
+            with open(path, encoding="utf-8") as f:
+                return json.load(f)
+        with self.lock:
+            if item["id"] not in self.working:
+                self.working.add(item["id"])
+                threading.Thread(target=self._build, args=(vault.path_of(item), item["id"], path), daemon=True).start()
+        return None
+
+    def _build(self, src, iid, path):
+        try:
+            write_json(path, build_pdf_index(src))
+        except Exception:
+            write_json(path, {"pages": 0, "labels": [], "toc": []})
+        finally:
+            with self.lock:
+                self.working.discard(iid)
+
+
 class App:
     def __init__(self, home: str, port: int):
         os.makedirs(home, exist_ok=True)
         self.vault = Vault(home)
         self.auth = Auth(home)
+        self.pdf_indexes = PdfIndexes(home)
         self.port = port
 
 
@@ -538,6 +630,12 @@ class Handler(BaseHTTPRequestHandler):
                 "bytes": self.app.vault.total_bytes(), "count": len(self.app.vault.items),
                 "home": self.app.vault.home,
             })
+        if path.startswith("/api/pdfindex/"):
+            item = self.app.vault.item(path[len("/api/pdfindex/"):])
+            if item is None:
+                return self._error(404, "not found")
+            index = self.app.pdf_indexes.get(self.app.vault, item)
+            return self._json(index if index is not None else {"working": True})
         if path.startswith("/api/file/"):
             item = self.app.vault.item(path[len("/api/file/"):])
             if item is None:

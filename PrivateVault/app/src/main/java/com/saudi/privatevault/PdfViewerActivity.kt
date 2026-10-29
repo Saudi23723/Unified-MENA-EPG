@@ -28,6 +28,9 @@ class PdfViewerActivity : BaseActivity() {
     private lateinit var b: ActivityPdfBinding
     private var renderer: PdfRenderer? = null
     private var links: PdfLinks? = null
+
+    // The printed contents joined to page footers, once read (kept on disk per book).
+    private var printed: PdfLinks.Printed? = null
     private var pageIndex = 0
     private var itemId = ""
 
@@ -114,6 +117,7 @@ class PdfViewerActivity : BaseActivity() {
             }
             links = l
             b.toolbar.menu.findItem(R.id.v_contents).isVisible = true
+            readPrinted(l, file)
         }
     }
 
@@ -221,6 +225,43 @@ class PdfViewerActivity : BaseActivity() {
 
     // ---- links and contents ----
 
+    private fun printedCache(): java.io.File =
+        java.io.File(filesDir, "pdfindex/" + itemId.replace(Regex("[^A-Za-z0-9_-]"), "_") + ".json")
+
+    /** Reads every page's printed number once, a page at a time so taps are not held up. */
+    private suspend fun readPrinted(l: PdfLinks, file: java.io.File) {
+        val cache = printedCache()
+        val stamp = "${file.length()}:${file.lastModified()}"
+        withContext(Dispatchers.IO) {
+            try {
+                val o = org.json.JSONObject(cache.readText())
+                if (o.optString("stamp") == stamp) PdfLinks.Printed.fromJson(o.getString("index")) else null
+            } catch (e: Exception) {
+                null
+            }
+        }?.let {
+            printed = it
+            return
+        }
+        val n = withContext(linkThread) { l.pageCount }
+        for (i in 0 until n) {
+            if (links !== l) return
+            withContext(linkThread) { l.readPage(i) }
+            if (i % 10 == 0) b.toolbar.subtitle = getString(R.string.pdf_preparing, i + 1, n)
+        }
+        val p = withContext(linkThread) { l.printed() }
+        printed = p
+        b.toolbar.subtitle = null
+        withContext(Dispatchers.IO) {
+            try {
+                cache.parentFile?.mkdirs()
+                cache.writeText(org.json.JSONObject().put("stamp", stamp).put("index", p.toJson()).toString())
+            } catch (e: Exception) {
+                // Read again next time.
+            }
+        }
+    }
+
     private fun tapped(x: Float, y: Float) {
         val l = links ?: return
         val index = shownIndex
@@ -228,7 +269,6 @@ class PdfViewerActivity : BaseActivity() {
         val width = shownWidth
         lifecycleScope.launch {
             val pageLinks = withContext(linkThread) { l.linksOn(index) } ?: return@launch
-            if (pageLinks.links.isEmpty()) return@launch
             val scale = width / pageLinks.width
             val px = x / scale
             val py = y / scale
@@ -237,8 +277,19 @@ class PdfViewerActivity : BaseActivity() {
             val hit = pageLinks.links.firstOrNull {
                 px >= it.area.left - slack && px <= it.area.right + slack &&
                     py >= it.area.top - slack && py <= it.area.bottom + slack
-            } ?: return@launch
-            if (hit.page >= 0) jump(hit.page) else hit.uri?.let { openUri(it) }
+            }
+            if (hit != null) {
+                if (hit.page >= 0) jump(hit.page) else hit.uri?.let { openUri(it) }
+                return@launch
+            }
+            // No real link: a line of the printed contents goes to the page with that number.
+            val p = printed
+            if (p == null) {
+                if (index < 40) Toast.makeText(this@PdfViewerActivity, R.string.pdf_preparing_wait, Toast.LENGTH_SHORT).show()
+                return@launch
+            }
+            val target = p.hit(index, px, py, pageLinks.width)
+            if (target >= 0) jump(target)
         }
     }
 
@@ -260,6 +311,11 @@ class PdfViewerActivity : BaseActivity() {
 
     private fun showContents() {
         val chapters = links?.chapters.orEmpty().filter { it.page >= 0 }
+            .ifEmpty { printed?.chapters.orEmpty() }
+        if (chapters.isEmpty() && printed == null) {
+            Toast.makeText(this, R.string.pdf_preparing_wait, Toast.LENGTH_LONG).show()
+            return
+        }
         if (chapters.isEmpty()) {
             Toast.makeText(this, R.string.pdf_no_contents, Toast.LENGTH_LONG).show()
             return

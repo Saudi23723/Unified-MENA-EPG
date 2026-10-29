@@ -46,7 +46,24 @@ class Client:
         return status, json.loads(data or b"{}")
 
 
+def check_contents_parsing():
+    """The printed contents of a book, as text comes out of PDFs, joined to page footers."""
+    sys.path.insert(0, HERE)
+    import khazanti
+    assert khazanti.page_label("Chapter 1\nBody text, see Figure 1-4.\n1-9\n") == "1-9"
+    assert khazanti.page_label("Preface\nvii") == "vii"
+    assert khazanti.page_label("Body mentioning 1-4 only inline") is None
+    two_columns = ("Introduction To Flying\n.......\n1-1\nAeronautical Decision-Making\n.....\n2-1\n"
+                   "Aeronautical Information Manual (AIM) .............. 1-9 Risk Management........2-3\n"
+                   "Preface ......iii\n")
+    got = khazanti.toc_entries(two_columns)
+    assert ("Introduction To Flying", "1-1") in got and ("Aeronautical Decision-Making", "2-1") in got, got
+    assert ("Aeronautical Information Manual (AIM)", "1-9") in got and ("Risk Management", "2-3") in got, got
+    assert ("Preface", "iii") in got, got
+
+
 def main():
+    check_contents_parsing()
     home = tempfile.mkdtemp(prefix="khazanti-test-")
     port = free_port()
     env = dict(os.environ, KHAZANTI_HOME=home)
