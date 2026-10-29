@@ -129,7 +129,7 @@ header .grow { flex: 1; }
 
 <section id="main" class="hidden">
   <header>
-    <h1><svg width="26" height="26"><use href="#i-lock"/></svg> خزنتي</h1>
+    <h1><svg width="26" height="26"><use href="#i-lock"/></svg> خزنتي <span id="ver" class="small"></span></h1>
     <input id="search" type="search" placeholder="بحث…">
     <select id="sort" title="الترتيب">
       <option value="name">حسب الاسم</option>
@@ -606,10 +606,20 @@ async function phonePanel() {
     إذا سألك Windows عن جدار الحماية، اختر «السماح» للشبكات الخاصة.</p>
     <h2 style="margin-top:18px">الأجهزة المربوطة</h2>${devs || '<div class="small">لا يوجد</div>'}
     <p class="small" style="margin-top:14px">المساحة: ${fmtSize(info.bytes)} · ${info.count} ملف<br>مكان الملفات: <span dir="ltr">${esc(info.home)}</span></p>
-    <div class="actions"><button id="pClose" class="primary">تم</button><button id="pPass">تغيير كلمة السر</button></div>`,
+    <div class="actions"><button id="pClose" class="primary">تم</button><button id="pPass">تغيير كلمة السر</button><button id="pUpd">البحث عن تحديث</button></div>`,
     (w, close) => {
       w.querySelector("#pClose").onclick = close;
       w.querySelector("#pPass").onclick = () => { close(); changePassword(); };
+      w.querySelector("#pUpd").onclick = async () => {
+        const b = w.querySelector("#pUpd");
+        b.disabled = true; b.textContent = "جاري البحث…";
+        let u = null;
+        try { u = await api("/api/update"); } catch (e) {}
+        b.disabled = false; b.textContent = "البحث عن تحديث";
+        if (!u || u.latest === null) return alert("تعذر الوصول إلى خادم التحديثات. تأكد من الإنترنت.");
+        if (u.available) { close(); $("#updateBar").classList.remove("hidden"); return; }
+        alert(u.current ? `عندك آخر نسخة (${u.current})` : "هذه نسخة تجريبية لا تتحدث تلقائياً");
+      };
       w.querySelectorAll("[data-rev]").forEach((b) => b.onclick = async () => {
         try { await api("/api/devices/revoke", { id: b.dataset.rev }); } catch (e) { toastErr(e); }
         close(); phonePanel();
@@ -637,6 +647,7 @@ function changePassword() {
 let setupMode = false;
 async function start() {
   const s = await api("/api/status");
+  if (s.build) $("#ver").textContent = "· نسخة " + s.build;
   if (s.authed) return showMain();
   setupMode = !s.setup;
   showLock();
@@ -691,6 +702,8 @@ async function refresh(force) {
     render();
   } catch (e) {}
 }
+// Also look again every half hour while the window stays open.
+setInterval(() => { if (!$("#main").classList.contains("hidden")) checkUpdate(); }, 30 * 60 * 1000);
 async function checkUpdate() {
   try {
     const u = await api("/api/update");

@@ -607,7 +607,7 @@ class Handler(BaseHTTPRequestHandler):
                 return self._send(200, f.read(), "text/html; charset=utf-8")
         if path == "/api/status":
             return self._json({
-                "app": "khazanti", "version": VERSION, "name": socket.gethostname(),
+                "app": "khazanti", "version": VERSION, "build": current_build(), "name": socket.gethostname(),
                 "setup": self.app.auth.has_password, "authed": self._authed(),
             })
         if not self._authed():
