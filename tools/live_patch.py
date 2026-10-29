@@ -42,8 +42,22 @@ def main(playlist, out):
             parts = [x for x in u.path.split("/") if x]
             if len(parts) >= 3 and parts[0] in ("live", "movie", "series"):
                 user, pw = parts[1], parts[2]
+    # or the Xtream logins already in the repo secrets (XTREAM_*, XTREAM2_*, XTREAM3_*): the one on the same
+    # server as PROVIDER_HOST is used
+    if host and not (user and pw):
+        want = urllib.parse.urlsplit(host if "//" in host else "http://" + host).hostname or ""
+        for pre in ("XTREAM", "XTREAM2", "XTREAM3"):
+            cu = os.environ.get(pre + "_URL", "").strip().rstrip("/")
+            if cu and (urllib.parse.urlsplit(cu if "//" in cu else "http://" + cu).hostname or "") == want:
+                u = urllib.parse.urlsplit(cu if "//" in cu else "http://" + cu)
+                q0 = urllib.parse.parse_qs(u.query)
+                user = os.environ.get(pre + "_USER", "") or (q0.get("username") or [""])[0]
+                pw = os.environ.get(pre + "_PASS", "") or (q0.get("password") or [""])[0]
+                host = f"{u.scheme}://{u.netloc}"
+                print(f"using the {pre} login (same server)")
+                break
     if not (host and user and pw):
-        print("login secrets not set - nothing done")
+        print("login secrets not set - nothing done" + (" (no XTREAM login on the same server)" if host else ""))
         return 0
     q = urllib.parse.urlencode({"username": user, "password": pw, "action": "get_live_streams"})
     try:
