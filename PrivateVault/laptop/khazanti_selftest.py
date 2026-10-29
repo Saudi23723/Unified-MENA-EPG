@@ -225,6 +225,8 @@ def main():
         st, g = c.json("GET", f"/api/notes?item={notes['id']}")
         assert g == b, g
         assert c.json("GET", "/api/notes?src=phone:none")[0] == 404
+        st, kv = c.json("POST", "/api/kv?name=map", {"v": 2, "pages": {"0": [{"t": "RULER"}]}, "t": {"0": 5}})
+        assert c.json("GET", "/api/kv?name=map")[1]["pages"]["0"] == [{"t": "RULER"}]
 
         # The assistant: local model without a key; Gemini once a key is set;
         # back to the local model when Gemini refuses; a clear error with neither.

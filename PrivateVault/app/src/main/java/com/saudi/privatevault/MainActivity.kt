@@ -245,6 +245,7 @@ class MainActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_laptop -> startActivity(Intent(this, LaptopActivity::class.java))
+            R.id.action_map -> startActivity(Intent(this, MapActivity::class.java))
             R.id.action_sort -> chooseSort()
             R.id.action_biometric -> toggleBiometric(item)
             R.id.action_change_pin -> startActivity(

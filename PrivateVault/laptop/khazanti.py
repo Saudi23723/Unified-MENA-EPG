@@ -1137,6 +1137,11 @@ class Handler(BaseHTTPRequestHandler):
             return self._json(index if index is not None else {"working": True})
         if path == "/api/ai/status":
             return self._json(self.app.assistant.status())
+        if path == "/api/kv":
+            name = (urllib.parse.parse_qs(url.query or "").get("name") or [""])[0]
+            if not name:
+                return self._error(400, "no name")
+            return self._json(self.app.notes.get("kv-" + name))
         if path == "/api/notes":
             item = self._notes_item(url.query)
             if item is None:
@@ -1185,6 +1190,13 @@ class Handler(BaseHTTPRequestHandler):
             return self._json({"token": token}, headers=self._cookie(token))
         if not self._authed():
             return self._error(401, "login required")
+        if path == "/api/kv":
+            # Shared state that belongs to no file, such as the drawings on the
+            # flight map; merged the same way as a document's notes.
+            name = (urllib.parse.parse_qs(urllib.parse.urlsplit(self.path).query or "").get("name") or [""])[0]
+            if not name:
+                return self._error(400, "no name")
+            return self._json(self.app.notes.put("kv-" + name, self._body(limit=20_000_000)))
         if path == "/api/notes":
             item = self._notes_item(urllib.parse.urlsplit(self.path).query)
             if item is None:

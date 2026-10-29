@@ -246,6 +246,27 @@ object LaptopClient {
         }
     }
 
+    /** Shared state with no file behind it (the flight map's drawings), merged like notes. */
+    fun syncKv(ctx: Context, name: String, body: String?): JSONObject? = syncAt(ctx, "kv?name=" + Uri.encode(name), body)
+
+    private fun syncAt(ctx: Context, pathAndQuery: String, body: String?): JSONObject? {
+        val base = url(ctx) ?: return null
+        val conn = open("$base/api/$pathAndQuery", token(ctx))
+        return try {
+            if (body != null) {
+                conn.requestMethod = "POST"
+                conn.doOutput = true
+                conn.setRequestProperty("Content-Type", "application/json")
+                conn.outputStream.use { it.write(body.toByteArray()) }
+            }
+            if (conn.responseCode != 200) null else JSONObject(conn.inputStream.bufferedReader().readText())
+        } catch (e: Exception) {
+            null
+        } finally {
+            conn.disconnect()
+        }
+    }
+
     class AiAnswer(val text: String?, val engine: String?, val problem: String?)
 
     /** Asks the vault's study assistant (Gemini, or the server's own model). */
