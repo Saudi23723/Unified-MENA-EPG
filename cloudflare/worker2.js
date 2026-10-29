@@ -13,7 +13,7 @@ const CORS = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers
 const JSONH = { ...CORS, "Content-Type": "application/json; charset=utf-8" };
 // Live names for event / PPV channels, read from the provider with the viewer's own login (see get_live_streams).
 const LIVE_EVENT_NAMES = true;
-const EVENT_GROUP = /^(?!.*24\/7)(?:.*(PPV|PAY PER VIEW|EVENT|PACKAGE|ESPN\+|TSN\+|SN\+|PEACOCK|PARAMOUNT|CUP GAMES|NFL SPORTS)|STAN|MAX|SOCCER|DAZN)$|^(?!.*24\/7).*(PPV|PAY PER VIEW|EVENT|PACKAGE|ESPN\+|TSN\+|SN\+|PEACOCK|PARAMOUNT|CUP GAMES|NFL SPORTS|ᴘᴘᴠ|ᴇᴠᴇɴᴛ|ᴱᵛᵉⁿᵗ|NBA PASS|DAZN|STAN\b|SOCCER)/i;
+const EVENT_GROUP = /^(?!.*24\/7)(?:.*(PPV|PAY PER VIEW|EVENT|PACKAGE|ESPN\+|TSN\+|SN\+|PEACOCK|PARAMOUNT|CUP GAMES|NFL SPORTS)|STAN|MAX|SOCCER|DAZN)$|^(?!.*24\/7).*(PPV|PAY PER VIEW|EVENT|PACKAGE|ESPN\+|TSN\+|SN\+|PEACOCK|PARAMOUNT|CUP GAMES|NFL SPORTS|ᴘᴘᴠ|ᴇᴠᴇɴᴛ|ᴱᵛᵉⁿᵗ|NBA PASS|DAZN|STAN\b|SOCCER|\bNBA\b|\bNFL\b|\bNHL\b|\bMLB\b|\bNCAA|REPLAY|MAX ESPN)/i;
 // ASCII-only JSON (\u escapes): DreamTV reads answers as Latin-1, so Arabic / Turkish names must be escaped.
 const ESC = new Array(65536);
 const esc = (c) => { const k = c.charCodeAt(0); return ESC[k] || (ESC[k] = "\\u" + k.toString(16).padStart(4, "0")); };
@@ -130,8 +130,11 @@ function applyPatch(list, pt, cat) {
     }
     if (extra.length) {
       // each new channel right after the last channel of its group
-      const last = {};
-      list.forEach((x, k) => { last[String(x.category_id)] = k; });
+      // (in a group with game slots, after the last slot: team channels / NBA TV stay at the bottom)
+      const slot = (n) => /:\s*[A-Za-z][A-Za-z0-9+ .]*?\s+0*\d{1,4}\b|^[A-Za-z][A-Za-z+ .]{0,23}?\s*0*\d{1,4}\s*[:|\-]|^\(?[A-Za-z+ ]+\s*0*\d{1,4}\)|^[A-Za-z][A-Za-z+ .]{0,23}?\s+0*\d{1,4}(\s+(UHD|FHD|HD|SD|4K))?\s*$/.test(String(n || ""));
+      const last = {}, lastSlot = {};
+      list.forEach((x, k) => { last[String(x.category_id)] = k; if (slot(x.name)) lastSlot[String(x.category_id)] = k; });
+      for (const g of Object.keys(lastSlot)) last[g] = lastSlot[g];
       const out = [];
       const after = {};
       for (const x of extra) (after[x.category_id] = after[x.category_id] || []).push(x);
