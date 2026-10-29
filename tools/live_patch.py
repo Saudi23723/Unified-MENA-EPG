@@ -20,7 +20,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # same rule as the relay's EVENT_GROUP (cloudflare/worker2.js)
 EVENT_GROUP = re.compile(
     r"^(?!.*24/7)(?:.*(PPV|PAY PER VIEW|EVENT|PACKAGE|ESPN\+|TSN\+|SN\+|PEACOCK|PARAMOUNT|CUP GAMES|NFL SPORTS)|STAN|MAX|SOCCER|DAZN)$"
-    r"|^(?!.*24/7).*(PPV|PAY PER VIEW|EVENT|PACKAGE|ESPN\+|TSN\+|SN\+|PEACOCK|PARAMOUNT|CUP GAMES|NFL SPORTS|ᴘᴘᴠ|ᴇᴠᴇɴᴛ|ᴱᵛᵉⁿᵗ|NBA PASS|DAZN|STAN\b|SOCCER|\bNBA\b|\bNFL\b|\bNHL\b|\bMLB\b|\bNCAA|REPLAY|MAX ESPN)",
+    r"|^(?!.*24/7).*(PPV|PAY PER VIEW|EVENT|PACKAGE|ESPN\+|TSN\+|SN\+|PEACOCK|PARAMOUNT|CUP GAMES|NFL SPORTS|ᴘᴘᴠ|ᴇᴠᴇɴᴛ|ᴱᵛᵉⁿᵗ|NBA PASS|DAZN|STAN\b|SOCCER|\bNBA\b|\bNFL\b|\bNHL\b|\bMLB\b|\bNCAA|REPLAY|MAX ESPN|\bFLO\b|FLOSPORT)",
     re.I)
 
 

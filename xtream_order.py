@@ -87,7 +87,7 @@ GROUP_LEADS = [
 # Their channel names carry the event of the day they were exported (stale a day later) and sort badly by name.
 # They go in slot-number order (NBA 01, NBA 02...; the names themselves stay the provider's); channels without
 # a slot (NFL Network, Sky Box Office, team channels) stay first, in the provider's order.
-EVENT_GROUP = re.compile(r"(?!.*24/7)(?:PPV|PAY PER VIEW|EVENT|PACKAGE|ESPN\+|TSN\+|SN\+|PEACOCK|PARAMOUNT|^STAN$|^MAX$|^SOCCER$|^DAZN$|CUP GAMES|NFL SPORTS|DAZN EVENTS|ᴘᴘᴠ|ᴇᴠᴇɴᴛ|ᴱᵛᵉⁿᵗ|NBA PASS|\bDAZN\b|\bSTAN\b)", re.I)
+EVENT_GROUP = re.compile(r"(?!.*24/7)(?:PPV|PAY PER VIEW|EVENT|PACKAGE|ESPN\+|TSN\+|SN\+|PEACOCK|PARAMOUNT|^STAN$|^MAX$|^SOCCER$|^DAZN$|CUP GAMES|NFL SPORTS|DAZN EVENTS|ᴘᴘᴠ|ᴇᴠᴇɴᴛ|ᴱᵛᵉⁿᵗ|NBA PASS|\bDAZN\b|\bSTAN\b|\bFLO\b|FLOSPORT)", re.I)
 _JUNK = r"[ⓧâ§§ⓧ]+"
 _Q = r"(\s*(UHD|FHD|HD|SD|4K|8K|HEVC|RAW|3840P))?"
 def event_label(name, group):
