@@ -1,9 +1,8 @@
 {
-"_note": "Argon series groups (owner, 28 Oct 2026): names shown without 'EN: / ARA:' and '[1080p]'; the '-1' group and Turkish series 4K hidden.",
+"_note": "Argon series groups (owner, 28 Oct 2026): names shown without 'EN: / ARA:' and '[1080p]'.",
 "tidy": true,
 "hide": [
-"^\\s*-1\\s*$",
-"(TURK|ترك).*4K|4K.*(TURK|ترك)"
+"^\\s*-1\\s*$"
 ],
 "visible": []
 }

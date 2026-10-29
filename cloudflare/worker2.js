@@ -45,6 +45,8 @@ const PATCH_AGE = 15 * 60000;
 let PATCH = null, BUILDING = 0;
 // playlists whose provider refuses the relay's live-list request: their names come from GitHub (tools/live_patch.py)
 const GITHUB_LIVE = new Set(["strong", "dream4k"]);
+// playlists whose provider sends movies / series without a listed group (they show as "-1")
+const ORPHANS = new Set(["argon"]);
 // Some providers refuse Cloudflare's addresses (Strong answers 403, 28 Oct 2026): after a refusal this worker stops
 // asking for an hour, so the provider does not see a stream of refused requests; DreamTV then talks to it directly.
 let REFUSED = 0;
@@ -329,7 +331,9 @@ export default {
           note(r);
           if (r.ok) {
             let t = await r.text();
-            if (g && g.filtered) {
+            // titles whose group the provider does not list (DreamTV shows them under "-1", Argon 28 Oct 2026) or the
+            // owner hid are left out
+            if (g && Array.isArray(g.cats) && (g.filtered || ORPHANS.has(PLAYLIST))) {
               const keep = new Set(g.cats.map((c) => String(c.category_id)));
               const cat = url.searchParams.get("category_id");
               if (cat) { if (!keep.has(String(cat))) t = "[]"; }
