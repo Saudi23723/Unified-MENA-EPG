@@ -81,6 +81,9 @@ def main():
 
         st, s = c.json("GET", "/api/status")
         assert st == 200 and s["setup"] is False and s["authed"] is False, s
+        # The built program must know its own build, or it can never see an update.
+        if os.environ.get("EXPECT_BUILD"):
+            assert s.get("build") == int(os.environ["EXPECT_BUILD"]), s
         st, data, _ = c.call("GET", "/")
         assert st == 200 and "خزنتي".encode() in data
 

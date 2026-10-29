@@ -40,10 +40,12 @@ jobs:
       - name: Build Khazanti.exe
         run: |
           python -c "import khazanti; khazanti.tray_icon_image().resize((256, 256)).save('icon.ico', sizes=[(256, 256), (64, 64), (32, 32), (16, 16)])"
-          echo "{\"build\": ${{ github.run_number }}}" > build_info.json
+          python -c "import json; json.dump({'build': ${{ github.run_number }}}, open('build_info.json', 'w'))"
           pyinstaller --onefile --noconsole --name Khazanti --icon icon.ico --add-data "index.html;." --add-data "build_info.json;." --hidden-import pystray._win32 khazanti.py
 
       - name: Test the built program
+        env:
+          EXPECT_BUILD: ${{ github.run_number }}
         run: python khazanti_selftest.py dist/Khazanti.exe
 
       # The program updates itself from this branch (see UPDATE_SOURCES).
