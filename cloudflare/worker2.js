@@ -73,14 +73,60 @@ async function buildPatch(env, user, pass_, ua) {
       }
       if (weak(x) && pv.stream_icon) i[x.stream_id] = pv.stream_icon;
     }
-    PATCH = { t: Date.now(), n, i };
+    // New channels: a provider group whose channels are (mostly) in one of our groups gets its new channels
+    // added at the end of that group; channels the provider removed are taken out (owner, 28 Oct 2026: "if the
+    // provider updates something, I get the update").
+    const ours = new Map(mine.map((x) => [String(x.stream_id), x]));
+    const byCat = new Map();
+    for (const x of live) { const c = String(x.category_id); if (!byCat.has(c)) byCat.set(c, []); byCat.get(c).push(x); }
+    const add = {};
+    for (const [, xs] of byCat) {
+      const known = xs.filter((x) => ours.has(String(x.stream_id)));
+      if (known.length < Math.max(2, xs.length / 2)) continue;
+      const votes = {};
+      for (const x of known) { const g = String(ours.get(String(x.stream_id)).category_id); votes[g] = (votes[g] || 0) + 1; }
+      const g = Object.keys(votes).sort((a, b) => votes[b] - votes[a])[0];
+      for (const x of xs) {
+        if (ours.has(String(x.stream_id)) || !x.name) continue;
+        (add[g] = add[g] || []).push({ stream_id: x.stream_id, name: String(x.name).replace(/[\u24e7\u00a7]/g, "").replace(/\s+/g, " ").trim(),
+          stream_icon: x.stream_icon || "", epg_channel_id: null });
+      }
+    }
+    const gone = mine.filter((x) => !now.has(String(x.stream_id))).map((x) => x.stream_id);
+    // a provider answer missing most of our channels is a broken answer, not a removal
+    PATCH = { t: Date.now(), n, i, add, gone: gone.length < mine.length / 3 ? gone : [] };
     if (env && env.LIVE) await env.LIVE.put(PLAYLIST, JSON.stringify(PATCH));
   } catch (e) { /* next request tries again */ } finally { BUILDING = 0; }
 }
 
 // The repo's list (or one category) with the patch applied; "#weak" logos without a provider logo take the logo
 // of the same channel in another quality, else stay as they are.
-function applyPatch(list, pt) {
+function applyPatch(list, pt, cat) {
+  if (pt && pt.gone && pt.gone.length) { const g = new Set(pt.gone.map(String)); list = list.filter((x) => !g.has(String(x.stream_id))); }
+  if (pt && pt.add) {
+    const have = new Set(list.map((x) => String(x.stream_id)));
+    // numbers from 90000 up, the same in the full list and in a single group
+    let num = 90000;
+    const extra = [];
+    for (const [g, xs] of Object.entries(pt.add)) {
+      for (const x of xs) if (++num && !(cat && String(cat) !== g) && !have.has(String(x.stream_id))) {
+        have.add(String(x.stream_id));
+        extra.push({ num, name: x.name, stream_type: "live", stream_id: x.stream_id, stream_icon: x.stream_icon,
+          epg_channel_id: null, added: "0", category_id: g, custom_sid: "", tv_archive: 0, direct_source: "", tv_archive_duration: 0 });
+      }
+    }
+    if (extra.length) {
+      // each new channel right after the last channel of its group
+      const last = {};
+      list.forEach((x, k) => { last[String(x.category_id)] = k; });
+      const out = [];
+      const after = {};
+      for (const x of extra) (after[x.category_id] = after[x.category_id] || []).push(x);
+      list.forEach((x, k) => { out.push(x); if (last[String(x.category_id)] === k && after[String(x.category_id)]) out.push(...after[String(x.category_id)]); });
+      for (const g of Object.keys(after)) if (!(g in last)) out.push(...after[g]);
+      list = out;
+    }
+  }
   const base = (x) => String(x.category_id) + "|" + String(x.name || "").toUpperCase()
     .replace(/\b(UHD|FHD|HD|SD|LQ|4K|8K|HEVC|RAW|3840P|60FPS|50FPS|HDR|BACKUP|BK)\b/g, " ").replace(/[^A-Z0-9\u0600-\u06FF+]/g, "");
   const weak = (x) => !x.stream_icon || String(x.stream_icon).endsWith("#weak");
@@ -189,7 +235,7 @@ export default {
           if (!pt) return pass(file, 900, []);
           const r = await fetch(file, { cf: { cacheTtl: 900, cacheEverything: true } });
           if (!r.ok) return json([], 60);
-          return json(applyPatch(await r.json(), pt), 120);
+          return json(applyPatch(await r.json(), pt, cat), 120);
         } catch (e) {
           return pass(file, 900, []);
         }
