@@ -47,6 +47,7 @@ CC = {"us": "US", "uk": "UK", "gb": "UK", "ie": "UK", "ca": "CA", "tr": "TR", "i
 
 # (group regex or None, name regex, logo). "" = leave it to the provider. Checked before everything else.
 FIRST = [
+    (r"US|ᴇɴᴛᴇʀᴛᴀɪɴᴍᴇɴᴛ|ENTERTAINMENT", r"^(US:?\s*)?USA\s*NETWORK", "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/USA_Network_logo_%282016%29.svg/500px-USA_Network_logo_%282016%29.svg.png"),
     # US networks: the collection's colour logos (the guide's ones are dark / odd on DreamTV; owner, 28 Oct 2026)
     (r"US|ᴇɴᴛᴇʀᴛᴀɪɴᴍᴇɴᴛ|ENTERTAINMENT", r"^(US:?\s*)?TNT\b(?!.*(SPORT|BOX|ULTIMATE|2M|AL\s|ARRIADIA|MEDI|TAMAZIGHT|ALMAGHRIB|ASSADISSA))", TVLOGOS + "countries/united-states/tnt-us.png"),
     (r"US|ᴇɴᴛᴇʀᴛᴀɪɴᴍᴇɴᴛ|ENTERTAINMENT", r"^(US:?\s*)?TRU\s*TV\b", TVLOGOS + "countries/united-states/tru-tv-us.png"),
