@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <ImageView
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_lock" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="@string/lock_enter"
+        android:textAppearance="?attr/textAppearanceTitleMedium" />
+
+    <TextView
+        android:id="@+id/dots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:letterSpacing="0.3"
+        android:minHeight="40dp"
+        android:textSize="28sp" />
+
+    <TextView
+        android:id="@+id/error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="24dp"
+        android:textColor="?attr/colorError" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <GridLayout
+        android:id="@+id/keypad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:columnCount="3"
+        android:layoutDirection="ltr"
+        android:rowCount="4" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="32dp" />
+</LinearLayout>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_search"
+        android:title="@string/search"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="always|collapseActionView" />
+    <item
+        android:id="@+id/action_sort"
+        android:title="@string/sort"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_biometric"
+        android:checkable="true"
+        android:title="@string/use_biometric"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_change_pin"
+        android:title="@string/change_pin"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_storage"
+        android:title="@string/storage_info"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_lock"
+        android:title="@string/lock_now"
+        app:showAsAction="never" />
+</menu>

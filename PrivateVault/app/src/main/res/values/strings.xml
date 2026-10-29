@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">خزنتي</string>
+
+    <string name="lock_enter">أدخل الرمز السري</string>
+    <string name="lock_create">اختر رمزاً سرياً جديداً (4 إلى 8 أرقام)</string>
+    <string name="lock_confirm">أعد إدخال الرمز للتأكيد</string>
+    <string name="lock_mismatch">الرمزان غير متطابقين، حاول مجدداً</string>
+    <string name="lock_wrong">رمز خاطئ</string>
+    <string name="lock_wait">محاولات كثيرة، انتظر %d ثانية</string>
+    <string name="lock_short">الرمز يجب أن يكون 4 أرقام على الأقل</string>
+    <string name="lock_saved">تم حفظ الرمز</string>
+    <string name="biometric_title">فتح الخزنة</string>
+    <string name="biometric_use_pin">استخدم الرمز</string>
+
+    <string name="filter_all">الكل</string>
+    <string name="filter_video">فيديو</string>
+    <string name="filter_docs">مستندات</string>
+    <string name="filter_images">صور</string>
+
+    <string name="search">بحث</string>
+    <string name="sort">الترتيب</string>
+    <string name="sort_newest">الأحدث أولاً</string>
+    <string name="sort_oldest">الأقدم أولاً</string>
+    <string name="sort_name">حسب الاسم</string>
+    <string name="sort_size">حسب الحجم</string>
+    <string name="change_pin">تغيير الرمز السري</string>
+    <string name="use_biometric">الفتح بالبصمة</string>
+    <string name="biometric_unavailable">البصمة غير متاحة أو غير مفعّلة على هذا الهاتف</string>
+    <string name="lock_now">قفل الآن</string>
+    <string name="storage_info">المساحة المستخدمة</string>
+
+    <string name="add">إضافة</string>
+    <string name="add_files">إضافة ملفات</string>
+    <string name="new_folder">مجلد جديد</string>
+    <string name="folder_name">اسم المجلد</string>
+    <string name="empty">لا يوجد شيء هنا بعد\nاضغط + لإضافة فيديوهات ومستندات</string>
+    <string name="empty_search">لا توجد نتائج</string>
+
+    <string name="import_title">كيف تريد الإضافة؟</string>
+    <string name="import_msg">النقل يضع الملف داخل الخزنة ويحاول حذفه من مكانه الأصلي حتى لا يظهر في المعرض أو مدير الملفات.</string>
+    <string name="import_copy">نسخ فقط</string>
+    <string name="import_move">نقل (إخفاء الأصل)</string>
+    <string name="importing">جاري الإضافة… %1$d من %2$d</string>
+    <string name="import_done">تمت إضافة %d ملف</string>
+    <string name="import_failed">تعذرت إضافة %d ملف</string>
+    <string name="import_not_deleted">لم يُسمح بحذف %d ملف من مكانه الأصلي، احذفه يدوياً</string>
+
+    <string name="open_with">فتح بتطبيق آخر</string>
+    <string name="rename">إعادة تسمية</string>
+    <string name="move">نقل إلى مجلد</string>
+    <string name="export">حفظ نسخة خارج الخزنة</string>
+    <string name="delete">حذف</string>
+    <string name="details">التفاصيل</string>
+    <string name="cancel">إلغاء</string>
+    <string name="ok">حفظ</string>
+    <string name="root">الرئيسية</string>
+    <string name="delete_confirm">حذف \"%s\" نهائياً؟</string>
+    <string name="delete_folder_confirm">حذف المجلد \"%s\" وكل ما بداخله نهائياً؟</string>
+    <string name="deleted">تم الحذف</string>
+    <string name="exported">تم حفظ النسخة</string>
+    <string name="export_failed">تعذر حفظ النسخة</string>
+    <string name="no_app">لا يوجد تطبيق لفتح هذا الملف</string>
+    <string name="open_failed">تعذر فتح الملف</string>
+    <string name="items_count">%d عنصر</string>
+    <string name="details_text">الاسم: %1$s\nالنوع: %2$s\nالحجم: %3$s\nتاريخ الإضافة: %4$s</string>
+
+    <string name="prev">السابق</string>
+    <string name="next">التالي</string>
+    <string name="page_of">صفحة %1$d من %2$d</string>
+</resources>
