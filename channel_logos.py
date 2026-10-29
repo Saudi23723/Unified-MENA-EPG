@@ -68,7 +68,7 @@ FIRST = [
 BRANDS = [
     # brand logos for numbered event / extra channels (owner, 28 Oct 2026: groups without logos)
     (None, r"SKY\s*SPORTS?\s*(\+|PLUS)|SKY\s*SPORT\+", TVLOGOS + "countries/united-kingdom/sky-sports-plus-icon-uk.png"),
-    (None, r"^(UK:?\s*)?SKY\s*SPORTS?\s*(UK\s*)?\d+\b", TVLOGOS + "countries/united-kingdom/sky-sports-icon-uk.png"),
+    (None, r"^(UK\s*[:|]?\s*)?SKY\s*SPORTS?\s*(UK\s*)?\d+\b", TVLOGOS + "countries/united-kingdom/sky-sports-icon-uk.png"),
     (None, r"SKY\s*(BOX\s*OFFICE)", TVLOGOS + "countries/united-kingdom/sky-sports-box-office-uk.png"),
     (None, r"^(UK:?\s*)?SKY\s*(MOVIES|CINEMA)", TVLOGOS + "countries/united-kingdom/sky-cinema-uk.png"),
     (None, r"^(UK:?\s*)?SKY\s*MIX", TVLOGOS + "countries/united-kingdom/sky-mix-uk.png"),
@@ -324,7 +324,10 @@ class Logos:
         # last: the exact name in another country's collection (a provider logo, if any, still wins: "#weak")
         k0 = self.keys(name)[:1]
         if k0 and len(k0[0]) >= 4:
-            for reg in ("UK", "US", "INT", "CA", "AU", "FR", "DE", "IT", "ES", "PT", "TR", "CH", "AR"):
+            # (Sky's German / Italian channels share names with the UK ones: not for an English "SKY ..." name)
+            regs = ("UK", "US", "INT", "CA", "AU") if up.lstrip("UK|: ").startswith("SKY") else (
+                "UK", "US", "INT", "CA", "AU", "FR", "DE", "IT", "ES", "PT", "TR", "CH", "AR")
+            for reg in regs:
                 p = self.tv.get(reg, {}).get(k0[0])
                 if p:
                     return TVLOGOS + p + WEAK
