@@ -12,6 +12,10 @@
         android:title="@string/bm_toggle"
         app:showAsAction="always" />
     <item
+        android:id="@+id/v_ai"
+        android:title="@string/ai_title"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/v_bookmarks"
         android:title="@string/bm_list"
         app:showAsAction="never" />

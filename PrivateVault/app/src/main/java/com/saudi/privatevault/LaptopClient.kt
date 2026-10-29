@@ -246,6 +246,49 @@ object LaptopClient {
         }
     }
 
+    class AiAnswer(val text: String?, val engine: String?, val problem: String?)
+
+    /** Asks the vault's study assistant (Gemini, or the server's own model). */
+    fun ai(ctx: Context, mode: String, text: String, question: String = ""): AiAnswer {
+        val base = url(ctx) ?: return AiAnswer(null, null, "unlinked")
+        val conn = open("$base/api/ai", token(ctx))
+        conn.readTimeout = 600000
+        return try {
+            conn.requestMethod = "POST"
+            conn.doOutput = true
+            conn.setRequestProperty("Content-Type", "application/json")
+            val body = JSONObject().put("mode", mode).put("text", text).put("question", question)
+            conn.outputStream.use { it.write(body.toString().toByteArray()) }
+            when (conn.responseCode) {
+                200 -> JSONObject(conn.inputStream.bufferedReader().readText()).let { AiAnswer(it.optString("answer"), it.optString("engine"), null) }
+                404 -> AiAnswer(null, null, "old")
+                503 -> AiAnswer(null, null, "none")
+                else -> AiAnswer(null, null, "failed")
+            }
+        } catch (e: Exception) {
+            AiAnswer(null, null, "offline")
+        } finally {
+            conn.disconnect()
+        }
+    }
+
+    /** Saves (or with "" removes) the Gemini key on the vault; returns its status, null if unreachable. */
+    fun setAiKey(ctx: Context, key: String): JSONObject? {
+        val base = url(ctx) ?: return null
+        val conn = open("$base/api/ai/key", token(ctx))
+        return try {
+            conn.requestMethod = "POST"
+            conn.doOutput = true
+            conn.setRequestProperty("Content-Type", "application/json")
+            conn.outputStream.use { it.write(JSONObject().put("key", key).toString().toByteArray()) }
+            if (conn.responseCode == 200) JSONObject(conn.inputStream.bufferedReader().readText()) else null
+        } catch (e: Exception) {
+            null
+        } finally {
+            conn.disconnect()
+        }
+    }
+
     private fun getJson(ctx: Context, url: String): JSONObject {
         val conn = open(url, token(ctx))
         try {

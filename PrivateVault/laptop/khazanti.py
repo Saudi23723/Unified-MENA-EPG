@@ -869,6 +869,106 @@ def merge_notes(old: dict, new: dict) -> dict:
     return out
 
 
+# ---- the study assistant ----
+#
+# Summaries and questions about a page go to Google's Gemini when a key is
+# set (fast, free up to a daily limit), and otherwise, or when Gemini says no,
+# to a small model running on this server through Ollama (slower, private,
+# no limit). The key stays on the server; devices only send the text.
+
+GEMINI_URL = os.environ.get("KHAZANTI_GEMINI_URL", "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent")
+GEMINI_MODELS = ["gemini-flash-latest", "gemini-2.5-flash"]
+OLLAMA_URL = os.environ.get("KHAZANTI_OLLAMA_URL", "http://127.0.0.1:11434")
+LOCAL_MODEL = os.environ.get("KHAZANTI_LOCAL_MODEL", "qwen2.5:3b")
+
+ASSISTANT = (
+    "You are a patient study assistant for a student pilot reading aviation books. "
+    "Answer in Arabic (Levantine-friendly Modern Standard Arabic), keeping technical terms in English "
+    "in brackets, e.g. قوة الرفع (Lift). Be accurate and concise, use short bullet points, and if the text "
+    "does not contain the answer, say so and answer from general aviation knowledge, clearly marked."
+)
+
+PROMPTS = {
+    "summary": "لخّص النص التالي بنقاط قصيرة وواضحة، مع أهم الأفكار والأرقام والتعريفات:\n\n{text}",
+    "explain": "اشرح النص التالي بطريقة بسيطة كأنك تشرح لطالب، مع مثال إن أمكن:\n\n{text}",
+    "ask": "النص من الكتاب:\n\n{text}\n\nسؤال الطالب: {question}",
+}
+
+
+def _post_json(url, body, headers=None, timeout=120):
+    import urllib.request
+    req = urllib.request.Request(url, data=json.dumps(body).encode("utf-8"), method="POST",
+                                 headers={"Content-Type": "application/json", **(headers or {})})
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        return json.loads(r.read().decode("utf-8"))
+
+
+class Assistant:
+    def __init__(self, auth):
+        self.auth = auth
+
+    @property
+    def key(self):
+        return self.auth.cfg.get("gemini_key") or ""
+
+    def set_key(self, key):
+        with self.auth.lock:
+            if key:
+                self.auth.cfg["gemini_key"] = key.strip()
+            else:
+                self.auth.cfg.pop("gemini_key", None)
+            self.auth._save()
+
+    def local_ready(self) -> bool:
+        import urllib.request
+        try:
+            with urllib.request.urlopen(OLLAMA_URL + "/api/tags", timeout=3) as r:
+                tags = json.loads(r.read().decode("utf-8"))
+            return any(m.get("name", "").split(":")[0] == LOCAL_MODEL.split(":")[0] for m in tags.get("models", []))
+        except Exception:
+            return False
+
+    def status(self):
+        return {"gemini": bool(self.key), "local": self.local_ready(), "local_model": LOCAL_MODEL}
+
+    def _gemini(self, prompt):
+        last = None
+        for model in GEMINI_MODELS:
+            try:
+                out = _post_json(GEMINI_URL.format(model=model), {
+                    "systemInstruction": {"parts": [{"text": ASSISTANT}]},
+                    "contents": [{"role": "user", "parts": [{"text": prompt}]}],
+                    "generationConfig": {"temperature": 0.3},
+                }, headers={"x-goog-api-key": self.key}, timeout=90)
+                parts = out["candidates"][0]["content"]["parts"]
+                text = "".join(p.get("text", "") for p in parts).strip()
+                if text:
+                    return text
+            except Exception as e:
+                last = e
+        raise RuntimeError(f"gemini failed: {last}")
+
+    def _local(self, prompt):
+        out = _post_json(OLLAMA_URL + "/api/chat", {
+            "model": LOCAL_MODEL, "stream": False, "options": {"num_ctx": 8192, "temperature": 0.3},
+            "messages": [{"role": "system", "content": ASSISTANT}, {"role": "user", "content": prompt}],
+        }, timeout=600)
+        return out["message"]["content"].strip()
+
+    def answer(self, mode, text, question=""):
+        """(answer, engine); Gemini first when a key is set, this server's model otherwise or after."""
+        text = (text or "").strip()
+        prompt = PROMPTS.get(mode, PROMPTS["ask"]).format(text=text[:30000], question=(question or "").strip())
+        if self.key:
+            try:
+                return self._gemini(prompt), "gemini"
+            except Exception:
+                pass
+        # The small model reads less at once.
+        local_prompt = PROMPTS.get(mode, PROMPTS["ask"]).format(text=text[:7000], question=(question or "").strip())
+        return self._local(local_prompt), "local"
+
+
 class Notes:
     def __init__(self, home):
         self.dir = os.path.join(home, "notes")
@@ -902,6 +1002,7 @@ class App:
         self.cloud = CloudSync(self)
         self.converter = Converter(home)
         self.notes = Notes(home)
+        self.assistant = Assistant(self.auth)
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -1033,6 +1134,8 @@ class Handler(BaseHTTPRequestHandler):
                 return self._error(404, "not found")
             index = self.app.pdf_indexes.get(self.app.vault, item)
             return self._json(index if index is not None else {"working": True})
+        if path == "/api/ai/status":
+            return self._json(self.app.assistant.status())
         if path == "/api/notes":
             item = self._notes_item(url.query)
             if item is None:
@@ -1118,6 +1221,18 @@ class Handler(BaseHTTPRequestHandler):
                 return self._error(400, "password too short")
             auth.set_password(new)
             return self._json({"ok": True})
+        if path == "/api/ai":
+            text = str(body.get("text", ""))
+            if not text.strip() and not str(body.get("question", "")).strip():
+                return self._error(400, "nothing to read")
+            try:
+                answer, engine = self.app.assistant.answer(str(body.get("mode", "ask")), text, str(body.get("question", "")))
+            except Exception as e:
+                return self._json({"error": "no assistant available", "detail": str(e)[:300]}, 503)
+            return self._json({"answer": answer, "engine": engine})
+        if path == "/api/ai/key":
+            self.app.assistant.set_key(str(body.get("key", "")))
+            return self._json(self.app.assistant.status())
         if path == "/api/cloud/link":
             try:
                 self.app.cloud.connect(str(body.get("url", "")), str(body.get("password", "")))

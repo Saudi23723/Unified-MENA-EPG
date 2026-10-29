@@ -107,7 +107,9 @@ jobs:
           KHAZANTI_PASSWORD: test-pass-1234
         run: |
           sleep 60   # let the raw files of the new publish be served
-          sudo env KHAZANTI_PASSWORD="$KHAZANTI_PASSWORD" bash PrivateVault/cloud/install-cloud.sh ci-check-khazanti not-a-real-token
+          # A small model keeps the check quick; the real server gets qwen2.5:3b.
+          sudo env KHAZANTI_PASSWORD="$KHAZANTI_PASSWORD" KHAZANTI_LOCAL_MODEL=qwen2.5:0.5b \
+            bash PrivateVault/cloud/install-cloud.sh ci-check-khazanti not-a-real-token
       - name: The vault answers behind the proxy, with its password
         run: |
           curl -fsS http://127.0.0.1:47801/api/status
@@ -127,4 +129,15 @@ jobs:
             "http://127.0.0.1:47801/api/upload?name=notes.docx" | python3 -c 'import json,sys;print(json.load(sys.stdin)["id"])')
           curl -fsS -H "Authorization: Bearer $token" "http://127.0.0.1:47801/api/pdf/$id" -o out.pdf
           head -c 4 out.pdf | grep -q '%PDF' && echo "word to pdf works on the cloud server"
+      - name: The study assistant answers from the server's own model
+        run: |
+          for i in $(seq 1 60); do ollama list | grep -q 'qwen2.5:0.5b' && break; sleep 5; done
+          ollama list
+          token=$(curl -fsS -X POST -H "Content-Type: application/json" -d '{"password":"test-pass-1234"}' \
+            http://127.0.0.1:47801/api/login | python3 -c 'import json,sys;print(json.load(sys.stdin)["token"])')
+          curl -fsS -H "Authorization: Bearer $token" http://127.0.0.1:47801/api/ai/status
+          curl -fsS -m 600 -X POST -H "Authorization: Bearer $token" -H "Content-Type: application/json" \
+            -d '{"mode":"summary","text":"Lift is the force that opposes weight. Drag opposes thrust."}' \
+            http://127.0.0.1:47801/api/ai | tee answer.json
+          python3 -c 'import json;a=json.load(open("answer.json"));assert a["engine"]=="local" and a["answer"].strip(), a'
 

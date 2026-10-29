@@ -12,6 +12,10 @@
         android:title="@string/send_phone"
         app:showAsAction="never" />
     <item
+        android:id="@+id/l_ai_key"
+        android:title="@string/ai_key_title"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/l_refresh"
         android:title="@string/laptop_refresh"
         app:showAsAction="never" />

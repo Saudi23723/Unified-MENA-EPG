@@ -250,6 +250,16 @@ class PdfLinks private constructor(private val doc: PDDocument) : Closeable {
 
     private val letterCache = HashMap<Int, List<CharBox>>()
 
+    /** The page's text, for the study assistant. */
+    fun textOf(index: Int): String = try {
+        val s = PDFTextStripper()
+        s.startPage = index + 1
+        s.endPage = index + 1
+        s.getText(doc).trim()
+    } catch (e: Exception) {
+        ""
+    }
+
     /** The page's letters in reading order (the order the book stores them, so columns stay apart). */
     fun lettersOn(index: Int): List<CharBox> = letterCache.getOrPut(index) {
         try {

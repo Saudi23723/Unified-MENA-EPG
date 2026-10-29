@@ -63,8 +63,52 @@ def check_contents_parsing():
     assert ("Preface", "iii") in got, got
 
 
+# Stand-ins for Gemini and Ollama, so the assistant's choices can be checked offline.
+STUB = {"gemini": "ok", "local": True, "seen": []}
+
+
+def start_stub():
+    import threading
+    from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+
+    class H(BaseHTTPRequestHandler):
+        def log_message(self, *a):
+            pass
+
+        def _reply(self, code, obj):
+            data = json.dumps(obj).encode()
+            self.send_response(code)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(data)))
+            self.end_headers()
+            self.wfile.write(data)
+
+        def do_GET(self):
+            if self.path == "/api/tags" and STUB["local"]:
+                return self._reply(200, {"models": [{"name": "qwen2.5:3b"}]})
+            self._reply(404, {})
+
+        def do_POST(self):
+            body = json.loads(self.rfile.read(int(self.headers["Content-Length"])))
+            STUB["seen"].append((self.path, self.headers.get("x-goog-api-key"), body))
+            if ":generateContent" in self.path:
+                if STUB["gemini"] != "ok":
+                    return self._reply(429, {"error": "quota"})
+                return self._reply(200, {"candidates": [{"content": {"parts": [{"text": "gemini answer"}]}}]})
+            if self.path == "/api/chat" and STUB["local"]:
+                return self._reply(200, {"message": {"content": "local answer"}})
+            self._reply(503, {})
+
+    srv = ThreadingHTTPServer(("127.0.0.1", 0), H)
+    threading.Thread(target=srv.serve_forever, daemon=True).start()
+    return srv.server_address[1]
+
+
 def main():
     check_contents_parsing()
+    stub = start_stub()
+    os.environ["KHAZANTI_GEMINI_URL"] = f"http://127.0.0.1:{stub}/v1beta/models/{{model}}:generateContent"
+    os.environ["KHAZANTI_OLLAMA_URL"] = f"http://127.0.0.1:{stub}"
     home = tempfile.mkdtemp(prefix="khazanti-test-")
     port = free_port()
     env = dict(os.environ, KHAZANTI_HOME=home)
@@ -181,6 +225,26 @@ def main():
         st, g = c.json("GET", f"/api/notes?item={notes['id']}")
         assert g == b, g
         assert c.json("GET", "/api/notes?src=phone:none")[0] == 404
+
+        # The assistant: local model without a key; Gemini once a key is set;
+        # back to the local model when Gemini refuses; a clear error with neither.
+        st, a = c.json("POST", "/api/ai", {"mode": "summary", "text": "Lift opposes weight."})
+        assert st == 200 and a == {"answer": "local answer", "engine": "local"}, a
+        st, s = c.json("POST", "/api/ai/key", {"key": "test-key"})
+        assert s["gemini"] and s["local"], s
+        st, a = c.json("POST", "/api/ai", {"mode": "ask", "text": "Lift opposes weight.", "question": "What opposes lift?"})
+        assert a["engine"] == "gemini" and a["answer"] == "gemini answer", a
+        path, key, body = STUB["seen"][-1]
+        assert key == "test-key" and "What opposes lift?" in body["contents"][0]["parts"][0]["text"], STUB["seen"][-1]
+        STUB["gemini"] = "quota"
+        st, a = c.json("POST", "/api/ai", {"mode": "explain", "text": "Drag."})
+        assert a["engine"] == "local", a
+        STUB["local"] = False
+        st, a = c.json("POST", "/api/ai", {"mode": "explain", "text": "Drag."})
+        assert st == 503, (st, a)
+        assert c.json("POST", "/api/ai", {"mode": "ask", "text": " "})[0] == 400
+        STUB.update(gemini="ok", local=True)
+        c.json("POST", "/api/ai/key", {"key": ""})
 
         # Running from source never offers to update itself. The built program
         # must reach the update source from inside the .exe (network and TLS).

@@ -21,6 +21,8 @@ DOMAIN="$NAME.duckdns.org"
 BASE="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/vault-builds-windows"
 APP=/opt/khazanti
 DATA=/var/lib/khazanti
+# The study assistant's own model on this server (used when Gemini is not set or says no).
+LOCAL_MODEL="${KHAZANTI_LOCAL_MODEL:-qwen2.5:3b}"
 
 if [[ $EUID -ne 0 ]]; then
   echo "run with sudo" >&2
@@ -71,6 +73,7 @@ cat > /usr/local/bin/khazanti-update <<UPD
 # Daily: take the newest published vault code, restart if it changed.
 set -e
 command -v soffice >/dev/null || apt-get install -y -q --no-install-recommends $OFFICE_PKGS
+ollama list 2>/dev/null | grep -q "$LOCAL_MODEL" || ollama pull "$LOCAL_MODEL" >/dev/null 2>&1 || true
 latest=\$(curl -fsSL "$BASE/latest.json?t=\$(date +%s)" | python3 -c 'import json,sys;print(json.load(sys.stdin)["build"])')
 mine=\$(python3 -c 'import json;print(json.load(open("$APP/build_info.json"))["build"])' 2>/dev/null || echo 0)
 [ "\$latest" -gt "\$mine" ] || exit 0
@@ -90,6 +93,7 @@ After=network-online.target
 User=khazanti
 Environment=KHAZANTI_HOME=$DATA
 Environment=KHAZANTI_BIND=127.0.0.1
+Environment=KHAZANTI_LOCAL_MODEL=$LOCAL_MODEL
 ExecStart=$APP/venv/bin/python $APP/khazanti.py --headless --port 47801
 Restart=always
 RestartSec=3
@@ -122,6 +126,15 @@ for port in 80 443; do
   iptables -C INPUT -p tcp --dport $port -j ACCEPT 2>/dev/null || iptables -I INPUT 1 -p tcp --dport $port -j ACCEPT
 done
 netfilter-persistent save >/dev/null 2>&1 || true
+
+echo "== الذكاء الاصطناعي على السيرفر (Ollama) =="
+if ! command -v ollama >/dev/null; then
+  curl -fsSL https://ollama.com/install.sh | sh
+fi
+systemctl enable --now ollama >/dev/null 2>&1 || true
+# The model is a couple of GB: it downloads in the background so this finishes now.
+nohup setsid bash -c "for i in \$(seq 1 30); do curl -fsS http://127.0.0.1:11434/api/tags >/dev/null 2>&1 && break; sleep 2; done; ollama pull '$LOCAL_MODEL'" \
+  >/var/log/khazanti-model.log 2>&1 </dev/null &
 
 echo "== 7/7 تشغيل =="
 cat > /etc/caddy/Caddyfile <<CADDY

@@ -111,6 +111,7 @@ class PdfViewerActivity : BaseActivity() {
                 R.id.v_write -> startWriting()
                 R.id.v_bookmark -> toggleBookmark()
                 R.id.v_bookmarks -> showBookmarks()
+                R.id.v_ai -> askAssistant(null)
                 R.id.v_finger -> {
                     b.page.fingerDraws = !b.page.fingerDraws
                     mi.isChecked = b.page.fingerDraws
@@ -821,11 +822,15 @@ class PdfViewerActivity : BaseActivity() {
     // ---- selected text ----
 
     private fun onTextSelected(text: String) {
-        val items = arrayOf(getString(R.string.sel_highlight), getString(R.string.sel_copy))
+        val items = arrayOf(getString(R.string.sel_highlight), getString(R.string.sel_copy),
+            getString(R.string.ai_explain_sel), getString(R.string.ai_ask_sel))
         MaterialAlertDialogBuilder(this)
             .setTitle(text.replace('\n', ' ').take(80) + if (text.length > 80) "…" else "")
             .setItems(items) { _, which ->
-                if (which == 0) {
+                if (which == 2 || which == 3) {
+                    b.page.clearSelection()
+                    if (which == 2) runAssistant("explain", text, "") else askQuestion(text)
+                } else if (which == 0) {
                     b.page.highlightSelection(markerColor)
                 } else {
                     val cm = getSystemService(android.content.ClipboardManager::class.java)
@@ -836,6 +841,116 @@ class PdfViewerActivity : BaseActivity() {
             }
             .setOnCancelListener { b.page.clearSelection() }
             .setNegativeButton(R.string.cancel) { _, _ -> b.page.clearSelection() }
+            .show()
+    }
+
+    // ---- the study assistant ----
+
+    /** From the menu: about the whole page; from a selection: about the chosen words. */
+    private fun askAssistant(selected: String?) {
+        if (!LaptopClient.isLinked(this)) {
+            Toast.makeText(this, R.string.ai_link_first, Toast.LENGTH_LONG).show()
+            return
+        }
+        val items = arrayOf(getString(R.string.ai_summary_page), getString(R.string.ai_explain_page), getString(R.string.ai_ask_page))
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.ai_title)
+            .setItems(items) { _, which ->
+                pageText { text ->
+                    when (which) {
+                        0 -> runAssistant("summary", selected ?: text, "")
+                        1 -> runAssistant("explain", selected ?: text, "")
+                        else -> askQuestion(selected ?: text)
+                    }
+                }
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
+    private fun pageText(done: (String) -> Unit) {
+        val l = links
+        if (l == null) {
+            Toast.makeText(this, R.string.ai_no_text, Toast.LENGTH_LONG).show()
+            return
+        }
+        val index = pageIndex
+        lifecycleScope.launch {
+            val text = withContext(linkThread) { l.textOf(index) }
+            if (text.isBlank()) Toast.makeText(this@PdfViewerActivity, R.string.ai_no_text, Toast.LENGTH_LONG).show()
+            else done(text)
+        }
+    }
+
+    private fun askQuestion(text: String) {
+        val input = EditText(this).apply {
+            hint = getString(R.string.ai_question_hint)
+            minLines = 2
+        }
+        val box = FrameLayout(this).apply {
+            setPadding(dp(20), dp(8), dp(20), 0)
+            addView(input)
+        }
+        val dialog = MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.ai_ask_page)
+            .setView(box)
+            .setPositiveButton(R.string.ai_send) { _, _ ->
+                val q = input.text.toString().trim()
+                if (q.isNotEmpty()) runAssistant("ask", text, q)
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+        input.requestFocus()
+        dialog.window?.setSoftInputMode(android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+    }
+
+    private fun runAssistant(mode: String, text: String, question: String) {
+        if (!LaptopClient.isLinked(this)) {
+            Toast.makeText(this, R.string.ai_link_first, Toast.LENGTH_LONG).show()
+            return
+        }
+        val waiting = MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.ai_title)
+            .setMessage(R.string.ai_thinking)
+            .setCancelable(false)
+            .show()
+        lifecycleScope.launch {
+            val a = withContext(Dispatchers.IO) { LaptopClient.ai(this@PdfViewerActivity, mode, text, question) }
+            waiting.dismiss()
+            if (a.text == null) {
+                val msg = when (a.problem) {
+                    "old" -> R.string.ai_old_server
+                    "none" -> R.string.ai_none
+                    "offline" -> R.string.ai_offline
+                    else -> R.string.ai_failed
+                }
+                Toast.makeText(this@PdfViewerActivity, msg, Toast.LENGTH_LONG).show()
+                return@launch
+            }
+            showAnswer(a.text, a.engine, text)
+        }
+    }
+
+    private fun showAnswer(answer: String, engine: String?, text: String) {
+        val tv = android.widget.TextView(this).apply {
+            this.text = answer
+            setTextIsSelectable(true)
+            textSize = 16f
+            setLineSpacing(0f, 1.25f)
+            setPadding(dp(22), dp(8), dp(22), dp(8))
+            textDirection = View.TEXT_DIRECTION_FIRST_STRONG
+        }
+        val scroll = android.widget.ScrollView(this).apply { addView(tv) }
+        MaterialAlertDialogBuilder(this)
+            .setTitle(getString(if (engine == "gemini") R.string.ai_by_gemini else R.string.ai_by_local))
+            .setView(scroll)
+            .setPositiveButton(R.string.ai_another) { _, _ -> askQuestion(text) }
+            .setNeutralButton(R.string.sel_copy) { _, _ ->
+                getSystemService(android.content.ClipboardManager::class.java)
+                    ?.setPrimaryClip(android.content.ClipData.newPlainText("answer", answer))
+                Toast.makeText(this, R.string.sel_copied, Toast.LENGTH_SHORT).show()
+            }
+            .setNegativeButton(R.string.ai_close, null)
             .show()
     }
 
