@@ -48,6 +48,11 @@ jobs:
           EXPECT_BUILD: ${{ github.run_number }}
         run: python khazanti_selftest.py dist/Khazanti.exe
 
+      # A real update: the new .exe updates itself to the build published
+      # before it, swaps the file and starts again on its own.
+      - name: Test a one-click update
+        run: python khazanti_update_check.py dist/Khazanti.exe
+
       # The program updates itself from this branch (see UPDATE_SOURCES).
       - name: Publish for one-click updates
         shell: bash

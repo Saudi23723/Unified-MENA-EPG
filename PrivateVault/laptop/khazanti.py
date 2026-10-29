@@ -381,7 +381,7 @@ def latest_release():
     return None
 
 
-def apply_update(latest) -> None:
+def apply_update(latest, port=DEFAULT_PORT) -> None:
     """Download the new .exe beside this one, then swap it in once this process exits and start it."""
     if not getattr(sys, "frozen", False) or os.name != "nt":
         raise RuntimeError("updates apply to the installed Khazanti.exe only")
@@ -410,11 +410,16 @@ def apply_update(latest) -> None:
             ":wait\r\n"
             "ping -n 2 127.0.0.1 >nul\r\n"
             f'move /y "{new}" "{exe}" >nul 2>&1 || goto wait\r\n'
-            f'start "" "{exe}" --no-window\r\n'
+            f'start "" "{exe}" --no-window --port {port}\r\n'
             'del "%~f0"\r\n'
         )
     import subprocess
-    subprocess.Popen(["cmd", "/c", bat], creationflags=0x08000000 | 0x00000008)  # no window, detached
+    # The one-file .exe tells its own child processes where it unpacked
+    # itself. The new .exe must not inherit that: the old one's folder is
+    # deleted when it exits ("Failed to load Python DLL").
+    env = {k: v for k, v in os.environ.items() if not k.upper().startswith(("_MEI", "_PYI"))}
+    env["PYINSTALLER_RESET_ENVIRONMENT"] = "1"
+    subprocess.Popen(["cmd", "/c", bat], env=env, creationflags=0x08000000 | 0x00000008)  # no window, detached
     # Let the browser receive the reply before this process goes away.
     threading.Timer(1.5, lambda: os._exit(0)).start()
 
@@ -688,7 +693,7 @@ class Handler(BaseHTTPRequestHandler):
             if not latest:
                 return self._error(502, "no update source reachable")
             try:
-                apply_update(latest)
+                apply_update(latest, self.app.port)
             except RuntimeError as e:
                 return self._error(500, str(e))
             return self._json({"ok": True, "build": latest["build"]})
