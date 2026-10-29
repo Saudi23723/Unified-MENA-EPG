@@ -950,7 +950,8 @@ class Assistant:
 
     def _local(self, prompt):
         out = _post_json(OLLAMA_URL + "/api/chat", {
-            "model": LOCAL_MODEL, "stream": False, "options": {"num_ctx": 8192, "temperature": 0.3},
+            "model": LOCAL_MODEL, "stream": False,
+            "options": {"num_ctx": 8192, "temperature": 0.3, "num_predict": 900, "repeat_penalty": 1.18, "repeat_last_n": 256},
             "messages": [{"role": "system", "content": ASSISTANT}, {"role": "user", "content": prompt}],
         }, timeout=600)
         return out["message"]["content"].strip()
