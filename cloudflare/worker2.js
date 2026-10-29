@@ -21,8 +21,12 @@ const asciiJson = (o) => JSON.stringify(o).replace(/[\u007f-\uffff]/g, esc);
 const json = (o, ttl = 60) => new Response(asciiJson(o), { headers: { ...JSONH, "Cache-Control": `max-age=${ttl}` } });
 
 // Pass a repo file straight through (no parsing, so big lists cost almost no CPU).
+// Repo files are read with a 2-minute version tag, so a change on GitHub reaches the TV within minutes instead
+// of after Cloudflare's 15-minute copy runs out (owner, 28 Oct 2026: new US Local groups did not show).
+const fresh = (u) => (u.startsWith(MAIN) ? u + (u.includes("?") ? "&" : "?") + "v=" + Math.floor(Date.now() / 120000) : u);
 async function pass(url, ttl, empty) {
-  const r = await fetch(url, { cf: { cacheTtl: ttl, cacheEverything: true } });
+  if (url.startsWith(MAIN)) ttl = Math.min(ttl, 120);
+  const r = await fetch(fresh(url), { cf: { cacheTtl: ttl, cacheEverything: true } });
   if (!r.ok) return empty !== undefined ? json(empty, 60) : new Response("not found", { status: 404, headers: CORS });
   return new Response(r.body, { headers: { ...JSONH, "Cache-Control": `max-age=${Math.min(ttl, 300)}` } });
 }
@@ -66,8 +70,8 @@ async function buildPatch(env, user, pass_, ua) {
   BUILDING = Date.now();
   try {
     const [mine, cats, live] = await Promise.all([
-      fetch(MAIN + "live_streams.json", { cf: { cacheTtl: 900, cacheEverything: true } }).then((r) => (r.ok ? r.json() : [])),
-      fetch(MAIN + "live_categories.json", { cf: { cacheTtl: 900, cacheEverything: true } }).then((r) => (r.ok ? r.json() : [])),
+      fetch(fresh(MAIN + "live_streams.json"), { cf: { cacheTtl: 120, cacheEverything: true } }).then((r) => (r.ok ? r.json() : [])),
+      fetch(fresh(MAIN + "live_categories.json"), { cf: { cacheTtl: 120, cacheEverything: true } }).then((r) => (r.ok ? r.json() : [])),
       fetch(`${PROVIDER}/player_api.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass_)}&action=get_live_streams`,
         { headers: { "User-Agent": ua } }).then((r) => (note(r).ok ? r.json() : [])).catch(() => []),
     ]);
@@ -210,8 +214,8 @@ export default {
       const q = url.searchParams, user = q.get("username") || "", pass_ = q.get("password") || "";
       if (!user || !pass_) return new Response("username and password needed", { status: 401, headers: CORS });
       const [cats, streams] = await Promise.all([
-        fetch(MAIN + "live_categories.json", { cf: { cacheTtl: 900, cacheEverything: true } }).then((r) => r.json()),
-        fetch(MAIN + "live_streams.json", { cf: { cacheTtl: 900, cacheEverything: true } }).then((r) => r.json()),
+        fetch(fresh(MAIN + "live_categories.json"), { cf: { cacheTtl: 120, cacheEverything: true } }).then((r) => r.json()),
+        fetch(fresh(MAIN + "live_streams.json"), { cf: { cacheTtl: 120, cacheEverything: true } }).then((r) => r.json()),
       ]);
       const group = {};
       for (const c of cats) group[c.category_id] = c.category_name;
@@ -259,7 +263,7 @@ export default {
             if (!pt) { await Promise.race([b, new Promise((r) => setTimeout(r, 4000))]); pt = PATCH; }
           }
           if (!pt) return pass(file, 900, []);
-          const r = await fetch(file, { cf: { cacheTtl: 900, cacheEverything: true } });
+          const r = await fetch(fresh(file), { cf: { cacheTtl: 120, cacheEverything: true } });
           if (!r.ok) return json([], 60);
           return json(applyPatch(await r.json(), pt, cat), 120);
         } catch (e) {
