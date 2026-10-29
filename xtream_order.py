@@ -72,6 +72,9 @@ GROUP_LEADS = [
                             r"^DMC\b(?!.*DRAMA)", r"^DMC\s*DRAMA", r"^NILE\b", r"^SADA\s*(EL|AL)\s*BA?LA?D"]),
     (r"^UK\b.*NEWS", [r"BBC WORLD"]),
     (r"AUSTRALIA|ᴀᴜꜱᴛʀᴀʟɪᴀ", [r"\bESPN\b", r"\bFOX\b"]),  # owner: ESPN and Fox first in Australia
+    # owner, 28 Oct 2026: USA Network first in its package, then TNT, TBS, truTV, LiveNOW from Fox, Fox, Weather
+    (r"\bUS\s*ENTERTAINMENT", [r"^(US:?\s*)?USA\s*NETWORK", r"^(US:?\s*)?TNT\b(?!\s*SPORTS?)", r"^(US:?\s*)?TBS\b", r"^(US:?\s*)?TRU\s*TV",
+                                 r"LIVE\s*NOW", r"^(US:?\s*)?FOX\b(?!.*(SPORT|NEWS|BUSINESS|SOUL|DEPORTES|SOCCER))", r"WEATHER"]),
     # owner, 28 Oct 2026: Sky Sports, then TNT Sports right after, then MUTV, then the rest
     (r"SKY SPORTS\s*🔺\s*TNT", [r"^(UK:?\s*)?SKY\s*SPORTS?\b", r"^(NOW\s*|D\+\s*|UK:?\s*)?TNT\b", r"\bMUTV\b"]),
     (r"^UK\b|^SPORTS$|^NOW TV$", [r"^(UK:?\s*)?SKY ?SPORTS?\b", r"^(UK:?\s*)?TNT ?SPORTS?\b", r"\bMUTV\b"]),
