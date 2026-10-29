@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-29T21:02:50.068Z",
+  "updated_at": "2026-10-29T21:08:55.024Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -455,7 +455,7 @@
           "code": 3,
           "max": 19.2,
           "min": 7.6,
-          "rain": 0
+          "rain": 3
         },
         {
           "date": "2026-10-31",
@@ -507,7 +507,7 @@
       "temperature_c": 23.7,
       "humidity": 52,
       "wind_speed": 10.5,
-      "rain_chance": 1,
+      "rain_chance": 0,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-10-29T14:00",
@@ -519,14 +519,14 @@
           "code": 51,
           "max": 24.0,
           "min": 15.8,
-          "rain": 11
+          "rain": 7
         },
         {
           "date": "2026-10-30",
           "code": 63,
           "max": 22.5,
           "min": 16.2,
-          "rain": 32
+          "rain": 19
         },
         {
           "date": "2026-10-31",
@@ -597,7 +597,7 @@
           "code": 51,
           "max": 13.5,
           "min": 8.8,
-          "rain": 8
+          "rain": 16
         },
         {
           "date": "2026-10-31",
@@ -661,14 +661,14 @@
           "code": 3,
           "max": 25.0,
           "min": 13.8,
-          "rain": 0
+          "rain": 2
         },
         {
           "date": "2026-10-30",
           "code": 3,
           "max": 25.5,
           "min": 14.6,
-          "rain": 24
+          "rain": 26
         },
         {
           "date": "2026-10-31",
@@ -720,7 +720,7 @@
       "temperature_c": 25.5,
       "humidity": 64,
       "wind_speed": 14.2,
-      "rain_chance": 2,
+      "rain_chance": 4,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-10-29T16:00",
@@ -732,14 +732,14 @@
           "code": 51,
           "max": 26.6,
           "min": 19.6,
-          "rain": 11
+          "rain": 15
         },
         {
           "date": "2026-10-30",
           "code": 51,
           "max": 24.7,
           "min": 19.3,
-          "rain": 18
+          "rain": 23
         },
         {
           "date": "2026-10-31",
@@ -803,7 +803,7 @@
           "code": 3,
           "max": 19.1,
           "min": 9.7,
-          "rain": 0
+          "rain": 4
         },
         {
           "date": "2026-10-30",
