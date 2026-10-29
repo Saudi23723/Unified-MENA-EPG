@@ -47,6 +47,13 @@ CC = {"us": "US", "uk": "UK", "gb": "UK", "ie": "UK", "ca": "CA", "tr": "TR", "i
 
 # (group regex or None, name regex, logo). "" = leave it to the provider. Checked before everything else.
 FIRST = [
+    # US networks: the collection's colour logos (the guide's ones are dark / odd on DreamTV; owner, 28 Oct 2026)
+    (r"US|ᴇɴᴛᴇʀᴛᴀɪɴᴍᴇɴᴛ|ENTERTAINMENT", r"^(US:?\s*)?TNT\b(?!.*(SPORT|BOX|ULTIMATE|2M|AL\s|ARRIADIA|MEDI|TAMAZIGHT|ALMAGHRIB|ASSADISSA))", TVLOGOS + "countries/united-states/tnt-us.png"),
+    (r"US|ᴇɴᴛᴇʀᴛᴀɪɴᴍᴇɴᴛ|ENTERTAINMENT", r"^(US:?\s*)?TRU\s*TV\b", TVLOGOS + "countries/united-states/tru-tv-us.png"),
+    (r"US|ᴇɴᴛᴇʀᴛᴀɪɴᴍᴇɴᴛ|ENTERTAINMENT", r"^(US:?\s*)?TBS\b", TVLOGOS + "countries/united-states/tbs-us.png"),
+    (r"US|ᴇɴᴛᴇʀᴛᴀɪɴᴍᴇɴᴛ|ENTERTAINMENT", r"^(US:?\s*)?FOX\s*WEATHER", TVLOGOS + "countries/united-states/fox-weather-us.png"),
+    (r"US|ᴇɴᴛᴇʀᴛᴀɪɴᴍᴇɴᴛ|ENTERTAINMENT", r"^(US:?\s*)?(THE\s*)?WEATHER\s*CHANNEL", TVLOGOS + "countries/united-states/weather-channel-us.png"),
+    (r"US|ᴇɴᴛᴇʀᴛᴀɪɴᴍᴇɴᴛ|ENTERTAINMENT", r"LIVE\s*NOW", TVLOGOS + "countries/united-states/live-now-fox-us.png"),
     (r"LEBANON|^LB", r"^((LBN|LEB)\s*\|\s*)?ONE\b", ""),
     (r"LEBANON|^LB", r"\bMTV\b", LB + "mtv-lebanon-lb.png"),
     (None, r"^(LBN|LEB)\s*\|\s*MTV\b", LB + "mtv-lebanon-lb.png"),
