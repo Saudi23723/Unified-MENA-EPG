@@ -95,6 +95,10 @@ SVC
 echo "== 5/7 كلمة سر الخزنة =="
 if [[ ! -f "$DATA/config.json" ]] || ! grep -q pw_hash "$DATA/config.json"; then
   PW1="${KHAZANTI_PASSWORD:-}"
+  if [[ -z "$PW1" ]] && ! (: </dev/tty) 2>/dev/null; then
+    echo "لا توجد شاشة لكتابة كلمة السر؛ شغّل الأمر من نافذة SSH" >&2
+    exit 1
+  fi
   while [[ -z "$PW1" ]]; do
     read -r -s -p "اختر كلمة سر خزنة السحابة (4 أحرف على الأقل): " PW1 </dev/tty; echo
     read -r -s -p "أعد كتابتها: " PW2 </dev/tty; echo

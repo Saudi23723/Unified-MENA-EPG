@@ -107,7 +107,7 @@ jobs:
           KHAZANTI_PASSWORD: test-pass-1234
         run: |
           sleep 60   # let the raw files of the new publish be served
-          sudo -E bash PrivateVault/cloud/install-cloud.sh ci-check-khazanti not-a-real-token
+          sudo env KHAZANTI_PASSWORD="$KHAZANTI_PASSWORD" bash PrivateVault/cloud/install-cloud.sh ci-check-khazanti not-a-real-token
       - name: The vault answers behind the proxy, with its password
         run: |
           curl -fsS http://127.0.0.1:47801/api/status
