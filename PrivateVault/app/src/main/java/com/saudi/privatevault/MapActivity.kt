@@ -37,7 +37,6 @@ import org.osmdroid.events.MapListener
 import org.osmdroid.events.ScrollEvent
 import org.osmdroid.events.ZoomEvent
 import org.osmdroid.tileprovider.cachemanager.CacheManager
-import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.CustomZoomButtonsController
 import org.osmdroid.views.MapView
@@ -333,18 +332,17 @@ class MapActivity : BaseActivity() {
             setOnClickListener { onClick() }
             bar.addView(this, LinearLayout.LayoutParams(dp(46), dp(46)).apply { setMargins(dp(2), 0, dp(2), 0) })
         }
-        val T = MapDrawOverlay.MapTool
         val tools = listOf(
-            Triple(T.PAN, R.drawable.ic_tool_hand, R.string.pen_hand),
-            Triple(T.RULER, R.drawable.ic_ruler, R.string.map_ruler),
-            Triple(T.SELECT, R.drawable.ic_tool_select, R.string.pen_select),
-            Triple(T.PEN, R.drawable.ic_tool_pen, R.string.pen_pen),
-            Triple(T.LINE, R.drawable.ic_tool_line, R.string.pen_line),
-            Triple(T.ARROW, R.drawable.ic_tool_arrow, R.string.pen_arrow),
-            Triple(T.CIRCLE, R.drawable.ic_tool_oval, R.string.map_circle),
-            Triple(T.RECT, R.drawable.ic_tool_rect, R.string.pen_rect),
-            Triple(T.TEXT, R.drawable.ic_tool_text, R.string.pen_text),
-            Triple(T.ERASER, R.drawable.ic_tool_eraser, R.string.pen_eraser),
+            Triple(MapDrawOverlay.MapTool.PAN, R.drawable.ic_tool_hand, R.string.pen_hand),
+            Triple(MapDrawOverlay.MapTool.RULER, R.drawable.ic_ruler, R.string.map_ruler),
+            Triple(MapDrawOverlay.MapTool.SELECT, R.drawable.ic_tool_select, R.string.pen_select),
+            Triple(MapDrawOverlay.MapTool.PEN, R.drawable.ic_tool_pen, R.string.pen_pen),
+            Triple(MapDrawOverlay.MapTool.LINE, R.drawable.ic_tool_line, R.string.pen_line),
+            Triple(MapDrawOverlay.MapTool.ARROW, R.drawable.ic_tool_arrow, R.string.pen_arrow),
+            Triple(MapDrawOverlay.MapTool.CIRCLE, R.drawable.ic_tool_oval, R.string.map_circle),
+            Triple(MapDrawOverlay.MapTool.RECT, R.drawable.ic_tool_rect, R.string.pen_rect),
+            Triple(MapDrawOverlay.MapTool.TEXT, R.drawable.ic_tool_text, R.string.pen_text),
+            Triple(MapDrawOverlay.MapTool.ERASER, R.drawable.ic_tool_eraser, R.string.pen_eraser),
         )
         for ((tool, icon, label) in tools) toolButtons[tool] = button(icon, getString(label)) { pick(tool) }
         bar.addView(View(this).apply { setBackgroundColor(0x33000000) }, LinearLayout.LayoutParams(dp(1), dp(28)).apply { setMargins(dp(6), 0, dp(6), 0) })
@@ -366,7 +364,7 @@ class MapActivity : BaseActivity() {
             saveDrawings()
         }
         draw.onTextAt = { g -> askText(g) }
-        pick(T.PAN)
+        pick(MapDrawOverlay.MapTool.PAN)
     }
 
     private fun toggleDrawing() {
