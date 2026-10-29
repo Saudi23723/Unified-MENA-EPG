@@ -35,7 +35,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Test the server
-        run: python test_khazanti.py
+        run: python khazanti_selftest.py
 
       - name: Build Khazanti.exe
         run: |
@@ -43,7 +43,7 @@ jobs:
           pyinstaller --onefile --noconsole --name Khazanti --icon icon.ico --add-data "index.html;." --hidden-import pystray._win32 khazanti.py
 
       - name: Test the built program
-        run: python test_khazanti.py dist/Khazanti.exe
+        run: python khazanti_selftest.py dist/Khazanti.exe
 
       - uses: actions/upload-artifact@v4
         with:
