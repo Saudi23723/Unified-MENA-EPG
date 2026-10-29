@@ -8,6 +8,11 @@ on:
   schedule:
     - cron: "*/15 * * * *"
   workflow_dispatch:
+    inputs:
+      force_vod:
+        description: "Rebuild movies / series now"
+        required: false
+        default: "0"
 
 permissions:
   contents: write
@@ -35,6 +40,7 @@ jobs:
           STRONG_PASS: ${{ secrets.STRONG_PASS }}
           STRONG_URL: ${{ secrets.STRONG_URL }}
           DREAM4K_URL: ${{ secrets.DREAM4K_URL }}
+          FORCE_VOD: ${{ github.event.inputs.force_vod }}
         run: |
           set +e
           for p in strong dream4k; do
@@ -50,6 +56,16 @@ jobs:
             # what happened, without any login (the script never prints it)
             { date -u; echo "exit $c"; tail -3 "_msg_$p.txt"; } > "_status/$p.txt"
             [ "$c" = 0 ] && [ -f "_new/$p.json" ] && cp "_new/$p.json" "_patch/$p.json"
+            # movies / series (the relay cannot read them either): every 2 hours is enough
+            age=999999; [ -f "_patch/$p/stamp" ] && age=$(( $(date +%s) - $(cat "_patch/$p/stamp") ))
+            if [ "$c" = 0 ] && [ "$age" -gt 7000 -o "${FORCE_VOD:-}" = 1 ]; then
+              rm -rf "_vod/$p" && python tools/vod_patch.py "$p" "_vod/$p" > "_vmsg_$p.txt" 2>&1
+              v=$?
+              tail -2 "_vmsg_$p.txt" >> "_status/$p.txt"; echo "vod exit $v" >> "_status/$p.txt"
+              if [ "$v" = 0 ] && [ -f "_vod/$p/vod_categories.json" ]; then
+                rm -rf "_patch/$p" && mv "_vod/$p" "_patch/$p" && date +%s > "_patch/$p/stamp"
+              fi
+            fi
           done
           exit 0
       - name: Publish (live-status and live-patch branches, no history)

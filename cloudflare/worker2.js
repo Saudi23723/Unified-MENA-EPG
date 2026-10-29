@@ -293,6 +293,17 @@ export default {
           .slice(0, Number(q.get("limit")) || 4);
         return json({ epg_listings: list }, 300);
       }
+      // Playlists whose provider refuses the relay (Dream4k, Strong): movies / series groups and lists already
+      // arranged by GitHub (tools/vod_patch.py, branch live-patch), passed through as they are.
+      if (GITHUB_LIVE.has(PLAYLIST) && /^get_(vod_categories|series_categories|vod_streams|series)$/.test(action)) {
+        const kind = /vod/.test(action) ? "vod" : "series";
+        const cat = q.get("category_id");
+        const f = action.endsWith("categories") ? `${kind}_categories.json` : cat ? `${kind}/${encodeURIComponent(cat)}.json`
+          : kind === "vod" ? "vod_streams.json" : "series.json";
+        const r = await fetch(REPO + "live-patch/" + PLAYLIST + "/" + f + "?v=" + Math.floor(Date.now() / 120000), { cf: { cacheTtl: 120, cacheEverything: true } });
+        if (r.ok) return new Response(r.body, { headers: { ...JSONH, "Cache-Control": "max-age=120" } });
+        if (cat && r.status === 404) return json([], 60);  // a hidden group
+      }
       // Movie / series groups: the provider's own list, put in the owner's order when the repo has one
       // (xtream/<playlist>/vod_order.json or series_order.json: names in order; groups not listed follow).
       if ((action === "get_vod_categories" || action === "get_series_categories") && !refused()) {
