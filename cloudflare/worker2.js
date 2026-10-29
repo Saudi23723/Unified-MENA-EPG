@@ -39,6 +39,11 @@ async function digest(t) {
 // instance and every category request gets it (owner, 28 Oct 2026: NBA PASS names stayed on yesterday's games).
 const PATCH_AGE = 15 * 60000;
 let PATCH = null, BUILDING = 0;
+// Some providers refuse Cloudflare's addresses (Strong answers 403, 28 Oct 2026): after a refusal this worker stops
+// asking for an hour, so the provider does not see a stream of refused requests; DreamTV then talks to it directly.
+let REFUSED = 0;
+const refused = () => Date.now() - REFUSED < 3600000;
+const note = (r) => { if (r && (r.status === 403 || r.status === 401)) REFUSED = Date.now(); return r; };
 
 async function readPatch(env) {
   if (PATCH && Date.now() - PATCH.t < PATCH_AGE) return PATCH;
@@ -49,14 +54,14 @@ async function readPatch(env) {
 }
 
 async function buildPatch(env, user, pass_, ua) {
-  if (Date.now() - BUILDING < 120000) return;
+  if (Date.now() - BUILDING < 120000 || refused()) return;
   BUILDING = Date.now();
   try {
     const [mine, cats, live] = await Promise.all([
       fetch(MAIN + "live_streams.json", { cf: { cacheTtl: 900, cacheEverything: true } }).then((r) => (r.ok ? r.json() : [])),
       fetch(MAIN + "live_categories.json", { cf: { cacheTtl: 900, cacheEverything: true } }).then((r) => (r.ok ? r.json() : [])),
       fetch(`${PROVIDER}/player_api.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass_)}&action=get_live_streams`,
-        { headers: { "User-Agent": ua } }).then((r) => (r.ok ? r.json() : [])).catch(() => []),
+        { headers: { "User-Agent": ua } }).then((r) => (note(r).ok ? r.json() : [])).catch(() => []),
     ]);
     if (!Array.isArray(live) || !live.length) return;
     const ev = new Set(cats.filter((c) => EVENT_GROUP.test(c.category_name || "")).map((c) => String(c.category_id)));
@@ -154,6 +159,7 @@ async function groups(action, url, req) {
     // Dream4k's new lists away, 28 Oct 2026)
     fetch(MAIN + file + "?v=" + Math.floor(Date.now() / 120000), { cf: { cacheTtl: 120, cacheEverything: true } }),
   ]);
+  note(cr);
   if (!cr.ok) return null;
   let cats = await cr.json();
   if (!or.ok || !Array.isArray(cats)) return { cats, filtered: false };
@@ -256,7 +262,7 @@ export default {
       }
       // Movie / series groups: the provider's own list, put in the owner's order when the repo has one
       // (xtream/<playlist>/vod_order.json or series_order.json: names in order; groups not listed follow).
-      if (action === "get_vod_categories" || action === "get_series_categories") {
+      if ((action === "get_vod_categories" || action === "get_series_categories") && !refused()) {
         try {
           const g = await groups(action, url, req);
           if (g) return json(g.cats, 300);
@@ -266,7 +272,7 @@ export default {
       // as Latin-1 ("AR - Ù…Ø³Ù„Ø³Ù„"); pass them through here with non-ASCII as \u escapes. ASCII answers are
       // passed unchanged. Titles of hidden groups are left out too: DreamTV otherwise shows them under bare
       // group numbers ("2588", "343"... Dream4k, 28 Oct 2026).
-      if (/^get_(series|vod_streams|series_info|vod_info)$/.test(action)) {
+      if (/^get_(series|vod_streams|series_info|vod_info)$/.test(action) && !refused()) {
         try {
           const list = action === "get_series" || action === "get_vod_streams";
           const catAction = action === "get_series" ? "get_series_categories" : "get_vod_categories";
@@ -274,6 +280,7 @@ export default {
             fetch(`${PROVIDER}/player_api.php${url.search}`, { headers: { "User-Agent": req.headers.get("User-Agent") || "" } }),
             list ? groups(catAction, url, req).catch(() => null) : null,
           ]);
+          note(r);
           if (r.ok) {
             let t = await r.text();
             if (g && g.filtered) {
