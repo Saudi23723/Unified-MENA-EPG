@@ -62,6 +62,7 @@ class PdfViewerActivity : BaseActivity() {
     private var colorButton: ImageButton? = null
     private var sizeButton: ImageButton? = null
     private var undoButton: ImageButton? = null
+    private var deleteButton: ImageButton? = null
     private var redoButton: ImageButton? = null
 
     // PdfRenderer allows one page at a time, so every render goes through one thread.
@@ -398,6 +399,7 @@ class PdfViewerActivity : BaseActivity() {
         }
         val tools = listOf(
             Triple(Tool.HAND, R.drawable.ic_tool_hand, R.string.pen_hand),
+            Triple(Tool.SELECT, R.drawable.ic_tool_select, R.string.pen_select),
             Triple(Tool.PEN, R.drawable.ic_tool_pen, R.string.pen_pen),
             Triple(Tool.HIGHLIGHT, R.drawable.ic_tool_highlight, R.string.pen_highlight),
             Triple(Tool.ERASER, R.drawable.ic_tool_eraser, R.string.pen_eraser),
@@ -423,6 +425,13 @@ class PdfViewerActivity : BaseActivity() {
             p.widthLevel = (p.widthLevel + 1) % 3
             VaultLock.prefs(this).edit().putInt("pen_width", p.widthLevel).apply()
             paintSwatches()
+        }
+        deleteButton = button(R.drawable.ic_delete, R.string.pen_delete) { b.page.deleteSelected() }
+        deleteButton?.alpha = 0.35f
+        p.onSelected = { m ->
+            deleteButton?.alpha = if (m != null) 1f else 0.35f
+            if (m != null && m.tool != Tool.TEXTMARK) paintSwatches(m.color)
+            else paintSwatches()
         }
         undoButton = button(R.drawable.ic_undo, R.string.pen_undo) { undoLast() }
         redoButton = button(R.drawable.ic_redo, R.string.pen_redo) { redoLast() }
@@ -451,6 +460,7 @@ class PdfViewerActivity : BaseActivity() {
     private fun pick(tool: Tool, quiet: Boolean = false) {
         val p = b.page
         p.tool = tool
+        if (tool != Tool.SELECT && !(tool == Tool.LINE || tool == Tool.ARROW || tool == Tool.RECT || tool == Tool.OVAL)) p.selected = null
         p.color = if (tool == Tool.HIGHLIGHT) markerColor else penColor
         for ((t, btn) in toolButtons) btn.background = if (t == tool) getDrawable(R.drawable.tool_selected_bg) else null
         paintSwatches()
@@ -458,11 +468,11 @@ class PdfViewerActivity : BaseActivity() {
     }
 
     /** The colour button shows the colour, the size button a dot of the line's thickness. */
-    private fun paintSwatches() {
+    private fun paintSwatches(shown: Int? = null) {
         val p = b.page
         colorButton?.setImageDrawable(GradientDrawable().apply {
             shape = GradientDrawable.OVAL
-            setColor(p.color)
+            setColor(shown ?: p.color)
             setStroke(dp(2), 0x33000000)
             setSize(dp(22), dp(22))
         })
@@ -474,32 +484,44 @@ class PdfViewerActivity : BaseActivity() {
         })
     }
 
+    /** A grid of colours; with a mark picked, it recolours that mark. */
     private fun chooseColor() {
         val p = b.page
-        val marker = p.tool == Tool.HIGHLIGHT
+        val picked = p.selected
+        val marker = if (picked != null) picked.tool == Tool.HIGHLIGHT || picked.tool == Tool.TEXTMARK else p.tool == Tool.HIGHLIGHT
         val colors = if (marker) MarkPainter.MARKER else MarkPainter.INK
-        val row = LinearLayout(this).apply {
-            orientation = LinearLayout.HORIZONTAL
-            setPadding(dp(16), dp(12), dp(16), dp(4))
+        val current = picked?.color ?: p.color
+        val grid = android.widget.GridLayout(this).apply {
+            columnCount = 6
+            setPadding(dp(14), dp(10), dp(14), dp(4))
             layoutDirection = View.LAYOUT_DIRECTION_LTR
         }
-        val dialog = MaterialAlertDialogBuilder(this).setTitle(R.string.pen_color).setView(row).show()
+        val dialog = MaterialAlertDialogBuilder(this).setTitle(R.string.pen_color).setView(grid).show()
         for (c in colors) {
-            row.addView(View(this).apply {
+            grid.addView(View(this).apply {
                 background = GradientDrawable().apply {
                     shape = GradientDrawable.OVAL
                     setColor(c)
-                    setStroke(dp(if (c == p.color) 4 else 1), if (c == p.color) 0xFF424242.toInt() else 0x33000000)
+                    setStroke(dp(if (c == current) 4 else 1), if (c == current) 0xFF1E88E5.toInt() else 0x44000000)
                 }
                 setOnClickListener {
-                    if (marker) markerColor = c else penColor = c
-                    VaultLock.prefs(this@PdfViewerActivity).edit()
-                        .putInt(if (marker) "marker_color" else "pen_color", c).apply()
-                    p.color = c
-                    paintSwatches()
+                    if (picked != null) {
+                        p.recolorSelected(c)
+                        paintSwatches(c)
+                    } else {
+                        if (marker) markerColor = c else penColor = c
+                        VaultLock.prefs(this@PdfViewerActivity).edit()
+                            .putInt(if (marker) "marker_color" else "pen_color", c).apply()
+                        p.color = c
+                        paintSwatches()
+                    }
                     dialog.dismiss()
                 }
-            }, LinearLayout.LayoutParams(dp(40), dp(40)).apply { setMargins(dp(6), dp(6), dp(6), dp(6)) })
+            }, android.widget.GridLayout.LayoutParams().apply {
+                width = dp(40)
+                height = dp(40)
+                setMargins(dp(5), dp(5), dp(5), dp(5))
+            })
         }
     }
 
@@ -531,7 +553,12 @@ class PdfViewerActivity : BaseActivity() {
         when (e) {
             is AnnotatedPageView.Edit.Added -> list.remove(e.mark)
             is AnnotatedPageView.Edit.Removed -> for ((i, m) in e.removed.asReversed()) list.add(i.coerceAtMost(list.size), m)
+            is AnnotatedPageView.Edit.Changed -> {
+                e.before.copyInto(e.mark.points)
+                e.mark.color = e.colorBefore
+            }
         }
+        b.page.selected = null
         redo.getOrPut(pageIndex) { ArrayDeque() }.addLast(e)
         marks.touch(pageIndex)
         b.page.invalidate()
@@ -544,7 +571,12 @@ class PdfViewerActivity : BaseActivity() {
         when (e) {
             is AnnotatedPageView.Edit.Added -> list.add(e.mark)
             is AnnotatedPageView.Edit.Removed -> for ((_, m) in e.removed) list.remove(m)
+            is AnnotatedPageView.Edit.Changed -> {
+                e.after.copyInto(e.mark.points)
+                e.mark.color = e.colorAfter
+            }
         }
+        b.page.selected = null
         undo.getOrPut(pageIndex) { ArrayDeque() }.addLast(e)
         marks.touch(pageIndex)
         b.page.invalidate()

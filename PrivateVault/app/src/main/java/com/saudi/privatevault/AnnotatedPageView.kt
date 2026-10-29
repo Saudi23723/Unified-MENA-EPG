@@ -38,6 +38,7 @@ class AnnotatedPageView @JvmOverloads constructor(
         set(value) {
             field = value
             current = null
+            selected = null
             invalidate()
         }
 
@@ -90,7 +91,34 @@ class AnnotatedPageView @JvmOverloads constructor(
     sealed class Edit {
         class Added(val mark: Mark) : Edit()
         class Removed(val removed: List<Pair<Int, Mark>>) : Edit()
+
+        /** Moved, resized or recoloured: the points and colour before and after. */
+        class Changed(val mark: Mark, val before: FloatArray, val after: FloatArray, val colorBefore: Int, val colorAfter: Int) : Edit()
     }
+
+    /** The mark picked for moving, resizing, recolouring or deleting. */
+    var selected: Mark? = null
+        set(value) {
+            field = value
+            onSelected?.invoke(value)
+            invalidate()
+        }
+    var onSelected: ((Mark?) -> Unit)? = null
+
+    private enum class Drag { NONE, MOVE, HANDLE }
+
+    private var drag = Drag.NONE
+    private var handle = -1
+    private var lastX = 0f
+    private var lastY = 0f
+    private var before: FloatArray? = null
+    private val dash = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        style = Paint.Style.STROKE
+        color = 0xFF1E88E5.toInt()
+        pathEffect = android.graphics.DashPathEffect(floatArrayOf(10f, 8f), 0f)
+    }
+    private val knob = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0xFF1E88E5.toInt() }
+    private val knobRing = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0xFFFFFFFF.toInt() }
 
     private var current: Mark? = null
     private var currentPoints = ArrayList<Float>()
@@ -131,6 +159,7 @@ class AnnotatedPageView @JvmOverloads constructor(
         canvas.concat(imageMatrix)
         for (m in marks) MarkPainter.draw(canvas, m, w, h)
         current?.let { MarkPainter.draw(canvas, it, w, h) }
+        selected?.let { drawSelected(canvas, it, w, h) }
         val bands = selectionBands()
         var i = 0
         while (i + 3 < bands.size) {
@@ -164,6 +193,10 @@ class AnnotatedPageView @JvmOverloads constructor(
         val erasing = tool == Tool.ERASER || type == MotionEvent.TOOL_TYPE_ERASER ||
             (stylus && event.buttonState and MotionEvent.BUTTON_STYLUS_PRIMARY != 0)
         parent?.requestDisallowInterceptTouchEvent(true)
+        if (grab(event, erasing)) {
+            invalidate()
+            return true
+        }
         when (event.actionMasked) {
             MotionEvent.ACTION_DOWN -> {
                 if (!toPage(event.x, event.y)) return true
@@ -206,6 +239,8 @@ class AnnotatedPageView @JvmOverloads constructor(
                     if (m != null && worthKeeping(m)) {
                         marks.add(m)
                         onEdit?.invoke(Edit.Added(m))
+                        // A new shape stays picked, so it can be moved or resized straight away.
+                        if (isShape(m.tool)) selected = m
                     }
                 }
             }
@@ -225,6 +260,156 @@ class AnnotatedPageView @JvmOverloads constructor(
         val dx = (currentPoints[2] - currentPoints[0]) * pageW()
         val dy = (currentPoints[3] - currentPoints[1]) * pageH()
         if (kotlin.math.abs(dy) < kotlin.math.abs(dx) * 0.3f) currentPoints[3] = currentPoints[1]
+    }
+
+    // ---- picking, moving and resizing ----
+
+    private fun isShape(t: Tool) = t == Tool.LINE || t == Tool.ARROW || t == Tool.RECT || t == Tool.OVAL
+
+    /** Handles of a picked shape, as page fractions: line ends, or rectangle corners. */
+    private fun handles(m: Mark): List<Pair<Float, Float>> {
+        val p = m.points
+        if (p.size < 4) return emptyList()
+        return when (m.tool) {
+            Tool.LINE, Tool.ARROW -> listOf(p[0] to p[1], p[2] to p[3])
+            Tool.RECT, Tool.OVAL -> listOf(p[0] to p[1], p[2] to p[1], p[2] to p[3], p[0] to p[3])
+            else -> emptyList()
+        }
+    }
+
+    private fun dpx(v: Float) = v * resources.displayMetrics.density
+
+    private fun handleAt(m: Mark, x: Float, y: Float): Int {
+        val s = scaleNow()
+        for ((i, hp) in handles(m).withIndex()) {
+            val dx = (hp.first - x) * pageW() * s
+            val dy = (hp.second - y) * pageH() * s
+            if (dx * dx + dy * dy < dpx(26f) * dpx(26f)) return i
+        }
+        return -1
+    }
+
+    private fun bodyAt(m: Mark, x: Float, y: Float): Boolean {
+        val w = pageW()
+        val h = pageH()
+        val slack = dpx(14f) / scaleNow()
+        val r = MarkPainter.bounds(m, w, h)
+        r.inset(-slack, -slack)
+        return r.contains(x * w, y * h)
+    }
+
+    /**
+     * The select tool, and the shape tools on a picked shape: drag a handle to
+     * resize, the body to move. False to let the tool draw as usual.
+     */
+    private fun grab(event: MotionEvent, erasing: Boolean): Boolean {
+        if (erasing) return false
+        val picking = tool == Tool.SELECT || isShape(tool)
+        if (!picking) {
+            if (event.actionMasked == MotionEvent.ACTION_DOWN && selected != null) selected = null
+            return false
+        }
+        when (event.actionMasked) {
+            MotionEvent.ACTION_DOWN -> {
+                if (!toPage(event.x, event.y)) return true
+                val x = pt[0]
+                val y = pt[1]
+                lastX = x
+                lastY = y
+                drag = Drag.NONE
+                val sel = selected
+                if (sel != null) {
+                    handle = handleAt(sel, x, y)
+                    if (handle >= 0) drag = Drag.HANDLE else if (bodyAt(sel, x, y)) drag = Drag.MOVE
+                }
+                if (drag == Drag.NONE && tool == Tool.SELECT) {
+                    val hit = marks.lastOrNull { MarkPainter.hits(it, x * pageW(), y * pageH(), pageW(), pageH(), dpx(14f) / scaleNow()) }
+                        ?: marks.lastOrNull { bodyAt(it, x, y) }
+                    selected = hit
+                    if (hit != null) drag = Drag.MOVE
+                }
+                if (drag != Drag.NONE) {
+                    before = selected?.points?.copyOf()
+                    return true
+                }
+                if (tool != Tool.SELECT) selected = null
+                return tool == Tool.SELECT
+            }
+            MotionEvent.ACTION_MOVE -> {
+                if (drag == Drag.NONE) return tool == Tool.SELECT
+                val m = selected ?: return true
+                if (!toPage(event.x, event.y)) return true
+                val x = pt[0]
+                val y = pt[1]
+                val p = m.points
+                if (drag == Drag.MOVE) {
+                    val dx = x - lastX
+                    val dy = y - lastY
+                    var i = 0
+                    while (i + 1 < p.size) {
+                        p[i] += dx
+                        p[i + 1] += dy
+                        i += 2
+                    }
+                } else {
+                    when (m.tool) {
+                        Tool.LINE, Tool.ARROW -> if (handle == 0) { p[0] = x; p[1] = y } else { p[2] = x; p[3] = y }
+                        else -> when (handle) {
+                            0 -> { p[0] = x; p[1] = y }
+                            1 -> { p[2] = x; p[1] = y }
+                            2 -> { p[2] = x; p[3] = y }
+                            else -> { p[0] = x; p[3] = y }
+                        }
+                    }
+                }
+                lastX = x
+                lastY = y
+                return true
+            }
+            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                if (drag == Drag.NONE) return tool == Tool.SELECT
+                val m = selected
+                val b = before
+                if (m != null && b != null && !b.contentEquals(m.points)) {
+                    onEdit?.invoke(Edit.Changed(m, b, m.points.copyOf(), m.color, m.color))
+                }
+                drag = Drag.NONE
+                before = null
+                return true
+            }
+        }
+        return drag != Drag.NONE
+    }
+
+    private fun drawSelected(canvas: Canvas, m: Mark, w: Float, h: Float) {
+        val s = scaleNow()
+        val r = MarkPainter.bounds(m, w, h)
+        r.inset(-dpx(6f) / s, -dpx(6f) / s)
+        dash.strokeWidth = dpx(1.5f) / s
+        dash.pathEffect = android.graphics.DashPathEffect(floatArrayOf(dpx(5f) / s, dpx(4f) / s), 0f)
+        canvas.drawRect(r, dash)
+        for ((hx, hy) in handles(m)) {
+            canvas.drawCircle(hx * w, hy * h, dpx(8f) / s, knobRing)
+            canvas.drawCircle(hx * w, hy * h, dpx(6f) / s, knob)
+        }
+    }
+
+    fun recolorSelected(color: Int) {
+        val m = selected ?: return
+        if (m.color == color) return
+        val old = m.color
+        m.color = color
+        onEdit?.invoke(Edit.Changed(m, m.points.copyOf(), m.points.copyOf(), old, color))
+        invalidate()
+    }
+
+    fun deleteSelected() {
+        val m = selected ?: return
+        val i = marks.indexOf(m)
+        if (i < 0) return
+        marks.removeAt(i)
+        selected = null
+        onEdit?.invoke(Edit.Removed(listOf(i to m)))
     }
 
     private fun addPoint(x: Float, y: Float) {

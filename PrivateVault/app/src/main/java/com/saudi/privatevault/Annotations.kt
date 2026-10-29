@@ -15,7 +15,7 @@ import kotlin.math.hypot
 import kotlin.math.sin
 
 /** What the reader is doing on the page. */
-enum class Tool { HAND, PEN, HIGHLIGHT, ERASER, LINE, ARROW, RECT, OVAL, TEXT, TEXTMARK }
+enum class Tool { HAND, SELECT, PEN, HIGHLIGHT, ERASER, LINE, ARROW, RECT, OVAL, TEXT, TEXTMARK }
 
 /**
  * One thing written on a page. Points are fractions of the page (0..1 of its
@@ -24,7 +24,7 @@ enum class Tool { HAND, PEN, HIGHLIGHT, ERASER, LINE, ARROW, RECT, OVAL, TEXT, T
  */
 class Mark(
     val tool: Tool,
-    val color: Int,
+    var color: Int,
     val width: Float,
     val points: FloatArray,
     val text: String? = null,
@@ -353,14 +353,42 @@ object MarkPainter {
         }
     }
 
+    /** The mark's extent in page pixels, for selecting and moving it. */
+    fun bounds(m: Mark, w: Float, h: Float): RectF {
+        val p = m.points
+        val r = RectF(Float.MAX_VALUE, Float.MAX_VALUE, -Float.MAX_VALUE, -Float.MAX_VALUE)
+        if (m.tool == Tool.TEXT) {
+            val s = m.text ?: ""
+            text.textSize = (m.width * w).coerceAtLeast(8f)
+            val lines = s.split('\n')
+            val tw = lines.maxOf { text.measureText(it) }
+            r.set(p[0] * w, p[1] * h - text.textSize, p[0] * w + tw, p[1] * h - text.textSize + text.textSize * 1.25f * lines.size)
+            return r
+        }
+        var i = 0
+        while (i + 1 < p.size) {
+            r.union(p[i] * w, p[i + 1] * h)
+            i += 2
+        }
+        val pad = m.width * w / 2f
+        r.inset(-pad, -pad)
+        return r
+    }
+
     /** Colours offered for each kind of tool. */
     val INK = intArrayOf(
-        Color.parseColor("#212121"), Color.parseColor("#1565C0"), Color.parseColor("#D32F2F"),
-        Color.parseColor("#2E7D32"), Color.parseColor("#EF6C00"), Color.parseColor("#6A1B9A"),
+        Color.parseColor("#000000"), Color.parseColor("#616161"), Color.parseColor("#FFFFFF"),
+        Color.parseColor("#0D47A1"), Color.parseColor("#1E88E5"), Color.parseColor("#00ACC1"),
+        Color.parseColor("#B71C1C"), Color.parseColor("#E53935"), Color.parseColor("#EC407A"),
+        Color.parseColor("#1B5E20"), Color.parseColor("#43A047"), Color.parseColor("#9CCC65"),
+        Color.parseColor("#E65100"), Color.parseColor("#FB8C00"), Color.parseColor("#FDD835"),
+        Color.parseColor("#4A148C"), Color.parseColor("#8E24AA"), Color.parseColor("#795548"),
     )
     val MARKER = intArrayOf(
-        Color.parseColor("#FFEB3B"), Color.parseColor("#76FF03"), Color.parseColor("#FF4081"),
-        Color.parseColor("#40C4FF"), Color.parseColor("#FFAB40"),
+        Color.parseColor("#FFEB3B"), Color.parseColor("#FFF176"), Color.parseColor("#76FF03"),
+        Color.parseColor("#69F0AE"), Color.parseColor("#40C4FF"), Color.parseColor("#82B1FF"),
+        Color.parseColor("#FF4081"), Color.parseColor("#EA80FC"), Color.parseColor("#FFAB40"),
+        Color.parseColor("#FF8A80"),
     )
 
     /** Thin, medium and thick, as fractions of the page width. */
