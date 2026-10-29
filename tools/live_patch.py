@@ -104,6 +104,8 @@ def main(playlist, out):
             g = str(ours[str(x["stream_id"])]["category_id"])
             votes[g] = votes.get(g, 0) + 1
         g = max(votes, key=votes.get)
+        if g not in ev:  # only event / PPV groups get new channels (the others are hand-picked)
+            continue
         for x in xs:
             if str(x["stream_id"]) in ours or not x.get("name"):
                 continue

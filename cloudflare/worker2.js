@@ -99,6 +99,9 @@ async function buildPatch(env, user, pass_, ua) {
       const votes = {};
       for (const x of known) { const g = String(ours.get(String(x.stream_id)).category_id); votes[g] = (votes[g] || 0) + 1; }
       const g = Object.keys(votes).sort((a, b) => votes[b] - votes[a])[0];
+      // only into event / PPV groups: elsewhere the owner's groups are hand-picked (Up1 test, 28 Oct 2026: kids
+      // channels landed in Sky Sports)
+      if (!ev.has(g)) continue;
       for (const x of xs) {
         if (ours.has(String(x.stream_id)) || !x.name) continue;
         (add[g] = add[g] || []).push({ stream_id: x.stream_id, name: String(x.name).replace(/[\u24e7\u00a7]/g, "").replace(/\s+/g, " ").trim(),
