@@ -17,6 +17,8 @@ class VideoPlayerActivity : BaseActivity() {
 
     companion object {
         const val EXTRA_IDS = "item_ids"
+        const val EXTRA_URLS = "item_urls"
+        const val EXTRA_NAMES = "item_names"
     }
 
     private lateinit var b: ActivityVideoBinding
@@ -28,8 +30,17 @@ class VideoPlayerActivity : BaseActivity() {
         setContentView(b.root)
         val startId = intent.getStringExtra(Viewers.EXTRA_ID) ?: return finish()
         val ids = intent.getStringArrayExtra(EXTRA_IDS)?.toList()?.takeIf { startId in it } ?: listOf(startId)
-        val queue = ids.mapNotNull { VaultStore.item(it) }
-        val startIndex = queue.indexOfFirst { it.id == startId }
+        val urls = intent.getStringArrayExtra(EXTRA_URLS)
+        val names = intent.getStringArrayExtra(EXTRA_NAMES)
+        val media = if (urls != null && names != null && urls.size == ids.size && names.size == ids.size) {
+            // Streaming from the laptop: nothing of these is stored on the phone.
+            ids.indices.map { i -> mediaItem(ids[i], names[i], Uri.parse(urls[i])) }
+        } else {
+            ids.mapNotNull { VaultStore.item(it) }.map { item ->
+                mediaItem(item.id, item.name, item.url?.let { Uri.parse(it) } ?: Uri.fromFile(VaultStore.fileOf(item)))
+            }
+        }
+        val startIndex = media.indexOfFirst { it.mediaId == startId }
         if (startIndex < 0) return finish()
 
         WindowCompat.getInsetsController(window, window.decorView).apply {
@@ -40,13 +51,6 @@ class VideoPlayerActivity : BaseActivity() {
         val p = ExoPlayer.Builder(this).build()
         player = p
         b.player.player = p
-        val media = queue.map { item ->
-            MediaItem.Builder()
-                .setMediaId(item.id)
-                .setUri(item.url?.let { Uri.parse(it) } ?: Uri.fromFile(VaultStore.fileOf(item)))
-                .setMediaMetadata(MediaMetadata.Builder().setTitle(item.name).build())
-                .build()
-        }
         // Pick up where the chosen video was left last time, then carry on
         // through the rest of the folder.
         val saved = VaultLock.prefs(this).getLong("pos_$startId", 0L)
@@ -78,6 +82,13 @@ class VideoPlayerActivity : BaseActivity() {
         p.prepare()
         p.playWhenReady = true
     }
+
+    private fun mediaItem(id: String, name: String, uri: Uri): MediaItem =
+        MediaItem.Builder()
+            .setMediaId(id)
+            .setUri(uri)
+            .setMediaMetadata(MediaMetadata.Builder().setTitle(name).build())
+            .build()
 
     private fun forget(id: String) {
         VaultLock.prefs(this).edit().remove("pos_$id").apply()

@@ -74,10 +74,40 @@ object VaultStore {
     private fun thumbsDir() = File(root, "vault_thumbs")
     private fun indexFile() = File(root, "vault_index.json")
 
-    fun fileOf(item: VaultItem) = File(filesDir(), item.file)
+    fun fileOf(item: VaultItem) = if (item.file.startsWith("/")) File(item.file) else File(filesDir(), item.file)
     fun thumbOf(item: VaultItem) = File(thumbsDir(), item.id + ".jpg")
 
-    fun item(id: String?) = items.firstOrNull { it.id == id }
+    fun item(id: String?) = items.firstOrNull { it.id == id } ?: viewing[id]
+
+    // Laptop files fetched only to look at them: shown by the same viewers,
+    // never added to the vault, and deleted when the laptop screen closes.
+    private val viewing = mutableMapOf<String?, VaultItem>()
+
+    fun viewOnly(item: VaultItem) {
+        viewing[item.id] = item
+    }
+
+    fun forgetViewOnly() {
+        viewing.values.forEach { fileOf(it).delete() }
+        viewing.clear()
+    }
+
+    /** Where a laptop file is downloaded before [adopt] keeps it. */
+    fun downloadTarget(name: String): File {
+        val ext = name.substringAfterLast('.', "").lowercase()
+        val id = UUID.randomUUID().toString()
+        return File(filesDir(), if (ext.isNotEmpty() && ext.length <= 6) "$id.$ext" else id)
+    }
+
+    /** Keeps a file already written into [filesDir]; call from the main thread. */
+    fun adopt(file: File, name: String, mime: String, folderId: String?): VaultItem {
+        val item = VaultItem(
+            UUID.randomUUID().toString(), name, file.name, mime, file.length(), System.currentTimeMillis(), folderId,
+        )
+        items.add(item)
+        save()
+        return item
+    }
     fun folder(id: String?) = folders.firstOrNull { it.id == id }
 
     private fun load() {
@@ -249,7 +279,7 @@ object VaultStore {
         return item
     }
 
-    private fun makeThumb(item: VaultItem) {
+    fun makeThumb(item: VaultItem) {
         val f = fileOf(item)
         val bmp: Bitmap? = try {
             when (item.kind) {

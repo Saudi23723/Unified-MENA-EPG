@@ -71,6 +71,30 @@
     <string name="items_count">%d عنصر</string>
     <string name="details_text">الاسم: %1$s\nالنوع: %2$s\nالحجم: %3$s\nتاريخ الإضافة: %4$s</string>
 
+    <string name="laptop">اللابتوب</string>
+    <string name="laptop_loading">جاري الاتصال باللابتوب…</string>
+    <string name="laptop_offline">تعذر الوصول إلى اللابتوب.
+تأكد أن خزنتي شغّالة على اللابتوب وأن الهاتف على نفس الواي فاي، ثم اختر «تحديث» من القائمة.</string>
+    <string name="laptop_offline_short">تعذر الوصول إلى اللابتوب</string>
+    <string name="laptop_empty">لا يوجد شيء هنا.
+اسحب الملفات إلى نافذة خزنتي على اللابتوب.</string>
+    <string name="laptop_relink">انتهى الربط، أدخل كلمة السر مرة أخرى</string>
+    <string name="laptop_link_title">ربط اللابتوب</string>
+    <string name="laptop_link_help">شغّل خزنتي على اللابتوب، ثم اضغط «بحث تلقائي» أو اكتب العنوان الظاهر في نافذة «الهاتف» على اللابتوب، وكلمة سر خزنة اللابتوب.</string>
+    <string name="laptop_address">عنوان اللابتوب (مثل 192.168.1.5:47801)</string>
+    <string name="laptop_password">كلمة سر خزنة اللابتوب</string>
+    <string name="laptop_connect">ربط</string>
+    <string name="laptop_find">بحث تلقائي</string>
+    <string name="laptop_searching">جاري البحث عن اللابتوب…</string>
+    <string name="laptop_not_found">لم يُعثر على اللابتوب تلقائياً، اكتب العنوان يدوياً</string>
+    <string name="laptop_unreachable">تعذر الوصول إلى هذا العنوان</string>
+    <string name="laptop_refresh">تحديث</string>
+    <string name="laptop_unlink">إلغاء ربط اللابتوب</string>
+    <string name="downloading">جاري التحميل… %d%%</string>
+    <string name="download_failed">تعذر تحميل الملف من اللابتوب</string>
+    <string name="download_to_phone">تنزيل على الهاتف</string>
+    <string name="downloaded_to_phone">تم حفظه في خزنة الهاتف</string>
+
     <string name="prev">السابق</string>
     <string name="next">التالي</string>
     <string name="page_of">صفحة %1$d من %2$d</string>
