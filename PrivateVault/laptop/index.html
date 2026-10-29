@@ -647,7 +647,20 @@ function changePassword() {
 let setupMode = false;
 async function start() {
   const s = await api("/api/status");
-  if (s.build) $("#ver").textContent = "· نسخة " + s.build;
+  if (s.build) {
+    $("#ver").textContent = "· نسخة " + s.build;
+    // After an update, say so once, so it is clear the new version is the one running.
+    const seen = Number(localGet("seenBuild") || 0);
+    if (seen && s.build > seen) {
+      const note = document.createElement("div");
+      note.id = "updatedNote";
+      note.textContent = `تم التحديث إلى نسخة ${s.build} ✅`;
+      note.style.cssText = "position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:60;background:#2e7d32;color:#fff;padding:10px 18px;border-radius:12px;font-weight:600";
+      document.body.appendChild(note);
+      setTimeout(() => note.remove(), 6000);
+    }
+    localSet("seenBuild", String(s.build));
+  }
   if (s.authed) return showMain();
   setupMode = !s.setup;
   showLock();
