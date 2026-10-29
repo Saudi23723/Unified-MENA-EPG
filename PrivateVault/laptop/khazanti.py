@@ -858,6 +858,40 @@ def run_tray(server, port):
     pystray.Icon(APP_NAME, tray_icon_image(), "خزنتي", menu).run()
 
 
+def running_build(port: int):
+    """The build of the copy already serving on this port; None for builds too old to say."""
+    import urllib.request
+    try:
+        with urllib.request.urlopen(f"http://127.0.0.1:{port}/api/status", timeout=3) as r:
+            return json.loads(r.read().decode("utf-8")).get("build")
+    except Exception:
+        return None
+
+
+def stop_older_copy(port: int) -> bool:
+    """Ends the process listening on the port (an older copy of this program) and waits for the port."""
+    import subprocess
+    no_window = 0x08000000
+    try:
+        out = subprocess.run(["netstat", "-ano", "-p", "TCP"], capture_output=True, text=True,
+                             creationflags=no_window, timeout=15).stdout
+    except Exception:
+        return False
+    pids = set()
+    for line in out.splitlines():
+        parts = line.split()
+        if len(parts) >= 5 and parts[1].endswith(f":{port}") and parts[3].upper() == "LISTENING":
+            pids.add(parts[4])
+    mine = {str(os.getpid()), str(os.getppid())}
+    for pid in pids - mine:
+        subprocess.run(["taskkill", "/F", "/T", "/PID", pid], capture_output=True, creationflags=no_window)
+    for _ in range(40):
+        if not already_running(port):
+            return True
+        time.sleep(0.25)
+    return False
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--headless", action="store_true", help="serve only: no window, no tray icon")
@@ -866,10 +900,15 @@ def main(argv=None):
     args = ap.parse_args(argv)
 
     if already_running(args.port):
-        # Opening the program twice just brings up the window of the one running.
-        if not args.headless:
-            open_window(args.port)
-        return
+        other = running_build(args.port)
+        mine = current_build()
+        newer = os.name == "nt" and mine > 0 and (other is None or int(other) < mine)
+        # A newer copy takes over from an older one still running, so opening
+        # the downloaded program is enough; otherwise this just shows the window.
+        if not (newer and stop_older_copy(args.port)):
+            if not args.headless:
+                open_window(args.port)
+            return
 
     app = App(data_home(), args.port)
     server = make_server(app)
