@@ -42,7 +42,8 @@ async function digest(t) {
 // provider's full list, at most every 15 minutes, and kept in KV (binding LIVE, key = playlist) so every worker
 // instance and every category request gets it (owner, 28 Oct 2026: NBA PASS names stayed on yesterday's games).
 const PATCH_AGE = 15 * 60000;
-const DYN = { id: "9001", name: "🤼 | FLO WRESTLING", from: /\bFLO\b|FLOSPORT/i, match: /WRESTL|مصارع/i };
+const DYN = { id: "9001", name: "🤼 | FLO WRESTLING", from: /\bFLO\b|FLOSPORT/i, match: /WRESTL|مصارع/i,
+  near: /FLO\s*SPORTS?\s*PPV|FLO\s*FLSP|FLOSPORTS?\s*TV/i };
 let PATCH = null, BUILDING = 0;
 // playlists whose provider refuses the relay's live-list request: their names come from GitHub (tools/live_patch.py)
 const GITHUB_LIVE = new Set(["strong", "dream4k"]);
@@ -265,8 +266,11 @@ export default {
         try {
           const r = await fetch(fresh(MAIN + "live_categories.json"), { cf: { cacheTtl: 120, cacheEverything: true } });
           const cats = r.ok ? await r.json() : [];
-          const i = cats.findIndex((c) => DYN.from.test(c.category_name || ""));
-          if (i >= 0) cats.splice(i, 0, { category_id: DYN.id, category_name: DYN.name, parent_id: 0 });
+          // right after the Flo Sports PPV / FLSP / FloSports TV groups (owner, 28 Oct 2026), else after the last Flo group
+          let i = -1;
+          cats.forEach((c, k) => { if (DYN.near.test(c.category_name || "")) i = k; });
+          if (i < 0) cats.forEach((c, k) => { if (DYN.from.test(c.category_name || "")) i = k; });
+          if (i >= 0) cats.splice(i + 1, 0, { category_id: DYN.id, category_name: DYN.name, parent_id: 0 });
           return json(cats, 120);
         } catch (e) { return pass(MAIN + "live_categories.json", 900, []); }
       }
