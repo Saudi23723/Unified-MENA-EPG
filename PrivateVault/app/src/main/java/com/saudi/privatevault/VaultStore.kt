@@ -27,8 +27,12 @@ class VaultItem(
     val size: Long,
     val added: Long,
     var folderId: String?,
+    /** Set for videos that play from the internet or a laptop instead of from the phone. */
+    val url: String? = null,
 ) {
-    val kind: Kind get() = kindOf(mime, name)
+    val kind: Kind get() = if (url != null && kindOf(mime, name) != Kind.AUDIO) Kind.VIDEO else kindOf(mime, name)
+    val isLink: Boolean get() = url != null
+    val playable: Boolean get() = kind == Kind.VIDEO || kind == Kind.AUDIO
 }
 
 private val VIDEO_EXT = setOf("mp4", "mkv", "webm", "3gp", "mov", "avi", "m4v", "ts")
@@ -98,6 +102,7 @@ object VaultStore {
                         o.getString("id"), o.getString("name"), o.getString("file"),
                         o.optString("mime"), o.optLong("size"), o.optLong("added"),
                         o.optStringOrNull("folder"),
+                        o.optStringOrNull("url"),
                     )
                 )
             }
@@ -117,7 +122,8 @@ object VaultStore {
         val ia = JSONArray()
         for (it in items) {
             ia.put(JSONObject().put("id", it.id).put("name", it.name).put("file", it.file).put("mime", it.mime)
-                .put("size", it.size).put("added", it.added).put("folder", it.folderId ?: JSONObject.NULL))
+                .put("size", it.size).put("added", it.added).put("folder", it.folderId ?: JSONObject.NULL)
+                .put("url", it.url ?: JSONObject.NULL))
         }
         val text = JSONObject().put("version", 1).put("folders", fa).put("items", ia).toString()
         // Write beside the index and swap it in, so a crash mid-write never loses the list.
@@ -185,8 +191,18 @@ object VaultStore {
     }
 
     private fun removeFiles(item: VaultItem) {
-        fileOf(item).delete()
+        if (item.file.isNotEmpty()) fileOf(item).delete()
         thumbOf(item).delete()
+    }
+
+    fun addLink(name: String, url: String, folderId: String?): VaultItem {
+        val path = Uri.parse(url).lastPathSegment ?: ""
+        val ext = path.substringAfterLast('.', "").lowercase()
+        val mime = MimeTypeMap.getSingleton().getMimeTypeFromExtension(ext) ?: "video/*"
+        val item = VaultItem(UUID.randomUUID().toString(), name, "", mime, 0L, System.currentTimeMillis(), folderId, url)
+        items.add(item)
+        save()
+        return item
     }
 
     fun totalBytes(): Long = filesDir().listFiles()?.sumOf { it.length() } ?: 0L

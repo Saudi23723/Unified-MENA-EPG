@@ -199,6 +199,10 @@ class MainActivity : BaseActivity() {
             // Swipe between the pictures of the same folder.
             val images = sortItems(VaultStore.itemsIn(item.folderId).filter { it.kind == Kind.IMAGE })
             intent.putExtra(ImageViewerActivity.EXTRA_IDS, images.map { it.id }.toTypedArray())
+        } else if (item.playable) {
+            // The rest of the folder's videos play one after another, in the order shown.
+            val queue = sortItems(VaultStore.itemsIn(item.folderId).filter { it.playable })
+            intent.putExtra(VideoPlayerActivity.EXTRA_IDS, queue.map { it.id }.toTypedArray())
         }
         startActivity(intent)
     }
@@ -290,14 +294,16 @@ class MainActivity : BaseActivity() {
     }
 
     private fun showAddMenu() {
-        val labels = arrayOf(getString(R.string.add_files), getString(R.string.new_folder))
+        val labels = arrayOf(getString(R.string.add_files), getString(R.string.add_link), getString(R.string.new_folder))
         MaterialAlertDialogBuilder(this)
             .setItems(labels) { _, which ->
-                if (which == 0) {
-                    VaultLock.keepUnlockedOnce = true
-                    pickFiles.launch(arrayOf("*/*"))
-                } else {
-                    askName(getString(R.string.new_folder), "") { name ->
+                when (which) {
+                    0 -> {
+                        VaultLock.keepUnlockedOnce = true
+                        pickFiles.launch(arrayOf("*/*"))
+                    }
+                    1 -> askLink()
+                    else -> askName(getString(R.string.new_folder), "") { name ->
                         VaultStore.addFolder(name, folderId)
                         refresh()
                     }
@@ -334,6 +340,7 @@ class MainActivity : BaseActivity() {
             is Entry.FileEntry -> {
                 val item = e.item
                 popup.menuInflater.inflate(R.menu.file_menu, popup.menu)
+                popup.menu.findItem(R.id.f_export).isVisible = !item.isLink
                 popup.setOnMenuItemClickListener { mi ->
                     when (mi.itemId) {
                         R.id.f_open_with -> openWith(item)
@@ -374,7 +381,7 @@ class MainActivity : BaseActivity() {
             .setMessage(
                 getString(
                     R.string.details_text, item.name, item.mime.ifEmpty { "—" },
-                    Formatter.formatFileSize(this, item.size), date
+                    item.url ?: Formatter.formatFileSize(this, item.size), date
                 )
             )
             .setPositiveButton(android.R.string.ok, null)
@@ -401,6 +408,42 @@ class MainActivity : BaseActivity() {
             .setPositiveButton(R.string.ok) { _, _ ->
                 val name = input.text.toString().trim()
                 if (name.isNotEmpty()) done(name)
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
+    private fun askLink() {
+        val pad = (resources.displayMetrics.density * 20).toInt()
+        val nameInput = EditText(this).apply {
+            setSingleLine()
+            hint = getString(R.string.link_name)
+        }
+        val urlInput = EditText(this).apply {
+            setSingleLine()
+            hint = getString(R.string.link_url)
+            inputType = android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_URI
+        }
+        val box = android.widget.LinearLayout(this).apply {
+            orientation = android.widget.LinearLayout.VERTICAL
+            setPadding(pad, pad / 2, pad, 0)
+            addView(urlInput)
+            addView(nameInput)
+        }
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.add_link)
+            .setMessage(R.string.link_help)
+            .setView(box)
+            .setPositiveButton(R.string.ok) { _, _ ->
+                val url = urlInput.text.toString().trim()
+                if (!url.startsWith("http://") && !url.startsWith("https://")) {
+                    Toast.makeText(this, R.string.link_invalid, Toast.LENGTH_LONG).show()
+                    return@setPositiveButton
+                }
+                val fallback = Uri.decode(Uri.parse(url).lastPathSegment ?: "").ifEmpty { url }
+                val name = nameInput.text.toString().trim().ifEmpty { fallback }
+                VaultStore.addLink(name, url, folderId)
+                refresh()
             }
             .setNegativeButton(R.string.cancel, null)
             .show()
@@ -509,7 +552,8 @@ object Viewers {
 
     /** Hand the file to another installed app (Word, WPS, a different player…). */
     fun openWith(activity: android.app.Activity, item: VaultItem) {
-        val uri = FileProvider.getUriForFile(activity, activity.packageName + ".files", VaultStore.fileOf(item))
+        val uri = item.url?.let { Uri.parse(it) }
+            ?: FileProvider.getUriForFile(activity, activity.packageName + ".files", VaultStore.fileOf(item))
         val mime = item.mime.ifEmpty { "*/*" }
         val view = Intent(Intent.ACTION_VIEW).setDataAndType(uri, mime)
             .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)

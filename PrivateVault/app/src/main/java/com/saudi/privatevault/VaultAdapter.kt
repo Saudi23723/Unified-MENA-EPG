@@ -63,7 +63,8 @@ class VaultAdapter(
                 h.b.icon.setImageResource(iconFor(it.kind))
                 h.b.name.text = it.name
                 val date = DateFormat.getDateFormat(ctx).format(Date(it.added))
-                val line = "${Formatter.formatShortFileSize(ctx, it.size)} · $date"
+                val what = if (it.isLink) ctx.getString(R.string.link_label) else Formatter.formatShortFileSize(ctx, it.size)
+                val line = "$what · $date"
                 h.b.info.text = if (e.path != null) "${e.path.ifEmpty { ctx.getString(R.string.root) }} · $line" else line
                 if (it.kind == Kind.VIDEO) h.b.play.visibility = View.VISIBLE
                 loadThumb(h, it)
