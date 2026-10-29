@@ -95,7 +95,9 @@ class PdfViewerActivity : BaseActivity() {
             insets
         }
         marks = DocumentMarks.forItem(this, itemId)
+        loadBookmarks()
         setUpPen()
+        b.page.onSelection = { _, text -> onTextSelected(text) }
         b.toolbar.title = item.name
         b.toolbar.setNavigationOnClickListener { finish() }
         b.toolbar.inflateMenu(R.menu.reader_menu)
@@ -105,6 +107,7 @@ class PdfViewerActivity : BaseActivity() {
                 R.id.v_contents -> showContents()
                 R.id.v_goto -> askPage()
                 R.id.v_write -> startWriting()
+                R.id.v_bookmark -> toggleBookmark()
                 R.id.v_finger -> {
                     b.page.fingerDraws = !b.page.fingerDraws
                     mi.isChecked = b.page.fingerDraws
@@ -158,7 +161,7 @@ class PdfViewerActivity : BaseActivity() {
                 return@launch
             }
             links = l
-            b.toolbar.menu.findItem(R.id.v_contents).isVisible = true
+            if (shownIndex == pageIndex) loadLetters(pageIndex)
             readPrinted(l, file)
         }
     }
@@ -263,6 +266,8 @@ class PdfViewerActivity : BaseActivity() {
                 b.page.marks = marks.on(index)
                 b.page.setImageBitmap(bmp)
                 refreshUndo()
+                refreshBookmark()
+                loadLetters(index)
             }
         }
     }
@@ -565,25 +570,163 @@ class PdfViewerActivity : BaseActivity() {
             .show()
     }
 
+    /** The page's letters, so a long press can select words (read in the background). */
+    private fun loadLetters(index: Int) {
+        b.page.letters = null
+        val l = links ?: return
+        lifecycleScope.launch {
+            val ls = withContext(linkThread) { l.lettersOn(index) }
+            if (index == pageIndex && shownIndex == index) b.page.letters = ls
+        }
+    }
+
+    // ---- bookmarks ----
+
+    private class Bookmark(val page: Int, var title: String)
+
+    private val bookmarks = ArrayList<Bookmark>()
+
+    private fun loadBookmarks() {
+        bookmarks.clear()
+        try {
+            val a = org.json.JSONArray(VaultLock.prefs(this).getString("bm_$itemId", "[]"))
+            for (k in 0 until a.length()) {
+                val o = a.getJSONObject(k)
+                bookmarks.add(Bookmark(o.getInt("p"), o.optString("t")))
+            }
+        } catch (e: Exception) {
+            // None yet.
+        }
+    }
+
+    private fun saveBookmarks() {
+        val a = org.json.JSONArray()
+        for (bm in bookmarks.sortedBy { it.page }) a.put(org.json.JSONObject().put("p", bm.page).put("t", bm.title))
+        VaultLock.prefs(this).edit().putString("bm_$itemId", a.toString()).apply()
+        refreshBookmark()
+    }
+
+    private fun refreshBookmark() {
+        val on = bookmarks.any { it.page == pageIndex }
+        b.page.bookmarked = on
+        b.toolbar.menu.findItem(R.id.v_bookmark)?.setIcon(if (on) R.drawable.ic_bookmark_on else R.drawable.ic_bookmark)
+    }
+
+    /** One tap marks the page (named after its chapter when known); another removes it. */
+    private fun toggleBookmark() {
+        val existing = bookmarks.firstOrNull { it.page == pageIndex }
+        if (existing != null) {
+            bookmarks.remove(existing)
+            Toast.makeText(this, R.string.bm_removed, Toast.LENGTH_SHORT).show()
+        } else {
+            val chapter = (links?.chapters.orEmpty().filter { it.page in 0..pageIndex } +
+                printed?.chapters.orEmpty().filter { it.page in 0..pageIndex }).maxByOrNull { it.page }
+            bookmarks.add(Bookmark(pageIndex, chapter?.title?.substringBefore("  (") ?: ""))
+            Toast.makeText(this, getString(R.string.bm_added, pageIndex + 1), Toast.LENGTH_SHORT).show()
+        }
+        saveBookmarks()
+    }
+
+    private fun renameBookmark(bm: Bookmark) {
+        val input = EditText(this).apply {
+            setText(bm.title)
+            setSingleLine()
+            hint = getString(R.string.bm_name)
+        }
+        val box = FrameLayout(this).apply {
+            setPadding(dp(20), dp(8), dp(20), 0)
+            addView(input)
+        }
+        MaterialAlertDialogBuilder(this)
+            .setTitle(getString(R.string.pdf_page_short, bm.page + 1))
+            .setView(box)
+            .setPositiveButton(R.string.ok) { _, _ ->
+                bm.title = input.text.toString().trim()
+                saveBookmarks()
+            }
+            .setNeutralButton(R.string.delete) { _, _ ->
+                bookmarks.remove(bm)
+                saveBookmarks()
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
+    // ---- selected text ----
+
+    private fun onTextSelected(text: String) {
+        val items = arrayOf(getString(R.string.sel_highlight), getString(R.string.sel_copy))
+        MaterialAlertDialogBuilder(this)
+            .setTitle(text.replace('\n', ' ').take(80) + if (text.length > 80) "…" else "")
+            .setItems(items) { _, which ->
+                if (which == 0) {
+                    b.page.highlightSelection(markerColor)
+                } else {
+                    val cm = getSystemService(android.content.ClipboardManager::class.java)
+                    cm?.setPrimaryClip(android.content.ClipData.newPlainText("text", text))
+                    Toast.makeText(this, R.string.sel_copied, Toast.LENGTH_SHORT).show()
+                    b.page.clearSelection()
+                }
+            }
+            .setOnCancelListener { b.page.clearSelection() }
+            .setNegativeButton(R.string.cancel) { _, _ -> b.page.clearSelection() }
+            .show()
+    }
+
+    /** Bookmarks, pages with notes, then the book's contents, in one list. */
     private fun showContents() {
         val chapters = links?.chapters.orEmpty().filter { it.page >= 0 }
             .ifEmpty { printed?.chapters.orEmpty() }
-        if (chapters.isEmpty() && printed == null) {
-            Toast.makeText(this, R.string.pdf_preparing_wait, Toast.LENGTH_LONG).show()
+        val labels = ArrayList<CharSequence>()
+        val actions = ArrayList<(() -> Unit)?>()
+        fun header(text: String) {
+            labels.add(android.text.SpannableString(text).apply {
+                setSpan(android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, text.length, 0)
+            })
+            actions.add(null)
+        }
+        if (bookmarks.isNotEmpty()) {
+            header(getString(R.string.bm_header))
+            for (bm in bookmarks.sortedBy { it.page }) {
+                labels.add("🔖  " + getString(R.string.pdf_page_short, bm.page + 1) + if (bm.title.isNotEmpty()) "  ·  ${bm.title}" else "")
+                actions.add { jump(bm.page) }
+            }
+        }
+        val noted = marks.pages.filterValues { it.isNotEmpty() }.keys.sorted()
+        if (noted.isNotEmpty()) {
+            header(getString(R.string.notes_header))
+            for (pg in noted) {
+                labels.add("✏️  " + getString(R.string.pdf_page_short, pg + 1) + "  ·  " + getString(R.string.notes_count, marks.on(pg).size))
+                actions.add { jump(pg) }
+            }
+        }
+        if (chapters.isNotEmpty()) {
+            header(getString(R.string.pdf_contents))
+            for (c in chapters) {
+                labels.add("\u2003".repeat(c.level) + c.title + "  ·  " + getString(R.string.pdf_page_short, c.page + 1))
+                actions.add { jump(c.page) }
+            }
+        }
+        if (labels.isEmpty()) {
+            val msg = if (printed == null && links != null) R.string.pdf_preparing_wait else R.string.contents_empty
+            Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
             return
         }
-        if (chapters.isEmpty()) {
-            Toast.makeText(this, R.string.pdf_no_contents, Toast.LENGTH_LONG).show()
-            return
-        }
-        val labels = chapters.map { c ->
-            " ".repeat(c.level) + c.title + "  ·  " + getString(R.string.pdf_page_short, c.page + 1)
-        }.toTypedArray()
-        MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.pdf_contents)
-            .setItems(labels) { _, which -> jump(chapters[which].page) }
+        val dialog = MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.contents_title)
+            .setItems(labels.toTypedArray()) { _, which -> actions[which]?.invoke() }
             .setNegativeButton(R.string.cancel, null)
             .show()
+        // A long press on a bookmark renames or removes it.
+        val sorted = bookmarks.sortedBy { it.page }
+        dialog.listView?.setOnItemLongClickListener { _, _, position, _ ->
+            val bm = sorted.getOrNull(position - 1)
+            if (bookmarks.isNotEmpty() && position in 1..sorted.size && bm != null) {
+                dialog.dismiss()
+                renameBookmark(bm)
+                true
+            } else false
+        }
     }
 
     private fun askPage() {

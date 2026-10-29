@@ -234,6 +234,48 @@ class PdfLinks private constructor(private val doc: PDDocument) : Closeable {
 
     fun printed() = Printed(ArrayList(readLabels), ArrayList(readToc), HashMap(readBoxes))
 
+    // ---- the letters on a page, for selecting text ----
+
+    /** One letter, as fractions of the page with a top-left origin. */
+    class CharBox(val ch: String, val left: Float, val top: Float, val right: Float, val bottom: Float)
+
+    private class LetterStripper : PDFTextStripper() {
+        val letters = ArrayList<TextPosition>()
+
+        override fun writeString(text: String, textPositions: MutableList<TextPosition>) {
+            letters.addAll(textPositions)
+            super.writeString(text, textPositions)
+        }
+    }
+
+    private val letterCache = HashMap<Int, List<CharBox>>()
+
+    /** The page's letters in reading order (the order the book stores them, so columns stay apart). */
+    fun lettersOn(index: Int): List<CharBox> = letterCache.getOrPut(index) {
+        try {
+            val page = doc.getPage(index)
+            if (page.rotation % 360 != 0) return@getOrPut emptyList()
+            val box = page.cropBox
+            val s = LetterStripper()
+            s.startPage = index + 1
+            s.endPage = index + 1
+            s.getText(doc)
+            s.letters.mapNotNull { p ->
+                val ch = p.unicode ?: return@mapNotNull null
+                if (ch.isBlank()) return@mapNotNull null
+                // Letters report their height above the baseline; a little more makes a full line band.
+                val h = maxOf(p.heightDir, p.fontSizeInPt * 0.7f)
+                val left = p.xDirAdj
+                val right = p.xDirAdj + p.widthDirAdj
+                val bottom = p.yDirAdj + h * 0.28f
+                val top = p.yDirAdj - h * 1.05f
+                CharBox(ch, left / box.width, top / box.height, right / box.width, bottom / box.height)
+            }
+        } catch (e: Exception) {
+            emptyList()
+        }
+    }
+
     override fun close() = doc.close()
 
     companion object {

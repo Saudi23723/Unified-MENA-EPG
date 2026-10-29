@@ -15,7 +15,7 @@ import kotlin.math.hypot
 import kotlin.math.sin
 
 /** What the reader is doing on the page. */
-enum class Tool { HAND, PEN, HIGHLIGHT, ERASER, LINE, ARROW, RECT, OVAL, TEXT }
+enum class Tool { HAND, PEN, HIGHLIGHT, ERASER, LINE, ARROW, RECT, OVAL, TEXT, TEXTMARK }
 
 /**
  * One thing written on a page. Points are fractions of the page (0..1 of its
@@ -98,6 +98,7 @@ object MarkPainter {
         strokeJoin = Paint.Join.ROUND
     }
     private val text = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val fill = Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.FILL }
     private val path = Path()
     private val rect = RectF()
 
@@ -151,6 +152,16 @@ object MarkPainter {
                 if (p.size < 4) return
                 rect.set(minOf(p[0], p[2]) * w, minOf(p[1], p[3]) * h, maxOf(p[0], p[2]) * w, maxOf(p[1], p[3]) * h)
                 if (m.tool == Tool.RECT) c.drawRect(rect, stroke) else c.drawOval(rect, stroke)
+            }
+            Tool.TEXTMARK -> {
+                // Selected words: one band per line, exactly over the letters.
+                fill.color = m.color
+                fill.alpha = 0x66
+                var i = 0
+                while (i + 3 < p.size) {
+                    c.drawRect(p[i] * w, p[i + 1] * h, p[i + 2] * w, p[i + 3] * h, fill)
+                    i += 4
+                }
             }
             Tool.TEXT -> {
                 val s = m.text ?: return
@@ -210,6 +221,14 @@ object MarkPainter {
                         )
                     }
                 }
+            }
+            Tool.TEXTMARK -> {
+                var i = 0
+                while (i + 3 < p.size) {
+                    if (x >= p[i] * w - slack && x <= p[i + 2] * w + slack && y >= p[i + 1] * h - slack && y <= p[i + 3] * h + slack) return true
+                    i += 4
+                }
+                false
             }
             Tool.TEXT -> {
                 val s = m.text ?: return false

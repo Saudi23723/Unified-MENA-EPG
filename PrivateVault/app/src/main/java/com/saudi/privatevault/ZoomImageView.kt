@@ -21,6 +21,9 @@ open class ZoomImageView @JvmOverloads constructor(
     var onSwipe: ((Int) -> Unit)? = null
     var onTap: (() -> Unit)? = null
 
+    /** A long press, at a point on the screen. */
+    var onLongPress: ((Float, Float) -> Unit)? = null
+
     /** A single tap, at a point of the picture in its own pixels (not the screen). */
     var onTapAt: ((Float, Float) -> Unit)? = null
 
@@ -53,6 +56,10 @@ open class ZoomImageView @JvmOverloads constructor(
             m.postTranslate(-distanceX, -distanceY)
             apply()
             return true
+        }
+
+        override fun onLongPress(e: MotionEvent) {
+            onLongPress?.invoke(e.x, e.y)
         }
 
         override fun onDoubleTap(e: MotionEvent): Boolean {

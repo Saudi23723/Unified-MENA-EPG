@@ -7,10 +7,14 @@
         android:title="@string/pen_write"
         app:showAsAction="always" />
     <item
+        android:id="@+id/v_bookmark"
+        android:icon="@drawable/ic_bookmark"
+        android:title="@string/bm_toggle"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/v_contents"
         android:icon="@drawable/ic_contents"
-        android:title="@string/pdf_contents"
-        android:visible="false"
+        android:title="@string/contents_title"
         app:showAsAction="always" />
     <item
         android:id="@+id/v_goto"
