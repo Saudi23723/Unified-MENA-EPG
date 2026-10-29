@@ -222,6 +222,30 @@ object LaptopClient {
         }
     }
 
+    /**
+     * The shared copy of a document's notes: [query] names it ("item=<id>" for a
+     * file of that vault, "src=phone:<id>" for a phone file sent there). With
+     * [body], sends this device's copy and gets back the merged one. Null when
+     * the vault does not hold the document or cannot be reached.
+     */
+    fun syncNotes(ctx: Context, query: String, body: String?): JSONObject? {
+        val base = url(ctx) ?: return null
+        val conn = open("$base/api/notes?$query", token(ctx))
+        return try {
+            if (body != null) {
+                conn.requestMethod = "POST"
+                conn.doOutput = true
+                conn.setRequestProperty("Content-Type", "application/json")
+                conn.outputStream.use { it.write(body.toByteArray()) }
+            }
+            if (conn.responseCode != 200) null else JSONObject(conn.inputStream.bufferedReader().readText())
+        } catch (e: Exception) {
+            null
+        } finally {
+            conn.disconnect()
+        }
+    }
+
     private fun getJson(ctx: Context, url: String): JSONObject {
         val conn = open(url, token(ctx))
         try {

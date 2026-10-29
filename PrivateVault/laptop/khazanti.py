@@ -852,6 +852,46 @@ class Converter:
             shutil.rmtree(work, ignore_errors=True)
 
 
+# ---- notes, highlights and bookmarks, shared between devices ----
+
+
+def merge_notes(old: dict, new: dict) -> dict:
+    """Page by page (and the bookmark list as a whole), the copy changed last wins."""
+    out = {"v": 2, "pages": dict(old.get("pages", {})), "t": dict(old.get("t", {})), "bm": old.get("bm") or {"t": 0, "list": []}}
+    for page, marks in (new.get("pages") or {}).items():
+        t = int((new.get("t") or {}).get(page, 0))
+        if t > int(out["t"].get(page, 0)):
+            out["pages"][page] = marks
+            out["t"][page] = t
+    nb = new.get("bm") or {}
+    if int(nb.get("t", 0)) > int(out["bm"].get("t", 0)):
+        out["bm"] = nb
+    return out
+
+
+class Notes:
+    def __init__(self, home):
+        self.dir = os.path.join(home, "notes")
+        self.lock = threading.Lock()
+
+    def _path(self, item_id):
+        return os.path.join(self.dir, "".join(c for c in item_id if c.isalnum() or c in "-_") + ".json")
+
+    def get(self, item_id) -> dict:
+        try:
+            with open(self._path(item_id), encoding="utf-8") as f:
+                return json.load(f)
+        except (OSError, ValueError):
+            return {}
+
+    def put(self, item_id, doc: dict) -> dict:
+        with self.lock:
+            merged = merge_notes(self.get(item_id), doc)
+            os.makedirs(self.dir, exist_ok=True)
+            write_json(self._path(item_id), merged)
+            return merged
+
+
 class App:
     def __init__(self, home: str, port: int):
         os.makedirs(home, exist_ok=True)
@@ -861,6 +901,7 @@ class App:
         self.port = port
         self.cloud = CloudSync(self)
         self.converter = Converter(home)
+        self.notes = Notes(home)
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -890,11 +931,20 @@ class Handler(BaseHTTPRequestHandler):
     def _error(self, status, msg):
         self._json({"error": msg}, status)
 
-    def _body(self) -> dict:
+    def _notes_item(self, query):
+        """The document notes belong to: by its id here, or by where it came from (a phone file sent here)."""
+        q = urllib.parse.parse_qs(query or "")
+        if "item" in q:
+            return self.app.vault.item(q["item"][0])
+        if "src" in q:
+            return self.app.vault.by_source(q["src"][0])
+        return None
+
+    def _body(self, limit=1_000_000) -> dict:
         n = int(self.headers.get("Content-Length") or 0)
         if n <= 0:
             return {}
-        if n > 1_000_000:
+        if n > limit:
             raise ValueError("body too large")
         return json.loads(self.rfile.read(n).decode("utf-8") or "{}")
 
@@ -983,6 +1033,11 @@ class Handler(BaseHTTPRequestHandler):
                 return self._error(404, "not found")
             index = self.app.pdf_indexes.get(self.app.vault, item)
             return self._json(index if index is not None else {"working": True})
+        if path == "/api/notes":
+            item = self._notes_item(url.query)
+            if item is None:
+                return self._error(404, "not found")
+            return self._json(self.app.notes.get(item["id"]))
         if path.startswith("/api/pdf/"):
             item = self.app.vault.item(path[len("/api/pdf/"):])
             if item is None:
@@ -1026,6 +1081,11 @@ class Handler(BaseHTTPRequestHandler):
             return self._json({"token": token}, headers=self._cookie(token))
         if not self._authed():
             return self._error(401, "login required")
+        if path == "/api/notes":
+            item = self._notes_item(urllib.parse.urlsplit(self.path).query)
+            if item is None:
+                return self._error(404, "not found")
+            return self._json(self.app.notes.put(item["id"], self._body(limit=20_000_000)))
         body = self._body()
         if path == "/api/logout":
             auth.revoke(auth.device_id(self._token()))

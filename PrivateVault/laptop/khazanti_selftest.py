@@ -171,6 +171,17 @@ def main():
             c.json("POST", "/api/delete", {"kind": "item", "id": doc["id"]})
             print("word to pdf works")
 
+        # Notes from two devices merge page by page; the later change of a page wins.
+        st, a = c.json("POST", f"/api/notes?item={notes['id']}", {"v": 2, "pages": {"1": [{"t": "PEN"}], "2": [{"t": "PEN"}]},
+                                                               "t": {"1": 100, "2": 100}, "bm": {"t": 100, "list": [{"p": 1}]}})
+        st, b = c.json("POST", f"/api/notes?item={notes['id']}", {"v": 2, "pages": {"2": [], "3": [{"t": "OVAL"}]},
+                                                               "t": {"2": 200, "3": 50}, "bm": {"t": 90, "list": []}})
+        assert b["pages"]["1"] == [{"t": "PEN"}] and b["pages"]["2"] == [] and b["pages"]["3"] == [{"t": "OVAL"}], b
+        assert b["bm"]["list"] == [{"p": 1}], b
+        st, g = c.json("GET", f"/api/notes?item={notes['id']}")
+        assert g == b, g
+        assert c.json("GET", "/api/notes?src=phone:none")[0] == 404
+
         # Running from source never offers to update itself. The built program
         # must reach the update source from inside the .exe (network and TLS).
         st, u = c.json("GET", "/api/update")

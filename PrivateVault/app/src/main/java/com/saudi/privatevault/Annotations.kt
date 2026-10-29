@@ -49,30 +49,103 @@ class Mark(
     }
 }
 
-/** Every page's marks for one document, kept in the app's private storage. */
+/** A page kept to come back to, in a named group (each group has its colour). */
+class Bookmark(val page: Int, var title: String, var group: String)
+
+/**
+ * Every page's marks and the bookmarks of one document, kept in the app's
+ * private storage. Each page and the bookmark list carry the time they last
+ * changed, so copies from two devices merge page by page, newest wins.
+ */
 class DocumentMarks(private val file: File) {
     val pages = HashMap<Int, MutableList<Mark>>()
+    val stamps = HashMap<Int, Long>()
+    val bookmarks = ArrayList<Bookmark>()
+    var bookmarksStamp = 0L
 
     fun on(page: Int): MutableList<Mark> = pages.getOrPut(page) { mutableListOf() }
 
+    fun touch(page: Int) {
+        stamps[page] = System.currentTimeMillis()
+    }
+
+    fun touchBookmarks() {
+        bookmarksStamp = System.currentTimeMillis()
+    }
+
     fun load(): DocumentMarks {
         try {
-            val o = JSONObject(file.readText()).getJSONObject("pages")
-            for (k in o.keys()) {
-                val a = o.getJSONArray(k)
-                on(k.toInt()).addAll((0 until a.length()).mapNotNull { Mark.fromJson(a.getJSONObject(it)) })
-            }
+            read(JSONObject(file.readText()))
         } catch (e: Exception) {
             // Nothing written yet.
         }
         return this
     }
 
+    private fun read(o: JSONObject) {
+        val pg = o.optJSONObject("pages") ?: JSONObject()
+        val ts = o.optJSONObject("t") ?: JSONObject()
+        for (k in pg.keys()) {
+            val a = pg.getJSONArray(k)
+            val list = on(k.toInt())
+            list.clear()
+            list.addAll((0 until a.length()).mapNotNull { Mark.fromJson(a.getJSONObject(it)) })
+            stamps[k.toInt()] = ts.optLong(k, 0L)
+        }
+        o.optJSONObject("bm")?.let { bm ->
+            bookmarksStamp = bm.optLong("t", 0L)
+            bookmarks.clear()
+            val a = bm.optJSONArray("list") ?: JSONArray()
+            for (i in 0 until a.length()) {
+                val b = a.getJSONObject(i)
+                bookmarks.add(Bookmark(b.getInt("p"), b.optString("n"), b.optString("g")))
+            }
+        }
+    }
+
+    fun toJson(): JSONObject {
+        val pg = JSONObject()
+        val ts = JSONObject()
+        for ((page, marks) in pages) {
+            val t = stamps[page] ?: 0L
+            // An emptied page is kept (empty) so the emptying reaches other devices.
+            if (marks.isEmpty() && t == 0L) continue
+            pg.put(page.toString(), JSONArray(marks.map { it.toJson() }))
+            ts.put(page.toString(), t)
+        }
+        val bm = JSONArray()
+        for (b in bookmarks.sortedBy { it.page }) bm.put(JSONObject().put("p", b.page).put("n", b.title).put("g", b.group))
+        return JSONObject().put("v", 2).put("pages", pg).put("t", ts)
+            .put("bm", JSONObject().put("t", bookmarksStamp).put("list", bm))
+    }
+
     /** A snapshot that can be written off the main thread. */
-    fun snapshot(): String {
-        val o = JSONObject()
-        for ((page, marks) in pages) if (marks.isNotEmpty()) o.put(page.toString(), JSONArray(marks.map { it.toJson() }))
-        return JSONObject().put("v", 1).put("pages", o).toString()
+    fun snapshot(): String = toJson().toString()
+
+    /**
+     * Takes from another copy every page, and the bookmarks, that changed
+     * there more recently. Returns the pages whose marks were replaced.
+     */
+    fun merge(other: JSONObject): Set<Int> {
+        val incoming = DocumentMarks(file)
+        incoming.read(other)
+        val changed = HashSet<Int>()
+        for ((page, marks) in incoming.pages) {
+            if ((incoming.stamps[page] ?: 0L) > (stamps[page] ?: 0L)) {
+                val list = on(page)
+                list.clear()
+                list.addAll(marks)
+                stamps[page] = incoming.stamps[page] ?: 0L
+                changed.add(page)
+            }
+        }
+        if (incoming.bookmarksStamp > bookmarksStamp) {
+            bookmarks.clear()
+            bookmarks.addAll(incoming.bookmarks)
+            bookmarksStamp = incoming.bookmarksStamp
+            changed.add(-1)
+        }
+        return changed
     }
 
     fun write(text: String) {
@@ -88,6 +161,42 @@ class DocumentMarks(private val file: File) {
         fun forItem(ctx: Context, itemId: String) =
             DocumentMarks(File(ctx.filesDir, "annotations/" + itemId.replace(Regex("[^A-Za-z0-9_-]"), "_") + ".json")).load()
     }
+}
+
+/** The bookmark groups, shared by all documents; each has a colour. */
+object BookmarkGroups {
+    class Group(val name: String, val color: Int)
+
+    private val DEFAULTS = listOf(
+        Group("عام", Color.parseColor("#E53935")),
+        Group("مهم", Color.parseColor("#FB8C00")),
+        Group("للمراجعة", Color.parseColor("#1E88E5")),
+        Group("امتحان", Color.parseColor("#8E24AA")),
+    )
+    private val SPARE = intArrayOf(
+        Color.parseColor("#43A047"), Color.parseColor("#00897B"), Color.parseColor("#6D4C41"),
+        Color.parseColor("#F4511E"), Color.parseColor("#3949AB"), Color.parseColor("#C2185B"),
+    )
+
+    fun all(ctx: Context): List<Group> = try {
+        val a = JSONArray(VaultLock.prefs(ctx).getString("bm_groups", null) ?: throw IllegalStateException())
+        (0 until a.length()).map { a.getJSONObject(it).let { o -> Group(o.getString("n"), o.getInt("c")) } }
+    } catch (e: Exception) {
+        DEFAULTS
+    }
+
+    fun add(ctx: Context, name: String): Group {
+        val list = all(ctx).toMutableList()
+        list.firstOrNull { it.name == name }?.let { return it }
+        val g = Group(name, SPARE[(list.size - DEFAULTS.size).coerceAtLeast(0) % SPARE.size])
+        list.add(g)
+        VaultLock.prefs(ctx).edit()
+            .putString("bm_groups", JSONArray(list.map { JSONObject().put("n", it.name).put("c", it.color) }).toString())
+            .apply()
+        return g
+    }
+
+    fun color(ctx: Context, name: String): Int = all(ctx).firstOrNull { it.name == name }?.color ?: DEFAULTS[0].color
 }
 
 /** Draws marks onto a page that is [w] by [h] pixels. */

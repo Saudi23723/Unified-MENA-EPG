@@ -58,6 +58,14 @@ class AnnotatedPageView @JvmOverloads constructor(
     /** Words were selected: one band per line (l, t, r, b fractions) and the text. */
     var onSelection: ((FloatArray, String) -> Unit)? = null
 
+    /** The ribbon takes the colour of the bookmark's group. */
+    var ribbonColor: Int
+        get() = ribbonPaint.color
+        set(value) {
+            ribbonPaint.color = value
+            invalidate()
+        }
+
     /** Shows a bookmark ribbon on the page's corner. */
     var bookmarked = false
         set(value) {

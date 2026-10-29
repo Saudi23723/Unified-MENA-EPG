@@ -96,6 +96,7 @@ class PdfViewerActivity : BaseActivity() {
         }
         marks = DocumentMarks.forItem(this, itemId)
         loadBookmarks()
+        pullNotes()
         setUpPen()
         b.page.onSelection = { _, text -> onTextSelected(text) }
         b.toolbar.title = item.name
@@ -108,6 +109,7 @@ class PdfViewerActivity : BaseActivity() {
                 R.id.v_goto -> askPage()
                 R.id.v_write -> startWriting()
                 R.id.v_bookmark -> toggleBookmark()
+                R.id.v_bookmarks -> showBookmarks()
                 R.id.v_finger -> {
                     b.page.fingerDraws = !b.page.fingerDraws
                     mi.isChecked = b.page.fingerDraws
@@ -148,6 +150,8 @@ class PdfViewerActivity : BaseActivity() {
         b.page.onTapAt = { x, y -> tapped(x, y) }
         b.toolbar.menu.findItem(R.id.v_goto).isVisible = true
         setUpSlider(count)
+        b.bookmarkStrip.trackInset = b.pageSlider.trackSidePadding.toFloat()
+        b.bookmarkStrip.onPick = { jump(it) }
         b.page.post { show() }
         // A moment to see where things are, then the page alone.
         b.root.postDelayed({ if (!writing) setChrome(false) }, 2500)
@@ -197,6 +201,8 @@ class PdfViewerActivity : BaseActivity() {
 
     override fun onPause() {
         super.onPause()
+        b.root.removeCallbacks(pushSoon)
+        pushNotes()
         if (itemId.isNotEmpty()) VaultLock.prefs(this).edit().putInt("pdf_$itemId", pageIndex).apply()
     }
 
@@ -373,6 +379,7 @@ class PdfViewerActivity : BaseActivity() {
             b.toolbar.menu.findItem(R.id.v_finger)?.isChecked = p.fingerDraws
         }
         p.onEdit = { e ->
+            marks.touch(pageIndex)
             undo.getOrPut(pageIndex) { ArrayDeque() }.addLast(e)
             redo[pageIndex]?.clear()
             saveMarks()
@@ -526,6 +533,7 @@ class PdfViewerActivity : BaseActivity() {
             is AnnotatedPageView.Edit.Removed -> for ((i, m) in e.removed.asReversed()) list.add(i.coerceAtMost(list.size), m)
         }
         redo.getOrPut(pageIndex) { ArrayDeque() }.addLast(e)
+        marks.touch(pageIndex)
         b.page.invalidate()
         saveMarks()
     }
@@ -538,6 +546,7 @@ class PdfViewerActivity : BaseActivity() {
             is AnnotatedPageView.Edit.Removed -> for ((_, m) in e.removed) list.remove(m)
         }
         undo.getOrPut(pageIndex) { ArrayDeque() }.addLast(e)
+        marks.touch(pageIndex)
         b.page.invalidate()
         saveMarks()
     }
@@ -547,8 +556,55 @@ class PdfViewerActivity : BaseActivity() {
         redoButton?.alpha = if (redo[pageIndex].isNullOrEmpty()) 0.35f else 1f
     }
 
-    /** Written right away, so nothing is lost if the app is closed. */
+    /** Written right away, so nothing is lost if the app is closed; shared a moment later. */
     private fun saveMarks() {
+        refreshUndo()
+        val text = marks.snapshot()
+        CoroutineScope(Dispatchers.IO).launch { marks.write(text) }
+        b.root.removeCallbacks(pushSoon)
+        b.root.postDelayed(pushSoon, 2500)
+    }
+
+    // ---- sharing notes with the vault, so other devices see them ----
+
+    /** How the vault knows this document: its own file, or a phone file that was sent to it. */
+    private fun notesQuery(): String? {
+        if (!LaptopClient.isLinked(this)) return null
+        return if (itemId.startsWith("laptop:")) "item=" + Uri.encode(itemId.removePrefix("laptop:"))
+        else "src=" + Uri.encode("phone:$itemId")
+    }
+
+    private val pushSoon = Runnable { pushNotes() }
+
+    private fun pullNotes() {
+        val q = notesQuery() ?: return
+        lifecycleScope.launch {
+            val remote = withContext(Dispatchers.IO) { LaptopClient.syncNotes(this@PdfViewerActivity, q, null) } ?: return@launch
+            applyRemote(remote)
+            // Anything only this device had goes up too.
+            pushNotes()
+        }
+    }
+
+    private fun pushNotes() {
+        val q = notesQuery() ?: return
+        val text = marks.snapshot()
+        CoroutineScope(Dispatchers.IO).launch {
+            val merged = LaptopClient.syncNotes(this@PdfViewerActivity, q, text) ?: return@launch
+            runOnUiThread { if (!isDestroyed) applyRemote(merged) }
+        }
+    }
+
+    /** Takes in the pages another device changed later, and shows them if on screen. */
+    private fun applyRemote(remote: org.json.JSONObject) {
+        val changed = marks.merge(remote)
+        if (changed.isEmpty()) return
+        for (p in changed) {
+            undo.remove(p)
+            redo.remove(p)
+        }
+        if (pageIndex in changed) b.page.invalidate()
+        refreshBookmark()
         refreshUndo()
         val text = marks.snapshot()
         CoroutineScope(Dispatchers.IO).launch { marks.write(text) }
@@ -582,74 +638,152 @@ class PdfViewerActivity : BaseActivity() {
 
     // ---- bookmarks ----
 
-    private class Bookmark(val page: Int, var title: String)
+    private val bookmarks get() = marks.bookmarks
 
-    private val bookmarks = ArrayList<Bookmark>()
-
+    /** Bookmarks were kept apart before notes were synced; bring them into the document's file. */
     private fun loadBookmarks() {
-        bookmarks.clear()
+        val old = VaultLock.prefs(this).getString("bm_$itemId", null) ?: return
         try {
-            val a = org.json.JSONArray(VaultLock.prefs(this).getString("bm_$itemId", "[]"))
+            val a = org.json.JSONArray(old)
             for (k in 0 until a.length()) {
                 val o = a.getJSONObject(k)
-                bookmarks.add(Bookmark(o.getInt("p"), o.optString("t")))
+                if (bookmarks.none { it.page == o.getInt("p") }) {
+                    bookmarks.add(Bookmark(o.getInt("p"), o.optString("t"), BookmarkGroups.all(this)[0].name))
+                }
             }
+            marks.touchBookmarks()
+            saveMarks()
         } catch (e: Exception) {
-            // None yet.
+            // Nothing usable.
         }
+        VaultLock.prefs(this).edit().remove("bm_$itemId").apply()
     }
 
     private fun saveBookmarks() {
-        val a = org.json.JSONArray()
-        for (bm in bookmarks.sortedBy { it.page }) a.put(org.json.JSONObject().put("p", bm.page).put("t", bm.title))
-        VaultLock.prefs(this).edit().putString("bm_$itemId", a.toString()).apply()
+        marks.touchBookmarks()
+        saveMarks()
         refreshBookmark()
     }
 
     private fun refreshBookmark() {
-        val on = bookmarks.any { it.page == pageIndex }
-        b.page.bookmarked = on
-        b.toolbar.menu.findItem(R.id.v_bookmark)?.setIcon(if (on) R.drawable.ic_bookmark_on else R.drawable.ic_bookmark)
+        val here = bookmarks.firstOrNull { it.page == pageIndex }
+        b.page.bookmarked = here != null
+        if (here != null) b.page.ribbonColor = BookmarkGroups.color(this, here.group)
+        b.toolbar.menu.findItem(R.id.v_bookmark)?.setIcon(if (here != null) R.drawable.ic_bookmark_on else R.drawable.ic_bookmark)
+        b.bookmarkStrip.set(
+            renderer?.pageCount ?: 0,
+            bookmarks.map { it.page to BookmarkGroups.color(this, it.group) },
+        )
     }
 
-    /** One tap marks the page (named after its chapter when known); another removes it. */
+    private fun chapterTitle(page: Int): String {
+        val chapter = (links?.chapters.orEmpty().filter { it.page in 0..page } +
+            printed?.chapters.orEmpty().filter { it.page in 0..page }).maxByOrNull { it.page }
+        return chapter?.title?.substringBefore("  (") ?: ""
+    }
+
+    /** The bookmark button: a new page asks which group; a marked page offers its choices. */
     private fun toggleBookmark() {
         val existing = bookmarks.firstOrNull { it.page == pageIndex }
         if (existing != null) {
-            bookmarks.remove(existing)
-            Toast.makeText(this, R.string.bm_removed, Toast.LENGTH_SHORT).show()
-        } else {
-            val chapter = (links?.chapters.orEmpty().filter { it.page in 0..pageIndex } +
-                printed?.chapters.orEmpty().filter { it.page in 0..pageIndex }).maxByOrNull { it.page }
-            bookmarks.add(Bookmark(pageIndex, chapter?.title?.substringBefore("  (") ?: ""))
-            Toast.makeText(this, getString(R.string.bm_added, pageIndex + 1), Toast.LENGTH_SHORT).show()
+            editBookmark(existing)
+            return
         }
-        saveBookmarks()
+        chooseGroup(getString(R.string.bm_add_to)) { group ->
+            bookmarks.add(Bookmark(pageIndex, chapterTitle(pageIndex), group))
+            saveBookmarks()
+            Toast.makeText(this, getString(R.string.bm_added_group, pageIndex + 1, group), Toast.LENGTH_SHORT).show()
+        }
     }
 
-    private fun renameBookmark(bm: Bookmark) {
+    private fun chooseGroup(title: String, done: (String) -> Unit) {
+        val groups = BookmarkGroups.all(this)
+        val labels = groups.map { g ->
+            android.text.SpannableString("●  " + g.name).apply {
+                setSpan(android.text.style.ForegroundColorSpan(g.color), 0, 1, 0)
+            }
+        } + listOf<CharSequence>(getString(R.string.bm_new_group))
+        MaterialAlertDialogBuilder(this)
+            .setTitle(title)
+            .setItems(labels.toTypedArray()) { _, which ->
+                if (which < groups.size) done(groups[which].name) else askText(getString(R.string.bm_new_group), "") { name ->
+                    done(BookmarkGroups.add(this, name).name)
+                }
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
+    private fun editBookmark(bm: Bookmark) {
+        val items = arrayOf(getString(R.string.bm_rename), getString(R.string.bm_move_group), getString(R.string.bm_delete))
+        MaterialAlertDialogBuilder(this)
+            .setTitle(getString(R.string.pdf_page_short, bm.page + 1) + if (bm.title.isNotEmpty()) "  ·  ${bm.title}" else "")
+            .setItems(items) { _, which ->
+                when (which) {
+                    0 -> askText(getString(R.string.bm_name), bm.title) { bm.title = it; saveBookmarks() }
+                    1 -> chooseGroup(getString(R.string.bm_move_group)) { bm.group = it; saveBookmarks() }
+                    else -> {
+                        bookmarks.remove(bm)
+                        saveBookmarks()
+                        Toast.makeText(this, R.string.bm_removed, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
+    private fun askText(title: String, value: String, done: (String) -> Unit) {
         val input = EditText(this).apply {
-            setText(bm.title)
+            setText(value)
             setSingleLine()
-            hint = getString(R.string.bm_name)
+            setSelection(text.length)
         }
         val box = FrameLayout(this).apply {
             setPadding(dp(20), dp(8), dp(20), 0)
             addView(input)
         }
         MaterialAlertDialogBuilder(this)
-            .setTitle(getString(R.string.pdf_page_short, bm.page + 1))
+            .setTitle(title)
             .setView(box)
-            .setPositiveButton(R.string.ok) { _, _ ->
-                bm.title = input.text.toString().trim()
-                saveBookmarks()
-            }
-            .setNeutralButton(R.string.delete) { _, _ ->
-                bookmarks.remove(bm)
-                saveBookmarks()
-            }
+            .setPositiveButton(R.string.ok) { _, _ -> input.text.toString().trim().takeIf { it.isNotEmpty() }?.let(done) }
             .setNegativeButton(R.string.cancel, null)
             .show()
+    }
+
+    /** The bookmarks on their own, by group, with page numbers. */
+    private fun showBookmarks() {
+        if (bookmarks.isEmpty()) {
+            Toast.makeText(this, R.string.bm_none, Toast.LENGTH_LONG).show()
+            return
+        }
+        val labels = ArrayList<CharSequence>()
+        val targets = ArrayList<Bookmark?>()
+        for (g in BookmarkGroups.all(this) + bookmarks.map { it.group }.distinct()
+            .filter { n -> BookmarkGroups.all(this).none { it.name == n } }.map { BookmarkGroups.Group(it, BookmarkGroups.color(this, it)) }) {
+            val inGroup = bookmarks.filter { it.group == g.name }.sortedBy { it.page }
+            if (inGroup.isEmpty()) continue
+            labels.add(android.text.SpannableString("●  " + g.name).apply {
+                setSpan(android.text.style.ForegroundColorSpan(g.color), 0, 1, 0)
+                setSpan(android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, length, 0)
+            })
+            targets.add(null)
+            for (bm in inGroup) {
+                labels.add("      " + getString(R.string.pdf_page_short, bm.page + 1) + if (bm.title.isNotEmpty()) "  ·  ${bm.title}" else "")
+                targets.add(bm)
+            }
+        }
+        val dialog = MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.bm_list)
+            .setItems(labels.toTypedArray()) { _, which -> targets[which]?.let { jump(it.page) } }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+        dialog.listView?.setOnItemLongClickListener { _, _, position, _ ->
+            val bm = targets.getOrNull(position) ?: return@setOnItemLongClickListener false
+            dialog.dismiss()
+            editBookmark(bm)
+            true
+        }
     }
 
     // ---- selected text ----
@@ -688,7 +822,8 @@ class PdfViewerActivity : BaseActivity() {
         if (bookmarks.isNotEmpty()) {
             header(getString(R.string.bm_header))
             for (bm in bookmarks.sortedBy { it.page }) {
-                labels.add("🔖  " + getString(R.string.pdf_page_short, bm.page + 1) + if (bm.title.isNotEmpty()) "  ·  ${bm.title}" else "")
+                labels.add(android.text.SpannableString("🔖  " + getString(R.string.pdf_page_short, bm.page + 1) +
+                    "  ·  " + bm.group + if (bm.title.isNotEmpty()) "  ·  ${bm.title}" else ""))
                 actions.add { jump(bm.page) }
             }
         }
@@ -723,7 +858,7 @@ class PdfViewerActivity : BaseActivity() {
             val bm = sorted.getOrNull(position - 1)
             if (bookmarks.isNotEmpty() && position in 1..sorted.size && bm != null) {
                 dialog.dismiss()
-                renameBookmark(bm)
+                editBookmark(bm)
                 true
             } else false
         }
