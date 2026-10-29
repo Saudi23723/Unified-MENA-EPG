@@ -43,16 +43,21 @@ async function digest(t) {
 // instance and every category request gets it (owner, 28 Oct 2026: NBA PASS names stayed on yesterday's games).
 const PATCH_AGE = 15 * 60000;
 let PATCH = null, BUILDING = 0;
+// playlists whose provider refuses the relay's live-list request: their names come from GitHub (tools/live_patch.py)
+const GITHUB_LIVE = new Set(["strong", "dream4k"]);
 // Some providers refuse Cloudflare's addresses (Strong answers 403, 28 Oct 2026): after a refusal this worker stops
 // asking for an hour, so the provider does not see a stream of refused requests; DreamTV then talks to it directly.
 let REFUSED = 0;
 const refused = () => Date.now() - REFUSED < 3600000;
 const note = (r) => { if (r && (r.status === 403 || r.status === 401)) REFUSED = Date.now(); return r; };
+// the full live list is refused separately (Dream4k, 28 Oct 2026: 403 on the live list while movies still worked)
+let LIVE_REFUSED = 0;
+const liveRefused = () => Date.now() - LIVE_REFUSED < 3600000;
 
 async function readPatch(env) {
   if (PATCH && Date.now() - PATCH.t < PATCH_AGE) return PATCH;
   // playlists whose provider refuses Cloudflare get the patch from GitHub (tools/live_patch.py, branch live-patch)
-  if (refused() || PLAYLIST === "strong") {
+  if (liveRefused() || GITHUB_LIVE.has(PLAYLIST)) {
     try {
       const r = await fetch(REPO + "live-patch/" + PLAYLIST + ".json?v=" + Math.floor(Date.now() / 120000), { cf: { cacheTtl: 120, cacheEverything: true } });
       if (r.ok) { const k = await r.json(); if (k && k.t && (!PATCH || k.t > PATCH.t)) PATCH = k; }
@@ -66,14 +71,14 @@ async function readPatch(env) {
 }
 
 async function buildPatch(env, user, pass_, ua) {
-  if (Date.now() - BUILDING < 120000 || refused() || PLAYLIST === "strong") return;
+  if (Date.now() - BUILDING < 120000 || liveRefused() || GITHUB_LIVE.has(PLAYLIST)) return;
   BUILDING = Date.now();
   try {
     const [mine, cats, live] = await Promise.all([
       fetch(fresh(MAIN + "live_streams.json"), { cf: { cacheTtl: 120, cacheEverything: true } }).then((r) => (r.ok ? r.json() : [])),
       fetch(fresh(MAIN + "live_categories.json"), { cf: { cacheTtl: 120, cacheEverything: true } }).then((r) => (r.ok ? r.json() : [])),
       fetch(`${PROVIDER}/player_api.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass_)}&action=get_live_streams`,
-        { headers: { "User-Agent": ua } }).then((r) => (note(r).ok ? r.json() : [])).catch(() => []),
+        { headers: { "User-Agent": ua } }).then((r) => { if (r.status === 403 || r.status === 401) LIVE_REFUSED = Date.now(); return r.ok ? r.json() : []; }).catch(() => []),
     ]);
     if (!Array.isArray(live) || !live.length) return;
     const ev = new Set(cats.filter((c) => EVENT_GROUP.test(c.category_name || "")).map((c) => String(c.category_id)));

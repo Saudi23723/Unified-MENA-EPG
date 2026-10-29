@@ -1,9 +1,9 @@
 name: Live names (providers that refuse Cloudflare)
 
-# Strong's provider refuses the Cloudflare relay (403, 28 Oct 2026). This job reads its live list every 15 minutes
-# with the login kept in the repository secrets STRONG_HOST / STRONG_USER / STRONG_PASS (never printed) and
-# publishes only the names patch on the "live-patch" branch, which the relay reads. If the provider refuses
-# GitHub too, the job switches itself off instead of asking again.
+# Strong's and Dream4k's providers refuse the Cloudflare relay's live-list request (403, 28 Oct 2026). This job
+# reads their live lists every 15 minutes with the logins kept in the repository secrets (STRONG_URL, DREAM4K_URL:
+# the playlist links; never printed) and publishes only the names patch on the "live-patch" branch, which the
+# relay reads. A provider that refuses GitHub too is left alone for a day instead of being asked again.
 on:
   schedule:
     - cron: "*/15 * * * *"
@@ -11,52 +11,51 @@ on:
 
 permissions:
   contents: write
-  actions: write
 
 concurrency:
   group: live-patch
   cancel-in-progress: false
 
 jobs:
-  strong:
+  patch:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
-      - name: Build the Strong names patch
-        id: build
+      - name: Last results (live-status) and last patches (live-patch)
+        run: |
+          mkdir -p _status _patch
+          git fetch -q --depth 1 origin live-status 2>/dev/null && git --work-tree=_status checkout FETCH_HEAD -- . 2>/dev/null || true
+          git fetch -q --depth 1 origin live-patch 2>/dev/null && git --work-tree=_patch checkout FETCH_HEAD -- . 2>/dev/null || true
+          git reset -q
+      - name: Build the names patches
         env:
-          PROVIDER_HOST: ${{ secrets.STRONG_HOST }}
-          PROVIDER_USER: ${{ secrets.STRONG_USER }}
-          PROVIDER_PASS: ${{ secrets.STRONG_PASS }}
-          PROVIDER_URL: ${{ secrets.STRONG_URL }}
-          XTREAM_URL: ${{ secrets.XTREAM_URL }}
-          XTREAM_USER: ${{ secrets.XTREAM_USER }}
-          XTREAM_PASS: ${{ secrets.XTREAM_PASS }}
-          XTREAM2_URL: ${{ secrets.XTREAM2_URL }}
-          XTREAM2_USER: ${{ secrets.XTREAM2_USER }}
-          XTREAM2_PASS: ${{ secrets.XTREAM2_PASS }}
-          XTREAM3_URL: ${{ secrets.XTREAM3_URL }}
-          XTREAM3_USER: ${{ secrets.XTREAM3_USER }}
-          XTREAM3_PASS: ${{ secrets.XTREAM3_PASS }}
+          STRONG_HOST: ${{ secrets.STRONG_HOST }}
+          STRONG_USER: ${{ secrets.STRONG_USER }}
+          STRONG_PASS: ${{ secrets.STRONG_PASS }}
+          STRONG_URL: ${{ secrets.STRONG_URL }}
+          DREAM4K_URL: ${{ secrets.DREAM4K_URL }}
         run: |
           set +e
-          python tools/live_patch.py strong _patch/strong.json > _msg.txt 2>&1
-          c=$?
-          echo "code=$c" >> "$GITHUB_OUTPUT"
-          # what happened, without any login (the script never prints it), on its own small branch
-          mkdir -p _status && { date -u; echo "exit $c"; tail -3 _msg.txt; } > _status/strong.txt
-          ( cd _status && git init -q -b live-status && git add -A \
-            && git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -q -m status \
-            && git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" live-status )
-      - name: Refused - switch this job off
-        if: steps.build.outputs.code == '3'
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: gh workflow disable live_patch.yml -R "${{ github.repository }}"
-      - name: Publish (live-patch branch, no history)
-        if: steps.build.outputs.code == '0' && hashFiles('_patch/strong.json') != ''
+          for p in strong dream4k; do
+            P=$(echo "$p" | tr a-z A-Z)
+            # refused within the last day: do not ask that provider again yet
+            if [ -f "_status/$p.txt" ] && grep -q "^exit 3" "_status/$p.txt"; then
+              last=$(date -d "$(head -1 "_status/$p.txt")" +%s 2>/dev/null || echo 0)
+              if [ $(( $(date +%s) - last )) -lt 86400 ]; then echo "$p: refused recently, skipped"; continue; fi
+            fi
+            eval "export PROVIDER_HOST=\"\${${P}_HOST:-}\" PROVIDER_USER=\"\${${P}_USER:-}\" PROVIDER_PASS=\"\${${P}_PASS:-}\" PROVIDER_URL=\"\${${P}_URL:-}\""
+            python tools/live_patch.py "$p" "_new/$p.json" > "_msg_$p.txt" 2>&1
+            c=$?
+            # what happened, without any login (the script never prints it)
+            { date -u; echo "exit $c"; tail -3 "_msg_$p.txt"; } > "_status/$p.txt"
+            [ "$c" = 0 ] && [ -f "_new/$p.json" ] && cp "_new/$p.json" "_patch/$p.json"
+          done
+          exit 0
+      - name: Publish (live-status and live-patch branches, no history)
         run: |
-          cd _patch && git init -q -b live-patch && git add -A \
-            && git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -q -m "Live names" \
-            && git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" live-patch
+          for b in status patch; do
+            ( cd "_$b" && rm -rf .git && git init -q -b "live-$b" && git add -A \
+              && git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -q -m "live $b" \
+              && git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" "live-$b" ) || true
+          done
