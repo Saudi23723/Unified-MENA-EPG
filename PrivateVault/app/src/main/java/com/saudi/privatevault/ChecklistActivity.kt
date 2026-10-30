@@ -111,8 +111,19 @@ class ChecklistActivity : BaseActivity() {
             }
             val mark = EfbUi.text(this, if (reference) "•" else "○", 20f, if (reference) EfbUi.ACCENT else EfbUi.DIM)
             row.addView(mark, LinearLayout.LayoutParams(dp(32), -2))
-            row.addView(EfbUi.text(this, item, 15f, EfbUi.TEXT), LinearLayout.LayoutParams(0, -2, 1f))
-            row.addView(EfbUi.text(this, action, 15f, EfbUi.WARN, bold = true).apply { gravity = Gravity.END })
+            if (action.length > 22) {
+                // A long action goes under its item, full width, instead of squeezing the item to nothing.
+                val both = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
+                both.addView(EfbUi.text(this, item, 15f, EfbUi.TEXT, bold = true))
+                both.addView(EfbUi.text(this, action, 14f, EfbUi.WARN).apply { setPadding(0, dp(3), 0, 0); setLineSpacing(0f, 1.15f) })
+                row.addView(both, LinearLayout.LayoutParams(0, -2, 1f))
+            } else {
+                row.addView(EfbUi.text(this, item, 15f, EfbUi.TEXT), LinearLayout.LayoutParams(0, -2, 1f))
+                row.addView(EfbUi.text(this, action, 15f, EfbUi.WARN, bold = true).apply {
+                    gravity = Gravity.END
+                    maxWidth = (resources.displayMetrics.widthPixels * 0.5).toInt()
+                })
+            }
             c.addView(row)
             if (reference) continue
             val sec = section

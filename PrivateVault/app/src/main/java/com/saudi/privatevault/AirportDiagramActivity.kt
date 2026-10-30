@@ -28,6 +28,7 @@ import android.widget.HorizontalScrollView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
@@ -58,6 +59,8 @@ class AirportDiagramActivity : BaseActivity() {
 
     private lateinit var map: MapView
     private lateinit var labels: LabelsOverlay
+    private lateinit var pattern: PatternOverlay
+    private var windLine = ""
     private lateinit var ownship: OwnshipOverlay
     private lateinit var info: TextView
     private lateinit var gpsLine: TextView
@@ -103,6 +106,12 @@ class AirportDiagramActivity : BaseActivity() {
         map.overlays.add(RotationGestureOverlay(map).apply { isEnabled = true })
         labels = LabelsOverlay(map)
         map.overlays.add(labels)
+        pattern = PatternOverlay(map).apply {
+            val elev = intent.getIntExtra("elev", -1)
+            // Pattern altitude: 1,000 ft above the field (AC 90-66), to the next hundred.
+            if (elev >= 0) tpaFt = ((elev + 1000 + 50) / 100) * 100
+        }
+        map.overlays.add(pattern)
         ownship = OwnshipOverlay(map, airplane()).apply { onUserPan = { stopFollowing() } }
         map.overlays.add(ownship)
         map.setOnTouchListener { _, e -> if (e.actionMasked == MotionEvent.ACTION_MOVE) stopFollowing(); false }
@@ -143,6 +152,7 @@ class AirportDiagramActivity : BaseActivity() {
         cPause = chip("⏸ Pause") { if (sketch == null) pause(root, bottom = null) else play(); cPause.text = if (sketch == null) "⏸ Pause" else "▶ Play"; mark(cPause, sketch != null) }
         pauseChip = cPause
         chips.addView(cPause)
+        chips.addView(chip("🛫 Pattern") { choosePattern() })
         chips.addView(c3d)
         chips.addView(cTrack)
         chips.addView(cFollow)
@@ -295,6 +305,65 @@ class AirportDiagramActivity : BaseActivity() {
         chip.background = EfbUi.cardBg(this, if (on) 0xFF00838F.toInt() else 0xE616213A.toInt(), 20)
     }
 
+    /** The runway into the wind (from the METAR), else the airport's calm-wind runway; and the line under the view. */
+    private fun pickRunway() {
+        val station = (intent.getStringExtra("icao")?.ifEmpty { null } ?: ident).let { if (it.length == 3) "K$it" else it }
+        lifecycleScope.launch {
+            val m = withContext(Dispatchers.IO) { AviationData.metar(station) }
+            val j = m?.json
+            val spd = j?.opt("wspd")?.toString()?.toDoubleOrNull() ?: 0.0
+            val dirTrue = j?.opt("wdir")?.toString()?.toDoubleOrNull()
+            var best: String? = null
+            if (dirTrue != null && spd >= 3) {
+                val dirMag = Nav.magnetic(dirTrue, lat0, lon0)
+                best = pattern.ends.keys.maxByOrNull { r ->
+                    val n = r.takeWhile { it.isDigit() }.toIntOrNull() ?: return@maxByOrNull -99.0
+                    Math.cos(Math.toRadians(dirMag - n * 10.0))
+                }
+            }
+            if (best == null) best = PatternOverlay.calmRunway(ident)?.takeIf { it in pattern.ends } ?: pattern.ends.keys.firstOrNull()
+            windLine = if (j == null) "" else if (spd < 3) "Wind calm" else "Wind %03d° %d kt".format(dirTrue?.toInt() ?: 0, spd.toInt())
+            if (pattern.runway == null) setPattern(best)
+            else showPatternInfo()
+        }
+    }
+
+    private fun setPattern(rwy: String?) {
+        pattern.runway = rwy
+        pattern.right = rwy != null && PatternOverlay.isRight(this, ident, rwy)
+        map.invalidate()
+        showPatternInfo()
+    }
+
+    private fun showPatternInfo() {
+        val r = pattern.runway
+        info.text = if (r == null) getString(R.string.dia_hint) else
+            listOfNotNull(windLine.ifEmpty { null }, "RWY $r · ${if (pattern.right) "Right" else "Left"} traffic",
+                if (pattern.tpaFt > 0) "TPA %,d ft".format(pattern.tpaFt) else null).joinToString("  ·  ") +
+                "\n" + getString(R.string.tp_source)
+    }
+
+    /** Which runway's pattern, and its side (left or right traffic), kept per airport. */
+    private fun choosePattern() {
+        val rwys = pattern.ends.keys.toList()
+        if (rwys.isEmpty()) { Toast.makeText(this, R.string.dia_photo_only, Toast.LENGTH_SHORT).show(); return }
+        val labels2 = rwys.map { r -> "RWY $r  ·  ${if (PatternOverlay.isRight(this, ident, r)) "Right" else "Left"} traffic" + if (r == pattern.runway) "  ✓" else "" } +
+            getString(R.string.tp_side) + getString(R.string.tp_off)
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.tp_title)
+            .setItems(labels2.toTypedArray()) { _, i ->
+                when {
+                    i < rwys.size -> setPattern(rwys[i])
+                    i == rwys.size -> pattern.runway?.let { r ->
+                        PatternOverlay.setRight(this, ident, r, !pattern.right)
+                        setPattern(r)
+                    }
+                    else -> setPattern(null)
+                }
+            }
+            .show()
+    }
+
     private fun stopFollowing() {
         if (!following) return
         following = false
@@ -333,6 +402,8 @@ class AirportDiagramActivity : BaseActivity() {
         lifecycleScope.launch {
             val json = withContext(Dispatchers.IO) { fetch(this@AirportDiagramActivity, ident, lat0, lon0, refresh) }
             val n = if (json != null) labels.load(json) else 0
+            pattern.ends = labels.runwayEnds()
+            pickRunway()
             info.text = getString(if (n > 0) R.string.dia_hint else R.string.dia_photo_only)
             map.invalidate()
         }
@@ -439,7 +510,7 @@ class AirportDiagramActivity : BaseActivity() {
         fun open(act: Activity, a: AviationData.Airport) {
             act.startActivity(Intent(act, AirportDiagramActivity::class.java)
                 .putExtra("ident", a.ident).putExtra("icao", a.icao).putExtra("name", a.name)
-                .putExtra("lat", a.lat).putExtra("lon", a.lon))
+                .putExtra("lat", a.lat).putExtra("lon", a.lon).putExtra("elev", a.elevation))
         }
 
         private val SERVERS = listOf(
@@ -501,6 +572,7 @@ class LabelsOverlay(private val map: MapView) : Overlay() {
 
     fun load(json: JSONObject): Int {
         features.clear()
+        endsCache = null
         val el = json.optJSONArray("elements") ?: JSONArray()
         for (i in 0 until el.length()) {
             val o = el.optJSONObject(i) ?: continue
@@ -519,6 +591,33 @@ class LabelsOverlay(private val map: MapView) : Overlay() {
             features.add(Feature(kind, t.optString("ref"), lat, lon, w))
         }
         return features.size
+    }
+
+    /**
+     * Each runway end: designator → (threshold, far end), from all the pieces of a runway
+     * (OSM often draws one runway in several pieces), its ends the two points farthest apart.
+     */
+    private var endsCache: Map<String, Pair<GeoPoint, GeoPoint>>? = null
+
+    fun runwayEnds(): Map<String, Pair<GeoPoint, GeoPoint>> {
+        endsCache?.let { return it }
+        val out = LinkedHashMap<String, Pair<GeoPoint, GeoPoint>>()
+        for ((ref, list) in features.filter { it.kind == "runway" && it.ref.isNotEmpty() }.groupBy { it.ref }) {
+            val pts = list.flatMap { f -> f.lat.indices.map { GeoPoint(f.lat[it], f.lon[it]) } }
+            var a0 = pts.first(); var a1 = pts.last(); var best = -1.0
+            for (i in pts.indices) for (j in i + 1 until pts.size) {
+                val dd = Nav.distanceNm(pts[i].latitude, pts[i].longitude, pts[j].latitude, pts[j].longitude)
+                if (dd > best) { best = dd; a0 = pts[i]; a1 = pts[j] }
+            }
+            val brg = Nav.magnetic(Nav.bearingTrue(a0.latitude, a0.longitude, a1.latitude, a1.longitude), a0.latitude, a0.longitude)
+            val parts = ref.split('/').map { it.trim() }.filter { it.isNotEmpty() }
+            fun gap(p: String) = p.takeWhile { it.isDigit() }.toIntOrNull()?.let { Math.abs(((it * 10 - brg + 540) % 360) - 180) } ?: 999.0
+            val first = parts.minByOrNull { gap(it) } ?: continue
+            out[first] = a0 to a1
+            parts.firstOrNull { it != first }?.let { out[it] = a1 to a0 }
+        }
+        endsCache = out
+        return out
     }
 
     /** Whether a point is on a runway (true) or a taxiway (false), and its name. */
@@ -580,22 +679,14 @@ class LabelsOverlay(private val map: MapView) : Overlay() {
                 c.drawText(f.ref, x, y, text)
             }
         }
-        // Runway numbers: red signs with white figures, at the end each is read from on landing.
+        // Runway numbers: red signs with white figures, at the end each is read from on landing, once each.
         text.textSize = 15f * d
-        for (f in features) {
-            if (f.kind != "runway" || f.ref.isEmpty()) continue
-            val parts = f.ref.split('/').map { it.trim() }.filter { it.isNotEmpty() }
-            val a0 = GeoPoint(f.lat[0], f.lon[0]); val a1 = GeoPoint(f.lat.last(), f.lon.last())
-            val brg = Nav.magnetic(Nav.bearingTrue(a0.latitude, a0.longitude, a1.latitude, a1.longitude), a0.latitude, a0.longitude)
-            fun gap(p: String) = p.takeWhile { it.isDigit() }.toIntOrNull()?.let { Math.abs(((it * 10 - brg + 540) % 360) - 180) } ?: 999.0
-            val first = parts.minByOrNull { gap(it) } ?: continue
-            val second = parts.firstOrNull { it != first }
-            val len = Nav.distanceNm(a0.latitude, a0.longitude, a1.latitude, a1.longitude)
-            val inset = minOf(0.05, len / 5)
-            val ends = listOfNotNull(
-                first to Nav.destination(a0.latitude, a0.longitude, Nav.bearingTrue(a0.latitude, a0.longitude, a1.latitude, a1.longitude), inset),
-                second?.let { it to Nav.destination(a1.latitude, a1.longitude, Nav.bearingTrue(a1.latitude, a1.longitude, a0.latitude, a0.longitude), inset) },
-            )
+        run {
+            val ends = runwayEnds().map { (label, e) ->
+                val (th, far) = e
+                val len = Nav.distanceNm(th.latitude, th.longitude, far.latitude, far.longitude)
+                label to Nav.destination(th.latitude, th.longitude, Nav.bearingTrue(th.latitude, th.longitude, far.latitude, far.longitude), minOf(0.05, len / 5))
+            }
             for ((label, g) in ends) {
                 pr.toPixels(g, pt)
                 val x = pt.x.toFloat(); val y = pt.y.toFloat()
