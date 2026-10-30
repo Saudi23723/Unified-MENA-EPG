@@ -298,10 +298,17 @@ object AviationData {
     // ---- airports in depth ----
 
     /** Runways and frequencies of an airport, as aviationweather.gov publishes them. */
-    fun airportInfo(station: String): JSONObject? = try {
-        JSONArray(get("https://aviationweather.gov/api/data/airport?ids=$station&format=json")).optJSONObject(0)
-    } catch (e: Exception) {
-        null
+    fun airportInfo(ctx: Context, station: String): JSONObject? {
+        // Kept on the phone, so an airport opened once (or packed for a flight) works without signal.
+        val file = File(ctx.filesDir, "aviation/info/${station.replace(Regex("[^A-Z0-9]"), "")}.json")
+        return try {
+            JSONArray(get("https://aviationweather.gov/api/data/airport?ids=$station&format=json")).optJSONObject(0)?.also {
+                file.parentFile?.mkdirs()
+                file.writeText(it.toString())
+            }
+        } catch (e: Exception) {
+            null
+        } ?: try { JSONObject(file.readText()) } catch (e: Exception) { null }
     }
 
     /** The raw winds and temperatures aloft (FB) for the western regions. */

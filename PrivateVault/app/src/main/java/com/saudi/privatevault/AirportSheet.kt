@@ -74,7 +74,7 @@ class AirportSheet(
         button(R.string.apt_direct) { dialog.dismiss(); onDirect() }
         button(R.string.apt_add_route) { dialog.dismiss(); onAddToRoute() }
         button(R.string.apt_plates) { plates() }
-        button(R.string.apt_supplement) { open("https://www.airnav.com/airport/${a.icao.ifEmpty { a.ident }}") }
+        button(R.string.apt_supplement) { supplement() }
         body.addView(HorizontalScrollView(act).apply {
             isHorizontalScrollBarEnabled = false
             addView(buttons)
@@ -106,7 +106,7 @@ class AirportSheet(
     private fun load() {
         act.lifecycleScope.launch {
             val (metar, taf, apt) = withContext(Dispatchers.IO) {
-                Triple(AviationData.metar(station), AviationData.taf(station), AviationData.airportInfo(station))
+                Triple(AviationData.metar(station), AviationData.taf(station), AviationData.airportInfo(act, station))
             }
             wx.text = weather(metar, taf, apt)
             info.text = runways(apt, metar)
@@ -202,6 +202,27 @@ class AirportSheet(
     }
 
     // ---- charts and procedures ----
+
+    /** The FAA Chart Supplement pages, from the phone when packed; the web as a last resort. */
+    private fun supplement() {
+        act.lifecycleScope.launch {
+            val pages = withContext(Dispatchers.IO) { OfflinePack.supplement(act, a.ident) }
+            if (pages.isEmpty()) {
+                open("https://www.airnav.com/airport/${a.icao.ifEmpty { a.ident }}")
+                return@launch
+            }
+            fun show(i: Int) {
+                val f = pages[i]
+                val item = VaultItem("cs:" + f.name, "${a.ident} Chart Supplement ${i + 1}", f.absolutePath, "application/pdf", f.length(), f.lastModified(), null)
+                VaultStore.viewOnly(item)
+                act.startActivity(Intent(act, PdfViewerActivity::class.java).putExtra(Viewers.EXTRA_ID, item.id))
+            }
+            if (pages.size == 1) show(0) else MaterialAlertDialogBuilder(act)
+                .setTitle("${a.ident} · Chart Supplement")
+                .setItems(pages.indices.map { "Page ${it + 1}" }.toTypedArray()) { _, i -> show(i) }
+                .show()
+        }
+    }
 
     private fun plates() {
         val wait = Toast.makeText(act, R.string.apt_plates_loading, Toast.LENGTH_LONG)

@@ -6,14 +6,12 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import org.osmdroid.tileprovider.MapTileProviderBasic
 import org.osmdroid.tileprovider.ReusableBitmapDrawable
 import org.osmdroid.tileprovider.modules.MapTileApproximater
 import org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase
 import org.osmdroid.tileprovider.tilesource.ITileSource
-import org.osmdroid.tileprovider.ExpirableBitmapDrawable
 import org.osmdroid.util.MapTileIndex
 import java.util.concurrent.CopyOnWriteArrayList
 
@@ -32,25 +30,19 @@ class SmoothApproximater : MapTileApproximater() {
         super.addProvider(pProvider)
     }
 
-    override fun getTileLoader(): MapTileModuleProviderBase.TileLoader = Loader()
-
-    inner class Loader : MapTileModuleProviderBase.TileLoader() {
-        override fun loadTile(pMapTileIndex: Long): Drawable? {
-            val zoom = MapTileIndex.getZoom(pMapTileIndex)
-            for (diff in 1..minOf(zoom, 10)) {
-                for (p in sources) {
-                    val src = zoom - diff
-                    if (src < p.minimumZoomLevel || src > p.maximumZoomLevel) continue
-                    val srcTile = MapTileIndex.getTileIndex(src, MapTileIndex.getX(pMapTileIndex) shr diff, MapTileIndex.getY(pMapTileIndex) shr diff)
-                    val d = try { p.tileLoader.loadTileIfReachable(srcTile) } catch (e: Exception) { null } as? BitmapDrawable ?: continue
-                    val bmp = crop(d, pMapTileIndex, diff) ?: continue
-                    return BitmapDrawable(null as android.content.res.Resources?, bmp).also {
-                        ExpirableBitmapDrawable.setState(it, ExpirableBitmapDrawable.SCALED)
-                    }
-                }
+    // osmdroid's own loader calls this; here it is cut from the finest tile there is, with smoothing.
+    override fun approximateTileFromLowerZoom(pMapTileIndex: Long): Bitmap? {
+        val zoom = MapTileIndex.getZoom(pMapTileIndex)
+        for (diff in 1..minOf(zoom, 10)) {
+            for (p in sources) {
+                val src = zoom - diff
+                if (src < p.minimumZoomLevel || src > p.maximumZoomLevel) continue
+                val srcTile = MapTileIndex.getTileIndex(src, MapTileIndex.getX(pMapTileIndex) shr diff, MapTileIndex.getY(pMapTileIndex) shr diff)
+                val d = try { p.tileLoader.loadTileIfReachable(srcTile) } catch (e: Exception) { null } as? BitmapDrawable ?: continue
+                crop(d, pMapTileIndex, diff)?.let { return it }
             }
-            return null
         }
+        return null
     }
 
     private fun crop(src: BitmapDrawable, index: Long, diff: Int): Bitmap? {
