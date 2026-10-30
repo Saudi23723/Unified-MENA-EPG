@@ -88,7 +88,7 @@ async function buildPatch(env, user, pass_, ua) {
         { headers: { "User-Agent": ua } }).then((r) => { if (r.status === 403 || r.status === 401) LIVE_REFUSED = Date.now(); return r.ok ? r.json() : []; }).catch(() => []),
     ]);
     STATUS.provider_channels = Array.isArray(live) ? live.length : 0;
-    if (!Array.isArray(live) || !live.length) { STATUS.last_result = liveRefused() ? "refused" : "empty answer"; return; }
+    if (!Array.isArray(live) || !live.length) { STATUS.last_result = liveRefused() ? "refused" : "empty answer"; console.log("LIVE " + PLAYLIST + " " + STATUS.last_result); return; }
     const ev = new Set(cats.filter((c) => EVENT_GROUP.test(c.category_name || "")).map((c) => String(c.category_id)));
     const now = new Map();
     for (const x of live) now.set(String(x.stream_id), x);
@@ -133,6 +133,7 @@ async function buildPatch(env, user, pass_, ua) {
     // a provider answer missing most of our channels is a broken answer, not a removal
     PATCH = { t: Date.now(), n, i, add, gone: gone.length < mine.length / 3 ? gone : [] };
     STATUS.last_result = "ok"; STATUS.names = Object.keys(n).length;
+    console.log("LIVE " + PLAYLIST + " ok names=" + STATUS.names + " provider=" + live.length);
     { const cn = {}; for (const c of cats) cn[c.category_id] = c.category_name; const r = {};
       for (const x of mine) if (n[x.stream_id]) { const g = cn[x.category_id] || "?"; const e = r[g] || (r[g] = [0, ""]); e[0]++; if (!e[1]) e[1] = n[x.stream_id].slice(0, 60); }
       STATUS.groups = r; }
