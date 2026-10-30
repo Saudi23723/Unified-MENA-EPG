@@ -45,6 +45,8 @@ const PATCH_AGE = 15 * 60000;
 const DYN = { id: "9001", name: "🤼 | FLO WRESTLING", from: /\bFLO\b|FLOSPORT/i, match: /WRESTL|مصارع/i,
   near: /FLO\s*SPORTS?\s*PPV|FLO\s*FLSP|FLOSPORTS?\s*TV/i };
 let PATCH = null, BUILDING = 0;
+// what this worker instance last saw (no login, only counts and names): /_status
+const STATUS = { tries: 0 };
 // playlists whose provider refuses the relay's live-list request: their names come from GitHub (tools/live_patch.py)
 const GITHUB_LIVE = new Set(["strong", "dream4k"]);
 // playlists whose provider sends movies / series without a listed group (they show as "-1")
@@ -77,6 +79,7 @@ async function readPatch(env) {
 async function buildPatch(env, user, pass_, ua) {
   if (Date.now() - BUILDING < 120000 || liveRefused() || GITHUB_LIVE.has(PLAYLIST)) return;
   BUILDING = Date.now();
+  STATUS.tries++; STATUS.last_try = new Date().toISOString();
   try {
     const [mine, cats, live] = await Promise.all([
       fetch(fresh(MAIN + "live_streams.json"), { cf: { cacheTtl: 120, cacheEverything: true } }).then((r) => (r.ok ? r.json() : [])),
@@ -84,7 +87,8 @@ async function buildPatch(env, user, pass_, ua) {
       fetch(`${PROVIDER}/player_api.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass_)}&action=get_live_streams`,
         { headers: { "User-Agent": ua } }).then((r) => { if (r.status === 403 || r.status === 401) LIVE_REFUSED = Date.now(); return r.ok ? r.json() : []; }).catch(() => []),
     ]);
-    if (!Array.isArray(live) || !live.length) return;
+    STATUS.provider_channels = Array.isArray(live) ? live.length : 0;
+    if (!Array.isArray(live) || !live.length) { STATUS.last_result = liveRefused() ? "refused" : "empty answer"; return; }
     const ev = new Set(cats.filter((c) => EVENT_GROUP.test(c.category_name || "")).map((c) => String(c.category_id)));
     const now = new Map();
     for (const x of live) now.set(String(x.stream_id), x);
@@ -97,7 +101,7 @@ async function buildPatch(env, user, pass_, ua) {
         // the provider's quality tag ("[1080p]") is dropped: the owner's names carry none
         const nm = String(pv.name).replace(/[\u24e7\u00a7]/g, "").replace(/\s*\[(\d{3,4}p|4K|UHD|FHD|HD|SD)\]\s*$/i, "").replace(/\s+/g, " ").trim();
         // the same channel with only a country prefix / quality marks / spacing changed keeps the owner's name
-        const key = (t) => String(t).normalize("NFKC").toUpperCase().replace(/^[A-Z]{2,3}\s*[:|]\s*/, "")
+        const key = (t) => String(t).normalize("NFKC").toUpperCase().replace(/^\|?[A-Z]{2,3}\s*[:|]\s*/, "")
           .replace(/\b(UHD|FHD|HD|SD|4K|8K|HEVC|RAW|\d{3,4}P)\b/g, "").replace(/[^A-Z0-9\u0600-\u06FF]/g, "");
         if (nm && nm !== x.name && key(nm) !== key(x.name)) n[x.stream_id] = nm;
       }
@@ -128,6 +132,10 @@ async function buildPatch(env, user, pass_, ua) {
     const gone = mine.filter((x) => !now.has(String(x.stream_id))).map((x) => x.stream_id);
     // a provider answer missing most of our channels is a broken answer, not a removal
     PATCH = { t: Date.now(), n, i, add, gone: gone.length < mine.length / 3 ? gone : [] };
+    STATUS.last_result = "ok"; STATUS.names = Object.keys(n).length;
+    { const cn = {}; for (const c of cats) cn[c.category_id] = c.category_name; const r = {};
+      for (const x of mine) if (n[x.stream_id]) { const g = cn[x.category_id] || "?"; const e = r[g] || (r[g] = [0, ""]); e[0]++; if (!e[1]) e[1] = n[x.stream_id].slice(0, 60); }
+      STATUS.groups = r; }
     if (env && env.LIVE) await env.LIVE.put(PLAYLIST, JSON.stringify(PATCH));
   } catch (e) { /* next request tries again */ } finally { BUILDING = 0; }
 }
@@ -222,6 +230,12 @@ export default {
     if (req.method === "OPTIONS") return new Response(null, { headers: CORS });
     const p = url.pathname;
     if (p === "/") return new Response("ok", { headers: CORS });
+    if (p === "/_status") {
+      const pt = await readPatch(env);
+      return json({ playlist: PLAYLIST, patch_age_min: pt ? Math.round((Date.now() - pt.t) / 60000) : null,
+        patch_names: pt ? Object.keys(pt.n || {}).length : 0, live_refused: liveRefused(), vod_refused: refused(),
+        from_github: GITHUB_LIVE.has(PLAYLIST) || liveRefused(), ...STATUS }, 0);
+    }
 
     // M3U playlist link (get.php), for apps that take a "playlist URL": same clean names and groups, in the
     // same order. Each link points back here and is redirected to the provider like the Xtream ones.

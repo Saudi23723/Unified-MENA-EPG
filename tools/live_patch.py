@@ -27,7 +27,7 @@ EVENT_GROUP = re.compile(
 def key(t):
     import unicodedata
     t = unicodedata.normalize("NFKC", str(t)).upper()
-    t = re.sub(r"\b(UHD|FHD|HD|SD|4K|8K|HEVC|RAW|\d{3,4}P)\b", "", re.sub(r"^[A-Z]{2,3}\s*[:|]\s*", "", t))
+    t = re.sub(r"\b(UHD|FHD|HD|SD|4K|8K|HEVC|RAW|\d{3,4}P)\b", "", re.sub(r"^\|?[A-Z]{2,3}\s*[:|]\s*", "", t))
     return re.sub(r"[^A-Z0-9\u0600-\u06FF]", "", t)
 
 
