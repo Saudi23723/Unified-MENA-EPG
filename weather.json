@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-30T17:02:25.400Z",
+  "updated_at": "2026-10-30T17:09:13.732Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -507,7 +507,7 @@
       "temperature_c": 17.6,
       "humidity": 75,
       "wind_speed": 6.8,
-      "rain_chance": 14,
+      "rain_chance": 11,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-10-30T10:00",
@@ -578,7 +578,7 @@
       "temperature_c": 13.3,
       "humidity": 76,
       "wind_speed": 5.0,
-      "rain_chance": 3,
+      "rain_chance": 2,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-10-30T12:00",
@@ -590,14 +590,14 @@
           "code": 3,
           "max": 13.5,
           "min": 7.0,
-          "rain": 14
+          "rain": 13
         },
         {
           "date": "2026-10-31",
           "code": 3,
           "max": 15.9,
           "min": 10.8,
-          "rain": 41
+          "rain": 31
         },
         {
           "date": "2026-11-01",
@@ -649,7 +649,7 @@
       "temperature_c": 20.1,
       "humidity": 76,
       "wind_speed": 6.7,
-      "rain_chance": 19,
+      "rain_chance": 20,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-10-30T10:00",
@@ -720,7 +720,7 @@
       "temperature_c": 21.8,
       "humidity": 67,
       "wind_speed": 4.9,
-      "rain_chance": 22,
+      "rain_chance": 29,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-10-30T12:00",
@@ -732,14 +732,14 @@
           "code": 53,
           "max": 24.5,
           "min": 19.7,
-          "rain": 27
+          "rain": 29
         },
         {
           "date": "2026-10-31",
           "code": 61,
           "max": 20.5,
           "min": 17.9,
-          "rain": 25
+          "rain": 38
         },
         {
           "date": "2026-11-01",
@@ -810,7 +810,7 @@
           "code": 61,
           "max": 17.6,
           "min": 10.2,
-          "rain": 20
+          "rain": 18
         },
         {
           "date": "2026-11-01",
