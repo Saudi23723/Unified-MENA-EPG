@@ -32367,14 +32367,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <desc lang="ar">وثائقي خاص من انتاج رؤيا يتحدث عن القدس، رمز الصراع والمواجهة ضد الصهيونية.</desc>
     <icon src="https://img.roya.tv/imagechanger/Size03Q40R169/storage/app/public/images/programs/713/kloKfQeffViJlwO.jpg" />
   </programme>
-  <programme start="20261029113000 +0000" stop="20261029123000 +0000" channel="AlJadeed.lb">
-    <title lang="ar">الغرور</title>
-    <category lang="ar">منوعات</category>
-  </programme>
-  <programme start="20261029123000 +0000" stop="20261029130000 +0000" channel="AlJadeed.lb">
-    <title lang="ar">نشرة أخبار الظهيرة</title>
-    <category lang="ar">أخبار</category>
-  </programme>
   <programme start="20261029130000 +0000" stop="20261029140000 +0000" channel="AlJadeed.lb">
     <title lang="ar">هنا بيروت</title>
     <category lang="ar">منوعات</category>
@@ -33072,7 +33064,12 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <desc lang="ar">جولة في أهم الأحداث العربية والعالمية</desc>
     <category lang="ar">أخبار</category>
   </programme>
-  <programme start="20261030060000 +0000" stop="20261030080000 +0000" channel="AlJazeera.qa">
+  <programme start="20261030060000 +0000" stop="20261030070000 +0000" channel="AlJazeera.qa">
+    <title lang="ar">نشرة الأخبار</title>
+    <desc lang="ar">جولة في أهم الأحداث العربية والعالمية</desc>
+    <category lang="ar">أخبار</category>
+  </programme>
+  <programme start="20261030070000 +0000" stop="20261030080000 +0000" channel="AlJazeera.qa">
     <title lang="ar">نشرة الأخبار</title>
     <desc lang="ar">جولة في أهم الأحداث العربية والعالمية</desc>
     <category lang="ar">أخبار</category>
@@ -33092,12 +33089,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <desc lang="ar">جولة في أهم الأحداث العربية والعالمية</desc>
     <category lang="ar">أخبار</category>
   </programme>
-  <programme start="20261030110000 +0000" stop="20261030120000 +0000" channel="AlJazeera.qa">
-    <title lang="ar">نشرة الأخبار</title>
-    <desc lang="ar">جولة في أهم الأحداث العربية والعالمية</desc>
-    <category lang="ar">أخبار</category>
-  </programme>
-  <programme start="20261030120000 +0000" stop="20261030140000 +0000" channel="AlJazeera.qa">
+  <programme start="20261030110000 +0000" stop="20261030140000 +0000" channel="AlJazeera.qa">
     <title lang="ar">نشرة الأخبار</title>
     <desc lang="ar">جولة في أهم الأحداث العربية والعالمية</desc>
     <category lang="ar">أخبار</category>
@@ -38309,18 +38301,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <desc lang="ar">الطواريد — بث مستمر ٢٤/٧.
 هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
   </programme>
-  <programme start="20261030000000 +0000" stop="20261030003000 +0000" channel="JordanTV.jo">
-    <title lang="en">TV Program</title>
-    <desc lang="en">People Following up on the most significant social, political, and economic events and issues that concern the public and directly affect their lives by hosting the best experts in each field.</desc>
-  </programme>
-  <programme start="20261030003000 +0000" stop="20261030010000 +0000" channel="JordanTV.jo">
-    <title lang="en">God Counted It</title>
-    <desc lang="en">Religion It highlights the interpretation of several verses of the Holy Quran that prove the scientific miracle in many surahs, such as those that discuss the creation of man, the heavens, the earth, and others.</desc>
-  </programme>
-  <programme start="20261030010000 +0000" stop="20261030013000 +0000" channel="JordanTV.jo">
-    <title lang="en">Healing Hearts</title>
-    <desc lang="en">Religion Dr. Zaid Ibrahim Al Kilani explores the lived experiences of people, introducing educational and cultural measures that seek to enrich quality of life and inspire a more informed and aware community.</desc>
-  </programme>
   <programme start="20261030013000 +0000" stop="20261030020000 +0000" channel="JordanTV.jo">
     <title lang="en">God Counted It</title>
     <desc lang="en">Religion It highlights the interpretation of several verses of the Holy Quran that prove the scientific miracle in many surahs, such as those that discuss the creation of man, the heavens, the earth, and others.</desc>
@@ -38405,11 +38385,17 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">3 O'clock Bulletin</title>
     <desc lang="en">Investigation Newsletter highlighting the latest local and international news.</desc>
   </programme>
-  <programme start="20261030103000 +0000" stop="20261030120000 +0000" channel="JordanTV.jo">
-    <title lang="ar">مطبخ العيلة</title>
+  <programme start="20261030103000 +0000" stop="20261030110000 +0000" channel="JordanTV.jo">
+    <title lang="en">Cartoon</title>
+    <desc lang="en">Animation A special time where children immerse themselves in their favorite cartoon shows, enjoying a world full of adventures, beloved characters, and exciting stories that capture their imagination and transport them to worlds of fun and fantasy.</desc>
   </programme>
-  <programme start="20261030120000 +0000" stop="20261030123000 +0000" channel="JordanTV.jo">
-    <title lang="ar">فاسألو اهل الذكر</title>
+  <programme start="20261030110000 +0000" stop="20261030113000 +0000" channel="JordanTV.jo">
+    <title lang="en">Ask The Scholars</title>
+    <desc lang="en">Religion Dr. Hassan Abu Arqoub hosts a number of scholars to discuss various religious issues.</desc>
+  </programme>
+  <programme start="20261030113000 +0000" stop="20261030120000 +0000" channel="JordanTV.jo">
+    <title lang="en">Cartoon</title>
+    <desc lang="en">Animation A special time where children immerse themselves in their favorite cartoon shows, enjoying a world full of adventures, beloved characters, and exciting stories that capture their imagination and transport them to worlds of fun and fantasy.</desc>
   </programme>
   <programme start="20261030123000 +0000" stop="20261030130000 +0000" channel="JordanTV.jo">
     <title lang="ar">الرسوم المتحركة</title>
@@ -38879,10 +38865,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20261102204500 +0000" stop="20261102210000 +0000" channel="JordanTV.jo">
     <title lang="en">Our Neighborhood</title>
     <desc lang="en">In a bustling neighborhood, Marshoud, a respected man, shares the best of his shop for free while preserving the community's traditions, revealing the humor and contrasts between past and present. Shayesh Al-Naeemy, Nariman Abdul Karim, Shayesh Al Naeemy, Nariman Abdel Karim.</desc>
-  </programme>
-  <programme start="20261030110000 +0000" stop="20261030120000 +0000" channel="AmmanTV.jo">
-    <title lang="ar">برنامج</title>
-    <desc lang="ar">قناة عمّان — برنامج</desc>
   </programme>
   <programme start="20261030120000 +0000" stop="20261030130000 +0000" channel="AmmanTV.jo">
     <title lang="ar">سلام الروح</title>
@@ -40968,9 +40950,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">24/7 Program</title>
     <desc lang="ar">Hala TV — هلا</desc>
   </programme>
-  <programme start="20261029233000 +0000" stop="20261030012000 +0000" channel="RoyaPH.beIN_SPORTS_3_Asia">
-    <title lang="en">UEL 2026/27: LPO Vs SUN</title>
-  </programme>
   <programme start="20261030012000 +0000" stop="20261030031000 +0000" channel="RoyaPH.beIN_SPORTS_3_Asia">
     <title lang="en">UEL 2026/27: OFI Vs LEV</title>
   </programme>
@@ -41207,14 +41186,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   </programme>
   <programme start="20261102160000 +0000" stop="20261102185200 +0000" channel="RoyaPH.beIN_SPORTS_3_Asia">
     <title lang="en">La Vuelta 2026: Stage 18</title>
-  </programme>
-  <programme start="20261029115100 +0000" stop="20261029122600 +0000" channel="MBC 1">
-    <title lang="ar">مناعة — الحلقة 3</title>
-    <desc lang="ar">تنشأ غرام في حي الباطنية وتتزوج من فتحي بحثًا عن الاستقرار، لكن قرارًا مصيريًا يقلب حياة أسرتها ويضعها أمام تحديات خطيرة.</desc>
-  </programme>
-  <programme start="20261029122600 +0000" stop="20261029131100 +0000" channel="MBC 1">
-    <title lang="ar">أحلى نصيب — الحلقة 18</title>
-    <desc lang="ar">يصل ركان ونورة إلى الرياض وسط ضغوط عائلية وأزمات شخصية، فيلجآن إلى ادعاء الزواج كحل سريع، لكن كذبتهما تضعهما أمام مواقف غير متوقعة.</desc>
   </programme>
   <programme start="20261029131100 +0000" stop="20261029140000 +0000" channel="MBC 1">
     <title lang="ar">مولانا — الحلقة 13</title>
@@ -41464,10 +41435,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">نادينا — الحلقة 82</title>
     <desc lang="ar">المنصة المثالية للمشجعين للتعبير عن آرائهم، ومشاركة شغفهم، ومناقشة كل ما يتعلق بمباريات الدوري السعودي وأنديتهم المفضلة.</desc>
   </programme>
-  <programme start="20261029120000 +0000" stop="20261029122600 +0000" channel="MBC 2">
-    <title lang="ar">فيلم ونجوم — الحلقة 45</title>
-    <desc lang="ar">دليل المشاهدين إلى عالم أفلام هوليوود من خلال الشاشة الصغيرة.</desc>
-  </programme>
   <programme start="20261029122600 +0000" stop="20261029150500 +0000" channel="MBC 2">
     <title lang="ar">ذا باتريوت</title>
     <desc lang="ar">ملحمة بطولية مؤثرة.. بنجامين بطل سطّر أجمل إنجازات الحروب.. وجد نفسه في خضم حرب الاستقلال الأميركية يشاهد عائلته تتمزق وتتداعى ويرفض الوقوف عاجزاً أو مكتوف اليدين، حمل السلاح وقاتل لحماية حرية عائلته واستقلال بلاده، وذاق عذاب الخيانة والفداء .. وحلاوة التخلص من أسى ووجع الانتقام!</desc>
@@ -41639,18 +41606,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20261101040000 +0000" stop="20261101060100 +0000" channel="MBC 2">
     <title lang="ar">أوبيريشن فورتشن: روز دي غير</title>
     <desc lang="ar">يُكلّف الجاسوس أورسون فورتشن بتعقّب سلاح متطور قبل أن يقع في أيدي تاجر أسلحة ملياردير. وبرفقة نخبة من العملاء ونجم هوليوودي شهير، ينطلق في مهمة سرية مليئة بالخداع والمطاردات لإنقاذ العالم.</desc>
-  </programme>
-  <programme start="20261029120000 +0000" stop="20261029123100 +0000" channel="MBC 3">
-    <title lang="ar">رابل آند كرو — الحلقة 122</title>
-    <desc lang="ar">ينتقل رابل مع عائلته العمة والجد وأبناء العم، ومجموعة من الكلاب البنائين المحبوبين، وصغارهم الجراء، إلى بلدة مجاورة؛ فيها يعيشون ويلعبون ويبنون كل ما يحتاجه المجتمع.</desc>
-  </programme>
-  <programme start="20261029123100 +0000" stop="20261029130000 +0000" channel="MBC 3">
-    <title lang="ar">ببلز هوتيل — الحلقة 41</title>
-    <desc lang="ar">أهلاً بكم في فندق ببل، هذا المكان المليء بالفقاعات حيث تتحول الأحلام إلى مغامرات! بلمسة من عصاها، ومديرة الفندق المرحة دائما مستعدة لإنقاذ الموقف!</desc>
-  </programme>
-  <programme start="20261029130000 +0000" stop="20261029131300 +0000" channel="MBC 3">
-    <title lang="ar">آلفين!!! آند ذا تشيبمانكس — الحلقة 141</title>
-    <desc lang="ar">يُسلط مسلسل (آلفينن!!! آند ذا تشيبمَنك) الضوء على النجوم العالميين آلفين، سايمن وتيودور، ويأخذنا في جولة مليئة بالموسيقى والضحك والقصص المعدّة للترفيه عن الأجيال الأربعة من معجبي (ذا تشيبمَنكس).</desc>
   </programme>
   <programme start="20261029131300 +0000" stop="20261029133100 +0000" channel="MBC 3">
     <title lang="ar">آلفين!!! آند ذا تشيبمانكس — الحلقة 142</title>
@@ -42564,14 +42519,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">كوكونات التنين الصغير — الحلقة 9</title>
     <desc lang="ar">يعيش التنين كوكونات في جزيرة خاصة تشكل موطناً للعديد من التنانين. حيث يعيشون مغامرات رائعة ويشكلون صداقات متينة.</desc>
   </programme>
-  <programme start="20261029120000 +0000" stop="20261029125000 +0000" channel="MBC 4">
-    <title lang="ar">مون ريفر — الحلقة 14</title>
-    <desc lang="ar">يستيقظ ولي عهد وتاجرة مفعمة بالحيوية ذات صباح على صدمة تهز حياتهما: لقد تبادلا الأجساد! وبينما يكشفان المؤامرات والأسرار الخطيرة، يبدو أن علاقتهما أعمق مما يعتقدان.</desc>
-  </programme>
-  <programme start="20261029125000 +0000" stop="20261029132500 +0000" channel="MBC 4">
-    <title lang="ar">ورود وذنوب — الحلقة 99</title>
-    <desc lang="ar">رجل يفقد والده وثروته صغيرًا، فيبني إمبراطورية قائمة على العائلة والنزاهة. تنقلب حياته بعد غيبوبة زوجته وسرّها المدمر، حتى تقوده بائعة زهور إلى الثقة والخلاص.</desc>
-  </programme>
   <programme start="20261029132500 +0000" stop="20261029135600 +0000" channel="MBC 4">
     <title lang="ar">ما زلت في 17 — الحلقة 64</title>
     <desc lang="ar">تدفع رسالة غامضة أراس إلى البحث عن شقيقه المفقود دمير، لتقوده الرحلة إلى بداية جديدة تمتلئ بالمفاجآت، حيث يكتشف الحب ويخوض طريقًا مليئًا بالتمرد.</desc>
@@ -43185,14 +43132,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Nasamat Ayloul</title>
     <desc lang="en">Taking place in a Syrian rural village, the story deals with human relations, the concerns of countryside residents, the daily issues and problems of the youth and the elderly, and the various life challenges they face.</desc>
   </programme>
-  <programme start="20261029120000 +0000" stop="20261029130000 +0000" channel="MBC Action">
-    <title lang="ar">ملاعب مع فيصل الجفن — الحلقة 132</title>
-    <desc lang="ar">برنامج إذاعي حواري يقدم تحليلاً لآخر الأحداث والمستجدات الرياضية السعودية والعربية والدولية.</desc>
-  </programme>
-  <programme start="20261029130000 +0000" stop="20261029133000 +0000" channel="MBC Action">
-    <title lang="ar">سلسلة ناسكار ويلين يورو — الحلقة 11</title>
-    <desc lang="ar">بسيارات ناسكار على حلبات السباق الأوروبية، مما يجعلها بطولة لا ينبغي تفويتها لكل محبي ناسكار في كل مكان!</desc>
-  </programme>
   <programme start="20261029133000 +0000" stop="20261029140000 +0000" channel="MBC Action">
     <title lang="ar">سلسلة ناسكار ويلين يورو — الحلقة 12</title>
     <desc lang="ar">بسيارات ناسكار على حلبات السباق الأوروبية، مما يجعلها بطولة لا ينبغي تفويتها لكل محبي ناسكار في كل مكان!</desc>
@@ -43529,10 +43468,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">بطولة أوروبا للرالي كروس — الحلقة 5</title>
     <desc lang="ar">مقتطفات من بطولة رالي كروس الأوروبية 2026.</desc>
   </programme>
-  <programme start="20261029114700 +0000" stop="20261029123500 +0000" channel="MBC Bollywood">
-    <title lang="ar">بارينيتي — الحلقة 171</title>
-    <desc lang="ar">قصة معقدة تأسر القلوب تدور حول صديقين مقربين تتشابك حياتهما بطريقة غير متوقعة.</desc>
-  </programme>
   <programme start="20261029123500 +0000" stop="20261029150500 +0000" channel="MBC Bollywood">
     <title lang="ar">نو إنتري</title>
     <desc lang="ar">تبدأ المتاعب عندما يقرر بريم دفع كيشين لارتكاب خطأ مع الفاتنة (بوبي) الفنانة الخبيرة بإغواء الرجال.</desc>
@@ -43744,10 +43679,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20261101033500 +0000" stop="20261101043000 +0000" channel="MBC Bollywood">
     <title lang="ar">لا أحد سواك — الحلقة 19</title>
     <desc lang="ar">بعد فقدان والديه، يعيش صبي مع أسرة حاضنة ويفتقد دفء العائلة، لكنه يتمسك بحلمه في التعليم بمساندة عمة عطوفة تمنحه الأمل في مستقبل أفضل.</desc>
-  </programme>
-  <programme start="20261029120000 +0000" stop="20261029130000 +0000" channel="MBC Drama">
-    <title lang="ar">حبيبتي.. من تكون؟ — الحلقة 7</title>
-    <desc lang="ar">شابة شجاعة تطمح بأن تصبح طبيبة، لكن حياتها تتخذ منحى مختلف تماماً حين يزوجها والدها من ضابط ينتمي إلى عائلة غنية كجزء من صفقة.</desc>
   </programme>
   <programme start="20261029130000 +0000" stop="20261029140000 +0000" channel="MBC Drama">
     <title lang="ar">أبو الملايين — الحلقة 20</title>
@@ -44004,14 +43935,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20261101040000 +0000" stop="20261101050000 +0000" channel="MBC Drama">
     <title lang="ar">لعبة نيوتن — الحلقة 21</title>
     <desc lang="ar">تقرر هنا وزوجها المحب حازم إنجاب وليدهما المنتظر في الولايات المتحدة للحصول على الجنسية، لكنهما يجهلان كمية العقبات التي ستقف في طريقهما.</desc>
-  </programme>
-  <programme start="20261029114100 +0000" stop="20261029123100 +0000" channel="MBC+ Drama">
-    <title lang="ar">لعبة حب — الحلقة 11</title>
-    <desc lang="ar">عندما يغرق شقيق سما في الديون، تضطر إلى السير في صفقة غير مألوفة: عليها أن توقع مصمم الأحذية الثري مالك في حبها وتتزوج منه لإنقاذ عائلتها.</desc>
-  </programme>
-  <programme start="20261029123100 +0000" stop="20261029131500 +0000" channel="MBC+ Drama">
-    <title lang="ar">كامل العدد — الحلقة 11</title>
-    <desc lang="ar">أحمد، والد أعزب لثلاثة أولاد، وسلمى، أم عزباء لأربعة أولاد، يتزوجان. لكنهما يكتشفان سريعاً أن الرعاية والاهتمام بعائلة تضمهما مع سبعة أفراد هو أصعب بكثير مما كانا يتوقعان.</desc>
   </programme>
   <programme start="20261029131500 +0000" stop="20261029140000 +0000" channel="MBC+ Drama">
     <title lang="ar">الحصاد المر — الحلقة 34</title>
@@ -44353,10 +44276,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">اللعبة — الحلقة 8</title>
     <desc lang="ar">صراع كوميدي عائلي،غير تقليدي بين عائلتي (مازو) و(وسيم)، فهما تتنافسان للفوز بمكافأة اللعبة اليومية التي تتحول حلقة بعد حلقة من أفكار بسيطة وطريفة إلى منافسة شرسة لا يعرف أحد نهايتها. مع نجمي الكوميديا الشابين هشام ماجد، وشيكو وباقة من ممثلي الكوميديا المصرية.</desc>
   </programme>
-  <programme start="20261029110000 +0000" stop="20261029124200 +0000" channel="MBC Masr">
-    <title lang="ar">أهلاً بالستات — الحلقة 183</title>
-    <desc lang="ar">يطل عليكم مقدمو البرنامج لمناقشة كل ما يخص المرأة العصرية بينما يحاولون إيجاد جواب للسؤال العظيم: الستات عايزة إيه؟</desc>
-  </programme>
   <programme start="20261029124200 +0000" stop="20261029134700 +0000" channel="MBC Masr">
     <title lang="ar">عيون القلب — الحلقة 15</title>
     <desc lang="ar">مسلسل يقدم أحداثاً درامية بقالب رومانسي وبحس تشويقي، من خلال المشاكل التي تواجه المشاعر النبيلة التي تمر بها سميرة الفتاة العمياء مع رجل أعمال مشهور. من بطولة ماجد المصري ولطفي لبيب.</desc>
@@ -44596,10 +44515,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20261101035500 +0000" stop="20261101043700 +0000" channel="MBC Masr">
     <title lang="ar">بارينيتي — الحلقة 363</title>
     <desc lang="ar">قصة معقدة تأسر القلوب تدور حول صديقين مقربين تتشابك حياتهما بطريقة غير متوقعة.</desc>
-  </programme>
-  <programme start="20261029112800 +0000" stop="20261029130100 +0000" channel="MBC Masr 2">
-    <title lang="ar">يا مساء الأنوار — الحلقة 49</title>
-    <desc lang="ar">برنامج رياضي من تقديم مدحت شلبي يسلط الضوء على الأحداث الرياضية المحلية والعالمية.</desc>
   </programme>
   <programme start="20261029130100 +0000" stop="20261029140100 +0000" channel="MBC Masr 2">
     <title lang="ar">من القلب للقلب — الحلقة 184</title>
@@ -44901,10 +44816,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">ونسني — الحلقة 24</title>
     <desc lang="ar">مسلسل كوميدي ساخر حول شباب يُطلقون تطبيقاً على المحمول اسمه (ونسني) يحاولون من خلاله تحقيق قدر من النجاح، لكن بسبب نقص الخبرة يواجهون أزمات ومواقف يومية مضحكة. كتبه تامر فرح مع مجموعة كتاب شباب وأخرجه رامي رزق الله. يشارك في بطولته أحمد سلطان، ومحمود الليثي، وسارة درزاوي، مع آخرين.</desc>
   </programme>
-  <programme start="20261029120000 +0000" stop="20261029124400 +0000" channel="MBC Masr Drama">
-    <title lang="en">Stiletto</title>
-    <desc lang="en">Falak strikes a deal with Khalid. Louay asks Nayla for permission to take the kids out with Mira. Later, Falak grows suspicious of Kareem’s behaviour.</desc>
-  </programme>
   <programme start="20261029125500 +0000" stop="20261029133400 +0000" channel="MBC Masr Drama">
     <title lang="en">Haq Arab</title>
     <desc lang="en">After learning of Arab's plans, Sabah resolves to derail them. Meanwhile, Arab is hard at work trying to uncover the truth.</desc>
@@ -44988,10 +44899,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20261030050000 +0000" stop="20261030054000 +0000" channel="MBC Masr Drama">
     <title lang="en">Awlad Abed</title>
     <desc lang="en">Laila is determined not to let Hiyam and Riyad get married. Riyad finds out that his brother is the one operating the illicit activity in the factory.</desc>
-  </programme>
-  <programme start="20261029120000 +0000" stop="20261029130000 +0000" channel="MBC Iraq">
-    <title lang="en">Safar Barlik</title>
-    <desc lang="en">A new Dawn.</desc>
   </programme>
   <programme start="20261029130000 +0000" stop="20261029140000 +0000" channel="MBC Iraq">
     <title lang="en">Mawlana</title>
@@ -45424,10 +45331,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20261101234500 +0000" stop="20261101235959 +0000" channel="MBC Iraq">
     <title lang="en">Sou' Al Manakh</title>
     <desc lang="en">Raising Her Brother.</desc>
-  </programme>
-  <programme start="20261029103000 +0000" stop="20261029125500 +0000" channel="MBC Max">
-    <title lang="ar">بلود داياموند</title>
-    <desc lang="ar">تقع الأحداث الدامية على خلفية الحرب الأهلية في سيراليون ومصير (داني) مهرّب الماس وصديقه (سولمون) صياد السمك.. على المحكّ! فهما يسعيان لاسترداد قطعة نادرة من الماس الوردي الخام التي يمكن أن تحوّل حياتهما إلى نعيم مقيم.. تابع الأحداث العنيفة والحرب الطاحنة، للنهاية..</desc>
   </programme>
   <programme start="20261029125500 +0000" stop="20261029143000 +0000" channel="MBC Max">
     <title lang="ar">أنالايز ذات</title>
@@ -45928,10 +45831,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20261101040000 +0000" stop="20261101053000 +0000" channel="MBC Variety">
     <title lang="ar">ماي بيغ فات غريك ويدينغ 3</title>
     <desc lang="ar">تعود سلسلة ماي بيغ فات غريك ويدينغ في فيلم ثالث آخر طال انتظاره، والذي يَعِد بحفل زفاف "يوناني" أكبر.</desc>
-  </programme>
-  <programme start="20261029120000 +0000" stop="20261029130000 +0000" channel="Wanasah">
-    <title lang="ar">وناسة</title>
-    <desc lang="ar">وناسة، قناة جمهور الشباب العربي الخليجي، تبث الڤيديو كليب والأغاني والحفلات والبرامج الموسيقية الترفيهية بدون توقف على مدار الساعة.</desc>
   </programme>
   <programme start="20261029130000 +0000" stop="20261029140000 +0000" channel="Wanasah">
     <title lang="ar">وناسة</title>
@@ -49744,9 +49643,8 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20261101102848 +0000" stop="20261101113208 +0000" channel="OSNNickJr.osn">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-  <programme start="20261029120000 +0000" stop="20261029130000 +0000" channel="OSNDiscoveryID.osn">
-    <title lang="ar">ميردَر ديكوديد:برولنغ وولف</title>
-    <desc lang="ar">محققون ملتزمون بأداء واجباتهم، يعملون بلا كَللٍ ولا ملل للحصول على أدلة لا علاقة لها بالقضية، ليفتحوا ثغرة فيها ويقبضوا على القاتل فيحققوا العدالة لأحباء الضحايا.</desc>
+  <programme start="20261101113208 +0000" stop="20261101121907 +0000" channel="OSNNickJr.osn">
+    <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
   <programme start="20261029130000 +0000" stop="20261029140000 +0000" channel="OSNDiscoveryID.osn">
     <title lang="ar">باندوراز بوكس: أن ليشينغ إيڤل:اينجل أوف ديث</title>
@@ -50015,14 +49913,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20261101040000 +0000" stop="20261101050000 +0000" channel="OSNDiscoveryID.osn">
     <title lang="ar">بلا أثر:لوست هايواي</title>
     <desc lang="ar">شاهد التقلبات غير المتوقعة في حالات الأشخاص المفقودين والتحقيقات التي تهدف إلى حل اللغز. كيف ولماذا يختفي الناس بهذه البساطة؟</desc>
-  </programme>
-  <programme start="20261029115000 +0000" stop="20261029122000 +0000" channel="OSNFatafeat.osn">
-    <title lang="ar">مطبخ منقسم: عندما يلتقي جيل زد بجيل الأ...:الحلقة 1</title>
-    <desc lang="ar">يتتبع سبليت كيتشن الشيف يارا، موهبة طهي شابة تدربت في برشلونة واكتسبت خبرة في مطابخ ميشلان، حيث تقدم وصفات عالمية راقية بلمسة فاخرة في كل طبق.</desc>
-  </programme>
-  <programme start="20261029122000 +0000" stop="20261029131500 +0000" channel="OSNFatafeat.osn">
-    <title lang="ar">وليمة شوّحها — الحلقة 1</title>
-    <desc lang="ar">ثلاثة شباب يعشقون الطعام والطبخ العربي التقليدي. كل أسبوع يدعون صديقاً للتسلية معهم أثناء محاولتهم إعادة طبخ الوصفات التي صنعتها أمهاتهم، باستخدام مكونات بسيطة وتقنيات طهي مبتكرة.</desc>
   </programme>
   <programme start="20261029131500 +0000" stop="20261029141000 +0000" channel="OSNFatafeat.osn">
     <title lang="ar">ابتكارات مروان — الحلقة 2</title>
@@ -50344,10 +50234,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">مطبخ منال العالم: حلويات:الحلقة 16</title>
     <desc lang="ar">ملكة المطبخ العربي الشيف منال العالم، ستزين مائدتكم بمزيج رائع من الحلويات العربية التقليدية، كما تقدم بعض الوصفات المميزة الخاصة بها.</desc>
   </programme>
-  <programme start="20261029120500 +0000" stop="20261029130000 +0000" channel="OSNAnimalPlanet.osn">
-    <title lang="ar">حياة طبيب بيطري:يوغي غوت</title>
-    <desc lang="ar">نتابع ثلاثة أطباء بياطرة وعائلاتهم حين يواجهون الحياة ووظائف جديدة في هيوستن، تكساس. خطوة كبيرة إلى ولاية كبيرة، لهذا يحلمون بأحلام كبيرة ومصممون على النجاح في هذا العمل من أجل الجميع، لأنفسهم ولعائلاتهم.. وحيوانات هيوستن طبعا.</desc>
-  </programme>
   <programme start="20261029130000 +0000" stop="20261029140000 +0000" channel="OSNAnimalPlanet.osn">
     <title lang="ar">أنيمال كريبس:بيست بيلدس</title>
     <desc lang="ar">آنتونيو بيلاتور مهندس عمارة وتصميم البيوت، ومتحمس لمساعدة الحيوان، ومعه فريقه من (كاتسبرتس وباركتيكت)، يضعون خبراتهم في تحويل بيوت باهتة وضيقة، ومناطق خلاء خارجية إلى مساحات وظيفية عالية المستوى للحيوانات الأليفة والأشخاص الذين يحبونها.</desc>
@@ -50639,10 +50525,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
   <programme start="20261101033000 +0000" stop="20261101041500 +0000" channel="OSNAnimalPlanet.osn">
     <title lang="ar">سكان أدغال آلاسكا:قيادة الأنسة ريني</title>
     <desc lang="ar">يقرر أفراد عائلة براون ترك أرضهم، والتوغل عميقاً داخل أدغال آلاسكا الصعبة، لبناء منزل يجمعهم جميعاً، للتمتع بالحرية والعيش بعيداً عن القيود، حيث يقضون ستة أشهر وأكثر دون رؤية أي غرباء.</desc>
-  </programme>
-  <programme start="20261029115800 +0000" stop="20261029124500 +0000" channel="OSNTLC.osn">
-    <title lang="ar">أناسٌ صغار، عالمٌ كبير:إنغيجد آند إنريجد</title>
-    <desc lang="ar">عائلة (رولوف) استثنائية تجمع بين أشخاص صغار الأبدان (أقزام) وآخرون من متوسطي القامة؛ تابعوها في الإنجازات والنضالات اليومية التي تمرّ بها.</desc>
   </programme>
   <programme start="20261029124500 +0000" stop="20261029133200 +0000" channel="OSNTLC.osn">
     <title lang="ar">ويلكام تو باثفيل:ذاتس واتّ وولز آر فور</title>
@@ -50980,11 +50862,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">قولي نعم للفستان لانكشاير:برينغ أون ذا بلينغ</title>
     <desc lang="ar">يتوجه (غوك وان) إلى مدينة لانكشاير، إنجلترا. ويعمل مع فريق (آفا روز هاميلتون) المتخصص بتصميم وبيع فساتين الأعراس، على مساعدة العرائس المترددات، للحصول على فستان الزفاف المثالي. يعمل (غوك) والفريق معاً لجعل كل عروس تشعر بالثقة اللازمة وإظهارها بأجمل حلّة ممكنة يوم زفافها.</desc>
   </programme>
-  <programme start="20261029121500 +0000" stop="20261029130000 +0000" channel="AbuDhabiTV.ae">
-    <title lang="en">Al-Mamarr</title>
-    <desc lang="en">An exploratory journey with Arab celebrities roaming ‘virtually’ through the passages of their lives to mirror the cumulative experiences that shaped the sense of who each guest is at many levels.</desc>
-  </programme>
-  <programme start="20261029130000 +0000" stop="20261029140000 +0000" channel="AbuDhabiTV.ae">
+  <programme start="20261029133000 +0000" stop="20261029140000 +0000" channel="AbuDhabiTV.ae">
     <title lang="en">Kullhom Biyhibbou Moudi</title>
     <desc lang="en">Kullhom Biybhibbou Moudi: Ep 4</desc>
   </programme>
@@ -51192,9 +51070,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Taht Al-Ard, Mawsem Haar</title>
     <desc lang="en">Rules of the game set by Al-Safi Damascene family change when Jawdat appears out of nowhere to eliminate the family’s supremacy in the tobacco trade and causes a grave diversion in the family tree.</desc>
   </programme>
-  <programme start="20261031060000 +0000" stop="20261031080000 +0000" channel="AbuDhabiTV.ae">
+  <programme start="20261031060000 +0000" stop="20261031075000 +0000" channel="AbuDhabiTV.ae">
     <title lang="en">Ameer Al-Shu'araa' (S12) (2026)</title>
     <desc lang="en">Ameer Al-Shu'araa' (S12) (2026) (12): Ep 2</desc>
+  </programme>
+  <programme start="20261031075000 +0000" stop="20261031080000 +0000" channel="AbuDhabiTV.ae">
+    <title lang="en">Daqa'eq (S2)</title>
+    <desc lang="en">Minutes of knowledge keep pace with scientific discoveries and technology, presenting ideas simply.</desc>
   </programme>
   <programme start="20261031080000 +0000" stop="20261031083000 +0000" channel="AbuDhabiTV.ae">
     <title lang="en">International News</title>
@@ -51252,9 +51134,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Al-Mamarr</title>
     <desc lang="en">An exploratory journey with Arab celebrities roaming ‘virtually’ through the passages of their lives to mirror the cumulative experiences that shaped the sense of who each guest is at many levels.</desc>
   </programme>
-  <programme start="20261031190000 +0000" stop="20261031210000 +0000" channel="AbuDhabiTV.ae">
+  <programme start="20261031190000 +0000" stop="20261031205000 +0000" channel="AbuDhabiTV.ae">
     <title lang="en">Min Ajl Zeeko</title>
     <desc lang="en">Two mere days present the chance of a lifetime to Ziko’s parents, when the clueless boy is picked for a prodigy competition by mistake &amp; the dysfunctional family faces a lot en route to their destiny.</desc>
+  </programme>
+  <programme start="20261031205000 +0000" stop="20261031210000 +0000" channel="AbuDhabiTV.ae">
+    <title lang="en">Daqa'eq (S2)</title>
+    <desc lang="en">Minutes of knowledge keep pace with scientific discoveries and technology, presenting ideas simply.</desc>
   </programme>
   <programme start="20261031210000 +0000" stop="20261031220000 +0000" channel="AbuDhabiTV.ae">
     <title lang="en">Airport Security: Madrid</title>
@@ -51444,17 +51330,13 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Wazen</title>
     <desc lang="en">Amidst a lyrical tone and casual ambiance, Nabati poets share narratives of what is on the other side of their talent and immersion in this esteemed form of Emirati literary heritage.</desc>
   </programme>
-  <programme start="20261029121500 +0000" stop="20261029123500 +0000" channel="AlEmaratTV.ae">
-    <title lang="en">Al-Baa' Tahtaha Nuqta (S2)</title>
-    <desc lang="en">Al-Baa' Tahtaha Nuqta (S2): Ep 25</desc>
+  <programme start="20261102123000 +0000" stop="20261102130000 +0000" channel="AbuDhabiTV.ae">
+    <title lang="en">Buyoutna (S4)</title>
+    <desc lang="en">Buyoutna (S4) (4): Ep 7</desc>
   </programme>
-  <programme start="20261029123500 +0000" stop="20261029130000 +0000" channel="AlEmaratTV.ae">
-    <title lang="en">AMOUNA</title>
-    <desc lang="en">Our #1 show She’s only five, but the sky’s her limit! Amouna goes on endless adventures to discover the incredible world around her in which reality meets fiction</desc>
-  </programme>
-  <programme start="20261029130000 +0000" stop="20261029133000 +0000" channel="AlEmaratTV.ae">
-    <title lang="en">Intalaq Al-Sayd</title>
-    <desc lang="en">Five of UAE’s prominent falconers indulge in thrilling rounds of a competition where each exhibits aspects of the sport’s authenticity and cultural significance while aiming to claim the win.</desc>
+  <programme start="20261102130000 +0000" stop="20261102140000 +0000" channel="AbuDhabiTV.ae">
+    <title lang="en">Kullhom Biyhibbou Moudi</title>
+    <desc lang="en">Kullhom Biybhibbou Moudi: Ep 8</desc>
   </programme>
   <programme start="20261029133000 +0000" stop="20261029140000 +0000" channel="AlEmaratTV.ae">
     <title lang="en">Qissat Makan</title>
@@ -51956,7 +51838,15 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Al-Baa' Tahtaha Nuqta (S2)</title>
     <desc lang="en">Al-Baa' Tahtaha Nuqta (S2): Ep 29</desc>
   </programme>
-  <programme start="20261029121500 +0000" stop="20261029134500 +0000" channel="NatGeoAbuDhabi.ae">
+  <programme start="20261102123500 +0000" stop="20261102130000 +0000" channel="AlEmaratTV.ae">
+    <title lang="en">AMOUNA</title>
+    <desc lang="en">Our #1 show She’s only five, but the sky’s her limit! Amouna goes on endless adventures to discover the incredible world around her in which reality meets fiction</desc>
+  </programme>
+  <programme start="20261102130000 +0000" stop="20261102140000 +0000" channel="AlEmaratTV.ae">
+    <title lang="en">Masaa' Al-Ain (S2)</title>
+    <desc lang="en">Masaa' Al-Ain (S2): Ep 4</desc>
+  </programme>
+  <programme start="20261029133000 +0000" stop="20261029134500 +0000" channel="NatGeoAbuDhabi.ae">
     <title lang="en">Rebuilding Paradise</title>
     <desc lang="en">Rebuilding Paradise</desc>
   </programme>
@@ -52488,17 +52378,11 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Europe From Above</title>
     <desc lang="en">Europe From Above 1</desc>
   </programme>
-  <programme start="20261029121500 +0000" stop="20261029123000 +0000" channel="SharjahTV.ae">
-    <title lang="ar">أبو جبل</title>
-    <title lang="en">Abu Jabal</title>
-    <desc lang="ar">‫‫يكافح أحد كبار التجار المصريين ويدعى أبو جبل الظروف العسيرة والعديد من الصراعات المتعلقة بالميراث قبل أن تفلت من بين يديه زمام الأمور.‬‬</desc>
+  <programme start="20261102130000 +0000" stop="20261102134500 +0000" channel="NatGeoAbuDhabi.ae">
+    <title lang="en">Predator in Paradise: Jaws &amp; Claws</title>
+    <desc lang="en">Predator in Paradise: Jaws &amp; Claws</desc>
   </programme>
-  <programme start="20261029123000 +0000" stop="20261029132600 +0000" channel="SharjahTV.ae">
-    <title lang="ar">فتاوى</title>
-    <title lang="en">Ftawa</title>
-    <desc lang="ar">‫‫يقوم عالم دين بارز بشرح مبادئ الإسلام والأمور التي حظرها ومقتضياته، كما يتفاعل مع استفسارات المشاهدين.‬‬</desc>
-  </programme>
-  <programme start="20261029132600 +0000" stop="20261029135100 +0000" channel="SharjahTV.ae">
+  <programme start="20261029133000 +0000" stop="20261029135100 +0000" channel="SharjahTV.ae">
     <title lang="ar">عباد الرحمن</title>
     <title lang="en">E'bad Al Rahman</title>
     <desc lang="ar">‫‫يقوم عالم إسلامي بوعظ المشاهدين حول صفات المسلمين المؤمنين، وأخلاقهم وقيمهم وفقا للقرآن الكريم والأحاديث.‬‬</desc>
@@ -53323,20 +53207,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Kayf..Mata..Wa Ayn?</title>
     <desc lang="ar">‫‫يحاور المضيف محترفين يعملون في مختلف الوظائف، لإلقاء نظرة على رحلاتهم المهنية وما الذي دفعهم إلى اختيار هذه المهن.‬‬</desc>
   </programme>
-  <programme start="20261029121500 +0000" stop="20261029125900 +0000" channel="SharqiyaKalba.ae">
-    <title lang="ar">فقد</title>
-    <title lang="en">Faqd</title>
-    <desc lang="ar">‫‫يختفي ابن سارة أثناء لعبه في الحديقة، فتخوض رحلة طويلة ومؤلمة للبحث عنه تدفعها للشك في كل شخص في محيطها.‬‬</desc>
-  </programme>
-  <programme start="20261029125900 +0000" stop="20261029131400 +0000" channel="SharqiyaKalba.ae">
-    <title lang="ar">كنوز جبلية</title>
-    <title lang="en">Konooz Jabaleyyah</title>
-    <desc lang="ar">‫‫يقوم أفراد إماراتيون بتسليط الضوء على مختلف الأعشات والمنتجات الزراعية التي تنمو في دولة الإمارات العربية المتحدة، كما ويبرزون أهميتها الثقافية كجزء من التراث الإماراتي.‬‬</desc>
-  </programme>
-  <programme start="20261029131400 +0000" stop="20261029133000 +0000" channel="SharqiyaKalba.ae">
-    <title lang="ar">فالكم طيب</title>
-    <title lang="en">Falkom Tayeb</title>
-    <desc lang="ar">‫‫يقوم فريق التقديم بتسليط الضوء على الخدمات التي توفرها المؤسسات الحكومية في مدينة الشارقة لكبار السن ولذوي الاحتياجات الخاصة لتسهيل أمور حياتهم.‬‬</desc>
+  <programme start="20261102123000 +0000" stop="20261102133500 +0000" channel="SharjahTV.ae">
+    <title lang="ar">فتاوى</title>
+    <title lang="en">Ftawa</title>
+    <desc lang="ar">‫‫يقوم عالم دين بارز بشرح مبادئ الإسلام والأمور التي حظرها ومقتضياته، كما يتفاعل مع استفسارات المشاهدين.‬‬</desc>
   </programme>
   <programme start="20261029133000 +0000" stop="20261029140000 +0000" channel="SharqiyaKalba.ae">
     <title lang="ar">محادق الشرقية</title>
@@ -54263,12 +54137,12 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Faqd</title>
     <desc lang="ar">‫‫يختفي ابن سارة أثناء لعبه في الحديقة، فتخوض رحلة طويلة ومؤلمة للبحث عنه تدفعها للشك في كل شخص في محيطها.‬‬</desc>
   </programme>
-  <programme start="20261029121500 +0000" stop="20261029130000 +0000" channel="RotanaClassic.sa">
-    <title lang="ar">ادهم الشرقاوي</title>
-    <title lang="en">Adham Al Sharqawi</title>
-    <desc lang="ar">‫‫يحارب البطل المصري أدهم الشرقاوي ظلم الإقطاعيين، ثم تتطور الأحداث عندما يجبر أحد مالكي الأراضي حبيبته سلمى على العمل خادمة في قصره.‬‬</desc>
+  <programme start="20261102130000 +0000" stop="20261102140000 +0000" channel="SharqiyaKalba.ae">
+    <title lang="ar">أسرتي</title>
+    <title lang="en">Osrati</title>
+    <desc lang="ar">‫‫يقوم فريق التقديم بالتحدث عن مجموعة من المواضيع الأسرية التي تهم المشاهد، بالإضافة إلى استضافة مجموعة من الضيوف والاستشاريين للتحدث معهم.‬‬</desc>
   </programme>
-  <programme start="20261029130000 +0000" stop="20261029150000 +0000" channel="RotanaClassic.sa">
+  <programme start="20261029133000 +0000" stop="20261029150000 +0000" channel="RotanaClassic.sa">
     <title lang="ar">إسماعيل يس في مستشفى المجانين</title>
     <title lang="en">Ismail Yassine Fi Mostashfa Al Majaneen</title>
     <desc lang="ar">‫‫بهدف الحصول على الأموال، يعد والد فتاة جميلة المقرضين بتزويجهم بابنته، لكن يكشف لاحقا وجهه الحقيقي عندما يرفض تزويجها.‬‬</desc>
@@ -54618,12 +54492,12 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Al Anesah Hanafi</title>
     <desc lang="ar">‫‫يصاب حنفي بمرض ويجبر على الخضوع لعملية تغيير الجنس، خلال عقد قرانه على فتاة. تأخذ حياته منعطفا متشابكا عندما يحاول اثنان من أصدقائه القدامى التودد إليه.‬‬</desc>
   </programme>
-  <programme start="20261029121500 +0000" stop="20261029130000 +0000" channel="RotanaComedy.sa">
-    <title lang="ar">عنتر ابن ابن ابن ابن شداد</title>
-    <title lang="en">Antar Ibn Ibn Ibn Ibn Shaddad</title>
-    <desc lang="ar">‫‫يشتبك رجل في عراك مع عصابة منافسة له ليكسب قلب الفتاة التي يحبها، بعد اكتشافه أنه حفيد الشاعر الجاهلي عنترة بن شداد العبسي.‬‬</desc>
+  <programme start="20261102130000 +0000" stop="20261102150000 +0000" channel="RotanaClassic.sa">
+    <title lang="ar">كلهم أولادي</title>
+    <title lang="en">Kollohom Awladi</title>
+    <desc lang="ar">‫‫أمين وسالم ومدحت ثلاثة أشقاء في مراحل عمرية مختلفة يعيلهم والدهم. يرغب أمين بفتح مكتب ويعمل سالم ضابط شرطة، بينما يكافح مدحت في دراسته.‬‬</desc>
   </programme>
-  <programme start="20261029130000 +0000" stop="20261029150000 +0000" channel="RotanaComedy.sa">
+  <programme start="20261029133000 +0000" stop="20261029150000 +0000" channel="RotanaComedy.sa">
     <title lang="ar">مطاردة غرامية</title>
     <title lang="en">Motarda Gharmeya</title>
     <desc lang="ar">‫‫يقرر منير اللجوء إلى طبيب نفسي بعد أن يدرك أن علاقاته المتعددة بالنساء بدأت تهدد علاقته، لكن يتبين بأن الطبيب لديه مشاكله الخاصة.‬</desc>
@@ -54703,157 +54577,152 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Salama Fi Kheer</title>
     <desc lang="ar">‫‫ينزل ساعي بريد في فندق يعتقد فيه البعض أنه أمير قندهار بسبب التشابه الكبير بينهما. يلتقي الأمير بساعي البريد ويخططان معا للكشف عن أتباع الأمير الخائنين.‬‬</desc>
   </programme>
-  <programme start="20261030230000 +0000" stop="20261031030000 +0000" channel="RotanaComedy.sa">
+  <programme start="20261030230000 +0000" stop="20261031030100 +0000" channel="RotanaComedy.sa">
     <title lang="ar">إنها حقاً عائلة محترمة</title>
     <title lang="en">Enaha Haqan Aila Mohtarama</title>
     <desc lang="ar">‫‫يعيش الأب الأرمل أبو الفضل حياة مستقرة مع عائلته. تنقلب حياته رأسا على عقب عندما يغرم براقصة، ويقرر الزواج بها.‬‬</desc>
   </programme>
-  <programme start="20261031030000 +0000" stop="20261031050000 +0000" channel="RotanaComedy.sa">
+  <programme start="20261031030100 +0000" stop="20261031050100 +0000" channel="RotanaComedy.sa">
     <title lang="ar">عشان خارجين</title>
     <title lang="en">Ashan Khargeen</title>
     <desc lang="ar">‫‫يخشى الشاب رمزي من الالتزام، ويلتقي بابنة مديره ليلى ويقع في حبها. في إحدى الليالي، يعثران على حقيبة مليئة بالنقود ويخوضان مغامرات خطيرة للعثور على صاحب الحقيبة.‬‬</desc>
   </programme>
-  <programme start="20261031050000 +0000" stop="20261031070000 +0000" channel="RotanaComedy.sa">
+  <programme start="20261031050100 +0000" stop="20261031070100 +0000" channel="RotanaComedy.sa">
     <title lang="ar">سلامة في خير</title>
     <title lang="en">Salama Fi Kheer</title>
     <desc lang="ar">‫‫ينزل ساعي بريد في فندق يعتقد فيه البعض أنه أمير قندهار بسبب التشابه الكبير بينهما. يلتقي الأمير بساعي البريد ويخططان معا للكشف عن أتباع الأمير الخائنين.‬‬</desc>
   </programme>
-  <programme start="20261031070000 +0000" stop="20261031110000 +0000" channel="RotanaComedy.sa">
+  <programme start="20261031070100 +0000" stop="20261031110100 +0000" channel="RotanaComedy.sa">
     <title lang="ar">إنها حقاً عائلة محترمة</title>
     <title lang="en">Enaha Haqan Aila Mohtarama</title>
     <desc lang="ar">‫‫يعيش الأب الأرمل أبو الفضل حياة مستقرة مع عائلته. تنقلب حياته رأسا على عقب عندما يغرم براقصة، ويقرر الزواج بها.‬‬</desc>
   </programme>
-  <programme start="20261031110000 +0000" stop="20261031130000 +0000" channel="RotanaComedy.sa">
+  <programme start="20261031110100 +0000" stop="20261031130100 +0000" channel="RotanaComedy.sa">
     <title lang="ar">عشان خارجين</title>
     <title lang="en">Ashan Khargeen</title>
     <desc lang="ar">‫‫يخشى الشاب رمزي من الالتزام، ويلتقي بابنة مديره ليلى ويقع في حبها. في إحدى الليالي، يعثران على حقيبة مليئة بالنقود ويخوضان مغامرات خطيرة للعثور على صاحب الحقيبة.‬‬</desc>
   </programme>
-  <programme start="20261031130000 +0000" stop="20261031150000 +0000" channel="RotanaComedy.sa">
+  <programme start="20261031130100 +0000" stop="20261031150100 +0000" channel="RotanaComedy.sa">
     <title lang="ar">لو كنت غني</title>
     <title lang="en">La'ow Kont Ghani</title>
     <desc lang="ar">‫‫يعمل محروس حلاقا ويحلم بالثراء، ويتحقق حلمه عندما يموت أحد أقاربه ويحصل على ورثته، لكنه لا يدرك العواقب لأفعاله المتهورة.‬‬</desc>
   </programme>
-  <programme start="20261031150000 +0000" stop="20261031170000 +0000" channel="RotanaComedy.sa">
+  <programme start="20261031150100 +0000" stop="20261031170100 +0000" channel="RotanaComedy.sa">
     <title lang="ar">خليل بعد التعديل</title>
     <title lang="en">Khalil Baad Eltadil</title>
     <desc lang="ar">‫‫يصبح خليل مديرا لأحد البنوك ويقع في حب سكرتيرته هالة. بعد أن يتزوجا، يكتشفان أنهما يختلفان عن بعضهما كثيرا ولا توجد قواسم مشتركة بينهما.‬‬</desc>
   </programme>
-  <programme start="20261031170000 +0000" stop="20261031190000 +0000" channel="RotanaComedy.sa">
+  <programme start="20261031170100 +0000" stop="20261031190100 +0000" channel="RotanaComedy.sa">
     <title lang="ar">حصل خير</title>
     <title lang="en">Hasal Khair</title>
     <desc lang="ar">‫‫تستأجر راقصة منزلا في مبنى تشغله العديد من العائلات، وتدرك أن إقامتها تسببت في حدوث خلافات بين الأزواج الذين يعيشون في نفس المبنى.‬‬</desc>
   </programme>
-  <programme start="20261031190000 +0000" stop="20261031210000 +0000" channel="RotanaComedy.sa">
+  <programme start="20261031190100 +0000" stop="20261031210100 +0000" channel="RotanaComedy.sa">
     <title lang="ar">فضل ونعمة</title>
     <title lang="en">Fadel and Neama</title>
     <desc lang="ar">‫‫تعاني عائلة مصرية من ضائقة مالية وتفتتح مطعما يحمل اسم فضل ونعمة لمواجهة أزمتها، مما يدفعها للتعامل مع المواقف بطريقة فكاهية ومضحكة.‬‬</desc>
   </programme>
-  <programme start="20261031210000 +0000" stop="20261031230000 +0000" channel="RotanaComedy.sa">
+  <programme start="20261031210100 +0000" stop="20261031230100 +0000" channel="RotanaComedy.sa">
     <title lang="ar">لو كنت غني</title>
     <title lang="en">La'ow Kont Ghani</title>
     <desc lang="ar">‫‫يعمل محروس حلاقا ويحلم بالثراء، ويتحقق حلمه عندما يموت أحد أقاربه ويحصل على ورثته، لكنه لا يدرك العواقب لأفعاله المتهورة.‬‬</desc>
   </programme>
-  <programme start="20261031230000 +0000" stop="20261101010000 +0000" channel="RotanaComedy.sa">
-    <title lang="ar">واحده بواحده</title>
-    <title lang="en">Waheda Bewaheda</title>
-    <desc lang="ar">‫‫تعمل الشابة مايسة في شركة للدعاية والإعلان. تتنافس مايسة مع شركة أخرى يعمل فيها صلاح فؤاد الذي ينظم حملة إعلانية عن سلعة وهمية تدعى الفنكوش.‬‬</desc>
+  <programme start="20261031230100 +0000" stop="20261101010100 +0000" channel="RotanaComedy.sa">
+    <title lang="ar">خليل بعد التعديل</title>
+    <title lang="en">Khalil Baad Eltadil</title>
+    <desc lang="ar">‫‫يصبح خليل مديرا لأحد البنوك ويقع في حب سكرتيرته هالة. بعد أن يتزوجا، يكتشفان أنهما يختلفان عن بعضهما كثيرا ولا توجد قواسم مشتركة بينهما.‬‬</desc>
   </programme>
-  <programme start="20261101010000 +0000" stop="20261101030000 +0000" channel="RotanaComedy.sa">
-    <title lang="ar">ياباني أصلي</title>
-    <title lang="en">Yabani Asli</title>
-    <desc lang="ar">‫‫تهرب زوجة محرم من مصر إلى اليابان، لكنه يتمكن من إعادة طفليه. يحاول محرم التغلب على الكثير من العقبات وتوفير حياة سعيدة جدا لطفليه.‬‬</desc>
+  <programme start="20261101010100 +0000" stop="20261101030100 +0000" channel="RotanaComedy.sa">
+    <title lang="ar">حصل خير</title>
+    <title lang="en">Hasal Khair</title>
+    <desc lang="ar">‫‫تستأجر راقصة منزلا في مبنى تشغله العديد من العائلات، وتدرك أن إقامتها تسببت في حدوث خلافات بين الأزواج الذين يعيشون في نفس المبنى.‬‬</desc>
   </programme>
-  <programme start="20261101030000 +0000" stop="20261101050000 +0000" channel="RotanaComedy.sa">
-    <title lang="ar">مستر إكس</title>
-    <title lang="en">Mr. X</title>
-    <desc lang="ar">‫‫بعدما يكتسب راغو قوة خاصة بالاختفاء، يصبح حارسا من أجل الانتقام من أولئك الذين ظلموه ومن حبيبته أيضا.‬‬</desc>
+  <programme start="20261101030100 +0000" stop="20261101050100 +0000" channel="RotanaComedy.sa">
+    <title lang="ar">فضل ونعمة</title>
+    <title lang="en">Fadel and Neama</title>
+    <desc lang="ar">‫‫تعاني عائلة مصرية من ضائقة مالية وتفتتح مطعما يحمل اسم فضل ونعمة لمواجهة أزمتها، مما يدفعها للتعامل مع المواقف بطريقة فكاهية ومضحكة.‬‬</desc>
   </programme>
-  <programme start="20261101050000 +0000" stop="20261101070000 +0000" channel="RotanaComedy.sa">
-    <title lang="ar">خطف مراتي</title>
-    <title lang="en">Khataf Merati</title>
-    <desc lang="ar">‫‫يتزوج رجل وامرأة بشكل تقليدي. يقوم أقاربهما بزيارتهما، مما يؤدي إلى تطور العلاقة بينهما والوقوع في غرام بعضهما.‬‬</desc>
+  <programme start="20261101050100 +0000" stop="20261101070100 +0000" channel="RotanaComedy.sa">
+    <title lang="ar">لو كنت غني</title>
+    <title lang="en">La'ow Kont Ghani</title>
+    <desc lang="ar">‫‫يعمل محروس حلاقا ويحلم بالثراء، ويتحقق حلمه عندما يموت أحد أقاربه ويحصل على ورثته، لكنه لا يدرك العواقب لأفعاله المتهورة.‬‬</desc>
   </programme>
-  <programme start="20261101070000 +0000" stop="20261101090000 +0000" channel="RotanaComedy.sa">
-    <title lang="ar">واحده بواحده</title>
-    <title lang="en">Waheda Bewaheda</title>
-    <desc lang="ar">‫‫تعمل الشابة مايسة في شركة للدعاية والإعلان. تتنافس مايسة مع شركة أخرى يعمل فيها صلاح فؤاد الذي ينظم حملة إعلانية عن سلعة وهمية تدعى الفنكوش.‬‬</desc>
+  <programme start="20261101070100 +0000" stop="20261101090100 +0000" channel="RotanaComedy.sa">
+    <title lang="ar">خليل بعد التعديل</title>
+    <title lang="en">Khalil Baad Eltadil</title>
+    <desc lang="ar">‫‫يصبح خليل مديرا لأحد البنوك ويقع في حب سكرتيرته هالة. بعد أن يتزوجا، يكتشفان أنهما يختلفان عن بعضهما كثيرا ولا توجد قواسم مشتركة بينهما.‬‬</desc>
   </programme>
-  <programme start="20261101090000 +0000" stop="20261101110000 +0000" channel="RotanaComedy.sa">
-    <title lang="ar">ياباني أصلي</title>
-    <title lang="en">Yabani Asli</title>
-    <desc lang="ar">‫‫تهرب زوجة محرم من مصر إلى اليابان، لكنه يتمكن من إعادة طفليه. يحاول محرم التغلب على الكثير من العقبات وتوفير حياة سعيدة جدا لطفليه.‬‬</desc>
+  <programme start="20261101090100 +0000" stop="20261101110100 +0000" channel="RotanaComedy.sa">
+    <title lang="ar">حصل خير</title>
+    <title lang="en">Hasal Khair</title>
+    <desc lang="ar">‫‫تستأجر راقصة منزلا في مبنى تشغله العديد من العائلات، وتدرك أن إقامتها تسببت في حدوث خلافات بين الأزواج الذين يعيشون في نفس المبنى.‬‬</desc>
   </programme>
-  <programme start="20261101110000 +0000" stop="20261101130000 +0000" channel="RotanaComedy.sa">
-    <title lang="ar">مستر إكس</title>
-    <title lang="en">Mr. X</title>
-    <desc lang="ar">‫‫بعدما يكتسب راغو قوة خاصة بالاختفاء، يصبح حارسا من أجل الانتقام من أولئك الذين ظلموه ومن حبيبته أيضا.‬‬</desc>
+  <programme start="20261101110100 +0000" stop="20261101130100 +0000" channel="RotanaComedy.sa">
+    <title lang="ar">فضل ونعمة</title>
+    <title lang="en">Fadel and Neama</title>
+    <desc lang="ar">‫‫تعاني عائلة مصرية من ضائقة مالية وتفتتح مطعما يحمل اسم فضل ونعمة لمواجهة أزمتها، مما يدفعها للتعامل مع المواقف بطريقة فكاهية ومضحكة.‬‬</desc>
   </programme>
-  <programme start="20261101130000 +0000" stop="20261101150000 +0000" channel="RotanaComedy.sa">
-    <title lang="ar">عفريتة هانم</title>
-    <title lang="en">Afreeta Hanem</title>
-    <desc lang="ar">‫‫يقع المغني الفقير عصفور في حب ابنة رئيسه في العمل، لكنها تبحث عن رجل ثري. تتغير حياة عصفور عندما يعثر على مصباح سحري بداخله عفريتة تحقق الأمنيات.‬‬</desc>
+  <programme start="20261101130100 +0000" stop="20261101150100 +0000" channel="RotanaComedy.sa">
+    <title lang="ar">فتاة الاستعراض</title>
+    <title lang="en">Fatat Al Este'raadh</title>
+    <desc lang="ar">‫‫يستأجر أفراد فرقة مسرحا من أجل التدرب على أغانيهم، لكنهم يهاجمون رجل ثري يدعى أحمد بعد حصول مشاحنة. تتطور الأحداث عندما يقع أحمد في حب قائدة الفرقة.‬‬</desc>
   </programme>
-  <programme start="20261101150000 +0000" stop="20261101170000 +0000" channel="RotanaComedy.sa">
-    <title lang="ar">غريب في بيتي</title>
-    <title lang="en">Ghareeb Fie Baytee</title>
-    <desc lang="ar">‫‫تكتشف عفاف أنه يجب عليها مشاركة شقتها الجديدة مع لاعب كرة القدم الشهير شحاتة أبو كف. تقع عفاف في حبه لاحقا، الأمر الذي يدفع زملاءه في الفريق إلى الشعور بالغيرة.‬‬</desc>
+  <programme start="20261101150100 +0000" stop="20261101170100 +0000" channel="RotanaComedy.sa">
+    <title lang="ar">البعض يذهب للماذون مرتين</title>
+    <title lang="en">Al Ba'dh Yathhab Le Al Ma'thoon Marratayn</title>
+    <desc lang="ar">‫يواجه الشقيقان ممدوح ومسعود مشاكل في حياتيهما الزوجية. يأخذ الشقيقان بنصيحة قريبهما عزت الذي يعيش بسعادة مع زوجته على الرغم من خيانته لها.‬</desc>
   </programme>
-  <programme start="20261101170000 +0000" stop="20261101190000 +0000" channel="RotanaComedy.sa">
-    <title lang="ar">طباخ الريس</title>
-    <title lang="en">Tabakh Al Rayyes</title>
-    <desc lang="ar">‫‫يحصل الطاهي البسيط متولي على فرصة العمل في القصر الرئاسي. يبدأ الرئيس باستشارته للتعرف على حياة الناس البسطاء من الشعب، الأمر الذي يراه البعض تهديدا.‬‬</desc>
+  <programme start="20261101170100 +0000" stop="20261101190100 +0000" channel="RotanaComedy.sa">
+    <title lang="ar">عسل إسود</title>
+    <title lang="en">Assal Eswed</title>
+    <desc lang="ar">‫‫يعود شاب يدعى مصري إلى أرض مصر بعد عشرين عاما، ويكتشف أن المواطنين لا يتمتعون بحقوق كثيرة ويعيشون حياة صعبة. يعامله الناس بطريقة مختلفة بعد اكتشافهم أنه يحمل الجنسية الأمريكية.‬‬</desc>
   </programme>
-  <programme start="20261101190000 +0000" stop="20261101210000 +0000" channel="RotanaComedy.sa">
-    <title lang="ar">مراتي وزوجتي</title>
-    <title lang="en">Meraty W Zawgaty</title>
-    <desc lang="ar">‫‫يضيق حسام ذرعا بسبب إهمال زوجته له وانشغالها الدائم في عملها المتمثل بالدفاع عن حقوق المرأة. يتزوج بامرأة أخرى، لكنه يجد نفسه يعيش صراعا بينهما.‬‬</desc>
-  </programme>
-  <programme start="20261101210000 +0000" stop="20261101230000 +0000" channel="RotanaComedy.sa">
-    <title lang="ar">عفريتة هانم</title>
-    <title lang="en">Afreeta Hanem</title>
-    <desc lang="ar">‫‫يقع المغني الفقير عصفور في حب ابنة رئيسه في العمل، لكنها تبحث عن رجل ثري. تتغير حياة عصفور عندما يعثر على مصباح سحري بداخله عفريتة تحقق الأمنيات.‬‬</desc>
+  <programme start="20261101190100 +0000" stop="20261101230000 +0000" channel="RotanaComedy.sa">
+    <title lang="ar">أولاد حريم كريم</title>
+    <title lang="en">Awlad Harim Karim</title>
+    <desc lang="ar">‫‫يقع شاب في حب فتاة شابة ويقرر أن يتقدم لخطبتها، ولكن يحدث ما هو غير متوقع عند اكتشاف والدها أن الشاب الذي تقدم لها هو ابن محبوبته السابقة.‬‬</desc>
   </programme>
   <programme start="20261101230000 +0000" stop="20261102010000 +0000" channel="RotanaComedy.sa">
-    <title lang="ar">غريب في بيتي</title>
-    <title lang="en">Ghareeb Fie Baytee</title>
-    <desc lang="ar">‫‫تكتشف عفاف أنه يجب عليها مشاركة شقتها الجديدة مع لاعب كرة القدم الشهير شحاتة أبو كف. تقع عفاف في حبه لاحقا، الأمر الذي يدفع زملاءه في الفريق إلى الشعور بالغيرة.‬‬</desc>
+    <title lang="ar">البعض يذهب للماذون مرتين</title>
+    <title lang="en">Al Ba'dh Yathhab Le Al Ma'thoon Marratayn</title>
+    <desc lang="ar">‫يواجه الشقيقان ممدوح ومسعود مشاكل في حياتيهما الزوجية. يأخذ الشقيقان بنصيحة قريبهما عزت الذي يعيش بسعادة مع زوجته على الرغم من خيانته لها.‬</desc>
   </programme>
   <programme start="20261102010000 +0000" stop="20261102030000 +0000" channel="RotanaComedy.sa">
-    <title lang="ar">طباخ الريس</title>
-    <title lang="en">Tabakh Al Rayyes</title>
-    <desc lang="ar">‫‫يحصل الطاهي البسيط متولي على فرصة العمل في القصر الرئاسي. يبدأ الرئيس باستشارته للتعرف على حياة الناس البسطاء من الشعب، الأمر الذي يراه البعض تهديدا.‬‬</desc>
+    <title lang="ar">عسل إسود</title>
+    <title lang="en">Assal Eswed</title>
+    <desc lang="ar">‫‫يعود شاب يدعى مصري إلى أرض مصر بعد عشرين عاما، ويكتشف أن المواطنين لا يتمتعون بحقوق كثيرة ويعيشون حياة صعبة. يعامله الناس بطريقة مختلفة بعد اكتشافهم أنه يحمل الجنسية الأمريكية.‬‬</desc>
   </programme>
   <programme start="20261102030000 +0000" stop="20261102050000 +0000" channel="RotanaComedy.sa">
-    <title lang="ar">مراتي وزوجتي</title>
-    <title lang="en">Meraty W Zawgaty</title>
-    <desc lang="ar">‫‫يضيق حسام ذرعا بسبب إهمال زوجته له وانشغالها الدائم في عملها المتمثل بالدفاع عن حقوق المرأة. يتزوج بامرأة أخرى، لكنه يجد نفسه يعيش صراعا بينهما.‬‬</desc>
+    <title lang="ar">أولاد حريم كريم</title>
+    <title lang="en">Awlad Harim Karim</title>
+    <desc lang="ar">‫‫يقع شاب في حب فتاة شابة ويقرر أن يتقدم لخطبتها، ولكن يحدث ما هو غير متوقع عند اكتشاف والدها أن الشاب الذي تقدم لها هو ابن محبوبته السابقة.‬‬</desc>
   </programme>
   <programme start="20261102050000 +0000" stop="20261102070000 +0000" channel="RotanaComedy.sa">
-    <title lang="ar">عفريتة هانم</title>
-    <title lang="en">Afreeta Hanem</title>
-    <desc lang="ar">‫‫يقع المغني الفقير عصفور في حب ابنة رئيسه في العمل، لكنها تبحث عن رجل ثري. تتغير حياة عصفور عندما يعثر على مصباح سحري بداخله عفريتة تحقق الأمنيات.‬‬</desc>
+    <title lang="ar">فتاة الاستعراض</title>
+    <title lang="en">Fatat Al Este'raadh</title>
+    <desc lang="ar">‫‫يستأجر أفراد فرقة مسرحا من أجل التدرب على أغانيهم، لكنهم يهاجمون رجل ثري يدعى أحمد بعد حصول مشاحنة. تتطور الأحداث عندما يقع أحمد في حب قائدة الفرقة.‬‬</desc>
   </programme>
   <programme start="20261102070000 +0000" stop="20261102090000 +0000" channel="RotanaComedy.sa">
-    <title lang="ar">غريب في بيتي</title>
-    <title lang="en">Ghareeb Fie Baytee</title>
-    <desc lang="ar">‫‫تكتشف عفاف أنه يجب عليها مشاركة شقتها الجديدة مع لاعب كرة القدم الشهير شحاتة أبو كف. تقع عفاف في حبه لاحقا، الأمر الذي يدفع زملاءه في الفريق إلى الشعور بالغيرة.‬‬</desc>
+    <title lang="ar">البعض يذهب للماذون مرتين</title>
+    <title lang="en">Al Ba'dh Yathhab Le Al Ma'thoon Marratayn</title>
+    <desc lang="ar">‫يواجه الشقيقان ممدوح ومسعود مشاكل في حياتيهما الزوجية. يأخذ الشقيقان بنصيحة قريبهما عزت الذي يعيش بسعادة مع زوجته على الرغم من خيانته لها.‬</desc>
   </programme>
   <programme start="20261102090000 +0000" stop="20261102110000 +0000" channel="RotanaComedy.sa">
-    <title lang="ar">طباخ الريس</title>
-    <title lang="en">Tabakh Al Rayyes</title>
-    <desc lang="ar">‫‫يحصل الطاهي البسيط متولي على فرصة العمل في القصر الرئاسي. يبدأ الرئيس باستشارته للتعرف على حياة الناس البسطاء من الشعب، الأمر الذي يراه البعض تهديدا.‬‬</desc>
+    <title lang="ar">عسل إسود</title>
+    <title lang="en">Assal Eswed</title>
+    <desc lang="ar">‫‫يعود شاب يدعى مصري إلى أرض مصر بعد عشرين عاما، ويكتشف أن المواطنين لا يتمتعون بحقوق كثيرة ويعيشون حياة صعبة. يعامله الناس بطريقة مختلفة بعد اكتشافهم أنه يحمل الجنسية الأمريكية.‬‬</desc>
   </programme>
   <programme start="20261102110000 +0000" stop="20261102130000 +0000" channel="RotanaComedy.sa">
-    <title lang="ar">مراتي وزوجتي</title>
-    <title lang="en">Meraty W Zawgaty</title>
-    <desc lang="ar">‫‫يضيق حسام ذرعا بسبب إهمال زوجته له وانشغالها الدائم في عملها المتمثل بالدفاع عن حقوق المرأة. يتزوج بامرأة أخرى، لكنه يجد نفسه يعيش صراعا بينهما.‬‬</desc>
+    <title lang="ar">أولاد حريم كريم</title>
+    <title lang="en">Awlad Harim Karim</title>
+    <desc lang="ar">‫‫يقع شاب في حب فتاة شابة ويقرر أن يتقدم لخطبتها، ولكن يحدث ما هو غير متوقع عند اكتشاف والدها أن الشاب الذي تقدم لها هو ابن محبوبته السابقة.‬‬</desc>
   </programme>
-  <programme start="20261029121500 +0000" stop="20261029130000 +0000" channel="RotanaDrama.sa">
-    <title lang="ar">فضة</title>
-    <title lang="en">Fedhah</title>
-    <desc lang="ar">‫م1 ، ح12 : ‫‫تعاني فضة من سوء معاملة زوجة والدها لها، ولكنها تجد لاحقا العزاء في جارها ثامر الذي قد عاش تجربة مشابهة لتجربتها.‬‬‬</desc>
+  <programme start="20261102130000 +0000" stop="20261102150000 +0000" channel="RotanaComedy.sa">
+    <title lang="ar">إجازة غرام</title>
+    <title lang="en">Ejazat Gharam</title>
+    <desc lang="ar">‫‫تتدهور علاقة زوجين عندنا يتورد الرجل في علاقة غرامية، وذلك بسبب انشغال زوجته الدائم عنه وعدم قدرتها على قضاء وقت معه.‬‬</desc>
   </programme>
-  <programme start="20261029130000 +0000" stop="20261029140000 +0000" channel="RotanaDrama.sa">
+  <programme start="20261029133000 +0000" stop="20261029140000 +0000" channel="RotanaDrama.sa">
     <title lang="ar">سعادة المجنون</title>
     <title lang="en">Sa'adat Al Majnoon</title>
     <desc lang="ar">‫م1 ، ح13 : ‫يغذي الجنون والجشع صراعا على السلطة بين ثلاث شخصيات أنانية: رجل يسعى وراء الثروة، وامرأة فاسدة تتوق إلى السيطرة، ورجل أعمال متلاعب يستغل الآخرين.‬‬</desc>
@@ -55028,15 +54897,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Ahl Al Khtayah</title>
     <desc lang="ar">‫‫تتسبب سلسلة من الجرائم التي تتضمن السحر والجن بدفع ضرغام إلى الانتقام لموت ابنه ومحاربة الشر بإيمان قوي.‬‬</desc>
   </programme>
-  <programme start="20261031050000 +0000" stop="20261031060000 +0000" channel="RotanaDrama.sa">
+  <programme start="20261031050000 +0000" stop="20261031070000 +0000" channel="RotanaDrama.sa">
     <title lang="ar">نيران العشق</title>
     <title lang="en">Neran Al E'sheq</title>
     <desc lang="ar">‫‫بعد وفاة محبوبها، تجبر شابة على الزواج من عمه الثري، مما يقلب حياتها رأسا على عقب. لكن، تأخذ الأمور منحى آخر عندما يحدث ما لم يكن بالحسبان في يوم زفافها.‬‬</desc>
-  </programme>
-  <programme start="20261031060000 +0000" stop="20261031070000 +0000" channel="RotanaDrama.sa">
-    <title lang="ar">سعادة المجنون</title>
-    <title lang="en">Sa'adat Al Majnoon</title>
-    <desc lang="ar">‫م1 ، ح15 : ‫يغذي الجنون والجشع صراعا على السلطة بين ثلاث شخصيات أنانية: رجل يسعى وراء الثروة، وامرأة فاسدة تتوق إلى السيطرة، ورجل أعمال متلاعب يستغل الآخرين.‬‬</desc>
   </programme>
   <programme start="20261031070000 +0000" stop="20261031080000 +0000" channel="RotanaDrama.sa">
     <title lang="ar">فضة</title>
@@ -55298,10 +55162,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Al Kawn Fi Kaffa</title>
     <desc lang="ar">‫‫تتحكم المرأة المتسلطة شمور في تصرفات أفراد عائلتها عبر استغلال نفوذها وثروتها. تأخذ الأمور منحى آخر، عندما يحصل ما هو غير متوقع.‬‬</desc>
   </programme>
-  <programme start="20261029121500 +0000" stop="20261029133000 +0000" channel="RotanaKhaleejiah.sa">
-    <title lang="ar">روتانا سبورت مع وليد</title>
-    <title lang="en">Rotana Sport Ma' Waleed</title>
-    <desc lang="ar">‫م1 ، ح78 : ‫يدعو الصحفي الرياضي وليد الفراج نخبة من الخبراء الرياضين البارزين لمناقشة آخر الأخبار والإنجازات في عالم كرة القدم السعودي.‬‬</desc>
+  <programme start="20261102130000 +0000" stop="20261102140000 +0000" channel="RotanaDrama.sa">
+    <title lang="ar">انحراف</title>
+    <title lang="en">Enheraaf</title>
+    <desc lang="ar">‫‫يعاني مجموعة من الأشخاص من أمراض واضطرابات نفسية. تأخذ حياتهم منحى جذريا حين يلتقون بطبيبة نفسية تقرر مساعدتهم.‬‬</desc>
   </programme>
   <programme start="20261029133000 +0000" stop="20261029140000 +0000" channel="RotanaKhaleejiah.sa">
     <title lang="ar">روميو ويا ليت</title>
@@ -55763,12 +55627,12 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Fashion News Saudi Arabia</title>
     <desc lang="ar">‫‫تقوم المضيفة بتقديم آخر المستجدات والقصص المتعلقة بعروض الأزياء والمشاهير والسجادة الحمراء والعديد من الفعاليات الخاصة الأخرى.‬‬</desc>
   </programme>
-  <programme start="20261029121500 +0000" stop="20261029130000 +0000" channel="RotanaCinemaKSA.sa">
-    <title lang="ar">تماسيح النيل</title>
-    <title lang="en">Tamaseeh Al Neel</title>
-    <desc lang="ar">‫‫يضع محتالان مختلفان أنظارهما على راكب ثري أثناء رحلة بحرية في النيل، ما يؤدي إلى منافسة كوميدية ومواقف مثيرة للضحك.‬‬</desc>
+  <programme start="20261102130000 +0000" stop="20261102140000 +0000" channel="RotanaKhaleejiah.sa">
+    <title lang="ar">سنين العشرة</title>
+    <title lang="en">Seneen Al A'shrah</title>
+    <desc lang="ar">‫‫تقع غنيمة وناصر في الحب دون أن يدركا كم العداء الذي يكنه لهما البعض في حياتهما، إذ يقفون في طريق علاقتهما ويبذلون قصارى جهدهم لتفريقهما.‬‬</desc>
   </programme>
-  <programme start="20261029130000 +0000" stop="20261029143000 +0000" channel="RotanaCinemaKSA.sa">
+  <programme start="20261029133000 +0000" stop="20261029143000 +0000" channel="RotanaCinemaKSA.sa">
     <title lang="ar">المعلم بلبل</title>
     <title lang="en">El Moallem Bulbul</title>
     <desc lang="ar">‫‫تعتزل ممثلة مهنة التمثيل بعد زواجها. يصاب مخرج بالصدمة الكبيرة عندما يلتقي ببلبل الذي يشبه الممثلة إلى حد كبير جدا.‬‬</desc>
@@ -55919,94 +55783,89 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <desc lang="ar">‫‫يتزوج زيكو ونغم لأخذ حصتيهما من ميراث جدهما من خلال الالتزام بوصيته، لكن سرعان ما يقعان في الحب بالرغم من بدايتهما الصعبة.‬‬</desc>
   </programme>
   <programme start="20261031210000 +0000" stop="20261031230000 +0000" channel="RotanaCinemaKSA.sa">
-    <title lang="ar">ما تيجي نرقص</title>
-    <title lang="en">Ma Teji Norqos</title>
-    <desc lang="ar">‫‫تقرر المحامية سلوى أخذ دروس في الرقص، للهرب من الروتين القاتل الذي يسيطر على حياتها. يرفض زوجها الفكرة لاقتناعه أن الرقص سيدمر سمعتها.‬‬</desc>
+    <title lang="ar">أزمة شرف</title>
+    <title lang="en">Azmet Sharaf</title>
+    <desc lang="ar">‫‫تتوفى زوجة مطرب شهير وسائقها الخاص في حادث سير مؤسف. تتصاعد التوترات عندما يتم الكشف عن أسرار مروعة وصادمة أثناء التحقيق.‬‬</desc>
   </programme>
   <programme start="20261031230000 +0000" stop="20261101010000 +0000" channel="RotanaCinemaKSA.sa">
-    <title lang="ar">جري الوحوش</title>
-    <title lang="en">Jari Al Wohoosh</title>
-    <desc lang="ar">‫‫تسوء الأمور بشكل رهيب عندما يقوم نبيل بإجراء عملية جراحية خطيرة لصديقه سعيد، وذلك بهدف مساعدته في علاج مسألة العقم التي يعاني منها الأخير.‬‬</desc>
+    <title lang="ar">غريب في بيتي</title>
+    <title lang="en">Ghareeb Fie Baytee</title>
+    <desc lang="ar">‫‫تكتشف عفاف أنه يجب عليها مشاركة شقتها الجديدة مع لاعب كرة القدم الشهير شحاتة أبو كف. تقع عفاف في حبه لاحقا، الأمر الذي يدفع زملاءه في الفريق إلى الشعور بالغيرة.‬‬</desc>
   </programme>
   <programme start="20261101010000 +0000" stop="20261101030000 +0000" channel="RotanaCinemaKSA.sa">
-    <title lang="ar">سي عمر</title>
-    <title lang="en">Si Omar</title>
-    <desc lang="ar">‫‫يعمل جابر في عزبة عمر الألفي، حيث يكتشف الكثير من السرقات والتلاعب بإيرادات العزبة، لكن المسؤول يكافئه على أمانته بطرده من العمل. تتغير حياة جابر عند ذهابه للقاهرة بحثا عن عمل.‬‬</desc>
+    <title lang="ar">ثورة المدينة</title>
+    <title lang="en">Thawrat Al Madinah</title>
+    <desc lang="ar">‫‫تتجنب فاطمة الزواج بعد موت والدتها أثناء ولادتها لها، وذلك خوفا أن تتوفى هي أيضا أثناء الولادة. تتصاعد الأحداث عندما تقع في حب أحمد، ويرفض والدها علاقتهما.‬‬</desc>
   </programme>
   <programme start="20261101030000 +0000" stop="20261101050000 +0000" channel="RotanaCinemaKSA.sa">
-    <title lang="ar">حملة فريزر</title>
-    <title lang="en">Hamlat Freezer</title>
-    <desc lang="ar">‫‫تتنكر مجموعة من ضباط المخابرات بهيئة شخصيات فريق عمل سينمائي، ثم تسافر إلى إيطاليا للحصول على جهاز لديه القدرة على تذويب الجليد في مصر.‬‬</desc>
+    <title lang="ar">سبع البرمبة</title>
+    <title lang="en">Sabe'e Al Boromba</title>
+    <desc lang="ar">‫‫يحاول رجل استعادة حب زوجته بعد أن فقدت اهتمامها به بسبب فشله في إنقاذها. يطلب المساعدة من طبيب نفسي غير تقليدي، مما يزيد الأمر سوءا.‬‬</desc>
   </programme>
   <programme start="20261101050000 +0000" stop="20261101070000 +0000" channel="RotanaCinemaKSA.sa">
-    <title lang="ar">البدلة</title>
-    <title lang="en">El Badla</title>
-    <desc lang="ar">‫‫يفشل حمادة ووليد في تحقيق النجاح على الصعيدين الشخصي والمهني، لكن تأخذ الأمور منحى غير متوقع عندما يرتديان زي رجال الشرطة في حفلة تنكرية.‬‬</desc>
+    <title lang="ar">أبو صدام</title>
+    <title lang="en">Abu Saddam</title>
+    <desc lang="ar">‫‫بعد توقفه عن العمل لسنوات عدة، يتم تكليف سائق شاحنات ذو خبرة بإحدى المهام التي يحاول إنجازها على أكمل وجه، ولكن تأخذ الأمور منحى آخر عندما يحدث ما هو غير متوقع.‬‬</desc>
   </programme>
-  <programme start="20261101070000 +0000" stop="20261101083000 +0000" channel="RotanaCinemaKSA.sa">
-    <title lang="ar">محترم إلا ٤/١</title>
-    <title lang="en">Mohtaram Ela 1/4</title>
-    <desc lang="ar">‫‫يعمل رسام الكاريكاتير هشام في صحيفة لكسب الرزق. يواجه هشام تجربة صعبة أثناء توظيف رسوماته في محاربة الفساد الذي تغرق فيه البلاد، ما يضطره للتنازل عن بعض مبادئه.‬‬</desc>
+  <programme start="20261101070000 +0000" stop="20261101090000 +0000" channel="RotanaCinemaKSA.sa">
+    <title lang="ar">صايع بحر</title>
+    <title lang="en">Saye' Bahr</title>
+    <desc lang="ar">‫‫يتم اتهام الشاب حنتيرة زورا بجريمة قتل. في وقت لاحق، يحاول صديقاه هيمة وعبده إثبات براءته كي يتمكن حنتيرة من الزواج بخطيبته.‬‬</desc>
   </programme>
-  <programme start="20261101083000 +0000" stop="20261101100000 +0000" channel="RotanaCinemaKSA.sa">
-    <title lang="ar">البحث عن فضيحة</title>
-    <title lang="en">Al Bahth A'n Fadhehah</title>
-    <desc lang="ar">‫‫يذهب الشاب الساذج مجدي إلى المدينة للبحث عن عمل. يطلب من صديقه سامي أن يعرفه على فتيات جميلات، ولكنه يقع في حب الشابة حنان.‬‬</desc>
-  </programme>
-  <programme start="20261101100000 +0000" stop="20261101110000 +0000" channel="RotanaCinemaKSA.sa">
-    <title lang="ar">أون ذا روود</title>
-    <title lang="en">On The Road</title>
-    <desc lang="ar">‫‫يحاور المضيف بعضا من أكبر النجوم والمشاهير عن مجموعة من المواضيع المتعلقة بحياتهم ومسيراتهم في أجواء غير تقليدية ومسلية بينما يقودون في أنحاء المدينة.‬‬</desc>
+  <programme start="20261101090000 +0000" stop="20261101110000 +0000" channel="RotanaCinemaKSA.sa">
+    <title lang="ar">وتمت اقواله</title>
+    <title lang="en">Wa Tamat Aqwaloh</title>
+    <desc lang="ar">‫‫يعمل عاصم محاضرا في جامعة، ويكافح للحصول على شهادة الدكتوراه بسبب سوء معاملة الدكتور المشرف عليه. تتخذ الأمور منعطفا حادا عندما يلتقي بالسكرتيرة زينب، والتي تحاول مساعدته.‬‬</desc>
   </programme>
   <programme start="20261101110000 +0000" stop="20261101130000 +0000" channel="RotanaCinemaKSA.sa">
-    <title lang="ar">سبع البرمبة</title>
-    <title lang="en">Sabe'e Al Boromba</title>
-    <desc lang="ar">‫‫يحاول رجل استعادة حب زوجته بعد أن فقدت اهتمامها به بسبب فشله في إنقاذها. يطلب المساعدة من طبيب نفسي غير تقليدي، مما يزيد الأمر سوءا.‬‬</desc>
+    <title lang="ar">إنت حبيبي وبس</title>
+    <title lang="en">Enta Habibi We Bas</title>
+    <desc lang="ar">‫‫يتزوج زيكو ونغم لأخذ حصتيهما من ميراث جدهما من خلال الالتزام بوصيته، لكن سرعان ما يقعان في الحب بالرغم من بدايتهما الصعبة.‬‬</desc>
   </programme>
   <programme start="20261101130000 +0000" stop="20261101150000 +0000" channel="RotanaCinemaKSA.sa">
-    <title lang="ar">اللمبي ٨ جيجا</title>
-    <title lang="en">Ellembi 8 Gega</title>
-    <desc lang="ar">‫‫يتزوج المحامي الفقير اللمبي بالمعلمة الفقيرة نوجه، ويعيش كلاهما حياة تعيسة بسبب فقرهما. يتعرض اللمبي لاحقا إلى حادث يغير حياته.‬‬</desc>
+    <title lang="ar">الحب الأول</title>
+    <title lang="en">Al Hob Al Awal</title>
+    <desc lang="ar">‫‫يعيش الشاب الخجول خالد مع صديقيه حسن وهشام. يلتقي بفتاة تدعى رانيا ويقع في غرامها، ولكنه سرعان ما يكتشف أنها مغرمة بصديقه المقرب هشام.‬‬</desc>
   </programme>
   <programme start="20261101150000 +0000" stop="20261101170000 +0000" channel="RotanaCinemaKSA.sa">
-    <title lang="ar">وكالة البلح</title>
-    <title lang="en">Wakalat Al Balah</title>
-    <desc lang="ar">‫‫تنتقي سيدة التجار الأثرياء للزواج بهم لتستولي على ممتلكاتهم وأعمالهم. تقابل السيدة رجلا يكتشف خططها ويساعد الشرطة في إلقاء القبض عليها.‬‬</desc>
+    <title lang="ar">الإرهاب والكباب</title>
+    <title lang="en">Al Erhab Wa Al Kabab</title>
+    <desc lang="ar">‫‫يزور أحمد دائرة حكومية من أجل استكمال بعض الإجراءات، ويصاب بالصدمة عندما يشاهد إهمال المسؤولين. في وقت لاحق، يقرر تدمير المبنى.‬‬</desc>
   </programme>
   <programme start="20261101170000 +0000" stop="20261101190000 +0000" channel="RotanaCinemaKSA.sa">
-    <title lang="ar">ساعة رضا</title>
-    <title lang="en">Sa'at Reda</title>
-    <desc lang="ar">‫‫يعمل الشاب البسيط رضا ميكانيكيا، ويقع في حب نور. يحدث أمر غير متوقع عندما يعثر على ساعة منبهة تمكنه من العودة بالزمن إلى الوراء.‬‬</desc>
+    <title lang="ar">جيران السعد</title>
+    <title lang="en">Jeran Al Sa'd</title>
+    <desc lang="ar">‫‫يجد مجموعة من الأشخاص الذين يعيشون في نفس الحي أنفسهم يتعرضون للعديد من المشاكل بسبب أطفالهم. يجب عليهم التعاون من أجل التخلص من هذه المشاكل.‬‬</desc>
   </programme>
   <programme start="20261101190000 +0000" stop="20261101210000 +0000" channel="RotanaCinemaKSA.sa">
-    <title lang="ar">بني آدم</title>
-    <title lang="en">Bany Adam</title>
-    <desc lang="ar">‫‫يجد آدم نفسه متورطا في وضع معقد عندما يتم اتهامه بعدد من الجرائم، في الوقت الذي تلجأ إليه الشرطة للمساعدة في مهمة.‬‬</desc>
+    <title lang="ar">حرب كرموز</title>
+    <title lang="en">Harb Karmouz</title>
+    <desc lang="ar">‫حادثة تعدي على شابة مصرية بمدينة كرموز إبان الاحتلال البريطاني تحوّل المدينة إلى ساحة حرب مدمرة يخوضها الضابط يوسف المصري بشجاعة ونخوة على أثر رفضه تسليم الجندي المعتدي والرضوخ لأوامر الضابط الإنجليزي.‬</desc>
   </programme>
   <programme start="20261101210000 +0000" stop="20261101230000 +0000" channel="RotanaCinemaKSA.sa">
-    <title lang="ar">الأولة.. في الغرام</title>
-    <title lang="en">El Awellah.. Fi El Gharam</title>
-    <desc lang="ar">‫‫يعتاد الشاب المستهتر عمر إنفاق أموال قريبه على علاقاته المتعددة بالنساء. يقرر قريبه التوقف عن إمداده بالمال، مما يسبب الكثير من المشكلات لعمر.‬‬</desc>
+    <title lang="ar">دكان شحاتة</title>
+    <title lang="en">Dokkan Shehata</title>
+    <desc lang="ar">‫‫يصبح الشاب شحاتة هدفا رئيسيا لحسد أشقائه وكراهيتهم بعد وفاة والدهم. في وقت لاحق، يقومون بسرقة ميراثه ويحاولون التخلص منه.‬‬</desc>
   </programme>
   <programme start="20261101230000 +0000" stop="20261102010000 +0000" channel="RotanaCinemaKSA.sa">
-    <title lang="ar">البحث عن فضيحة</title>
-    <title lang="en">Al Bahth A'n Fadhehah</title>
-    <desc lang="ar">‫‫يذهب الشاب الساذج مجدي إلى المدينة للبحث عن عمل. يطلب من صديقه سامي أن يعرفه على فتيات جميلات، ولكنه يقع في حب الشابة حنان.‬‬</desc>
+    <title lang="ar">وتمت اقواله</title>
+    <title lang="en">Wa Tamat Aqwaloh</title>
+    <desc lang="ar">‫‫يعمل عاصم محاضرا في جامعة، ويكافح للحصول على شهادة الدكتوراه بسبب سوء معاملة الدكتور المشرف عليه. تتخذ الأمور منعطفا حادا عندما يلتقي بالسكرتيرة زينب، والتي تحاول مساعدته.‬‬</desc>
   </programme>
   <programme start="20261102010000 +0000" stop="20261102030000 +0000" channel="RotanaCinemaKSA.sa">
-    <title lang="ar">محترم إلا ٤/١</title>
-    <title lang="en">Mohtaram Ela 1/4</title>
-    <desc lang="ar">‫‫يعمل رسام الكاريكاتير هشام في صحيفة لكسب الرزق. يواجه هشام تجربة صعبة أثناء توظيف رسوماته في محاربة الفساد الذي تغرق فيه البلاد، ما يضطره للتنازل عن بعض مبادئه.‬‬</desc>
+    <title lang="ar">صايع بحر</title>
+    <title lang="en">Saye' Bahr</title>
+    <desc lang="ar">‫‫يتم اتهام الشاب حنتيرة زورا بجريمة قتل. في وقت لاحق، يحاول صديقاه هيمة وعبده إثبات براءته كي يتمكن حنتيرة من الزواج بخطيبته.‬‬</desc>
   </programme>
   <programme start="20261102030000 +0000" stop="20261102050000 +0000" channel="RotanaCinemaKSA.sa">
-    <title lang="ar">سبع البرمبة</title>
-    <title lang="en">Sabe'e Al Boromba</title>
-    <desc lang="ar">‫‫يحاول رجل استعادة حب زوجته بعد أن فقدت اهتمامها به بسبب فشله في إنقاذها. يطلب المساعدة من طبيب نفسي غير تقليدي، مما يزيد الأمر سوءا.‬‬</desc>
+    <title lang="ar">إنت حبيبي وبس</title>
+    <title lang="en">Enta Habibi We Bas</title>
+    <desc lang="ar">‫‫يتزوج زيكو ونغم لأخذ حصتيهما من ميراث جدهما من خلال الالتزام بوصيته، لكن سرعان ما يقعان في الحب بالرغم من بدايتهما الصعبة.‬‬</desc>
   </programme>
   <programme start="20261102050000 +0000" stop="20261102070000 +0000" channel="RotanaCinemaKSA.sa">
-    <title lang="ar">ساعة رضا</title>
-    <title lang="en">Sa'at Reda</title>
-    <desc lang="ar">‫‫يعمل الشاب البسيط رضا ميكانيكيا، ويقع في حب نور. يحدث أمر غير متوقع عندما يعثر على ساعة منبهة تمكنه من العودة بالزمن إلى الوراء.‬‬</desc>
+    <title lang="ar">جيران السعد</title>
+    <title lang="en">Jeran Al Sa'd</title>
+    <desc lang="ar">‫‫يجد مجموعة من الأشخاص الذين يعيشون في نفس الحي أنفسهم يتعرضون للعديد من المشاكل بسبب أطفالهم. يجب عليهم التعاون من أجل التخلص من هذه المشاكل.‬‬</desc>
   </programme>
   <programme start="20261102070000 +0000" stop="20261102090000 +0000" channel="RotanaCinemaKSA.sa">
     <title lang="ar">اللمبي ٨ جيجا</title>
@@ -56023,7 +55882,12 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Bany Adam</title>
     <desc lang="ar">‫‫يجد آدم نفسه متورطا في وضع معقد عندما يتم اتهامه بعدد من الجرائم، في الوقت الذي تلجأ إليه الشرطة للمساعدة في مهمة.‬‬</desc>
   </programme>
-  <programme start="20261029121500 +0000" stop="20261029140000 +0000" channel="RotanaCinemaEgypt.sa">
+  <programme start="20261102130000 +0000" stop="20261102143000 +0000" channel="RotanaCinemaKSA.sa">
+    <title lang="ar">الوعد</title>
+    <title lang="en">Al Wa'd</title>
+    <desc lang="ar">‫‫يعمل رجل الأعمال الشهير عادل مع عصابة مافيا. تتغير تصرفاته بشكل كبير بعد تشخصيه بمرض السرطان، ويقرر أن يعمل ضد العصابة لإصلاح أعماله السيئة.‬‬</desc>
+  </programme>
+  <programme start="20261029133000 +0000" stop="20261029140000 +0000" channel="RotanaCinemaEgypt.sa">
     <title lang="ar">الراقصة والطبال</title>
     <title lang="en">Al Raqesa Wal Tabal</title>
     <desc lang="ar">‫‫يكتشف طبال موهبة راقصة شرقية شابة ويدربها. تنال الراقصة شهرة واسعة، لكنها تقرر ترك العمل مع الطبال عند اكتشافها أنه لا يحبها.‬‬</desc>
@@ -56287,16 +56151,6 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">عيون الصقر</title>
     <title lang="en">Oyon Al Saqer</title>
     <desc lang="ar">‫‫يحاول أحد الجنود الإيقاع بعصابة تهريب المخدرات عبر الحدود بمساعدة السلطات. تتطور الأحداث عندما تقوم العصابة باختطاف والده لمنعه من الإدلاء بشهادته.‬‬</desc>
-  </programme>
-  <programme start="20261029121500 +0000" stop="20261029123000 +0000" channel="Saudi1.sa">
-    <title lang="ar">فتاوى</title>
-    <title lang="en">Fatawa</title>
-    <desc lang="ar">‫‫يدعو المضيف باحثا إسلاميا للإجابة عن أسئلة المشاهدين المتعلقة بموضوعات دينية مختلفة من أجل تعزيز إيمان المسلمين بالله تعالى.‬‬</desc>
-  </programme>
-  <programme start="20261029123000 +0000" stop="20261029133000 +0000" channel="Saudi1.sa">
-    <title lang="ar">نشرة الأخبار</title>
-    <title lang="en">Nashrat Al Akhbar</title>
-    <desc lang="ar">‫‫يقدم فريق التقديم آخر وأهم الأخبار والمستجدات ويحاور خبراء لمناقشة وتحليل أحداث في السعودية وحول العالم.‬‬</desc>
   </programme>
   <programme start="20261029133000 +0000" stop="20261029143000 +0000" channel="Saudi1.sa">
     <title lang="ar">صيف ديرتنا</title>
@@ -57023,12 +56877,17 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Fatawa</title>
     <desc lang="ar">‫‫يدعو المضيف باحثا إسلاميا للإجابة عن أسئلة المشاهدين المتعلقة بموضوعات دينية مختلفة من أجل تعزيز إيمان المسلمين بالله تعالى.‬‬</desc>
   </programme>
-  <programme start="20261029121500 +0000" stop="20261029130000 +0000" channel="LBCSat.lb">
-    <title lang="ar">على قد الحب</title>
-    <title lang="en">A'la Qad Al Hob</title>
-    <desc lang="ar">‫م1 ، ح29 : ‫تجد سيدة أعمال ناجحة نفسها مطاردة من قبل ماضيها، إذ تبدأ الأسرار والأحداث القديمة بالظهور من جديد، مما يزعزع راحة بالها ويهدد مستقبلها.‬‬</desc>
+  <programme start="20261102123000 +0000" stop="20261102133000 +0000" channel="Saudi1.sa">
+    <title lang="ar">نشرة الأخبار</title>
+    <title lang="en">Nashrat Al Akhbar</title>
+    <desc lang="ar">‫‫يقدم فريق التقديم آخر وأهم الأخبار والمستجدات ويحاور خبراء لمناقشة وتحليل أحداث في السعودية وحول العالم.‬‬</desc>
   </programme>
-  <programme start="20261029130000 +0000" stop="20261029140000 +0000" channel="LBCSat.lb">
+  <programme start="20261102133000 +0000" stop="20261102143000 +0000" channel="Saudi1.sa">
+    <title lang="ar">صيف ديرتنا</title>
+    <title lang="en">Sayf Deratona</title>
+    <desc lang="ar">‫‫يقوم المضيف بتسليط الضوء على أحدث المستجدات التي تتعلق بالعديد من أجزاء المملكة العربية السعودية، بالإضافة إلى إبراز مختلف الجوانب الثقافية التي تساهم في تشكيل هوية كل منطقة.‬‬</desc>
+  </programme>
+  <programme start="20261029133000 +0000" stop="20261029140000 +0000" channel="LBCSat.lb">
     <title lang="ar">نقطة انتهى</title>
     <title lang="en">Noqtah Entaha</title>
     <desc lang="ar">‫م1 ، ح29 : ‫يشعر فارس، وهو صيدلاني يعاني من مرض باركنسون، بالذنب بسبب قتله بالخطأ لشقيق زوجته المراهق بينما تحقق زوجته في مقتل شقيقها.‬‬</desc>
@@ -57398,15 +57257,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Settohom</title>
     <desc lang="ar">‫م1 ، ح3 : ‫تقع سيدة في مشكلة حين تضطر إلى العمل في وظيفة صعبة لتجد لقمة العيش في ظل وفاة زوجها وبقائها وحيدة مع طفل رضيع.‬‬</desc>
   </programme>
-  <programme start="20261029121500 +0000" stop="20261029123000 +0000" channel="KanalDDrama.tr">
-    <title lang="ar">فاطمة</title>
-    <title lang="en">Fatemah</title>
-    <desc lang="ar">‫م1 ، ح131 : ‫لشغفها بالفن والموسيقى، تتعلم فاطمة العزف على الكمان بالرغم من نشأتها في بيئة محافظة لا تحث التعبير عن الذات.‬‬</desc>
-  </programme>
-  <programme start="20261029123000 +0000" stop="20261029133000 +0000" channel="KanalDDrama.tr">
-    <title lang="ar">اسطنبول الظالمة</title>
-    <title lang="en">Istanbul Al Dhaleemah</title>
-    <desc lang="ar">‫م1 ، ح5 : ‫تنتقل أم لديها ثلاثة أولاد إلى إسطنبول للعمل لدى عائلة ثرية، الأمر الذي يقود الجميع للتعامل مع مواقف غير متوقعة يتخللها الحب والخيانة والخداع.‬‬</desc>
+  <programme start="20261102130000 +0000" stop="20261102140000 +0000" channel="LBCSat.lb">
+    <title lang="ar">زقاق الجن</title>
+    <title lang="en">Zeqaq Al Jen</title>
+    <desc lang="ar">‫م1 ، ح3 : ‫تخوض مجموعة من الناس الذين يعيشون في حي يدعى زقاق الجن العديد من المشكلات بينما يحاولون الحصول على حياة كريمة.‬‬</desc>
   </programme>
   <programme start="20261029133000 +0000" stop="20261029143000 +0000" channel="KanalDDrama.tr">
     <title lang="ar">العشق الفاخر</title>
@@ -57883,11 +57737,17 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Fatemah</title>
     <desc lang="ar">‫‫لشغفها بالفن والموسيقى، تتعلم فاطمة العزف على الكمان بالرغم من نشأتها في بيئة محافظة لا تحث التعبير عن الذات.‬‬</desc>
   </programme>
-  <programme start="20261029121500 +0000" stop="20261029124500 +0000" channel="ZeeAlwan.ae">
-    <title lang="en">Ebn Alosoul</title>
-    <desc lang="en">Zee Alwan a general entertainment channel, targeting Arabs across the Middle East and North Africa. Featuring an unparalleled selection of top-tier Indian drama, meticulously dubbed in Arabic.</desc>
+  <programme start="20261102123000 +0000" stop="20261102133000 +0000" channel="KanalDDrama.tr">
+    <title lang="ar">اسمه الأسطورة</title>
+    <title lang="en">Esmo Al Ostoorah</title>
+    <desc lang="en">‫‬</desc>
   </programme>
-  <programme start="20261029124500 +0000" stop="20261029134000 +0000" channel="ZeeAlwan.ae">
+  <programme start="20261102133000 +0000" stop="20261102143000 +0000" channel="KanalDDrama.tr">
+    <title lang="ar">العشق الفاخر</title>
+    <title lang="en">Al Ishq Al Fakhr</title>
+    <desc lang="ar">‫‫بعد أن تلاحقها فضيحة تدمر حياتها وسمعتها، تجبر عائشة على الزواج من كرم، زير النساء الشاب والطائش الذي ينتمي لعائلة ثرية.‬‬</desc>
+  </programme>
+  <programme start="20261029133000 +0000" stop="20261029134000 +0000" channel="ZeeAlwan.ae">
     <title lang="en">Hob Yatakhata Al Zaman S3</title>
     <desc lang="en">Zee Alwan a general entertainment channel, targeting Arabs across the Middle East and North Africa. Featuring an unparalleled selection of top-tier Indian drama, meticulously dubbed in Arabic.</desc>
   </programme>
@@ -58303,11 +58163,11 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Ebn Alosoul</title>
     <desc lang="en">Zee Alwan a general entertainment channel, targeting Arabs across the Middle East and North Africa. Featuring an unparalleled selection of top-tier Indian drama, meticulously dubbed in Arabic.</desc>
   </programme>
-  <programme start="20261029121500 +0000" stop="20261029124500 +0000" channel="ZeeAflam.ae">
-    <title lang="en">Taish</title>
-    <desc lang="en">Harshvardhan Rane, Sanjeeda Sheikh, Bejoy Nambiar and Kriti Kharbanda</desc>
+  <programme start="20261102124500 +0000" stop="20261102134000 +0000" channel="ZeeAlwan.ae">
+    <title lang="en">Khafaya Alqoloub S1</title>
+    <desc lang="en">Zee Alwan a general entertainment channel, targeting Arabs across the Middle East and North Africa. Featuring an unparalleled selection of top-tier Indian drama, meticulously dubbed in Arabic.</desc>
   </programme>
-  <programme start="20261029124500 +0000" stop="20261029153000 +0000" channel="ZeeAflam.ae">
+  <programme start="20261029133000 +0000" stop="20261029153000 +0000" channel="ZeeAflam.ae">
     <title lang="en">Janhit Mein Jaari</title>
     <desc lang="en">Nushratt Bharuccha, Tinnu Anand and others</desc>
   </programme>
@@ -58451,12 +58311,11 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Mrs Chatterjee vs Norway</title>
     <desc lang="en">Rani Mukerji</desc>
   </programme>
-  <programme start="20261029121500 +0000" stop="20261029130000 +0000" channel="MBCPluseLife.ae">
-    <title lang="ar">أهلا بالستات</title>
-    <title lang="en">Ahlan Bi El Sittat</title>
-    <desc lang="ar">‫م2026 ، ح182 : ‫يعرض فريق التقديم فقرات يلقي من خلالها الضوء على مختلف المواضيع التي تتعلق بالصحة والأسرة والطبخ، وعدد من الشؤون الأخرى المختلفة التي تهم المرأة.‬‬</desc>
+  <programme start="20261102124500 +0000" stop="20261102153000 +0000" channel="ZeeAflam.ae">
+    <title lang="en">Tutak Tutak Tutiya</title>
+    <desc lang="en">Sonu Sood, Prabhu Deva</desc>
   </programme>
-  <programme start="20261029130000 +0000" stop="20261029140000 +0000" channel="MBCPluseLife.ae">
+  <programme start="20261029133000 +0000" stop="20261029140000 +0000" channel="MBCPluseLife.ae">
     <title lang="ar">بيت الذل</title>
     <title lang="en">Bayt Al Thol</title>
     <desc lang="ar">‫م1 ، ح14 : ‫فجر شابة قلبها مليء باللطف. ماذا يحدث عندما تتزوج وتنتقل إلى منزل عائلة مليئة بالمشاكل؟ وكيف ستنجح في أداء واجباتها الجديدة في مواجهة تحديات غير مألوفة؟‬‬</desc>
@@ -58927,12 +58786,7 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Ahlan Bi El Sittat</title>
     <desc lang="ar">‫‫تقوم مجموعة من مختلف الشخصيات بمناقشة اهتمامات المرأة العصرية، أثناء محاولتها معرفة وفهم ما ترغب به النساء.‬‬</desc>
   </programme>
-  <programme start="20261029121500 +0000" stop="20261029125000 +0000" channel="AlWoustaAlDhaid.ae">
-    <title lang="ar">الخاتم</title>
-    <title lang="en">Al Khatam</title>
-    <desc lang="ar">‫م1 ، ح12 : ‫يقرر عناد التقدم لخطبة حسناء شقيقة الشيخ مطلب بعد إلحاح من شقيقه الأكبر، لكنهما يتعارضان عندما يطلب مطلب من حسناء الانتقال للعيش معه، فيجد عناد نفسه مضطرا للترحال في أرجاء البلاد.‬‬</desc>
-  </programme>
-  <programme start="20261029125000 +0000" stop="20261029170000 +0000" channel="AlWoustaAlDhaid.ae">
+  <programme start="20261029133000 +0000" stop="20261029170000 +0000" channel="AlWoustaAlDhaid.ae">
     <title lang="ar">مهرجان قناة الوسطى التراثي</title>
     <title lang="en">Mahrajan Qanat Al Wustaa Al Turathi</title>
     <desc lang="ar">‫‫يشارك إماراتيون في مجموعة مختلفة من النشاطات ضمن مهرجان قناة الوسطى التراثي، والذي يعزز ويحتفي بالثقافة المحلية.‬‬</desc>
@@ -59557,12 +59411,17 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Al Khatam</title>
     <desc lang="ar">‫م1 ، ح16 : ‫يقرر عناد التقدم لخطبة حسناء شقيقة الشيخ مطلب بعد إلحاح من شقيقه الأكبر، لكنهما يتعارضان عندما يطلب مطلب من حسناء الانتقال للعيش معه، فيجد عناد نفسه مضطرا للترحال في أرجاء البلاد.‬‬</desc>
   </programme>
-  <programme start="20261029121500 +0000" stop="20261029130000 +0000" channel="AlHadath.ae">
-    <title lang="ar">أخبار الحدث</title>
-    <title lang="en">Al Hadath News</title>
-    <desc lang="ar">كُن في طليعة متابعي أهم القصص، الأخبار العاجلة، والشؤون الراهنة وكل ما ينبغي معرفته في المنطقة العربية وحول العالم.</desc>
+  <programme start="20261102130000 +0000" stop="20261102133000 +0000" channel="AlWoustaAlDhaid.ae">
+    <title lang="ar">موسم الحيا</title>
+    <title lang="en">Mawsim Al Haya</title>
+    <desc lang="ar">‫م1 ، ح178 : ‫يتحدث المضيف عن أهمية وجود العديد من أنواع النباتات، وكيف يلعب إيجاد مكان مناسب للبدو للاستقرار دورا رئيسيا في ازدهارهم.‬‬</desc>
   </programme>
-  <programme start="20261029130000 +0000" stop="20261029140000 +0000" channel="AlHadath.ae">
+  <programme start="20261102133000 +0000" stop="20261102143000 +0000" channel="AlWoustaAlDhaid.ae">
+    <title lang="ar">زمن ماجد</title>
+    <title lang="en">Zaman Majid</title>
+    <desc lang="ar">‫م1 ، ح14 : ‫يعيش الشيخ الحكيم ماجد حياة مسالمة مع أفراد قبيلته. مع ذلك، يقوم رجل يدعى الهذال بقتل شقيق زوجته، مما يجعل أسرة زوجته تنقلب ضده لحمايته القاتل.‬‬</desc>
+  </programme>
+  <programme start="20261029133000 +0000" stop="20261029140000 +0000" channel="AlHadath.ae">
     <title lang="ar">أخبار الحدث</title>
     <title lang="en">Al Hadath News</title>
     <desc lang="ar">كُن في طليعة متابعي أهم القصص، الأخبار العاجلة، والشؤون الراهنة وكل ما ينبغي معرفته في المنطقة العربية وحول العالم.</desc>
@@ -60182,12 +60041,12 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Al Hadath News</title>
     <desc lang="ar">كُن في طليعة متابعي أهم القصص، الأخبار العاجلة، والشؤون الراهنة وكل ما ينبغي معرفته في المنطقة العربية وحول العالم.</desc>
   </programme>
-  <programme start="20261029121500 +0000" stop="20261029130000 +0000" channel="AlArabiyaBusiness.ae">
-    <title lang="ar">جرس الإغلاق</title>
-    <title lang="en">Closing Bell</title>
-    <desc lang="ar">ملخص تنفيذي يومي لكل المهتمين بعالم المال والأعمال من متابعي الأخبار الاقتصادية ورجال الأعمال والمستثمرين الأفراد المتابعين لحركة الأسواق، بالإضافة إلى نظرة تفصيلية وتحليل يومي للمؤثرات على هذه الأسواق مع أحد المختصين المتابعين لها.</desc>
+  <programme start="20261102130000 +0000" stop="20261102140000 +0000" channel="AlHadath.ae">
+    <title lang="ar">أخبار الحدث</title>
+    <title lang="en">Al Hadath News</title>
+    <desc lang="ar">كُن في طليعة متابعي أهم القصص، الأخبار العاجلة، والشؤون الراهنة وكل ما ينبغي معرفته في المنطقة العربية وحول العالم.</desc>
   </programme>
-  <programme start="20261029130000 +0000" stop="20261029140000 +0000" channel="AlArabiyaBusiness.ae">
+  <programme start="20261029133000 +0000" stop="20261029140000 +0000" channel="AlArabiyaBusiness.ae">
     <title lang="ar">الأخبار</title>
     <title lang="en">News</title>
     <desc lang="ar">تغطية مباشرة للأخبار المحلية والعالمية مع التركيز على التطورات في العالم، وصولاً إلى عرض دقيق وتحليلات معمقة تهم المشاهدين.</desc>
@@ -60647,15 +60506,10 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Closing Bell</title>
     <desc lang="ar">ملخص تنفيذي يومي لكل المهتمين بعالم المال والأعمال من متابعي الأخبار الاقتصادية ورجال الأعمال والمستثمرين الأفراد المتابعين لحركة الأسواق، بالإضافة إلى نظرة تفصيلية وتحليل يومي للمؤثرات على هذه الأسواق مع أحد المختصين المتابعين لها.</desc>
   </programme>
-  <programme start="20261029121500 +0000" stop="20261029130000 +0000" channel="CNBCArabiya.ae">
-    <title lang="ar">كلام أسواق</title>
-    <title lang="en">Kalam Aswaq</title>
-    <desc lang="ar">‫‫يعرض عدد من المحللين والخبراء الماليين تحليلاتهم المفصلة، كما ويناقشون آخر الأخبار والتطورات في السوق.‬‬</desc>
-  </programme>
-  <programme start="20261029130000 +0000" stop="20261029133000 +0000" channel="CNBCArabiya.ae">
-    <title lang="ar">مسار السوق</title>
-    <title lang="en">Market Track</title>
-    <desc lang="ar">‫‫تقوم مجموعة من المحللين بتسليط الضوء على آخر الأخبار والتطورات التي تتعلق بالسوق المالية في العالم العربي.‬‬</desc>
+  <programme start="20261102130000 +0000" stop="20261102140000 +0000" channel="AlArabiyaBusiness.ae">
+    <title lang="ar">الأخبار</title>
+    <title lang="en">News</title>
+    <desc lang="ar">تغطية مباشرة للأخبار المحلية والعالمية مع التركيز على التطورات في العالم، وصولاً إلى عرض دقيق وتحليلات معمقة تهم المشاهدين.</desc>
   </programme>
   <programme start="20261029133000 +0000" stop="20261029150000 +0000" channel="CNBCArabiya.ae">
     <title lang="ar">بورصات العالم</title>
@@ -61442,17 +61296,17 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Kalam Aswaq</title>
     <desc lang="ar">‫‫يعرض عدد من المحللين والخبراء الماليين تحليلاتهم المفصلة، كما ويناقشون آخر الأخبار والتطورات في السوق.‬‬</desc>
   </programme>
-  <programme start="20261029121500 +0000" stop="20261029123000 +0000" channel="CNNInternational.us">
-    <title lang="ar">سي إن إن نيوز سنترال - مباشر</title>
-    <title lang="en">CNN News Central - LIVE</title>
-    <desc lang="ar">‫‫يعرض فريق التقديم آخر الأخبار والمستجدات والمعلومات المتعلقة ببعض الأنباء الرائجة والبارزة التي تحظى بأهمية على مستوى العالم.‬‬</desc>
+  <programme start="20261102130000 +0000" stop="20261102133000 +0000" channel="CNBCArabiya.ae">
+    <title lang="ar">مسار السوق</title>
+    <title lang="en">Market Track</title>
+    <desc lang="ar">‫‫تقوم مجموعة من المحللين بتسليط الضوء على آخر الأخبار والتطورات التي تتعلق بالسوق المالية في العالم العربي.‬‬</desc>
   </programme>
-  <programme start="20261029123000 +0000" stop="20261029130000 +0000" channel="CNNInternational.us">
-    <title lang="ar">وورلد سبورت - مباشر</title>
-    <title lang="en">World Sport - LIVE</title>
-    <desc lang="ar">‫‫نظرة على الإنجازات الرياضية العالمية، إذ يتم تقديم مستجدات مفصلة وآراء الخبراء حول المسابقات والتصنيفات واللحظات البارزة في مختلف الساحات الرياضية.‬‬</desc>
+  <programme start="20261102133000 +0000" stop="20261102150000 +0000" channel="CNBCArabiya.ae">
+    <title lang="ar">بورصات العالم</title>
+    <title lang="en">Borsaat Al A'alam</title>
+    <desc lang="ar">‫‫يدعو المضيف عددا من الخبراء من أجل الحديث عن خبراتهم وتحليلاتهم لآخر الأخبار والتطورات في عالم الأموال والاقتصاد.‬‬</desc>
   </programme>
-  <programme start="20261029130000 +0000" stop="20261029134500 +0000" channel="CNNInternational.us">
+  <programme start="20261029133000 +0000" stop="20261029134500 +0000" channel="CNNInternational.us">
     <title lang="ar">كونيكت ذا وورلد - مباشر</title>
     <title lang="en">Connect the World - LIVE</title>
     <desc lang="ar">‫‫يسلط فريق التقديم الضوء على الأخبار والأحداث المهمة التي تقع في جميع أنحاء العالم والتي لها تأثير على المستوى الدولي.‬‬</desc>
@@ -62052,20 +61906,15 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">CNN News Central - LIVE</title>
     <desc lang="ar">‫‫يعرض فريق التقديم آخر الأخبار والمستجدات والمعلومات المتعلقة ببعض الأنباء الرائجة والبارزة التي تحظى بأهمية على مستوى العالم.‬‬</desc>
   </programme>
-  <programme start="20261029121500 +0000" stop="20261029123000 +0000" channel="Spacetoon.ae">
-    <title lang="ar">إغ إينجلز كوكوتاما</title>
-    <title lang="en">Egg Angels Cocotama</title>
-    <desc lang="ar">‫‫تعتني الفتاة الصغيرة الفضولية نسمة بمقتنياتها جيدا. تزداد الأمور حماسا عندما تخرج مخلوقات صغيرة من المقتنيات وتقرر مصادقتها.‬‬</desc>
+  <programme start="20261102130000 +0000" stop="20261102133000 +0000" channel="CNNInternational.us">
+    <title lang="ar">سي إن إن نيوز سنترال - مباشر</title>
+    <title lang="en">CNN News Central - LIVE</title>
+    <desc lang="ar">‫‫يعرض فريق التقديم آخر الأخبار والمستجدات والمعلومات المتعلقة ببعض الأنباء الرائجة والبارزة التي تحظى بأهمية على مستوى العالم.‬‬</desc>
   </programme>
-  <programme start="20261029123000 +0000" stop="20261029130000 +0000" channel="Spacetoon.ae">
-    <title lang="ar">عيال الحالة</title>
-    <title lang="en">E'yaal Al Halah</title>
-    <desc lang="ar">‫م1 ، ح13 : ‫تواجه شخصيات قضايا اجتماعية مختلفة في حياتها اليومية، مما يدفعها إلى التعامل مع المواقف بطريقة مضحكة وكوميدية.‬‬</desc>
-  </programme>
-  <programme start="20261029130000 +0000" stop="20261029133000 +0000" channel="Spacetoon.ae">
-    <title lang="ar">دورايمون</title>
-    <title lang="en">Doraemon The Cosmic Cat</title>
-    <desc lang="ar">‫‫يسافر القط الآلي دورايمون من القرن الثاني والعشرين في الوقت إلى القرن العشرين ويساعد أفراد عائلة نوبي باستخدام أدواته المستقبلية.‬‬</desc>
+  <programme start="20261102133000 +0000" stop="20261102140000 +0000" channel="CNNInternational.us">
+    <title lang="ar">وورلد سبورت - مباشر</title>
+    <title lang="en">World Sport - LIVE</title>
+    <desc lang="ar">‫‫نظرة على الإنجازات الرياضية العالمية، إذ يتم تقديم مستجدات مفصلة وآراء الخبراء حول المسابقات والتصنيفات واللحظات البارزة في مختلف الساحات الرياضية.‬‬</desc>
   </programme>
   <programme start="20261029133000 +0000" stop="20261029141500 +0000" channel="Spacetoon.ae">
     <title lang="ar">المحقق كونان</title>
@@ -63062,17 +62911,22 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Maruko</title>
     <desc lang="ar">‫م2 ، ح44 : ‫تقضي طالبة المدرسة الصغيرة ماروكو معظم وقتها مع رفاقها وعائلتها. تحاول ماروكو بمساعدة جدها إيجاد حلول للمآزق التي تقع فيها.‬‬</desc>
   </programme>
-  <programme start="20261029121500 +0000" stop="20261029130000 +0000" channel="CartoonNetworkArabic.ae">
-    <title lang="ar">سكوبي-دو آند غس هو؟</title>
-    <title lang="en">Scooby-Doo and Guess Who?</title>
-    <desc lang="ar">‫م2 ، ح14 : ‫يحاول فريد ودافني وفيلما، وشاغي وسكوبي دو حل مجموعة من الألغاز بمساعدة العديد من المشاهير والضيوف الخياليين.‬‬</desc>
+  <programme start="20261102123000 +0000" stop="20261102130000 +0000" channel="Spacetoon.ae">
+    <title lang="ar">أفكار ثرية</title>
+    <title lang="en">Afkar Thareyyah</title>
+    <desc lang="ar">‫م1 ، ح14 : ‫يؤسس ماكس غراهام وأصدقاؤه شركة ناشئة تركز على التكنولوجيا المتقدمة، ويعتمدون على بعضهم البعض لابتكار اختراعات رائدة بهدف جذب المستثمرين.‬‬</desc>
   </programme>
-  <programme start="20261029130000 +0000" stop="20261029132000 +0000" channel="CartoonNetworkArabic.ae">
-    <title lang="ar">تين تايتانز غو!</title>
-    <title lang="en">Teen Titans Go!</title>
-    <desc lang="ar">‫م9 ، ح24 : ‫يعشق الأبطال الخارقون روبن وسايبورغ وستارفاير ورايفن وبيست بوي إنقاذ العالم، لكن بعد انتهاء محاربة الجريمة، لا تسير الأمور دائما كما هو مخطط لها.‬‬</desc>
+  <programme start="20261102130000 +0000" stop="20261102133000 +0000" channel="Spacetoon.ae">
+    <title lang="ar">أحجار الضياء</title>
+    <title lang="en">Ahjar Al Dheya'</title>
+    <desc lang="ar">‫‫ترسل "روبي" -وهي أرنبة يابانية مشاكسة من "أرض الجواهر"- إلى الأرض لتكوين صداقات وتعلم دروس حياتية مهمة.‬‬</desc>
   </programme>
-  <programme start="20261029132000 +0000" stop="20261029134500 +0000" channel="CartoonNetworkArabic.ae">
+  <programme start="20261102133000 +0000" stop="20261102140000 +0000" channel="Spacetoon.ae">
+    <title lang="ar">نزال الابطال</title>
+    <title lang="en">Mazica Party</title>
+    <desc lang="ar">‫م1 ، ح19 : ‫يتحول كيزورو، وهو طالب في المرحلة المتوسطة، إلى ساحر بعد لقائه ببالونيا، وهو مخلوق سحري نصفه قط ونصفه بالون.‬‬</desc>
+  </programme>
+  <programme start="20261029133000 +0000" stop="20261029134500 +0000" channel="CartoonNetworkArabic.ae">
     <title lang="ar">ذا وندرفلي ويرد ورلد أوف غامبول</title>
     <title lang="en">The Wonderfully Weird World of Gumball</title>
     <desc lang="ar">‫‫عالم غامبول الغريب حيث تنثني قوانين الواقع، وتتحول فيه روابط العائلة ومغامرات الحياة اليومية إلى شيء استثنائي في بلدة إلمور غريبة الأطوار.‬‬</desc>
@@ -63581,22 +63435,27 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Regular Show: The Lost Tapes</title>
     <desc lang="ar">‫م1 ، ح1 : ‫يعمل طائر القيق الأزرق الذي يدعى موردكاي وراكون يسمى ريغبي كحراس في حديقة محلية، ويخوضان في مغامرات سريالية كلما حاولا التهرب من العمل.‬‬</desc>
   </programme>
-  <programme start="20261029121500 +0000" stop="20261029122500 +0000" channel="2MMonde.ma">
-    <title lang="ar">الاخبار</title>
-    <title lang="en">Al Akhbar</title>
-    <desc lang="ar">‫‫يقوم المضيف بتقديم آخر القصص الإخبارية العالمية والمحلية وأهم المستجدات والتطورات من جميع أنحاء العالم.‬‬</desc>
+  <programme start="20261102122000 +0000" stop="20261102124000 +0000" channel="CartoonNetworkArabic.ae">
+    <title lang="ar">رغيولر شو</title>
+    <title lang="en">Regular Show</title>
+    <desc lang="ar">‫ح25991250 : ‫‫يعمل الصديقان طائر القيق أزرق اللون الملقب بمورديكيا والراكون الملقب بريغبي حارسين في حديقة محلية، ويتعرضان لمواقف غريبة عندما يحاولان التهرب من العمل.‬‬</desc>
   </programme>
-  <programme start="20261029122500 +0000" stop="20261029131500 +0000" channel="2MMonde.ma">
-    <title lang="ar">حياة أخرى</title>
-    <title lang="en">Hayat Okhra</title>
-    <desc lang="ar">‫‫تواجه مجموعة من السيدات المتزوجات العديد من المواقف مع أزواجهن، الأمر الذي يقلب حياتهن رأسا على عقب ويغير نظرتهن لمفهوم الحب.‬‬</desc>
+  <programme start="20261102124000 +0000" stop="20261102130000 +0000" channel="CartoonNetworkArabic.ae">
+    <title lang="ar">واتس نيو سكوبي-دو؟</title>
+    <title lang="en">What's New Scooby-Doo?</title>
+    <desc lang="ar">‫م1 ، ح13 : ‫‫يحاول فريد وفيلما ودافني وشاغي وكلبهم المخلص والجبان في آن معا سكوبي دو حل الألغاز في جميع أنحاء العالم باستخدام أحدث التقنيات المتطورة.‬‬‬</desc>
   </programme>
-  <programme start="20261029131500 +0000" stop="20261029132500 +0000" channel="2MMonde.ma">
-    <title lang="ar">الأخبار الامازيغية</title>
-    <title lang="en">Al Akhbar Be Al Amazigheyah</title>
-    <desc lang="en">‫‬</desc>
+  <programme start="20261102130000 +0000" stop="20261102132000 +0000" channel="CartoonNetworkArabic.ae">
+    <title lang="ar">تين تايتانز غو!</title>
+    <title lang="en">Teen Titans Go!</title>
+    <desc lang="ar">‫م7 : ‫يعشق الأبطال الخارقون روبن وسايبورغ وستارفاير ورايفن وبيست بوي إنقاذ العالم، لكن بعد انتهاء محاربة الجريمة، لا تسير الأمور دائما كما هو مخطط لها.‬‬</desc>
   </programme>
-  <programme start="20261029132500 +0000" stop="20261029135500 +0000" channel="2MMonde.ma">
+  <programme start="20261102132000 +0000" stop="20261102134500 +0000" channel="CartoonNetworkArabic.ae">
+    <title lang="ar">ذي أميزنغ ورلد أوف غامبول</title>
+    <title lang="en">The Amazing World of Gumball</title>
+    <desc lang="ar">‫م4 : ‫يعيش القط غامبول واترسون البالغ ١٢ عاما في إلمور ولديه ميول حول التورط في المشاكل برفقة صديقه العزيز السمكة داروين.‬‬</desc>
+  </programme>
+  <programme start="20261029133000 +0000" stop="20261029135500 +0000" channel="2MMonde.ma">
     <title lang="ar">السر المدفون</title>
     <title lang="en">Al Ser Al Madfoon</title>
     <desc lang="ar">‫‫تعود قضية شاب تم إعدامه بدم بارد إلى الظهور بقوة بعد مرور عشر سنوات عليها عندما يبحث والده الحزين جدا على فقدانه عن أي دليل بسيط يمكن أن يقوده إلى الحقيقة.‬‬</desc>
@@ -64336,6 +64195,26 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="en">Capsules Jazzablanca</title>
     <desc lang="ar">‫‫يدعو المضيف فرقا عالمية ومحلية للتعرف أكثر على عروضها وتحضيراتها لمهرجان جازابلانكا الموسيقي الذي يقام في الدار البيضاء.‬‬</desc>
   </programme>
+  <programme start="20261102122500 +0000" stop="20261102131500 +0000" channel="2MMonde.ma">
+    <title lang="ar">الأمانة</title>
+    <title lang="en">Al Amanah</title>
+    <desc lang="ar">‫‫مراد، ضابط متفان، يجد نفسه في موقف صعب بعد أن قتل رجلا بغير قصد. يشعر لاحقا أنه ملزم برعاية زوجة الرجل وابنه.‬‬</desc>
+  </programme>
+  <programme start="20261102131500 +0000" stop="20261102132500 +0000" channel="2MMonde.ma">
+    <title lang="ar">الأخبار الامازيغية</title>
+    <title lang="en">Al Akhbar Be Al Amazigheyah</title>
+    <desc lang="en">‫‬</desc>
+  </programme>
+  <programme start="20261102132500 +0000" stop="20261102133000 +0000" channel="2MMonde.ma">
+    <title lang="ar">يوميات جام شو</title>
+    <title lang="en">Yawmeyat Jam Show</title>
+    <desc lang="ar">‫‫مجموعة شاملة من أبرز الأحداث اليومية من برنامج (جام شو)، حيث يصعد مغني الراب الناشئين من المغرب على المسرح ويعرضون مواهبهم لإبهار الحكام والتأهل للمراحل التالية والفوز.‬‬</desc>
+  </programme>
+  <programme start="20261102133000 +0000" stop="20261102140500 +0000" channel="2MMonde.ma">
+    <title lang="ar">سر المرجان</title>
+    <title lang="en">Sir Al Morjan</title>
+    <desc lang="ar">‫‫تعود حسناء التي تعمل مدرسة إلى قريتها لتجد أن رجلا مستبدا يتحكم بسكان القرية وينهب حاجياتهم، كما يقوم ببيع المواد المخدرة.‬‬</desc>
+  </programme>
   <programme start="20261029000000 +0000" stop="20261030000000 +0000" channel="Playlist.Guide.LiveEventOnly">
     <title lang="en">LIVE EVENT ONLY</title>
     <desc lang="en">LIVE EVENT ONLY</desc>
@@ -64464,4 +64343,4 @@ https://forms.gle/6vzdExVTQZZwpqNb7</desc>
     <title lang="ar">شباب البومب 24/7</title>
     <desc lang="ar">شباب البومب 24/7</desc>
   </programme>
-<programme start="20261030220000 +0000" stop="20261101121907 +0000" channel="Roya_RoyaNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031220000 +0000" stop="20261101121907 +0000" channel="Roya_RoyaComedy"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031215614 +0000" stop="20261031220000 +0000" channel="Roya_RoyaKitchen"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031220000 +0000" stop="20261101121907 +0000" channel="Roya_Ch16"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030220000 +0000" stop="20261101121907 +0000" channel="Roya_Ch26"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031220000 +0000" stop="20261101121907 +0000" channel="Roya_Ch32"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030215847 +0000" stop="20261030220000 +0000" channel="Roya_Ch36"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031215847 +0000" stop="20261031220000 +0000" channel="Roya_Ch36"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101215847 +0000" stop="20261101220000 +0000" channel="Roya_Ch36"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031000000 +0000" stop="20261031010500 +0000" channel="AlMamlaka.jo"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261105173000 +0000" stop="20261105180000 +0000" channel="AlMashhad.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101050000 +0000" stop="20261101121907 +0000" channel="MBC 1"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101060100 +0000" stop="20261101121907 +0000" channel="MBC 2"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101041500 +0000" stop="20261101121907 +0000" channel="MBC 3"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101041500 +0000" stop="20261101121907 +0000" channel="MBC 4"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101074700 +0000" stop="20261101121907 +0000" channel="MBC 5"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101043000 +0000" stop="20261101121907 +0000" channel="MBC Action"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101043000 +0000" stop="20261101121907 +0000" channel="MBC Bollywood"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101050000 +0000" stop="20261101121907 +0000" channel="MBC Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101040900 +0000" stop="20261101121907 +0000" channel="MBC+ Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101043700 +0000" stop="20261101121907 +0000" channel="MBC Masr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101042500 +0000" stop="20261101121907 +0000" channel="MBC Masr 2"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261029124400 +0000" stop="20261029125500 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261029133400 +0000" stop="20261029134000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261029154600 +0000" stop="20261029160000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261029163300 +0000" stop="20261029170000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261029175200 +0000" stop="20261029180000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261029184200 +0000" stop="20261029190000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261029194800 +0000" stop="20261029200000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261029204000 +0000" stop="20261029210000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261029220800 +0000" stop="20261029223000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030014000 +0000" stop="20261030014500 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030021600 +0000" stop="20261030023000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030030300 +0000" stop="20261030031500 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030045200 +0000" stop="20261030050000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030054000 +0000" stop="20261101121907 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030073500 +0000" stop="20261030074000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030100400 +0000" stop="20261030101000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030103500 +0000" stop="20261030104000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030113000 +0000" stop="20261030113500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030140400 +0000" stop="20261030141500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030154200 +0000" stop="20261030160000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030174200 +0000" stop="20261030180000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030185300 +0000" stop="20261030190000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030195100 +0000" stop="20261030200000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030212900 +0000" stop="20261030220000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030223400 +0000" stop="20261030224000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030230500 +0000" stop="20261030231000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030235959 +0000" stop="20261031000500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031023400 +0000" stop="20261031024000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031041500 +0000" stop="20261031042000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031064300 +0000" stop="20261031065000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031072400 +0000" stop="20261031073500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031080900 +0000" stop="20261031082000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031085200 +0000" stop="20261031090500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031094100 +0000" stop="20261031095000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031124400 +0000" stop="20261031125000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031155500 +0000" stop="20261031160000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031165100 +0000" stop="20261031170000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031181200 +0000" stop="20261031183000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031191200 +0000" stop="20261031193000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031212400 +0000" stop="20261031220000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031223800 +0000" stop="20261031225000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031232400 +0000" stop="20261031233500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101001200 +0000" stop="20261101003000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101011400 +0000" stop="20261101012000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101025000 +0000" stop="20261101030000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101055400 +0000" stop="20261101061500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101115100 +0000" stop="20261101120000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101125300 +0000" stop="20261101130000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101135200 +0000" stop="20261101140000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101155100 +0000" stop="20261101160000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101185100 +0000" stop="20261101190000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101043000 +0000" stop="20261101121907 +0000" channel="MBC Max"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101053000 +0000" stop="20261101121907 +0000" channel="MBC Variety"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101050000 +0000" stop="20261101121907 +0000" channel="Wanasah"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101064000 +0000" stop="20261101121907 +0000" channel="OSNOne.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101063000 +0000" stop="20261101121907 +0000" channel="OSNShowcase.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101064000 +0000" stop="20261101121907 +0000" channel="OSNNow.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101062500 +0000" stop="20261101121907 +0000" channel="OSNComedy.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101064500 +0000" stop="20261101121907 +0000" channel="OSNCrime.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031185500 +0000" stop="20261101121907 +0000" channel="OSNKids.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101081500 +0000" stop="20261101121907 +0000" channel="OSNMoviesPremiere.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101075000 +0000" stop="20261101121907 +0000" channel="OSNMoviesHollywood.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101083500 +0000" stop="20261101121907 +0000" channel="OSNMoviesAction.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101080000 +0000" stop="20261101121907 +0000" channel="OSNMoviesComedy.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101071500 +0000" stop="20261101121907 +0000" channel="OSNMoviesFamily.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101071000 +0000" stop="20261101121907 +0000" channel="OSNYaHala.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101070000 +0000" stop="20261101121907 +0000" channel="OSNYaHalaAflam.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101063000 +0000" stop="20261101121907 +0000" channel="OSNYaHalaBilArabi.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101113208 +0000" stop="20261101121907 +0000" channel="OSNNickJr.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101050000 +0000" stop="20261101121907 +0000" channel="OSNDiscoveryID.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101044500 +0000" stop="20261101121907 +0000" channel="OSNFatafeat.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101041500 +0000" stop="20261101121907 +0000" channel="OSNAnimalPlanet.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101043200 +0000" stop="20261101121907 +0000" channel="OSNTLC.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031193000 +0000" stop="20261101020000 +0000" channel="CNBCArabiya.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+<programme start="20261030220000 +0000" stop="20261101133051 +0000" channel="Roya_RoyaNews"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031220000 +0000" stop="20261101133051 +0000" channel="Roya_RoyaComedy"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031215614 +0000" stop="20261031220000 +0000" channel="Roya_RoyaKitchen"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031220000 +0000" stop="20261101133051 +0000" channel="Roya_Ch16"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030220000 +0000" stop="20261101133051 +0000" channel="Roya_Ch26"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031220000 +0000" stop="20261101133051 +0000" channel="Roya_Ch32"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030215847 +0000" stop="20261030220000 +0000" channel="Roya_Ch36"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031215847 +0000" stop="20261031220000 +0000" channel="Roya_Ch36"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101215847 +0000" stop="20261101220000 +0000" channel="Roya_Ch36"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030120000 +0000" stop="20261030123000 +0000" channel="JordanTV.jo"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031000000 +0000" stop="20261031010500 +0000" channel="AlMamlaka.jo"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261105173000 +0000" stop="20261105180000 +0000" channel="AlMashhad.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101050000 +0000" stop="20261101133051 +0000" channel="MBC 1"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101060100 +0000" stop="20261101133051 +0000" channel="MBC 2"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101041500 +0000" stop="20261101133051 +0000" channel="MBC 3"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101041500 +0000" stop="20261101133051 +0000" channel="MBC 4"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101074700 +0000" stop="20261101133051 +0000" channel="MBC 5"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101043000 +0000" stop="20261101133051 +0000" channel="MBC Action"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101043000 +0000" stop="20261101133051 +0000" channel="MBC Bollywood"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101050000 +0000" stop="20261101133051 +0000" channel="MBC Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101040900 +0000" stop="20261101133051 +0000" channel="MBC+ Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101043700 +0000" stop="20261101133051 +0000" channel="MBC Masr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101042500 +0000" stop="20261101133051 +0000" channel="MBC Masr 2"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261029133400 +0000" stop="20261029134000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261029154600 +0000" stop="20261029160000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261029163300 +0000" stop="20261029170000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261029175200 +0000" stop="20261029180000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261029184200 +0000" stop="20261029190000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261029194800 +0000" stop="20261029200000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261029204000 +0000" stop="20261029210000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261029220800 +0000" stop="20261029223000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030014000 +0000" stop="20261030014500 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030021600 +0000" stop="20261030023000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030030300 +0000" stop="20261030031500 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030045200 +0000" stop="20261030050000 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030054000 +0000" stop="20261101133051 +0000" channel="MBC Masr Drama"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030073500 +0000" stop="20261030074000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030100400 +0000" stop="20261030101000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030103500 +0000" stop="20261030104000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030113000 +0000" stop="20261030113500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030140400 +0000" stop="20261030141500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030154200 +0000" stop="20261030160000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030174200 +0000" stop="20261030180000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030185300 +0000" stop="20261030190000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030195100 +0000" stop="20261030200000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030212900 +0000" stop="20261030220000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030223400 +0000" stop="20261030224000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030230500 +0000" stop="20261030231000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030235959 +0000" stop="20261031000500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031023400 +0000" stop="20261031024000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031041500 +0000" stop="20261031042000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031064300 +0000" stop="20261031065000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031072400 +0000" stop="20261031073500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031080900 +0000" stop="20261031082000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031085200 +0000" stop="20261031090500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031094100 +0000" stop="20261031095000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031124400 +0000" stop="20261031125000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031155500 +0000" stop="20261031160000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031165100 +0000" stop="20261031170000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031181200 +0000" stop="20261031183000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031191200 +0000" stop="20261031193000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031212400 +0000" stop="20261031220000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031223800 +0000" stop="20261031225000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031232400 +0000" stop="20261031233500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101001200 +0000" stop="20261101003000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101011400 +0000" stop="20261101012000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101025000 +0000" stop="20261101030000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101055400 +0000" stop="20261101061500 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101115100 +0000" stop="20261101120000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101125300 +0000" stop="20261101130000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101135200 +0000" stop="20261101140000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101155100 +0000" stop="20261101160000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101185100 +0000" stop="20261101190000 +0000" channel="MBC Iraq"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101043000 +0000" stop="20261101133051 +0000" channel="MBC Max"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101053000 +0000" stop="20261101133051 +0000" channel="MBC Variety"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101050000 +0000" stop="20261101133051 +0000" channel="Wanasah"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101064000 +0000" stop="20261101133051 +0000" channel="OSNOne.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101063000 +0000" stop="20261101133051 +0000" channel="OSNShowcase.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101064000 +0000" stop="20261101133051 +0000" channel="OSNNow.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101062500 +0000" stop="20261101133051 +0000" channel="OSNComedy.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101064500 +0000" stop="20261101133051 +0000" channel="OSNCrime.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031185500 +0000" stop="20261101133051 +0000" channel="OSNKids.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101081500 +0000" stop="20261101133051 +0000" channel="OSNMoviesPremiere.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101075000 +0000" stop="20261101133051 +0000" channel="OSNMoviesHollywood.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101083500 +0000" stop="20261101133051 +0000" channel="OSNMoviesAction.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101080000 +0000" stop="20261101133051 +0000" channel="OSNMoviesComedy.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101071500 +0000" stop="20261101133051 +0000" channel="OSNMoviesFamily.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101071000 +0000" stop="20261101133051 +0000" channel="OSNYaHala.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101070000 +0000" stop="20261101133051 +0000" channel="OSNYaHalaAflam.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101063000 +0000" stop="20261101133051 +0000" channel="OSNYaHalaBilArabi.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101121907 +0000" stop="20261101133051 +0000" channel="OSNNickJr.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101050000 +0000" stop="20261101133051 +0000" channel="OSNDiscoveryID.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101044500 +0000" stop="20261101133051 +0000" channel="OSNFatafeat.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101041500 +0000" stop="20261101133051 +0000" channel="OSNAnimalPlanet.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101043200 +0000" stop="20261101133051 +0000" channel="OSNTLC.osn"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031193000 +0000" stop="20261101020000 +0000" channel="CNBCArabiya.ae"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>

@@ -1322,12 +1322,6 @@
     <display-name lang="ar">الرابعة قرآن</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/alrabiaa_quran.png" />
   </channel>
-  <programme start="20261029103500 +0000" stop="20261029122000 +0000" channel="beIN4K.qa">
-    <title lang="en">Chelsea v Tottenham Hotspur - English Premier League 2026/2027</title>
-    <desc lang="en">Chelsea have won each of their last six Premier League matches against Tottenham Hotspur, their joint-longest ever winning league run against their London rivals. Spurs have won just one of their last 36 league visits to Stamford Bridge, a 3-1 victory in 2017-18 under Mauricio Pochettino. They have only picked up two points in eight visits since th</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
   <programme start="20261029122000 +0000" stop="20261029140600 +0000" channel="beIN4K.qa">
     <title lang="en">Manchester United v Bournemouth - English Premier League 2026/2027</title>
     <desc lang="en">Manchester United won nine of their first 12 Premier League matches against Bournemouth, but they are winless in six against the Cherries since then. Bournemouth are unbeaten in their last three Premier League visits to Old Trafford, scoring at least three goals in every match, the only team to ever achieve that in three visits in a row to Man Utd</desc>
@@ -1588,12 +1582,6 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
     <desc lang="en">All 306 matches from the Ligue 1 2026 – 2027 season are live and exclusive only on beIN SPORTS. Paris Saint-Germain are the defending Champions having secured their historic 14th top-flight title last season.</desc>
     <category lang="ar">الدوري الفرنسي</category>
     <category lang="en">French League - Ligue 1</category>
-  </programme>
-  <programme start="20261029110000 +0000" stop="20261029130000 +0000" channel="beINSports.qa">
-    <title lang="en">DPR Korea vs Morocco - Round of 16 - FIFA U-17 Women's World Cup 2026</title>
-    <desc lang="en">Morocco is hosting the 10th edition of the FIFA U-17 Women's World Cup™ from October 17 to November 7, 2026, with 24 teams competing for the global title. This marks the third time the tournament is being held on the African continent, making Morocco the second Arab nation to host the event, following Jordan in 2016. It also represents the second i</desc>
-    <category lang="ar">كرة قدم</category>
-    <category lang="en">Football</category>
   </programme>
   <programme start="20261029130000 +0000" stop="20261029163000 +0000" channel="beINSports.qa">
     <title lang="en">Day 4 - Evening Session - World Athletics U20 Championships - Oregon 26</title>
@@ -2186,6 +2174,12 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
     <desc lang="en">The Dakar 2026 Summer Youth Olympic Games take place from 31 October to 13 November 2026 in Senegal. The Dakar 2026 Summer Youth Olympic Games will be the first-ever Olympic event hosted in Africa.</desc>
     <category lang="ar">ترفيه</category>
     <category lang="en">Live</category>
+    <category lang="en">Entertainment</category>
+  </programme>
+  <programme start="20261105125500 +0000" stop="20261105145500 +0000" channel="beINSports.qa">
+    <title lang="en">Beach Volleyball - 2026 Youth Olympic Games – Dakar</title>
+    <desc lang="en">The Dakar 2026 Summer Youth Olympic Games take place from 31 October to 13 November 2026 in Senegal. The Dakar 2026 Summer Youth Olympic Games will be the first-ever Olympic event hosted in Africa.</desc>
+    <category lang="ar">ترفيه</category>
     <category lang="en">Entertainment</category>
   </programme>
   <programme start="20261029121100 +0000" stop="20261029150000 +0000" channel="beINSports1.qa">
@@ -6261,10 +6255,12 @@ Al Nahyan Stadium Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">Padel</category>
   </programme>
-  <programme start="20261029104800 +0000" stop="20261029123000 +0000" channel="beINSports7.qa">
-    <title lang="en">Learner Tien (USA) vs Alex De Minaur (AUS) - ATP 500 Erste Bank Open 2026</title>
-    <category lang="ar">كرة التنس - فئة 500</category>
-    <category lang="en">Tennis - ATP 500</category>
+  <programme start="20261105123000 +0000" stop="20261105140000 +0000" channel="beINSports6.qa">
+    <title lang="en">FIP World Cup Qatar 2026 - M2 ‎• Live 🔵‎</title>
+    <desc lang="en">Doha hosts the FIP World Cup Qatar 2026 from 2 to 7 November at the Khalifa International Tennis and Squash Complex. Featuring 32 national teams, with 16 competing in each of the men’s and women’s categories, the tournament follows a group-stage and knockout format to determine the world champions. Argentina’s men and Spain’s women return to defend</desc>
+    <category lang="ar">باديل</category>
+    <category lang="en">Live</category>
+    <category lang="en">Padel</category>
   </programme>
   <programme start="20261029123000 +0000" stop="20261029143000 +0000" channel="beINSports7.qa">
     <title lang="en">Cameron Norrie (GBR) vs Daniil Medvedev - ATP 500 Erste Bank Open 2026 ‎• Live 🔵‎</title>
@@ -6740,12 +6736,6 @@ Al Nahyan Stadium Stadium</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261029110000 +0000" stop="20261029130000 +0000" channel="beINSports8.qa">
-    <title lang="en">Valentin Vacherot (MON) vs Rafael Jodar (ESP) - ATP 500 Swiss Indoors Basel 2026 ‎• Live 🔵‎</title>
-    <category lang="ar">كرة التنس - فئة 500</category>
-    <category lang="en">Live</category>
-    <category lang="en">Tennis - ATP 500</category>
   </programme>
   <programme start="20261029130000 +0000" stop="20261029150000 +0000" channel="beINSports8.qa">
     <title lang="en">Alex Michelsen (USA) vs Arthur Fils (FRA) - ATP 500 Swiss Indoors Basel 2026 ‎• Live 🔵‎</title>
@@ -7859,14 +7849,6 @@ Jaber Al-Mubarak Al-Hamad Stadium Stadium</desc>
     <category lang="ar">الفروسية</category>
     <category lang="en">Equestrian</category>
   </programme>
-  <programme start="20261029120000 +0000" stop="20261029123000 +0000" channel="beINSportsEn1.qa">
-    <title lang="en">Arsenal vs Everton - English Premier League 2026/2027 - Week 8</title>
-    <desc lang="en">All 380 fixtures from the English premier league are live and exclusive only on beIN SPORTS with a choice of Arabic or English commentary.
-The 2026–27 season consists of 33 weekend and five midweek rounds of matches.
-Arsenal are the defending Champions.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
   <programme start="20261029123000 +0000" stop="20261029133000 +0000" channel="beINSportsEn1.qa">
     <title lang="en">EN EPL Generation xG 2026/27 | E7</title>
     <category lang="ar">مسلسلات</category>
@@ -8663,12 +8645,6 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="en">Live</category>
     <category lang="en">Entertainment</category>
   </programme>
-  <programme start="20261029102500 +0000" stop="20261029122000 +0000" channel="beINSportsEn2.qa">
-    <title lang="en">Germany vs Venezuela - Round of 16 - FIFA U-17 Women's World Cup 2026</title>
-    <desc lang="en">Morocco is hosting the 10th edition of the FIFA U-17 Women's World Cup™ from October 17 to November 7, 2026, with 24 teams competing for the global title. This marks the third time the tournament is being held on the African continent, making Morocco the second Arab nation to host the event, following Jordan in 2016. It also represents the second i</desc>
-    <category lang="ar">كرة قدم</category>
-    <category lang="en">Football</category>
-  </programme>
   <programme start="20261029122000 +0000" stop="20261029145000 +0000" channel="beINSportsEn2.qa">
     <title lang="en">Brazil vs Poland - Round of 16 - FIFA U-17 Women's World Cup 2026</title>
     <desc lang="en">Morocco is hosting the 10th edition of the FIFA U-17 Women's World Cup™ from October 17 to November 7, 2026, with 24 teams competing for the global title. This marks the third time the tournament is being held on the African continent, making Morocco the second Arab nation to host the event, following Jordan in 2016. It also represents the second i</desc>
@@ -9422,12 +9398,12 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Live</category>
     <category lang="en">Padel</category>
   </programme>
-  <programme start="20261029114500 +0000" stop="20261029123000 +0000" channel="beINSportsFr1.qa">
-    <title lang="en">NBA Extra - Magazine 2026-2027 ‎• Live 🔵‎</title>
-    <desc lang="en">Sport.</desc>
-    <category lang="ar">الرياضة العام</category>
+  <programme start="20261105123000 +0000" stop="20261105140000 +0000" channel="beINSportsEn2.qa">
+    <title lang="en">FIP World Cup Qatar 2026 - M2 ‎• Live 🔵‎</title>
+    <desc lang="en">Doha hosts the FIP World Cup Qatar 2026 from 2 to 7 November at the Khalifa International Tennis and Squash Complex. Featuring 32 national teams, with 16 competing in each of the men’s and women’s categories, the tournament follows a group-stage and knockout format to determine the world champions. Argentina’s men and Spain’s women return to defend</desc>
+    <category lang="ar">باديل</category>
     <category lang="en">Live</category>
-    <category lang="en">Sports General</category>
+    <category lang="en">Padel</category>
   </programme>
   <programme start="20261029123000 +0000" stop="20261029143000 +0000" channel="beINSportsFr1.qa">
     <title lang="en">Manchester City vs Brighton - Coupe de la Ligue Anglaise - H - FOOTBALL 2026-2027</title>
@@ -9638,12 +9614,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261029110000 +0000" stop="20261029130000 +0000" channel="beINSportsFr2.qa">
-    <title lang="en">Monaco vs Lille - Ligue 1 - FOOTBALL 2026-2027</title>
-    <desc lang="en">Sport.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20261029130000 +0000" stop="20261029150000 +0000" channel="beINSportsFr2.qa">
     <title lang="en">Dijon vs Rodez - Ligue 2 - J10 - FOOTBALL 2026-2027</title>
     <desc lang="en">Sport.</desc>
@@ -9836,12 +9806,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <desc lang="en">Sport.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Live</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261029110000 +0000" stop="20261029130000 +0000" channel="beINSportsMax1.qa">
-    <title lang="en">beIN SPORTS MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20261029130000 +0000" stop="20261029150000 +0000" channel="beINSportsMax1.qa">
@@ -10079,12 +10043,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20261101190000 +0000" stop="20261101205959 +0000" channel="beINSportsMax1.qa">
-    <title lang="en">beIN SPORTS MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261029110000 +0000" stop="20261029130000 +0000" channel="beINSportsMax2.qa">
     <title lang="en">beIN SPORTS MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
@@ -10330,12 +10288,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261029110000 +0000" stop="20261029130000 +0000" channel="beINSportsMax3.qa">
-    <title lang="en">beIN SPORTS MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20261029130000 +0000" stop="20261029150000 +0000" channel="beINSportsMax3.qa">
     <title lang="en">beIN SPORTS MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
@@ -10571,12 +10523,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20261101190000 +0000" stop="20261101205959 +0000" channel="beINSportsMax3.qa">
-    <title lang="en">beIN SPORTS MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261029110000 +0000" stop="20261029130000 +0000" channel="beINSportsMax4.qa">
     <title lang="en">beIN SPORTS MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
@@ -10822,12 +10768,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261029110000 +0000" stop="20261029130000 +0000" channel="beINSportsMax5.qa">
-    <title lang="en">beIN SPORTS MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20261029130000 +0000" stop="20261029150000 +0000" channel="beINSportsMax5.qa">
     <title lang="en">beIN SPORTS MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
@@ -11063,12 +11003,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20261101190000 +0000" stop="20261101205959 +0000" channel="beINSportsMax5.qa">
-    <title lang="en">beIN SPORTS MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261029110000 +0000" stop="20261029130000 +0000" channel="beINSportsMax6.qa">
     <title lang="en">beIN SPORTS MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
@@ -11313,12 +11247,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261029120000 +0000" stop="20261029130000 +0000" channel="beINSportsNews.qa">
-    <title lang="en">Al Hassad</title>
-    <desc lang="en">Al Hassad is a nighltly studio from beIN Sports News that looks at the stories that have made the headlines in the world of sport and those stories that will be making the headlines tomorrow morning.</desc>
-    <category lang="ar">الأخبار الرياضية</category>
-    <category lang="en">Sports News</category>
   </programme>
   <programme start="20261029130000 +0000" stop="20261029133000 +0000" channel="beINSportsNews.qa">
     <title lang="en">News Bulletin</title>
@@ -12808,9 +12736,9 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الأخبار الرياضية</category>
     <category lang="en">Sports News</category>
   </programme>
-  <programme start="20261029120000 +0000" stop="20261029130000 +0000" channel="beINSportsXtra1.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - October - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20261105130000 +0000" stop="20261105133000 +0000" channel="beINSportsNews.qa">
+    <title lang="en">News Bulletin</title>
+    <desc lang="en">Latest news from the beIn SPORTS News room, previewing and reviewing developments and scores with contribution from around the world from beIN's reporters.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
@@ -13255,12 +13183,6 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="en">Live</category>
     <category lang="en">Entertainment</category>
   </programme>
-  <programme start="20261029120000 +0000" stop="20261029130000 +0000" channel="beINSportsXtra2.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - October - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20261029130000 +0000" stop="20261029140000 +0000" channel="beINSportsXtra2.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - October - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
@@ -13644,12 +13566,6 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="en">Live</category>
     <category lang="en">English League - Championship</category>
   </programme>
-  <programme start="20261029120000 +0000" stop="20261029130000 +0000" channel="beINSportsXtra3.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - October - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20261029130000 +0000" stop="20261029140000 +0000" channel="beINSportsXtra3.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - October - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
@@ -13997,12 +13913,6 @@ Al Taawoun Club Stadium Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261029120000 +0000" stop="20261029130000 +0000" channel="beINSportsXtra4.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - October - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20261029130000 +0000" stop="20261029140000 +0000" channel="beINSportsXtra4.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - October - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
@@ -14335,12 +14245,6 @@ Al Taawoun Club Stadium Stadium</desc>
     <category lang="ar">ترفيه</category>
     <category lang="en">Live</category>
     <category lang="en">Entertainment</category>
-  </programme>
-  <programme start="20261029120000 +0000" stop="20261029130000 +0000" channel="beINSportsXtra5.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - October - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
   </programme>
   <programme start="20261029130000 +0000" stop="20261029140000 +0000" channel="beINSportsXtra5.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - October - 2026</title>
@@ -14685,12 +14589,6 @@ Al Taawoun Club Stadium Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">Football</category>
   </programme>
-  <programme start="20261029120000 +0000" stop="20261029130000 +0000" channel="beINSportsXtra6.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - October - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20261029130000 +0000" stop="20261029140000 +0000" channel="beINSportsXtra6.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - October - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
@@ -15033,12 +14931,6 @@ Al Taawoun Club Stadium Stadium</desc>
     <category lang="ar">كرة اليد</category>
     <category lang="en">Live</category>
     <category lang="en">Handball</category>
-  </programme>
-  <programme start="20261029120000 +0000" stop="20261029130000 +0000" channel="beINSportsXtra7.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - October - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
   </programme>
   <programme start="20261029130000 +0000" stop="20261029140000 +0000" channel="beINSportsXtra7.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - October - 2026</title>
@@ -15383,12 +15275,6 @@ Al Taawoun Club Stadium Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">Entertainment</category>
   </programme>
-  <programme start="20261029120000 +0000" stop="20261029130000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - October - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20261029130000 +0000" stop="20261029140000 +0000" channel="beINSportsXtra8.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - October - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
@@ -15731,12 +15617,6 @@ Al Taawoun Club Stadium Stadium</desc>
     <category lang="ar">دوري أبطال آسيا</category>
     <category lang="en">Live</category>
     <category lang="en">AFC Champions League</category>
-  </programme>
-  <programme start="20261029120000 +0000" stop="20261029130000 +0000" channel="beINSportsXtra9.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - October - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
   </programme>
   <programme start="20261029130000 +0000" stop="20261029140000 +0000" channel="beINSportsXtra9.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - October - 2026</title>
@@ -48491,4 +48371,4 @@ Big Ed draws a singing T-Rex.</desc>
     <title lang="en">24/7 Program</title>
     <desc lang="ar">IQ| Al Rabiaa Quran — الرابعة قرآن</desc>
   </programme>
-<programme start="20261101214500 +0000" stop="20261102133500 +0000" channel="beINSports2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261102214000 +0000" stop="20261103073500 +0000" channel="beINSports2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261103201500 +0000" stop="20261104073500 +0000" channel="beINSports2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261104191000 +0000" stop="20261105095000 +0000" channel="beINSports2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261028214500 +0000" stop="20261029145000 +0000" channel="beINSports6.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030021000 +0000" stop="20261030130000 +0000" channel="beINSports6.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261103031500 +0000" stop="20261103133500 +0000" channel="beINSports8.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261103214000 +0000" stop="20261104082000 +0000" channel="beINSports8.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261103125000 +0000" stop="20261103170000 +0000" channel="beINSportsEn1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030001000 +0000" stop="20261030050000 +0000" channel="beINSportsFr1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031205959 +0000" stop="20261101121655 +0000" channel="beINSportsFr1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031205959 +0000" stop="20261101121655 +0000" channel="beINSportsFr2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101194500 +0000" stop="20261102090000 +0000" channel="beINSportsXtra1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261102194500 +0000" stop="20261103100000 +0000" channel="beINSportsXtra1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261103214000 +0000" stop="20261104110000 +0000" channel="beINSportsXtra1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261104214000 +0000" stop="20261105100000 +0000" channel="beINSportsXtra1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101200000 +0000" stop="20261102130000 +0000" channel="beINSportsXtra2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261102181000 +0000" stop="20261103090000 +0000" channel="beINSportsXtra2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261103141000 +0000" stop="20261103195000 +0000" channel="beINSportsXtra2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261103220000 +0000" stop="20261104110000 +0000" channel="beINSportsXtra2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101200000 +0000" stop="20261103145000 +0000" channel="beINSportsXtra3.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261103170000 +0000" stop="20261104153000 +0000" channel="beINSportsXtra3.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101170000 +0000" stop="20261104180500 +0000" channel="beINSportsXtra4.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030235959 +0000" stop="20261101121655 +0000" channel="beINStarAction.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030235959 +0000" stop="20261101121655 +0000" channel="beINStarMovies.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030235959 +0000" stop="20261101121655 +0000" channel="beINStarWorld.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030235959 +0000" stop="20261101121655 +0000" channel="beINFoodNetwork.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030235959 +0000" stop="20261101121655 +0000" channel="beINHGTV.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030235959 +0000" stop="20261101121655 +0000" channel="beINNatGeo.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030235959 +0000" stop="20261101121655 +0000" channel="beINNatGeoWild.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030235959 +0000" stop="20261101121655 +0000" channel="beINBBCEarth.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030235959 +0000" stop="20261101121655 +0000" channel="beINDiscovery.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030235959 +0000" stop="20261101121655 +0000" channel="beINDisney.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030235959 +0000" stop="20261101121655 +0000" channel="beINDisneyJr.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030235959 +0000" stop="20261101121655 +0000" channel="beINBabyTV.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030235959 +0000" stop="20261101121655 +0000" channel="beINCartoonito.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030235959 +0000" stop="20261101121655 +0000" channel="beINCartoonNetwork.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030235959 +0000" stop="20261101121655 +0000" channel="beINCartoonNetworkArabic.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+<programme start="20261101214500 +0000" stop="20261102133500 +0000" channel="beINSports2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261102214000 +0000" stop="20261103073500 +0000" channel="beINSports2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261103201500 +0000" stop="20261104073500 +0000" channel="beINSports2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261104191000 +0000" stop="20261105095000 +0000" channel="beINSports2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261028214500 +0000" stop="20261029145000 +0000" channel="beINSports6.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030021000 +0000" stop="20261030130000 +0000" channel="beINSports6.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261103031500 +0000" stop="20261103133500 +0000" channel="beINSports8.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261103214000 +0000" stop="20261104082000 +0000" channel="beINSports8.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261103125000 +0000" stop="20261103170000 +0000" channel="beINSportsEn1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030001000 +0000" stop="20261030050000 +0000" channel="beINSportsFr1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031205959 +0000" stop="20261101132829 +0000" channel="beINSportsFr1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261031205959 +0000" stop="20261101132829 +0000" channel="beINSportsFr2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101194500 +0000" stop="20261102090000 +0000" channel="beINSportsXtra1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261102194500 +0000" stop="20261103100000 +0000" channel="beINSportsXtra1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261103214000 +0000" stop="20261104110000 +0000" channel="beINSportsXtra1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261104214000 +0000" stop="20261105100000 +0000" channel="beINSportsXtra1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101200000 +0000" stop="20261102130000 +0000" channel="beINSportsXtra2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261102181000 +0000" stop="20261103090000 +0000" channel="beINSportsXtra2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261103141000 +0000" stop="20261103195000 +0000" channel="beINSportsXtra2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261103220000 +0000" stop="20261104110000 +0000" channel="beINSportsXtra2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101200000 +0000" stop="20261103145000 +0000" channel="beINSportsXtra3.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261103170000 +0000" stop="20261104153000 +0000" channel="beINSportsXtra3.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101170000 +0000" stop="20261104180500 +0000" channel="beINSportsXtra4.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030235959 +0000" stop="20261101132829 +0000" channel="beINStarAction.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030235959 +0000" stop="20261101132829 +0000" channel="beINStarMovies.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030235959 +0000" stop="20261101132829 +0000" channel="beINStarWorld.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030235959 +0000" stop="20261101132829 +0000" channel="beINFoodNetwork.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030235959 +0000" stop="20261101132829 +0000" channel="beINHGTV.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030235959 +0000" stop="20261101132829 +0000" channel="beINNatGeo.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030235959 +0000" stop="20261101132829 +0000" channel="beINNatGeoWild.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030235959 +0000" stop="20261101132829 +0000" channel="beINBBCEarth.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030235959 +0000" stop="20261101132829 +0000" channel="beINDiscovery.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030235959 +0000" stop="20261101132829 +0000" channel="beINDisney.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030235959 +0000" stop="20261101132829 +0000" channel="beINDisneyJr.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030235959 +0000" stop="20261101132829 +0000" channel="beINBabyTV.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030235959 +0000" stop="20261101132829 +0000" channel="beINCartoonito.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030235959 +0000" stop="20261101132829 +0000" channel="beINCartoonNetwork.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261030235959 +0000" stop="20261101132829 +0000" channel="beINCartoonNetworkArabic.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
