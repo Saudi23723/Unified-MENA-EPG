@@ -202,7 +202,25 @@ class RegsActivity : BaseActivity() {
         }, LinearLayout.LayoutParams(0, -2, 1f))
         col.addView(top)
         col.addView(EfbUi.ltr(EfbUi.text(this, s.head, 19f, EfbUi.TEXT, bold = true)).apply { setPadding(dp(4), dp(6), dp(4), dp(10)) })
-        val card = EfbUi.card(this)
+        val card = EfbUi.card(this).apply { layoutParams = android.widget.FrameLayout.LayoutParams(-1, -2) }
+        // The pens over the section: what is written stays, the neon fades after four seconds.
+        val ink = InkLayer(this, File(filesDir, "regs/ink/t$title-p$part-${s.num}.json"))
+        val tools = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL; setPadding(0, dp(2), 0, dp(4)) }
+        val chips = ArrayList<Pair<InkLayer.Tool, TextView>>()
+        fun mark() = chips.forEach { (t, v) -> v.background = EfbUi.cardBg(this, if (t == ink.tool) EfbUi.ACCENT else EfbUi.CARD, 10).apply { setStroke(0, 0) }; v.setTextColor(if (t == ink.tool) EfbUi.BG else EfbUi.TEXT) }
+        for ((t, label) in listOf(InkLayer.Tool.NONE to "✋", InkLayer.Tool.PEN to "🖊", InkLayer.Tool.HIGHLIGHT to "🖍", InkLayer.Tool.LASER to "✨ 4s", InkLayer.Tool.ERASER to "🧽")) {
+            val v = EfbUi.text(this, label, 15f, EfbUi.TEXT).apply { gravity = Gravity.CENTER; setPadding(dp(11), dp(7), dp(11), dp(7)); setOnClickListener { ink.tool = t; mark() } }
+            chips.add(t to v)
+            tools.addView(v, LinearLayout.LayoutParams(-2, -2).apply { marginEnd = dp(5) })
+        }
+        for (cl in intArrayOf(0xFF4DA3FF.toInt(), 0xFFFFEB3B.toInt(), 0xFFFF453A.toInt(), 0xFF34C759.toInt())) tools.addView(View(this).apply {
+            background = android.graphics.drawable.GradientDrawable().apply { shape = android.graphics.drawable.GradientDrawable.OVAL; setColor(cl) }
+            setOnClickListener { ink.color = cl; if (ink.tool == InkLayer.Tool.NONE || ink.tool == InkLayer.Tool.ERASER) { ink.tool = InkLayer.Tool.PEN; mark() } }
+        }, LinearLayout.LayoutParams(dp(24), dp(24)).apply { marginEnd = dp(7) })
+        tools.addView(EfbUi.text(this, "↶", 18f, EfbUi.TEXT).apply { setPadding(dp(8), dp(4), dp(8), dp(4)); setOnClickListener { ink.undo() } })
+        tools.addView(EfbUi.text(this, "🗑", 16f, EfbUi.TEXT).apply { setPadding(dp(8), dp(4), dp(8), dp(4)); setOnClickListener { ink.clear() } })
+        mark()
+        col.addView(android.widget.HorizontalScrollView(this).apply { isHorizontalScrollBarEnabled = false; addView(tools) })
         for (para in s.paras) {
             val level = when {
                 Regex("^\\([a-z]{1,2}\\)").containsMatchIn(para) && !Regex("^\\((i|ii|iii|iv|v|vi|vii|viii|ix|x)\\)").containsMatchIn(para) -> 0
@@ -216,7 +234,10 @@ class RegsActivity : BaseActivity() {
                 setPadding(dp(4 + level * 16), dp(5), dp(2), dp(5))
             }))
         }
-        col.addView(card)
+        val page = android.widget.FrameLayout(this).apply { layoutParams = LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(8) } }
+        page.addView(card)
+        page.addView(ink, android.widget.FrameLayout.LayoutParams(-1, -1))
+        col.addView(page)
         val actions = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; setPadding(0, dp(12), 0, dp(4)) }
         fun action(label: String, go: () -> Unit) = actions.addView(EfbUi.text(this, label, 14f, EfbUi.ACCENT, bold = true).apply {
             gravity = Gravity.CENTER
