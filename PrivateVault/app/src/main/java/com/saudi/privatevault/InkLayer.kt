@@ -54,6 +54,13 @@ class InkLayer(ctx: Context, private val file: File) : View(ctx) {
         }.toString())
     }
 
+    // Only as tall as the page it lies on: left to fill the rest of a short screen,
+    // it pushed the buttons under the section out of sight.
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) = setMeasuredDimension(
+        MeasureSpec.getSize(widthMeasureSpec),
+        if (MeasureSpec.getMode(heightMeasureSpec) == MeasureSpec.EXACTLY) MeasureSpec.getSize(heightMeasureSpec) else 0
+    )
+
     /** Page units: fractions of the width, so the ink stays on its words at any size. */
     private fun screen(pts: FloatArray) = FloatArray(pts.size) { pts[it] * width }
 
