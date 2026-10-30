@@ -55,6 +55,7 @@ class EfbHomeActivity : BaseActivity() {
             Triple("⏱", R.string.log_currency) { startActivity(Intent(this, LogbookActivity::class.java).putExtra(LogbookActivity.EXTRA_TAB, 3)) },
             Triple("🧮", R.string.e6b_title) { open(E6bActivity::class.java) },
             Triple("✅", R.string.ck_title) { open(ChecklistActivity::class.java) },
+            Triple("📝", R.string.notes_title) { Notebooks.choose(this, null) },
             Triple("🛩", R.string.efb_svt) { open(SvtActivity::class.java) },
             Triple("📈", R.string.map_profile) { startActivity(Intent(this, MapActivity::class.java).putExtra(MapActivity.EXTRA_PROFILE, true)) },
             Triple("🆘", R.string.nrst_title) { startActivity(Intent(this, MapActivity::class.java).putExtra(MapActivity.EXTRA_NRST, true)) },
