@@ -390,7 +390,10 @@ object AviationData {
             val list = JSONObject(file.readText()).getJSONArray("notamList")
             (0 until list.length()).map { i ->
                 val n = list.getJSONObject(i)
-                n.optString("icaoMessage").ifEmpty { n.optString("traditionalMessageFrom4thWord") }.ifEmpty { n.optString("traditionalMessage") }.trim()
+                n.optString("icaoMessage").ifEmpty { n.optString("traditionalMessageFrom4thWord") }.ifEmpty { n.optString("traditionalMessage") }
+                    // The FAA sends some with HTML line breaks and bold labels.
+                    .replace(Regex("(?i)<br\\s*/?>"), "\n").replace(Regex("<[^>]+>"), "")
+                    .replace("&nbsp;", " ").replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">").trim()
             }.filter { it.isNotEmpty() } to file.lastModified()
         } catch (e: Exception) {
             null

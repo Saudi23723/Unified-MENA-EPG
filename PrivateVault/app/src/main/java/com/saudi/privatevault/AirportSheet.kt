@@ -258,7 +258,7 @@ class AirportSheet(
             val (list, at) = res
             val age = java.text.SimpleDateFormat("MMM d HH:mm", java.util.Locale.US).format(java.util.Date(at))
             textDialog("NOTAMs · $id (${list.size})", "Updated $age\n\n" +
-                (if (list.isEmpty()) "No NOTAMs." else list.joinToString("\n\n────\n\n")) +
+                (if (list.isEmpty()) "No NOTAMs." else list.joinToString("\n\n────────\n\n") { readable(it) }) +
                 "\n\nAlways get an official briefing (1800wxbrief.com).")
         }
     }
@@ -292,6 +292,25 @@ class AirportSheet(
         if (t.isAfter(now.plusDays(1))) t = t.minusMonths(1)
         val local = t.withZoneSameInstant(java.time.ZoneId.systemDefault())
         return java.time.format.DateTimeFormatter.ofPattern("d MMM HH:mm", java.util.Locale.US).format(local)
+    }
+
+    /**
+     * An ICAO-format NOTAM made plain: its number, what it says (E), and when it applies (B to C)
+     * in the phone's own time; the raw Q line is left out. Other formats are shown as they come.
+     */
+    private fun readable(n: String): String {
+        val e = Regex("(?s)E\\)\\s*(.+?)(?=\\n\\s*[F-G]\\)|$)").find(n)?.groupValues?.get(1)?.trim() ?: return n
+        val num = n.lineSequence().firstOrNull()?.trim() ?: ""
+        fun time(tag: String): String? {
+            val v = Regex("$tag\\)\\s*(\\d{10}|PERM)").find(n)?.groupValues?.get(1) ?: return null
+            if (v == "PERM") return "permanent"
+            return try {
+                val utc = java.time.LocalDateTime.parse(v, java.time.format.DateTimeFormatter.ofPattern("yyMMddHHmm")).atZone(java.time.ZoneOffset.UTC)
+                java.time.format.DateTimeFormatter.ofPattern("d MMM HH:mm", java.util.Locale.US).format(utc.withZoneSameInstant(java.time.ZoneId.systemDefault()))
+            } catch (x: Exception) { v }
+        }
+        val from = time("B"); val to = time("C")
+        return "■ $e\n" + (if (from != null) "   $from → ${to ?: "?"} (local)\n" else "") + "   $num"
     }
 
     private fun history() {
