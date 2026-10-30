@@ -173,17 +173,14 @@ class EfbCheckActivity : BaseActivity() {
                 lines.add((when (ok) { true -> "✅"; false -> "❌"; null -> "⚠️" }) + " " + t)
                 out.text = lines.joinToString("\n")
             }
-            // Position: the last fix, its age and accuracy.
-            val fix = try {
-                val lm = getSystemService(android.location.LocationManager::class.java)
-                listOf(android.location.LocationManager.GPS_PROVIDER, android.location.LocationManager.NETWORK_PROVIDER)
-                    .mapNotNull { p -> try { lm.getLastKnownLocation(p) } catch (e: SecurityException) { null } }
-                    .maxByOrNull { it.time }
-            } catch (e: Exception) { null }
+            // Position: a fresh fix from the GPS itself (up to 30 s), its accuracy.
+            add(null, getString(R.string.st_gps_wait))
+            val fix = freshFix()
+            lines.removeAt(lines.size - 1)
             if (fix == null) add(null, getString(R.string.st_gps_none))
             else {
                 val ageMin = (System.currentTimeMillis() - fix.time) / 60000
-                add(fix.accuracy < 30 && ageMin < 30, getString(R.string.st_gps, Math.round(fix.accuracy), ageMin))
+                add(if (fix.accuracy < 30) true else null, getString(R.string.st_gps, Math.round(fix.accuracy), ageMin))
                 // The phone's clock against the satellites' time (GPS fixes carry it).
                 if (fix.provider == android.location.LocationManager.GPS_PROVIDER && ageMin < 5) {
                     val skew = Math.abs(System.currentTimeMillis() - fix.time - (android.os.SystemClock.elapsedRealtimeNanos() - fix.elapsedRealtimeNanos) / 1000000) / 1000
@@ -229,6 +226,28 @@ class EfbCheckActivity : BaseActivity() {
             add(if (fails == 0 && warns == 0) true else if (fails == 0) null else false, summary)
             prefs.edit().putString("efb_selftest", summary).apply()
             button.isEnabled = true
+        }
+    }
+
+    /** One new GPS position, or null after 30 s (indoors, or no permission). */
+    private suspend fun freshFix(): android.location.Location? = kotlinx.coroutines.withTimeoutOrNull(30000) {
+        kotlinx.coroutines.suspendCancellableCoroutine { cont ->
+            val lm = getSystemService(android.location.LocationManager::class.java)
+            val listener = object : android.location.LocationListener {
+                override fun onLocationChanged(l: android.location.Location) {
+                    lm.removeUpdates(this)
+                    if (cont.isActive) cont.resumeWith(Result.success(l))
+                }
+                override fun onProviderDisabled(provider: String) {}
+                override fun onProviderEnabled(provider: String) {}
+                @Deprecated("old API") override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
+            }
+            try {
+                lm.requestLocationUpdates(android.location.LocationManager.GPS_PROVIDER, 0L, 0f, listener, android.os.Looper.getMainLooper())
+            } catch (e: Exception) {
+                if (cont.isActive) cont.resumeWith(Result.success(null))
+            }
+            cont.invokeOnCancellation { lm.removeUpdates(listener) }
         }
     }
 

@@ -508,7 +508,7 @@
     <string name="pilotage_menu">🧭 تدريب Pilotage (بدون GPS)</string>
     <string name="pilotage_on">🧭 تدريب Pilotage: الطيارة وقراءات الـ GPS مخفية. طير بالخريطة والساعة والبوصلة</string>
     <string name="pilotage_off">رجعت الطيارة والـ GPS</string>
-    <string name="st_gps_none">GPS: ما في موقع لسا (افتح الخريطة برا)</string>
+    <string name="st_gps_none">GPS: ما في موقع خلال 30 ثانية (جرّب برا أو جنب الشباك)</string>
     <string name="st_gps">GPS: دقة ±%1$d m، من %2$d دقيقة</string>
     <string name="st_clock">ساعة الموبايل مع وقت الأقمار: فرق %1$d ثانية</string>
     <string name="st_offline">ما في نت، رح يستعمل المحفوظ</string>
@@ -523,6 +523,11 @@
     <string name="charts_official_loading">عم ينزّل خرائط الـ FAA الرسمية (GeoTIFF)…</string>
     <string name="charts_official_done">✅ خرائط الـ FAA الرسمية، إصدار %1$s، صارت على الموبايل</string>
     <string name="charts_official_none">خرائط الـ FAA الرسمية مش جاهزة هلأ؛ الخرائط من خدمة الـ FAA أونلاين شغّالة</string>
+    <string name="log_sync_now">🔄 Sync هلأ</string>
+    <string name="log_sync_unlinked">الجهاز مش مربوط بالسحابة: اربطه من 💻 (العنوان وكلمة السر) ليصير sync</string>
+    <string name="log_sync_same">✅ تم الـ sync: انبعت %1$d، وما في شي جديد من الأجهزة التانية</string>
+    <string name="log_sync_failed">ما صار sync: %1$s</string>
+    <string name="st_gps_wait">GPS: عم يستنى موقع جديد (لحد 30 ثانية)…</string>
     <string name="map_circle">دائرة</string>
     <string name="map_ruler">مسطرة</string>
     <string name="pen_write">كتابة وتظليل</string>

@@ -63,6 +63,7 @@ class LogbookActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         col = EfbUi.screen(this, getString(R.string.log_title)) { bar ->
+            bar.menu.add(R.string.log_sync_now).setOnMenuItemClickListener { syncNow(loud = true); true }
             bar.menu.add(R.string.log_pdf).setOnMenuItemClickListener { exportPdf(); true }
             bar.menu.add(R.string.log_export).setOnMenuItemClickListener { exportCsv(); true }
             bar.menu.add(R.string.log_backup).setOnMenuItemClickListener { backup(); true }
@@ -92,14 +93,31 @@ class LogbookActivity : BaseActivity() {
         intent.getStringExtra(EXTRA_NEW)?.let { edit(LogEntry.fromJson(JSONObject(it)), isNew = true); return }
         val start = intent.getIntExtra(EXTRA_TAB, 0)
         if (start == 0) show(0) else tabs.getTabAt(start)?.select()
+    }
+
+    override fun onResume() {
+        super.onResume()
         // The same logbook on every device linked to the vault.
-        if (LaptopClient.isLinked(this)) lifecycleScope.launch {
-            val n = withContext(Dispatchers.IO) { try { LogbookSync.sync(this@LogbookActivity) } catch (e: Exception) { -1 } }
+        if (::tabs.isInitialized) syncNow(loud = false)
+    }
+
+    /** Sends this device's logbook and takes what is newer elsewhere; [loud] says what happened either way. */
+    private fun syncNow(loud: Boolean) {
+        if (!LaptopClient.isLinked(this)) {
+            if (loud) Toast.makeText(this, R.string.log_sync_unlinked, Toast.LENGTH_LONG).show()
+            return
+        }
+        lifecycleScope.launch {
+            val n = withContext(Dispatchers.IO) { try { LogbookSync.sync(this@LogbookActivity) } catch (e: Exception) { LogbookSync.lastError = e.message; -1 } }
             if (n > 0) {
                 entries = Logbook.all(this@LogbookActivity)
                 endorsements = Logbook.endorsements(this@LogbookActivity)
                 show(tabs.selectedTabPosition.coerceAtLeast(0))
-                Toast.makeText(this@LogbookActivity, getString(R.string.log_synced, n), Toast.LENGTH_SHORT).show()
+            }
+            when {
+                n > 0 -> Toast.makeText(this@LogbookActivity, getString(R.string.log_synced, n), Toast.LENGTH_SHORT).show()
+                loud && n == 0 -> Toast.makeText(this@LogbookActivity, getString(R.string.log_sync_same, LogbookSync.lastSent), Toast.LENGTH_LONG).show()
+                loud -> Toast.makeText(this@LogbookActivity, getString(R.string.log_sync_failed, LogbookSync.lastError ?: "?"), Toast.LENGTH_LONG).show()
             }
         }
     }

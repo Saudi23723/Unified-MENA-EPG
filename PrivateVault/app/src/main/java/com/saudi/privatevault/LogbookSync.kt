@@ -14,6 +14,10 @@ import java.io.File
 object LogbookSync {
     private const val NAME = "logbook"
 
+    /** What the last sync did, for the pilot: sent, taken, or why it could not. */
+    @Volatile var lastSent = 0
+    @Volatile var lastError: String? = null
+
     private fun stampsFile(ctx: Context) = File(ctx.filesDir, "logbook_stamps.json")
 
     /** key ("f:id", "e:id") → [time, deleted?]. */
@@ -36,7 +40,7 @@ object LogbookSync {
     /** Sends what this device has and takes what is newer elsewhere; the number of entries taken. Off the main thread. */
     @Synchronized
     fun sync(ctx: Context): Int {
-        if (!LaptopClient.isLinked(ctx)) return -1
+        if (!LaptopClient.isLinked(ctx)) { lastError = "not linked"; return -1 }
         val st = stamps(ctx)
         val pages = JSONObject()
         val t = JSONObject()
@@ -60,7 +64,10 @@ object LogbookSync {
             val k = "s:${f.name}"
             pages.put(k, JSONArray().put(android.util.Base64.encodeToString(f.readBytes(), android.util.Base64.NO_WRAP))); t.put(k, f.lastModified())
         }
-        val merged = LaptopClient.syncKv(ctx, NAME, JSONObject().put("v", 2).put("pages", pages).put("t", t).toString()) ?: return -1
+        lastSent = pages.length()
+        val merged = LaptopClient.syncKv(ctx, NAME, JSONObject().put("v", 2).put("pages", pages).put("t", t).toString())
+        if (merged == null) { lastError = "vault unreachable"; return -1 }
+        lastError = null
 
         // Take what is newer on the vault.
         val rp = merged.optJSONObject("pages") ?: return 0
