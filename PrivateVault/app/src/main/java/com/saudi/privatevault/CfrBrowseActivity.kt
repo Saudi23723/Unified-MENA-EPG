@@ -93,7 +93,7 @@ class CfrBrowseActivity : BaseActivity() {
             val w = q.trim().lowercase()
             var group: String? = null
             var card: LinearLayout? = null
-            for (p in parts.filter { w.isEmpty() || "part ${p.id} ${p.name} ${p.group}".lowercase().contains(w) }) {
+            for (p in parts.filter { p -> w.isEmpty() || "part ${p.id} ${p.name} ${p.group}".lowercase().contains(w) }) {
                 if (p.group != group || card == null) {
                     group = p.group
                     list.addView(EfbUi.ltr(EfbUi.text(this, p.group.uppercase(), 11.5f, EfbUi.DIM, bold = true)).apply { letterSpacing = 0.04f; setPadding(dp(6), dp(16), dp(6), dp(5)) })
