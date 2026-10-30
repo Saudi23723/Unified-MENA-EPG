@@ -5,18 +5,6 @@
     <display-name lang="ar">مواقيت الصلاة</display-name>
     <display-name lang="en">Prayer Times</display-name>
   </channel>
-  <programme start="20261030080000 +0000" stop="20261030090000 +0000" channel="TodayPrayer">
-    <title lang="ar">🕌 مواقيت الصلاة</title>
-    <desc lang="ar">مواقيت الصلاة — كل مدينة بتوقيتها المحلي
-
-Amman (عمّان) — الفجر 05:29 · الشروق 06:51 · الظهر 12:20 · العصر 15:26 · المغرب 17:54 · العشاء 19:11
-Abu Dhabi (أبو ظبي) — الفجر 05:10 · الشروق 06:28 · الظهر 12:09 · العصر 15:21 · المغرب 17:47 · العشاء 19:02
-Henderson NV (هندرسون · نيفادا) — الفجر 05:49 · الشروق 07:01 · الظهر 12:24 · العصر 15:23 · المغرب 17:46 · العشاء 18:58
-Istanbul (إسطنبول) — الفجر 06:00 · الشروق 07:25 · الظهر 12:53 · العصر 15:44 · المغرب 18:10 · العشاء 19:30
-
-المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_prayer_0.png" />
-  </programme>
   <programme start="20261030090000 +0000" stop="20261030100000 +0000" channel="TodayPrayer">
     <title lang="ar">🕌 مواقيت الصلاة</title>
     <desc lang="ar">مواقيت الصلاة — كل مدينة بتوقيتها المحلي
@@ -149,4 +137,16 @@ Istanbul (إسطنبول) — الفجر 06:00 · الشروق 07:25 · الظه
 المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_prayer_0.png" />
   </programme>
-<programme start="20261030200000 +0000" stop="20261101085846 +0000" channel="TodayPrayer"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+  <programme start="20261030200000 +0000" stop="20261030210000 +0000" channel="TodayPrayer">
+    <title lang="ar">🕌 مواقيت الصلاة</title>
+    <desc lang="ar">مواقيت الصلاة — كل مدينة بتوقيتها المحلي
+
+Amman (عمّان) — الفجر 05:29 · الشروق 06:51 · الظهر 12:20 · العصر 15:26 · المغرب 17:54 · العشاء 19:11
+Abu Dhabi (أبو ظبي) — الفجر 05:10 · الشروق 06:28 · الظهر 12:09 · العصر 15:21 · المغرب 17:47 · العشاء 19:02
+Henderson NV (هندرسون · نيفادا) — الفجر 05:49 · الشروق 07:01 · الظهر 12:24 · العصر 15:23 · المغرب 17:46 · العشاء 18:58
+Istanbul (إسطنبول) — الفجر 06:00 · الشروق 07:25 · الظهر 12:53 · العصر 15:44 · المغرب 18:10 · العشاء 19:30
+
+المصدر: Aladhan — طرق الحساب الرسمية لكل بلد</desc>
+    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/today_prayer_0.png" />
+  </programme>
+<programme start="20261030210000 +0000" stop="20261101090630 +0000" channel="TodayPrayer"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
