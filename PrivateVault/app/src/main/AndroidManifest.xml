@@ -91,6 +91,10 @@
             android:name=".PdfViewerActivity"
             android:exported="false" />
         <activity
+            android:name=".AiChatActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
             android:name=".ImageViewerActivity"
             android:exported="false"
             android:theme="@style/Theme.Vault.Fullscreen" />

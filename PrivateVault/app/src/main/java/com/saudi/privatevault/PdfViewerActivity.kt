@@ -992,7 +992,7 @@ class PdfViewerActivity : BaseActivity() {
             .setItems(items) { _, which ->
                 if (which == 2 || which == 3) {
                     b.page.clearSelection()
-                    if (which == 2) runAssistant("explain", text, "") else askQuestion(text)
+                    if (which == 2) askAssistant(text, getString(R.string.ai_p_explain_sel)) else askAssistant(text)
                 } else if (which == 0) {
                     b.page.highlightSelection(markerColor)
                 } else {
@@ -1010,130 +1010,15 @@ class PdfViewerActivity : BaseActivity() {
     // ---- the study assistant ----
 
     /** From the menu: about the whole page; from a selection: about the chosen words. */
-    private fun askAssistant(selected: String?) {
-        if (!Gemini.hasKey(this) && !LaptopClient.isLinked(this)) {
-            Toast.makeText(this, R.string.ai_link_first, Toast.LENGTH_LONG).show()
-            return
+    /** Gemini about this page: the page as a picture (figures and tables too), and any selected words. */
+    private fun askAssistant(selected: String?, start: String? = null) {
+        val bmp = (b.page.drawable as? android.graphics.drawable.BitmapDrawable)?.bitmap
+        val jpeg = bmp?.let {
+            val w = minOf(1280, it.width)
+            val small = if (it.width > w) Bitmap.createScaledBitmap(it, w, (it.height.toFloat() * w / it.width).toInt(), true) else it
+            java.io.ByteArrayOutputStream().also { o -> small.compress(Bitmap.CompressFormat.JPEG, 80, o) }.toByteArray()
         }
-        val items = arrayOf(getString(R.string.ai_summary_page), getString(R.string.ai_explain_page),
-            getString(R.string.ai_ask_page), getString(R.string.ai_key_title))
-        MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.ai_title)
-            .setItems(items) { _, which ->
-                if (which == 3) {
-                    AiKey.ask(this)
-                    return@setItems
-                }
-                pageText { text ->
-                    when (which) {
-                        0 -> runAssistant("summary", selected ?: text, "")
-                        1 -> runAssistant("explain", selected ?: text, "")
-                        else -> askQuestion(selected ?: text)
-                    }
-                }
-            }
-            .setNegativeButton(R.string.cancel, null)
-            .show()
-    }
-
-    private fun pageText(done: (String) -> Unit) {
-        val l = links
-        if (l == null) {
-            Toast.makeText(this, R.string.ai_no_text, Toast.LENGTH_LONG).show()
-            return
-        }
-        val index = pageIndex
-        lifecycleScope.launch {
-            val text = withContext(linkThread) { l.textOf(index) }
-            if (text.isBlank()) Toast.makeText(this@PdfViewerActivity, R.string.ai_no_text, Toast.LENGTH_LONG).show()
-            else done(text)
-        }
-    }
-
-    private fun askQuestion(text: String) {
-        val input = EditText(this).apply {
-            hint = getString(R.string.ai_question_hint)
-            minLines = 2
-        }
-        val box = FrameLayout(this).apply {
-            setPadding(dp(20), dp(8), dp(20), 0)
-            addView(input)
-        }
-        val dialog = MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.ai_ask_page)
-            .setView(box)
-            .setPositiveButton(R.string.ai_send) { _, _ ->
-                val q = input.text.toString().trim()
-                if (q.isNotEmpty()) runAssistant("ask", text, q)
-            }
-            .setNegativeButton(R.string.cancel, null)
-            .show()
-        input.requestFocus()
-        dialog.window?.setSoftInputMode(android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
-    }
-
-    /** Straight to Gemini with the key on the phone; the answer fills in as it is written. */
-    private fun runAssistant(mode: String, text: String, question: String) {
-        if (!Gemini.hasKey(this)) {
-            Toast.makeText(this, R.string.ai_key_first, Toast.LENGTH_LONG).show()
-            AiKey.ask(this)
-            return
-        }
-        val tv = android.widget.TextView(this).apply {
-            this.text = getString(R.string.ai_thinking)
-            setTextIsSelectable(true)
-            textSize = 16f
-            setLineSpacing(0f, 1.25f)
-            setPadding(dp(22), dp(8), dp(22), dp(8))
-            textDirection = View.TEXT_DIRECTION_FIRST_STRONG
-        }
-        val scroll = android.widget.ScrollView(this).apply { addView(tv) }
-        var answer = ""
-        val dialog = MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.ai_by_gemini)
-            .setView(scroll)
-            .setPositiveButton(R.string.ai_another) { _, _ -> askQuestion(text) }
-            .setNeutralButton(R.string.sel_copy) { _, _ ->
-                getSystemService(android.content.ClipboardManager::class.java)
-                    ?.setPrimaryClip(android.content.ClipData.newPlainText("answer", answer))
-                Toast.makeText(this, R.string.sel_copied, Toast.LENGTH_SHORT).show()
-            }
-            .setNegativeButton(R.string.ai_close, null)
-            .show()
-        lifecycleScope.launch {
-            val a = withContext(Dispatchers.IO) {
-                Gemini.ask(this@PdfViewerActivity, mode, text, question) { soFar ->
-                    runOnUiThread { answer = soFar; tv.text = soFar }
-                }
-            }
-            if (a.text != null) { answer = a.text; tv.text = a.text; return@launch }
-            tv.text = getString(if (a.problem == "offline") R.string.ai_offline else R.string.ai_failed) +
-                if (a.detail.isNotEmpty()) "\n\n" + a.detail else ""
-            if (!dialog.isShowing) dialog.show()
-        }
-    }
-
-    private fun showAnswer(answer: String, engine: String?, text: String) {
-        val tv = android.widget.TextView(this).apply {
-            this.text = answer
-            setTextIsSelectable(true)
-            textSize = 16f
-            setLineSpacing(0f, 1.25f)
-            setPadding(dp(22), dp(8), dp(22), dp(8))
-            textDirection = View.TEXT_DIRECTION_FIRST_STRONG
-        }
-        val scroll = android.widget.ScrollView(this).apply { addView(tv) }
-        MaterialAlertDialogBuilder(this)
-            .setTitle(getString(if (engine == "gemini") R.string.ai_by_gemini else R.string.ai_by_local))
-            .setView(scroll)
-            .setPositiveButton(R.string.ai_another) { _, _ -> askQuestion(text) }
-            .setNeutralButton(R.string.sel_copy) { _, _ ->
-                getSystemService(android.content.ClipboardManager::class.java)
-                    ?.setPrimaryClip(android.content.ClipData.newPlainText("answer", answer))
-                Toast.makeText(this, R.string.sel_copied, Toast.LENGTH_SHORT).show()
-            }
-            .setNegativeButton(R.string.ai_close, null)
-            .show()
+        AiChatActivity.open(this, jpeg, selected, b.toolbar.title?.toString().orEmpty().removeSuffix(".pdf"), pageIndex + 1, start)
     }
 
     /** Bookmarks, pages with notes, then the book's contents, in one list. */
