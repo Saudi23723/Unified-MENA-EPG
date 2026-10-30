@@ -328,6 +328,12 @@ object LaptopClient {
         }
     }
 
+    /** A file the vault serves under /api/…, with this device's sign-in; null when not linked. */
+    fun vaultConnection(ctx: Context, path: String): HttpURLConnection? {
+        val base = url(ctx) ?: return null
+        return open("$base/api/$path", token(ctx)).apply { readTimeout = 120000 }
+    }
+
     private fun open(url: String, token: String?): HttpURLConnection {
         val conn = URL(url).openConnection() as HttpURLConnection
         conn.connectTimeout = 5000

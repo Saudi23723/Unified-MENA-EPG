@@ -77,8 +77,13 @@ def find_zip(stem, kind, start):
             print("  no:", url, e, flush=True)
     page = urllib.request.urlopen(urllib.request.Request(
         "https://www.faa.gov/air_traffic/flight_info/aeronav/digital_products/vfr/", headers=UA), timeout=60).read().decode("utf-8", "replace")
-    links = re.findall(r'href="([^"]+/' + re.escape(stem) + r'\.zip)"', page)
+    links = [u for u in re.findall(r'href=["\']([^"\']+\.zip)["\']', page, re.I)
+             if re.search(r'(^|/)' + re.escape(stem) + r'\.zip$', u, re.I)]
     if not links:
+        # What the page holds, to see how the FAA names things now.
+        zips = re.findall(r'href=["\']([^"\']+\.zip)["\']', page, re.I)
+        print("zip links on the page:", len(zips), zips[:30], flush=True)
+        print("dates on the page:", sorted(set(re.findall(r'\d{2}-\d{2}-\d{4}', page)))[:20], flush=True)
         raise RuntimeError(f"no zip for {stem} on the FAA's VFR page")
     url = links[0]
     return url if url.startswith("http") else "https://aeronav.faa.gov" + url

@@ -286,6 +286,7 @@ class MapActivity : BaseActivity() {
         super.onResume()
         map.onResume()
         showCurrency()
+        setOfficial()
         Terrain.onTile = { map.postInvalidate() }
         b.root.removeCallbacks(frame)
         b.root.post(frame)
@@ -310,6 +311,7 @@ class MapActivity : BaseActivity() {
         stopGps()
         Traffic.stopReceiver()
         radarProvider?.detach()
+        officialProvider?.detach()
         map.onDetach()
     }
 
@@ -358,6 +360,7 @@ class MapActivity : BaseActivity() {
                     prefs.edit().putString("map_layer", layer.key).apply()
                     map.setTileSource(layer.source())
                     zoomLimit()
+                    setOfficial()
                 }
                 if (cRadar.isChecked != (radar != null)) setRadar(cRadar.isChecked)
                 weather.showAirmets = cAirmet.isChecked
@@ -400,6 +403,37 @@ class MapActivity : BaseActivity() {
     }
 
     /** NEXRAD radar, see-through over the chart, just above it. */
+    private var official: TilesOverlay? = null
+    private var officialProvider: org.osmdroid.tileprovider.MapTileProviderBase? = null
+    private var officialFile: java.io.File? = null
+
+    /**
+     * The FAA's own GeoTIFF chart, when on the phone, laid over the chart service where it
+     * covers (under the weather and everything drawn).
+     */
+    private fun setOfficial() {
+        val f = OfficialCharts.fileFor(this, layer.key)
+        if (f != null && f == officialFile && official != null) return
+        official?.let { map.overlays.remove(it) }
+        officialProvider?.detach()
+        official = null; officialProvider = null; officialFile = null
+        if (f != null) try {
+            val provider = org.osmdroid.tileprovider.modules.OfflineTileProvider(org.osmdroid.tileprovider.util.SimpleRegisterReceiver(this), arrayOf(f))
+            officialProvider = provider
+            official = TilesOverlay(provider, this).apply {
+                setLoadingBackgroundColor(android.graphics.Color.TRANSPARENT)
+                setLoadingLineColor(android.graphics.Color.TRANSPARENT)
+            }
+            officialFile = f
+            provider.setTileRequestCompleteHandler(map.tileRequestCompleteHandler)
+            map.overlays.add(0, official)
+            // Weather stays above the chart.
+            radar?.let { map.overlays.remove(it); map.overlays.add(1, it) }
+        } catch (e: Exception) {
+        }
+        map.invalidate()
+    }
+
     private fun setRadar(on: Boolean) {
         radar?.let { map.overlays.remove(it) }
         radarProvider?.detach()

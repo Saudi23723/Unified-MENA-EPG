@@ -28,6 +28,7 @@ object DataCurrency {
         val (a, b) = vfr()
         val stale = ChartUpdates.outOfDate(ctx)
         val text = "VFR ${SHORT.format(a)} – ${SHORT.format(b.minusDays(1))} · AIRAC ${AviationData.airacCycle()}" +
+            (if (OfficialCharts.current(ctx)) " · FAA GeoTIFF" else "") +
             if (stale > 0) " · ⚠ $stale" else " ✓"
         return text to (stale == 0)
     }
@@ -71,6 +72,9 @@ object DataCurrency {
             Row("VFR Sectional / TAC", "FAA Aeronautical Information Services (tiles.arcgis.com · FAA AIS)",
                 "56-day cycle: $vfrDates", stale == 0,
                 serviceEdition(ctx, "VFR_Sectional").ifEmpty { "Online: the FAA service. Offline: saved tiles" + if (stale > 0) " ($stale saved areas from an old edition)" else ", current edition" }),
+            Row("VFR charts, official GeoTIFF (offline)", "FAA AIS GeoTIFF (aeronav.faa.gov), as WebP tiles",
+                OfficialCharts.describe(ctx), if (OfficialCharts.edition(ctx) == null) null else OfficialCharts.current(ctx),
+                if (OfficialCharts.edition(ctx) == null) "Not on this phone yet: Chart updates → download" else "Drawn over the chart where it covers"),
             Row("IFR Enroute Low", "FAA AIS (tiles.arcgis.com · FAA AIS)", "56-day cycle: $vfrDates", stale == 0),
             Row("Terminal procedures (plates, airport diagrams)", "FAA d-TPP (aeronav.faa.gov)",
                 "AIRAC ${AviationData.airacCycle()}: ${SHOW.format(pa)} → ${SHOW.format(pb.minusDays(1))}", pb.isAfter(today)),

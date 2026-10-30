@@ -506,6 +506,9 @@ or tap an airport → Add to route, or long-press anywhere on the chart.</string
     <string name="st_nocrash">No crashes on record</string>
     <string name="st_summary">Last test %1$s: %2$d ✅ · %3$d ⚠️ · %4$d ❌</string>
     <string name="log_synced">🔄 Logbook updated from your other devices (%1$d)</string>
+    <string name="charts_official_loading">Downloading the official FAA charts (GeoTIFF)…</string>
+    <string name="charts_official_done">✅ Official FAA charts, edition %1$s, now on the phone</string>
+    <string name="charts_official_none">The official FAA charts are not ready now; the FAA online chart service works meanwhile</string>
     <string name="map_circle">Circle</string>
     <string name="map_ruler">Ruler</string>
     <string name="pen_write">Write and highlight</string>

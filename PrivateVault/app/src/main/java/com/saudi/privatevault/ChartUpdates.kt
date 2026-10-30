@@ -96,8 +96,9 @@ object ChartUpdates {
     /** On opening the app: if anything saved is from an old cycle and the phone is on Wi-Fi, update it now. */
     fun autoUpdate(act: Activity) {
         val prefs = VaultLock.prefs(act)
-        if (!prefs.getBoolean("charts_auto", true) || outOfDate(act) == 0) return
+        if (!prefs.getBoolean("charts_auto", true) || (outOfDate(act) == 0 && OfficialCharts.current(act))) return
         if (!unmetered(act)) {
+            if (outOfDate(act) == 0) return
             // Not on Wi-Fi: say so once a day, and wait for Wi-Fi.
             val day = LocalDate.now().toString()
             if (prefs.getString("charts_told", "") != day) {
@@ -115,8 +116,20 @@ object ChartUpdates {
         val ctx = act.applicationContext
         val areas = staleAreas(ctx)
         val apts = staleAirports(ctx)
+        // The FAA's own charts for the edition in force.
+        if (!OfficialCharts.current(ctx)) {
+            if (!quiet) Toast.makeText(act, R.string.charts_official_loading, Toast.LENGTH_LONG).show()
+            Thread {
+                val ed = try { OfficialCharts.update(ctx) } catch (e: Throwable) { null }
+                android.os.Handler(android.os.Looper.getMainLooper()).post {
+                    val now = OfficialCharts.current(ctx)
+                    if (now && ed != null) Toast.makeText(ctx, ctx.getString(R.string.charts_official_done, ed), Toast.LENGTH_LONG).show()
+                    else if (!quiet) Toast.makeText(ctx, R.string.charts_official_none, Toast.LENGTH_LONG).show()
+                }
+            }.start()
+        }
         if (areas.isEmpty() && apts.isEmpty()) {
-            if (!quiet) Toast.makeText(act, R.string.charts_current, Toast.LENGTH_LONG).show()
+            if (!quiet && OfficialCharts.current(ctx)) Toast.makeText(act, R.string.charts_current, Toast.LENGTH_LONG).show()
             return
         }
         running = true
@@ -199,6 +212,7 @@ object ChartUpdates {
         val stale = outOfDate(ctx)
         return "VFR / IFR charts + Chart Supplement\n  ${SHOW.format(v)} → ${SHOW.format(vn)}  (${left(vn)} d left)\n" +
             "Procedures (AIRAC ${AviationData.airacCycle()})\n  ${SHOW.format(p)} → ${SHOW.format(pn)}  (${left(pn)} d left)\n\n" +
+            "Official FAA GeoTIFF: " + OfficialCharts.describe(ctx) + "\n" +
             ctx.getString(R.string.charts_saved, areas(ctx).size, airports(ctx).size) +
             if (stale > 0) "\n⚠ " + ctx.getString(R.string.charts_stale, stale) else "\n✅ " + ctx.getString(R.string.charts_ok)
     }
