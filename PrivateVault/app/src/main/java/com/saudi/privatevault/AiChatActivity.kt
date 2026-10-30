@@ -205,7 +205,7 @@ class AiChatActivity : BaseActivity() {
                 // Not answered: the question is taken back so it can be asked again.
                 turns.removeAt(turns.size - 1)
                 reply.setTextColor(0xFFF28B82.toInt())
-                reply.text = getString(if (a.problem == "offline") R.string.ai_offline else R.string.ai_failed) +
+                reply.text = getString(if (a.problem == "nonet") R.string.ai_nonet else R.string.ai_failed) +
                     if (a.detail.isNotEmpty()) "\n\n" + a.detail else ""
             }
             scrollDown()
