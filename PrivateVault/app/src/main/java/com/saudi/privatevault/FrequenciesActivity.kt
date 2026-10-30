@@ -71,7 +71,7 @@ class FrequenciesActivity : AppCompatActivity() {
 
     /** COM1: active and standby, kept between flights. */
     private fun radio() {
-        val card = EfbUi.card(this).apply { background = EfbUi.cardBg(this@FrequenciesActivity, 0xFF0B1A2E.toInt()) }
+        val card = EfbUi.card(this).apply { background = EfbUi.cardBg(this@FrequenciesActivity, EfbUi.pick(0xFF0B1A2E.toInt(), 0xFFEAF2FF.toInt())) }
         card.addView(EfbUi.text(this, "COM 1", 12f, EfbUi.DIM, bold = true))
         val row = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL; layoutDirection = View.LAYOUT_DIRECTION_LTR }
         fun cell(label: String, color: Int): TextView {

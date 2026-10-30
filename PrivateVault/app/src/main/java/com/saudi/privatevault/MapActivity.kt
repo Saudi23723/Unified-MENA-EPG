@@ -55,6 +55,7 @@ import java.io.File
  * flying without signal. Drawings are shared through the linked vault.
  */
 class MapActivity : BaseActivity() {
+    override val alwaysDark = true
 
     private lateinit var b: ActivityMapBinding
     private lateinit var map: MapView

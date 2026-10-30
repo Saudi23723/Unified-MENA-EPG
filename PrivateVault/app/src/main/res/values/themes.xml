@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- One dark, modern look for every screen, matching the flight bag (EfbUi). -->
-    <style name="Theme.Vault" parent="Theme.Material3.Dark.NoActionBar">
-        <item name="colorPrimary">#FF4DA3FF</item>
-        <item name="colorOnPrimary">#FF06121F</item>
-        <item name="colorPrimaryContainer">#FF1C3557</item>
-        <item name="colorOnPrimaryContainer">#FFD6E8FF</item>
-        <item name="colorSecondary">#FF4DA3FF</item>
-        <item name="colorOnSecondary">#FF06121F</item>
-        <item name="colorSecondaryContainer">#FF233247</item>
-        <item name="colorOnSecondaryContainer">#FFDCE6F4</item>
-        <item name="colorTertiary">#FF34C759</item>
-        <item name="colorError">#FFFF453A</item>
-        <item name="android:colorBackground">#FF0F1318</item>
-        <item name="colorSurface">#FF0F1318</item>
-        <item name="colorOnSurface">#FFF1F4F8</item>
-        <item name="colorOnSurfaceVariant">#FF8D97A8</item>
-        <item name="colorSurfaceVariant">#FF1A2029</item>
-        <item name="colorSurfaceContainerLowest">#FF0B0E12</item>
-        <item name="colorSurfaceContainerLow">#FF141920</item>
-        <item name="colorSurfaceContainer">#FF1A2029</item>
-        <item name="colorSurfaceContainerHigh">#FF202733</item>
-        <item name="colorSurfaceContainerHighest">#FF262E3B</item>
-        <item name="colorOutline">#FF3A4250</item>
-        <item name="colorOutlineVariant">#FF29313D</item>
-        <item name="android:statusBarColor">#FF0F1318</item>
-        <item name="android:navigationBarColor">#FF0F1318</item>
-        <item name="android:windowLightStatusBar">false</item>
+    <!-- The day look: light ground, white cards, the same clear blue. -->
+    <style name="Theme.Vault" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">#FF1A6FE0</item>
+        <item name="colorOnPrimary">#FFFFFFFF</item>
+        <item name="colorPrimaryContainer">#FFDCE9FF</item>
+        <item name="colorOnPrimaryContainer">#FF0A2A55</item>
+        <item name="colorSecondary">#FF1A6FE0</item>
+        <item name="colorOnSecondary">#FFFFFFFF</item>
+        <item name="colorSecondaryContainer">#FFE3ECFA</item>
+        <item name="colorOnSecondaryContainer">#FF14284A</item>
+        <item name="colorTertiary">#FF1E9E4A</item>
+        <item name="colorError">#FFD93025</item>
+        <item name="android:colorBackground">#FFF4F6F9</item>
+        <item name="colorSurface">#FFF4F6F9</item>
+        <item name="colorOnSurface">#FF111827</item>
+        <item name="colorOnSurfaceVariant">#FF5B6573</item>
+        <item name="colorSurfaceVariant">#FFFFFFFF</item>
+        <item name="colorSurfaceContainerLowest">#FFFFFFFF</item>
+        <item name="colorSurfaceContainerLow">#FFFAFBFC</item>
+        <item name="colorSurfaceContainer">#FFFFFFFF</item>
+        <item name="colorSurfaceContainerHigh">#FFF0F2F5</item>
+        <item name="colorSurfaceContainerHighest">#FFE8EBF0</item>
+        <item name="colorOutline">#FFC5CCD6</item>
+        <item name="colorOutlineVariant">#FFE2E6EC</item>
+        <item name="android:statusBarColor">#FFF4F6F9</item>
+        <item name="android:navigationBarColor">#FFF4F6F9</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="HudCell">

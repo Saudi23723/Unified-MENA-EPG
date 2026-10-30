@@ -88,6 +88,12 @@
             android:name=".EfbCheckActivity"
             android:exported="false" />
         <activity
+            android:name=".TrainerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LibraryActivity"
+            android:exported="false" />
+        <activity
             android:name=".LaptopActivity"
             android:exported="false" />
         <activity

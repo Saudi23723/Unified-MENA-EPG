@@ -39,6 +39,7 @@ import kotlin.math.tan
  * For awareness only: not an approved attitude reference.
  */
 class SvtActivity : BaseActivity(), SensorEventListener {
+    override val alwaysDark = true
 
     private lateinit var view: SvtView
     private var airports: List<AviationData.Airport> = emptyList()

@@ -20,21 +20,58 @@ import com.google.android.material.appbar.MaterialToolbar
 
 /** The look of the flight bag: a dark cockpit palette, cards, and gentle motion. */
 object EfbUi {
-    // A modern EFB's night palette: near-black ground, raised graphite cards, one clear blue.
-    const val BG = 0xFF0F1318.toInt()
-    const val CARD = 0xFF1A2029.toInt()
-    const val CARD_LINE = 0xFF29313D.toInt()
-    const val ACCENT = 0xFF4DA3FF.toInt()
-    const val TEXT = 0xFFF1F4F8.toInt()
-    const val DIM = 0xFF8D97A8.toInt()
-    const val GOOD = 0xFF34C759.toInt()
-    const val WARN = 0xFFFFB020.toInt()
-    const val BAD = 0xFFFF453A.toInt()
+    // A modern EFB's palette, night (the default, kind to the eyes in the cockpit) or day.
+    @JvmStatic var light = false
+    val BG get() = if (light) 0xFFF4F6F9.toInt() else 0xFF0F1318.toInt()
+    val CARD get() = if (light) 0xFFFFFFFF.toInt() else 0xFF1A2029.toInt()
+    val CARD_LINE get() = if (light) 0xFFE2E6EC.toInt() else 0xFF29313D.toInt()
+    val ACCENT get() = if (light) 0xFF1A6FE0.toInt() else 0xFF4DA3FF.toInt()
+    val TEXT get() = if (light) 0xFF111827.toInt() else 0xFFF1F4F8.toInt()
+    val DIM get() = if (light) 0xFF5B6573.toInt() else 0xFF8D97A8.toInt()
+    val GOOD get() = if (light) 0xFF1E9E4A.toInt() else 0xFF34C759.toInt()
+    val WARN get() = if (light) 0xFFB86E00.toInt() else 0xFFFFB020.toInt()
+    val BAD get() = if (light) 0xFFD93025.toInt() else 0xFFFF453A.toInt()
+
+    /** A colour chosen for night or day. */
+    fun pick(night: Int, day: Int) = if (light) day else night
+
+    /** Follows the look in force (set from the app's Dark / Light / Auto choice). */
+    fun sync(ctx: Context) {
+        light = (ctx.resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK) !=
+            android.content.res.Configuration.UI_MODE_NIGHT_YES
+    }
+
+    /** Dark, light, or as the phone: applied to every screen. */
+    fun applyTheme(ctx: Context) {
+        androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode(when (VaultLock.prefs(ctx).getString("theme_mode", "dark")) {
+            "light" -> androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
+            "auto" -> androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+            else -> androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
+        })
+    }
+
+    fun chooseTheme(act: Activity) {
+        val modes = arrayOf("dark", "light", "auto")
+        val now = modes.indexOf(VaultLock.prefs(act).getString("theme_mode", "dark")).coerceAtLeast(0)
+        com.google.android.material.dialog.MaterialAlertDialogBuilder(act)
+            .setTitle(R.string.theme_title)
+            .setSingleChoiceItems(arrayOf(act.getString(R.string.theme_dark), act.getString(R.string.theme_light), act.getString(R.string.theme_auto)), now) { d, i ->
+                d.dismiss()
+                VaultLock.prefs(act).edit().putString("theme_mode", modes[i]).apply()
+                applyTheme(act)
+            }
+            .show()
+    }
 
     fun dp(ctx: Context, v: Int) = (v * ctx.resources.displayMetrics.density).toInt()
 
     /** A dark screen with a toolbar and a scrolling column; returns the column. */
     fun screen(act: Activity, title: String, menu: ((MaterialToolbar) -> Unit)? = null): LinearLayout {
+        sync(act)
+        androidx.core.view.WindowCompat.getInsetsController(act.window, act.window.decorView).apply {
+            isAppearanceLightStatusBars = light
+            isAppearanceLightNavigationBars = light
+        }
         act.window.statusBarColor = BG
         act.window.navigationBarColor = BG
         val root = LinearLayout(act).apply {

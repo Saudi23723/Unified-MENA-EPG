@@ -73,10 +73,10 @@ object Gemini {
      * [deep]: for hard questions and calculations, the newest Flash with its full thinking first,
      * then 2.5 Flash thinking as much as it needs; slower by some seconds, more careful.
      */
-    fun chat(ctx: Context, turns: List<Turn>, deep: Boolean = false, onStatus: (String) -> Unit = {}, onText: (String) -> Unit): LaptopClient.AiAnswer {
+    fun chat(ctx: Context, turns: List<Turn>, deep: Boolean = false, onStatus: (String) -> Unit = {}, system: String? = null, onText: (String) -> Unit): LaptopClient.AiAnswer {
         val key = key(ctx)
         val body = contents(turns)
-        val sys = JSONObject().put("parts", JSONArray().put(JSONObject().put("text", system(ctx))))
+        val sys = JSONObject().put("parts", JSONArray().put(JSONObject().put("text", system ?: system(ctx))))
         val prefs = VaultLock.prefs(ctx)
         val combos = if (deep) mutableListOf("gemini-flash-latest" to 2, "gemini-2.5-flash" to 3, "gemini-flash-lite-latest" to 2)
             else MODELS.flatMap { m -> (0..2).map { m to it } }.toMutableList()

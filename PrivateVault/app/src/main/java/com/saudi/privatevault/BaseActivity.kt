@@ -7,13 +7,20 @@ import androidx.appcompat.app.AppCompatActivity
 
 /** Every vault screen: no screenshots, blank in the recent-apps list, PIN on return. */
 open class BaseActivity : AppCompatActivity() {
+    /** Screens over a chart or a photo stay dark whatever the app's look. */
+    protected open val alwaysDark = false
+
+    private fun look() { if (alwaysDark) EfbUi.light = false else EfbUi.sync(this) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        look()
         VaultLock.applySecure(this)
     }
 
     override fun onResume() {
         super.onResume()
+        look()
         VaultLock.applySecure(this)
         VaultLock.checkTimeout(this)
         if (!VaultLock.unlocked) {

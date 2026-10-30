@@ -10,6 +10,7 @@ class VaultApp : Application() {
         super.onCreate()
         CrashReport.install(this)
         Lang.init(this)
+        EfbUi.applyTheme(this)
         VaultStore.init(this)
         // The whole app counts as one session: leaving it starts the lock's
         // countdown, and coming back after it ran out asks for the PIN.

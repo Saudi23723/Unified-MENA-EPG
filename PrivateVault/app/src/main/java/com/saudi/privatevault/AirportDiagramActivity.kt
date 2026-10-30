@@ -56,6 +56,7 @@ import kotlin.math.hypot
  * when the aircraft rolls onto a runway. The FAA diagram is a tap away.
  */
 class AirportDiagramActivity : BaseActivity() {
+    override val alwaysDark = true
 
     private lateinit var map: MapView
     private lateinit var labels: LabelsOverlay

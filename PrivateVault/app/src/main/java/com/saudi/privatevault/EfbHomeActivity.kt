@@ -41,6 +41,7 @@ class EfbHomeActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         col = EfbUi.screen(this, "SSEFB") { bar ->
             bar.menu.add(R.string.lang_switch).setOnMenuItemClickListener { Lang.choose(this); true }
+            bar.menu.add(R.string.theme_title).setOnMenuItemClickListener { EfbUi.chooseTheme(this); true }
             getDrawable(R.mipmap.ic_launcher_round)?.let { bar.logo = android.graphics.drawable.BitmapDrawable(resources, it.toBitmap(dp(30), dp(30))) }
             bar.titleMarginStart = dp(12)
         }
@@ -78,7 +79,7 @@ class EfbHomeActivity : BaseActivity() {
             val b = LinearLayout(this).apply {
                 orientation = LinearLayout.VERTICAL
                 gravity = Gravity.CENTER
-                background = EfbUi.cardBg(this@EfbHomeActivity, if (i == 3) 0xFF3A1714.toInt() else EfbUi.CARD, 16).apply { setStroke(0, 0) }
+                background = EfbUi.cardBg(this@EfbHomeActivity, if (i == 3) EfbUi.pick(0xFF3A1714.toInt(), 0xFFFFE9E7.toInt()) else EfbUi.CARD, 16).apply { setStroke(0, 0) }
                 setPadding(dp(4), dp(14), dp(4), dp(12))
                 addView(android.widget.ImageView(this@EfbHomeActivity).apply {
                     setImageResource(q.first)
@@ -114,6 +115,10 @@ class EfbHomeActivity : BaseActivity() {
             Item("📒", 0xFFFF9F0A.toInt(), R.string.log_title, R.string.sub_log) { open(LogbookActivity::class.java) },
             Item("🎓", 0xFF8E5CF7.toInt(), R.string.log_109, R.string.sub_109) { startActivity(Intent(this, LogbookActivity::class.java).putExtra(LogbookActivity.EXTRA_TAB, 2)) },
             Item("⏱", 0xFF00A6A6.toInt(), R.string.log_currency, R.string.sub_currency) { startActivity(Intent(this, LogbookActivity::class.java).putExtra(LogbookActivity.EXTRA_TAB, 3)) },
+        ))
+        group(R.string.home_study, listOf(
+            Item("🎧", 0xFF5E5CE6.toInt(), R.string.tr_title, R.string.sub_trainer) { open(TrainerActivity::class.java) },
+            Item("📚", 0xFF2D7FF9.toInt(), R.string.lib_title, R.string.sub_library) { open(LibraryActivity::class.java) },
         ))
         group(R.string.home_data, listOf(
             Item("🗂", 0xFF2D7FF9.toInt(), R.string.charts_title, R.string.sub_charts) { ChartUpdates.show(this) },
@@ -171,7 +176,7 @@ class EfbHomeActivity : BaseActivity() {
         root.addView(View(this).apply { setBackgroundColor(EfbUi.CARD_LINE) }, LinearLayout.LayoutParams(-1, 1))
         val bar = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
-            setBackgroundColor(0xFF12171E.toInt())
+            setBackgroundColor(EfbUi.pick(0xFF12171E.toInt(), 0xFFFFFFFF.toInt()))
             setPadding(0, dp(6), 0, dp(6))
         }
         for ((i, t) in listOf(

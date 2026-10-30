@@ -42,8 +42,21 @@ class AiChatActivity : BaseActivity() {
         var pageNumber: Int = 0
         const val EXTRA_START = "start"
 
+        // A trainer (radio, weather): its own instructions, greeting and shortcuts, and the radio read aloud.
+        var trainerSystem: String? = null
+        var trainerHello: String? = null
+        var trainerChips: List<Pair<String, String>>? = null
+        var speakRadio = false
+
+        fun openTrainer(ctx: Context, title: String, system: String, hello: String, chips: List<Pair<String, String>>, radio: Boolean, start: String?) {
+            pageImage = null; selected = null; bookTitle = title; pageNumber = 0
+            trainerSystem = system; trainerHello = hello; trainerChips = chips; speakRadio = radio
+            ctx.startActivity(Intent(ctx, AiChatActivity::class.java).apply { start?.let { putExtra(EXTRA_START, it) } })
+        }
+
         fun open(ctx: Context, image: ByteArray?, sel: String?, title: String, page: Int, start: String? = null) {
             pageImage = image; selected = sel; bookTitle = title; pageNumber = page
+            trainerSystem = null; trainerHello = null; trainerChips = null; speakRadio = false
             ctx.startActivity(Intent(ctx, AiChatActivity::class.java).apply { start?.let { putExtra(EXTRA_START, it) } })
         }
     }
@@ -119,25 +132,26 @@ class AiChatActivity : BaseActivity() {
         root.addView(scroll, LinearLayout.LayoutParams(-1, 0, 1f))
 
         // What the page is, then a greeting.
-        val about = (if (bookTitle.isNotEmpty()) "📖 $bookTitle · ${getString(R.string.pdf_page_short, pageNumber)}" else "") +
+        val about = (if (trainerSystem != null) bookTitle else if (bookTitle.isNotEmpty()) "📖 $bookTitle · ${getString(R.string.pdf_page_short, pageNumber)}" else "") +
             (selected?.let { "\n“" + it.replace('\n', ' ').take(160) + (if (it.length > 160) "…" else "") + "”" } ?: "")
         if (about.isNotBlank()) list.addView(TextView(this).apply {
             text = about; textSize = 13f; setTextColor(dim); setPadding(0, dp(4), 0, dp(14))
         })
         list.addView(TextView(this).apply {
-            text = getString(R.string.ai_hello); textSize = 26f; setTextColor(accent)
+            text = trainerHello ?: getString(R.string.ai_hello); textSize = if (trainerHello != null) 20f else 26f; setTextColor(accent)
             setTypeface(typeface, Typeface.BOLD); setPadding(0, dp(18), 0, dp(10))
         })
         for ((mine, text) in shown) if (mine) userBubble(text) else answerView(text, done = true)
 
         // Shortcuts, like Gemini's suggestions, always a tap away above the question box.
         val row = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; setPadding(dp(12), dp(4), dp(12), dp(4)) }
-        for ((label, prompt) in listOf(
+        val shortcuts = trainerChips ?: listOf(
             R.string.ai_s_summary to R.string.ai_p_summary, R.string.ai_s_explain to R.string.ai_p_explain,
             R.string.ai_s_extended to R.string.ai_p_extended, R.string.ai_s_examples to R.string.ai_p_examples,
             R.string.ai_s_written to R.string.ai_p_written, R.string.ai_s_checkride to R.string.ai_p_checkride,
             R.string.ai_s_example to R.string.ai_p_example, R.string.ai_s_quiz to R.string.ai_p_quiz,
-        )) row.addView(pill(getString(label), field) { send(getString(prompt)) }, LinearLayout.LayoutParams(-2, -2).apply { marginEnd = dp(8) })
+        ).map { getString(it.first) to getString(it.second) }
+        for ((label, prompt) in shortcuts) row.addView(pill(label, field) { send(prompt) }, LinearLayout.LayoutParams(-2, -2).apply { marginEnd = dp(8) })
         chips = HorizontalScrollView(this).apply { isHorizontalScrollBarEnabled = false; addView(row) }
         root.addView(chips)
 
@@ -164,6 +178,10 @@ class AiChatActivity : BaseActivity() {
         inBar.addView(deepChip, LinearLayout.LayoutParams(-2, -2).apply { marginEnd = dp(6) })
         showDeep()
         inBar.addView(input, LinearLayout.LayoutParams(0, -2, 1f))
+        if (speakRadio) inBar.addView(TextView(this).apply {
+            text = "🎙"; textSize = 22f; gravity = Gravity.CENTER; setPadding(dp(8), 0, dp(8), 0)
+            setOnClickListener { listen() }
+        })
         inBar.addView(TextView(this).apply {
             text = "↑"; textSize = 22f; setTextColor(bg); gravity = Gravity.CENTER
             background = android.graphics.drawable.GradientDrawable().apply { shape = android.graphics.drawable.GradientDrawable.OVAL; setColor(ink) }
@@ -252,7 +270,7 @@ class AiChatActivity : BaseActivity() {
         busy = lifecycleScope.launch {
             status.post(tick)
             val a = withContext(Dispatchers.IO) {
-                Gemini.chat(this@AiChatActivity, turns, thinkHard, { m -> runOnUiThread { model = m } }) { soFar ->
+                Gemini.chat(this@AiChatActivity, turns, thinkHard, { m -> runOnUiThread { model = m } }, trainerSystem) { soFar ->
                     runOnUiThread { got = true; reply.text = md(soFar); scrollDown() }
                 }
             }
@@ -261,6 +279,7 @@ class AiChatActivity : BaseActivity() {
                 reply.text = md(a.text)
                 turns.add(Gemini.Turn(false, a.text))
                 shown.add(false to a.text)
+                if (speakRadio) speakRadioLines(a.text)
                 copyButton(a.text)
             } else {
                 // Not answered: the question is taken back so it can be asked again.
@@ -272,6 +291,47 @@ class AiChatActivity : BaseActivity() {
             }
             scrollDown()
         }
+    }
+
+    // ---- the radio trainer: the controller's words aloud, the pilot's call by voice ----
+
+    private var tts: android.speech.tts.TextToSpeech? = null
+
+    private fun speakRadioLines(text: String) {
+        val lines = text.lines().map { it.replace("*", "").trim() }
+            .filter { Regex("^(TOWER|GROUND|APPROACH|DEPARTURE|CENTER|CLEARANCE|ATIS|AWOS|TRAFFIC|UNICOM|RADIO|ATC)[^:]{0,20}:").containsMatchIn(it) }
+            .map { it.substringAfter(':').trim() }
+        if (lines.isEmpty()) return
+        val say = { t: android.speech.tts.TextToSpeech -> lines.forEachIndexed { i, l -> t.speak(l, if (i == 0) android.speech.tts.TextToSpeech.QUEUE_FLUSH else android.speech.tts.TextToSpeech.QUEUE_ADD, null, "r$i") } }
+        tts?.let { say(it); return }
+        var t: android.speech.tts.TextToSpeech? = null
+        t = android.speech.tts.TextToSpeech(this) { ok ->
+            if (ok == android.speech.tts.TextToSpeech.SUCCESS) t?.let { it.language = java.util.Locale.US; it.setSpeechRate(1.1f); tts = it; say(it) }
+        }
+    }
+
+    private val speech = registerForActivityResult(androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult()) { r ->
+        val heard = r.data?.getStringArrayListExtra(android.speech.RecognizerIntent.EXTRA_RESULTS)?.firstOrNull()
+        if (!heard.isNullOrBlank()) send(heard)
+    }
+
+    /** The pilot's call, spoken (English, as on the radio). */
+    private fun listen() {
+        try {
+            VaultLock.keepUnlockedOnce = true
+            speech.launch(Intent(android.speech.RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+                .putExtra(android.speech.RecognizerIntent.EXTRA_LANGUAGE_MODEL, android.speech.RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+                .putExtra(android.speech.RecognizerIntent.EXTRA_LANGUAGE, "en-US")
+                .putExtra(android.speech.RecognizerIntent.EXTRA_PROMPT, "Your radio call"))
+        } catch (e: Exception) {
+            VaultLock.keepUnlockedOnce = false
+            Toast.makeText(this, R.string.tr_no_mic, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    override fun onDestroy() {
+        tts?.shutdown()
+        super.onDestroy()
     }
 
     private fun scrollDown() = scroll.post { scroll.fullScroll(View.FOCUS_DOWN) }

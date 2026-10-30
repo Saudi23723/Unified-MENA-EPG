@@ -85,7 +85,7 @@ class ChecklistActivity : BaseActivity() {
                 card.addView(head)
                 col.addView(card)
                 if (emergency == null && section.contains("EMERGENCY", true)) emergency = card
-                if (section.startsWith("📋")) card.background = EfbUi.cardBg(this, 0xFF0F2236.toInt())
+                if (section.startsWith("📋")) card.background = EfbUi.cardBg(this, EfbUi.pick(0xFF0F2236.toInt(), 0xFFEAF2FF.toInt()))
                 continue
             }
             val c = card ?: EfbUi.card(this).also { card = it; col.addView(it) }
@@ -94,7 +94,7 @@ class ChecklistActivity : BaseActivity() {
                 val t = line.drop(1).trim()
                 c.addView(EfbUi.text(this, t, 13f, if (t.startsWith("WARNING")) EfbUi.BAD else EfbUi.WARN, bold = true).apply {
                     setPadding(dp(10), dp(8), dp(10), dp(8))
-                    background = EfbUi.cardBg(this@ChecklistActivity, 0xFF2A1A12.toInt(), 10)
+                    background = EfbUi.cardBg(this@ChecklistActivity, EfbUi.pick(0xFF2A1A12.toInt(), 0xFFFFF3E0.toInt()), 10)
                     layoutDirection = View.LAYOUT_DIRECTION_LTR
                     textDirection = View.TEXT_DIRECTION_LTR
                 }, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(6); bottomMargin = dp(6) })
@@ -152,7 +152,7 @@ class ChecklistActivity : BaseActivity() {
             row.alpha = if (ticked) 0.45f else 1f
             val lit = !ticked && next
             if (!ticked) next = false
-            row.background = if (lit) EfbUi.cardBg(this, 0xFF1E3358.toInt(), 10) else null
+            row.background = if (lit) EfbUi.cardBg(this, EfbUi.pick(0xFF1E3358.toInt(), 0xFFDCE9FF.toInt()), 10) else null
         }
         val n = inSection.count { it.first in done }
         progress?.text = "$n/${inSection.size}"
