@@ -526,9 +526,11 @@ import subprocess
 import shutil
 
 FFMPEG_SOURCES = [
-    "https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip",
     "https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-win64-gpl.zip",
+    "https://github.com/GyanD/codexffmpeg/releases/download/7.1.1/ffmpeg-7.1.1-essentials_build.zip",
+    "https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip",
 ]
+BROWSER_UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
 NO_WINDOW = 0x08000000 if os.name == "nt" else 0
 VIDEO_EXT = {".mp4", ".mkv", ".webm", ".3gp", ".mov", ".avi", ".m4v", ".ts", ".wmv", ".flv", ".mpg", ".mpeg"}
 
@@ -596,16 +598,28 @@ class CloudSync:
             p = os.path.join(self.tools, name)
             if os.path.exists(p):
                 return p
-        return os.environ.get("KHAZANTI_FFMPEG") or shutil.which("ffmpeg")
+        winget = os.path.join(os.environ.get("LOCALAPPDATA", ""), "Microsoft", "WinGet", "Links", "ffmpeg.exe")
+        return os.environ.get("KHAZANTI_FFMPEG") or shutil.which("ffmpeg") or (winget if os.path.exists(winget) else None)
+
+    def _works(self, path) -> bool:
+        try:
+            return subprocess.run([path, "-version"], capture_output=True, timeout=30, creationflags=NO_WINDOW).returncode == 0
+        except Exception:
+            return False
 
     def _fetch_ffmpeg(self):
-        """One download of ffmpeg on first use (Windows), kept in the vault's tools folder."""
+        """One download of ffmpeg on first use (Windows), kept in the vault's tools folder.
+        Several sources are tried with a browser's user agent, then Windows' own winget;
+        the reason of each failure is kept to tell the user."""
+        import urllib.request
         import zipfile
         os.makedirs(self.tools, exist_ok=True)
         zpath = os.path.join(self.tools, "ffmpeg.zip")
+        reasons = []
         for url in FFMPEG_SOURCES:
             try:
-                with fetch(url, timeout=60) as r, open(zpath, "wb") as out:
+                req = urllib.request.Request(url, headers={"User-Agent": BROWSER_UA})
+                with urllib.request.urlopen(req, timeout=120) as r, open(zpath, "wb") as out:
                     total = int(r.headers.get("Content-Length") or 0)
                     done = 0
                     while True:
@@ -622,11 +636,30 @@ class CloudSync:
                             with z.open(member) as src, open(os.path.join(self.tools, base), "wb") as dst:
                                 shutil.copyfileobj(src, dst)
                 os.remove(zpath)
-                if self.ffmpeg():
+                ff = self.ffmpeg()
+                if ff and self._works(ff):
                     return
-            except Exception:
+                reasons.append(urllib.parse.urlsplit(url).hostname + ": extracted but blocked (antivirus?)")
+            except Exception as e:
+                reasons.append(f"{urllib.parse.urlsplit(url).hostname}: {type(e).__name__} {e}"[:160])
                 continue
-        raise RuntimeError("could not download ffmpeg")
+        # Windows' own package manager, where the download sites are blocked but winget is not.
+        if os.name == "nt":
+            try:
+                self._set(phase="ffmpeg", pct=0)
+                subprocess.run(["winget", "install", "--id", "Gyan.FFmpeg", "-e", "--silent",
+                                "--accept-source-agreements", "--accept-package-agreements"],
+                               capture_output=True, timeout=900, creationflags=NO_WINDOW)
+                links = os.path.join(os.environ.get("LOCALAPPDATA", ""), "Microsoft", "WinGet", "Links", "ffmpeg.exe")
+                for cand in (links, shutil.which("ffmpeg")):
+                    if cand and os.path.exists(cand) and self._works(cand):
+                        os.environ["KHAZANTI_FFMPEG"] = cand
+                        return
+                reasons.append("winget: no ffmpeg after install")
+            except Exception as e:
+                reasons.append(f"winget: {type(e).__name__}")
+        self.ffmpeg_reasons = reasons
+        raise RuntimeError("could not download ffmpeg: " + " | ".join(reasons))
 
     def _duration(self, path) -> float:
         ff = self.ffmpeg()
@@ -748,8 +781,13 @@ class CloudSync:
             scope = self.app.vault.subtree(folder) if folder else None
             items = [i for i in snap["items"] if (scope is None or i.get("folder") in scope)
                      and "laptop:" + i["id"] not in have]
+            no_tool = None
             if compress and any(is_video(i) for i in items) and not self.ffmpeg():
-                self._fetch_ffmpeg()
+                try:
+                    self._fetch_ffmpeg()
+                except Exception as e:
+                    # Everything else still goes up; the videos wait for the tool.
+                    no_tool = str(e)
             self._set(total=len(items), phase="send")
             os.makedirs(self.work, exist_ok=True)
             for n, item in enumerate(items, 1):
@@ -759,6 +797,9 @@ class CloudSync:
                 original = self.app.vault.path_of(item)
                 if not os.path.exists(original):
                     self._set(failed=self.state["failed"] + 1)
+                    continue
+                if no_tool and is_video(item):
+                    self._set(skipped=self.state.get("skipped", 0) + 1)
                     continue
                 send, rel = original, self._rel_path(item)
                 tmp = os.path.join(self.work, item["id"] + ".mp4")
@@ -783,6 +824,8 @@ class CloudSync:
                     if os.path.exists(tmp):
                         os.remove(tmp)
             self._set(done=self.state.get("total", 0) if not self.stop_flag else self.state.get("done", 0))
+            if no_tool:
+                self._set(error=no_tool)
         except Exception as e:
             self._set(error=str(e))
         finally:

@@ -723,13 +723,14 @@ function cloudLine(s) {
   if (s.running && (s.phase === "shrink" || s.phase === "upload")) t += ` ${s.pct}% — ${esc(s.name)}`;
   else if (s.running && s.phase === "ffmpeg") t += ` ${s.pct}%`;
   const counts = s.total ? `<br>${s.done} من ${s.total} · أُرسل ${s.sent}` + (s.failed ? ` · تعذر ${s.failed}` : "") +
-    (s.saved ? ` · وُفّر ${fmtSize(s.saved)}` : "") : "";
+    (s.saved ? ` · وُفّر ${fmtSize(s.saved)}` : "") + (s.skipped ? ` · فيديوهات استنّت ${s.skipped}` : "") : "";
   const err = s.error ? `<br><span style="color:var(--danger)">${esc(cloudError(s.error))}</span>` : "";
   return t + counts + err;
 }
 function cloudError(e) {
   if (e.includes("expired")) return "انتهى ربط السحابة، اربطها من جديد";
-  if (e.includes("ffmpeg")) return "تعذر تحميل أداة الضغط، تأكد من الإنترنت";
+  if (e.includes("ffmpeg")) return "أداة ضغط الفيديو (ffmpeg) ما نزلت، فالفيديوهات استنّت وباقي الملفات انرفعت. " +
+    "الحل: نزّل ffmpeg من gyan.dev (ffmpeg-release-essentials.zip) وحط ffmpeg.exe و ffprobe.exe بالمجلد %LOCALAPPDATA%\\Khazanti\\tools، أو شغّل بالـ CMD: winget install Gyan.FFmpeg — وبعدين اكبس رفع مرة ثانية. السبب: " + e.replace("could not download ffmpeg: ", "");
   return "تعذر الاتصال بالسحابة: " + e;
 }
 let cloudTimer = null;
