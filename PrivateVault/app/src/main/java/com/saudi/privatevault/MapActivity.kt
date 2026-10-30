@@ -1477,6 +1477,7 @@ class MapActivity : BaseActivity() {
         }
         menu.add(0, 20, 0, "NRST").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
         menu.add(0, 30, 0, R.string.freq_title)
+        menu.add(0, 31, 0, R.string.notes_title)
         menu.add(0, 21, 0, R.string.pack_title)
         menu.add(0, 22, 0, R.string.brief_title)
         menu.add(0, 26, 0, R.string.map_profile)
@@ -1521,6 +1522,7 @@ class MapActivity : BaseActivity() {
             4 -> downloadArea()
             10 -> navLog()
             20 -> nearest()
+            31 -> if (NotePad.isOpen()) NotePad.close(this) else Notebooks.choose(this, null)
             30 -> {
                 val here = ownship.position() ?: map.mapCenter as GeoPoint
                 FrequenciesActivity.open(this, null, here.latitude, here.longitude, plan.points.map { it.id })

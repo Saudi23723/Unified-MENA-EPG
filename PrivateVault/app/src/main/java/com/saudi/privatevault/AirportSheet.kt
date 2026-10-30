@@ -82,7 +82,7 @@ class AirportSheet(
         button(R.string.apt_add_route) { dialog.dismiss(); onAddToRoute() }
         button(R.string.apt_plates) { plates() }
         button(R.string.apt_supplement) { supplement() }
-        button(R.string.notes_title) { Notebooks.choose(act, a.icao.ifEmpty { a.ident }) }
+        button(R.string.notes_title) { dialog.dismiss(); Notebooks.choose(act, a.icao.ifEmpty { a.ident }) }
         body.addView(HorizontalScrollView(act).apply {
             isHorizontalScrollBarEnabled = false
             addView(buttons)
