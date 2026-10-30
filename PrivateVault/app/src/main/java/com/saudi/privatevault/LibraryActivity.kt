@@ -56,6 +56,8 @@ class LibraryActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         col = EfbUi.screen(this, getString(R.string.lib_title))
         col.addView(EfbUi.text(this, getString(R.string.lib_intro), 13f, EfbUi.DIM).apply { setPadding(dp(4), dp(4), dp(4), dp(10)) })
+        myBooks()
+        col.addView(EfbUi.text(this, getString(R.string.lib_faa).uppercase(), 12f, EfbUi.DIM, bold = true).apply { letterSpacing = 0.08f; setPadding(dp(6), dp(18), dp(6), dp(6)) })
         val card = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; background = EfbUi.cardBg(this@LibraryActivity, EfbUi.CARD, 16).apply { setStroke(0, 0) } }
         for ((i, b) in books.withIndex()) {
             if (i > 0) card.addView(android.view.View(this).apply { setBackgroundColor(EfbUi.CARD_LINE) }, LinearLayout.LayoutParams(-1, 1).apply { marginStart = dp(56) })
@@ -71,6 +73,37 @@ class LibraryActivity : BaseActivity() {
         }
         col.addView(card)
         EfbUi.stagger(col)
+    }
+
+    private val pick = registerForActivityResult(androidx.activity.result.contract.ActivityResultContracts.OpenDocument()) { uri ->
+        if (uri == null) return@registerForActivityResult
+        lifecycleScope.launch {
+            val item = withContext(Dispatchers.IO) { try { VaultStore.copyIn(this@LibraryActivity, uri, refs()) } catch (e: Exception) { null } }
+            if (item == null) { Toast.makeText(this@LibraryActivity, R.string.open_failed, Toast.LENGTH_LONG).show(); return@launch }
+            recreate()
+            read(item)
+        }
+    }
+
+    /** The pilot's own study books (the Private Pilot guide, school handouts…), first, with a button to add one. */
+    private fun myBooks() {
+        col.addView(EfbUi.text(this, getString(R.string.lib_mine).uppercase(), 12f, EfbUi.DIM, bold = true).apply { letterSpacing = 0.08f; setPadding(dp(6), dp(8), dp(6), dp(6)) })
+        val builtIn = books.mapNotNull { it.file }.toSet()
+        val mine = VaultStore.itemsIn(refs()).filter { it.name !in builtIn && it.kind == Kind.PDF }.sortedBy { it.name.lowercase() }
+        val card = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; background = EfbUi.cardBg(this@LibraryActivity, EfbUi.CARD, 16).apply { setStroke(0, 0) } }
+        for ((i, it) in mine.withIndex()) {
+            if (i > 0) card.addView(android.view.View(this).apply { setBackgroundColor(EfbUi.CARD_LINE) }, LinearLayout.LayoutParams(-1, 1).apply { marginStart = dp(56) })
+            val row = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL; setPadding(dp(14), dp(12), dp(12), dp(12)) }
+            row.addView(EfbUi.text(this, "📒", 20f), LinearLayout.LayoutParams(dp(34), -2))
+            row.addView(EfbUi.ltr(EfbUi.text(this, it.name.removeSuffix(".pdf"), 15.5f, EfbUi.TEXT, bold = true)).apply { setPadding(dp(8), 0, 0, 0) }, LinearLayout.LayoutParams(0, -2, 1f))
+            row.setOnClickListener { read(it) }
+            card.addView(row)
+        }
+        val add = EfbUi.text(this, "➕ " + getString(R.string.lib_add), 15.5f, EfbUi.ACCENT, bold = true).apply { setPadding(dp(16), dp(14), dp(16), dp(14)) }
+        if (mine.isNotEmpty()) card.addView(android.view.View(this).apply { setBackgroundColor(EfbUi.CARD_LINE) }, LinearLayout.LayoutParams(-1, 1))
+        add.setOnClickListener { VaultLock.keepUnlockedOnce = true; pick.launch(arrayOf("application/pdf")) }
+        card.addView(add)
+        col.addView(card)
     }
 
     private fun refs(): String =
