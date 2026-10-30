@@ -31,13 +31,13 @@ class CfrBrowseActivity : BaseActivity() {
     private class Part(val id: String, val name: String, val group: String)
 
     private lateinit var col: LinearLayout
-    private var title = 14
+    private var cfrTitle = 14
     private fun dp(v: Int) = EfbUi.dp(this, v)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        title = intent.getIntExtra("title", 14)
-        col = EfbUi.screen(this, if (title == 14) "14 CFR · Aeronautics and Space" else "49 CFR · NTSB & TSA")
+        cfrTitle = intent.getIntExtra("title", 14)
+        col = EfbUi.screen(this, if (cfrTitle == 14) "14 CFR · Aeronautics and Space" else "49 CFR · NTSB & TSA")
         col.addView(EfbUi.text(this, getString(R.string.regs_loading), 14f, EfbUi.DIM).apply { setPadding(dp(4), dp(12), dp(4), 0) })
         lifecycleScope.launch {
             val parts = withContext(Dispatchers.IO) { try { load() } catch (e: Exception) { emptyList() } }
@@ -51,11 +51,11 @@ class CfrBrowseActivity : BaseActivity() {
     }
 
     private fun load(): List<Part> {
-        val f = File(filesDir, "regs/structure-$title.json").apply { parentFile?.mkdirs() }
+        val f = File(filesDir, "regs/structure-$cfrTitle.json").apply { parentFile?.mkdirs() }
         if (!f.exists() || System.currentTimeMillis() - f.lastModified() > 7L * 86400000) try {
             val titles = JSONObject(AviationData.get("https://www.ecfr.gov/api/versioner/v1/titles.json", 30000)).getJSONArray("titles")
-            val asOf = (0 until titles.length()).map { titles.getJSONObject(it) }.first { it.optInt("number") == title }.optString("up_to_date_as_of")
-            f.writeText(AviationData.get("https://www.ecfr.gov/api/versioner/v1/structure/$asOf/title-$title.json", 90000))
+            val asOf = (0 until titles.length()).map { titles.getJSONObject(it) }.first { it.optInt("number") == cfrTitle }.optString("up_to_date_as_of")
+            f.writeText(AviationData.get("https://www.ecfr.gov/api/versioner/v1/structure/$asOf/title-$cfrTitle.json", 90000))
         } catch (e: Exception) {
         }
         val root = JSONObject(f.readText())
@@ -65,7 +65,7 @@ class CfrBrowseActivity : BaseActivity() {
             if (n.optBoolean("reserved")) return
             val label = n.optString("label").ifEmpty { n.optString("label_description") }
             if (type == "part") {
-                if (title == 49 && chapter !in CHAPTERS_49) return
+                if (cfrTitle == 49 && chapter !in CHAPTERS_49) return
                 out.add(Part(n.optString("identifier"), n.optString("label_description").ifEmpty { label }, group))
                 return
             }
@@ -103,7 +103,7 @@ class CfrBrowseActivity : BaseActivity() {
                 val row = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; setPadding(dp(14), dp(11), dp(12), dp(11)); layoutDirection = View.LAYOUT_DIRECTION_LTR }
                 row.addView(EfbUi.text(this, "Part ${p.id}", 14.5f, EfbUi.ACCENT, bold = true, mono = true), LinearLayout.LayoutParams(dp(96), -2))
                 row.addView(EfbUi.ltr(EfbUi.text(this, p.name, 14f, EfbUi.TEXT)), LinearLayout.LayoutParams(0, -2, 1f))
-                row.setOnClickListener { RegsActivity.open(this, title, p.id) }
+                row.setOnClickListener { RegsActivity.open(this, cfrTitle, p.id) }
                 card!!.addView(row)
             }
         }
