@@ -16,6 +16,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 concurrency:
   group: live-patch
@@ -24,7 +25,9 @@ concurrency:
 jobs:
   patch:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    # one run keeps going for ~5 hours and refreshes every 10 minutes, then starts the next run: GitHub's own
+    # 15-minute timer was delivered only every few hours (29 Oct 2026: names hours old)
+    timeout-minutes: 330
     steps:
       - uses: actions/checkout@v4
       - name: Last results (live-status) and last patches (live-patch)
@@ -40,10 +43,17 @@ jobs:
           STRONG_PASS: ${{ secrets.STRONG_PASS }}
           STRONG_URL: ${{ secrets.STRONG_URL }}
           DREAM4K_URL: ${{ secrets.DREAM4K_URL }}
+          ARGON_URL: ${{ secrets.ARGON_URL }}
+          UP1_URL: ${{ secrets.UP1_URL }}
+          AROMA_URL: ${{ secrets.AROMA_URL }}
+          HYDRA_URL: ${{ secrets.HYDRA_URL }}
+          FAMILY4K_URL: ${{ secrets.FAMILY4K_URL }}
           FORCE_VOD: ${{ github.event.inputs.force_vod }}
         run: |
           set +e
-          for p in strong dream4k; do
+          end=$(( $(date +%s) + 5*3600 ))
+          while :; do
+          for p in strong dream4k argon up1 aroma hydra family4k; do
             P=$(echo "$p" | tr a-z A-Z)
             # refused within the last day: do not ask that provider again yet
             if [ -f "_status/$p.txt" ] && grep -q "^exit 3" "_status/$p.txt"; then
@@ -51,6 +61,7 @@ jobs:
               if [ $(( $(date +%s) - last )) -lt 86400 ]; then echo "$p: refused recently, skipped"; continue; fi
             fi
             eval "export PROVIDER_HOST=\"\${${P}_HOST:-}\" PROVIDER_USER=\"\${${P}_USER:-}\" PROVIDER_PASS=\"\${${P}_PASS:-}\" PROVIDER_URL=\"\${${P}_URL:-}\""
+            [ -z "$PROVIDER_URL$PROVIDER_USER" ] && continue  # no login stored for this playlist
             python tools/live_patch.py "$p" "_new/$p.json" > "_msg_$p.txt" 2>&1
             c=$?
             # what happened, without any login (the script never prints it)
@@ -67,11 +78,19 @@ jobs:
               fi
             fi
           done
-          exit 0
-      - name: Publish (live-status and live-patch branches, no history)
-        run: |
+          # publish this round
           for b in status patch; do
             ( cd "_$b" && rm -rf .git && git init -q -b "live-$b" && git add -A \
               && git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -q -m "live $b" \
               && git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" "live-$b" ) || true
           done
+          FORCE_VOD=0
+          [ $(( $(date +%s) + 600 )) -gt "$end" ] && break
+          sleep 600
+          done
+          exit 0
+      - name: Start the next run (keeps the 10-minute refresh going)
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run live_patch.yml -R "${{ github.repository }}" --ref main || true
