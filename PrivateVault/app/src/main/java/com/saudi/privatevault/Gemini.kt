@@ -52,7 +52,9 @@ object Gemini {
     }
 
     /** Streams the reply to the conversation; [onText] gets the text so far as it is written. */
-    fun chat(ctx: Context, turns: List<Turn>, onText: (String) -> Unit): LaptopClient.AiAnswer {
+    var lastModel = ""
+
+    fun chat(ctx: Context, turns: List<Turn>, onStatus: (String) -> Unit = {}, onText: (String) -> Unit): LaptopClient.AiAnswer {
         val key = key(ctx)
         val body = contents(turns)
         val sys = JSONObject().put("parts", JSONArray().put(JSONObject().put("text", system(ctx))))
@@ -66,13 +68,15 @@ object Gemini {
         val dead = HashSet<String>()
         for ((model, ti) in combos) {
             if (model in dead) continue
+            onStatus(model)
             val cfg = JSONObject().put("temperature", 0.4)
             THINKING[ti]?.let { cfg.put("thinkingConfig", it) }
             val req = JSONObject().put("systemInstruction", sys).put("contents", body).put("generationConfig", cfg)
             val c = URL(STREAM_FMT.format(model)).openConnection() as HttpURLConnection
             try {
-                c.connectTimeout = 15000
-                c.readTimeout = 60000
+                c.connectTimeout = 10000
+                // No word for 25 s is a stall: the next model is asked.
+                c.readTimeout = 25000
                 c.requestMethod = "POST"
                 c.doOutput = true
                 c.setRequestProperty("Content-Type", "application/json")
@@ -96,6 +100,7 @@ object Gemini {
                     val answer = sb.toString().trim()
                     if (answer.isNotEmpty()) {
                         prefs.edit().putString("gemini_combo", "$model|$ti").apply()
+                        lastModel = model
                         return LaptopClient.AiAnswer(answer, "gemini", null)
                     }
                     errors.add("$model: empty answer")
@@ -107,9 +112,11 @@ object Gemini {
                 if ((code == 400 && msg.contains("API key", true)) || code == 401 || code == 403 || code == 429)
                     return LaptopClient.AiAnswer(null, null, "failed", errors.joinToString("\n"))
                 if (code == 404) dead.add(model)
+                onStatus("$model ✗ $code")
             } catch (e: Exception) {
-                errors.add("$model: ${e.message?.take(100)}")
+                errors.add("$model: ${e.javaClass.simpleName} ${e.message?.take(100)}")
                 if (e is java.net.UnknownHostException) return LaptopClient.AiAnswer(null, null, "offline", errors.joinToString("\n"))
+                onStatus("$model ✗ ${e.javaClass.simpleName}")
                 dead.add(model)
             } finally {
                 c.disconnect()

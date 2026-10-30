@@ -171,11 +171,29 @@ class AiChatActivity : BaseActivity() {
             setTextIsSelectable(true); textDirection = View.TEXT_DIRECTION_FIRST_STRONG
         }
         list.addView(reply)
+        // Under the answer: which model, and the seconds, so a wait is never a mystery.
+        val status = TextView(this).apply { textSize = 12f; setTextColor(0xFF9AA0A6.toInt()); setPadding(0, dp(6), 0, 0) }
+        list.addView(status)
+        val t0 = System.currentTimeMillis()
+        var model = ""
+        var got = false
+        val tick = object : Runnable {
+            override fun run() {
+                if (busy?.isActive != true) return
+                val sec = (System.currentTimeMillis() - t0) / 1000
+                status.text = (if (got) "✦ " else "⏳ ") + model + "  ·  ${sec}s"
+                status.postDelayed(this, 500)
+            }
+        }
         scrollDown()
         busy = lifecycleScope.launch {
+            status.post(tick)
             val a = withContext(Dispatchers.IO) {
-                Gemini.chat(this@AiChatActivity, turns) { soFar -> runOnUiThread { reply.text = md(soFar); scrollDown() } }
+                Gemini.chat(this@AiChatActivity, turns, { m -> runOnUiThread { model = m } }) { soFar ->
+                    runOnUiThread { got = true; reply.text = md(soFar); scrollDown() }
+                }
             }
+            status.text = if (a.text != null) "✦ ${Gemini.lastModel}  ·  %.1fs".format((System.currentTimeMillis() - t0) / 1000.0) else ""
             if (a.text != null) {
                 reply.text = md(a.text)
                 turns.add(Gemini.Turn(false, a.text))
