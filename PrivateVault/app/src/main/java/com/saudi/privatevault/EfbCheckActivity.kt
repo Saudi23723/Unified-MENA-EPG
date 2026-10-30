@@ -106,6 +106,44 @@ class EfbCheckActivity : BaseActivity() {
         pf.addView(done, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(12) })
         col.addView(pf)
 
+        // ---- every source, its edition and validity: the page to show an instructor or examiner ----
+        section(getString(R.string.efbc_sources))
+        val src = EfbUi.card(this)
+        src.addView(EfbUi.text(this, getString(R.string.map_loading_wx), 13f, EfbUi.DIM))
+        col.addView(src)
+        lifecycleScope.launch {
+            val rows = withContext(Dispatchers.IO) { DataCurrency.rows(this@EfbCheckActivity) }
+            src.removeAllViews()
+            for (r in rows) {
+                line(src, r.ok, r.what, "${r.source}\n${r.edition}" + if (r.note.isNotEmpty()) "\n${r.note}" else "")
+            }
+            val verify = EfbUi.text(this@EfbCheckActivity, "🔗 " + getString(R.string.efbc_verify), 14f, EfbUi.ACCENT, bold = true).apply { setPadding(0, dp(12), 0, 0) }
+            EfbUi.pressable(verify) {
+                try { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.faa.gov/air_traffic/flight_info/aeronav/productcatalog/doles/"))) } catch (e: Exception) {}
+            }
+            src.addView(verify)
+        }
+
+        // ---- self-test: the app checks that it works, now ----
+        section(getString(R.string.efbc_selftest))
+        val tc = EfbUi.card(this)
+        val lastTest = prefs.getString("efb_selftest", "") ?: ""
+        if (lastTest.isNotEmpty()) tc.addView(EfbUi.text(this, lastTest, 13f, EfbUi.DIM).apply { setPadding(0, 0, 0, dp(6)) })
+        val run = EfbUi.text(this, "🧪 " + getString(R.string.efbc_selftest_run), 16f, EfbUi.BG, bold = true).apply {
+            gravity = android.view.Gravity.CENTER
+            background = EfbUi.cardBg(this@EfbCheckActivity, EfbUi.ACCENT, 14)
+            setPadding(dp(12), dp(12), dp(12), dp(12))
+        }
+        EfbUi.pressable(run) { selfTest(tc, run) }
+        tc.addView(run)
+        col.addView(tc)
+
+        // ---- what an examiner may ask ----
+        section(getString(R.string.efbc_dpe))
+        val dc = EfbUi.card(this)
+        dc.addView(EfbUi.text(this, getString(R.string.efbc_dpe_text), 14f, EfbUi.TEXT).apply { setLineSpacing(0f, 1.3f) })
+        col.addView(dc)
+
         // ---- what stays with the pilot ----
         section(getString(R.string.efbc_pilot))
         val pc = EfbUi.card(this)
@@ -121,6 +159,77 @@ class EfbCheckActivity : BaseActivity() {
         ac.addView(open)
         col.addView(ac)
         EfbUi.stagger(col)
+    }
+
+    /** Each part checked for real: position, clock, the FAA sources, and what is saved for offline. */
+    private fun selfTest(card: LinearLayout, button: android.view.View) {
+        button.isEnabled = false
+        val out = EfbUi.text(this, "…", 14f, EfbUi.TEXT).apply { setLineSpacing(0f, 1.3f); setPadding(0, dp(10), 0, 0) }
+        card.addView(out)
+        val home = prefs.getString("efb_home", "KBVU")!!
+        lifecycleScope.launch {
+            val lines = ArrayList<String>()
+            fun add(ok: Boolean?, t: String) {
+                lines.add((when (ok) { true -> "✅"; false -> "❌"; null -> "⚠️" }) + " " + t)
+                out.text = lines.joinToString("\n")
+            }
+            // Position: the last fix, its age and accuracy.
+            val fix = try {
+                val lm = getSystemService(android.location.LocationManager::class.java)
+                listOf(android.location.LocationManager.GPS_PROVIDER, android.location.LocationManager.NETWORK_PROVIDER)
+                    .mapNotNull { p -> try { lm.getLastKnownLocation(p) } catch (e: SecurityException) { null } }
+                    .maxByOrNull { it.time }
+            } catch (e: Exception) { null }
+            if (fix == null) add(null, getString(R.string.st_gps_none))
+            else {
+                val ageMin = (System.currentTimeMillis() - fix.time) / 60000
+                add(fix.accuracy < 30 && ageMin < 30, getString(R.string.st_gps, Math.round(fix.accuracy), ageMin))
+                // The phone's clock against the satellites' time (GPS fixes carry it).
+                if (fix.provider == android.location.LocationManager.GPS_PROVIDER && ageMin < 5) {
+                    val skew = Math.abs(System.currentTimeMillis() - fix.time - (android.os.SystemClock.elapsedRealtimeNanos() - fix.elapsedRealtimeNanos) / 1000000) / 1000
+                    add(skew < 60, getString(R.string.st_clock, skew))
+                }
+            }
+            suspend fun probe(label: String, url: String) {
+                val ok = withContext(Dispatchers.IO) {
+                    try {
+                        val c = java.net.URL(url).openConnection() as java.net.HttpURLConnection
+                        c.connectTimeout = 10000; c.readTimeout = 15000
+                        c.setRequestProperty("User-Agent", "SSEFB")
+                        try { c.responseCode in 200..399 } finally { c.disconnect() }
+                    } catch (e: Exception) { false }
+                }
+                add(if (ok) true else null, label + if (ok) "" else " — " + getString(R.string.st_offline))
+            }
+            probe("FAA VFR charts", "https://tiles.arcgis.com/tiles/ssFJjBXIUyZDrSYZ/arcgis/rest/services/VFR_Sectional/MapServer/tile/8/101/45")
+            probe("FAA d-TPP (plates)", "https://aeronav.faa.gov/d-tpp/${AviationData.airacCycle()}/xml_data/d-tpp_Metafile.xml")
+            probe("Aviation Weather Center", "https://aviationweather.gov/api/data/metar?ids=$home&format=raw")
+            probe("FAA TFRs", "https://tfr.faa.gov/")
+            // Offline readiness for the home airport.
+            val (info, plates, notams) = withContext(Dispatchers.IO) {
+                val st = if (home.length == 3) "K$home" else home
+                Triple(
+                    File(filesDir, "aviation/info/${st.replace(Regex("[^A-Z0-9]"), "")}.json").exists(),
+                    File(filesDir, "aviation/tpp.json").exists(),
+                    AviationData.notamsSaved(this@EfbCheckActivity, st),
+                )
+            }
+            add(info, getString(R.string.st_home_info, home))
+            add(plates, getString(R.string.st_plates))
+            add(if (notams != null) true else null, getString(R.string.st_notams, home) +
+                (notams?.second?.let { " · " + java.text.DateFormat.getDateTimeInstance(java.text.DateFormat.SHORT, java.text.DateFormat.SHORT).format(java.util.Date(it)) } ?: ""))
+            val stale = ChartUpdates.outOfDate(this@EfbCheckActivity)
+            add(stale == 0, getString(R.string.st_saved_charts, stale))
+            val crash = File(filesDir, "last_crash.txt").exists()
+            add(!crash, getString(if (crash) R.string.st_crash else R.string.st_nocrash))
+            val stamp = java.text.DateFormat.getDateTimeInstance(java.text.DateFormat.SHORT, java.text.DateFormat.SHORT).format(java.util.Date())
+            val fails = lines.count { it.startsWith("❌") }
+            val warns = lines.count { it.startsWith("⚠️") }
+            val summary = getString(R.string.st_summary, stamp, lines.size - fails - warns, warns, fails)
+            add(if (fails == 0 && warns == 0) true else if (fails == 0) null else false, summary)
+            prefs.edit().putString("efb_selftest", summary).apply()
+            button.isEnabled = true
+        }
     }
 
     private fun refsFolder(): String =

@@ -485,6 +485,26 @@ or tap an airport → Add to route, or long-press anywhere on the chart.</string
         <item>🌙 Brightness right (night mode for a night flight)</item>
         <item>🔕 Notifications silenced (Do Not Disturb)</item>
     </string-array>
+    <string name="efbc_sources">📡 Data sources and currency</string>
+    <string name="efbc_verify">Compare the edition dates with the FAA\'s official schedule</string>
+    <string name="efbc_selftest">🧪 Self-test</string>
+    <string name="efbc_selftest_run">Test the app now</string>
+    <string name="efbc_dpe">🎓 With the instructor or DPE</string>
+    <string name="efbc_dpe_text">What they may ask to see, and how to be ready:\n\n1️⃣ Current data: open this page → Data sources, or show the green strip under the chart (VFR … ✓ · AIRAC).\n2️⃣ The self-test: run it in front of them before the flight, all ✅.\n3️⃣ A backup: a second device with Garmin Pilot or SSEFB with the charts saved, or paper charts; and say what you do if the device fails.\n4️⃣ Battery and mounting: 80 percent or more, a charger, a kneeboard or mount.\n5️⃣ That you use it quickly: an airport, its Chart Supplement, plates, METAR/TAF, NOTAMs, TFRs, and the nearest airport (NRST) in seconds.\n6️⃣ Pilotage and dead reckoning: on the checkride you fly by chart, clock and compass without GPS. Practise it: chart menu → 🧭 Pilotage practice hides the aircraft and the GPS readouts; use the NavLog for DR.\n7️⃣ Weight and balance and performance: from the POH/AOI numbers; the app helps you compute.\n8️⃣ That you know its limits: radar, traffic and terrain are awareness only, and the GPS is not a certified navigator.\n\n💡 Most important: ask the school and the DPE beforehand whether they accept your app as the primary EFB.</string>
+    <string name="pilotage_menu">🧭 Pilotage practice (no GPS)</string>
+    <string name="pilotage_on">🧭 Pilotage practice: the aircraft and GPS readouts are hidden. Fly by chart, clock and compass</string>
+    <string name="pilotage_off">Aircraft and GPS back</string>
+    <string name="st_gps_none">GPS: no position yet (open the map outdoors)</string>
+    <string name="st_gps">GPS: ±%1$d m, %2$d min ago</string>
+    <string name="st_clock">Phone clock against satellite time: %1$d s apart</string>
+    <string name="st_offline">no internet; the saved copy will be used</string>
+    <string name="st_home_info">%1$s information saved for offline</string>
+    <string name="st_plates">Plates index saved</string>
+    <string name="st_notams">%1$s NOTAMs saved</string>
+    <string name="st_saved_charts">Saved charts: %1$d out of date</string>
+    <string name="st_crash">A crash is on record from last time</string>
+    <string name="st_nocrash">No crashes on record</string>
+    <string name="st_summary">Last test %1$s: %2$d ✅ · %3$d ⚠️ · %4$d ❌</string>
     <string name="map_circle">Circle</string>
     <string name="map_ruler">Ruler</string>
     <string name="pen_write">Write and highlight</string>

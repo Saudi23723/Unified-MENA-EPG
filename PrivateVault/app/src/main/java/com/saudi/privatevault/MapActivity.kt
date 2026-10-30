@@ -251,9 +251,41 @@ class MapActivity : BaseActivity() {
         if (intent.getBooleanExtra(EXTRA_NRST, false)) b.root.postDelayed({ nearest() }, 1500)
     }
 
+    // The edition in force, always on the chart, as on a commercial EFB.
+    private var currency: android.widget.TextView? = null
+    private var pilotage = false
+
+    private fun showCurrency() {
+        val (text, ok) = DataCurrency.mapLine(this)
+        val t = currency ?: android.widget.TextView(this).apply {
+            textSize = 10.5f
+            setPadding(dp(8), dp(3), dp(8), dp(3))
+            setOnClickListener { startActivity(android.content.Intent(this@MapActivity, EfbCheckActivity::class.java)) }
+            b.root.addView(this, android.widget.FrameLayout.LayoutParams(-2, -2, android.view.Gravity.BOTTOM or android.view.Gravity.START).apply {
+                setMargins(dp(8), 0, 0, dp(10))
+            })
+            currency = this
+        }
+        t.text = (if (pilotage) "🧭 PILOTAGE · " else "") + text
+        t.setTextColor(if (ok) 0xFFE8F5E9.toInt() else 0xFF1A1A1A.toInt())
+        t.background = EfbUi.cardBg(this, if (ok) 0xCC1B5E20.toInt() else 0xEEFFB300.toInt(), 10).apply { setStroke(0, 0) }
+    }
+
+    /** Practice for the checkride's pilotage and dead reckoning: the aircraft and GPS readouts hidden. */
+    private fun setPilotage(on: Boolean) {
+        pilotage = on
+        ownship.isEnabled = !on
+        if (on && following) follow()
+        b.hud.visibility = if (on) View.GONE else View.VISIBLE
+        map.invalidate()
+        showCurrency()
+        Toast.makeText(this, if (on) R.string.pilotage_on else R.string.pilotage_off, Toast.LENGTH_LONG).show()
+    }
+
     override fun onResume() {
         super.onResume()
         map.onResume()
+        showCurrency()
         Terrain.onTile = { map.postInvalidate() }
         b.root.removeCallbacks(frame)
         b.root.post(frame)
@@ -1492,6 +1524,8 @@ class MapActivity : BaseActivity() {
         menu.add(0, 30, 0, R.string.freq_title)
         menu.add(0, 31, 0, R.string.notes_title)
         menu.add(0, 32, 0, R.string.charts_title)
+        menu.add(0, 34, 0, R.string.pilotage_menu).setCheckable(true).isChecked = pilotage
+        menu.add(0, 35, 0, R.string.efbc_title)
         menu.add(0, 21, 0, R.string.pack_title)
         menu.add(0, 22, 0, R.string.brief_title)
         menu.add(0, 26, 0, R.string.map_profile)
@@ -1537,6 +1571,8 @@ class MapActivity : BaseActivity() {
             10 -> navLog()
             20 -> nearest()
             32 -> ChartUpdates.show(this)
+            34 -> { setPilotage(!pilotage); item.isChecked = pilotage }
+            35 -> startActivity(android.content.Intent(this, EfbCheckActivity::class.java))
             31 -> if (NotePad.isOpen()) NotePad.close(this) else Notebooks.choose(this, null)
             30 -> {
                 val here = ownship.position() ?: map.mapCenter as GeoPoint

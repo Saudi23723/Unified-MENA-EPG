@@ -499,6 +499,26 @@
         <item>🌙 السطوع مناسب (ليلي إذا طيران ليل)</item>
         <item>🔕 الإشعارات مسكّرة (Do Not Disturb)</item>
     </string-array>
+    <string name="efbc_sources">📡 مصادر البيانات وصلاحيتها</string>
+    <string name="efbc_verify">قارن تواريخ الإصدار مع جدول الـ FAA الرسمي</string>
+    <string name="efbc_selftest">🧪 فحص ذاتي</string>
+    <string name="efbc_selftest_run">افحص التطبيق هلأ</string>
+    <string name="efbc_dpe">🎓 مع المدرّب أو الـ DPE</string>
+    <string name="efbc_dpe_text">شو ممكن يطلب يشوف، وكيف تجهّز:\n\n1️⃣ البيانات سارية: افتح هالصفحة ← «مصادر البيانات»، أو ورجيه الشريط الأخضر تحت الخريطة (VFR … ✓ · AIRAC).\n2️⃣ الفحص الذاتي: اعمله قدّامه قبل الرحلة، كله ✅.\n3️⃣ البديل: جهاز تاني فيه Garmin Pilot أو SSEFB بالخرائط محمّلة، أو خرائط ورق. وقلّه شو بتعمل إذا الجهاز وقف.\n4️⃣ البطارية والتثبيت: 80 بالمية وأكتر، شاحن، kneeboard أو mount.\n5️⃣ إنك بتعرف تستعمله بسرعة: تلاقي مطار، Chart Supplement، الـ plates، الـ METAR/TAF، الـ NOTAMs، الـ TFRs، وأقرب مطار (NRST) بثواني.\n6️⃣ الـ Pilotage والـ Dead reckoning: بالـ checkride بيطلب تطير بالخريطة والساعة والبوصلة بدون GPS. تدرّب عليها: من قائمة الخريطة ← «🧭 تدريب Pilotage» بيخفي الطيارة وقراءات الـ GPS، واستعمل الـ NavLog للـ DR.\n7️⃣ الـ Weight and Balance والأداء: من الـ POH/AOI بالأرقام، والتطبيق بيساعدك تحسب.\n8️⃣ إنك فاهم حدوده: الرادار والترافيك والتضاريس للتوعية بس، والـ GPS مش جهاز ملاحة معتمد.\n\n💡 الأهم: اسأل المدرسة والـ DPE مسبقاً إذا بيقبلوا تطبيقك كـ EFB أساسي.</string>
+    <string name="pilotage_menu">🧭 تدريب Pilotage (بدون GPS)</string>
+    <string name="pilotage_on">🧭 تدريب Pilotage: الطيارة وقراءات الـ GPS مخفية. طير بالخريطة والساعة والبوصلة</string>
+    <string name="pilotage_off">رجعت الطيارة والـ GPS</string>
+    <string name="st_gps_none">GPS: ما في موقع لسا (افتح الخريطة برا)</string>
+    <string name="st_gps">GPS: دقة ±%1$d m، من %2$d دقيقة</string>
+    <string name="st_clock">ساعة الموبايل مع وقت الأقمار: فرق %1$d ثانية</string>
+    <string name="st_offline">ما في نت، رح يستعمل المحفوظ</string>
+    <string name="st_home_info">معلومات %1$s محفوظة بدون نت</string>
+    <string name="st_plates">فهرس الـ plates محفوظ</string>
+    <string name="st_notams">NOTAMs %1$s محفوظة</string>
+    <string name="st_saved_charts">الخرائط المحفوظة: %1$d قديمة</string>
+    <string name="st_crash">في عطل مسجّل من آخر مرة</string>
+    <string name="st_nocrash">ما في أعطال مسجّلة</string>
+    <string name="st_summary">آخر فحص %1$s: %2$d ✅ · %3$d ⚠️ · %4$d ❌</string>
     <string name="map_circle">دائرة</string>
     <string name="map_ruler">مسطرة</string>
     <string name="pen_write">كتابة وتظليل</string>
