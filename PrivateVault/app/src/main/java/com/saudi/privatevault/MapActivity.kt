@@ -162,7 +162,7 @@ class MapActivity : BaseActivity() {
             onPick = { texts -> MaterialAlertDialogBuilder(this@MapActivity).setMessage(texts.joinToString("\n\n")).setPositiveButton(android.R.string.ok, null).show() }
         }
         if (prefs.getBoolean("wx_airspace", true)) map.overlays.add(airspace)
-        lifecycleScope.launch { withContext(Dispatchers.IO) { Airspace.load(this@MapActivity) }; map.invalidate() }
+        lifecycleScope.launch { withContext(Dispatchers.IO) { try { Airspace.load(this@MapActivity) } catch (e: Throwable) {} }; map.invalidate() }
         map.overlays.add(weather)
         plan = FlightPlan.load(this)
         route = RouteOverlay(map, { plan }, { if (::ownship.isInitialized) ownship.position() else null })

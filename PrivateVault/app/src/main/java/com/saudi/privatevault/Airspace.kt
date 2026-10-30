@@ -71,17 +71,18 @@ object Airspace {
         return if (uom.uppercase().contains("FL") || v.startsWith("FL")) (n * 100).toInt() else n.toInt()
     }
 
-    private fun query(layer: String, where: String): JSONArray {
-        val all = JSONArray()
+    /** Page by page, each page turned into areas at once, so only one page of the FAA's answer is held. */
+    private fun query(layer: String, where: String, sua: Boolean): List<Area> {
+        val all = ArrayList<Area>()
         var offset = 0
         while (true) {
             val url = "$BASE/$layer/FeatureServer/0/query?where=" + URLEncoder.encode(where, "UTF-8") +
                 "&geometry=$BOX&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects" +
-                "&outFields=*&returnGeometry=true&outSR=4326&geometryPrecision=5&f=json&resultOffset=$offset&resultRecordCount=1000"
+                "&outFields=*&returnGeometry=true&outSR=4326&geometryPrecision=4&maxAllowableOffset=0.0015&f=json&resultOffset=$offset&resultRecordCount=500"
             val j = JSONObject(AviationData.get(url, 60000))
             if (j.has("error")) throw java.io.IOException(j.optJSONObject("error")?.optString("message"))
             val f = j.optJSONArray("features") ?: break
-            for (i in 0 until f.length()) all.put(f.get(i))
+            all.addAll(parse(f, sua))
             if (!j.optBoolean("exceededTransferLimit") || f.length() == 0) break
             offset += f.length()
         }
@@ -118,29 +119,82 @@ object Airspace {
 
     @Volatile var areas: List<Area> = emptyList()
 
-    /** Loads the West's airspace: from the phone, refreshed from the FAA every 28 days. */
+    /**
+     * Loads the West's airspace: from the phone, refreshed from the FAA every 28 days.
+     * Kept in a compact form of its own (written piece by piece), never as the FAA's
+     * whole answer in one string, which does not fit in a phone's memory.
+     */
     fun load(ctx: Context): List<Area> {
-        val file = File(ctx.filesDir, "aviation/airspace.json")
+        val file = File(ctx.filesDir, "aviation/airspace2.json")
+        File(ctx.filesDir, "aviation/airspace.json").delete()
         val fresh = file.exists() && System.currentTimeMillis() - file.lastModified() < 28L * 86400000
-        var cls: JSONArray? = null
-        var sua: JSONArray? = null
-        if (!fresh) {
-            cls = try { query("Class_Airspace", "CLASS IN ('B','C','D')") } catch (e: Exception) {
-                try { query("Class_Airspace", "1=1") } catch (e2: Exception) { null }
+        if (!fresh) try {
+            val cls = try { query("Class_Airspace", "CLASS IN ('B','C','D')", false) } catch (e: Exception) {
+                try { query("Class_Airspace", "1=1", false) } catch (e2: Exception) { null }
             }
-            sua = try { query("Special_Use_Airspace", "1=1") } catch (e: Exception) { null }
+            val sua = try { query("Special_Use_Airspace", "1=1", true) } catch (e: Exception) { null }
             if (cls != null || sua != null) {
-                file.parentFile?.mkdirs()
-                file.writeText(JSONObject().put("c", cls ?: JSONArray()).put("s", sua ?: JSONArray()).toString())
+                val list = (cls ?: emptyList()) + (sua ?: emptyList())
+                write(file, list)
+                areas = list
+                return list
             }
+        } catch (e: Throwable) {
+            // Out of memory or the FAA away: the copy on the phone stays.
         }
-        if (cls == null && sua == null && file.exists()) try {
-            val o = JSONObject(file.readText())
-            cls = o.optJSONArray("c"); sua = o.optJSONArray("s")
-        } catch (e: Exception) {
-        }
-        areas = parse(cls ?: JSONArray(), false) + parse(sua ?: JSONArray(), true)
+        if (file.exists()) try { areas = read(file) } catch (e: Throwable) { }
         return areas
+    }
+
+    private fun write(file: File, list: List<Area>) {
+        file.parentFile?.mkdirs()
+        val tmp = File(file.path + ".tmp")
+        android.util.JsonWriter(tmp.bufferedWriter()).use { w ->
+            w.beginArray()
+            for (a in list) {
+                w.beginObject()
+                w.name("k").value(a.kind).name("n").value(a.name)
+                a.lowFt?.let { w.name("lf").value(it.toLong()) }
+                a.highFt?.let { w.name("hf").value(it.toLong()) }
+                w.name("l").value(a.low).name("h").value(a.high).name("no").value(a.note)
+                w.name("r").beginArray()
+                for (r in a.rings) { w.beginArray(); for (v in r) w.value(Math.round(v * 10000) / 10000.0); w.endArray() }
+                w.endArray()
+                w.endObject()
+            }
+            w.endArray()
+        }
+        tmp.renameTo(file)
+    }
+
+    private fun read(file: File): List<Area> {
+        val out = ArrayList<Area>()
+        android.util.JsonReader(file.bufferedReader()).use { r ->
+            r.beginArray()
+            while (r.hasNext()) {
+                var k = ""; var n = ""; var lf: Int? = null; var hf: Int? = null; var l = ""; var h = ""; var no = ""
+                val rings = ArrayList<DoubleArray>()
+                r.beginObject()
+                while (r.hasNext()) when (r.nextName()) {
+                    "k" -> k = r.nextString(); "n" -> n = r.nextString(); "lf" -> lf = r.nextInt(); "hf" -> hf = r.nextInt()
+                    "l" -> l = r.nextString(); "h" -> h = r.nextString(); "no" -> no = r.nextString()
+                    "r" -> {
+                        r.beginArray()
+                        while (r.hasNext()) {
+                            val pts = ArrayList<Double>()
+                            r.beginArray(); while (r.hasNext()) pts.add(r.nextDouble()); r.endArray()
+                            rings.add(pts.toDoubleArray())
+                        }
+                        r.endArray()
+                    }
+                    else -> r.skipValue()
+                }
+                r.endObject()
+                out.add(Area(k, n, lf, hf, l, h, rings, no))
+            }
+            r.endArray()
+        }
+        return out
     }
 
     fun color(kind: String): Int = when (kind) {
