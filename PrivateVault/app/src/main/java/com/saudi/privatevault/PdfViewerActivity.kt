@@ -1014,9 +1014,10 @@ class PdfViewerActivity : BaseActivity() {
     private fun askAssistant(selected: String?, start: String? = null) {
         val bmp = (b.page.drawable as? android.graphics.drawable.BitmapDrawable)?.bitmap
         val jpeg = bmp?.let {
-            val w = minOf(1280, it.width)
+            // About 1000 px wide: the text stays readable to Gemini, and the picture is light to send.
+            val w = minOf(1000, it.width)
             val small = if (it.width > w) Bitmap.createScaledBitmap(it, w, (it.height.toFloat() * w / it.width).toInt(), true) else it
-            java.io.ByteArrayOutputStream().also { o -> small.compress(Bitmap.CompressFormat.JPEG, 80, o) }.toByteArray()
+            java.io.ByteArrayOutputStream().also { o -> small.compress(Bitmap.CompressFormat.JPEG, 72, o) }.toByteArray()
         }
         AiChatActivity.open(this, jpeg, selected, b.toolbar.title?.toString().orEmpty().removeSuffix(".pdf"), pageIndex + 1, start)
     }

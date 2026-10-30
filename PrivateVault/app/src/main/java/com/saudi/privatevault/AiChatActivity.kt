@@ -49,6 +49,8 @@ class AiChatActivity : BaseActivity() {
     }
 
     private val turns = ArrayList<Gemini.Turn>()
+    // What is on screen, to draw again in the other theme: (from the pilot?, text).
+    private val shown = ArrayList<Pair<Boolean, String>>()
     private lateinit var list: LinearLayout
     private lateinit var scroll: ScrollView
     private lateinit var input: EditText
@@ -56,27 +58,57 @@ class AiChatActivity : BaseActivity() {
     private lateinit var langChip: TextView
     private var busy: Job? = null
 
+    // Gemini's two looks.
+    private var light = false
+    private val bg get() = if (light) 0xFFFFFFFF.toInt() else 0xFF131314.toInt()
+    private val ink get() = if (light) 0xFF1F1F1F.toInt() else 0xFFE3E3E3.toInt()
+    private val dim get() = if (light) 0xFF5F6368.toInt() else 0xFF9AA0A6.toInt()
+    private val bubble get() = if (light) 0xFFE9EEF6.toInt() else 0xFF282A2C.toInt()
+    private val field get() = if (light) 0xFFF0F4F9.toInt() else 0xFF1E1F20.toInt()
+    private val accent get() = if (light) 0xFF0B57D0.toInt() else 0xFF8AB4F8.toInt()
+    private val bad get() = if (light) 0xFFB3261E.toInt() else 0xFFF28B82.toInt()
+
     private fun dp(v: Int) = EfbUi.dp(this, v)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val bg = 0xFF131314.toInt()
+        light = VaultLock.prefs(this).getBoolean("ai_light", false)
+        build()
+        Gemini.warmUp()
+        if (!Gemini.hasKey(this)) {
+            Toast.makeText(this, R.string.ai_key_first, Toast.LENGTH_LONG).show()
+            AiKey.ask(this)
+        }
+        intent.getStringExtra(EXTRA_START)?.let { send(it) }
+    }
+
+    /** The whole screen, in the current look; the conversation so far is drawn again. */
+    private fun build() {
         window.statusBarColor = bg
         window.navigationBarColor = bg
+        androidx.core.view.WindowCompat.getInsetsController(window, window.decorView).apply {
+            isAppearanceLightStatusBars = light
+            isAppearanceLightNavigationBars = light
+        }
         val root = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setBackgroundColor(bg) }
 
-        // Top bar: back, Gemini, the language switch, the key.
+        // Top bar: back, Gemini, light or dark, the language, the key.
         val bar = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL; setPadding(dp(6), dp(6), dp(10), dp(6)) }
         bar.addView(TextView(this).apply {
-            text = "‹"; textSize = 30f; setTextColor(0xFFE3E3E3.toInt()); setPadding(dp(12), 0, dp(12), dp(4))
+            text = "‹"; textSize = 30f; setTextColor(ink); setPadding(dp(12), 0, dp(12), dp(4))
             setOnClickListener { finish() }
         })
         bar.addView(TextView(this).apply {
-            text = "✦ Gemini"; textSize = 20f; setTextColor(0xFFE3E3E3.toInt()); setTypeface(typeface, Typeface.BOLD)
+            text = "✦ Gemini"; textSize = 20f; setTextColor(ink); setTypeface(typeface, Typeface.BOLD)
         }, LinearLayout.LayoutParams(0, -2, 1f))
-        langChip = pill("", 0xFF282A2C.toInt()) { Gemini.setEnglish(this, !Gemini.english(this)); showLang() }
-        bar.addView(langChip)
-        bar.addView(pill("🔑", 0xFF282A2C.toInt()) { AiKey.ask(this) }, LinearLayout.LayoutParams(-2, -2).apply { marginStart = dp(8) })
+        bar.addView(pill(if (light) "🌙" else "☀️", bubble) {
+            light = !light
+            VaultLock.prefs(this).edit().putBoolean("ai_light", light).apply()
+            build()
+        })
+        langChip = pill("", bubble) { Gemini.setEnglish(this, !Gemini.english(this)); showLang() }
+        bar.addView(langChip, LinearLayout.LayoutParams(-2, -2).apply { marginStart = dp(8) })
+        bar.addView(pill("🔑", bubble) { AiKey.ask(this) }, LinearLayout.LayoutParams(-2, -2).apply { marginStart = dp(8) })
         root.addView(bar)
         showLang()
 
@@ -88,39 +120,41 @@ class AiChatActivity : BaseActivity() {
         val about = (if (bookTitle.isNotEmpty()) "📖 $bookTitle · ${getString(R.string.pdf_page_short, pageNumber)}" else "") +
             (selected?.let { "\n“" + it.replace('\n', ' ').take(160) + (if (it.length > 160) "…" else "") + "”" } ?: "")
         if (about.isNotBlank()) list.addView(TextView(this).apply {
-            text = about; textSize = 13f; setTextColor(0xFF9AA0A6.toInt()); setPadding(0, dp(4), 0, dp(14))
+            text = about; textSize = 13f; setTextColor(dim); setPadding(0, dp(4), 0, dp(14))
         })
         list.addView(TextView(this).apply {
-            text = getString(R.string.ai_hello); textSize = 26f; setTextColor(0xFF8AB4F8.toInt())
+            text = getString(R.string.ai_hello); textSize = 26f; setTextColor(accent)
             setTypeface(typeface, Typeface.BOLD); setPadding(0, dp(18), 0, dp(10))
         })
+        for ((mine, text) in shown) if (mine) userBubble(text) else answerView(text, done = true)
 
-        // Suggestions, like Gemini's, gone once the conversation starts.
+        // Suggestions, like Gemini's, until the conversation starts.
         val row = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; setPadding(dp(12), dp(4), dp(12), dp(4)) }
         for ((label, prompt) in listOf(
             R.string.ai_s_summary to R.string.ai_p_summary, R.string.ai_s_explain to R.string.ai_p_explain,
             R.string.ai_s_quiz to R.string.ai_p_quiz, R.string.ai_s_example to R.string.ai_p_example,
             R.string.ai_s_checkride to R.string.ai_p_checkride,
-        )) row.addView(pill(getString(label), 0xFF1E1F20.toInt()) { send(getString(prompt)) }, LinearLayout.LayoutParams(-2, -2).apply { marginEnd = dp(8) })
+        )) row.addView(pill(getString(label), field) { send(getString(prompt)) }, LinearLayout.LayoutParams(-2, -2).apply { marginEnd = dp(8) })
         chips = HorizontalScrollView(this).apply { isHorizontalScrollBarEnabled = false; addView(row) }
+        chips.visibility = if (shown.isEmpty()) View.VISIBLE else View.GONE
         root.addView(chips)
 
         // The input: a rounded box and a send button.
         val inBar = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL
             setPadding(dp(14), dp(8), dp(8), dp(8))
-            background = EfbUi.cardBg(this@AiChatActivity, 0xFF1E1F20.toInt(), 28)
+            background = EfbUi.cardBg(this@AiChatActivity, field, 28).apply { setStroke(0, 0) }
         }
+        val old = if (::input.isInitialized) input.text.toString() else ""
         input = EditText(this).apply {
-            hint = getString(R.string.ai_ask_hint); setHintTextColor(0xFF9AA0A6.toInt()); setTextColor(0xFFE3E3E3.toInt())
-            background = null; maxLines = 5; textSize = 16f
-            imeOptions = EditorInfo.IME_ACTION_SEND
+            hint = getString(R.string.ai_ask_hint); setHintTextColor(dim); setTextColor(ink)
+            background = null; maxLines = 5; textSize = 16f; setText(old)
             inputType = android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE or android.text.InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
         }
         inBar.addView(input, LinearLayout.LayoutParams(0, -2, 1f))
         inBar.addView(TextView(this).apply {
-            text = "↑"; textSize = 22f; setTextColor(0xFF131314.toInt()); gravity = Gravity.CENTER
-            background = android.graphics.drawable.GradientDrawable().apply { shape = android.graphics.drawable.GradientDrawable.OVAL; setColor(0xFFE3E3E3.toInt()) }
+            text = "↑"; textSize = 22f; setTextColor(bg); gravity = Gravity.CENTER
+            background = android.graphics.drawable.GradientDrawable().apply { shape = android.graphics.drawable.GradientDrawable.OVAL; setColor(ink) }
             setOnClickListener { input.text.toString().trim().takeIf { it.isNotEmpty() }?.let { input.setText(""); send(it) } }
         }, LinearLayout.LayoutParams(dp(42), dp(42)))
         root.addView(inBar, LinearLayout.LayoutParams(-1, -2).apply { setMargins(dp(12), dp(6), dp(12), dp(12)) })
@@ -131,16 +165,12 @@ class AiChatActivity : BaseActivity() {
             v.setPadding(0, b.top, 0, b.bottom)
             insets
         }
-        if (!Gemini.hasKey(this)) {
-            Toast.makeText(this, R.string.ai_key_first, Toast.LENGTH_LONG).show()
-            AiKey.ask(this)
-        }
-        intent.getStringExtra(EXTRA_START)?.let { send(it) }
+        scrollDown()
     }
 
     private fun pill(label: String, color: Int, onClick: () -> Unit) = TextView(this).apply {
-        text = label; textSize = 14f; setTextColor(0xFFE3E3E3.toInt())
-        background = EfbUi.cardBg(this@AiChatActivity, color, 20)
+        text = label; textSize = 14f; setTextColor(ink)
+        background = EfbUi.cardBg(this@AiChatActivity, color, 20).apply { setStroke(0, 0) }
         setPadding(dp(14), dp(9), dp(14), dp(9))
         setOnClickListener { onClick() }
     }
@@ -148,6 +178,30 @@ class AiChatActivity : BaseActivity() {
     private fun showLang() {
         langChip.text = if (Gemini.english(this)) "🇺🇸 English" else "🇯🇴 عربي"
     }
+
+    private fun userBubble(text: String) = list.addView(TextView(this).apply {
+        this.text = text; textSize = 16f; setTextColor(ink)
+        background = EfbUi.cardBg(this@AiChatActivity, bubble, 20).apply { setStroke(0, 0) }
+        setPadding(dp(16), dp(10), dp(16), dp(10))
+        textDirection = View.TEXT_DIRECTION_FIRST_STRONG
+    }, LinearLayout.LayoutParams(-2, -2).apply { gravity = Gravity.END; topMargin = dp(14); marginStart = dp(48) })
+
+    /** An answer: the ✦, the text, and (once complete) a copy button. */
+    private fun answerView(text: String, done: Boolean): TextView {
+        list.addView(TextView(this).apply { this.text = "✦"; textSize = 20f; setTextColor(accent); setPadding(0, dp(16), 0, dp(2)) })
+        val reply = TextView(this).apply {
+            this.text = md(text); textSize = 16f; setTextColor(ink); setLineSpacing(0f, 1.3f)
+            setTextIsSelectable(true); textDirection = View.TEXT_DIRECTION_FIRST_STRONG
+        }
+        list.addView(reply)
+        if (done) copyButton(text)
+        return reply
+    }
+
+    private fun copyButton(text: String) = list.addView(pill("⧉ " + getString(R.string.sel_copy), field) {
+        (getSystemService(CLIPBOARD_SERVICE) as ClipboardManager).setPrimaryClip(ClipData.newPlainText("answer", text))
+        Toast.makeText(this, R.string.sel_copied, Toast.LENGTH_SHORT).show()
+    }, LinearLayout.LayoutParams(-2, -2).apply { topMargin = dp(6) })
 
     private fun send(question: String) {
         if (busy?.isActive == true) return
@@ -157,22 +211,11 @@ class AiChatActivity : BaseActivity() {
         val first = turns.isEmpty()
         val text = if (first) (selected?.let { "Selected text:\n$it\n\n" } ?: "") + question else question
         turns.add(Gemini.Turn(true, text, if (first) pageImage else null))
-        list.addView(TextView(this).apply {
-            this.text = question; textSize = 16f; setTextColor(0xFFE3E3E3.toInt())
-            background = EfbUi.cardBg(this@AiChatActivity, 0xFF282A2C.toInt(), 20)
-            setPadding(dp(16), dp(10), dp(16), dp(10))
-            textDirection = View.TEXT_DIRECTION_FIRST_STRONG
-        }, LinearLayout.LayoutParams(-2, -2).apply { gravity = Gravity.END; topMargin = dp(14); marginStart = dp(48) })
-
-        val head = TextView(this).apply { this.text = "✦"; textSize = 20f; setTextColor(0xFF8AB4F8.toInt()); setPadding(0, dp(16), 0, dp(2)) }
-        list.addView(head)
-        val reply = TextView(this).apply {
-            this.text = "…"; textSize = 16f; setTextColor(0xFFE3E3E3.toInt()); setLineSpacing(0f, 1.3f)
-            setTextIsSelectable(true); textDirection = View.TEXT_DIRECTION_FIRST_STRONG
-        }
-        list.addView(reply)
+        shown.add(true to question)
+        userBubble(question)
+        val reply = answerView("…", done = false)
         // Under the answer: which model, and the seconds, so a wait is never a mystery.
-        val status = TextView(this).apply { textSize = 12f; setTextColor(0xFF9AA0A6.toInt()); setPadding(0, dp(6), 0, 0) }
+        val status = TextView(this).apply { textSize = 12f; setTextColor(dim); setPadding(0, dp(6), 0, 0) }
         list.addView(status)
         val t0 = System.currentTimeMillis()
         var model = ""
@@ -197,14 +240,13 @@ class AiChatActivity : BaseActivity() {
             if (a.text != null) {
                 reply.text = md(a.text)
                 turns.add(Gemini.Turn(false, a.text))
-                list.addView(pill("⧉ " + getString(R.string.sel_copy), 0xFF1E1F20.toInt()) {
-                    (getSystemService(CLIPBOARD_SERVICE) as ClipboardManager).setPrimaryClip(ClipData.newPlainText("answer", a.text))
-                    Toast.makeText(this@AiChatActivity, R.string.sel_copied, Toast.LENGTH_SHORT).show()
-                }, LinearLayout.LayoutParams(-2, -2).apply { topMargin = dp(6) })
+                shown.add(false to a.text)
+                copyButton(a.text)
             } else {
                 // Not answered: the question is taken back so it can be asked again.
                 turns.removeAt(turns.size - 1)
-                reply.setTextColor(0xFFF28B82.toInt())
+                shown.removeAt(shown.size - 1)
+                reply.setTextColor(bad)
                 reply.text = getString(if (a.problem == "nonet") R.string.ai_nonet else R.string.ai_failed) +
                     if (a.detail.isNotEmpty()) "\n\n" + a.detail else ""
             }

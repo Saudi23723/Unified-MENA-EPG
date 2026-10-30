@@ -26,7 +26,8 @@ object Gemini {
 
     private const val BASE = "You are a patient flight instructor helping a student pilot (PPL, Evektor SportStar MAX, " +
         "Boulder City KBVU) study aviation books. Be accurate, clear and concise, use short bullet points and bold " +
-        "for key terms. If the page does not hold the answer, say so and answer from general aviation knowledge, clearly marked."
+        "for key terms. Start with the answer itself: no greeting, no filler, no closing question. " +
+        "If the page does not hold the answer, say so and answer from general aviation knowledge, clearly marked."
 
     fun system(ctx: Context) = BASE + if (english(ctx)) " Always answer in English."
         else " Answer in Arabic (Levantine-friendly Modern Standard Arabic), keeping technical terms in English in brackets, e.g. قوة الرفع (Lift)."
@@ -54,6 +55,17 @@ object Gemini {
 
     /** Streams the reply to the conversation; [onText] gets the text so far as it is written. */
     var lastModel = ""
+
+    /** Opens the line to Google while the pilot reads the screen, so the first question does not wait for it. */
+    fun warmUp() = Thread {
+        try {
+            val c = URL("https://generativelanguage.googleapis.com/v1beta/models?pageSize=1").openConnection() as HttpURLConnection
+            c.connectTimeout = 8000; c.readTimeout = 8000
+            c.responseCode
+            (c.errorStream ?: c.inputStream)?.use { it.readBytes() }
+        } catch (e: Exception) {
+        }
+    }.start()
 
     fun chat(ctx: Context, turns: List<Turn>, onStatus: (String) -> Unit = {}, onText: (String) -> Unit): LaptopClient.AiAnswer {
         val key = key(ctx)
