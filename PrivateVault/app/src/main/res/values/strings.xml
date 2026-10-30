@@ -400,6 +400,19 @@
     <string name="zulu_note">الوقت بالتقارير بتوقيت Zulu (UTC)، يعني 7 ساعات قدام لاس فيغاس بالصيفي (8 بالشتوي). مثلاً 300435Z يعني يوم 30 الساعة 04:35Z = 29 أكتوبر 21:35 عندك. على يسار كل سطر الوقت المحلي.</string>
     <string name="cs_loading">جاري فتح الـ Chart Supplement…</string>
     <string name="notes_title">📝 ملاحظات</string>
+    <string name="freq_title">📻 الترددات</string>
+    <string name="freq_hint">اكبس على أي تردد تحت لينحط على STBY (وبينسخ)، و ⇄ بيبدّل.</string>
+    <string name="freq_stby">STBY %1$s · %2$s</string>
+    <string name="freq_none">ما في ترددات محفوظة لهاد المطار.</string>
+    <string name="freq_part_time">إذا البرج مسكّر (برج بدوام جزئي)، استعمل الـ CTAF وشوف الأوقات بالـ Chart Supplement.</string>
+    <string name="freq_near_wx">🌤 أقرب ATIS / AWOS / ASOS</string>
+    <string name="freq_near_twr">🗼 أقرب أبراج و CTAF</string>
+    <string name="freq_near_app">📡 Approach / Departure</string>
+    <string name="freq_near_ctr">🛰 Center (ARTCC)</string>
+    <string name="freq_near_fss">📻 FSS / Radio</string>
+    <string name="freq_route">🧭 ترددات الرحلة</string>
+    <string name="freq_std">🆘 ترددات وأكواد أساسية</string>
+    <string name="freq_source">المصدر: قائمة الـ FAA للمطار (aviationweather.gov) + OurAirports. تأكد دايماً من الـ Chart Supplement قبل الطيران.</string>
     <string name="map_circle">دائرة</string>
     <string name="map_ruler">مسطرة</string>
     <string name="pen_write">كتابة وتظليل</string>

@@ -71,6 +71,7 @@ class AirportSheet(
             setOnClickListener { onClick() }
         }, LinearLayout.LayoutParams(-2, -2).apply { marginEnd = dp(8) })
         button(R.string.efb_diagram) { AirportDiagramActivity.open(act, a) }
+        button(R.string.freq_title) { FrequenciesActivity.open(act, a.icao.ifEmpty { a.ident }) }
         button(if (Favorites.has(act, a.ident)) R.string.fav_remove else R.string.fav_add) {
             val now = Favorites.toggle(act, a.ident)
             Toast.makeText(act, if (now) R.string.fav_added else R.string.fav_removed, Toast.LENGTH_SHORT).show()
@@ -199,12 +200,7 @@ class AirportSheet(
             }
         }
         best?.let { sb.append("\n✈ Best into the wind: RWY ${it.first}\n") }
-        val freqs = apt?.opt("freqs")
-        val list = when (freqs) {
-            is JSONArray -> (0 until freqs.length()).mapNotNull { i -> freqs.optJSONObject(i)?.let { "${it.optString("type")}  ${it.optString("freq")}" } }
-            is String -> freqs.split(';').filter { it.isNotBlank() }.map { it.replace(',', ' ').trim() }
-            else -> emptyList()
-        }
+        val list = Frequencies.forAirport(act, a, apt).map { "%-20s %s".format(it.kind.label, Frequencies.mhz(it.mhz)) }
         if (list.isNotEmpty()) sb.append("\n${act.getString(R.string.apt_freqs)}\n").append(list.joinToString("\n"))
         apt?.optString("tower")?.takeIf { it.isNotEmpty() && it != "null" }?.let { sb.append("\nTower: ${if (it == "T") "yes" else it}") }
         if (sb.isEmpty()) sb.append("—")

@@ -386,6 +386,19 @@ or tap an airport → Add to route, or long-press anywhere on the chart.</string
     <string name="zulu_note">Report times are Zulu (UTC): 7 hours ahead of Las Vegas in summer time (8 in winter). 300435Z means the 30th at 04:35Z = 29 Oct 21:35 local. The local time is on the left of each line.</string>
     <string name="cs_loading">Opening the Chart Supplement…</string>
     <string name="notes_title">📝 Notes</string>
+    <string name="freq_title">📻 Frequencies</string>
+    <string name="freq_hint">Tap any frequency below to put it on STBY (it is copied too); ⇄ swaps.</string>
+    <string name="freq_stby">STBY %1$s · %2$s</string>
+    <string name="freq_none">No frequencies saved for this airport.</string>
+    <string name="freq_part_time">If the tower is closed (part-time tower), use the CTAF; hours are in the Chart Supplement.</string>
+    <string name="freq_near_wx">🌤 Nearest ATIS / AWOS / ASOS</string>
+    <string name="freq_near_twr">🗼 Nearest towers &amp; CTAF</string>
+    <string name="freq_near_app">📡 Approach / Departure</string>
+    <string name="freq_near_ctr">🛰 Center (ARTCC)</string>
+    <string name="freq_near_fss">📻 FSS / Radio</string>
+    <string name="freq_route">🧭 Route frequencies</string>
+    <string name="freq_std">🆘 Standard frequencies &amp; codes</string>
+    <string name="freq_source">Source: the FAA list for the airport (aviationweather.gov) + OurAirports. Always confirm in the Chart Supplement before flight.</string>
     <string name="map_circle">Circle</string>
     <string name="map_ruler">Ruler</string>
     <string name="pen_write">Write and highlight</string>

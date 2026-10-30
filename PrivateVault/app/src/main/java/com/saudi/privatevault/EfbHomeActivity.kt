@@ -53,6 +53,7 @@ class EfbHomeActivity : BaseActivity() {
             Triple("📒", R.string.log_title) { open(LogbookActivity::class.java) },
             Triple("🎓", R.string.log_109) { startActivity(Intent(this, LogbookActivity::class.java).putExtra(LogbookActivity.EXTRA_TAB, 2)) },
             Triple("⏱", R.string.log_currency) { startActivity(Intent(this, LogbookActivity::class.java).putExtra(LogbookActivity.EXTRA_TAB, 3)) },
+            Triple("📻", R.string.freq_title) { open(FrequenciesActivity::class.java) },
             Triple("🧮", R.string.e6b_title) { open(E6bActivity::class.java) },
             Triple("✅", R.string.ck_title) { open(ChecklistActivity::class.java) },
             Triple("📝", R.string.notes_title) { Notebooks.choose(this, null) },
