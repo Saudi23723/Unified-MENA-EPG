@@ -345,6 +345,10 @@ class MapActivity : BaseActivity() {
         lifecycleScope.launch {
             val list = withContext(Dispatchers.IO) { AviationData.airports(this@MapActivity) }
             airports = list
+            intent.getStringExtra(EXTRA_AIRPORT)?.let { id ->
+                intent.removeExtra(EXTRA_AIRPORT)
+                list.firstOrNull { it.ident == id }?.let { flyTo(it) }
+            }
             airportsLayer.airports = if (prefs.getBoolean("map_airports", true)) list else emptyList()
             draw.snapTo = list
             map.invalidate()
@@ -1159,13 +1163,16 @@ class MapActivity : BaseActivity() {
         menu.add(0, 1, 0, R.string.map_airports).setCheckable(true).isChecked = prefs.getBoolean("map_airports", true)
         menu.add(0, 2, 0, R.string.map_measures).setCheckable(true).isChecked = draw.showMeasures
         menu.add(0, 3, 0, R.string.map_track_up).setCheckable(true).isChecked = trackUp
+        menu.add(0, 11, 0, R.string.map_find).setIcon(R.drawable.ic_search).let {
+            it.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+            it.icon?.setTint(EfbUi.TEXT)
+        }
         menu.add(0, 20, 0, "NRST").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
         menu.add(0, 21, 0, R.string.pack_title)
         menu.add(0, 22, 0, R.string.brief_title)
         menu.add(0, 23, 0, R.string.timer_title)
         menu.add(0, 24, 0, R.string.lang_switch)
         menu.add(0, 10, 0, R.string.plan_title)
-        menu.add(0, 11, 0, R.string.map_find)
         menu.add(0, 12, 0, R.string.wb_title)
         menu.add(0, 13, 0, R.string.wx_winds)
         menu.add(0, 16, 0, R.string.map_3d).setCheckable(true).isChecked = tilted
@@ -1278,29 +1285,15 @@ class MapActivity : BaseActivity() {
         }
     }
 
+    /** Search by FAA identifier, ICAO code, name or city; the map flies there and opens the airport. */
     private fun findAirport() {
-        val input = EditText(this).apply {
-            inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS
-            hint = "KBVU"
-        }
-        MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.map_find)
-            .setView(FrameLayout(this).apply { setPadding(dp(20), dp(8), dp(20), 0); addView(input) })
-            .setPositiveButton(R.string.ok) { _, _ ->
-                val t = input.text.toString().trim().uppercase()
-                val a = airports.firstOrNull { it.icao == t || it.ident == t }
-                    ?: airports.firstOrNull { t.length == 4 && t.startsWith("K") && it.ident == t.substring(1) }
-                    ?: airports.firstOrNull { it.name.contains(t) || it.city.contains(t) }
-                if (a == null) {
-                    Toast.makeText(this, R.string.map_not_found, Toast.LENGTH_SHORT).show()
-                    return@setPositiveButton
-                }
-                if (following) follow()
-                map.controller.animateTo(GeoPoint(a.lat, a.lon), layer.maxZoom.toDouble(), 1400L)
-                b.root.postDelayed({ showAirport(a) }, 1300)
-            }
-            .setNegativeButton(R.string.cancel, null)
-            .show()
+        AirportSearch.show(this, airports, ownship.position() ?: map.mapCenter as GeoPoint) { a -> flyTo(a) }
+    }
+
+    private fun flyTo(a: AviationData.Airport) {
+        if (following) follow()
+        map.controller.animateTo(GeoPoint(a.lat, a.lon), layer.maxZoom.toDouble(), 1400L)
+        b.root.postDelayed({ showAirport(a) }, 1300)
     }
 
     private fun windsAloft() {
@@ -1352,6 +1345,7 @@ class MapActivity : BaseActivity() {
     /** Saves the charts of the area on screen, down to the chart's finest scale, for flying offline. */
     companion object {
         const val EXTRA_NAVLOG = "navlog"
+        const val EXTRA_AIRPORT = "airport"
     }
 
     private fun downloadArea() {

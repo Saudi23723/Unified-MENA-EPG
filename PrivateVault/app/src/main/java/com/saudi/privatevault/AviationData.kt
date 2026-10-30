@@ -45,8 +45,6 @@ object AviationData {
     private const val AIRPORTS =
         "https://services6.arcgis.com/ssFJjBXIUyZDrSYZ/arcgis/rest/services/US_Airport/FeatureServer/0/query"
 
-    // The states a Nevada and California pilot crosses most.
-    private val STATES = listOf("NV", "CA", "AZ", "UT", "OR", "ID", "NM", "CO", "WY")
 
     fun get(url: String, timeout: Int = 20000): String {
         val c = URL(url).openConnection() as HttpURLConnection
@@ -61,20 +59,21 @@ object AviationData {
         }
     }
 
-    /** Public airports of the western states, kept on the phone for 28 days (and used offline). */
+    /** Every public-use airport in the US, kept on the phone for 28 days (and used offline). */
     fun airports(ctx: Context, refresh: Boolean = false): List<Airport> {
-        val file = File(ctx.filesDir, "aviation/airports.json")
+        val file = File(ctx.filesDir, "aviation/airports_us.json")
+        val west = File(ctx.filesDir, "aviation/airports.json")
         val fresh = file.exists() && System.currentTimeMillis() - file.lastModified() < 28L * 86400000
         if (!refresh && fresh) parseAirports(file.readText())?.let { return it }
         return try {
             val all = JSONArray()
-            for (state in STATES) {
+            run {
                 var offset = 0
                 while (true) {
-                    val where = URLEncoder.encode("STATE='$state' AND TYPE_CODE='AD' AND PRIVATEUSE=0", "UTF-8")
+                    val where = URLEncoder.encode("TYPE_CODE='AD' AND PRIVATEUSE=0", "UTF-8")
                     val json = JSONObject(get(
                         "$AIRPORTS?where=$where&outFields=IDENT,ICAO_ID,NAME,ELEVATION,SERVCITY,STATE" +
-                            "&returnGeometry=true&outSR=4326&f=json&resultOffset=$offset&resultRecordCount=1000",
+                            "&returnGeometry=true&outSR=4326&f=json&orderByFields=OBJECTID&resultOffset=$offset&resultRecordCount=2000",
                     ))
                     val features = json.optJSONArray("features") ?: JSONArray()
                     for (i in 0 until features.length()) {
@@ -97,7 +96,7 @@ object AviationData {
             }
             parseAirports(all.toString()) ?: emptyList()
         } catch (e: Exception) {
-            if (file.exists()) parseAirports(file.readText()) ?: emptyList() else emptyList()
+            listOf(file, west).firstNotNullOfOrNull { f -> if (f.exists()) parseAirports(f.readText()) else null } ?: emptyList()
         }
     }
 
@@ -400,7 +399,7 @@ object AviationData {
         val cycle = airacCycle()
         val file = File(ctx.filesDir, "aviation/tpp.json")
         var index = try { JSONObject(file.readText()) } catch (e: Exception) { null }
-        if (index?.optString("cycle") != cycle) {
+        if (index?.optString("cycle") != cycle || !index.optBoolean("us")) {
             index = tppIndex(cycle) ?: index ?: return null
             file.parentFile?.mkdirs()
             file.writeText(index.toString())
@@ -433,7 +432,7 @@ object AviationData {
                         tag = x.name
                         when (x.name) {
                             "state_code" -> state = x.getAttributeValue(null, "ID") ?: ""
-                            "airport_name" -> apt = if (state in STATES) JSONArray().also { a ->
+                            "airport_name" -> apt = if (state.isNotEmpty()) JSONArray().also { a ->
                                 val id = x.getAttributeValue(null, "apt_ident") ?: ""
                                 airports.put(id, a)
                                 x.getAttributeValue(null, "icao_ident")?.takeIf { it.isNotEmpty() && it != id }?.let { airports.put(it, a) }
@@ -457,7 +456,7 @@ object AviationData {
         } finally {
             c.disconnect()
         }
-        if (airports.length() == 0) null else JSONObject().put("cycle", cycle).put("a", airports)
+        if (airports.length() == 0) null else JSONObject().put("cycle", cycle).put("us", true).put("a", airports)
     } catch (e: Exception) {
         null
     }

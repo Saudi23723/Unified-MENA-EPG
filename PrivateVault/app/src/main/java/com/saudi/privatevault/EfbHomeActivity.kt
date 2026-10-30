@@ -31,6 +31,16 @@ class EfbHomeActivity : BaseActivity() {
         col = EfbUi.screen(this, getString(R.string.efb_title)) { bar ->
             bar.menu.add(R.string.lang_switch).setOnMenuItemClickListener { Lang.choose(this); true }
         }
+        // The search bar, first thing on the page.
+        val search = EfbUi.text(this, getString(R.string.search_hint), 16f, EfbUi.DIM).apply {
+            background = EfbUi.cardBg(this@EfbHomeActivity, EfbUi.CARD, 14)
+            setPadding(dp(16), dp(14), dp(16), dp(14))
+            setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_search, 0, 0, 0)
+            compoundDrawablePadding = dp(12)
+            compoundDrawablesRelative[0]?.setTint(EfbUi.ACCENT)
+        }
+        col.addView(search, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(4) })
+        EfbUi.pressable(search) { searchAirport { a -> startActivity(Intent(this, MapActivity::class.java).putExtra(MapActivity.EXTRA_AIRPORT, a.ident)) } }
         wx = EfbUi.card(this)
         col.addView(wx)
         EfbUi.pressable(wx) { askHome() }
@@ -138,25 +148,12 @@ class EfbHomeActivity : BaseActivity() {
             .show()
     }
 
-    private fun diagram() {
-        val input = EditText(this).apply {
-            inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS
-            setText(home())
+    private fun searchAirport(onPick: (AviationData.Airport) -> Unit) {
+        lifecycleScope.launch {
+            val list = withContext(Dispatchers.IO) { AviationData.airports(this@EfbHomeActivity) }
+            AirportSearch.show(this@EfbHomeActivity, list, null, onPick)
         }
-        MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.efb_diagram)
-            .setView(FrameLayout(this).apply { setPadding(dp(20), dp(8), dp(20), 0); addView(input) })
-            .setPositiveButton(R.string.ok) { _, _ ->
-                val t = input.text.toString().trim().uppercase()
-                lifecycleScope.launch {
-                    val list = withContext(Dispatchers.IO) { AviationData.airports(this@EfbHomeActivity) }
-                    val a = list.firstOrNull { it.icao == t || it.ident == t }
-                        ?: list.firstOrNull { t.length == 4 && t.startsWith("K") && it.ident == t.substring(1) }
-                    if (a == null) android.widget.Toast.makeText(this@EfbHomeActivity, R.string.map_not_found, android.widget.Toast.LENGTH_SHORT).show()
-                    else AirportDiagramActivity.open(this@EfbHomeActivity, a)
-                }
-            }
-            .setNegativeButton(R.string.cancel, null)
-            .show()
     }
+
+    private fun diagram() = searchAirport { a -> AirportDiagramActivity.open(this, a) }
 }
