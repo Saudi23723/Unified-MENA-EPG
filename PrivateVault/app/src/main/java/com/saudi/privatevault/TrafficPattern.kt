@@ -25,6 +25,8 @@ class PatternOverlay(private val map: MapView) : Overlay() {
     var runway: String? = null
     var right = false
     var tpaFt = 0
+    /** Whose pattern (shown on the main chart beside the runway label). */
+    var airport = ""
 
     private val d = map.resources.displayMetrics.density
     private val leg = Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.STROKE; strokeCap = Paint.Cap.ROUND; strokeJoin = Paint.Join.ROUND }
@@ -69,6 +71,11 @@ class PatternOverlay(private val map: MapView) : Overlay() {
         c.drawLine(e1.x.toFloat(), e1.y.toFloat(), e2.x.toFloat(), e2.y.toFloat(), leg)
         leg.pathEffect = null
 
+        // Close in: what is done where; further out, only which runway and which side.
+        if (mv.zoomLevelDouble < 13.3) {
+            callout(c, dest(t, h + 180, 0.05), "$airport RWY $runway · ${if (right) "RIGHT" else "LEFT"} TFC" + if (tpaFt > 0) " · TPA %,d".format(tpaFt) else "", 0xFFFFFFFF.toInt())
+            return
+        }
         // What is done where (the school's whiteboard, SportStar).
         val tpa = if (tpaFt > 0) "%,d ft".format(tpaFt) else "TPA"
         callout(c, mid(t, far), "UPWIND", 0xFF4DA3FF.toInt())
@@ -117,6 +124,51 @@ class PatternOverlay(private val map: MapView) : Overlay() {
     }
 
     companion object {
+        /** Runway ends from the airport's surveyed layout (the airport view's saved OSM data). */
+        fun endsFrom(json: org.json.JSONObject?): Map<String, Pair<GeoPoint, GeoPoint>> {
+            val el = json?.optJSONArray("elements") ?: return emptyMap()
+            val byRef = LinkedHashMap<String, MutableList<GeoPoint>>()
+            for (i in 0 until el.length()) {
+                val o = el.optJSONObject(i) ?: continue
+                val t = o.optJSONObject("tags") ?: continue
+                if (t.optString("aeroway") != "runway") continue
+                val ref = t.optString("ref")
+                if (ref.isEmpty()) continue
+                val g = o.optJSONArray("geometry") ?: continue
+                val list = byRef.getOrPut(ref) { ArrayList() }
+                for (k in 0 until g.length()) g.optJSONObject(k)?.let { list.add(GeoPoint(it.getDouble("lat"), it.getDouble("lon"))) }
+            }
+            val out = LinkedHashMap<String, Pair<GeoPoint, GeoPoint>>()
+            for ((ref, pts) in byRef) {
+                if (pts.size < 2) continue
+                var a0 = pts.first(); var a1 = pts.last(); var best = -1.0
+                for (i in pts.indices) for (j in i + 1 until pts.size) {
+                    val dd = Nav.distanceNm(pts[i].latitude, pts[i].longitude, pts[j].latitude, pts[j].longitude)
+                    if (dd > best) { best = dd; a0 = pts[i]; a1 = pts[j] }
+                }
+                val brg = Nav.magnetic(Nav.bearingTrue(a0.latitude, a0.longitude, a1.latitude, a1.longitude), a0.latitude, a0.longitude)
+                val parts = ref.split('/').map { it.trim() }.filter { it.isNotEmpty() }
+                fun gap(p: String) = p.takeWhile { it.isDigit() }.toIntOrNull()?.let { Math.abs(((it * 10 - brg + 540) % 360) - 180) } ?: 999.0
+                val first = parts.minByOrNull { gap(it) } ?: continue
+                out[first] = a0 to a1
+                parts.firstOrNull { it != first }?.let { out[it] = a1 to a0 }
+            }
+            return out
+        }
+
+        /** The runway most into the wind (METAR, true degrees), else the calm-wind runway, else the first. */
+        fun favored(ident: String, runways: Collection<String>, metar: org.json.JSONObject?, lat: Double, lon: Double): String? {
+            val spd = metar?.opt("wspd")?.toString()?.toDoubleOrNull() ?: 0.0
+            val dir = metar?.opt("wdir")?.toString()?.toDoubleOrNull()
+            if (dir != null && spd >= 3) {
+                val mag = Nav.magnetic(dir, lat, lon)
+                runways.maxByOrNull { r -> r.takeWhile { it.isDigit() }.toIntOrNull()?.let { Math.cos(Math.toRadians(mag - it * 10.0)) } ?: -9.0 }?.let { return it }
+            }
+            return calmRunway(ident)?.takeIf { it in runways } ?: runways.firstOrNull()
+        }
+
+        fun tpa(elevFt: Int) = ((elevFt + 1000 + 50) / 100) * 100
+
         /** Right traffic is set per runway; the school's board gives KBVU 09 right and 27 left. */
         private val KNOWN = mapOf("BVU|09" to true, "BVU|27" to false)
         private val CALM = mapOf("BVU" to "27")

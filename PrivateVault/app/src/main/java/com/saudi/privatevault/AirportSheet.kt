@@ -41,6 +41,7 @@ class AirportSheet(
     }
     private val wx = text("${act.getString(R.string.map_loading_wx)}")
     private val info = text("")
+    private val pattern = text("", mono = true)
     private val dialog = BottomSheetDialog(act)
 
     private fun text(s: String, size: Float = 14f, bold: Boolean = false, mono: Boolean = false) = TextView(act).apply {
@@ -91,6 +92,8 @@ class AirportSheet(
         body.addView(wx)
         body.addView(header(R.string.apt_runways))
         body.addView(info)
+        body.addView(header(R.string.tp_title))
+        body.addView(pattern)
         body.addView(header(R.string.apt_sun))
         body.addView(text(sunText(), mono = true))
         dialog.setContentView(android.widget.ScrollView(act).apply { addView(body) })
@@ -130,6 +133,7 @@ class AirportSheet(
             }
             wx.text = weather(metar, taf, apt)
             info.text = runways(apt, metar)
+            pattern.text = patternText(apt, metar)
             metar?.category?.takeIf { it.isNotEmpty() }?.let { wx.setTextColor(AviationData.categoryColor(it)) }
         }
     }
@@ -205,6 +209,19 @@ class AirportSheet(
         apt?.optString("tower")?.takeIf { it.isNotEmpty() && it != "null" }?.let { sb.append("\nTower: ${if (it == "T") "yes" else it}") }
         if (sb.isEmpty()) sb.append("—")
         return sb.toString().trim()
+    }
+
+    /** Pattern altitude, each runway's side, and the runway the wind favours. */
+    private fun patternText(apt: JSONObject?, m: AviationData.Metar?): String {
+        val rwys = apt?.optJSONArray("runways") ?: return "—"
+        val ends = (0 until rwys.length()).flatMap { i -> rwys.optJSONObject(i)?.optString("id")?.split('/')?.map { it.trim() }.orEmpty() }
+            .filter { it.isNotEmpty() && it.any { c -> c.isDigit() } }.distinct()
+        if (ends.isEmpty()) return "—"
+        val sb = StringBuilder("TPA %,d ft MSL (field + 1,000, AC 90-66)\n".format(PatternOverlay.tpa(a.elevation)))
+        for (e in ends) sb.append("RWY %-4s %s traffic\n".format(e, if (PatternOverlay.isRight(act, a.ident, e)) "RIGHT" else "left"))
+        PatternOverlay.favored(a.ident, ends, m?.json, a.lat, a.lon)?.let { sb.append("\n➜ RWY $it now (" + (if ((m?.json?.opt("wspd")?.toString()?.toDoubleOrNull() ?: 0.0) >= 3) "into the wind" else "calm-wind runway") + ")") }
+        sb.append("\n\n" + act.getString(R.string.tp_verify))
+        return sb.toString()
     }
 
     private fun surface(s: String) = when (s.uppercase()) {

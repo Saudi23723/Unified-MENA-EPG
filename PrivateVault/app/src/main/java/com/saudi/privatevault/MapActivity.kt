@@ -66,6 +66,8 @@ class MapActivity : BaseActivity() {
     private var radar: TilesOverlay? = null
     private lateinit var hazard: HazardOverlay
     private lateinit var airspace: AirspaceOverlay
+    private lateinit var patternOv: PatternOverlay
+    private var patternFor = ""
     private lateinit var traffic: TrafficOverlay
     private var radarProvider: MapTileProviderBasic? = null
     private var plan = FlightPlan()
@@ -167,6 +169,8 @@ class MapActivity : BaseActivity() {
         plan = FlightPlan.load(this)
         route = RouteOverlay(map, { plan }, { if (::ownship.isInitialized) ownship.position() else null })
         map.overlays.add(route)
+        patternOv = PatternOverlay(map)
+        if (prefs.getBoolean("tp_on", true)) map.overlays.add(patternOv)
         airportsLayer = AirportsOverlay(map).apply { onPick = { showAirport(it) } }
         map.overlays.add(airportsLayer)
         draw = MapDrawOverlay(map)
@@ -350,6 +354,7 @@ class MapActivity : BaseActivity() {
         val cAirspace = check(R.string.wx_airspace, map.overlays.contains(airspace))
         val cTraffic = check(R.string.wx_traffic, map.overlays.contains(traffic))
         val cAirports = check(R.string.map_airports, prefs.getBoolean("map_airports", true))
+        val cPattern = check(R.string.tp_layer, prefs.getBoolean("tp_on", true))
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.map_layers)
             .setView(android.widget.ScrollView(this).apply { addView(box) })
@@ -374,6 +379,9 @@ class MapActivity : BaseActivity() {
                 if (cAirspace.isChecked) map.overlays.add(map.overlays.indexOf(weather).coerceAtLeast(0), airspace)
                 map.overlays.remove(traffic)
                 if (cTraffic.isChecked) { map.overlays.add(traffic); Traffic.startReceiver(); pollTraffic() } else Traffic.stopReceiver()
+                prefs.edit().putBoolean("tp_on", cPattern.isChecked).apply()
+                map.overlays.remove(patternOv)
+                if (cPattern.isChecked) { map.overlays.add(map.overlays.indexOf(airportsLayer).coerceAtLeast(0), patternOv); patternFor = ""; showPattern() }
                 val airportsOn = cAirports.isChecked
                 val airportsChanged = airportsOn != prefs.getBoolean("map_airports", true)
                 prefs.edit().putBoolean("wx_radar", cRadar.isChecked).putBoolean("wx_airmet", cAirmet.isChecked)
@@ -487,8 +495,33 @@ class MapActivity : BaseActivity() {
     private var lastWeatherBox = ""
 
     /** After the map settles: the weather of the airports in view. */
+    /** Zoomed in near an airport: its traffic pattern, for the runway into the wind. */
+    private fun showPattern() {
+        if (!::patternOv.isInitialized || !prefs.getBoolean("tp_on", true)) return
+        if (map.zoomLevelDouble < 11) { if (patternOv.runway != null) { patternOv.runway = null; patternFor = ""; map.invalidate() }; return }
+        val c = map.mapCenter
+        val a = airports.minByOrNull { Nav.distanceNm(c.latitude, c.longitude, it.lat, it.lon) }
+            ?.takeIf { Nav.distanceNm(c.latitude, c.longitude, it.lat, it.lon) < 6 } ?: return
+        if (a.ident == patternFor) return
+        patternFor = a.ident
+        lifecycleScope.launch {
+            val json = withContext(Dispatchers.IO) { try { AirportDiagramActivity.fetch(this@MapActivity, a.ident, a.lat, a.lon, refresh = false) } catch (e: Exception) { null } }
+            val ends = PatternOverlay.endsFrom(json)
+            if (ends.isEmpty() || patternFor != a.ident) return@launch
+            val metar = airportsLayer.weather[airportsLayer.station(a)]?.json
+            val rwy = PatternOverlay.favored(a.ident, ends.keys, metar, a.lat, a.lon)
+            patternOv.ends = ends
+            patternOv.airport = a.icao.ifEmpty { a.ident }
+            patternOv.tpaFt = PatternOverlay.tpa(a.elevation)
+            patternOv.runway = rwy
+            patternOv.right = rwy != null && PatternOverlay.isRight(this@MapActivity, a.ident, rwy)
+            map.invalidate()
+        }
+    }
+
     private fun idle(): Boolean {
         overzoom()
+        showPattern()
         if (map.zoomLevelDouble < 7) return true
         val bb = map.boundingBox
         val key = "%.1f,%.1f,%.1f,%.1f".format(bb.latSouth, bb.lonWest, bb.latNorth, bb.lonEast)
