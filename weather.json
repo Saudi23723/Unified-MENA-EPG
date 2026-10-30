@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-30T10:00:04.253Z",
+  "updated_at": "2026-10-30T10:05:18.157Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -43,14 +43,14 @@
           "code": 3,
           "max": 27.1,
           "min": 14.1,
-          "rain": 0
+          "rain": 3
         },
         {
           "date": "2026-11-03",
           "code": 2,
           "max": 24.0,
           "min": 14.9,
-          "rain": 0
+          "rain": 2
         },
         {
           "date": "2026-11-04",
@@ -507,7 +507,7 @@
       "temperature_c": 17.6,
       "humidity": 81,
       "wind_speed": 4.6,
-      "rain_chance": 10,
+      "rain_chance": 4,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-10-30T03:00",
@@ -519,7 +519,7 @@
           "code": 63,
           "max": 19.8,
           "min": 15.8,
-          "rain": 27
+          "rain": 26
         },
         {
           "date": "2026-10-31",
@@ -590,14 +590,14 @@
           "code": 51,
           "max": 14.0,
           "min": 7.0,
-          "rain": 1
+          "rain": 0
         },
         {
           "date": "2026-10-31",
           "code": 55,
           "max": 13.1,
           "min": 9.9,
-          "rain": 47
+          "rain": 39
         },
         {
           "date": "2026-11-01",
@@ -649,7 +649,7 @@
       "temperature_c": 18.7,
       "humidity": 45,
       "wind_speed": 8.2,
-      "rain_chance": 19,
+      "rain_chance": 14,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-10-30T03:00",
@@ -661,7 +661,7 @@
           "code": 3,
           "max": 24.6,
           "min": 15.1,
-          "rain": 40
+          "rain": 38
         },
         {
           "date": "2026-10-31",
@@ -732,14 +732,14 @@
           "code": 51,
           "max": 24.7,
           "min": 19.7,
-          "rain": 16
+          "rain": 7
         },
         {
           "date": "2026-10-31",
           "code": 3,
           "max": 24.7,
           "min": 19.0,
-          "rain": 40
+          "rain": 37
         },
         {
           "date": "2026-11-01",
