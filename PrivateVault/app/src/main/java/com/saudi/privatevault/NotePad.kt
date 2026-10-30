@@ -28,7 +28,7 @@ class NoteBook(val file: File) {
         SCRATCHPAD("✈️ Scratchpad (ATIS + clearance)"), LINED("📄 Lined"), BLANK("⬜ Blank"), GRID("▦ Grid"), DOTS("⠿ Dots"),
     }
 
-    class Stroke(val tool: NotePad.Tool, val color: Int, val width: Float, val pts: FloatArray)
+    class Stroke(val tool: NotePad.Tool, val color: Int, val width: Float, val pts: FloatArray, val pen: Int = 0)
 
     var title = ""
     var topic: String? = null
@@ -39,7 +39,7 @@ class NoteBook(val file: File) {
     fun save() {
         val ps = JSONArray()
         for (p in pages) ps.put(JSONArray().apply {
-            for (s in p) put(JSONObject().put("t", s.tool.name).put("c", s.color).put("w", s.width.toDouble())
+            for (s in p) put(JSONObject().put("t", s.tool.name).put("c", s.color).put("w", s.width.toDouble()).put("y", s.pen)
                 .put("p", JSONArray().apply { s.pts.forEach { put(Math.round(it * 10) / 10.0) } }))
         })
         file.parentFile?.mkdirs()
@@ -67,7 +67,7 @@ class NoteBook(val file: File) {
                         val s = arr.getJSONObject(k)
                         val p = s.getJSONArray("p")
                         Stroke(try { NotePad.Tool.valueOf(s.getString("t")) } catch (e: Exception) { NotePad.Tool.PEN },
-                            s.getInt("c"), s.getDouble("w").toFloat(), FloatArray(p.length()) { p.getDouble(it).toFloat() })
+                            s.getInt("c"), s.getDouble("w").toFloat(), FloatArray(p.length()) { p.getDouble(it).toFloat() }, s.optInt("y", 0))
                     }))
                 }
                 if (pages.isEmpty()) pages.add(ArrayList())
@@ -96,6 +96,7 @@ class NoteCanvas(ctx: Context, val book: NoteBook) : View(ctx) {
         set(v) { field = v; invalidate() }
     var tool = NotePad.Tool.PEN
     var color = Color.BLACK
+    var pen = 0
     var onChange: () -> Unit = {}
 
     private val undone = ArrayList<NoteBook.Stroke>()
@@ -125,12 +126,17 @@ class NoteCanvas(ctx: Context, val book: NoteBook) : View(ctx) {
         // Highlighter under the ink, like real paper.
         for (s in strokes) if (s.tool == NotePad.Tool.HIGHLIGHTER) draw(c, s)
         for (s in strokes) if (s.tool != NotePad.Tool.HIGHLIGHTER) draw(c, s)
-        current?.let { draw(c, NoteBook.Stroke(tool, color, tool.width, it.toFloatArray())) }
+        current?.let { draw(c, NoteBook.Stroke(tool, color, tool.width, it.toFloatArray(), pen)) }
         c.restore()
     }
 
     private fun draw(c: Canvas, s: NoteBook.Stroke) {
         if (s.tool == NotePad.Tool.ERASER) return
+        if (s.tool == NotePad.Tool.FINE || s.tool == NotePad.Tool.PENCIL || s.tool == NotePad.Tool.MARKER) {
+            val k = when (s.tool) { NotePad.Tool.FINE -> PenStyle.FINE; NotePad.Tool.PENCIL -> PenStyle.PENCIL; else -> PenStyle.MARKER }
+            PenInk.draw(c, k, s.color, NotePad.Tool.PEN.width, s.pts); return
+        }
+        if (s.tool == NotePad.Tool.PEN) { PenInk.draw(c, PenInk.style(s.pen), s.color, s.width, s.pts); return }
         paint.color = s.color
         paint.alpha = s.tool.alpha
         paint.strokeWidth = s.width
@@ -171,7 +177,7 @@ class NoteCanvas(ctx: Context, val book: NoteBook) : View(ctx) {
             }
             MotionEvent.ACTION_UP -> {
                 current?.let {
-                    strokes.add(NoteBook.Stroke(tool, if (tool == NotePad.Tool.HIGHLIGHTER && color == Color.BLACK) 0xFFFFEB3B.toInt() else color, tool.width, it.toFloatArray()))
+                    strokes.add(NoteBook.Stroke(tool, if (tool == NotePad.Tool.HIGHLIGHTER && color == Color.BLACK) 0xFFFFEB3B.toInt() else color, tool.width, it.toFloatArray(), pen))
                     undone.clear()
                     onChange()
                 }
@@ -329,7 +335,17 @@ object NotePad {
         val tools = LinearLayout(act).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL; setPadding(dp(4), 0, dp(4), dp(2)) }
         val toolChips = ArrayList<Pair<Tool, TextView>>()
         fun mark() = toolChips.forEach { (t, v) -> v.background = if (t == canvas.tool) GradientDrawable().apply { setColor(0xFF1E3A5F.toInt()); cornerRadius = dp(8).toFloat() } else null }
-        for (t in Tool.values()) {
+        // Every kind of pen, then the highlighter and the eraser.
+        lateinit var penChip: TextView
+        fun penLabel() { penChip.text = PenStyle.values()[canvas.pen].label + " ▾" }
+        penChip = chip("", 12f) {
+            if (canvas.tool == Tool.PEN) PenInk.choose(act, canvas.pen) { i -> canvas.pen = i; penLabel(); mark() }
+            else { canvas.tool = Tool.PEN; mark() }
+        }
+        penChip.setOnLongClickListener { PenInk.choose(act, canvas.pen) { i -> canvas.pen = i; canvas.tool = Tool.PEN; penLabel(); mark() }; true }
+        toolChips.add(Tool.PEN to penChip); tools.addView(penChip)
+        penLabel()
+        for (t in listOf(Tool.HIGHLIGHTER, Tool.ERASER)) {
             val v = chip(t.label, 12f) { canvas.tool = t; mark() }
             toolChips.add(t to v); tools.addView(v)
         }

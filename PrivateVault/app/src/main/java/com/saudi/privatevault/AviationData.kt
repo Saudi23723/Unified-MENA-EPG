@@ -420,7 +420,9 @@ object AviationData {
     )
 
     /** Wind (degrees true, knots) and temperature at an altitude from the FB text, at the station nearest a point. */
-    fun windAt(text: String, lat: Double, lon: Double, altFt: Int): Triple<Int, Int, Int?>? {
+    fun fbStations(): Map<String, Pair<Double, Double>> = FB_STATIONS
+
+    fun windAt(text: String, lat: Double, lon: Double, altFt: Int, station: String? = null): Triple<Int, Int, Int?>? {
         var header: List<Pair<Int, Int>>? = null
         val rows = HashMap<String, String>()
         for (line in text.lines()) {
@@ -431,7 +433,7 @@ object AviationData {
             }
         }
         val cols = header ?: return null
-        val station = rows.keys.filter { it in FB_STATIONS }.minByOrNull { k ->
+        val station = station?.takeIf { it in rows } ?: rows.keys.filter { it in FB_STATIONS }.minByOrNull { k ->
             FB_STATIONS[k]!!.let { (y, x) -> Nav.distanceNm(lat, lon, y, x) }
         } ?: return null
         val row = rows[station]!!

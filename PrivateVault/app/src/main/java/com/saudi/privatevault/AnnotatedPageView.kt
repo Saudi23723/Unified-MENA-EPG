@@ -24,6 +24,7 @@ class AnnotatedPageView @JvmOverloads constructor(
 ) : ZoomImageView(context, attrs) {
 
     var tool = Tool.HAND
+    var penStyle = 0
     var color = MarkPainter.INK[0]
     /** Line thickness for the pen, highlighter and shapes, as a fraction of the page width. */
     var size = 0.0038f
@@ -453,7 +454,7 @@ class AnnotatedPageView @JvmOverloads constructor(
         currentPoints.add(pt[1])
     }
 
-    private fun build(): Mark = Mark(tool, color, size, currentPoints.toFloatArray(), round = tool == Tool.HIGHLIGHT && roundMarker)
+    private fun build(): Mark = Mark(tool, color, size, currentPoints.toFloatArray(), round = tool == Tool.HIGHLIGHT && roundMarker, pen = if (tool == Tool.PEN) penStyle else 0)
 
     /** A new thickness for the picked mark (a highlight, line or shape), undoable. */
     fun resizeSelected(w: Float, record: Boolean) {

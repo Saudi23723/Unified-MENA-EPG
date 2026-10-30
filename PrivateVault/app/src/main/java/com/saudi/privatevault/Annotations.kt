@@ -30,6 +30,8 @@ class Mark(
     val text: String? = null,
     /** Highlights only: rounded ends instead of square ones. */
     var round: Boolean = false,
+    /** Pens only: which kind of pen (PenStyle). */
+    var pen: Int = 0,
 ) {
     fun toJson(): JSONObject = JSONObject()
         .put("t", tool.name)
@@ -38,6 +40,7 @@ class Mark(
         .put("p", JSONArray().also { a -> points.forEach { a.put(it.toDouble()) } })
         .also { if (text != null) it.put("s", text) }
         .also { if (round) it.put("r", 1) }
+        .also { if (pen != 0) it.put("y", pen) }
 
     companion object {
         fun fromJson(o: JSONObject): Mark? = try {
@@ -46,6 +49,7 @@ class Mark(
                 Tool.valueOf(o.getString("t")), o.getInt("c"), o.getDouble("w").toFloat(),
                 FloatArray(p.length()) { p.getDouble(it).toFloat() }, o.optString("s").ifEmpty { null },
                 o.optInt("r", 0) == 1,
+                o.optInt("y", 0),
             )
         } catch (e: Exception) {
             null
@@ -221,7 +225,11 @@ object MarkPainter {
         stroke.color = m.color
         stroke.strokeWidth = (m.width * w).coerceAtLeast(1f)
         when (m.tool) {
-            Tool.PEN, Tool.HIGHLIGHT -> {
+            Tool.PEN -> {
+                val xy = FloatArray(p.size) { if (it % 2 == 0) p[it] * w else p[it] * h }
+                PenInk.draw(c, PenInk.style(m.pen), m.color, stroke.strokeWidth, xy)
+            }
+            Tool.HIGHLIGHT -> {
                 // A highlighter is a broad, see-through, flat-ended band.
                 stroke.strokeCap = if (m.tool == Tool.HIGHLIGHT && !m.round) Paint.Cap.SQUARE else Paint.Cap.ROUND
                 if (m.tool == Tool.HIGHLIGHT) stroke.alpha = 0x70
@@ -426,5 +434,123 @@ object MarkPainter {
         Tool.HIGHLIGHT -> floatArrayOf(0.016f, 0.024f, 0.034f)
         Tool.TEXT -> floatArrayOf(0.02f, 0.028f, 0.04f)
         else -> floatArrayOf(0.0022f, 0.0038f, 0.0065f)
+    }
+}
+
+/** Kinds of pen, the same in the reader, on the map, in notebooks and over the airport view. */
+enum class PenStyle(val label: String) {
+    BALLPOINT("🖊 Ballpoint"), FINE("✒️ Fine liner"), FOUNTAIN("🖋 Fountain"), PENCIL("✏️ Pencil"),
+    MARKER("🖍 Felt marker"), BRUSH("🖌 Brush"), CALLIGRAPHY("🪶 Calligraphy"), DASHED("┅ Dashed"),
+    DOTTED("⋯ Dotted"), NEON("✨ Neon"),
+}
+
+/** Draws a hand-drawn line in a pen's style, from screen or page points (x, y, x, y…). */
+object PenInk {
+    private val p = Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.STROKE; strokeJoin = Paint.Join.ROUND }
+    private val path = Path()
+
+    fun style(i: Int) = PenStyle.values().getOrElse(i) { PenStyle.BALLPOINT }
+
+    private fun smooth(xy: FloatArray): Path {
+        path.reset()
+        path.moveTo(xy[0], xy[1])
+        if (xy.size == 2) { path.lineTo(xy[0] + 0.1f, xy[1]); return path }
+        var i = 2
+        while (i + 1 < xy.size) {
+            path.quadTo(xy[i - 2], xy[i - 1], (xy[i - 2] + xy[i]) / 2f, (xy[i - 1] + xy[i + 1]) / 2f)
+            i += 2
+        }
+        path.lineTo(xy[xy.size - 2], xy[xy.size - 1])
+        return path
+    }
+
+    /** Segment by segment, each with its own width. */
+    private fun segments(c: Canvas, xy: FloatArray, color: Int, alpha: Int, cap: Paint.Cap, width: (Int, Float, Float) -> Float) {
+        p.color = color; p.alpha = alpha; p.strokeCap = cap; p.pathEffect = null
+        val n = xy.size / 2
+        if (n < 2) { p.strokeWidth = width(0, 0f, 0f); c.drawPoint(xy[0], xy[1], p); return }
+        for (k in 1 until n) {
+            val dx = xy[2 * k] - xy[2 * k - 2]
+            val dy = xy[2 * k + 1] - xy[2 * k - 1]
+            p.strokeWidth = width(k, dx, dy).coerceAtLeast(0.6f)
+            c.drawLine(xy[2 * k - 2], xy[2 * k - 1], xy[2 * k], xy[2 * k + 1], p)
+        }
+    }
+
+    fun draw(c: Canvas, style: PenStyle, color: Int, w: Float, xy: FloatArray) {
+        if (xy.size < 2) return
+        val base = color or 0xFF000000.toInt()
+        p.pathEffect = null
+        when (style) {
+            PenStyle.BALLPOINT, PenStyle.FINE -> {
+                p.color = base; p.strokeCap = Paint.Cap.ROUND
+                p.strokeWidth = if (style == PenStyle.FINE) w * 0.55f else w
+                c.drawPath(smooth(xy), p)
+            }
+            PenStyle.FOUNTAIN -> {
+                // Ink pools where the hand slows, and thins where it is quick.
+                var last = w
+                segments(c, xy, base, 255, Paint.Cap.ROUND) { _, dx, dy ->
+                    val speed = Math.hypot(dx.toDouble(), dy.toDouble()).toFloat()
+                    val target = w * (1.5f - (speed / (w * 6f)).coerceIn(0f, 1f))
+                    last += (target - last) * 0.35f
+                    last
+                }
+            }
+            PenStyle.PENCIL -> {
+                p.color = base; p.alpha = 0xA0; p.strokeCap = Paint.Cap.ROUND; p.strokeWidth = w * 0.8f
+                c.drawPath(smooth(xy), p)
+                // The grain of graphite: a second, broken pass alongside.
+                p.alpha = 0x45; p.strokeWidth = w * 0.45f
+                p.pathEffect = android.graphics.DashPathEffect(floatArrayOf(w * 1.3f, w * 0.9f), 0f)
+                c.save(); c.translate(w * 0.25f, w * 0.2f); c.drawPath(smooth(xy), p); c.restore()
+                p.pathEffect = null
+            }
+            PenStyle.MARKER -> {
+                p.color = base; p.alpha = 0xD0; p.strokeCap = Paint.Cap.SQUARE; p.strokeWidth = w * 2.2f
+                c.drawPath(smooth(xy), p)
+            }
+            PenStyle.BRUSH -> {
+                // Thin at the start and end, full in the middle.
+                val n = xy.size / 2
+                segments(c, xy, base, 255, Paint.Cap.ROUND) { k, _, _ ->
+                    val t = k.toFloat() / n.coerceAtLeast(2)
+                    w * (0.35f + 2.2f * minOf(t, 1 - t).coerceIn(0f, 0.5f) * 1.6f)
+                }
+            }
+            PenStyle.CALLIGRAPHY -> {
+                // A flat nib at 45°: broad across, thin along.
+                segments(c, xy, base, 255, Paint.Cap.BUTT) { _, dx, dy ->
+                    val a = Math.atan2(dy.toDouble(), dx.toDouble()) - Math.PI / 4
+                    w * (0.35f + 1.9f * Math.abs(Math.sin(a)).toFloat())
+                }
+            }
+            PenStyle.DASHED, PenStyle.DOTTED -> {
+                p.color = base; p.strokeWidth = w
+                p.strokeCap = if (style == PenStyle.DOTTED) Paint.Cap.ROUND else Paint.Cap.BUTT
+                p.pathEffect = if (style == PenStyle.DOTTED) android.graphics.DashPathEffect(floatArrayOf(0.1f, w * 2.4f), 0f)
+                    else android.graphics.DashPathEffect(floatArrayOf(w * 4f, w * 2.5f), 0f)
+                c.drawPath(smooth(xy), p)
+                p.pathEffect = null
+            }
+            PenStyle.NEON -> {
+                p.strokeCap = Paint.Cap.ROUND
+                p.color = base; p.alpha = 0x40; p.strokeWidth = w * 4f
+                c.drawPath(smooth(xy), p)
+                p.alpha = 0x90; p.strokeWidth = w * 2f
+                c.drawPath(smooth(xy), p)
+                p.color = 0xFFFFFFFF.toInt(); p.alpha = 0xE0; p.strokeWidth = w * 0.6f
+                c.drawPath(smooth(xy), p)
+            }
+        }
+    }
+
+    /** The pens, to pick one. */
+    fun choose(ctx: android.content.Context, current: Int, onPick: (Int) -> Unit) {
+        val items = PenStyle.values().map { (if (it.ordinal == current) "● " else "   ") + it.label }.toTypedArray()
+        com.google.android.material.dialog.MaterialAlertDialogBuilder(ctx)
+            .setTitle(ctx.getString(R.string.pen_kinds))
+            .setItems(items) { _, i -> onPick(i) }
+            .show()
     }
 }

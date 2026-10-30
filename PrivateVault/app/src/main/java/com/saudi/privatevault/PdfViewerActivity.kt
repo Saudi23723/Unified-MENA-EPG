@@ -414,6 +414,16 @@ class PdfViewerActivity : BaseActivity() {
         // A long press on the highlighter: straight or free hand, square or rounded ends.
         p.straightMarker = VaultLock.prefs(this).getBoolean("straight_marker", true)
         p.roundMarker = VaultLock.prefs(this).getBoolean("round_marker", false)
+        // The pen: a long press, or a tap when it is already in hand, picks the kind of pen.
+        p.penStyle = VaultLock.prefs(this).getInt("pen_style", 0)
+        fun penKinds() = PenInk.choose(this, p.penStyle) { i ->
+            p.penStyle = i
+            VaultLock.prefs(this).edit().putInt("pen_style", i).apply()
+            pick(Tool.PEN)
+            Toast.makeText(this, PenStyle.values()[i].label, Toast.LENGTH_SHORT).show()
+        }
+        toolButtons[Tool.PEN]?.setOnClickListener { if (b.page.tool == Tool.PEN) penKinds() else pick(Tool.PEN) }
+        toolButtons[Tool.PEN]?.setOnLongClickListener { penKinds(); true }
         toolButtons[Tool.HIGHLIGHT]?.setOnLongClickListener {
             markerOptions()
             true

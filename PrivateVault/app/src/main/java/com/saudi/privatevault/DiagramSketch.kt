@@ -23,10 +23,11 @@ class DiagramSketch(ctx: Context, private val plane: Bitmap, private val metres:
         PEN("🖊"), HIGHLIGHT("🖌"), LINE("📏 Line"), ARROW("➜"), RULER("📐 Ruler"), CIRCLE("◯"), BOX("▭"), PLANE("✈"), ERASER("🧽"),
     }
 
-    private class Mark(val tool: Tool, val color: Int, val pts: ArrayList<PointF>)
+    private class Mark(val tool: Tool, val color: Int, val pts: ArrayList<PointF>, val pen: Int = 0)
 
     var tool = Tool.PEN
     var color = 0xFFFFEB3B.toInt()
+    var pen = 0
     private val marks = ArrayList<Mark>()
     private var current: Mark? = null
     private val d = ctx.resources.displayMetrics.density
@@ -48,8 +49,12 @@ class DiagramSketch(ctx: Context, private val plane: Bitmap, private val metres:
         p.strokeWidth = 4 * d
         p.pathEffect = null
         when (m.tool) {
-            Tool.PEN, Tool.HIGHLIGHT -> {
-                if (m.tool == Tool.HIGHLIGHT) { p.strokeWidth = 18 * d; p.alpha = 110 }
+            Tool.PEN -> {
+                val xy = FloatArray(m.pts.size * 2) { if (it % 2 == 0) m.pts[it / 2].x else m.pts[it / 2].y }
+                PenInk.draw(c, PenInk.style(m.pen), m.color, 4 * d, xy)
+            }
+            Tool.HIGHLIGHT -> {
+                p.strokeWidth = 18 * d; p.alpha = 110
                 val path = Path().apply { moveTo(a.x, a.y); for (q in m.pts) lineTo(q.x, q.y) }
                 c.drawPath(path, p)
             }
@@ -96,7 +101,7 @@ class DiagramSketch(ctx: Context, private val plane: Bitmap, private val metres:
     override fun onTouchEvent(e: MotionEvent): Boolean {
         val pt = PointF(e.x, e.y)
         when (e.actionMasked) {
-            MotionEvent.ACTION_DOWN -> if (tool == Tool.ERASER) erase(pt) else current = Mark(tool, color, arrayListOf(pt))
+            MotionEvent.ACTION_DOWN -> if (tool == Tool.ERASER) erase(pt) else current = Mark(tool, color, arrayListOf(pt), pen)
             MotionEvent.ACTION_MOVE -> if (tool == Tool.ERASER) erase(pt) else current?.let {
                 if (tool == Tool.PEN || tool == Tool.HIGHLIGHT) it.pts.add(pt)
                 else { if (it.pts.size > 1) it.pts[1] = pt else it.pts.add(pt) }

@@ -30,6 +30,7 @@ class MapDrawOverlay(private val map: MapView) : Overlay() {
     var tool = MapTool.PAN
     var color = 0xFFD32F2F.toInt()
     var widthDp = 3f
+    var penStyle = 0
     var showMeasures = true
     var cruiseKt = 100.0
 
@@ -105,16 +106,14 @@ class MapDrawOverlay(private val map: MapView) : Overlay() {
         stroke.pathEffect = if (m.text == "ruler") android.graphics.DashPathEffect(floatArrayOf(10 * d, 6 * d), 0f) else null
         when (m.tool) {
             Tool.PEN -> {
-                path.reset()
-                px(p[0], p[1], p0)
-                path.moveTo(p0.x.toFloat(), p0.y.toFloat())
-                var i = 2
+                val xy = FloatArray(p.size)
+                var i = 0
                 while (i + 1 < p.size) {
                     px(p[i], p[i + 1], p1)
-                    path.lineTo(p1.x.toFloat(), p1.y.toFloat())
+                    xy[i] = p1.x.toFloat(); xy[i + 1] = p1.y.toFloat()
                     i += 2
                 }
-                c.drawPath(path, stroke)
+                PenInk.draw(c, PenInk.style(m.pen), m.color, stroke.strokeWidth, xy)
             }
             Tool.LINE, Tool.ARROW -> {
                 if (p.size < 4) return
@@ -388,7 +387,7 @@ class MapDrawOverlay(private val map: MapView) : Overlay() {
             MapTool.CIRCLE -> Tool.OVAL
             else -> Tool.RECT
         }
-        return Mark(t, color, widthDp, pts.toFloatArray())
+        return Mark(t, color, widthDp, pts.toFloatArray(), pen = if (t == Tool.PEN) penStyle else 0)
     }
 
     private fun erase(e: MotionEvent) {

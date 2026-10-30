@@ -222,7 +222,12 @@ class AirportDiagramActivity : BaseActivity() {
         }
         val toolChips = ArrayList<Pair<DiagramSketch.Tool, TextView>>()
         for (t in DiagramSketch.Tool.values()) {
-            val c = chip(t.label) { sk.tool = t; toolChips.forEach { (k, v) -> mark(v, k == t) } }
+            val c = chip(t.label) {
+                // The pen in hand again: pick the kind of pen.
+                if (t == DiagramSketch.Tool.PEN && sk.tool == t) PenInk.choose(this, sk.pen) { i -> sk.pen = i }
+                sk.tool = t; toolChips.forEach { (k, v) -> mark(v, k == t) }
+            }
+            if (t == DiagramSketch.Tool.PEN) c.setOnLongClickListener { PenInk.choose(this, sk.pen) { i -> sk.pen = i }; true }
             toolChips.add(t to c)
             tools.addView(c)
         }
