@@ -240,7 +240,14 @@ class AirportSheet(
             val id = a.icao.ifEmpty { a.ident }
             val res = withContext(Dispatchers.IO) { AviationData.notams(act, id) }
             if (res == null) {
-                textDialog("NOTAMs · $id", act.getString(R.string.apt_notams_fail))
+                // No list: the FAA's own search page in the app, or the pilot's free FAA key for lists that keep offline.
+                MaterialAlertDialogBuilder(act)
+                    .setTitle("NOTAMs · $id")
+                    .setMessage(R.string.notam_choice)
+                    .setPositiveButton(R.string.notam_open_faa) { _, _ -> WebActivity.faaNotams(act, id) }
+                    .setNeutralButton(R.string.notam_key) { _, _ -> askFaaKey() }
+                    .setNegativeButton(R.string.cancel, null)
+                    .show()
                 return@launch
             }
             val (list, at) = res
@@ -249,6 +256,26 @@ class AirportSheet(
                 (if (list.isEmpty()) "No NOTAMs." else list.joinToString("\n\n────\n\n")) +
                 "\n\nAlways get an official briefing (1800wxbrief.com).")
         }
+    }
+
+    /** The pilot's own free key for the FAA NOTAM API (api.faa.gov). */
+    private fun askFaaKey() {
+        val p = VaultLock.prefs(act)
+        val box = LinearLayout(act).apply { orientation = LinearLayout.VERTICAL; setPadding(dp(20), dp(8), dp(20), 0) }
+        box.addView(TextView(act).apply { text = act.getString(R.string.notam_key_help); setPadding(0, 0, 0, dp(8)) })
+        val cid = android.widget.EditText(act).apply { hint = "client_id"; setText(p.getString("faa_client_id", "")) }
+        val sec = android.widget.EditText(act).apply { hint = "client_secret"; setText(p.getString("faa_client_secret", "")) }
+        box.addView(cid); box.addView(sec)
+        MaterialAlertDialogBuilder(act)
+            .setTitle(R.string.notam_key)
+            .setView(box)
+            .setPositiveButton(R.string.ok) { _, _ ->
+                p.edit().putString("faa_client_id", cid.text.toString().trim()).putString("faa_client_secret", sec.text.toString().trim()).apply()
+                notams()
+            }
+            .setNeutralButton("api.faa.gov") { _, _ -> open("https://api.faa.gov/s/") }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
     }
 
     private fun history() {

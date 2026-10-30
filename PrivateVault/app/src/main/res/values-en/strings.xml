@@ -379,6 +379,10 @@ or tap an airport → Add to route, or long-press anywhere on the chart.</string
     <string name="sos_title">🆘 EMERGENCY</string>
     <string name="sos_essentials">Squawk 7700 · 121.5 MHz · Best glide 59 KIAS (SportStar MAX)</string>
     <string name="sos_checklist">📋 Emergency checklist</string>
+    <string name="notam_choice">The old FAA service the app used is closed. Open the FAA NOTAM Search inside the app, or add your free FAA key to get the list in the app, saved for offline.</string>
+    <string name="notam_open_faa">🌐 FAA NOTAM Search</string>
+    <string name="notam_key">🔑 Free FAA key</string>
+    <string name="notam_key_help">Register free at api.faa.gov and request the NOTAM API; you get a client_id and client_secret. Paste them here once.</string>
     <string name="map_circle">Circle</string>
     <string name="map_ruler">Ruler</string>
     <string name="pen_write">Write and highlight</string>

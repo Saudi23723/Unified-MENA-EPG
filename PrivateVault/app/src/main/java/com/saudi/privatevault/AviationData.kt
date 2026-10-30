@@ -320,7 +320,33 @@ object AviationData {
     /** NOTAMs for an airport from the FAA NOTAM Search, kept on the phone for reading without signal. */
     fun notams(ctx: Context, ident: String): Pair<List<String>, Long>? {
         val file = File(ctx.filesDir, "aviation/notams/${ident.replace(Regex("[^A-Z0-9]"), "")}.json")
-        try {
+        // The FAA's official NOTAM API, with the pilot's own free key from api.faa.gov.
+        val prefs = VaultLock.prefs(ctx)
+        val id = prefs.getString("faa_client_id", "") ?: ""
+        val secret = prefs.getString("faa_client_secret", "") ?: ""
+        if (id.isNotEmpty() && secret.isNotEmpty()) try {
+            val c = URL("https://external-api.faa.gov/notamapi/v1/notams?icaoLocation=$ident&pageSize=100").openConnection() as HttpURLConnection
+            c.connectTimeout = 20000
+            c.readTimeout = 30000
+            c.setRequestProperty("client_id", id)
+            c.setRequestProperty("client_secret", secret)
+            try {
+                if (c.responseCode == 200) {
+                    val items = JSONObject(c.inputStream.bufferedReader().readText()).optJSONArray("items") ?: JSONArray()
+                    val list = JSONArray()
+                    for (i in 0 until items.length()) {
+                        val n = items.getJSONObject(i).optJSONObject("properties")?.optJSONObject("coreNOTAMData")?.optJSONObject("notam") ?: continue
+                        list.put(JSONObject().put("icaoMessage", "${n.optString("number")}  ${n.optString("text")}".trim()))
+                    }
+                    file.parentFile?.mkdirs()
+                    file.writeText(JSONObject().put("notamList", list).toString())
+                }
+            } finally {
+                c.disconnect()
+            }
+        } catch (e: Exception) {
+        }
+        if (id.isEmpty()) try {
             val c = URL("https://notams.aim.faa.gov/notamSearch/search").openConnection() as HttpURLConnection
             c.connectTimeout = 20000
             c.readTimeout = 30000

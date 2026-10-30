@@ -71,6 +71,9 @@
             android:exported="false"
             android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden" />
         <activity
+            android:name=".WebActivity"
+            android:exported="false" />
+        <activity
             android:name=".SvtActivity"
             android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden"
             android:exported="false"
