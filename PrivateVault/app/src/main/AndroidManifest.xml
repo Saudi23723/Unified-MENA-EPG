@@ -94,6 +94,9 @@
             android:name=".LibraryActivity"
             android:exported="false" />
         <activity
+            android:name=".RegsActivity"
+            android:exported="false" />
+        <activity
             android:name=".LaptopActivity"
             android:exported="false" />
         <activity

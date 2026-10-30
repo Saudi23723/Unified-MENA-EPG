@@ -132,7 +132,7 @@ class AiChatActivity : BaseActivity() {
         root.addView(scroll, LinearLayout.LayoutParams(-1, 0, 1f))
 
         // What the page is, then a greeting.
-        val about = (if (trainerSystem != null) bookTitle else if (bookTitle.isNotEmpty()) "📖 $bookTitle · ${getString(R.string.pdf_page_short, pageNumber)}" else "") +
+        val about = (if (trainerSystem != null) bookTitle else if (bookTitle.isNotEmpty()) "📖 $bookTitle" + (if (pageNumber > 0) " · ${getString(R.string.pdf_page_short, pageNumber)}" else "") else "") +
             (selected?.let { "\n“" + it.replace('\n', ' ').take(160) + (if (it.length > 160) "…" else "") + "”" } ?: "")
         if (about.isNotBlank()) list.addView(TextView(this).apply {
             text = about; textSize = 13f; setTextColor(dim); setPadding(0, dp(4), 0, dp(14))

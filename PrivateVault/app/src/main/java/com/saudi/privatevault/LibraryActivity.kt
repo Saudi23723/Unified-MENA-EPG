@@ -114,7 +114,11 @@ class LibraryActivity : BaseActivity() {
     private fun read(item: VaultItem) = startActivity(Intent(this, PdfViewerActivity::class.java).putExtra(Viewers.EXTRA_ID, item.id))
 
     private fun open(b: Book, sub: TextView) {
-        if (b.file == null) { WebActivity.open(this, b.title, b.page); return }
+        if (b.file == null) {
+            // The FARs in the app's own reader (the eCFR's official text).
+            Regex("title-(\\d+)/part-([0-9A-Za-z]+)").find(b.page)?.let { m -> RegsActivity.open(this, m.groupValues[1].toInt(), m.groupValues[2]); return }
+            WebActivity.open(this, b.title, b.page); return
+        }
         held(b)?.let { read(it); return }
         // Shipped with the app: copied into References once, then read like any book.
         b.asset?.let { name ->

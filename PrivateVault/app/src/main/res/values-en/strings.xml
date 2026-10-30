@@ -585,6 +585,14 @@ or tap an airport → Add to route, or long-press anywhere on the chart.</string
     <string name="lib_mine">My books</string>
     <string name="lib_faa">FAA books</string>
     <string name="lib_add">Add a book (e.g. the Private Pilot guide)</string>
+    <string name="regs_loading">Getting the official text from the eCFR…</string>
+    <string name="regs_failed">Could not get it now (the first time needs internet). Try again in a moment.</string>
+    <string name="regs_asof">Official text (eCFR), up to date as of %1$s · kept offline</string>
+    <string name="regs_search">Search the whole Part (e.g. night, 61.57, solo)</string>
+    <string name="regs_none">No results</string>
+    <string name="regs_contents">Contents</string>
+    <string name="regs_explain">Explain</string>
+    <string name="regs_explain_prompt">Explain this regulation simply for a student pilot, with a real example, and what could be asked about it on the written test and the checkride</string>
     <string name="map_circle">Circle</string>
     <string name="map_ruler">Ruler</string>
     <string name="pen_write">Write and highlight</string>
