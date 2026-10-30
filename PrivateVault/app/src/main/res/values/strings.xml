@@ -446,12 +446,12 @@
     <string name="ai_s_summary">📝 لخّص</string>
     <string name="ai_s_explain">💡 اشرح ببساطة</string>
     <string name="ai_s_quiz">❓ اختبرني</string>
-    <string name="ai_s_example">✈️ مثال من الطيران</string>
+    <string name="ai_s_example">✈️ أمثلة وسيناريوهات طيران حقيقية</string>
     <string name="ai_s_checkride">🎓 أسئلة الـ checkride</string>
     <string name="ai_p_summary">لخّص هالصفحة بنقاط قصيرة مع أهم الأرقام والتعريفات</string>
     <string name="ai_p_explain">اشرح هالصفحة ببساطة كأني طالب جديد</string>
     <string name="ai_p_quiz">اعملي 5 أسئلة اختيار من متعدد عن هالصفحة، وبعد ما أجاوب صحّحلي</string>
-    <string name="ai_p_example">أعطيني مثال حقيقي من الطيران على هالصفحة، بطيارة SportStar حوالين Las Vegas</string>
+    <string name="ai_p_example">أعطيني أمثلة وسيناريوهات طيران حقيقية على هالصفحة، بطيارة SportStar حوالين Las Vegas و KBVU: شو بصير، شو لازم أعمل، وشو الأخطاء اللي لازم أتجنبها</string>
     <string name="ai_p_checkride">شو ممكن يسألني الـ examiner بالـ checkride عن هالموضوع، مع الجواب المختصر لكل سؤال</string>
     <string name="ai_p_explain_sel">اشرح الكلام المحدد</string>
     <string name="ai_nonet">📶 ما في إنترنت هلأ، جرّب كمان شوي</string>
@@ -460,6 +460,10 @@
     <string name="ai_deep_off">رجع للسريع</string>
     <string name="ai_s_written">📋 الـ FAA written test</string>
     <string name="ai_p_written">شو ممكن يجيني من هالصفحة بالـ FAA Private Pilot written test (Knowledge Test)؟ اعملي أسئلة بنفس شكل الامتحان الحقيقي: سؤال مع 3 خيارات A و B و C، وبعد كل سؤال الجواب الصح وليش الخيارين التانيين غلط، ورمز الـ ACS إذا في. ركّز على الأرقام والقواعد اللي بتنسأل عادة.</string>
+    <string name="ai_s_extended">📖 شرح موسّع</string>
+    <string name="ai_p_extended">اشرح هالصفحة شرح موسّع ومفصّل: كل فكرة ليش هيك، كيف بتشتغل، وكيف بترتبط بباقي المواضيع، مع الأرقام والقواعد المهمة</string>
+    <string name="ai_s_examples">🧩 أمثلة للفهم</string>
+    <string name="ai_p_examples">أعطيني أمثلة بسيطة من الحياة اليومية وتشبيهات بتساعدني أفهم أفكار هالصفحة وأتذكرها</string>
     <string name="map_circle">دائرة</string>
     <string name="map_ruler">مسطرة</string>
     <string name="pen_write">كتابة وتظليل</string>

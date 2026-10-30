@@ -133,9 +133,10 @@ class AiChatActivity : BaseActivity() {
         // Shortcuts, like Gemini's suggestions, always a tap away above the question box.
         val row = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; setPadding(dp(12), dp(4), dp(12), dp(4)) }
         for ((label, prompt) in listOf(
-            R.string.ai_s_written to R.string.ai_p_written, R.string.ai_s_checkride to R.string.ai_p_checkride,
             R.string.ai_s_summary to R.string.ai_p_summary, R.string.ai_s_explain to R.string.ai_p_explain,
-            R.string.ai_s_quiz to R.string.ai_p_quiz, R.string.ai_s_example to R.string.ai_p_example,
+            R.string.ai_s_extended to R.string.ai_p_extended, R.string.ai_s_examples to R.string.ai_p_examples,
+            R.string.ai_s_written to R.string.ai_p_written, R.string.ai_s_checkride to R.string.ai_p_checkride,
+            R.string.ai_s_example to R.string.ai_p_example, R.string.ai_s_quiz to R.string.ai_p_quiz,
         )) row.addView(pill(getString(label), field) { send(getString(prompt)) }, LinearLayout.LayoutParams(-2, -2).apply { marginEnd = dp(8) })
         chips = HorizontalScrollView(this).apply { isHorizontalScrollBarEnabled = false; addView(row) }
         root.addView(chips)
