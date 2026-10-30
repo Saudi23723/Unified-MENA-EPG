@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-30T04:18:11.181Z",
+  "updated_at": "2026-10-30T04:24:03.657Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -10,7 +10,7 @@
       "temperature_c": 14.5,
       "humidity": 87,
       "wind_speed": 6.8,
-      "rain_chance": 0,
+      "rain_chance": 3,
       "condition": "صافٍ غالباً",
       "weather_code": 1,
       "observed_at": "2026-10-30T07:15",
@@ -22,7 +22,7 @@
           "code": 2,
           "max": 21.1,
           "min": 13.7,
-          "rain": 0
+          "rain": 3
         },
         {
           "date": "2026-10-31",
@@ -43,27 +43,27 @@
           "code": 3,
           "max": 27.1,
           "min": 14.8,
-          "rain": 1
+          "rain": 0
         },
         {
           "date": "2026-11-03",
           "code": 2,
           "max": 24.0,
           "min": 15.5,
-          "rain": 3
+          "rain": 0
         },
         {
           "date": "2026-11-04",
-          "code": 3,
-          "max": 28.1,
-          "min": 15.6,
+          "code": 2,
+          "max": 23.9,
+          "min": 13.7,
           "rain": 0
         },
         {
           "date": "2026-11-05",
           "code": 3,
-          "max": 23.6,
-          "min": 14.2,
+          "max": 23.5,
+          "min": 14.9,
           "rain": 0
         }
       ],
@@ -126,15 +126,15 @@
         {
           "date": "2026-11-04",
           "code": 2,
-          "max": 36.8,
-          "min": 23.6,
+          "max": 32.2,
+          "min": 21.5,
           "rain": 0
         },
         {
           "date": "2026-11-05",
-          "code": 3,
-          "max": 31.5,
-          "min": 22.5,
+          "code": 2,
+          "max": 32.5,
+          "min": 21.9,
           "rain": 0
         }
       ],
@@ -268,15 +268,15 @@
         {
           "date": "2026-11-04",
           "code": 2,
-          "max": 33.2,
-          "min": 26.3,
+          "max": 32.9,
+          "min": 24.0,
           "rain": 0
         },
         {
           "date": "2026-11-05",
-          "code": 2,
-          "max": 32.9,
-          "min": 28.4,
+          "code": 1,
+          "max": 33.2,
+          "min": 25.6,
           "rain": 0
         }
       ],
