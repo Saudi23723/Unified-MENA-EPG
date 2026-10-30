@@ -139,6 +139,10 @@ class AirportDiagramActivity : BaseActivity() {
             if (following) ownship.position()?.let { map.controller.animateTo(it, maxOf(map.zoomLevelDouble, 16.5), 700L) }
         }
         followChip = cFollow
+        lateinit var cPause: TextView
+        cPause = chip("⏸ Pause") { if (sketch == null) pause(root, bottom = null) else play(); cPause.text = if (sketch == null) "⏸ Pause" else "▶ Play"; mark(cPause, sketch != null) }
+        pauseChip = cPause
+        chips.addView(cPause)
         chips.addView(c3d)
         chips.addView(cTrack)
         chips.addView(cFollow)
@@ -166,6 +170,7 @@ class AirportDiagramActivity : BaseActivity() {
         panel.addView(info)
         bottom.addView(panel, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(8) })
         root.addView(bottom, FrameLayout.LayoutParams(-1, -2, Gravity.BOTTOM))
+        bottomBar = bottom
         setContentView(root)
         androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(root) { _, insets ->
             val bars = insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.systemBars())
@@ -187,6 +192,72 @@ class AirportDiagramActivity : BaseActivity() {
     }
 
     private var holder: FrameLayout? = null
+    private var sketch: DiagramSketch? = null
+    private var sketchTools: View? = null
+    private var bottomBar: View? = null
+    private var pauseChip: TextView? = null
+
+    /** Paused: the view holds still (no follow, no turning) and can be drawn on, to explain; nothing is kept. */
+    @Suppress("UNUSED_PARAMETER")
+    private fun pause(root: FrameLayout, bottom: View?) {
+        stopFollowing()
+        turn?.cancel()
+        map.animate().cancel()
+        val inv = android.graphics.Matrix()
+        val sk = DiagramSketch(this, airplane()) { a, b ->
+            // Screen to ground, through the 3D tilt and the map's turn.
+            if (!map.matrix.invert(inv)) null else {
+            val pts = floatArrayOf(a.x - map.left, a.y - map.top, b.x - map.left, b.y - map.top)
+            inv.mapPoints(pts)
+            val g1 = map.projection.fromPixels(pts[0].toInt(), pts[1].toInt()) as GeoPoint
+            val g2 = map.projection.fromPixels(pts[2].toInt(), pts[3].toInt()) as GeoPoint
+            g1.distanceToAsDouble(g2)
+            }
+        }
+        val tools = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+            background = EfbUi.cardBg(this@AirportDiagramActivity, 0xE60B1220.toInt(), 16)
+            setPadding(dp(6), dp(6), dp(6), dp(6))
+        }
+        val toolChips = ArrayList<Pair<DiagramSketch.Tool, TextView>>()
+        for (t in DiagramSketch.Tool.values()) {
+            val c = chip(t.label) { sk.tool = t; toolChips.forEach { (k, v) -> mark(v, k == t) } }
+            toolChips.add(t to c)
+            tools.addView(c)
+        }
+        mark(toolChips[0].second, true)
+        for (col in intArrayOf(0xFFFFEB3B.toInt(), 0xFFFF1744.toInt(), 0xFF00E5FF.toInt(), 0xFF76FF03.toInt(), 0xFFFF9100.toInt(), 0xFFFFFFFF.toInt(), 0xFF000000.toInt())) {
+            tools.addView(View(this).apply {
+                background = GradientDrawable().apply { shape = GradientDrawable.OVAL; setColor(col); setStroke(dp(2), 0xFF455A64.toInt()) }
+                setOnClickListener { sk.color = col; if (sk.tool == DiagramSketch.Tool.ERASER) { sk.tool = DiagramSketch.Tool.PEN; toolChips.forEach { (k, v) -> mark(v, k == DiagramSketch.Tool.PEN) } } }
+            }, LinearLayout.LayoutParams(dp(28), dp(28)).apply { marginEnd = dp(8) })
+        }
+        tools.addView(chip("↶") { sk.undo() })
+        tools.addView(chip("🗑") { sk.clear() })
+        tools.addView(chip("▶ Play") { play() })
+        val scroll = HorizontalScrollView(this).apply { isHorizontalScrollBarEnabled = false; addView(tools) }
+        // Above the map, under the top bar, so its chips stay usable.
+        root.addView(sk, 1, FrameLayout.LayoutParams(-1, -1))
+        root.addView(scroll, FrameLayout.LayoutParams(-1, -2, Gravity.BOTTOM).apply {
+            setMargins(dp(12), 0, dp(12), dp(14) + (androidx.core.view.ViewCompat.getRootWindowInsets(root)
+                ?.getInsets(androidx.core.view.WindowInsetsCompat.Type.systemBars())?.bottom ?: 0))
+        })
+        bottomBar?.visibility = View.GONE
+        sketch = sk
+        sketchTools = scroll
+        Toast.makeText(this, R.string.dia_paused, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun play() {
+        val root = sketch?.parent as? FrameLayout ?: return
+        root.removeView(sketch)
+        root.removeView(sketchTools)
+        sketch = null
+        sketchTools = null
+        bottomBar?.visibility = View.VISIBLE
+        pauseChip?.let { it.text = "⏸ Pause"; mark(it, false) }
+    }
     private var followChip: TextView? = null
 
     override fun onResume() {
@@ -297,7 +368,9 @@ class AirportDiagramActivity : BaseActivity() {
         private var heading = Float.NaN
         override fun run() {
             val fix = ownship.fix
-            if (fix != null && following) {
+            if (sketch != null) {
+                // Paused: the view holds still.
+            } else if (fix != null && following) {
                 ownship.position()?.let { map.controller.setCenter(it) }
                 if (trackUp && fix.hasBearing() && ownship.speedKt() > 2) {
                     heading = if (heading.isNaN()) fix.bearing else heading + (((fix.bearing - heading + 540) % 360) - 180) * 0.15f
