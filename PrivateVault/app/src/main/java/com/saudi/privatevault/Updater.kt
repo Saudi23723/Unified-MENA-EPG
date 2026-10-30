@@ -62,16 +62,27 @@ object Updater {
         }
     }
 
+    /**
+     * The newest build any source knows of: a mirror can lag behind for hours, so every source is
+     * asked and the highest version wins; GitHub's API is asked too, as it is never cached for long.
+     */
     private fun fetchLatest(): Latest? {
+        val found = ArrayList<Latest>()
         for (base in SOURCES) {
             try {
                 val json = JSONObject(read(base + "latest.json?t=" + System.currentTimeMillis()))
-                return Latest(json.getLong("versionCode"), json.optString("versionName"), base + json.getString("apk"))
+                found.add(Latest(json.getLong("versionCode"), json.optString("versionName"), base + json.getString("apk")))
             } catch (e: Exception) {
                 // Try the next source.
             }
         }
-        return null
+        try {
+            val api = JSONObject(read("https://api.github.com/repos/Saudi23723/Unified-MENA-EPG/contents/latest.json?ref=vault-builds-android"))
+            val json = JSONObject(String(android.util.Base64.decode(api.getString("content"), android.util.Base64.DEFAULT)))
+            found.add(Latest(json.getLong("versionCode"), json.optString("versionName"), SOURCES[0] + json.getString("apk")))
+        } catch (e: Exception) {
+        }
+        return found.maxByOrNull { it.code }
     }
 
     private fun download(a: AppCompatActivity, latest: Latest) {

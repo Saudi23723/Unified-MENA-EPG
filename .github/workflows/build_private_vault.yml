@@ -85,6 +85,7 @@ jobs:
             commit -q -m "Private Vault build ${{ github.run_number }}"
           git push -q -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}" HEAD:vault-builds-android
           curl -sS "https://purge.jsdelivr.net/gh/${{ github.repository }}@vault-builds-android/latest.json" > /dev/null || true
+          curl -sS "https://purge.jsdelivr.net/gh/${{ github.repository }}@vault-builds-android/PrivateVault.apk" > /dev/null || true
 
       - uses: actions/upload-artifact@v4
         with:
