@@ -278,10 +278,22 @@ class AirportSheet(
             .show()
     }
 
+    /** A report's time (day and hour in Zulu, UTC) in the phone's own time, e.g. 300435Z → 29 Oct 21:35. */
+    private fun localTime(report: String): String {
+        val m = Regex("\\b(\\d{2})(\\d{2})(\\d{2})Z\\b").find(report) ?: return "     "
+        val (dd, hh, mm) = m.destructured
+        val now = java.time.ZonedDateTime.now(java.time.ZoneOffset.UTC)
+        var t = now.withDayOfMonth(minOf(dd.toInt(), now.toLocalDate().lengthOfMonth())).withHour(hh.toInt()).withMinute(mm.toInt())
+        if (t.isAfter(now.plusDays(1))) t = t.minusMonths(1)
+        val local = t.withZoneSameInstant(java.time.ZoneId.systemDefault())
+        return java.time.format.DateTimeFormatter.ofPattern("d MMM HH:mm", java.util.Locale.US).format(local)
+    }
+
     private fun history() {
         act.lifecycleScope.launch {
             val t = withContext(Dispatchers.IO) { AviationData.metarHistory(station, 6) }
-            textDialog("METAR · 6 h · $station", t.ifEmpty { act.getString(R.string.map_no_metar) })
+            textDialog("METAR · 6 h · $station", if (t.isEmpty()) act.getString(R.string.map_no_metar) else
+                act.getString(R.string.zulu_note) + "\n\n" + t.lines().joinToString("\n") { localTime(it) + "  " + it })
         }
     }
 
