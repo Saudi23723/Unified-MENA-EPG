@@ -1072,39 +1072,44 @@ class PdfViewerActivity : BaseActivity() {
         dialog.window?.setSoftInputMode(android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
     }
 
+    /** Straight to Gemini with the key on the phone; the answer fills in as it is written. */
     private fun runAssistant(mode: String, text: String, question: String) {
-        if (!Gemini.hasKey(this) && !LaptopClient.isLinked(this)) {
-            Toast.makeText(this, R.string.ai_link_first, Toast.LENGTH_LONG).show()
+        if (!Gemini.hasKey(this)) {
+            Toast.makeText(this, R.string.ai_key_first, Toast.LENGTH_LONG).show()
+            AiKey.ask(this)
             return
         }
-        val waiting = MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.ai_title)
-            .setMessage(R.string.ai_thinking)
-            .setCancelable(false)
+        val tv = android.widget.TextView(this).apply {
+            this.text = getString(R.string.ai_thinking)
+            setTextIsSelectable(true)
+            textSize = 16f
+            setLineSpacing(0f, 1.25f)
+            setPadding(dp(22), dp(8), dp(22), dp(8))
+            textDirection = View.TEXT_DIRECTION_FIRST_STRONG
+        }
+        val scroll = android.widget.ScrollView(this).apply { addView(tv) }
+        var answer = ""
+        val dialog = MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.ai_by_gemini)
+            .setView(scroll)
+            .setPositiveButton(R.string.ai_another) { _, _ -> askQuestion(text) }
+            .setNeutralButton(R.string.sel_copy) { _, _ ->
+                getSystemService(android.content.ClipboardManager::class.java)
+                    ?.setPrimaryClip(android.content.ClipData.newPlainText("answer", answer))
+                Toast.makeText(this, R.string.sel_copied, Toast.LENGTH_SHORT).show()
+            }
+            .setNegativeButton(R.string.ai_close, null)
             .show()
         lifecycleScope.launch {
-            val a = withContext(Dispatchers.IO) { 
-                // With a key on the phone: straight to Gemini. Without: the linked laptop or cloud.
-                if (Gemini.hasKey(this@PdfViewerActivity)) Gemini.ask(this@PdfViewerActivity, mode, text, question)
-                else LaptopClient.ai(this@PdfViewerActivity, mode, text, question)
-            }
-            waiting.dismiss()
-            if (a.text == null) {
-                val msg = when (a.problem) {
-                    "old" -> R.string.ai_old_server
-                    "none" -> R.string.ai_none
-                    "offline" -> R.string.ai_offline
-                    else -> R.string.ai_failed
+            val a = withContext(Dispatchers.IO) {
+                Gemini.ask(this@PdfViewerActivity, mode, text, question) { soFar ->
+                    runOnUiThread { answer = soFar; tv.text = soFar }
                 }
-                // With the vault's own reason, to read or send.
-                MaterialAlertDialogBuilder(this@PdfViewerActivity)
-                    .setTitle(R.string.ai_title)
-                    .setMessage(getString(msg) + if (a.detail.isNotEmpty()) "\n\n" + a.detail else "")
-                    .setPositiveButton(android.R.string.ok, null)
-                    .show()
-                return@launch
             }
-            showAnswer(a.text, a.engine, text)
+            if (a.text != null) { answer = a.text; tv.text = a.text; return@launch }
+            tv.text = getString(if (a.problem == "offline") R.string.ai_offline else R.string.ai_failed) +
+                if (a.detail.isNotEmpty()) "\n\n" + a.detail else ""
+            if (!dialog.isShowing) dialog.show()
         }
     }
 

@@ -11,7 +11,7 @@ import java.net.URL
  * laptop or cloud in between. The key stays on the phone.
  */
 object Gemini {
-    private const val URL_FMT = "https://generativelanguage.googleapis.com/v1beta/models/%s:generateContent"
+    private const val STREAM_FMT = "https://generativelanguage.googleapis.com/v1beta/models/%s:streamGenerateContent?alt=sse"
     private val MODELS = listOf("gemini-flash-latest", "gemini-2.5-flash", "gemini-flash-lite-latest", "gemini-2.0-flash")
 
     private const val SYSTEM = "You are a patient study assistant for a student pilot reading aviation books. " +
@@ -29,12 +29,16 @@ object Gemini {
         else -> (if (text.isNotBlank()) "النص من الكتاب:\n\n$text\n\n" else "") + "سؤال الطالب: $question"
     }
 
-    fun ask(ctx: Context, mode: String, text: String, question: String): LaptopClient.AiAnswer {
+    /**
+     * Streams the answer: [onText] gets the text so far as Gemini writes it,
+     * so the first words show within a second or two.
+     */
+    fun ask(ctx: Context, mode: String, text: String, question: String, onText: (String) -> Unit = {}): LaptopClient.AiAnswer {
         val key = key(ctx)
         val body = prompt(mode, text.take(30000), question)
         val errors = ArrayList<String>()
         for (model in MODELS) {
-            // Without the long "thinking" first where the model allows it, so the answer comes in seconds.
+            // Without the long "thinking" first where the model allows it.
             for (fast in listOf(true, false)) {
                 val cfg = JSONObject().put("temperature", 0.3)
                 if (fast) cfg.put("thinkingConfig", JSONObject().put("thinkingBudget", 0))
@@ -42,10 +46,10 @@ object Gemini {
                     .put("systemInstruction", JSONObject().put("parts", JSONArray().put(JSONObject().put("text", SYSTEM))))
                     .put("contents", JSONArray().put(JSONObject().put("role", "user").put("parts", JSONArray().put(JSONObject().put("text", body)))))
                     .put("generationConfig", cfg)
-                val c = URL(URL_FMT.format(model)).openConnection() as HttpURLConnection
+                val c = URL(STREAM_FMT.format(model)).openConnection() as HttpURLConnection
                 try {
                     c.connectTimeout = 15000
-                    c.readTimeout = 90000
+                    c.readTimeout = 60000
                     c.requestMethod = "POST"
                     c.doOutput = true
                     c.setRequestProperty("Content-Type", "application/json")
@@ -53,9 +57,21 @@ object Gemini {
                     c.outputStream.use { it.write(req.toString().toByteArray()) }
                     val code = c.responseCode
                     if (code == 200) {
-                        val out = JSONObject(c.inputStream.bufferedReader().readText())
-                        val parts = out.optJSONArray("candidates")?.optJSONObject(0)?.optJSONObject("content")?.optJSONArray("parts")
-                        val answer = (0 until (parts?.length() ?: 0)).joinToString("") { parts!!.optJSONObject(it)?.optString("text") ?: "" }.trim()
+                        val sb = StringBuilder()
+                        c.inputStream.bufferedReader().useLines { lines ->
+                            for (line in lines) {
+                                if (!line.startsWith("data:")) continue
+                                val o = try { JSONObject(line.substring(5).trim()) } catch (e: Exception) { continue }
+                                val parts = o.optJSONArray("candidates")?.optJSONObject(0)?.optJSONObject("content")?.optJSONArray("parts") ?: continue
+                                for (i in 0 until parts.length()) {
+                                    val pt = parts.optJSONObject(i) ?: continue
+                                    if (pt.optBoolean("thought")) continue
+                                    sb.append(pt.optString("text"))
+                                }
+                                onText(sb.toString())
+                            }
+                        }
+                        val answer = sb.toString().trim()
                         if (answer.isNotEmpty()) return LaptopClient.AiAnswer(answer, "gemini", null)
                         errors.add("$model: empty answer")
                         break
@@ -63,7 +79,7 @@ object Gemini {
                     val msg = try { JSONObject(c.errorStream?.bufferedReader()?.readText() ?: "").optJSONObject("error")?.optString("message") ?: "" } catch (e: Exception) { "" }
                     errors.add("$model: HTTP $code ${msg.take(160)}")
                     // A wrong key or no quota left is the same for every model.
-                    if (code == 400 && msg.contains("API key", true) || code == 401 || code == 403 || code == 429)
+                    if ((code == 400 && msg.contains("API key", true)) || code == 401 || code == 403 || code == 429)
                         return LaptopClient.AiAnswer(null, null, "failed", errors.joinToString("\n"))
                     if (code == 404) break
                 } catch (e: Exception) {
