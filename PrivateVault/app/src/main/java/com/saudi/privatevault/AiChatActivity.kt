@@ -57,6 +57,8 @@ class AiChatActivity : BaseActivity() {
     private lateinit var chips: View
     private lateinit var langChip: TextView
     private var busy: Job? = null
+    private var deep = false
+    private lateinit var deepChip: TextView
 
     // Gemini's two looks.
     private var light = false
@@ -151,6 +153,16 @@ class AiChatActivity : BaseActivity() {
             background = null; maxLines = 5; textSize = 16f; setText(old)
             inputType = android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE or android.text.InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
         }
+        deepChip = TextView(this).apply {
+            textSize = 13f; gravity = Gravity.CENTER; setPadding(dp(10), dp(6), dp(10), dp(6))
+            setOnClickListener {
+                deep = !deep
+                showDeep()
+                Toast.makeText(this@AiChatActivity, if (deep) R.string.ai_deep_on else R.string.ai_deep_off, Toast.LENGTH_SHORT).show()
+            }
+        }
+        inBar.addView(deepChip, LinearLayout.LayoutParams(-2, -2).apply { marginEnd = dp(6) })
+        showDeep()
         inBar.addView(input, LinearLayout.LayoutParams(0, -2, 1f))
         inBar.addView(TextView(this).apply {
             text = "↑"; textSize = 22f; setTextColor(bg); gravity = Gravity.CENTER
@@ -173,6 +185,12 @@ class AiChatActivity : BaseActivity() {
         background = EfbUi.cardBg(this@AiChatActivity, color, 20).apply { setStroke(0, 0) }
         setPadding(dp(14), dp(9), dp(14), dp(9))
         setOnClickListener { onClick() }
+    }
+
+    private fun showDeep() {
+        deepChip.text = "🧠 " + getString(R.string.ai_deep)
+        deepChip.setTextColor(if (deep) bg else dim)
+        deepChip.background = EfbUi.cardBg(this, if (deep) accent else bubble, 16).apply { setStroke(0, 0) }
     }
 
     private fun showLang() {
@@ -207,6 +225,9 @@ class AiChatActivity : BaseActivity() {
         if (busy?.isActive == true) return
         if (!Gemini.hasKey(this)) { AiKey.ask(this); return }
         chips.visibility = View.GONE
+        // Deep thinking is for this one question; the next goes back to quick.
+        val thinkHard = deep
+        if (deep) { deep = false; showDeep() }
         // The page (and any selected words) go with the first question.
         val first = turns.isEmpty()
         val text = if (first) (selected?.let { "Selected text:\n$it\n\n" } ?: "") + question else question
@@ -224,7 +245,7 @@ class AiChatActivity : BaseActivity() {
             override fun run() {
                 if (busy?.isActive != true) return
                 val sec = (System.currentTimeMillis() - t0) / 1000
-                status.text = (if (got) "✦ " else "⏳ ") + model + "  ·  ${sec}s"
+                status.text = (if (got) "✦ " else if (thinkHard) "🧠 " else "⏳ ") + model + "  ·  ${sec}s"
                 status.postDelayed(this, 500)
             }
         }
@@ -232,11 +253,11 @@ class AiChatActivity : BaseActivity() {
         busy = lifecycleScope.launch {
             status.post(tick)
             val a = withContext(Dispatchers.IO) {
-                Gemini.chat(this@AiChatActivity, turns, { m -> runOnUiThread { model = m } }) { soFar ->
+                Gemini.chat(this@AiChatActivity, turns, thinkHard, { m -> runOnUiThread { model = m } }) { soFar ->
                     runOnUiThread { got = true; reply.text = md(soFar); scrollDown() }
                 }
             }
-            status.text = if (a.text != null) "✦ ${Gemini.lastModel}  ·  %.1fs".format((System.currentTimeMillis() - t0) / 1000.0) else ""
+            status.text = if (a.text != null) (if (thinkHard) "🧠 " else "✦ ") + "${Gemini.lastModel}  ·  %.1fs".format((System.currentTimeMillis() - t0) / 1000.0) else ""
             if (a.text != null) {
                 reply.text = md(a.text)
                 turns.add(Gemini.Turn(false, a.text))

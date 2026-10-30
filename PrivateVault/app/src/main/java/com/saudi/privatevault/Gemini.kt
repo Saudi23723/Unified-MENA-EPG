@@ -22,6 +22,8 @@ object Gemini {
         JSONObject().put("thinkingBudget", 0),
         JSONObject().put("thinkingLevel", "low"),
         null,
+        // Deep thinking: as much as the model judges the question needs.
+        JSONObject().put("thinkingBudget", -1),
     )
 
     private const val BASE = "You are a patient flight instructor helping a student pilot (PPL, Evektor SportStar MAX, " +
@@ -67,13 +69,18 @@ object Gemini {
         }
     }.start()
 
-    fun chat(ctx: Context, turns: List<Turn>, onStatus: (String) -> Unit = {}, onText: (String) -> Unit): LaptopClient.AiAnswer {
+    /**
+     * [deep]: for hard questions and calculations, the newest Flash with its full thinking first,
+     * then 2.5 Flash thinking as much as it needs; slower by some seconds, more careful.
+     */
+    fun chat(ctx: Context, turns: List<Turn>, deep: Boolean = false, onStatus: (String) -> Unit = {}, onText: (String) -> Unit): LaptopClient.AiAnswer {
         val key = key(ctx)
         val body = contents(turns)
         val sys = JSONObject().put("parts", JSONArray().put(JSONObject().put("text", system(ctx))))
         val prefs = VaultLock.prefs(ctx)
-        val combos = MODELS.flatMap { m -> THINKING.indices.map { m to it } }.toMutableList()
-        prefs.getString("gemini_combo", null)?.split("|")?.let { s ->
+        val combos = if (deep) mutableListOf("gemini-flash-latest" to 2, "gemini-2.5-flash" to 3, "gemini-flash-lite-latest" to 2)
+            else MODELS.flatMap { m -> (0..2).map { m to it } }.toMutableList()
+        if (!deep) prefs.getString("gemini_combo", null)?.split("|")?.let { s ->
             val c = s.getOrNull(0).orEmpty() to (s.getOrNull(1)?.toIntOrNull() ?: 0)
             if (combos.remove(c)) combos.add(0, c)
         }
@@ -90,8 +97,8 @@ object Gemini {
             val c = URL(STREAM_FMT.format(model)).openConnection() as HttpURLConnection
             try {
                 c.connectTimeout = 10000
-                // No word for 25 s is a stall: the next model is asked.
-                c.readTimeout = 25000
+                // No word for 25 s is a stall (90 s when it thinks first): the next model is asked.
+                c.readTimeout = if (deep) 90000 else 25000
                 c.requestMethod = "POST"
                 c.doOutput = true
                 c.setRequestProperty("Content-Type", "application/json")
@@ -114,7 +121,7 @@ object Gemini {
                     }
                     val answer = sb.toString().trim()
                     if (answer.isNotEmpty()) {
-                        prefs.edit().putString("gemini_combo", "$model|$ti").apply()
+                        if (!deep) prefs.edit().putString("gemini_combo", "$model|$ti").apply()
                         lastModel = model
                         return LaptopClient.AiAnswer(answer, "gemini", null)
                     }
@@ -124,10 +131,10 @@ object Gemini {
                 val msg = try { JSONObject(c.errorStream?.bufferedReader()?.readText() ?: "").optJSONObject("error")?.optString("message") ?: "" } catch (e: Exception) { "" }
                 errors.add("$model: HTTP $code ${msg.take(160)}")
                 // A wrong key or no quota left is the same for every model.
-                if ((code == 400 && msg.contains("API key", true)) || code == 401 || code == 403 || code == 429)
+                if ((code == 400 && msg.contains("API key", true)) || code == 401 || code == 403 || (code == 429 && !deep))
                     return LaptopClient.AiAnswer(null, null, "failed", errors.joinToString("\n"))
                 // Gone, or busy right now: straight to the next model.
-                if (code == 404 || code >= 500) dead.add(model)
+                if (code == 404 || code >= 500 || code == 429) dead.add(model)
                 onStatus("$model ✗ $code")
                 break
             } catch (e: Exception) {
