@@ -528,6 +528,27 @@
     <string name="log_sync_same">✅ تم الـ sync: انبعت %1$d، وما في شي جديد من الأجهزة التانية</string>
     <string name="log_sync_failed">ما صار sync: %1$s</string>
     <string name="st_gps_wait">GPS: عم يستنى موقع جديد (لحد 30 ثانية)…</string>
+    <string name="home_plan">التخطيط</string>
+    <string name="home_fly">بالطيران</string>
+    <string name="home_training">التدريب والـ logbook</string>
+    <string name="home_data">البيانات والـ EFB</string>
+    <string name="home_tab_home">🏠 الرئيسية</string>
+    <string name="home_tab_airports">🔎 المطارات</string>
+    <string name="sub_plan">المسار والرياح والوقود والأوقات</string>
+    <string name="sub_wb" formatted="false">N19EV والأسطول · الـ CG بـ %MAC</string>
+    <string name="sub_e6b">رياح، density altitude، وقت ووقود</string>
+    <string name="sub_freq">المطار، الأقرب، وترددات الرحلة</string>
+    <string name="sub_profile">التضاريس على طول المسار</string>
+    <string name="sub_ck">AtheneAir EVSS · SportStar MAX · C172</string>
+    <string name="sub_diagram">المطار بالقمر الصناعي و 3D</string>
+    <string name="sub_svt">أفق صناعي وتضاريس قدّامك</string>
+    <string name="sub_nrst">أقرب مطار وحدود الانزلاق</string>
+    <string name="sub_notes">Scratchpad، ATIS و clearance</string>
+    <string name="sub_log">رحلاتك، المجاميع والتواقيع</string>
+    <string name="sub_109">تقدّمك على 61.109 للـ checkride</string>
+    <string name="sub_currency">الركّاب، الليل، والـ flight review</string>
+    <string name="sub_charts">إصدار الخرائط، والتحديث بدون نت</string>
+    <string name="sub_efbc">فحص قبل الرحلة، المصادر، والـ DPE</string>
     <string name="map_circle">دائرة</string>
     <string name="map_ruler">مسطرة</string>
     <string name="pen_write">كتابة وتظليل</string>

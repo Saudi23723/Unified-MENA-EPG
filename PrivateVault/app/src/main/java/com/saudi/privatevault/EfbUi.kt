@@ -20,15 +20,16 @@ import com.google.android.material.appbar.MaterialToolbar
 
 /** The look of the flight bag: a dark cockpit palette, cards, and gentle motion. */
 object EfbUi {
-    const val BG = 0xFF0B1220.toInt()
-    const val CARD = 0xFF16213A.toInt()
-    const val CARD_LINE = 0xFF233152.toInt()
-    const val ACCENT = 0xFF00E5FF.toInt()
-    const val TEXT = 0xFFECEFF4.toInt()
-    const val DIM = 0xFF8FA3BF.toInt()
-    const val GOOD = 0xFF4CAF50.toInt()
-    const val WARN = 0xFFFFB300.toInt()
-    const val BAD = 0xFFEF5350.toInt()
+    // A modern EFB's night palette: near-black ground, raised graphite cards, one clear blue.
+    const val BG = 0xFF0F1318.toInt()
+    const val CARD = 0xFF1A2029.toInt()
+    const val CARD_LINE = 0xFF29313D.toInt()
+    const val ACCENT = 0xFF4DA3FF.toInt()
+    const val TEXT = 0xFFF1F4F8.toInt()
+    const val DIM = 0xFF8D97A8.toInt()
+    const val GOOD = 0xFF34C759.toInt()
+    const val WARN = 0xFFFFB020.toInt()
+    const val BAD = 0xFFFF453A.toInt()
 
     fun dp(ctx: Context, v: Int) = (v * ctx.resources.displayMetrics.density).toInt()
 
