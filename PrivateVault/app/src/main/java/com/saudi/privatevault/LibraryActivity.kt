@@ -27,9 +27,13 @@ class LibraryActivity : BaseActivity() {
     private fun dp(v: Int) = EfbUi.dp(this, v)
 
     /** A book: its file name, the FAA page that links it, and how its link is named there. */
-    private class Book(val icon: String, val title: String, val sub: String, val file: String?, val page: String, val pattern: String?)
+    private class Book(val icon: String, val title: String, val sub: String, val file: String?, val page: String, val pattern: String?, val asset: String? = null)
 
     private val books = listOf(
+        Book("📄", "AC 91-78A · Use of Electronic Flight Bags", "FAA, 23 Feb 2024 · in the app", "AC 91-78A · Use of Electronic Flight Bags.pdf", "", null, "library/AC_91-78A_EFB.pdf"),
+        Book("📨", "AC 00-46F · Aviation Safety Reporting Program", "NASA ASRS · FAA, 2 Apr 2021 · in the app", "AC 00-46F · Aviation Safety Reporting Program.pdf", "", null, "library/AC_00-46F_ASRS.pdf"),
+        Book("🧑‍✈️", "Conducting an Effective Flight Review", "FAA guide for 61.56 · in the app", "Conducting an Effective Flight Review.pdf", "", null, "library/Effective_Flight_Review.pdf"),
+        Book("⛔", "Tips for Avoiding TFRs", "NORAD · plan, talk, squawk · in the app", "Tips for Avoiding TFRs (NORAD).pdf", "", null, "library/TFR_Tips_NORAD.pdf"),
         Book("📘", "AIM · Aeronautical Information Manual", "Procedures, ATC, weather, airspace (FAA, current)", "AIM · Aeronautical Information Manual.pdf",
             "https://www.faa.gov/air_traffic/publications/", "aim[^\"'<>]*basic[^\"'<>]*\\.pdf|aim_[^\"'<>]*\\.pdf"),
         Book("📗", "Pilot/Controller Glossary", "Every ATC word and phrase", "Pilot Controller Glossary.pdf",
@@ -79,6 +83,13 @@ class LibraryActivity : BaseActivity() {
     private fun open(b: Book, sub: TextView) {
         if (b.file == null) { WebActivity.open(this, b.title, b.page); return }
         held(b)?.let { read(it); return }
+        // Shipped with the app: copied into References once, then read like any book.
+        b.asset?.let { name ->
+            val target = VaultStore.downloadTarget(b.file)
+            try { assets.open(name).use { inp -> target.outputStream().use { inp.copyTo(it) } } } catch (e: Exception) { return }
+            read(VaultStore.adopt(target, b.file, "application/pdf", refs()))
+            return
+        }
         sub.text = getString(R.string.lib_finding)
         lifecycleScope.launch {
             val item = withContext(Dispatchers.IO) {

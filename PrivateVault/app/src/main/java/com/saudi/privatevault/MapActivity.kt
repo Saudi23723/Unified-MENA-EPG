@@ -150,8 +150,10 @@ class MapActivity : BaseActivity() {
             showTfrs = prefs.getBoolean("wx_tfr", true)
             showPireps = prefs.getBoolean("wx_pirep", false)
             onPick = { texts ->
+                // On a TFR: NORAD's three keys (Plan, Talk, Squawk).
+                val tfr = texts.any { it.contains("TFR", true) }
                 MaterialAlertDialogBuilder(this@MapActivity)
-                    .setMessage(texts.joinToString("\n\n────────\n\n"))
+                    .setMessage(texts.joinToString("\n\n────────\n\n") + if (tfr) "\n\n────────\n\n" + getString(R.string.tfr_keys) else "")
                     .setPositiveButton(android.R.string.ok, null)
                     .show()
             }

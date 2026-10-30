@@ -150,6 +150,15 @@ class EfbCheckActivity : BaseActivity() {
         pc.addView(EfbUi.text(this, getString(R.string.efbc_pilot_text), 14f, EfbUi.TEXT).apply { setLineSpacing(0f, 1.3f) })
         col.addView(pc)
 
+        // ---- NASA ASRS (AC 00-46F) ----
+        section(getString(R.string.asrs_title))
+        val asrs = EfbUi.card(this)
+        asrs.addView(EfbUi.text(this, getString(R.string.asrs_text), 14f, EfbUi.TEXT).apply { setLineSpacing(0f, 1.3f) })
+        val file = EfbUi.text(this, "📨 " + getString(R.string.asrs_open), 16f, EfbUi.ACCENT, bold = true).apply { setPadding(0, dp(12), 0, dp(4)) }
+        EfbUi.pressable(file) { try { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://asrs.arc.nasa.gov/"))) } catch (e: Exception) {} }
+        asrs.addView(file)
+        col.addView(asrs)
+
         // ---- the AC itself ----
         section(getString(R.string.efbc_ac))
         val ac = EfbUi.card(this)
@@ -260,6 +269,15 @@ class EfbCheckActivity : BaseActivity() {
         VaultStore.itemsIn(folder).firstOrNull { it.name == AC_NAME }?.let { item ->
             startActivity(Intent(this, PdfViewerActivity::class.java).putExtra(Viewers.EXTRA_ID, item.id))
             return
+        }
+        // The AC ships with the app: no download needed.
+        try {
+            val target = VaultStore.downloadTarget(AC_NAME)
+            assets.open("library/AC_91-78A_EFB.pdf").use { inp -> target.outputStream().use { inp.copyTo(it) } }
+            val item = VaultStore.adopt(target, AC_NAME, "application/pdf", folder)
+            startActivity(Intent(this, PdfViewerActivity::class.java).putExtra(Viewers.EXTRA_ID, item.id))
+            return
+        } catch (e: Exception) {
         }
         Toast.makeText(this, R.string.efbc_ac_loading, Toast.LENGTH_SHORT).show()
         lifecycleScope.launch {

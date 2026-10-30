@@ -479,11 +479,7 @@
     <string name="efbc_missing">ضايل %1$d بنود ما تأشّروا</string>
     <string name="efbc_saved">انحفظ: EFB جاهز للرحلة ✅</string>
     <string name="efbc_pilot">شو بيضل مسؤوليتك</string>
-    <string name="efbc_pilot_text">• الكابتن (PIC) مسؤول عن الـ EFB وعن إنو بياناته سارية ومناسبة للرحلة.
-• لازم يكون عندك بديل إذا الـ EFB وقف: جهاز تاني فيه الخرائط، أو ورق.
-• ثبّت الجهاز (kneeboard أو mount) بحيث ما يعيق التحكم ولا يطير وقت الإقلاع والهبوط.
-• SSEFB أداة مساعدة: الـ POH/AOI والـ Chart Supplement والـ NOTAMs الرسمية هي المرجع.
-• التفاصيل والصياغة الرسمية بالـ AC نفسه (تحت).</string>
+    <string name="efbc_pilot_text">حسب AC 91-78A (23 Feb 2024):\n• 9.2: استعمال الـ EFB بالطيران قرار الـ operator والكابتن (PIC)، و«ما بيحتاج موافقة رسمية» طالما بتتبع إرشادات الـ AC.\n• 9.1: بيصير بدل الورق إذا:\n  1. ما بيحلّ محل أي جهاز مطلوب بـ Part 91 (ملاحة، اتصال، مراقبة).\n  2. بيعرض معلومات مكافئة للورق اللي بيستبدله.\n  3. المعلومات للملاحة والأداء «حالية ومحدّثة وصالحة، والكابتن تأكد منها».\n  4. بيطابق 91.21: ما بيأثر على أجهزة الطيارة.\n• 11.1: انتبه للتثبيت وقت الإقلاع والهبوط، وللجهاز إذا مش مثبّت، والإضاءة، وإذا وقف.\n• 11.2: التدريب: فحص الجهاز قبل الرحلة، كل وظيفة فيه، وإيمتى ما بتستعمله، والتأكد من الحسابات.\n• SSEFB أداة مساعدة: الـ POH/AOI والـ Chart Supplement والـ NOTAMs الرسمية هي المرجع، وخلي معك بديل.</string>
     <string name="efbc_ac">📄 الـ AC نفسه</string>
     <string name="efbc_ac_text">AC 91-78A من الـ FAA: إرشادات استعمال الـ EFB بدل الورق لطياري Part 91. بينزل مرة وحدة وبينحفظ بمجلد «📚 References» لتقرأه بدون نت، مع الأقلام و Gemini.</string>
     <string name="efbc_ac_open">افتح AC 91-78A</string>
@@ -596,6 +592,10 @@
     <string name="docs_kt">📝 الـ Knowledge test</string>
     <string name="docs_hint">عبّي التواريخ فوق: صلاحية الـ medical والـ written بتنحسب لحالها وبتطلع بالـ Currency.</string>
     <string name="tp_steps">① crosswind خلال 300 ft من الـ TPA  ② عالـ TPA: pitch · power 4800 · 85 kt · trim  ③ downwind: before-landing checklist (BCGUMPS)  ④ abeam numbers: 3200 RPM · &lt;70 kt · flaps 1 · descend  ⑤ base: flaps 2  ⑥ final: 3° · 60–65 kt  Ⓔ 45° entry</string>
+    <string name="asrs_title">📨 تقرير NASA ASRS (AC 00-46F)</string>
+    <string name="asrs_text">إذا صار معك خطأ أو موقف (مثلاً دخلت airspace بالغلط أو صار سوء فهم مع الـ ATC)، بلّغ NASA. التقرير سري (8.1) والـ FAA ما بتستعمله ضدك (8.2، 91.25). وحسب 12.3، ما في غرامة ولا تعليق للرخصة إذا كان الخطأ مش متعمّد، وما في جريمة أو حادث، وما في مخالفة سابقة بآخر 5 سنين، وبعتت التقرير خلال 10 أيام. خلّي ورقة الـ ID strip اللي بترجعلك من NASA، هي إثباتك.</string>
+    <string name="asrs_open">بلّغ على asrs.arc.nasa.gov</string>
+    <string name="tfr_keys">⛔ مفاتيح الـ TFR (NORAD):\n• PLAN: شوف الـ TFRs (tfr.faa.gov) أو اتصل بـ 1-800-WX-BRIEF\n• TALK: كلّم الـ ATC وراقب 121.5\n• SQUAWK: كود الـ transponder اللي بيعطوك ياه\nبدون flight plan، بدون اتصال، و squawk 1200؟ ابعد عنها.</string>
     <string name="map_circle">دائرة</string>
     <string name="map_ruler">مسطرة</string>
     <string name="pen_write">كتابة وتظليل</string>

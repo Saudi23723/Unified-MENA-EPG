@@ -465,11 +465,7 @@ or tap an airport → Add to route, or long-press anywhere on the chart.</string
     <string name="efbc_missing">%1$d items not ticked yet</string>
     <string name="efbc_saved">Saved: EFB ready for the flight ✅</string>
     <string name="efbc_pilot">What stays with the pilot</string>
-    <string name="efbc_pilot_text">• The pilot in command is responsible for the EFB and for its data being current and right for the flight.
-• Have a backup if the EFB fails: a second device with the charts, or paper.
-• Secure the device (kneeboard or mount) so it does not interfere with the controls or come loose on takeoff and landing.
-• SSEFB is an aid: the POH/AOI, the Chart Supplement and the official NOTAMs are the reference.
-• The details and official wording are in the AC itself (below).</string>
+    <string name="efbc_pilot_text">Per AC 91-78A (23 Feb 2024):\n• 9.2: in-flight use of an EFB is the decision of the operator and the PIC, and \"requires no formal operational approval as long as the guidelines of this AC are followed.\"\n• 9.1: it may replace paper when:\n  1. It does not replace any system or equipment required by part 91 (navigation, communication, surveillance).\n  2. It shows only information functionally equivalent to the paper it replaces.\n  3. The information used for navigation or performance planning is \"current, up to date, and valid, as verified by the pilot.\"\n  4. It meets § 91.21: no interference with the aircraft\'s equipment.\n• 11.1: mind stowage during takeoff and landing, an unsecured EFB, display and lighting, and system failures.\n• 11.2: training: preflight checks of the system, each function, when not to use it, and cross-checking data and results.\n• SSEFB is an aid: the POH/AOI, the Chart Supplement and the official NOTAMs are the reference; carry a backup.</string>
     <string name="efbc_ac">📄 The AC itself</string>
     <string name="efbc_ac_text">FAA AC 91-78A: guidance on using an EFB in place of paper for Part 91 pilots. Downloaded once and kept in «📚 References» to read offline, with the pens and Gemini.</string>
     <string name="efbc_ac_open">Open AC 91-78A</string>
@@ -582,6 +578,10 @@ or tap an airport → Add to route, or long-press anywhere on the chart.</string
     <string name="docs_kt">📝 Knowledge test</string>
     <string name="docs_hint">Fill in the dates above: the medical and knowledge test validity are worked out and shown in Currency.</string>
     <string name="tp_steps">① crosswind within 300 ft of TPA  ② at TPA: pitch · power 4800 · 85 kt · trim  ③ downwind: before-landing checklist (BCGUMPS)  ④ abeam the numbers: 3200 RPM · &lt;70 kt · flaps 1 · descend  ⑤ base: flaps 2  ⑥ final: 3° · 60–65 kt  Ⓔ 45° entry</string>
+    <string name="asrs_title">📨 NASA ASRS report (AC 00-46F)</string>
+    <string name="asrs_text">After an error or an event (an airspace incursion by mistake, a misunderstanding with ATC), report it to NASA. Reports are confidential (8.1) and the FAA will not use them in enforcement (8.2, § 91.25). Under 12.3, no civil penalty or certificate suspension is imposed if the violation was inadvertent, involved no criminal offense or accident, you had no enforcement in the prior 5 years, and you filed the report within 10 days. Keep the ID strip NASA returns: it is your proof.</string>
+    <string name="asrs_open">File at asrs.arc.nasa.gov</string>
+    <string name="tfr_keys">⛔ TFR keys (NORAD):\n• PLAN: check TFRs (tfr.faa.gov) or call 1-800-WX-BRIEF\n• TALK: to ATC, and monitor 121.5\n• SQUAWK: the assigned discrete code\nNo flight plan, no radio contact, squawking 1200? Stay out.</string>
     <string name="map_circle">Circle</string>
     <string name="map_ruler">Ruler</string>
     <string name="pen_write">Write and highlight</string>
