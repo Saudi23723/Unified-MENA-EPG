@@ -40,7 +40,50 @@
             <TextView android:id="@+id/hudGs" style="@style/HudCell" />
             <TextView android:id="@+id/hudTrk" style="@style/HudCell" />
             <TextView android:id="@+id/hudAlt" style="@style/HudCell" />
+            <TextView android:id="@+id/hudVs" style="@style/HudCell" />
+            <TextView android:id="@+id/hudGps" style="@style/HudCell" android:textSize="12sp" android:textColor="#FFB0BEC5" />
         </LinearLayout>
+
+        <!-- Where the aircraft is headed: waypoint, bearing, distance, time. -->
+        <TextView
+            android:id="@+id/hudNav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#E6101820"
+            android:fontFamily="monospace"
+            android:gravity="center"
+            android:layoutDirection="ltr"
+            android:paddingBottom="4dp"
+            android:textColor="#FFE040FB"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/zoomBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|center_vertical"
+        android:layout_marginEnd="12dp"
+        android:orientation="vertical">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/zoomIn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:contentDescription="+"
+            app:fabSize="mini"
+            app:srcCompat="@drawable/ic_add" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/zoomOut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="-"
+            app:fabSize="mini"
+            app:srcCompat="@drawable/ic_remove" />
     </LinearLayout>
 
     <LinearLayout

@@ -40,7 +40,7 @@ object AviationData {
     class Airport(val ident: String, val icao: String, val name: String, val city: String, val elevation: Int, val lat: Double, val lon: Double)
 
     /** A weather report at a station, with its flight category (VFR, MVFR, IFR, LIFR). */
-    class Metar(val station: String, val raw: String, val category: String, val time: Long)
+    class Metar(val station: String, val raw: String, val category: String, val time: Long, val json: JSONObject? = null)
 
     private const val AIRPORTS =
         "https://services6.arcgis.com/ssFJjBXIUyZDrSYZ/arcgis/rest/services/US_Airport/FeatureServer/0/query"
@@ -48,7 +48,7 @@ object AviationData {
     // The states a Nevada and California pilot crosses most.
     private val STATES = listOf("NV", "CA", "AZ", "UT", "OR", "ID", "NM", "CO", "WY")
 
-    private fun get(url: String, timeout: Int = 20000): String {
+    fun get(url: String, timeout: Int = 20000): String {
         val c = URL(url).openConnection() as HttpURLConnection
         c.connectTimeout = timeout
         c.readTimeout = timeout
@@ -116,7 +116,7 @@ object AviationData {
         val a = JSONArray(get("https://aviationweather.gov/api/data/metar?bbox=$south,$west,$north,$east&format=json"))
         (0 until a.length()).map { i ->
             val o = a.getJSONObject(i)
-            Metar(o.optString("icaoId"), o.optString("rawOb"), o.optString("fltCat"), o.optLong("obsTime"))
+            Metar(o.optString("icaoId"), o.optString("rawOb"), o.optString("fltCat"), o.optLong("obsTime"), o)
         }
     } catch (e: Exception) {
         emptyList()
@@ -124,7 +124,7 @@ object AviationData {
 
     fun metar(station: String): Metar? = try {
         val a = JSONArray(get("https://aviationweather.gov/api/data/metar?ids=$station&format=json"))
-        if (a.length() == 0) null else a.getJSONObject(0).let { Metar(it.optString("icaoId"), it.optString("rawOb"), it.optString("fltCat"), it.optLong("obsTime")) }
+        if (a.length() == 0) null else a.getJSONObject(0).let { Metar(it.optString("icaoId"), it.optString("rawOb"), it.optString("fltCat"), it.optLong("obsTime"), it) }
     } catch (e: Exception) {
         null
     }
@@ -134,6 +134,349 @@ object AviationData {
         if (a.length() == 0) null else a.getJSONObject(0).optString("rawTAF")
     } catch (e: Exception) {
         null
+    }
+
+    // ---- weather and airspace drawn over the chart ----
+
+    /** NEXRAD composite reflectivity (Iowa Environmental Mesonet), a fresh set every 5 minutes. */
+    fun radarSource(): OnlineTileSourceBase {
+        val bucket = System.currentTimeMillis() / 300000
+        val base = "https://mesonet.agron.iastate.edu/cache/tile.py/1.0.0/nexrad-n0q-900913"
+        return object : OnlineTileSourceBase("radar$bucket", 3, 11, 256, ".png", arrayOf(base)) {
+            override fun getTileURLString(index: Long): String =
+                "$base/${MapTileIndex.getZoom(index)}/${MapTileIndex.getX(index)}/${MapTileIndex.getY(index)}.png"
+        }
+    }
+
+    /** An area on the chart: a SIGMET, an AIRMET, or a TFR, as lat,lon pairs. */
+    class Area(val kind: String, val label: String, val text: String, val color: Int, val pts: DoubleArray) {
+        fun contains(lat: Double, lon: Double): Boolean {
+            var inside = false
+            var j = pts.size - 2
+            var i = 0
+            while (i < pts.size) {
+                val yi = pts[i]; val xi = pts[i + 1]; val yj = pts[j]; val xj = pts[j + 1]
+                if ((yi > lat) != (yj > lat) && lon < (xj - xi) * (lat - yi) / (yj - yi) + xi) inside = !inside
+                j = i
+                i += 2
+            }
+            return inside
+        }
+    }
+
+    /** A pilot report: where, what, and how bad. */
+    class Pirep(val lat: Double, val lon: Double, val raw: String, val kind: Char, val urgent: Boolean)
+
+    // The western states and a margin around them.
+    private fun inWest(pts: DoubleArray): Boolean {
+        var i = 0
+        while (i < pts.size) {
+            if (pts[i] in 28.0..52.0 && pts[i + 1] in -128.0..-100.0) return true
+            i += 2
+        }
+        return false
+    }
+
+    private fun coords(o: JSONObject): DoubleArray? {
+        val a = o.optJSONArray("coords") ?: return null
+        val out = DoubleArray(a.length() * 2)
+        for (i in 0 until a.length()) {
+            val p = a.optJSONObject(i) ?: return null
+            out[2 * i] = p.optString("lat").toDoubleOrNull() ?: return null
+            out[2 * i + 1] = p.optString("lon").toDoubleOrNull() ?: return null
+        }
+        return out.takeIf { it.size >= 6 }
+    }
+
+    fun hazardColor(h: String): Int = when {
+        h.startsWith("CONVECTIVE") -> 0xFFE53935.toInt()
+        h.startsWith("IFR") -> 0xFF7B1FA2.toInt()
+        h.startsWith("MT") -> 0xFF8D6E63.toInt()
+        h.startsWith("TURB") -> 0xFFFF8F00.toInt()
+        h.startsWith("ICE") -> 0xFF0288D1.toInt()
+        h.startsWith("ASH") -> 0xFF424242.toInt()
+        else -> 0xFF00897B.toInt()
+    }
+
+    private fun alt(v: String) = v.toIntOrNull()?.let { if (it == 0) "SFC" else "%,d".format(it) } ?: v
+
+    /** SIGMETs, convective SIGMETs and the current G-AIRMETs over the West. */
+    fun airspaceWeather(): List<Area> {
+        val out = ArrayList<Area>()
+        try {
+            val a = JSONArray(get("https://aviationweather.gov/api/data/airsigmet?format=json"))
+            for (i in 0 until a.length()) {
+                val o = a.getJSONObject(i)
+                val pts = coords(o) ?: continue
+                if (!inWest(pts)) continue
+                val type = o.optString("airSigmetType").ifEmpty { "SIGMET" }
+                val hazard = o.optString("hazard")
+                val lo = o.optString("altitudeLow1"); val hi = o.optString("altitudeHi1")
+                out.add(Area(type, "$type $hazard", "$type · $hazard · ${alt(lo)}–${alt(hi)} ft\n\n${o.optString("rawAirSigmet")}",
+                    if (type == "SIGMET") 0xFFD50000.toInt() else hazardColor(hazard), pts))
+            }
+        } catch (e: Exception) {
+        }
+        try {
+            val a = JSONArray(get("https://aviationweather.gov/api/data/gairmet?format=json"))
+            for (i in 0 until a.length()) {
+                val o = a.getJSONObject(i)
+                if (o.optString("forecastHour", "0").toIntOrNull()?.let { it != 0 } == true) continue
+                val hazard = o.optString("hazard")
+                if (hazard == "FZLVL" || hazard == "M_FZLVL") continue
+                val pts = coords(o) ?: continue
+                if (!inWest(pts)) continue
+                val due = o.optString("dueTo").takeIf { it.isNotEmpty() && it != "null" }
+                val levels = listOf(o.optString("base"), o.optString("top")).filter { it.isNotEmpty() && it != "null" }
+                out.add(Area("AIRMET", hazard.replace('_', ' '),
+                    "G-AIRMET ${o.optString("product")} · ${hazard.replace('_', ' ')}" +
+                        (if (levels.size == 2) " · ${alt(levels[0])}–${alt(levels[1])} ft" else "") +
+                        (due?.let { "\n$it" } ?: "") + "\n${o.optString("validTime")}",
+                    hazardColor(hazard), pts))
+            }
+        } catch (e: Exception) {
+        }
+        return out
+    }
+
+    /** Temporary flight restrictions from the FAA, over the West. */
+    fun tfrs(): List<Area> = try {
+        val json = JSONObject(get(
+            "https://tfr.faa.gov/geoserver/TFR/ows?service=WFS&version=1.1.0&request=GetFeature" +
+                "&typeName=TFR:V_TFR_LOC&maxFeatures=800&outputFormat=application/json&srsname=EPSG:4326", 30000,
+        ))
+        val f = json.optJSONArray("features") ?: JSONArray()
+        val out = ArrayList<Area>()
+        for (i in 0 until f.length()) {
+            val o = f.getJSONObject(i)
+            val props = o.optJSONObject("properties") ?: JSONObject()
+            val g = o.optJSONObject("geometry") ?: continue
+            val rings = ArrayList<JSONArray>()
+            val c = g.optJSONArray("coordinates") ?: continue
+            when (g.optString("type")) {
+                "Polygon" -> c.optJSONArray(0)?.let { rings.add(it) }
+                "MultiPolygon" -> for (k in 0 until c.length()) c.optJSONArray(k)?.optJSONArray(0)?.let { rings.add(it) }
+            }
+            for (ring in rings) {
+                val pts = DoubleArray(ring.length() * 2)
+                for (k in 0 until ring.length()) {
+                    val p = ring.getJSONArray(k)
+                    val a0 = p.getDouble(0); val a1 = p.getDouble(1)
+                    // Longitudes in the US are negative; whichever order the server used.
+                    if (a0 < 0) { pts[2 * k] = a1; pts[2 * k + 1] = a0 } else { pts[2 * k] = a0; pts[2 * k + 1] = a1 }
+                }
+                if (pts.size < 6 || !inWest(pts)) continue
+                val title = props.optString("TITLE").ifEmpty { props.optString("title") }
+                val key = props.optString("NOTAM_KEY").ifEmpty { props.optString("notam_key") }
+                val legal = props.optString("LEGAL").ifEmpty { props.optString("legal") }
+                out.add(Area("TFR", "TFR", "TFR $key\n$legal\n$title", 0xFFD50000.toInt(), pts))
+            }
+        }
+        out
+    } catch (e: Exception) {
+        emptyList()
+    }
+
+    fun pireps(south: Double, west: Double, north: Double, east: Double): List<Pirep> = try {
+        val a = JSONArray(get("https://aviationweather.gov/api/data/pirep?bbox=$south,$west,$north,$east&age=3&format=json"))
+        (0 until a.length()).mapNotNull { i ->
+            val o = a.getJSONObject(i)
+            val lat = o.optString("lat").toDoubleOrNull() ?: return@mapNotNull null
+            val lon = o.optString("lon").toDoubleOrNull() ?: return@mapNotNull null
+            val raw = o.optString("rawOb")
+            val kind = when {
+                o.optString("tbInt1").let { it.isNotEmpty() && it != "null" && it != "NEG" } || raw.contains("/TB") -> 'T'
+                o.optString("icgInt1").let { it.isNotEmpty() && it != "null" && it != "NEG" } || raw.contains("/IC") -> 'I'
+                else -> 'P'
+            }
+            Pirep(lat, lon, raw, kind, o.optString("pirepType").startsWith("Urgent") || raw.contains(" UUA "))
+        }
+    } catch (e: Exception) {
+        emptyList()
+    }
+
+    // ---- airports in depth ----
+
+    /** Runways and frequencies of an airport, as aviationweather.gov publishes them. */
+    fun airportInfo(station: String): JSONObject? = try {
+        JSONArray(get("https://aviationweather.gov/api/data/airport?ids=$station&format=json")).optJSONObject(0)
+    } catch (e: Exception) {
+        null
+    }
+
+    /** The raw winds and temperatures aloft (FB) for the western regions. */
+    fun windsAloft(hours: Int = 6): String = listOf("sfo", "slc").joinToString("\n\n") { region ->
+        try {
+            get("https://aviationweather.gov/api/data/windtemp?region=$region&level=low&fcst=%02d".format(hours))
+        } catch (e: Exception) {
+            ""
+        }
+    }.trim()
+
+    // Winds-aloft stations of the West, for picking the one nearest a route.
+    private val FB_STATIONS = mapOf(
+        "LAS" to (36.08 to -115.16), "PRC" to (34.70 to -112.48), "BAM" to (40.57 to -116.92), "RNO" to (39.50 to -119.77),
+        "ELY" to (39.30 to -114.84), "TPH" to (38.06 to -117.09), "BIH" to (37.37 to -118.36), "FAT" to (36.78 to -119.72),
+        "LAX" to (33.94 to -118.41), "SAN" to (32.73 to -117.19), "BLH" to (33.62 to -114.72), "SFO" to (37.62 to -122.37),
+        "SAC" to (38.51 to -121.49), "PHX" to (33.43 to -112.01), "SLC" to (40.79 to -111.97), "RBL" to (40.15 to -122.25),
+        "FOT" to (40.67 to -124.24), "ONT" to (34.06 to -117.60), "AST" to (46.16 to -123.88), "MLF" to (38.36 to -113.01),
+        "DRK" to (34.70 to -112.48), "EED" to (34.77 to -114.47), "INW" to (35.02 to -110.72), "TUS" to (32.12 to -110.94),
+    )
+
+    /** Wind (degrees true, knots) and temperature at an altitude from the FB text, at the station nearest a point. */
+    fun windAt(text: String, lat: Double, lon: Double, altFt: Int): Triple<Int, Int, Int?>? {
+        var header: List<Pair<Int, Int>>? = null
+        val rows = HashMap<String, String>()
+        for (line in text.lines()) {
+            if (line.startsWith("FT ")) {
+                header = Regex("\\d{4,5}").findAll(line).map { it.value.toInt() to it.range.last }.toList()
+            } else if (header != null && Regex("^[A-Z0-9]{3} ").containsMatchIn(line)) {
+                rows[line.substring(0, 3)] = line
+            }
+        }
+        val cols = header ?: return null
+        val station = rows.keys.filter { it in FB_STATIONS }.minByOrNull { k ->
+            FB_STATIONS[k]!!.let { (y, x) -> Nav.distanceNm(lat, lon, y, x) }
+        } ?: return null
+        val row = rows[station]!!
+        val levels = ArrayList<Triple<Int, Double, Double>>()   // altitude, wind east, wind north (blowing from)
+        val temps = HashMap<Int, Int>()
+        for (m in Regex("\\S+").findAll(row).drop(1)) {
+            val col = cols.minByOrNull { Math.abs(it.second - m.range.last) } ?: continue
+            if (Math.abs(col.second - m.range.last) > 3) continue
+            val v = m.value
+            if (v.length < 4) continue
+            var dir = v.substring(0, 2).toIntOrNull() ?: continue
+            var spd = v.substring(2, 4).toIntOrNull() ?: continue
+            if (dir == 99) { dir = 0; spd = 0 } else {
+                if (dir > 36) { dir -= 50; spd += 100 }
+                dir *= 10
+            }
+            if (v.length > 4) {
+                val t = v.substring(4).replace("+", "").toIntOrNull()
+                if (t != null) temps[col.first] = if (col.first >= 24000 && !v.substring(4).startsWith("+")) -Math.abs(t) else t
+            }
+            val r = Math.toRadians(dir.toDouble())
+            levels.add(Triple(col.first, spd * Math.sin(r), spd * Math.cos(r)))
+        }
+        if (levels.isEmpty()) return null
+        levels.sortBy { it.first }
+        val lo = levels.lastOrNull { it.first <= altFt } ?: levels.first()
+        val hi = levels.firstOrNull { it.first >= altFt } ?: levels.last()
+        val f = if (hi.first == lo.first) 0.0 else (altFt - lo.first).toDouble() / (hi.first - lo.first)
+        val e = lo.second + (hi.second - lo.second) * f
+        val n = lo.third + (hi.third - lo.third) * f
+        val dir = ((Math.toDegrees(Math.atan2(e, n)) + 360) % 360).toInt()
+        val spd = Math.round(Math.hypot(e, n)).toInt()
+        val temp = temps[lo.first]?.let { t0 -> temps[hi.first]?.let { t1 -> Math.round(t0 + (t1 - t0) * f).toInt() } ?: t0 }
+        return Triple(if (spd == 0) 0 else (if (dir == 0) 360 else dir), spd, temp)
+    }
+
+    // ---- terminal procedures (d-TPP) ----
+
+    /** The current 28-day AIRAC cycle, as the FAA names it (e.g. 2511). */
+    fun airacCycle(epochDay: Long = java.time.LocalDate.now().toEpochDay()): String {
+        var start = java.time.LocalDate.of(2025, 1, 23).toEpochDay()
+        while (start + 28 <= epochDay) start += 28
+        while (start > epochDay) start -= 28
+        val year = java.time.LocalDate.ofEpochDay(start).year
+        var first = start
+        while (java.time.LocalDate.ofEpochDay(first - 28).year == year) first -= 28
+        return "%02d%02d".format(year % 100, (start - first) / 28 + 1)
+    }
+
+    /** A chart of an airport: its kind (APD, IAP, DP, STAR, MIN…), its name and its PDF. */
+    class Plate(val code: String, val name: String, val pdf: String)
+
+    /** The procedures of one airport, from the FAA's index of the cycle, kept on the phone for the cycle. */
+    fun plates(ctx: Context, ident: String): Pair<String, List<Plate>>? {
+        val cycle = airacCycle()
+        val file = File(ctx.filesDir, "aviation/tpp.json")
+        var index = try { JSONObject(file.readText()) } catch (e: Exception) { null }
+        if (index?.optString("cycle") != cycle) {
+            index = tppIndex(cycle) ?: index ?: return null
+            file.parentFile?.mkdirs()
+            file.writeText(index.toString())
+        }
+        val list = index.optJSONObject("a")?.optJSONArray(ident) ?: return index.optString("cycle") to emptyList()
+        return index.optString("cycle") to (0 until list.length()).map { i ->
+            val p = list.getJSONArray(i)
+            Plate(p.getString(0), p.getString(1), p.getString(2))
+        }
+    }
+
+    private fun tppIndex(cycle: String): JSONObject? = try {
+        val c = URL("https://aeronav.faa.gov/d-tpp/$cycle/xml_data/d-tpp_Metafile.xml").openConnection() as HttpURLConnection
+        c.connectTimeout = 30000
+        c.readTimeout = 60000
+        c.setRequestProperty("User-Agent", "Khazanti-EFB/1.0")
+        val airports = JSONObject()
+        try {
+            if (c.responseCode != 200) throw java.io.IOException("HTTP ${c.responseCode}")
+            val x = android.util.Xml.newPullParser()
+            x.setInput(c.inputStream.buffered(), null)
+            var state = ""
+            var apt: JSONArray? = null
+            var tag = ""
+            val rec = HashMap<String, String>()
+            while (true) {
+                when (x.next()) {
+                    org.xmlpull.v1.XmlPullParser.END_DOCUMENT -> break
+                    org.xmlpull.v1.XmlPullParser.START_TAG -> {
+                        tag = x.name
+                        when (x.name) {
+                            "state_code" -> state = x.getAttributeValue(null, "ID") ?: ""
+                            "airport_name" -> apt = if (state in STATES) JSONArray().also { a ->
+                                val id = x.getAttributeValue(null, "apt_ident") ?: ""
+                                airports.put(id, a)
+                                x.getAttributeValue(null, "icao_ident")?.takeIf { it.isNotEmpty() && it != id }?.let { airports.put(it, a) }
+                            } else null
+                            "record" -> rec.clear()
+                        }
+                    }
+                    org.xmlpull.v1.XmlPullParser.TEXT -> if (apt != null && tag in setOf("chart_code", "chart_name", "pdf_name", "useraction")) {
+                        rec[tag] = (rec[tag] ?: "") + x.text.trim()
+                    }
+                    org.xmlpull.v1.XmlPullParser.END_TAG -> {
+                        if (x.name == "record" && apt != null && rec["useraction"] != "D") {
+                            val pdf = rec["pdf_name"] ?: ""
+                            if (pdf.endsWith(".PDF", true)) apt.put(JSONArray().put(rec["chart_code"] ?: "").put(rec["chart_name"] ?: "").put(pdf))
+                        }
+                        if (x.name == "airport_name") apt = null
+                        tag = ""
+                    }
+                }
+            }
+        } finally {
+            c.disconnect()
+        }
+        if (airports.length() == 0) null else JSONObject().put("cycle", cycle).put("a", airports)
+    } catch (e: Exception) {
+        null
+    }
+
+    /** Downloads one chart of the cycle, once. */
+    fun platePdf(ctx: Context, cycle: String, pdf: String): File? {
+        val f = File(ctx.filesDir, "plates/$cycle/$pdf")
+        if (f.length() > 0) return f
+        return try {
+            val c = URL("https://aeronav.faa.gov/d-tpp/$cycle/$pdf").openConnection() as HttpURLConnection
+            c.connectTimeout = 20000
+            c.readTimeout = 60000
+            c.setRequestProperty("User-Agent", "Khazanti-EFB/1.0")
+            try {
+                if (c.responseCode != 200) return null
+                f.parentFile?.mkdirs()
+                val tmp = File(f.path + ".part")
+                c.inputStream.use { i -> tmp.outputStream().use { o -> i.copyTo(o) } }
+                tmp.renameTo(f)
+                f
+            } finally {
+                c.disconnect()
+            }
+        } catch (e: Exception) {
+            null
+        }
     }
 
     /** The colour charts use for each flight category. */
@@ -173,6 +516,17 @@ object Nav {
         android.hardware.GeomagneticField(lat.toFloat(), lon.toFloat(), 0f, System.currentTimeMillis()).declination.toDouble()
 
     fun magnetic(trueCourse: Double, lat: Double, lon: Double) = (trueCourse - variation(lat, lon) + 360) % 360
+
+    /** The point a distance along a true course from a start. */
+    fun destination(lat: Double, lon: Double, courseTrue: Double, nm: Double): org.osmdroid.util.GeoPoint {
+        val dr = nm / R_NM
+        val p1 = Math.toRadians(lat)
+        val l1 = Math.toRadians(lon)
+        val c = Math.toRadians(courseTrue)
+        val p2 = Math.asin(Math.sin(p1) * Math.cos(dr) + Math.cos(p1) * Math.sin(dr) * Math.cos(c))
+        val l2 = l1 + Math.atan2(Math.sin(c) * Math.sin(dr) * Math.cos(p1), Math.cos(dr) - Math.sin(p1) * Math.sin(p2))
+        return org.osmdroid.util.GeoPoint(Math.toDegrees(p2), (Math.toDegrees(l2) + 540) % 360 - 180)
+    }
 
     fun deg(d: Double) = "%03d°".format(Math.round(d).toInt() % 360)
 }
