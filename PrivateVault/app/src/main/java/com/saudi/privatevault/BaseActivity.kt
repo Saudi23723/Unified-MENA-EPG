@@ -9,11 +9,13 @@ import androidx.appcompat.app.AppCompatActivity
 open class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
+        VaultLock.applySecure(this)
     }
 
     override fun onResume() {
         super.onResume()
+        VaultLock.applySecure(this)
+        VaultLock.checkTimeout(this)
         if (!VaultLock.unlocked) {
             startActivity(
                 Intent(this, LockActivity::class.java)

@@ -28,6 +28,15 @@
     <string name="use_biometric">الفتح بالبصمة</string>
     <string name="biometric_unavailable">البصمة غير متاحة أو غير مفعّلة على هذا الهاتف</string>
     <string name="lock_now">قفل الآن</string>
+    <string name="lock_after">⏱ القفل التلقائي</string>
+    <string-array name="lock_after_labels">
+        <item>فوراً عند الخروج</item>
+        <item>بعد دقيقة</item>
+        <item>بعد 5 دقائق</item>
+        <item>بعد 15 دقيقة</item>
+        <item>فقط عند فتح التطبيق من جديد</item>
+    </string-array>
+    <string name="block_screenshots">🚫 منع لقطات الشاشة</string>
     <string name="storage_info">المساحة المستخدمة</string>
 
     <string name="add">إضافة</string>

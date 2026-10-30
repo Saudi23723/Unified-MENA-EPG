@@ -27,6 +27,15 @@
         android:title="@string/use_biometric"
         app:showAsAction="never" />
     <item
+        android:id="@+id/action_lock_after"
+        android:title="@string/lock_after"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_screenshots"
+        android:checkable="true"
+        android:title="@string/block_screenshots"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_change_pin"
         android:title="@string/change_pin"
         app:showAsAction="never" />

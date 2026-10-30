@@ -12,6 +12,32 @@ object VaultLock {
     @Volatile
     var unlocked = false
 
+    /** When the app was last left for another app or the home screen; 0 while in use. */
+    @Volatile
+    var leftAt = 0L
+
+    /** How long the app may stay in the background before asking for the PIN again; -1 means never. */
+    val LOCK_AFTER = longArrayOf(0L, 60_000L, 5 * 60_000L, 15 * 60_000L, -1L)
+
+    fun lockAfter(ctx: Context): Long = prefs(ctx).getLong("lock_after", 5 * 60_000L)
+
+    /** Locks if the app was away longer than allowed. */
+    fun checkTimeout(ctx: Context) {
+        val left = leftAt
+        leftAt = 0L
+        if (left == 0L || !unlocked) return
+        val after = lockAfter(ctx)
+        if (after >= 0 && System.currentTimeMillis() - left >= after) unlocked = false
+    }
+
+    /** Screenshots and the recent-apps preview are allowed unless this is turned on. */
+    fun blockScreenshots(ctx: Context) = prefs(ctx).getBoolean("block_screenshots", false)
+
+    fun applySecure(a: android.app.Activity) {
+        if (blockScreenshots(a)) a.window.addFlags(android.view.WindowManager.LayoutParams.FLAG_SECURE)
+        else a.window.clearFlags(android.view.WindowManager.LayoutParams.FLAG_SECURE)
+    }
+
     // Set right before handing off to the system file picker or another
     // app, so coming back from it does not ask for the PIN again.
     @Volatile

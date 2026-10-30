@@ -234,6 +234,7 @@ class MainActivity : BaseActivity() {
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         searchMenuItem = menu.findItem(R.id.action_search)
         menu.findItem(R.id.action_biometric).isChecked = VaultLock.biometricEnabled(this)
+        menu.findItem(R.id.action_screenshots)?.isChecked = VaultLock.blockScreenshots(this)
         return super.onPrepareOptionsMenu(menu)
     }
 
@@ -260,6 +261,13 @@ class MainActivity : BaseActivity() {
                 .setPositiveButton(android.R.string.ok, null)
                 .show()
             R.id.action_update -> Updater.check(this, quiet = false)
+            R.id.action_lock_after -> chooseLockAfter()
+            R.id.action_screenshots -> {
+                val block = !VaultLock.blockScreenshots(this)
+                VaultLock.prefs(this).edit().putBoolean("block_screenshots", block).apply()
+                item.isChecked = block
+                VaultLock.applySecure(this)
+            }
             R.id.action_lock -> {
                 VaultLock.unlocked = false
                 startActivity(Intent(this, LockActivity::class.java))
@@ -267,6 +275,18 @@ class MainActivity : BaseActivity() {
             else -> return super.onOptionsItemSelected(item)
         }
         return true
+    }
+
+    private fun chooseLockAfter() {
+        val labels = resources.getStringArray(R.array.lock_after_labels)
+        val current = VaultLock.LOCK_AFTER.indexOf(VaultLock.lockAfter(this)).coerceAtLeast(0)
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.lock_after)
+            .setSingleChoiceItems(labels, current) { d, which ->
+                VaultLock.prefs(this).edit().putLong("lock_after", VaultLock.LOCK_AFTER[which]).apply()
+                d.dismiss()
+            }
+            .show()
     }
 
     private fun chooseSort() {

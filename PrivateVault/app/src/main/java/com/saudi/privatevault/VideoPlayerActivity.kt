@@ -67,6 +67,12 @@ class VideoPlayerActivity : BaseActivity() {
                 }
             }
 
+            // The screen stays on while a video plays, so it does not dim and lock mid-lesson.
+            override fun onIsPlayingChanged(isPlaying: Boolean) {
+                if (isPlaying) window.addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+                else window.clearFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+            }
+
             override fun onPlaybackStateChanged(state: Int) {
                 if (state == Player.STATE_ENDED) p.currentMediaItem?.let { forget(it.mediaId) }
             }
