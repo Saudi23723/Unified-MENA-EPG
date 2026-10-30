@@ -91,12 +91,12 @@ class LibraryActivity : BaseActivity() {
         val builtIn = books.mapNotNull { it.file }.toSet()
         val mine = VaultStore.itemsIn(refs()).filter { it.name !in builtIn && it.kind == Kind.PDF }.sortedBy { it.name.lowercase() }
         val card = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; background = EfbUi.cardBg(this@LibraryActivity, EfbUi.CARD, 16).apply { setStroke(0, 0) } }
-        for ((i, it) in mine.withIndex()) {
+        for ((i, book) in mine.withIndex()) {
             if (i > 0) card.addView(android.view.View(this).apply { setBackgroundColor(EfbUi.CARD_LINE) }, LinearLayout.LayoutParams(-1, 1).apply { marginStart = dp(56) })
             val row = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL; setPadding(dp(14), dp(12), dp(12), dp(12)) }
             row.addView(EfbUi.text(this, "📒", 20f), LinearLayout.LayoutParams(dp(34), -2))
-            row.addView(EfbUi.ltr(EfbUi.text(this, it.name.removeSuffix(".pdf"), 15.5f, EfbUi.TEXT, bold = true)).apply { setPadding(dp(8), 0, 0, 0) }, LinearLayout.LayoutParams(0, -2, 1f))
-            row.setOnClickListener { read(it) }
+            row.addView(EfbUi.ltr(EfbUi.text(this, book.name.removeSuffix(".pdf"), 15.5f, EfbUi.TEXT, bold = true)).apply { setPadding(dp(8), 0, 0, 0) }, LinearLayout.LayoutParams(0, -2, 1f))
+            row.setOnClickListener { read(book) }
             card.addView(row)
         }
         val add = EfbUi.text(this, "➕ " + getString(R.string.lib_add), 15.5f, EfbUi.ACCENT, bold = true).apply { setPadding(dp(16), dp(14), dp(16), dp(14)) }
