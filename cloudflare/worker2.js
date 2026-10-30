@@ -146,7 +146,8 @@ async function buildPatch(env, user, pass_, ua) {
         if (!EXTRA_GROUP.test(nm) || /24\/7|REPLAY|ADULT|XXX/i.test(nm)) continue;
         const xs = (byCat.get(String(c.category_id)) || []).filter((x) => x.name && !SEPARATOR.test(String(x.name)));
         if (!xs.length || xs.some((x) => ours.has(String(x.stream_id)))) continue;
-        const name = "🔥 " + nm.replace(/^\s*[A-Z]{2,5}\s*[:|]\s*/, "").replace(/\s*\[(\d{3,4}p)\]\s*$/i, "").replace(/\s+/g, " ").trim();
+        const name = "🔥 " + nm.replace(/^\s*[A-Z]{2,5}\s*[:|]\s*/, "").replace(/\s*\[(\d{3,4}p)\]\s*$/i, "")
+          .replace(/\s*\[PPV\s*EVENTS?\]/i, " ᴘᴘᴠ").replace(/\s+/g, " ").trim();
         extra.push({ id: String(9100 + k++), name, items: xs.map((x) => ({ stream_id: x.stream_id,
           name: String(x.name).replace(/[\u24e7\u00a7]/g, "").replace(/\s*\[(\d{3,4}p)\]\s*$/i, "").replace(/\s+/g, " ").trim(), stream_icon: x.stream_icon || "" })) });
       }
