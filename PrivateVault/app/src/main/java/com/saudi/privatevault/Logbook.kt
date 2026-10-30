@@ -148,6 +148,24 @@ object Logbook {
         }
     }
 
+    private fun groundFile(ctx: Context) = File(ctx.filesDir, "ground.json")
+
+    fun ground(ctx: Context): MutableList<GroundLesson> = try {
+        val a = JSONArray(groundFile(ctx).readText())
+        (0 until a.length()).map { GroundLesson.fromJson(a.getJSONObject(it)) }.sortedByDescending { it.date }.toMutableList()
+    } catch (e: Exception) {
+        mutableListOf()
+    }
+
+    fun saveGround(ctx: Context, list: List<GroundLesson>, stamp: Boolean = true) {
+        val before = if (stamp) ground(ctx).associate { it.id to it.toJson().toString() } else emptyMap()
+        groundFile(ctx).writeText(JSONArray().apply { for (e in list) put(e.toJson()) }.toString())
+        if (stamp) {
+            LogbookSync.noteChange(ctx, "g", before, list.associate { it.id to it.toJson().toString() })
+            LogbookSync.soon(ctx)
+        }
+    }
+
     /** Everything, signatures included, as one file to keep or move to another phone. */
     fun backup(ctx: Context): String {
         val sigs = JSONObject()
@@ -340,4 +358,87 @@ object FlightRecorder {
             timeOut = HM.format(Date(st.started)), timeIn = if (st.landedAt > 0) HM.format(Date(st.landedAt)) else "",
         )
     }
+}
+
+/** Ground instruction received: a lesson, a ground school session or a course, with its topics and the instructor's signature. */
+class GroundLesson(
+    var id: String = UUID.randomUUID().toString(),
+    var date: String = LogEntry.today(),
+    var hours: Double = 0.0,
+    var kind: String = "Ground lesson",
+    var topics: String = "",
+    var instructor: String = "",
+    var instructorCert: String = "",
+    var instructorExp: String = "",
+    var signature: String = "",
+    var remarks: String = "",
+) {
+    fun toJson(): JSONObject = JSONObject().put("id", id).put("date", date).put("h", hours).put("k", kind).put("t", topics)
+        .put("cfi", instructor).put("cfin", instructorCert).put("cfie", instructorExp).put("sig", signature).put("rem", remarks)
+
+    companion object {
+        fun fromJson(o: JSONObject) = GroundLesson(o.optString("id"), o.optString("date"), o.optDouble("h", 0.0), o.optString("k", "Ground lesson"),
+            o.optString("t"), o.optString("cfi"), o.optString("cfin"), o.optString("cfie"), o.optString("sig"), o.optString("rem"))
+
+        val KINDS = listOf("Ground lesson", "Ground school class", "Pre-flight briefing", "Post-flight debrief", "Online course", "Checkride / oral prep")
+
+        /** The aeronautical knowledge areas of 14 CFR 61.105(b), and what a private pilot's ground school covers. */
+        val TOPICS = listOf(
+            "Regulations (Parts 61, 91)", "NTSB 830 accident reporting", "AIM & advisory circulars", "Airspace",
+            "Charts, pilotage & dead reckoning", "Navigation systems", "Radio communication & ATC", "Weather theory",
+            "Weather reports & forecasts", "Collision avoidance & wake turbulence", "Performance & density altitude",
+            "Weight & balance", "Aerodynamics", "Aircraft systems & powerplant", "Stall & spin awareness",
+            "ADM & risk management", "Preflight action", "Emergency procedures", "Night operations", "Aeromedical & human factors",
+            "Knowledge test prep", "Checkride oral prep",
+        )
+    }
+}
+
+/** The pilot's own papers: certificate, medical, knowledge test; with what each means for the dates. */
+object PilotDocs {
+    val FIELDS = listOf(
+        "cert_type" to "Certificate (e.g. Student, Private)", "cert_num" to "Certificate number", "cert_date" to "Certificate issued (yyyy-mm-dd)",
+        "ftn" to "FAA Tracking Number (IACRA)", "dob" to "Date of birth (yyyy-mm-dd)",
+        "med_class" to "Medical class (1, 2, 3 or BasicMed)", "med_date" to "Medical exam date (yyyy-mm-dd)",
+        "kt_date" to "Knowledge test passed (yyyy-mm-dd)", "kt_score" to "Knowledge test score (%)",
+        "checkride_date" to "Checkride planned (yyyy-mm-dd)", "dpe" to "Examiner (DPE)",
+    )
+
+    private fun file(ctx: android.content.Context) = java.io.File(ctx.filesDir, "pilot_docs.json")
+
+    fun all(ctx: android.content.Context): JSONObject = try { JSONObject(file(ctx).readText()) } catch (e: Exception) { JSONObject() }
+
+    fun put(ctx: android.content.Context, key: String, value: String) {
+        val o = all(ctx).put(key, value).put("_t", System.currentTimeMillis())
+        file(ctx).writeText(o.toString())
+        LogbookSync.soon(ctx)
+    }
+
+    fun replace(ctx: android.content.Context, o: JSONObject) = file(ctx).writeText(o.toString())
+
+    private fun day(s: String?): java.util.Calendar? = try {
+        LogEntry.FMT.parse(s ?: "")?.let { d -> java.util.Calendar.getInstance().apply { time = d } }
+    } catch (e: Exception) { null }
+
+    /** The last day of the calendar month [months] after a date. */
+    private fun endOfMonthAfter(c: java.util.Calendar, months: Int): Long = (c.clone() as java.util.Calendar).apply {
+        add(java.util.Calendar.MONTH, months + 1); set(java.util.Calendar.DAY_OF_MONTH, 1); add(java.util.Calendar.DAY_OF_MONTH, -1)
+    }.timeInMillis
+
+    /**
+     * When the medical stops being valid for a private or student pilot (61.23(d)): a first, second or
+     * third class exam lasts 60 calendar months under 40 at the exam, 24 from 40. Null when unknown or BasicMed.
+     */
+    fun medicalEnds(ctx: android.content.Context): Long? {
+        val o = all(ctx)
+        val exam = day(o.optString("med_date")) ?: return null
+        if (o.optString("med_class").contains("basic", true)) return null
+        val dob = day(o.optString("dob"))
+        val ageAtExam = dob?.let { exam.get(java.util.Calendar.YEAR) - it.get(java.util.Calendar.YEAR) -
+            if (exam.get(java.util.Calendar.DAY_OF_YEAR) < it.get(java.util.Calendar.DAY_OF_YEAR)) 1 else 0 }
+        return endOfMonthAfter(exam, if (ageAtExam != null && ageAtExam >= 40) 24 else 60)
+    }
+
+    /** The knowledge test result counts for the practical test for 24 calendar months (61.39(a)(1)). */
+    fun knowledgeTestEnds(ctx: android.content.Context): Long? = day(all(ctx).optString("kt_date"))?.let { endOfMonthAfter(it, 24) }
 }

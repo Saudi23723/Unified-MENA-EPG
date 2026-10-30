@@ -54,6 +54,12 @@ object LogbookSync {
             val k = "e:${e.id}"
             pages.put(k, JSONArray().put(e.toJson())); t.put(k, time(st, k, 1L))
         }
+        val ground = Logbook.ground(ctx)
+        for (g in ground) {
+            val k = "g:${g.id}"
+            pages.put(k, JSONArray().put(g.toJson())); t.put(k, time(st, k, 1L))
+        }
+        PilotDocs.all(ctx).let { d -> if (d.length() > 0) { pages.put("d:docs", JSONArray().put(d)); t.put("d:docs", d.optLong("_t", 1L)) } }
         // Deleted here: an empty entry with the time of the deletion.
         for (k in st.keys()) {
             val a = st.getJSONArray(k)
@@ -77,6 +83,8 @@ object LogbookSync {
         var taken = 0
         var flightsChanged = false
         var endsChanged = false
+        val gr = ground.associateBy { it.id }.toMutableMap()
+        var groundChanged = false
         for (k in rp.keys()) {
             val remoteT = rt.optLong(k, 0)
             val localT = t.optLong(k, -1)
@@ -94,6 +102,12 @@ object LogbookSync {
                     else { en[id] = Endorsement.fromJson(v.getJSONObject(0)); endsChanged = true }
                     st.put(k, JSONArray().put(remoteT).put(v.length() == 0)); taken++
                 }
+                k.startsWith("g:") -> {
+                    if (v.length() == 0) { if (gr.remove(id) != null) groundChanged = true }
+                    else { gr[id] = GroundLesson.fromJson(v.getJSONObject(0)); groundChanged = true }
+                    st.put(k, JSONArray().put(remoteT).put(v.length() == 0)); taken++
+                }
+                k == "d:docs" && v.length() > 0 -> { PilotDocs.replace(ctx, v.getJSONObject(0)); taken++ }
                 k.startsWith("s:") && v.length() > 0 -> {
                     val f = File(sigs, id.replace(Regex("[^A-Za-z0-9_.-]"), ""))
                     f.writeBytes(android.util.Base64.decode(v.getString(0), android.util.Base64.DEFAULT))
@@ -105,6 +119,7 @@ object LogbookSync {
         // Written without stamping them again: they carry the vault's times.
         if (flightsChanged) Logbook.save(ctx, fl.values.toList(), stamp = false)
         if (endsChanged) Logbook.saveEndorsements(ctx, en.values.toList(), stamp = false)
+        if (groundChanged) Logbook.saveGround(ctx, gr.values.toList(), stamp = false)
         saveStamps(ctx, st)
         VaultLock.prefs(ctx).edit().putLong("logbook_synced", System.currentTimeMillis()).apply()
         return taken

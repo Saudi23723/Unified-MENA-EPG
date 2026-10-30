@@ -79,6 +79,8 @@ class LogbookActivity : BaseActivity() {
             addTab(newTab().setText(R.string.log_checkride))
             addTab(newTab().setText(R.string.log_currency))
             addTab(newTab().setText(R.string.log_endorsements))
+            addTab(newTab().setText(R.string.log_ground))
+            addTab(newTab().setText(R.string.log_docs))
         }
         col.addView(tabs)
         body = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
@@ -129,7 +131,9 @@ class LogbookActivity : BaseActivity() {
             1 -> totals()
             2 -> checkrideTab()
             3 -> currency()
-            else -> endorsementsTab()
+            4 -> endorsementsTab()
+            5 -> groundTab()
+            else -> documentsTab()
         }
         EfbUi.stagger(body)
     }
@@ -430,6 +434,8 @@ class LogbookActivity : BaseActivity() {
         grid(big, listOf(
             "PIC" to entries.sumOf { it.pic }, "Dual" to entries.sumOf { it.dual }, "Solo" to entries.sumOf { it.solo },
             "XC" to entries.sumOf { it.xc }, "Night" to entries.sumOf { it.night }, "Instrument" to entries.sumOf { it.actual + it.instrument },
+            "Ground instr." to Logbook.ground(this).sumOf { it.hours }, "Sim / ATD" to entries.sumOf { it.groundTrainer },
+            "Approaches" to entries.sumOf { it.approaches }.toDouble(),
         ))
 
         body.addView(header(getString(R.string.log_periods)))
@@ -670,7 +676,10 @@ class LogbookActivity : BaseActivity() {
         val solo = endorsements.filter { it.rule.startsWith("61.87(n)") || it.rule.startsWith("61.87(p)") || it.ac == "A.6" || it.ac == "A.7" }.mapNotNull { it.expires() }.maxOrNull()
             ?: date("cur_solo")?.plus(90L * 86400000)
         until(getString(R.string.cur_solo), "61.87(n) · 90 days", solo)
-        until(getString(R.string.cur_medical), getString(R.string.cur_medical_rule), date("cur_medical"))
+        val med = PilotDocs.medicalEnds(this)
+        if (med != null) until(getString(R.string.cur_medical), "61.23 · " + getString(R.string.docs_med_rule), med)
+        else until(getString(R.string.cur_medical), getString(R.string.cur_medical_rule), date("cur_medical"))
+        PilotDocs.knowledgeTestEnds(this)?.let { until(getString(R.string.docs_kt), "61.39 · 24 calendar months", it) }
         val edit = EfbUi.card(this)
         body.addView(edit)
         edit.addView(EfbUi.text(this, getString(R.string.cur_dates), 15f, EfbUi.ACCENT, bold = true))
@@ -678,6 +687,134 @@ class LogbookActivity : BaseActivity() {
             EfbUi.field(this, edit, getString(label), prefs.getString(key, "") ?: "", number = false) { v -> prefs.edit().putString(key, v.trim()).apply() }
         }
         edit.addView(button(getString(R.string.ok)) { show(3) })
+    }
+
+    // ---- ground instruction ----
+
+    private fun groundTab() {
+        val lessons = Logbook.ground(this)
+        val top = EfbUi.card(this)
+        body.addView(top)
+        top.addView(EfbUi.text(this, "%.1f h".format(lessons.sumOf { it.hours }), 30f, EfbUi.ACCENT, bold = true))
+        top.addView(EfbUi.text(this, getString(R.string.ground_total, lessons.size, lessons.count { it.signature.isNotEmpty() }), 13f, EfbUi.DIM))
+        // Which knowledge areas have been covered, and which not yet.
+        val covered = lessons.flatMap { it.topics.split(',').map { t -> t.trim() } }.filter { it.isNotEmpty() }.toSet()
+        val missing = GroundLesson.TOPICS.filter { it !in covered }
+        top.addView(EfbUi.text(this, getString(R.string.ground_areas, GroundLesson.TOPICS.size - missing.size, GroundLesson.TOPICS.size), 14f, EfbUi.TEXT, bold = true).apply { setPadding(0, dp(10), 0, 0) })
+        if (missing.isNotEmpty()) top.addView(EfbUi.text(this, getString(R.string.ground_missing) + " " + missing.joinToString(" · "), 12f, EfbUi.WARN))
+        body.addView(button(getString(R.string.ground_add)) { editGround(GroundLesson(instructor = prefs.getString("last_cfi", "") ?: "",
+            instructorCert = prefs.getString("last_cfin", "") ?: "", instructorExp = prefs.getString("last_cfie", "") ?: ""), true) },
+            LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(10) })
+        if (lessons.isEmpty()) body.addView(EfbUi.text(this, getString(R.string.ground_empty), 14f, EfbUi.DIM).apply { setPadding(dp(4), dp(14), dp(4), 0) })
+        for (g in lessons) {
+            val c = EfbUi.card(this)
+            val head = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL; layoutDirection = View.LAYOUT_DIRECTION_LTR }
+            head.addView(EfbUi.text(this, "${g.date}  ·  ${g.kind}", 15f, EfbUi.TEXT, bold = true), LinearLayout.LayoutParams(0, -2, 1f))
+            head.addView(EfbUi.text(this, "%.1f".format(g.hours), 20f, EfbUi.ACCENT, bold = true, mono = true))
+            c.addView(head)
+            if (g.topics.isNotEmpty()) c.addView(EfbUi.ltr(EfbUi.text(this, g.topics.replace(",", " · "), 12.5f, EfbUi.DIM)).apply { setPadding(0, dp(4), 0, 0) })
+            c.addView(EfbUi.ltr(EfbUi.text(this, (if (g.signature.isNotEmpty()) "✍️ " else "") + g.instructor + (if (g.instructorCert.isNotEmpty()) "  ·  CFI ${g.instructorCert}" else ""), 12f,
+                if (g.signature.isNotEmpty()) EfbUi.GOOD else EfbUi.DIM)).apply { setPadding(0, dp(4), 0, 0) })
+            EfbUi.pressable(c) { editGround(g, false) }
+            body.addView(c)
+        }
+    }
+
+    private fun editGround(g: GroundLesson, isNew: Boolean) {
+        body.removeAllViews()
+        val c = EfbUi.card(this)
+        body.addView(c)
+        c.addView(EfbUi.text(this, getString(if (isNew) R.string.ground_add else R.string.ground_edit), 18f, EfbUi.ACCENT, bold = true))
+        val date = EfbUi.field(this, c, "Date (yyyy-mm-dd)", g.date, false)
+        val hours = EfbUi.field(this, c, "Hours", if (g.hours == 0.0) "" else EfbUi.num(g.hours))
+        c.addView(header(getString(R.string.ground_kind)))
+        var kind = g.kind
+        val kinds = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
+        fun paintKinds() {
+            kinds.removeAllViews()
+            for (k in GroundLesson.KINDS) kinds.addView(EfbUi.text(this, (if (k == kind) "◉  " else "○  ") + k, 14.5f, if (k == kind) EfbUi.ACCENT else EfbUi.TEXT).apply {
+                setPadding(dp(4), dp(7), dp(4), dp(7)); setOnClickListener { kind = k; paintKinds() }
+            })
+        }
+        paintKinds()
+        c.addView(kinds)
+        c.addView(header(getString(R.string.ground_topics)))
+        val chosen = g.topics.split(',').map { it.trim() }.filter { it.isNotEmpty() }.toMutableSet()
+        val flow = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
+        for (t in GroundLesson.TOPICS) {
+            val v = EfbUi.text(this, "", 14f, EfbUi.TEXT).apply { setPadding(dp(4), dp(6), dp(4), dp(6)); layoutDirection = View.LAYOUT_DIRECTION_LTR }
+            fun paint() { v.text = (if (t in chosen) "☑  " else "☐  ") + t; v.setTextColor(if (t in chosen) EfbUi.ACCENT else EfbUi.TEXT) }
+            paint()
+            v.setOnClickListener { if (!chosen.add(t)) chosen.remove(t); paint() }
+            flow.addView(v)
+        }
+        c.addView(flow)
+        c.addView(header(getString(R.string.log_sec_cfi)))
+        val cfi = EfbUi.field(this, c, "Instructor", g.instructor, false)
+        val cfin = EfbUi.field(this, c, "CFI certificate #", g.instructorCert, false)
+        val cfie = EfbUi.field(this, c, "CFI expiration", g.instructorExp, false)
+        var signature = g.signature
+        val sigView = ImageView(this).apply { adjustViewBounds = true; setBackgroundColor(0xFFFFFFFF.toInt()); setPadding(dp(8), dp(4), dp(8), dp(4)) }
+        fun showSig() {
+            val file = File(Logbook.signatures(this), signature)
+            if (signature.isNotEmpty() && file.exists()) { sigView.setImageBitmap(BitmapFactory.decodeFile(file.path)); sigView.visibility = View.VISIBLE }
+            else sigView.visibility = View.GONE
+        }
+        c.addView(sigView, LinearLayout.LayoutParams(-2, dp(60)).apply { topMargin = dp(8) })
+        showSig()
+        c.addView(button(getString(R.string.log_sign), outlined = true) {
+            SignaturePad.ask(this, getString(R.string.log_sign) + (cfi.text.toString().takeIf { it.isNotBlank() }?.let { " · $it" } ?: "")) { name -> signature = name; showSig() }
+        })
+        val rem = EfbUi.field(this, c, "Remarks", g.remarks, false)
+        val buttons = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.END; setPadding(0, dp(14), 0, 0) }
+        val all = Logbook.ground(this)
+        if (!isNew) buttons.addView(MaterialButton(this, null, com.google.android.material.R.attr.borderlessButtonStyle).apply {
+            text = getString(R.string.delete); setTextColor(EfbUi.BAD)
+            setOnClickListener { all.removeAll { it.id == g.id }; Logbook.saveGround(this@LogbookActivity, all); show(5) }
+        })
+        buttons.addView(MaterialButton(this, null, com.google.android.material.R.attr.borderlessButtonStyle).apply { text = getString(R.string.cancel); setOnClickListener { show(5) } })
+        buttons.addView(button(getString(R.string.log_save)) {
+            g.date = date.text.toString().trim().ifEmpty { LogEntry.today() }
+            g.hours = hours.text.toString().toDoubleOrNull() ?: 0.0
+            g.kind = kind
+            g.topics = GroundLesson.TOPICS.filter { it in chosen }.joinToString(",")
+            g.instructor = cfi.text.toString().trim(); g.instructorCert = cfin.text.toString().trim(); g.instructorExp = cfie.text.toString().trim()
+            g.signature = signature
+            g.remarks = rem.text.toString().trim()
+            all.removeAll { it.id == g.id }
+            all.add(g)
+            Logbook.saveGround(this, all)
+            if (g.instructor.isNotEmpty()) prefs.edit().putString("last_cfi", g.instructor).putString("last_cfin", g.instructorCert).putString("last_cfie", g.instructorExp).apply()
+            show(5)
+        })
+        c.addView(buttons)
+        EfbUi.stagger(body)
+    }
+
+    // ---- the pilot's papers ----
+
+    private fun documentsTab() {
+        val docs = PilotDocs.all(this)
+        val c = EfbUi.card(this)
+        body.addView(c)
+        c.addView(EfbUi.text(this, getString(R.string.log_docs), 16f, EfbUi.ACCENT, bold = true))
+        for ((key, label) in PilotDocs.FIELDS) {
+            EfbUi.field(this, c, label, docs.optString(key), number = false) { v -> PilotDocs.put(this, key, v.trim()) }
+        }
+        // What the dates mean.
+        val s = EfbUi.card(this)
+        body.addView(s)
+        val fmt = { t: Long -> LogEntry.FMT.format(java.util.Date(t)) }
+        val days = { t: Long -> (t - System.currentTimeMillis()) / 86400000 }
+        val lines = ArrayList<Pair<Boolean, String>>()
+        PilotDocs.medicalEnds(this)?.let { lines.add((days(it) >= 0) to "🩺 Medical valid to ${fmt(it)} (${days(it)} days) · 61.23") }
+        PilotDocs.knowledgeTestEnds(this)?.let { lines.add((days(it) >= 0) to "📝 Knowledge test good for the checkride to ${fmt(it)} (${days(it)} days) · 61.39") }
+        docs.optString("checkride_date").takeIf { it.isNotEmpty() }?.let { d ->
+            try { LogEntry.FMT.parse(d)?.time?.let { t -> lines.add(true to "🎓 Checkride in ${days(t)} days ($d)") } } catch (e: Exception) {}
+        }
+        if (lines.isEmpty()) lines.add(true to getString(R.string.docs_hint))
+        for ((ok, t) in lines) s.addView(EfbUi.text(this, t, 14f, if (ok) EfbUi.TEXT else EfbUi.BAD, bold = !ok).apply { setPadding(0, dp(5), 0, dp(5)) })
+        body.addView(button(getString(R.string.ok)) { show(6) }, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(10) })
     }
 
     // ---- endorsements ----
