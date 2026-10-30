@@ -497,12 +497,17 @@ class MapActivity : BaseActivity() {
 
     /** After the map settles: the weather of the airports in view. */
     private val patternEnds = HashMap<String, Map<String, Pair<GeoPoint, GeoPoint>>>()
+    // The runways whose pattern is on, per airport (tapped in the box), and the airport shown in the box.
+    private val patternPicked = HashMap<String, MutableSet<String>>()
+    private var patternBoxFor = ""
+    private var patternBox: LinearLayout? = null
     private val patternLoading = HashSet<String>()
 
     /** Zoomed in: the traffic patterns of every airport in view, each runway, the one into the wind bright. */
     private fun showPattern() {
-        if (!::patternOv.isInitialized || !prefs.getBoolean("tp_on", true)) return
-        if (map.zoomLevelDouble < 11) { if (patternOv.fields.isNotEmpty()) { patternOv.fields.clear(); map.invalidate() }; return }
+        if (!::patternOv.isInitialized) return
+        if (!prefs.getBoolean("tp_on", true)) { patternBox?.visibility = View.GONE; return }
+        if (map.zoomLevelDouble < 11) { if (patternOv.fields.isNotEmpty()) { patternOv.fields.clear(); map.invalidate() }; patternPanel(); return }
         val bb = map.boundingBox
         val c = map.mapCenter
         val inView = airports.filter { it.lat in bb.latSouth..bb.latNorth && it.lon in bb.lonWest..bb.lonEast }
@@ -515,7 +520,7 @@ class MapActivity : BaseActivity() {
                 if (ends.isEmpty()) continue
                 val metar = airportsLayer.weather[airportsLayer.station(a)]?.json
                 patternOv.fields[a.ident] = PatternOverlay.Field(a.ident, a.icao.ifEmpty { a.ident }, ends, PatternOverlay.tpa(a.elevation),
-                    PatternOverlay.favored(a.ident, ends.keys, metar, a.lat, a.lon))
+                    PatternOverlay.favored(a.ident, ends.keys, metar, a.lat, a.lon)).apply { shown = patternPicked.getOrPut(a.ident) { HashSet() } }
                 continue
             }
             if (!patternLoading.add(a.ident)) continue
@@ -526,7 +531,60 @@ class MapActivity : BaseActivity() {
                 showPattern()
             }
         }
+        patternPanel()
         map.invalidate()
+    }
+
+    /**
+     * The small box at the bottom of the chart: an airport in view (a tap goes to the next) and its runways;
+     * a tap on a runway shows or hides its pattern. ★ is the runway into the wind.
+     */
+    private fun patternPanel() {
+        val fields = patternOv.fields.values.toList()
+        val box = patternBox ?: LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = android.view.Gravity.CENTER_VERTICAL
+            background = EfbUi.cardBg(this@MapActivity, 0xEE0F1318.toInt(), 14).apply { setStroke(dp(1), 0xFF29313D.toInt()) }
+            setPadding(dp(6), dp(4), dp(6), dp(4))
+            b.root.addView(this, android.widget.FrameLayout.LayoutParams(-2, -2, android.view.Gravity.BOTTOM or android.view.Gravity.START).apply {
+                setMargins(dp(8), 0, dp(90), dp(38))
+            })
+            patternBox = this
+        }
+        if (fields.isEmpty() || !prefs.getBoolean("tp_on", true) || map.zoomLevelDouble < 11) { box.visibility = View.GONE; return }
+        box.visibility = View.VISIBLE
+        val f = fields.firstOrNull { it.ident == patternBoxFor } ?: fields.first()
+        patternBoxFor = f.ident
+        box.removeAllViews()
+        box.addView(android.widget.TextView(this).apply {
+            text = "🛫 ${f.name}" + if (fields.size > 1) " ›" else ""
+            textSize = 13f; setTextColor(0xFFF1F4F8.toInt()); setTypeface(typeface, android.graphics.Typeface.BOLD)
+            setPadding(dp(6), dp(6), dp(8), dp(6))
+            setOnClickListener {
+                val i = fields.indexOfFirst { it.ident == f.ident }
+                patternBoxFor = fields[(i + 1) % fields.size].ident
+                patternPanel()
+            }
+        })
+        val picked = patternPicked.getOrPut(f.ident) { HashSet() }
+        val chips = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
+        for (r in f.ends.keys.sortedBy { it.takeWhile { c -> c.isDigit() }.toIntOrNull() ?: 99 }) {
+            val on = r in picked
+            chips.addView(android.widget.TextView(this).apply {
+                text = "$r ${if (PatternOverlay.isRight(this@MapActivity, f.ident, r)) "R" else "L"}" + if (r == f.active) " ★" else ""
+                textSize = 13f; setTypeface(typeface, android.graphics.Typeface.BOLD)
+                setTextColor(if (on) 0xFFFFFFFF.toInt() else 0xFFB0BEC5.toInt())
+                background = EfbUi.cardBg(this@MapActivity, if (on) 0xFF1A6FE0.toInt() else 0xFF1A2029.toInt(), 10).apply { setStroke(0, 0) }
+                setPadding(dp(10), dp(6), dp(10), dp(6))
+                setOnClickListener {
+                    if (!picked.add(r)) picked.remove(r)
+                    patternOv.fields[f.ident]?.shown = picked
+                    patternPanel()
+                    map.invalidate()
+                }
+            }, LinearLayout.LayoutParams(-2, -2).apply { marginStart = dp(5) })
+        }
+        box.addView(android.widget.HorizontalScrollView(this).apply { isHorizontalScrollBarEnabled = false; addView(chips) })
     }
 
     private fun idle(): Boolean {

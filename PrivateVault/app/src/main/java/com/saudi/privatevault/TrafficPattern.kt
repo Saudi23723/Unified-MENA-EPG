@@ -21,7 +21,10 @@ import org.osmdroid.views.overlay.Overlay
  */
 class PatternOverlay(private val map: MapView) : Overlay() {
     /** One airport's runways for the patterns. */
-    class Field(val ident: String, val name: String, val ends: Map<String, Pair<GeoPoint, GeoPoint>>, val tpaFt: Int, var active: String?)
+    class Field(val ident: String, val name: String, val ends: Map<String, Pair<GeoPoint, GeoPoint>>, val tpaFt: Int, var active: String?) {
+        /** The runways whose pattern the pilot asked to see (the chart); null shows the one in use and the rest quiet (the airport view). */
+        var shown: MutableSet<String>? = null
+    }
 
     /** Every airport shown, by its identifier. */
     val fields = LinkedHashMap<String, Field>()
@@ -78,14 +81,16 @@ class PatternOverlay(private val map: MapView) : Overlay() {
         for (f in fields.values) {
             // The other runways first, quiet; the one in use over them.
             val order = f.ends.keys.sortedBy { if (it == f.active) 1 else 0 }
+            val picked = f.shown
             for (r in order) {
+                if (picked != null && r !in picked) continue
                 val (t, far) = f.ends[r] ?: continue
                 if (t.latitude !in bb.latSouth - 0.05..bb.latNorth + 0.05 || t.longitude !in bb.lonWest - 0.06..bb.lonEast + 0.06) continue
                 val rightTfc = if (f.ident == "_") (if (r == f.active) right else isRight(f.name, r)) else isRight(f.ident, r)
                 val sh = shape(t, far, rightTfc)
                 val path = Path()
                 for ((i, g) in sh.pts.withIndex()) { val p = xy(g); if (i == 0) path.moveTo(p.x.toFloat(), p.y.toFloat()) else path.lineTo(p.x.toFloat(), p.y.toFloat()) }
-                val on = r == f.active
+                val on = if (picked != null) true else r == f.active
                 if (on) {
                     leg.pathEffect = null
                     leg.color = 0x55000000; leg.strokeWidth = 5 * d; c.drawPath(path, leg)
