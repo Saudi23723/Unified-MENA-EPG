@@ -192,6 +192,17 @@ class MapActivity : BaseActivity() {
             false
         }
         b.zoomOut.setOnClickListener { map.controller.zoomOut() }
+        // The compass turns with the chart; a tap puts north back up.
+        b.northUp.setOnClickListener {
+            trackUp = false
+            val from = map.mapOrientation
+            val delta = ((0f - from + 540) % 360) - 180
+            android.animation.ValueAnimator.ofFloat(0f, 1f).apply {
+                duration = 500
+                addUpdateListener { map.mapOrientation = from + delta * (it.animatedValue as Float) }
+                start()
+            }
+        }
         b.measureKeep.setOnClickListener { draw.keepRuler(); b.measureBar.visibility = View.GONE }
         b.measureClose.setOnClickListener { draw.clearRuler() }
         draw.onMeasure = { text ->
@@ -710,6 +721,11 @@ class MapActivity : BaseActivity() {
         // The flight is noticed and timed from the GPS, then offered to the logbook.
         if (gotGps && !quiet) FlightRecorder.onFix(this, l, airports)?.let { e -> offerLog(e) }
         if (gotGps && !quiet) checkAirspace(l)
+        // Gliding range above the nearest field's elevation, at about 1.5 nm per 1000 ft.
+        ownship.glideNm = if (gotGps && l.hasAltitude() && kt > 35) {
+            val ground = airports.minByOrNull { Nav.distanceNm(l.latitude, l.longitude, it.lat, it.lon) }?.elevation ?: 0
+            ((l.altitude * 3.28084 - ground) / 1000 * 1.5).coerceAtLeast(0.0)
+        } else 0.0
         if (plan.sequence(l.latitude, l.longitude)) {
             plan.save(this)
             map.invalidate()
@@ -725,6 +741,7 @@ class MapActivity : BaseActivity() {
         override fun run() {
             // While the map keeps following, it never settles: refresh what is in view every 15 s.
             val now = android.os.SystemClock.elapsedRealtime()
+            if (b.northUp.rotation != map.mapOrientation) b.northUp.rotation = map.mapOrientation
             if (timerStart > 0) {
                 val t = (now - timerStart) / 1000
                 val text = "⏱ %d:%02d:%02d".format(t / 3600, t / 60 % 60, t % 60)
@@ -857,47 +874,100 @@ class MapActivity : BaseActivity() {
         return out.toList()
     }
 
-    /** Before the flight, on Wi-Fi: plates, Chart Supplement, airport data, 3D diagrams and the charts along the way. */
+    /** Before the flight, on Wi-Fi: the pilot picks what to save, for which airports, and which charts along the way. */
     private fun packFlight() {
         val list = routeAirports()
+        val what = arrayOf(getString(R.string.pack_plates), getString(R.string.pack_cs), getString(R.string.pack_info),
+            getString(R.string.pack_diagram), getString(R.string.pack_charts_route))
+        val on = BooleanArray(what.size) { prefs.getBoolean("pack_$it", true) }
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.pack_title)
-            .setMessage(getString(R.string.pack_msg, list.size, list.joinToString(" ") { it.icao.ifEmpty { it.ident } }))
-            .setPositiveButton(R.string.map_download_go) { _, _ ->
-                val status = android.widget.TextView(this).apply { setPadding(dp(24), dp(16), dp(24), dp(8)); textSize = 15f }
-                val d = MaterialAlertDialogBuilder(this).setTitle(R.string.pack_title).setView(status).setCancelable(false).show()
-                lifecycleScope.launch {
-                    var files = 0
-                    for ((i, a) in list.withIndex()) {
-                        files += withContext(Dispatchers.IO) {
-                            OfflinePack.airport(this@MapActivity, a) { step -> runOnUiThread { status.text = "${i + 1}/${list.size}  $step" } }
-                        }
-                    }
-                    val pts = if (plan.points.size > 1) plan.points.map { GeoPoint(it.lat, it.lon) } else listOf(map.mapCenter as GeoPoint)
-                    val box = org.osmdroid.util.BoundingBox(
-                        pts.maxOf { it.latitude } + 0.25, pts.maxOf { it.longitude } + 0.3,
-                        pts.minOf { it.latitude } - 0.25, pts.minOf { it.longitude } - 0.3,
-                    )
-                    d.dismiss()
-                    Toast.makeText(this@MapActivity, R.string.pack_charts, Toast.LENGTH_LONG).show()
-                    try {
-                        CacheManager(map).downloadAreaAsync(this@MapActivity, box, 7, layer.maxZoom, object : CacheManager.CacheManagerCallback {
-                            override fun onTaskComplete() {
-                                Toast.makeText(this@MapActivity, getString(R.string.pack_done, files), Toast.LENGTH_LONG).show()
-                            }
-                            override fun updateProgress(progress: Int, currentZoomLevel: Int, zoomMin: Int, zoomMax: Int) {}
-                            override fun downloadStarted() {}
-                            override fun setPossibleTilesInArea(total: Int) {}
-                            override fun onTaskFailed(errors: Int) {
-                                Toast.makeText(this@MapActivity, getString(R.string.map_download_fail, errors), Toast.LENGTH_LONG).show()
-                            }
-                        })
-                    } catch (e: Exception) {
-                    }
-                }
+            .setMultiChoiceItems(what, on) { _, i, v -> on[i] = v }
+            .setPositiveButton(R.string.pack_next) { _, _ ->
+                prefs.edit().apply { on.forEachIndexed { i, v -> putBoolean("pack_$i", v) } }.apply()
+                if (on.take(4).any { it } && list.isNotEmpty()) pickAirports(list) { chosen -> pickCharts(on, chosen) } else pickCharts(on, emptyList())
             }
             .setNegativeButton(R.string.cancel, null)
             .show()
+    }
+
+    private fun pickAirports(list: List<AviationData.Airport>, then: (List<AviationData.Airport>) -> Unit) {
+        val names = list.map { "${it.icao.ifEmpty { it.ident }}  ${it.name}" }.toTypedArray()
+        val on = BooleanArray(list.size) { true }
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.pack_airports)
+            .setMultiChoiceItems(names, on) { _, i, v -> on[i] = v }
+            .setPositiveButton(R.string.pack_next) { _, _ -> then(list.filterIndexed { i, _ -> on[i] }) }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
+    private fun pickCharts(parts: BooleanArray, airportsChosen: List<AviationData.Airport>) {
+        if (!parts[4]) { runPack(parts, airportsChosen, emptyList()); return }
+        val layers = AviationData.LAYERS
+        val names = layers.map { getString(it.label) }.toTypedArray()
+        val on = BooleanArray(layers.size) { layers[it] == layer }
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.pack_which_charts)
+            .setMultiChoiceItems(names, on) { _, i, v -> on[i] = v }
+            .setPositiveButton(R.string.map_download_go) { _, _ -> runPack(parts, airportsChosen, layers.filterIndexed { i, _ -> on[i] }) }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
+    private fun runPack(parts: BooleanArray, chosen: List<AviationData.Airport>, charts: List<AviationData.Layer>) {
+        val status = android.widget.TextView(this).apply { setPadding(dp(24), dp(16), dp(24), dp(8)); textSize = 15f }
+        var stop = false
+        val d = MaterialAlertDialogBuilder(this).setTitle(R.string.pack_title).setView(status)
+            .setNegativeButton(R.string.cancel) { _, _ -> stop = true }.setCancelable(false).show()
+        val what = OfflinePack.Parts(plates = parts[0], supplement = parts[1], info = parts[2], diagram = parts[3])
+        lifecycleScope.launch {
+            var files = 0
+            for ((i, a) in chosen.withIndex()) {
+                if (stop) break
+                files += withContext(Dispatchers.IO) {
+                    OfflinePack.airport(this@MapActivity, a, what) { step -> runOnUiThread { status.text = "${i + 1}/${chosen.size}  $step" } }
+                }
+            }
+            d.dismiss()
+            if (stop) return@launch
+            val writer = (map.tileProvider as? org.osmdroid.tileprovider.MapTileProviderBasic)?.tileWriter
+            var tiles = 0
+            // The satellite photo of each airport, close in, for the airport view without signal.
+            if (what.diagram && writer != null) {
+                val imagery = AviationData.LAYERS.first { it.key == "imagery" }
+                for (a in chosen) try {
+                    val box = org.osmdroid.util.BoundingBox(a.lat + 0.02, a.lon + 0.025, a.lat - 0.02, a.lon - 0.025)
+                    val cm = CacheManager(imagery.source(), writer, 12, 17)
+                    tiles += cm.possibleTilesInArea(box, 12, 17)
+                    cm.downloadAreaAsyncNoUI(this@MapActivity, box, 12, 17, quietCallback)
+                } catch (e: Exception) {
+                }
+            }
+            // The chosen charts along the route, from overview to their finest scale.
+            if (charts.isNotEmpty() && writer != null) {
+                val pts = if (plan.points.size > 1) plan.points.map { GeoPoint(it.lat, it.lon) } else listOf(map.mapCenter as GeoPoint)
+                val box = org.osmdroid.util.BoundingBox(
+                    pts.maxOf { it.latitude } + 0.25, pts.maxOf { it.longitude } + 0.3,
+                    pts.minOf { it.latitude } - 0.25, pts.minOf { it.longitude } - 0.3,
+                )
+                for (l in charts) try {
+                    val cm = CacheManager(l.source(), writer, 6, l.maxZoom)
+                    tiles += cm.possibleTilesInArea(box, 6, l.maxZoom)
+                    cm.downloadAreaAsyncNoUI(this@MapActivity, box, 6, l.maxZoom, quietCallback)
+                } catch (e: Exception) {
+                }
+            }
+            Toast.makeText(this@MapActivity, getString(R.string.pack_done2, files, tiles), Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private val quietCallback = object : CacheManager.CacheManagerCallback {
+        override fun onTaskComplete() {}
+        override fun updateProgress(progress: Int, currentZoomLevel: Int, zoomMin: Int, zoomMax: Int) {}
+        override fun downloadStarted() {}
+        override fun setPossibleTilesInArea(total: Int) {}
+        override fun onTaskFailed(errors: Int) {}
     }
 
     /** Every Chart Supplement page of Nevada and California, on the phone for good (about 50 MB). */
@@ -1317,6 +1387,8 @@ class MapActivity : BaseActivity() {
         b.toolbar.setTitleTextColor(EfbUi.TEXT)
         b.toolbar.navigationIcon?.setTint(EfbUi.TEXT)
         b.toolbar.overflowIcon?.setTint(EfbUi.TEXT)
+        b.northUp.backgroundTintList = android.content.res.ColorStateList.valueOf(0xF016213A.toInt())
+        b.northUp.imageTintList = null
         for (f in listOf(b.fabLayers, b.fabDraw, b.fabLocate, b.zoomIn, b.zoomOut)) {
             f.backgroundTintList = android.content.res.ColorStateList.valueOf(0xF016213A.toInt())
             f.imageTintList = android.content.res.ColorStateList.valueOf(EfbUi.ACCENT)

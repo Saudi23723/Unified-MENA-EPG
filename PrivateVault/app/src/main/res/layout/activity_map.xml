@@ -69,6 +69,15 @@
         android:orientation="vertical">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/northUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:contentDescription="N"
+            app:fabSize="mini"
+            app:srcCompat="@drawable/ic_compass" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/zoomIn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

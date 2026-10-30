@@ -71,6 +71,11 @@ class AirportSheet(
             setOnClickListener { onClick() }
         }, LinearLayout.LayoutParams(-2, -2).apply { marginEnd = dp(8) })
         button(R.string.efb_diagram) { AirportDiagramActivity.open(act, a) }
+        button(if (Favorites.has(act, a.ident)) R.string.fav_remove else R.string.fav_add) {
+            val now = Favorites.toggle(act, a.ident)
+            Toast.makeText(act, if (now) R.string.fav_added else R.string.fav_removed, Toast.LENGTH_SHORT).show()
+        }
+        button(R.string.apt_notams) { open("https://www.notams.faa.gov/dinsQueryWeb/queryRetrievalMapAction.do?reportType=Raw&retrieveLocId=${a.icao.ifEmpty { a.ident }}&actionType=notamRetrievalbyICAOs") }
         button(R.string.apt_direct) { dialog.dismiss(); onDirect() }
         button(R.string.apt_add_route) { dialog.dismiss(); onAddToRoute() }
         button(R.string.apt_plates) { plates() }
@@ -83,10 +88,22 @@ class AirportSheet(
         body.addView(wx)
         body.addView(header(R.string.apt_runways))
         body.addView(info)
+        body.addView(header(R.string.apt_sun))
+        body.addView(text(sunText(), mono = true))
         dialog.setContentView(android.widget.ScrollView(act).apply { addView(body) })
         dialog.behavior.peekHeight = (act.resources.displayMetrics.heightPixels * 0.55).toInt()
         dialog.show()
         load()
+    }
+
+    /** Today's sun at the field, with the times that decide night logging (61.51) and night passenger currency (61.57(b)). */
+    private fun sunText(): String {
+        val t = Sun.times(a.lat, a.lon)
+        return "Sunrise ${t["sunrise"]}   Sunset ${t["sunset"]}\n" +
+            "Civil twilight ${t["dawn"]} – ${t["dusk"]}\n" +
+            "Night (log night time): after ${t["dusk"]}, before ${t["dawn"]}\n" +
+            "Night landings for 61.57(b): ${t["pax_night_from"]} – ${t["pax_night_to"]}\n" +
+            "(phone time zone)"
     }
 
     private fun header(res: Int) = text(act.getString(res), 16f, bold = true).apply {

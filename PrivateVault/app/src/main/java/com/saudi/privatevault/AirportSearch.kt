@@ -38,10 +38,13 @@ object AirportSearch {
         }
     }
 
+    private var favorites: Set<String> = emptySet()
+
     fun find(airports: List<AviationData.Airport>, query: String, from: GeoPoint?, limit: Int = 60): List<AviationData.Airport> {
         val q = query.trim().uppercase()
         if (q.isEmpty()) {
-            return if (from == null) emptyList() else airports.sortedBy { Nav.distanceNm(from.latitude, from.longitude, it.lat, it.lon) }.take(20)
+            val near = if (from == null) emptyList() else airports.sortedBy { Nav.distanceNm(from.latitude, from.longitude, it.lat, it.lon) }.take(20)
+            return airports.filter { it.ident in favorites } + near.filter { it.ident !in favorites }
         }
         return airports.asSequence().map { it to score(it, q) }.filter { it.second < 99 }
             .sortedWith(compareBy({ it.second }, { from?.let { f -> Nav.distanceNm(f.latitude, f.longitude, it.first.lat, it.first.lon) } ?: 0.0 }))
@@ -50,6 +53,7 @@ object AirportSearch {
 
     fun show(act: Activity, airports: List<AviationData.Airport>, from: GeoPoint?, onPick: (AviationData.Airport) -> Unit) {
         val d = EfbUi.dp(act, 1)
+        favorites = Favorites.all(act)
         val dialog = Dialog(act, android.R.style.Theme_DeviceDefault_NoActionBar)
         val root = LinearLayout(act).apply {
             orientation = LinearLayout.VERTICAL
@@ -92,7 +96,7 @@ object AirportSearch {
                     }, LinearLayout.LayoutParams(0, -2, 1f))
                     addView(EfbUi.text(act, "", 13f, EfbUi.DIM, mono = true))
                 }
-                (row.getChildAt(0) as TextView).text = a.ident
+                (row.getChildAt(0) as TextView).text = (if (a.ident in favorites) "⭐" else "") + a.ident
                 val mid = row.getChildAt(1) as LinearLayout
                 (mid.getChildAt(0) as TextView).text = a.name
                 (mid.getChildAt(1) as TextView).text = listOf(a.icao.takeIf { it.isNotEmpty() && it != a.ident }, a.city, "%,d ft".format(a.elevation))

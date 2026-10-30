@@ -162,20 +162,31 @@ object OfflinePack {
     }
 
     /** Fetches all of one airport; reports what it managed. */
-    fun airport(ctx: Context, a: AviationData.Airport, step: (String) -> Unit): Int {
+    /** What a flight pack fetches for each airport. */
+    class Parts(val info: Boolean = true, val diagram: Boolean = true, val supplement: Boolean = true, val plates: Boolean = true)
+
+    fun airport(ctx: Context, a: AviationData.Airport, parts: Parts = Parts(), step: (String) -> Unit): Int {
         var n = 0
         val id = a.icao.ifEmpty { a.ident }
-        step("$id · info")
-        AviationData.airportInfo(ctx, id)?.let { n++ }
-        step("$id · 3D")
-        AirportDiagramActivity.fetch(ctx, a.ident, a.lat, a.lon, refresh = false)?.let { n++ }
-        step("$id · Chart Supplement")
-        n += supplement(ctx, a.ident, a.icao).size
-        val plates = AviationData.plates(ctx, a.ident)
-        if (plates != null) {
-            for ((i, p) in plates.second.withIndex()) {
-                step("$id · plates ${i + 1}/${plates.second.size}")
-                if (AviationData.platePdf(ctx, plates.first, p.pdf) != null) n++
+        if (parts.info) {
+            step("$id · info")
+            AviationData.airportInfo(ctx, id)?.let { n++ }
+        }
+        if (parts.diagram) {
+            step("$id · diagram")
+            AirportDiagramActivity.fetch(ctx, a.ident, a.lat, a.lon, refresh = false)?.let { n++ }
+        }
+        if (parts.supplement) {
+            step("$id · Chart Supplement")
+            n += supplement(ctx, a.ident, a.icao).size
+        }
+        if (parts.plates) {
+            val plates = AviationData.plates(ctx, a.ident)
+            if (plates != null) {
+                for ((i, p) in plates.second.withIndex()) {
+                    step("$id · plates ${i + 1}/${plates.second.size}")
+                    if (AviationData.platePdf(ctx, plates.first, p.pdf) != null) n++
+                }
             }
         }
         return n

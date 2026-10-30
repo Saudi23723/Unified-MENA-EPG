@@ -28,6 +28,14 @@ class OwnshipOverlay(map: MapView, private val plane: Bitmap) : Overlay() {
     var onUserPan: (() -> Unit)? = null
 
     private val trail = ArrayList<GeoPoint>()
+    /** How far the aircraft could glide, in nm; drawn as a ring when above zero. */
+    var glideNm = 0.0
+    private val glide = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = 0xCC2E7D32.toInt()
+        style = Paint.Style.STROKE
+        strokeWidth = 2.5f * map.resources.displayMetrics.density
+        pathEffect = DashPathEffect(floatArrayOf(14 * map.resources.displayMetrics.density, 8 * map.resources.displayMetrics.density), 0f)
+    }
     private val d = map.resources.displayMetrics.density
     private val vector = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = 0xFF00E5FF.toInt()
@@ -90,6 +98,7 @@ class OwnshipOverlay(map: MapView, private val plane: Bitmap) : Overlay() {
         }
         val here = position() ?: return
         pr.toPixels(here, pt)
+        if (glideNm > 0.3) c.drawCircle(pt.x.toFloat(), pt.y.toFloat(), pr.metersToPixels((glideNm * 1852).toFloat()), glide)
         if (l.hasAccuracy() && l.accuracy > 30) {
             c.drawCircle(pt.x.toFloat(), pt.y.toFloat(), pr.metersToPixels(l.accuracy), accuracy)
         }

@@ -536,3 +536,44 @@ object Nav {
 
     fun deg(d: Double) = "%03d°".format(Math.round(d).toInt() % 360)
 }
+
+/** Sunrise, sunset and civil twilight (the almanac method), for the day and night rules of logging and currency. */
+object Sun {
+    /** Minutes after midnight UTC of a sun event on a day, or null when it does not happen there that day. */
+    fun utcMinutes(lat: Double, lon: Double, date: java.time.LocalDate, zenith: Double, rising: Boolean): Double? {
+        val n = date.dayOfYear
+        val lngHour = lon / 15
+        val t = n + ((if (rising) 6.0 else 18.0) - lngHour) / 24
+        val m = 0.9856 * t - 3.289
+        var l = m + 1.916 * Math.sin(Math.toRadians(m)) + 0.020 * Math.sin(Math.toRadians(2 * m)) + 282.634
+        l = (l % 360 + 360) % 360
+        var ra = Math.toDegrees(Math.atan(0.91764 * Math.tan(Math.toRadians(l))))
+        ra = (ra % 360 + 360) % 360
+        ra += Math.floor(l / 90) * 90 - Math.floor(ra / 90) * 90
+        ra /= 15
+        val sinDec = 0.39782 * Math.sin(Math.toRadians(l))
+        val cosDec = Math.cos(Math.asin(sinDec))
+        val cosH = (Math.cos(Math.toRadians(zenith)) - sinDec * Math.sin(Math.toRadians(lat))) / (cosDec * Math.cos(Math.toRadians(lat)))
+        if (cosH > 1 || cosH < -1) return null
+        val h = (if (rising) 360 - Math.toDegrees(Math.acos(cosH)) else Math.toDegrees(Math.acos(cosH))) / 15
+        val tt = h + ra - 0.06571 * t - 6.622
+        return ((tt - lngHour) % 24 + 24) % 24 * 60
+    }
+
+    /** The day's sun times at a place, in the phone's own time zone. */
+    fun times(lat: Double, lon: Double, date: java.time.LocalDate = java.time.LocalDate.now()): Map<String, String> {
+        val zone = java.time.ZoneId.systemDefault()
+        fun at(zenith: Double, rising: Boolean, shiftMin: Long = 0): String {
+            val m = utcMinutes(lat, lon, date, zenith, rising) ?: return "—"
+            val utc = date.atStartOfDay(java.time.ZoneOffset.UTC).plusSeconds((m * 60).toLong()).plusMinutes(shiftMin)
+            var local = utc.withZoneSameInstant(zone)
+            // The almanac can land on the neighbouring UTC day; keep the event on this local date.
+            if (local.toLocalDate().isBefore(date)) local = local.plusDays(1) else if (local.toLocalDate().isAfter(date)) local = local.minusDays(1)
+            return "%02d:%02d".format(local.hour, local.minute)
+        }
+        return linkedMapOf(
+            "dawn" to at(96.0, true), "sunrise" to at(90.833, true), "sunset" to at(90.833, false), "dusk" to at(96.0, false),
+            "pax_night_from" to at(90.833, false, 60), "pax_night_to" to at(90.833, true, -60),
+        )
+    }
+}
