@@ -411,22 +411,16 @@ class PdfViewerActivity : BaseActivity() {
             Triple(Tool.TEXT, R.drawable.ic_tool_text, R.string.pen_text),
         )
         for ((tool, icon, label) in tools) toolButtons[tool] = button(icon, label) { pick(tool) }
-        // A long press on the highlighter switches between a straight band and free hand.
+        // A long press on the highlighter: straight or free hand, square or rounded ends.
         p.straightMarker = VaultLock.prefs(this).getBoolean("straight_marker", true)
+        p.roundMarker = VaultLock.prefs(this).getBoolean("round_marker", false)
         toolButtons[Tool.HIGHLIGHT]?.setOnLongClickListener {
-            p.straightMarker = !p.straightMarker
-            VaultLock.prefs(this).edit().putBoolean("straight_marker", p.straightMarker).apply()
-            pick(Tool.HIGHLIGHT, quiet = true)
-            Toast.makeText(this, if (p.straightMarker) R.string.pen_marker_straight else R.string.pen_marker_free, Toast.LENGTH_SHORT).show()
+            markerOptions()
             true
         }
         bar.addView(View(this).apply { setBackgroundColor(0x33000000) }, LinearLayout.LayoutParams(dp(1), dp(28)).apply { setMargins(dp(6), 0, dp(6), 0) })
         colorButton = button(R.drawable.ic_tool_pen, R.string.pen_color) { chooseColor() }
-        sizeButton = button(R.drawable.ic_tool_pen, R.string.pen_size) {
-            p.widthLevel = (p.widthLevel + 1) % 3
-            VaultLock.prefs(this).edit().putInt("pen_width", p.widthLevel).apply()
-            paintSwatches()
-        }
+        sizeButton = button(R.drawable.ic_tool_pen, R.string.pen_size) { chooseSize() }
         deleteButton = button(R.drawable.ic_delete, R.string.pen_delete) { b.page.deleteSelected() }
         deleteButton?.alpha = 0.35f
         p.onSelected = { m ->
@@ -437,7 +431,7 @@ class PdfViewerActivity : BaseActivity() {
         undoButton = button(R.drawable.ic_undo, R.string.pen_undo) { undoLast() }
         redoButton = button(R.drawable.ic_redo, R.string.pen_redo) { redoLast() }
         button(R.drawable.ic_check, R.string.pen_done) { stopWriting() }
-        p.widthLevel = VaultLock.prefs(this).getInt("pen_width", 1)
+        p.textSize = VaultLock.prefs(this).getFloat("size_text", 0.028f)
         penColor = VaultLock.prefs(this).getInt("pen_color", penColor)
         markerColor = VaultLock.prefs(this).getInt("marker_color", markerColor)
         pick(Tool.PEN, quiet = true)
@@ -463,6 +457,7 @@ class PdfViewerActivity : BaseActivity() {
         p.tool = tool
         if (tool != Tool.SELECT && !(tool == Tool.LINE || tool == Tool.ARROW || tool == Tool.RECT || tool == Tool.OVAL)) p.selected = null
         p.color = if (tool == Tool.HIGHLIGHT) markerColor else penColor
+        p.size = sizeFor(tool)
         for ((t, btn) in toolButtons) btn.background = if (t == tool) getDrawable(R.drawable.tool_selected_bg) else null
         paintSwatches()
         if (!quiet && tool == Tool.HAND) Toast.makeText(this, R.string.pen_hand_hint, Toast.LENGTH_SHORT).show()
@@ -477,12 +472,172 @@ class PdfViewerActivity : BaseActivity() {
             setStroke(dp(2), 0x33000000)
             setSize(dp(22), dp(22))
         })
-        val d = intArrayOf(6, 11, 17)[p.widthLevel.coerceIn(0, 2)]
+        // The dot grows with the thickness, between thin and thick for the tool.
+        val t = if (p.tool == Tool.TEXT) Tool.TEXT else p.tool
+        val (lo, hi) = MarkPainter.sizeRange(t)
+        val now = p.selected?.width?.takeIf { it > 0f } ?: if (t == Tool.TEXT) p.textSize else p.size
+        val d = 4 + ((now - lo) / (hi - lo)).coerceIn(0f, 1f) * 16
         sizeButton?.setImageDrawable(GradientDrawable().apply {
             shape = GradientDrawable.OVAL
             setColor(0xFF616161.toInt())
-            setSize(dp(d), dp(d))
+            setSize(dp(d.toInt()), dp(d.toInt()))
         })
+    }
+
+    // ---- sizes ----
+
+    private fun sizeKey(tool: Tool) = when (tool) {
+        Tool.HIGHLIGHT -> "size_marker"
+        Tool.TEXT -> "size_text"
+        else -> "size_pen"
+    }
+
+    private fun sizeFor(tool: Tool): Float =
+        VaultLock.prefs(this).getFloat(sizeKey(tool), MarkPainter.widths(tool)[1])
+
+    /** A slider from very thin to very thick, with a live preview; on a picked mark it resizes that mark. */
+    private fun chooseSize() {
+        val p = b.page
+        val picked = p.selected?.takeIf { it.tool != Tool.TEXTMARK }
+        val tool = picked?.tool ?: p.tool
+        val (lo, hi) = MarkPainter.sizeRange(tool)
+        val start = (picked?.width ?: if (tool == Tool.TEXT) p.textSize else p.size).coerceIn(lo, hi)
+        // How wide the page is on screen right now, to show the line at its real size.
+        val pagePx = b.page.width.toFloat().coerceAtLeast(1f)
+        val preview = View(this)
+        fun show(v: Float) {
+            val px = (v * pagePx).coerceIn(1f, dp(60).toFloat())
+            preview.background = GradientDrawable().apply {
+                cornerRadius = px / 2
+                setColor(picked?.color ?: p.color)
+                alpha = if (tool == Tool.HIGHLIGHT) 0x90 else 0xFF
+            }
+            preview.layoutParams = LinearLayout.LayoutParams(dp(200), px.toInt().coerceAtLeast(1)).apply { gravity = android.view.Gravity.CENTER_HORIZONTAL }
+        }
+        val slider = com.google.android.material.slider.Slider(this).apply {
+            valueFrom = 0f
+            valueTo = 100f
+            // An even feel across the range: thin sizes get as much of the slider as thick ones.
+            value = (Math.log((start / lo).toDouble()) / Math.log((hi / lo).toDouble()) * 100).toFloat().coerceIn(0f, 100f)
+            setLabelFormatter { "${it.toInt()}" }
+        }
+        fun valueOf(pos: Float) = (lo * Math.pow((hi / lo).toDouble(), pos / 100.0)).toFloat()
+        val box = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(dp(20), dp(16), dp(20), 0)
+            addView(FrameLayout(this@PdfViewerActivity).apply {
+                minimumHeight = dp(70)
+                addView(preview)
+            }, LinearLayout.LayoutParams(-1, dp(70)))
+            addView(slider)
+        }
+        show(start)
+        (preview.layoutParams as LinearLayout.LayoutParams).let { lp ->
+            preview.layoutParams = FrameLayout.LayoutParams(lp.width, lp.height, android.view.Gravity.CENTER)
+        }
+        slider.addOnChangeListener { _, pos, _ ->
+            val v = valueOf(pos)
+            show(v)
+            preview.layoutParams = FrameLayout.LayoutParams(dp(200), (v * pagePx).coerceIn(1f, dp(60).toFloat()).toInt(), android.view.Gravity.CENTER)
+            if (picked != null) p.resizeSelected(v, record = false)
+        }
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.pen_size)
+            .setView(box)
+            .setPositiveButton(R.string.ok) { _, _ ->
+                val v = valueOf(slider.value)
+                if (picked != null) {
+                    p.resizeSelected(v, record = true)
+                } else {
+                    VaultLock.prefs(this).edit().putFloat(sizeKey(tool), v).apply()
+                    if (tool == Tool.TEXT) p.textSize = v else p.size = v
+                }
+                paintSwatches()
+            }
+            .setNegativeButton(R.string.cancel) { _, _ ->
+                if (picked != null) p.resizeSelected(start, record = false)
+            }
+            .show()
+    }
+
+    private fun markerOptions() {
+        val p = b.page
+        val labels = arrayOf(getString(R.string.pen_marker_straight_opt), getString(R.string.pen_marker_round_opt))
+        val checked = booleanArrayOf(p.straightMarker, p.roundMarker)
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.pen_highlight)
+            .setMultiChoiceItems(labels, checked) { _, which, on -> checked[which] = on }
+            .setPositiveButton(R.string.ok) { _, _ ->
+                p.straightMarker = checked[0]
+                p.roundMarker = checked[1]
+                VaultLock.prefs(this).edit().putBoolean("straight_marker", checked[0]).putBoolean("round_marker", checked[1]).apply()
+                // A picked highlight takes the new ends too.
+                p.selected?.takeIf { it.tool == Tool.HIGHLIGHT || it.tool == Tool.TEXTMARK }?.let { m ->
+                    m.round = checked[1]
+                    marks.touch(pageIndex)
+                    saveMarks()
+                    p.invalidate()
+                }
+                pick(Tool.HIGHLIGHT, quiet = true)
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
+    // ---- colours ----
+
+    private fun customColors(): List<Int> =
+        VaultLock.prefs(this).getString("custom_colors", "")!!.split(',').mapNotNull { it.toIntOrNull() }
+
+    private fun rememberColor(c: Int) {
+        val list = (listOf(c) + customColors().filter { it != c }).take(12)
+        VaultLock.prefs(this).edit().putString("custom_colors", list.joinToString(",")).apply()
+    }
+
+    private fun applyColor(c: Int, marker: Boolean, picked: Mark?) {
+        val p = b.page
+        if (picked != null) {
+            p.recolorSelected(c)
+            paintSwatches(c)
+        } else {
+            if (marker) markerColor = c else penColor = c
+            VaultLock.prefs(this).edit().putInt(if (marker) "marker_color" else "pen_color", c).apply()
+            p.color = c
+            paintSwatches()
+        }
+    }
+
+    /** Any colour: hue, saturation and brightness, with a preview. */
+    private fun customColor(marker: Boolean, picked: Mark?, start: Int) {
+        val hsv = FloatArray(3)
+        android.graphics.Color.colorToHSV(start, hsv)
+        val preview = View(this)
+        fun paint() = preview.setBackgroundColor(android.graphics.Color.HSVToColor(hsv))
+        fun slider(max: Float, value: Float, onChange: (Float) -> Unit) = com.google.android.material.slider.Slider(this).apply {
+            valueFrom = 0f
+            valueTo = max
+            this.value = value.coerceIn(0f, max)
+            addOnChangeListener { _, v, _ -> onChange(v); paint() }
+        }
+        val box = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(dp(20), dp(12), dp(20), 0)
+            addView(preview, LinearLayout.LayoutParams(-1, dp(56)))
+            addView(slider(359f, hsv[0]) { hsv[0] = it })
+            addView(slider(100f, hsv[1] * 100) { hsv[1] = it / 100f })
+            addView(slider(100f, hsv[2] * 100) { hsv[2] = it / 100f })
+        }
+        paint()
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.pen_custom_color)
+            .setView(box)
+            .setPositiveButton(R.string.ok) { _, _ ->
+                val c = android.graphics.Color.HSVToColor(hsv)
+                rememberColor(c)
+                applyColor(c, marker, picked)
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
     }
 
     /** A grid of colours; with a mark picked, it recolours that mark. */
@@ -490,15 +645,20 @@ class PdfViewerActivity : BaseActivity() {
         val p = b.page
         val picked = p.selected
         val marker = if (picked != null) picked.tool == Tool.HIGHLIGHT || picked.tool == Tool.TEXTMARK else p.tool == Tool.HIGHLIGHT
-        val colors = if (marker) MarkPainter.MARKER else MarkPainter.INK
+        val colors = (if (marker) MarkPainter.MARKER.toList() else MarkPainter.INK.toList()) + customColors()
         val current = picked?.color ?: p.color
         val grid = android.widget.GridLayout(this).apply {
             columnCount = 6
             setPadding(dp(14), dp(10), dp(14), dp(4))
             layoutDirection = View.LAYOUT_DIRECTION_LTR
         }
-        val dialog = MaterialAlertDialogBuilder(this).setTitle(R.string.pen_color).setView(grid).show()
-        for (c in colors) {
+        val scroll = android.widget.ScrollView(this).apply { addView(grid) }
+        val dialog = MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.pen_color)
+            .setView(scroll)
+            .setNeutralButton(R.string.pen_custom_color) { _, _ -> customColor(marker, picked, current) }
+            .show()
+        for (c in colors.distinct()) {
             grid.addView(View(this).apply {
                 background = GradientDrawable().apply {
                     shape = GradientDrawable.OVAL
@@ -506,16 +666,7 @@ class PdfViewerActivity : BaseActivity() {
                     setStroke(dp(if (c == current) 4 else 1), if (c == current) 0xFF1E88E5.toInt() else 0x44000000)
                 }
                 setOnClickListener {
-                    if (picked != null) {
-                        p.recolorSelected(c)
-                        paintSwatches(c)
-                    } else {
-                        if (marker) markerColor = c else penColor = c
-                        VaultLock.prefs(this@PdfViewerActivity).edit()
-                            .putInt(if (marker) "marker_color" else "pen_color", c).apply()
-                        p.color = c
-                        paintSwatches()
-                    }
+                    applyColor(c, marker, picked)
                     dialog.dismiss()
                 }
             }, android.widget.GridLayout.LayoutParams().apply {
@@ -557,6 +708,7 @@ class PdfViewerActivity : BaseActivity() {
             is AnnotatedPageView.Edit.Changed -> {
                 e.before.copyInto(e.mark.points)
                 e.mark.color = e.colorBefore
+                if (!e.widthBefore.isNaN()) e.mark.width = e.widthBefore
             }
         }
         b.page.selected = null
@@ -575,6 +727,7 @@ class PdfViewerActivity : BaseActivity() {
             is AnnotatedPageView.Edit.Changed -> {
                 e.after.copyInto(e.mark.points)
                 e.mark.color = e.colorAfter
+                if (!e.widthAfter.isNaN()) e.mark.width = e.widthAfter
             }
         }
         b.page.selected = null

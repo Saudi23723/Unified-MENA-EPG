@@ -25,9 +25,11 @@ enum class Tool { HAND, SELECT, PEN, HIGHLIGHT, ERASER, LINE, ARROW, RECT, OVAL,
 class Mark(
     val tool: Tool,
     var color: Int,
-    val width: Float,
+    var width: Float,
     val points: FloatArray,
     val text: String? = null,
+    /** Highlights only: rounded ends instead of square ones. */
+    var round: Boolean = false,
 ) {
     fun toJson(): JSONObject = JSONObject()
         .put("t", tool.name)
@@ -35,6 +37,7 @@ class Mark(
         .put("w", width.toDouble())
         .put("p", JSONArray().also { a -> points.forEach { a.put(it.toDouble()) } })
         .also { if (text != null) it.put("s", text) }
+        .also { if (round) it.put("r", 1) }
 
     companion object {
         fun fromJson(o: JSONObject): Mark? = try {
@@ -42,6 +45,7 @@ class Mark(
             Mark(
                 Tool.valueOf(o.getString("t")), o.getInt("c"), o.getDouble("w").toFloat(),
                 FloatArray(p.length()) { p.getDouble(it).toFloat() }, o.optString("s").ifEmpty { null },
+                o.optInt("r", 0) == 1,
             )
         } catch (e: Exception) {
             null
@@ -219,7 +223,7 @@ object MarkPainter {
         when (m.tool) {
             Tool.PEN, Tool.HIGHLIGHT -> {
                 // A highlighter is a broad, see-through, flat-ended band.
-                stroke.strokeCap = if (m.tool == Tool.HIGHLIGHT) Paint.Cap.SQUARE else Paint.Cap.ROUND
+                stroke.strokeCap = if (m.tool == Tool.HIGHLIGHT && !m.round) Paint.Cap.SQUARE else Paint.Cap.ROUND
                 if (m.tool == Tool.HIGHLIGHT) stroke.alpha = 0x70
                 path.reset()
                 path.moveTo(p[0] * w, p[1] * h)
@@ -268,7 +272,12 @@ object MarkPainter {
                 fill.alpha = 0x66
                 var i = 0
                 while (i + 3 < p.size) {
-                    c.drawRect(p[i] * w, p[i + 1] * h, p[i + 2] * w, p[i + 3] * h, fill)
+                    if (m.round) {
+                        val r = (p[i + 3] - p[i + 1]) * h * 0.45f
+                        c.drawRoundRect(p[i] * w, p[i + 1] * h, p[i + 2] * w, p[i + 3] * h, r, r, fill)
+                    } else {
+                        c.drawRect(p[i] * w, p[i + 1] * h, p[i + 2] * w, p[i + 3] * h, fill)
+                    }
                     i += 4
                 }
             }
@@ -377,21 +386,42 @@ object MarkPainter {
 
     /** Colours offered for each kind of tool. */
     val INK = intArrayOf(
-        Color.parseColor("#000000"), Color.parseColor("#616161"), Color.parseColor("#FFFFFF"),
-        Color.parseColor("#0D47A1"), Color.parseColor("#1E88E5"), Color.parseColor("#00ACC1"),
-        Color.parseColor("#B71C1C"), Color.parseColor("#E53935"), Color.parseColor("#EC407A"),
-        Color.parseColor("#1B5E20"), Color.parseColor("#43A047"), Color.parseColor("#9CCC65"),
-        Color.parseColor("#E65100"), Color.parseColor("#FB8C00"), Color.parseColor("#FDD835"),
-        Color.parseColor("#4A148C"), Color.parseColor("#8E24AA"), Color.parseColor("#795548"),
+        // Greys
+        Color.parseColor("#000000"), Color.parseColor("#424242"), Color.parseColor("#757575"),
+        Color.parseColor("#BDBDBD"), Color.parseColor("#FFFFFF"), Color.parseColor("#795548"),
+        // Reds and pinks
+        Color.parseColor("#B71C1C"), Color.parseColor("#E53935"), Color.parseColor("#FF5252"),
+        Color.parseColor("#C2185B"), Color.parseColor("#EC407A"), Color.parseColor("#F48FB1"),
+        // Oranges and yellows
+        Color.parseColor("#E65100"), Color.parseColor("#FB8C00"), Color.parseColor("#FFB300"),
+        Color.parseColor("#FDD835"), Color.parseColor("#FFEE58"), Color.parseColor("#FF7043"),
+        // Greens
+        Color.parseColor("#1B5E20"), Color.parseColor("#43A047"), Color.parseColor("#7CB342"),
+        Color.parseColor("#C0CA33"), Color.parseColor("#00897B"), Color.parseColor("#26A69A"),
+        // Blues
+        Color.parseColor("#0D47A1"), Color.parseColor("#1E88E5"), Color.parseColor("#42A5F5"),
+        Color.parseColor("#00ACC1"), Color.parseColor("#26C6DA"), Color.parseColor("#3949AB"),
+        // Purples
+        Color.parseColor("#4A148C"), Color.parseColor("#8E24AA"), Color.parseColor("#AB47BC"),
+        Color.parseColor("#5E35B1"), Color.parseColor("#7E57C2"), Color.parseColor("#B39DDB"),
     )
     val MARKER = intArrayOf(
-        Color.parseColor("#FFEB3B"), Color.parseColor("#FFF176"), Color.parseColor("#76FF03"),
-        Color.parseColor("#69F0AE"), Color.parseColor("#40C4FF"), Color.parseColor("#82B1FF"),
-        Color.parseColor("#FF4081"), Color.parseColor("#EA80FC"), Color.parseColor("#FFAB40"),
-        Color.parseColor("#FF8A80"),
+        Color.parseColor("#FFEB3B"), Color.parseColor("#FFF176"), Color.parseColor("#FFD54F"),
+        Color.parseColor("#FFAB40"), Color.parseColor("#FF8A65"), Color.parseColor("#FF8A80"),
+        Color.parseColor("#FF4081"), Color.parseColor("#F48FB1"), Color.parseColor("#EA80FC"),
+        Color.parseColor("#B388FF"), Color.parseColor("#82B1FF"), Color.parseColor("#40C4FF"),
+        Color.parseColor("#84FFFF"), Color.parseColor("#64FFDA"), Color.parseColor("#69F0AE"),
+        Color.parseColor("#76FF03"), Color.parseColor("#C6FF00"), Color.parseColor("#E0E0E0"),
     )
 
     /** Thin, medium and thick, as fractions of the page width. */
+    /** The thinnest and thickest each kind of tool allows, as fractions of the page width. */
+    fun sizeRange(tool: Tool): Pair<Float, Float> = when (tool) {
+        Tool.HIGHLIGHT, Tool.TEXTMARK -> 0.005f to 0.06f
+        Tool.TEXT -> 0.01f to 0.08f
+        else -> 0.0006f to 0.016f
+    }
+
     fun widths(tool: Tool): FloatArray = when (tool) {
         Tool.HIGHLIGHT -> floatArrayOf(0.016f, 0.024f, 0.034f)
         Tool.TEXT -> floatArrayOf(0.02f, 0.028f, 0.04f)

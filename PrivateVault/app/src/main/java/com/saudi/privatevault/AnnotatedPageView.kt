@@ -25,7 +25,14 @@ class AnnotatedPageView @JvmOverloads constructor(
 
     var tool = Tool.HAND
     var color = MarkPainter.INK[0]
-    var widthLevel = 1
+    /** Line thickness for the pen, highlighter and shapes, as a fraction of the page width. */
+    var size = 0.0038f
+
+    /** Text size, as a fraction of the page width. */
+    var textSize = 0.028f
+
+    /** Highlights get rounded ends. */
+    var roundMarker = false
 
     /** The highlighter draws a straight band, level with the line of text, unless set free. */
     var straightMarker = true
@@ -93,7 +100,10 @@ class AnnotatedPageView @JvmOverloads constructor(
         class Removed(val removed: List<Pair<Int, Mark>>) : Edit()
 
         /** Moved, resized or recoloured: the points and colour before and after. */
-        class Changed(val mark: Mark, val before: FloatArray, val after: FloatArray, val colorBefore: Int, val colorAfter: Int) : Edit()
+        class Changed(
+            val mark: Mark, val before: FloatArray, val after: FloatArray, val colorBefore: Int, val colorAfter: Int,
+            val widthBefore: Float = Float.NaN, val widthAfter: Float = Float.NaN,
+        ) : Edit()
     }
 
     /** The mark picked for moving, resizing, recolouring or deleting. */
@@ -290,6 +300,8 @@ class AnnotatedPageView @JvmOverloads constructor(
         return when (m.tool) {
             Tool.LINE, Tool.ARROW -> listOf(p[0] to p[1], p[2] to p[3])
             Tool.RECT, Tool.OVAL -> listOf(p[0] to p[1], p[2] to p[1], p[2] to p[3], p[0] to p[3])
+            // A straight highlight: its two ends, to lengthen or shorten it.
+            Tool.HIGHLIGHT -> if (p.size == 4) listOf(p[0] to p[1], p[2] to p[3]) else emptyList()
             else -> emptyList()
         }
     }
@@ -370,7 +382,7 @@ class AnnotatedPageView @JvmOverloads constructor(
                     }
                 } else {
                     when (m.tool) {
-                        Tool.LINE, Tool.ARROW -> if (handle == 0) { p[0] = x; p[1] = y } else { p[2] = x; p[3] = y }
+                        Tool.LINE, Tool.ARROW, Tool.HIGHLIGHT -> if (handle == 0) { p[0] = x; p[1] = y } else { p[2] = x; p[3] = y }
                         else -> when (handle) {
                             0 -> { p[0] = x; p[1] = y }
                             1 -> { p[2] = x; p[1] = y }
@@ -441,12 +453,19 @@ class AnnotatedPageView @JvmOverloads constructor(
         currentPoints.add(pt[1])
     }
 
-    private fun build(): Mark {
-        val widths = MarkPainter.widths(tool)
-        // Lines stay the same thickness on screen whatever the zoom.
-        val w = widths[widthLevel.coerceIn(0, 2)]
-        return Mark(tool, color, w, currentPoints.toFloatArray())
+    private fun build(): Mark = Mark(tool, color, size, currentPoints.toFloatArray(), round = tool == Tool.HIGHLIGHT && roundMarker)
+
+    /** A new thickness for the picked mark (a highlight, line or shape), undoable. */
+    fun resizeSelected(w: Float, record: Boolean) {
+        val m = selected ?: return
+        val old = m.width
+        m.width = w
+        if (record) onEdit?.invoke(Edit.Changed(m, m.points.copyOf(), m.points.copyOf(), m.color, m.color, startWidth ?: old, w))
+        startWidth = if (record) null else (startWidth ?: old)
+        invalidate()
     }
+
+    private var startWidth: Float? = null
 
     /** A shape needs some size; a pen dot is fine. */
     private fun worthKeeping(m: Mark): Boolean {
@@ -609,7 +628,7 @@ class AnnotatedPageView @JvmOverloads constructor(
         val bands = selectionBands()
         clearSelection()
         if (bands.isEmpty()) return
-        val m = Mark(Tool.TEXTMARK, color, 0f, bands)
+        val m = Mark(Tool.TEXTMARK, color, 0f, bands, null, roundMarker)
         marks.add(m)
         onEdit?.invoke(Edit.Added(m))
         invalidate()
@@ -633,7 +652,7 @@ class AnnotatedPageView @JvmOverloads constructor(
     }
 
     fun addText(x: Float, y: Float, text: String) {
-        val m = Mark(Tool.TEXT, color, MarkPainter.widths(Tool.TEXT)[widthLevel.coerceIn(0, 2)], floatArrayOf(x, y), text)
+        val m = Mark(Tool.TEXT, color, textSize, floatArrayOf(x, y), text)
         marks.add(m)
         onEdit?.invoke(Edit.Added(m))
         invalidate()
