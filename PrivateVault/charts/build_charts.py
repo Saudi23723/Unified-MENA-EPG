@@ -30,7 +30,7 @@ WORK = os.path.abspath("charts-work")
 def edition(day=None):
     """The 56-day VFR chart edition in force: (start, end)."""
     day = day or dt.date.today()
-    s = dt.date(2025, 1, 23)
+    s = dt.date(2025, 2, 20)  # a VFR edition date (29 Oct 2026 is one); the FAA page confirmed it
     while s + dt.timedelta(days=56) <= day:
         s += dt.timedelta(days=56)
     while s > day:

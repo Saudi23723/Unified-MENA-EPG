@@ -18,7 +18,8 @@ object OfflinePack {
 
     /** The 56-day Chart Supplement edition in force, as the FAA writes it (e.g. 30OCT2025). */
     fun csEdition(day: LocalDate = LocalDate.now()): String {
-        var start = LocalDate.of(2025, 1, 23)
+        // VFR charts and the Chart Supplement: every other AIRAC date, 56 days apart from 20 Feb 2025 (29 Oct 2026 is one).
+        var start = LocalDate.of(2025, 2, 20)
         while (!start.plusDays(56).isAfter(day)) start = start.plusDays(56)
         while (start.isAfter(day)) start = start.minusDays(56)
         return "%02d%s%d".format(start.dayOfMonth, start.month.name.take(3), start.year).uppercase(Locale.US)

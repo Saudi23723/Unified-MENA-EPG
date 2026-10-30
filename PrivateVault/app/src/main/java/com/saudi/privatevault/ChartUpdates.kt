@@ -29,7 +29,8 @@ import java.util.Locale
  * dates can also go into the phone's calendar.
  */
 object ChartUpdates {
-    private val BASE = LocalDate.of(2025, 1, 23)
+    // An AIRAC date that is also a VFR chart date (the 56-day editions: 20 Feb 2025 … 29 Oct 2026).
+    private val BASE = LocalDate.of(2025, 2, 20)
     private val CYCLE_LAYERS = setOf("sectional", "tac", "ifrlow")
     private var running = false
 
