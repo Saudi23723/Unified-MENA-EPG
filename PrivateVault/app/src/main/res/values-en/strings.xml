@@ -369,6 +369,16 @@ or tap an airport → Add to route, or long-press anywhere on the chart.</string
     <string name="log_track">🗺 Flight track (%d points)</string>
     <string name="efb_svt">🛩 Synthetic Vision</string>
     <string name="pack_terrain">Downloading terrain…</string>
+    <string name="wx_airspace">🔵 Airspace (Class B/C/D and restricted areas)</string>
+    <string name="wx_traffic">✈️ Traffic (ADS-B / internet)</string>
+    <string name="apt_history">🕑 METAR, last 6 hours</string>
+    <string name="apt_notams_loading">Getting NOTAMs from the FAA…</string>
+    <string name="apt_notams_fail">Could not get the NOTAMs (no internet and no saved copy). Try later or 1800wxbrief.com.</string>
+    <string name="fuel_reminder">⛽ Fuel check and tank switch every 30 min</string>
+    <string name="fuel_tank_note">The AOI recommends switching tanks alternately in cruise, and not flying on RIGHT with the left tank full. Read the gauges in level flight.</string>
+    <string name="sos_title">🆘 EMERGENCY</string>
+    <string name="sos_essentials">Squawk 7700 · 121.5 MHz · Best glide 59 KIAS (SportStar MAX)</string>
+    <string name="sos_checklist">📋 Emergency checklist</string>
     <string name="map_circle">Circle</string>
     <string name="map_ruler">Ruler</string>
     <string name="pen_write">Write and highlight</string>

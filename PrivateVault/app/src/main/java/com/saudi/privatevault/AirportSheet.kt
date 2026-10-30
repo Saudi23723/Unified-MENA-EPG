@@ -75,7 +75,8 @@ class AirportSheet(
             val now = Favorites.toggle(act, a.ident)
             Toast.makeText(act, if (now) R.string.fav_added else R.string.fav_removed, Toast.LENGTH_SHORT).show()
         }
-        button(R.string.apt_notams) { open("https://www.notams.faa.gov/dinsQueryWeb/queryRetrievalMapAction.do?reportType=Raw&retrieveLocId=${a.icao.ifEmpty { a.ident }}&actionType=notamRetrievalbyICAOs") }
+        button(R.string.apt_notams) { notams() }
+        button(R.string.apt_history) { history() }
         button(R.string.apt_direct) { dialog.dismiss(); onDirect() }
         button(R.string.apt_add_route) { dialog.dismiss(); onAddToRoute() }
         button(R.string.apt_plates) { plates() }
@@ -216,6 +217,45 @@ class AirportSheet(
         "T" -> "turf"
         "D" -> "dirt"
         else -> s.lowercase()
+    }
+
+    private fun textDialog(title: String, body: String) {
+        val t = TextView(act).apply {
+            text = body
+            typeface = android.graphics.Typeface.MONOSPACE
+            textSize = 12f
+            setTextIsSelectable(true)
+            layoutDirection = View.LAYOUT_DIRECTION_LTR
+            textDirection = View.TEXT_DIRECTION_LTR
+            setPadding(dp(16), dp(8), dp(16), dp(8))
+        }
+        MaterialAlertDialogBuilder(act).setTitle(title).setView(android.widget.ScrollView(act).apply { addView(t) })
+            .setPositiveButton(android.R.string.ok, null).show()
+    }
+
+    /** The airport's NOTAMs, read in the app (and kept for reading without signal). */
+    private fun notams() {
+        Toast.makeText(act, R.string.apt_notams_loading, Toast.LENGTH_SHORT).show()
+        act.lifecycleScope.launch {
+            val id = a.icao.ifEmpty { a.ident }
+            val res = withContext(Dispatchers.IO) { AviationData.notams(act, id) }
+            if (res == null) {
+                textDialog("NOTAMs · $id", act.getString(R.string.apt_notams_fail))
+                return@launch
+            }
+            val (list, at) = res
+            val age = java.text.SimpleDateFormat("MMM d HH:mm", java.util.Locale.US).format(java.util.Date(at))
+            textDialog("NOTAMs · $id (${list.size})", "Updated $age\n\n" +
+                (if (list.isEmpty()) "No NOTAMs." else list.joinToString("\n\n────\n\n")) +
+                "\n\nAlways get an official briefing (1800wxbrief.com).")
+        }
+    }
+
+    private fun history() {
+        act.lifecycleScope.launch {
+            val t = withContext(Dispatchers.IO) { AviationData.metarHistory(station, 6) }
+            textDialog("METAR · 6 h · $station", t.ifEmpty { act.getString(R.string.map_no_metar) })
+        }
     }
 
     // ---- charts and procedures ----

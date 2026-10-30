@@ -383,6 +383,16 @@
     <string name="log_track">🗺 مسار الرحلة (%d نقطة)</string>
     <string name="efb_svt">🛩 Synthetic Vision</string>
     <string name="pack_terrain">جاري تنزيل التضاريس…</string>
+    <string name="wx_airspace">🔵 المجال الجوي (Class B/C/D والمناطق المحظورة)</string>
+    <string name="wx_traffic">✈️ الطيارات حواليك (ADS-B / إنترنت)</string>
+    <string name="apt_history">🕑 METAR آخر 6 ساعات</string>
+    <string name="apt_notams_loading">جاري جلب الـ NOTAMs من FAA…</string>
+    <string name="apt_notams_fail">ما قدرت أجيب الـ NOTAMs (لا إنترنت ولا نسخة محفوظة). جرّب بعدين أو 1800wxbrief.com.</string>
+    <string name="fuel_reminder">⛽ تذكير الوقود وتبديل الخزان كل 30 دقيقة</string>
+    <string name="fuel_tank_note">الـ AOI بينصح تبدّل الخزانات بالتناوب بالكروز، ولا تطير على RIGHT والخزان الشمال مليان. اقرأ الوقود والطيارة مستوية.</string>
+    <string name="sos_title">🆘 EMERGENCY</string>
+    <string name="sos_essentials">Squawk 7700 · 121.5 MHz · Best glide 59 KIAS (SportStar MAX)</string>
+    <string name="sos_checklist">📋 Emergency checklist</string>
     <string name="map_circle">دائرة</string>
     <string name="map_ruler">مسطرة</string>
     <string name="pen_write">كتابة وتظليل</string>

@@ -65,6 +65,8 @@ class MapActivity : BaseActivity() {
     private lateinit var route: RouteOverlay
     private var radar: TilesOverlay? = null
     private lateinit var hazard: HazardOverlay
+    private lateinit var airspace: AirspaceOverlay
+    private lateinit var traffic: TrafficOverlay
     private var radarProvider: MapTileProviderBasic? = null
     private var plan = FlightPlan()
     private var airports: List<AviationData.Airport> = emptyList()
@@ -154,6 +156,11 @@ class MapActivity : BaseActivity() {
         Voice.init(this)
         hazard = HazardOverlay(map).apply { altitudeFt = prefs.getInt("hazard_alt", 5500).toDouble() }
         if (prefs.getBoolean("wx_terrain", false)) map.overlays.add(hazard)
+        airspace = AirspaceOverlay(map).apply {
+            onPick = { texts -> MaterialAlertDialogBuilder(this@MapActivity).setMessage(texts.joinToString("\n\n")).setPositiveButton(android.R.string.ok, null).show() }
+        }
+        if (prefs.getBoolean("wx_airspace", true)) map.overlays.add(airspace)
+        lifecycleScope.launch { withContext(Dispatchers.IO) { Airspace.load(this@MapActivity) }; map.invalidate() }
         map.overlays.add(weather)
         plan = FlightPlan.load(this)
         route = RouteOverlay(map, { plan }, { if (::ownship.isInitialized) ownship.position() else null })
@@ -166,6 +173,10 @@ class MapActivity : BaseActivity() {
         map.overlays.add(draw)
         ownship = OwnshipOverlay(map, airplane()).apply { onUserPan = { if (following) follow() } }
         map.overlays.add(ownship)
+        traffic = TrafficOverlay(map) { ownship.fix?.takeIf { it.hasAltitude() && gotGps }?.altitude?.times(3.28084) }.apply {
+            near = { t -> trafficClose(t) != null }
+        }
+        if (prefs.getBoolean("wx_traffic", false)) { map.overlays.add(traffic); Traffic.startReceiver() }
 
         marks = DocumentMarks.forItem(this, "flight-map")
         draw.marks.addAll(marks.on(0))
@@ -180,6 +191,7 @@ class MapActivity : BaseActivity() {
         b.fabLayers.setOnClickListener { chooseLayer() }
         b.fabDraw.setOnClickListener { toggleDrawing() }
         b.fabLocate.setOnClickListener { follow() }
+        b.fabSos.setOnClickListener { emergency() }
         b.zoomIn.setOnClickListener {
             if (map.zoomLevelDouble >= map.maxZoomLevel - 0.05) Toast.makeText(this, R.string.map_max_zoom, Toast.LENGTH_SHORT).show()
             map.controller.zoomIn()
@@ -262,6 +274,7 @@ class MapActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         stopGps()
+        Traffic.stopReceiver()
         radarProvider?.detach()
         map.onDetach()
     }
@@ -298,6 +311,8 @@ class MapActivity : BaseActivity() {
         val cTfr = check(R.string.wx_tfr, weather.showTfrs)
         val cPirep = check(R.string.wx_pirep, weather.showPireps)
         val cTerrain = check(R.string.wx_terrain, map.overlays.contains(hazard))
+        val cAirspace = check(R.string.wx_airspace, map.overlays.contains(airspace))
+        val cTraffic = check(R.string.wx_traffic, map.overlays.contains(traffic))
         val cAirports = check(R.string.map_airports, prefs.getBoolean("map_airports", true))
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.map_layers)
@@ -316,7 +331,12 @@ class MapActivity : BaseActivity() {
                 weather.showPireps = cPirep.isChecked
                 map.overlays.remove(hazard)
                 if (cTerrain.isChecked) map.overlays.add(map.overlays.indexOf(weather).coerceAtLeast(0), hazard)
-                prefs.edit().putBoolean("wx_terrain", cTerrain.isChecked).apply()
+                prefs.edit().putBoolean("wx_terrain", cTerrain.isChecked).putBoolean("wx_airspace", cAirspace.isChecked)
+                    .putBoolean("wx_traffic", cTraffic.isChecked).apply()
+                map.overlays.remove(airspace)
+                if (cAirspace.isChecked) map.overlays.add(map.overlays.indexOf(weather).coerceAtLeast(0), airspace)
+                map.overlays.remove(traffic)
+                if (cTraffic.isChecked) { map.overlays.add(traffic); Traffic.startReceiver(); pollTraffic() } else Traffic.stopReceiver()
                 val airportsOn = cAirports.isChecked
                 val airportsChanged = airportsOn != prefs.getBoolean("map_airports", true)
                 prefs.edit().putBoolean("wx_radar", cRadar.isChecked).putBoolean("wx_airmet", cAirmet.isChecked)
@@ -736,6 +756,7 @@ class MapActivity : BaseActivity() {
         // The flight is noticed and timed from the GPS, then offered to the logbook.
         if (gotGps && !quiet) FlightRecorder.onFix(this, l, airports)?.let { e -> offerLog(e) }
         if (gotGps && !quiet) checkAirspace(l)
+        if (gotGps && !quiet) { checkControlled(l); checkTraffic(l); fuelWatch() }
         // Terrain is judged against the GPS altitude in flight, the planned altitude on the ground.
         val flying = gotGps && l.hasAltitude() && kt > 35
         hazard.altitudeFt = if (flying) l.altitude * 3.28084 else plan.altitude.toDouble()
@@ -769,6 +790,7 @@ class MapActivity : BaseActivity() {
     private val frame: Runnable = object : Runnable {
         private var heading = Float.NaN
         private var lastIdle = 0L
+        private var lastTraffic = 0L
         override fun run() {
             // While the map keeps following, it never settles: refresh what is in view every 15 s.
             val now = android.os.SystemClock.elapsedRealtime()
@@ -778,6 +800,7 @@ class MapActivity : BaseActivity() {
                 val text = "⏱ %d:%02d:%02d".format(t / 3600, t / 60 % 60, t % 60)
                 if (b.toolbar.subtitle?.toString() != text) b.toolbar.subtitle = text
             }
+            if (now - lastTraffic > 10000) { lastTraffic = now; pollTraffic() }
             if (following && now - lastIdle > 15000) {
                 lastIdle = now
                 idle()
@@ -803,6 +826,105 @@ class MapActivity : BaseActivity() {
 
     private var timerStart = 0L
     private var terrainAlertAt = 0L
+
+    // ---- controlled airspace, traffic, fuel ----
+
+    private val airspaceSaid = HashMap<String, Long>()
+
+    /** Class B, C, D and restricted or prohibited areas the aircraft is in, or will be within 2 minutes, at its altitude. */
+    private fun checkControlled(l: Location) {
+        val kt = if (l.hasSpeed()) l.speed * 1.943844 else 0.0
+        if (kt < 35 || !l.hasAltitude()) return
+        val alt = l.altitude * 3.28084
+        for (min in listOf(0.0, 1.0, 2.0)) {
+            val p = if (min == 0.0 || !l.hasBearing()) GeoPoint(l.latitude, l.longitude) else Nav.destination(l.latitude, l.longitude, l.bearing.toDouble(), kt * min / 60)
+            val hit = Airspace.areas.firstOrNull { it.kind in setOf("B", "C", "D", "R", "P") && it.contains(p.latitude, p.longitude) && it.spans(alt) } ?: continue
+            val key = hit.kind + hit.name
+            val t = System.currentTimeMillis()
+            if (t - (airspaceSaid[key] ?: 0L) < 10 * 60000) return
+            airspaceSaid[key] = t
+            val name = Airspace.spoken(hit.kind)
+            alert(if (min == 0.0) "⛔ IN ${hit.kind} · ${hit.name}" else "⚠️ ${hit.kind} AHEAD · ${min.toInt()} MIN · ${hit.limits()}", "${hit.name}\n${hit.limits()}\n${hit.note}")
+            Voice.say(this, "cls$key", if (min == 0.0) "$name airspace." else "Caution. $name airspace ahead.", 600)
+            return
+        }
+    }
+
+    /** A target within 2 nm and 1000 ft: its clock position, distance and relative altitude. */
+    private fun trafficClose(t: Traffic.Target): String? {
+        val l = ownship.fix ?: return null
+        val alt = l.takeIf { it.hasAltitude() && gotGps }?.altitude?.times(3.28084) ?: return null
+        val tAlt = t.altFt ?: return null
+        val dist = Nav.distanceNm(l.latitude, l.longitude, t.lat, t.lon)
+        if (dist > 2 || Math.abs(tAlt - alt) > 1000) return null
+        val rel = (Nav.bearingTrue(l.latitude, l.longitude, t.lat, t.lon) - (if (l.hasBearing()) l.bearing.toDouble() else 0.0) + 360) % 360
+        val clock = Math.round(rel / 30).toInt().let { if (it == 0) 12 else it }
+        val dAlt = Math.round((tAlt - alt) / 100).toInt() * 100
+        return "Traffic. $clock o'clock. ${"%.0f".format(Math.max(1.0, dist))} mile${if (dist >= 1.5) "s" else ""}. " +
+            when { dAlt > 200 -> "High."; dAlt < -200 -> "Low."; else -> "Same altitude." }
+    }
+
+    private fun checkTraffic(l: Location) {
+        if (!map.overlays.contains(traffic) || (if (l.hasSpeed()) l.speed * 1.943844 else 0.0) < 35) return
+        for (t in Traffic.targets.values) {
+            val say = trafficClose(t) ?: continue
+            Voice.say(this, "tfc" + t.id, say, 60)
+        }
+    }
+
+    private fun pollTraffic() {
+        if (!map.overlays.contains(traffic)) return
+        val c = ownship.position() ?: map.mapCenter as GeoPoint
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) { Traffic.prune(); Traffic.fetch(c.latitude, c.longitude) }
+            map.invalidate()
+        }
+    }
+
+    private var tankReminded = 0
+
+    /** Fuel left from the fuel on board and the burn, and a reminder every 30 minutes to check fuel and switch tanks. */
+    private fun fuelWatch() {
+        if (!FlightRecorder.inProgress(this)) return
+        val min = FlightRecorder.airborneMinutes(this)
+        val left = plan.fuelOnBoard - plan.gph * min / 60
+        val endurance = if (plan.gph > 0) left / plan.gph * 60 else 0.0
+        if (timerStart == 0L) b.toolbar.subtitle = "⛽ %.1f gal · %s".format(left.coerceAtLeast(0.0), FlightPlan.hm(endurance))
+        if (prefs.getBoolean("tank_reminder", true) && min >= (tankReminded + 1) * 30) {
+            tankReminded = (min / 30).toInt()
+            alert("⛽ FUEL CHECK · %.1f gal left".format(left), getString(R.string.fuel_tank_note))
+            Voice.say(this, "fuel$tankReminded", "Fuel check. About ${Math.max(0, left.toInt())} gallons left. Consider switching tanks.", 600)
+        }
+        if (left < plan.gph * 0.5 + 0.01) Voice.say(this, "fuel_low", "Warning. Fuel reserve.", 300)
+    }
+
+    /** One tap in an emergency: the essentials, the nearest airports within gliding distance, and the checklist. */
+    private fun emergency() {
+        val here = ownship.position() ?: map.mapCenter as GeoPoint
+        val alt = ownship.fix?.takeIf { it.hasAltitude() && gotGps }?.altitude?.times(3.28084)
+        val list = airports.sortedBy { Nav.distanceNm(here.latitude, here.longitude, it.lat, it.lon) }.take(4)
+        val rows = list.map { a ->
+            val d = Nav.distanceNm(here.latitude, here.longitude, a.lat, a.lon)
+            val brg = Nav.magnetic(Nav.bearingTrue(here.latitude, here.longitude, a.lat, a.lon), here.latitude, here.longitude)
+            val glide = alt?.let { (it - a.elevation) / 1000 * 1.5 }
+            "${if (glide != null && d <= glide) "🟢" else if (glide != null) "🔴" else "•"} ${a.icao.ifEmpty { a.ident }}  ${Nav.deg(brg)}M  %.1f nm".format(d)
+        }
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.sos_title)
+            .setItems((listOf(getString(R.string.sos_essentials), getString(R.string.sos_checklist)) + rows).toTypedArray()) { _, i ->
+                when (i) {
+                    0 -> {}
+                    1 -> startActivity(android.content.Intent(this, ChecklistActivity::class.java).putExtra("emergency", true))
+                    else -> {
+                        val a = list[i - 2]
+                        directTo(FlightPlan.Waypoint(a.icao.ifEmpty { a.ident }, a.lat, a.lon))
+                        if (!following) follow()
+                    }
+                }
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
 
     // ---- staying out of trouble ----
 
@@ -1359,6 +1481,7 @@ class MapActivity : BaseActivity() {
         menu.add(0, 26, 0, R.string.map_profile)
         menu.add(0, 27, 0, R.string.map_svt)
         menu.add(0, 28, 0, R.string.voice_on).setCheckable(true).isChecked = prefs.getBoolean("voice_on", true)
+        menu.add(0, 29, 0, R.string.fuel_reminder).setCheckable(true).isChecked = prefs.getBoolean("tank_reminder", true)
         menu.add(0, 25, 0, R.string.cs_bulk)
         menu.add(0, 23, 0, R.string.timer_title)
         menu.add(0, 24, 0, R.string.lang_switch)
@@ -1402,6 +1525,7 @@ class MapActivity : BaseActivity() {
             26 -> profile()
             27 -> startActivity(android.content.Intent(this, SvtActivity::class.java))
             28 -> { val on = !item.isChecked; item.isChecked = on; prefs.edit().putBoolean("voice_on", on).apply() }
+            29 -> { val on = !item.isChecked; item.isChecked = on; prefs.edit().putBoolean("tank_reminder", on).apply() }
             25 -> supplementsWest()
             23 -> { timerStart = if (timerStart == 0L) android.os.SystemClock.elapsedRealtime() else 0L; b.toolbar.subtitle = null }
             24 -> Lang.choose(this)
@@ -1469,6 +1593,7 @@ class MapActivity : BaseActivity() {
         b.toolbar.overflowIcon?.setTint(EfbUi.TEXT)
         b.northUp.backgroundTintList = android.content.res.ColorStateList.valueOf(0xF016213A.toInt())
         b.northUp.imageTintList = null
+        b.fabSos.backgroundTintList = android.content.res.ColorStateList.valueOf(0xFFC62828.toInt())
         for (f in listOf(b.fabLayers, b.fabDraw, b.fabLocate, b.zoomIn, b.zoomOut)) {
             f.backgroundTintList = android.content.res.ColorStateList.valueOf(0xF016213A.toInt())
             f.imageTintList = android.content.res.ColorStateList.valueOf(EfbUi.ACCENT)

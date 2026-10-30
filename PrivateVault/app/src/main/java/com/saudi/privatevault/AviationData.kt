@@ -310,6 +310,50 @@ object AviationData {
         } ?: try { JSONObject(file.readText()) } catch (e: Exception) { null }
     }
 
+    /** The last hours of METARs at a station, newest first. */
+    fun metarHistory(station: String, hours: Int = 6): String = try {
+        get("https://aviationweather.gov/api/data/metar?ids=$station&hours=$hours&format=raw").trim()
+    } catch (e: Exception) {
+        ""
+    }
+
+    /** NOTAMs for an airport from the FAA NOTAM Search, kept on the phone for reading without signal. */
+    fun notams(ctx: Context, ident: String): Pair<List<String>, Long>? {
+        val file = File(ctx.filesDir, "aviation/notams/${ident.replace(Regex("[^A-Z0-9]"), "")}.json")
+        try {
+            val c = URL("https://notams.aim.faa.gov/notamSearch/search").openConnection() as HttpURLConnection
+            c.connectTimeout = 20000
+            c.readTimeout = 30000
+            c.requestMethod = "POST"
+            c.doOutput = true
+            c.setRequestProperty("User-Agent", "Mozilla/5.0 SSEFB")
+            c.setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
+            c.outputStream.use { it.write("searchType=0&designatorsForLocation=$ident&notamsOnly=false&offset=0".toByteArray()) }
+            try {
+                if (c.responseCode == 200) {
+                    val text = c.inputStream.bufferedReader().readText()
+                    val list = JSONObject(text).optJSONArray("notamList")
+                    if (list != null) {
+                        file.parentFile?.mkdirs()
+                        file.writeText(text)
+                    }
+                }
+            } finally {
+                c.disconnect()
+            }
+        } catch (e: Exception) {
+        }
+        return try {
+            val list = JSONObject(file.readText()).getJSONArray("notamList")
+            (0 until list.length()).map { i ->
+                val n = list.getJSONObject(i)
+                n.optString("icaoMessage").ifEmpty { n.optString("traditionalMessageFrom4thWord") }.ifEmpty { n.optString("traditionalMessage") }.trim()
+            }.filter { it.isNotEmpty() } to file.lastModified()
+        } catch (e: Exception) {
+            null
+        }
+    }
+
     /** The raw winds and temperatures aloft (FB) for the western regions. */
     fun windsAloft(hours: Int = 6): String = listOf("sfo", "slc").joinToString("\n\n") { region ->
         try {

@@ -228,6 +228,13 @@ object FlightRecorder {
 
     fun inProgress(ctx: Context) = state(ctx).started > 0
 
+    /** Minutes flown so far in the flight being recorded. */
+    fun airborneMinutes(ctx: Context): Double {
+        val st = state(ctx)
+        if (st.started == 0L) return 0.0
+        return (st.airMs + if (st.airborne) System.currentTimeMillis() - st.upAt else 0) / 60000.0
+    }
+
     fun summary(ctx: Context): String {
         val st = state(ctx)
         val air = st.airMs + if (st.airborne) System.currentTimeMillis() - st.upAt else 0

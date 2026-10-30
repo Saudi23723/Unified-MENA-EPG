@@ -32,6 +32,7 @@ class ChecklistActivity : BaseActivity() {
             bar.menu.add(R.string.ck_restore).setOnMenuItemClickListener { prefs.edit().remove("ck_$aircraft").apply(); done.clear(); build(); true }
         }
         build()
+        if (intent.getBooleanExtra("emergency", false)) col.postDelayed({ emergency?.let { v -> (col.parent as? android.widget.ScrollView)?.scrollTo(0, v.top) } }, 600)
     }
 
     private fun text(): String = prefs.getString("ck_$aircraft", null) ?: if (aircraft == "C172") C172 else SPORTSTAR
