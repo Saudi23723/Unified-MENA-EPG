@@ -957,7 +957,8 @@ def merge_notes(old: dict, new: dict) -> dict:
 # no limit). The key stays on the server; devices only send the text.
 
 GEMINI_URL = os.environ.get("KHAZANTI_GEMINI_URL", "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent")
-GEMINI_MODELS = ["gemini-2.5-flash", "gemini-flash-latest"]
+# Tried in turn: models are renamed and retired over time, and a key may not reach every one.
+GEMINI_MODELS = ["gemini-flash-latest", "gemini-2.5-flash", "gemini-flash-lite-latest", "gemini-2.0-flash"]
 OLLAMA_URL = os.environ.get("KHAZANTI_OLLAMA_URL", "http://127.0.0.1:11434")
 LOCAL_MODEL = os.environ.get("KHAZANTI_LOCAL_MODEL", "qwen2.5:3b")
 
@@ -1038,22 +1039,39 @@ class Assistant:
         return st
 
     def _gemini(self, prompt):
-        last = None
+        import urllib.error
+        errors = []
         for model in GEMINI_MODELS:
-            try:
-                out = _post_json(GEMINI_URL.format(model=model), {
-                    "systemInstruction": {"parts": [{"text": ASSISTANT}]},
-                    "contents": [{"role": "user", "parts": [{"text": prompt}]}],
-                    # No long "thinking" first: a study answer in a few seconds.
-                    "generationConfig": {"temperature": 0.3, "thinkingConfig": {"thinkingBudget": 0}},
-                }, headers={"x-goog-api-key": self.key}, timeout=60)
-                parts = out["candidates"][0]["content"]["parts"]
-                text = "".join(p.get("text", "") for p in parts).strip()
-                if text:
-                    return text
-            except Exception as e:
-                last = e
-        raise RuntimeError(f"gemini failed: {last}")
+            # No long "thinking" first where the model allows it, so an answer comes in seconds.
+            for fast in (True, False):
+                cfg = {"temperature": 0.3}
+                if fast:
+                    cfg["thinkingConfig"] = {"thinkingBudget": 0}
+                try:
+                    out = _post_json(GEMINI_URL.format(model=model), {
+                        "systemInstruction": {"parts": [{"text": ASSISTANT}]},
+                        "contents": [{"role": "user", "parts": [{"text": prompt}]}],
+                        "generationConfig": cfg,
+                    }, headers={"x-goog-api-key": self.key}, timeout=90)
+                    parts = out["candidates"][0]["content"]["parts"]
+                    text = "".join(p.get("text", "") for p in parts).strip()
+                    if text:
+                        return text
+                    errors.append(f"{model}: empty answer")
+                except urllib.error.HTTPError as e:
+                    try:
+                        msg = json.loads(e.read().decode("utf-8")).get("error", {}).get("message", "")
+                    except Exception:
+                        msg = ""
+                    errors.append(f"{model}: HTTP {e.code} {msg[:160]}")
+                    # A bad or blocked key, or no quota left, is the same for every model.
+                    if e.code in (401, 403, 429):
+                        raise RuntimeError("; ".join(errors))
+                    if e.code == 404:
+                        break
+                except Exception as e:
+                    errors.append(f"{model}: {str(e)[:120]}")
+        raise RuntimeError("; ".join(errors[-4:]))
 
     def _local(self, prompt):
         out = _post_json(OLLAMA_URL + "/api/chat", {
@@ -1067,21 +1085,31 @@ class Assistant:
         """(answer, engine); Gemini first when a key is set, this server's model otherwise or after."""
         text = (text or "").strip()
         prompt = PROMPTS.get(mode, PROMPTS["ask"]).format(text=text[:30000], question=(question or "").strip())
+        problems = []
         if self.key:
             try:
                 return self._gemini(prompt), "gemini"
-            except Exception:
-                pass
+            except Exception as e:
+                problems.append("Gemini: " + str(e))
         # No key here, or Gemini failed: the cloud vault answers, with its key or its own model.
         try:
             out = self._cloud("/api/ai", {"mode": mode, "text": text, "question": question})
             if out and out.get("answer"):
                 return out["answer"], "cloud-" + str(out.get("engine", ""))
-        except Exception:
-            pass
+        except Exception as e:
+            body = ""
+            try:
+                body = json.loads(e.read().decode("utf-8")).get("detail", "")
+            except Exception:
+                pass
+            problems.append("cloud: " + (body or str(e))[:300])
         # The small model reads less at once.
         local_prompt = PROMPTS.get(mode, PROMPTS["ask"]).format(text=text[:7000], question=(question or "").strip())
-        return self._local(local_prompt), "local"
+        try:
+            return self._local(local_prompt), "local"
+        except Exception as e:
+            problems.append("server model: " + ("not installed or not ready" if "11434" in str(e) or "refused" in str(e).lower() else str(e)[:120]))
+            raise RuntimeError(" | ".join(problems))
 
 
 class Notes:
@@ -1355,7 +1383,7 @@ class Handler(BaseHTTPRequestHandler):
             try:
                 answer, engine = self.app.assistant.answer(str(body.get("mode", "ask")), text, str(body.get("question", "")))
             except Exception as e:
-                return self._json({"error": "no assistant available", "detail": str(e)[:300]}, 503)
+                return self._json({"error": "no assistant available", "detail": str(e)[:900]}, 503)
             return self._json({"answer": answer, "engine": engine})
         if path == "/api/ai/key":
             self.app.assistant.set_key(str(body.get("key", "")))

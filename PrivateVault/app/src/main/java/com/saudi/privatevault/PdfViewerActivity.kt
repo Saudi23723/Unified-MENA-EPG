@@ -1092,7 +1092,12 @@ class PdfViewerActivity : BaseActivity() {
                     "offline" -> R.string.ai_offline
                     else -> R.string.ai_failed
                 }
-                Toast.makeText(this@PdfViewerActivity, msg, Toast.LENGTH_LONG).show()
+                // With the vault's own reason, to read or send.
+                MaterialAlertDialogBuilder(this@PdfViewerActivity)
+                    .setTitle(R.string.ai_title)
+                    .setMessage(getString(msg) + if (a.detail.isNotEmpty()) "\n\n" + a.detail else "")
+                    .setPositiveButton(android.R.string.ok, null)
+                    .show()
                 return@launch
             }
             showAnswer(a.text, a.engine, text)

@@ -267,7 +267,7 @@ object LaptopClient {
         }
     }
 
-    class AiAnswer(val text: String?, val engine: String?, val problem: String?)
+    class AiAnswer(val text: String?, val engine: String?, val problem: String?, val detail: String = "")
 
     /** Asks the vault's study assistant (Gemini, or the server's own model). */
     fun ai(ctx: Context, mode: String, text: String, question: String = ""): AiAnswer {
@@ -283,14 +283,21 @@ object LaptopClient {
             when (conn.responseCode) {
                 200 -> JSONObject(conn.inputStream.bufferedReader().readText()).let { AiAnswer(it.optString("answer"), it.optString("engine"), null) }
                 404 -> AiAnswer(null, null, "old")
-                503 -> AiAnswer(null, null, "none")
-                else -> AiAnswer(null, null, "failed")
+                503 -> AiAnswer(null, null, "none", why(conn))
+                else -> AiAnswer(null, null, "failed", why(conn).ifEmpty { "HTTP ${conn.responseCode}" })
             }
         } catch (e: Exception) {
             AiAnswer(null, null, "offline")
         } finally {
             conn.disconnect()
         }
+    }
+
+    /** What the vault said went wrong, to show the pilot. */
+    private fun why(conn: java.net.HttpURLConnection): String = try {
+        JSONObject(conn.errorStream?.bufferedReader()?.readText() ?: "").optString("detail")
+    } catch (e: Exception) {
+        ""
     }
 
     /** Saves (or with "" removes) the Gemini key on the vault; returns its status, null if unreachable. */

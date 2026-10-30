@@ -754,7 +754,8 @@ async function aiPanel() {
           const r = await api("/api/ai", { mode: "ask", text: "", question: q });
           out.textContent = r.answer + "\n\n— " + (String(r.engine).includes("gemini") ? "Gemini" : "نموذج السيرفر");
         } catch (e) {
-          out.textContent = "ما في ذكاء اصطناعي متاح: حط مفتاح Gemini، أو تأكد إن السحابة مربوطة.";
+          const why = (e.data && e.data.detail) || e.message || "";
+          out.textContent = "ما جاوب. السبب (صوّره وابعته):\n" + why;
         }
       };
     });
