@@ -121,10 +121,15 @@ object Logbook {
         mutableListOf()
     }
 
-    fun save(ctx: Context, list: List<LogEntry>) {
+    fun save(ctx: Context, list: List<LogEntry>, stamp: Boolean = true) {
+        val before = if (stamp) all(ctx).associate { it.id to it.toJson().toString() } else emptyMap()
         val tmp = File(file(ctx).path + ".tmp")
         tmp.writeText(JSONArray().apply { for (e in list) put(e.toJson()) }.toString())
         tmp.renameTo(file(ctx))
+        if (stamp) {
+            LogbookSync.noteChange(ctx, "f", before, list.associate { it.id to it.toJson().toString() })
+            LogbookSync.soon(ctx)
+        }
     }
 
     fun endorsements(ctx: Context): MutableList<Endorsement> = try {
@@ -134,8 +139,14 @@ object Logbook {
         mutableListOf()
     }
 
-    fun saveEndorsements(ctx: Context, list: List<Endorsement>) =
+    fun saveEndorsements(ctx: Context, list: List<Endorsement>, stamp: Boolean = true) {
+        val before = if (stamp) endorsements(ctx).associate { it.id to it.toJson().toString() } else emptyMap()
         endorsementsFile(ctx).writeText(JSONArray().apply { for (e in list) put(e.toJson()) }.toString())
+        if (stamp) {
+            LogbookSync.noteChange(ctx, "e", before, list.associate { it.id to it.toJson().toString() })
+            LogbookSync.soon(ctx)
+        }
+    }
 
     /** Everything, signatures included, as one file to keep or move to another phone. */
     fun backup(ctx: Context): String {

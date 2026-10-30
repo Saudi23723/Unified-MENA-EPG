@@ -1,0 +1,35 @@
+name: Official FAA VFR charts for SSEFB
+
+# Each 56-day edition: the FAA's GeoTIFF charts, as WebP MBTiles in the
+# vfr-charts release. Daily check (on the default branch); builds only when
+# a new edition is in force. Also on changes to the builder.
+on:
+  schedule:
+    - cron: "23 9 * * *"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Build again even if the release holds this edition"
+        type: boolean
+        default: false
+  push:
+    branches: [ccr-950e878e-2bt6ud]
+    paths:
+      - ".github/workflows/vfr_charts.yml"
+      - "PrivateVault/charts/**"
+
+permissions:
+  contents: write
+
+jobs:
+  charts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - name: GDAL
+        run: sudo apt-get update -q && sudo apt-get install -y -q gdal-bin
+      - name: Build and publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 PrivateVault/charts/build_charts.py ${{ inputs.force && '--force' || '' }}

@@ -92,6 +92,16 @@ class LogbookActivity : BaseActivity() {
         intent.getStringExtra(EXTRA_NEW)?.let { edit(LogEntry.fromJson(JSONObject(it)), isNew = true); return }
         val start = intent.getIntExtra(EXTRA_TAB, 0)
         if (start == 0) show(0) else tabs.getTabAt(start)?.select()
+        // The same logbook on every device linked to the vault.
+        if (LaptopClient.isLinked(this)) lifecycleScope.launch {
+            val n = withContext(Dispatchers.IO) { try { LogbookSync.sync(this@LogbookActivity) } catch (e: Exception) { -1 } }
+            if (n > 0) {
+                entries = Logbook.all(this@LogbookActivity)
+                endorsements = Logbook.endorsements(this@LogbookActivity)
+                show(tabs.selectedTabPosition.coerceAtLeast(0))
+                Toast.makeText(this@LogbookActivity, getString(R.string.log_synced, n), Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun show(tab: Int) {
