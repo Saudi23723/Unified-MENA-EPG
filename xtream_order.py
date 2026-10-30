@@ -232,6 +232,12 @@ def order(chans: list[dict], playlist: str | None = None) -> list[dict]:
             c = dict(c)
             # owner, 28 Oct 2026: live game slots on top, team channels / NBA TV / others below them
             ev_key[id(c)] = (0, lab[0].upper(), lab[1]) if lab else (1, "", i)
+            # in a UFC group the UFC slots come before the boxing ones (owner, Argon, 29 Oct 2026)
+            if lab and re.search(r"\bUFC\b", c["group"], re.I) and not lab[0].upper().startswith("UFC"):
+                ev_key[id(c)] = (0, "~" + lab[0].upper(), lab[1])
+            # Fite TV channels go to the bottom of their PPV group (owner, Argon, 29 Oct 2026)
+            if re.search(r"\bFITE\b", c["name"], re.I):
+                ev_key[id(c)] = (2, lab[0].upper() if lab else "", lab[1] if lab else i)
         renamed.append(c)
     chans = renamed
     evk = lambda c: ev_key.get(id(c), (0, "", 0))

@@ -42,6 +42,11 @@ async function digest(t) {
 // provider's full list, at most every 15 minutes, and kept in KV (binding LIVE, key = playlist) so every worker
 // instance and every category request gets it (owner, 28 Oct 2026: NBA PASS names stayed on yesterday's games).
 const PATCH_AGE = 15 * 60000;
+// separator rows some providers put inside groups ("✶⋆✶ FITE EVENTS ✶⋆✶", "##### UK #####")
+const SEPARATOR = /✶|⋆/;
+// playlists whose hidden PPV / UFC packages are shown automatically, and which packages count
+const EXTRA = /^(argon)$/;
+const EXTRA_GROUP = /PPV|PAY\s*PER\s*VIEW|\bUFC\b|\bEVENTS?\b|FIGHT|BOXING|\bWWE\b|\bMMA\b|BKFC|BELLATOR|\bPFL\b/i;
 const DYN = { id: "9001", name: "🤼 | FLO WRESTLING", from: /\bFLO\b|FLOSPORT/i, match: /WRESTL|مصارع/i,
   near: /FLO\s*SPORTS?\s*PPV|FLO\s*FLSP|FLOSPORTS?\s*TV/i };
 let PATCH = null, BUILDING = 0;
@@ -87,6 +92,8 @@ async function buildPatch(env, user, pass_, ua) {
       fetch(`${PROVIDER}/player_api.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass_)}&action=get_live_streams`,
         { headers: { "User-Agent": ua } }).then((r) => { if (r.status === 403 || r.status === 401) LIVE_REFUSED = Date.now(); return r.ok ? r.json() : []; }).catch(() => []),
     ]);
+    const pcats = EXTRA.test(PLAYLIST) ? await fetch(`${PROVIDER}/player_api.php?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass_)}&action=get_live_categories`,
+      { headers: { "User-Agent": ua } }).then((r) => (r.ok ? r.json() : [])).catch(() => []) : [];
     STATUS.provider_channels = Array.isArray(live) ? live.length : 0;
     if (!Array.isArray(live) || !live.length) { STATUS.last_result = liveRefused() ? "refused" : "empty answer"; console.log("LIVE " + PLAYLIST + " " + STATUS.last_result); return; }
     const ev = new Set(cats.filter((c) => EVENT_GROUP.test(c.category_name || "")).map((c) => String(c.category_id)));
@@ -124,14 +131,30 @@ async function buildPatch(env, user, pass_, ua) {
       // channels landed in Sky Sports)
       if (!ev.has(g)) continue;
       for (const x of xs) {
-        if (ours.has(String(x.stream_id)) || !x.name) continue;
+        if (ours.has(String(x.stream_id)) || !x.name || SEPARATOR.test(String(x.name))) continue;
         (add[g] = add[g] || []).push({ stream_id: x.stream_id, name: String(x.name).replace(/[\u24e7\u00a7]/g, "").replace(/\s+/g, " ").trim(),
           stream_icon: x.stream_icon || "", epg_channel_id: null });
       }
     }
+    // provider PPV / UFC / event packages that none of our groups show: shown as their own groups
+    // (owner, 29 Oct 2026: "if there are more PPV or UFC packages hidden, make them appear")
+    const extra = [];
+    if (Array.isArray(pcats) && pcats.length) {
+      let k = 0;
+      for (const c of pcats) {
+        const nm = String(c.category_name || "");
+        if (!EXTRA_GROUP.test(nm) || /24\/7|REPLAY|ADULT|XXX/i.test(nm)) continue;
+        const xs = (byCat.get(String(c.category_id)) || []).filter((x) => x.name && !SEPARATOR.test(String(x.name)));
+        if (!xs.length || xs.some((x) => ours.has(String(x.stream_id)))) continue;
+        const name = "🔥 " + nm.replace(/^\s*[A-Z]{2,5}\s*[:|]\s*/, "").replace(/\s*\[(\d{3,4}p)\]\s*$/i, "").replace(/\s+/g, " ").trim();
+        extra.push({ id: String(9100 + k++), name, items: xs.map((x) => ({ stream_id: x.stream_id,
+          name: String(x.name).replace(/[\u24e7\u00a7]/g, "").replace(/\s*\[(\d{3,4}p)\]\s*$/i, "").replace(/\s+/g, " ").trim(), stream_icon: x.stream_icon || "" })) });
+      }
+    }
+    STATUS.extra_groups = extra.map((e) => [e.name, e.items.length]);
     const gone = mine.filter((x) => !now.has(String(x.stream_id))).map((x) => x.stream_id);
     // a provider answer missing most of our channels is a broken answer, not a removal
-    PATCH = { t: Date.now(), n, i, add, gone: gone.length < mine.length / 3 ? gone : [] };
+    PATCH = { t: Date.now(), n, i, add, extra, gone: gone.length < mine.length / 3 ? gone : [] };
     STATUS.last_result = "ok"; STATUS.names = Object.keys(n).length;
     console.log("LIVE " + PLAYLIST + " ok names=" + STATUS.names + " provider=" + live.length);
     { const cn = {}; for (const c of cats) cn[c.category_id] = c.category_name; const r = {};
@@ -144,6 +167,7 @@ async function buildPatch(env, user, pass_, ua) {
 // The repo's list (or one category) with the patch applied; "#weak" logos without a provider logo take the logo
 // of the same channel in another quality, else stay as they are.
 function applyPatch(list, pt, cat) {
+  list = list.filter((x) => !SEPARATOR.test(String(x.name || "")));
   if (pt && pt.gone && pt.gone.length) { const g = new Set(pt.gone.map(String)); list = list.filter((x) => !g.has(String(x.stream_id))); }
   if (pt && pt.add) {
     const have = new Set(list.map((x) => String(x.stream_id)));
@@ -286,12 +310,26 @@ export default {
           cats.forEach((c, k) => { if (DYN.near.test(c.category_name || "")) i = k; });
           if (i < 0) cats.forEach((c, k) => { if (DYN.from.test(c.category_name || "")) i = k; });
           if (i >= 0) cats.splice(i + 1, 0, { category_id: DYN.id, category_name: DYN.name, parent_id: 0 });
+          // the provider's hidden PPV / UFC packages (buildPatch "extra"), right after the UFC group
+          const pt = PATCH || (await readPatch(env));
+          if (pt && pt.extra && pt.extra.length) {
+            let j = -1;
+            cats.forEach((c, k) => { if (/UFC|PAY PER VIEW|PPV EVENT/i.test(c.category_name || "")) j = k; });
+            const add = pt.extra.map((e) => ({ category_id: e.id, category_name: e.name, parent_id: 0 }));
+            if (j >= 0) cats.splice(j + 1, 0, ...add); else cats.push(...add);
+          }
           return json(cats, 120);
         } catch (e) { return pass(MAIN + "live_categories.json", 900, []); }
       }
       if (action === "get_live_streams") {
         const cat = q.get("category_id");
         const dynCat = cat === DYN.id;
+        if (cat && /^91\d\d$/.test(cat)) {
+          const pt = PATCH || (await readPatch(env));
+          const e = pt && pt.extra && pt.extra.find((x) => x.id === cat);
+          return json(e ? e.items.map((x, k) => ({ num: 95000 + k, name: x.name, stream_type: "live", stream_id: x.stream_id, stream_icon: x.stream_icon,
+            epg_channel_id: null, added: "0", category_id: cat, custom_sid: "", tv_archive: 0, direct_source: "", tv_archive_duration: 0 })) : [], 120);
+        }
         const file = cat && !dynCat ? MAIN + `cat/${encodeURIComponent(cat)}.json` : MAIN + "live_streams.json";
         if (!LIVE_EVENT_NAMES) return pass(file, 900, []);
         // Event / PPV channels: the provider renames them for each match ("Hawks vs Rockets :NBA 06"); the repo's
@@ -314,6 +352,13 @@ export default {
           const flo = new Set((cr.ok ? await cr.json() : []).filter((c) => DYN.from.test(c.category_name || "")).map((c) => String(c.category_id)));
           if (flo.size) for (const x of L) if (flo.has(String(x.category_id)) && DYN.match.test(String(x.name || ""))) x.category_id = DYN.id;
           if (cat) L = L.filter((x) => String(x.category_id) === String(cat));
+          else if (pt && pt.extra) {
+            let k = 0;
+            const have = new Set(L.map((x) => String(x.stream_id)));
+            for (const e of pt.extra) for (const x of e.items) if (!have.has(String(x.stream_id)))
+              L.push({ num: 95000 + k++, name: x.name, stream_type: "live", stream_id: x.stream_id, stream_icon: x.stream_icon,
+                epg_channel_id: null, added: "0", category_id: e.id, custom_sid: "", tv_archive: 0, direct_source: "", tv_archive_duration: 0 });
+          }
           return json(L, 120);
         } catch (e) {
           return pass(file, 900, []);
