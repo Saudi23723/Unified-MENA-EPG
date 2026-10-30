@@ -108,6 +108,8 @@ class AirportDiagramActivity : BaseActivity() {
         labels = LabelsOverlay(map)
         map.overlays.add(labels)
         pattern = PatternOverlay(map).apply {
+            steps = true
+            isRight = { _, r -> PatternOverlay.isRight(this@AirportDiagramActivity, ident, r) }
             val elev = intent.getIntExtra("elev", -1)
             // Pattern altitude: 1,000 ft above the field (AC 90-66), to the next hundred.
             if (elev >= 0) tpaFt = ((elev + 1000 + 50) / 100) * 100
@@ -341,7 +343,7 @@ class AirportDiagramActivity : BaseActivity() {
         info.text = if (r == null) getString(R.string.dia_hint) else
             listOfNotNull(windLine.ifEmpty { null }, "RWY $r · ${if (pattern.right) "Right" else "Left"} traffic",
                 if (pattern.tpaFt > 0) "TPA %,d ft".format(pattern.tpaFt) else null).joinToString("  ·  ") +
-                "\n" + getString(R.string.tp_source)
+                "\n" + getString(R.string.tp_steps) + "\n" + getString(R.string.tp_source)
     }
 
     /** Which runway's pattern, and its side (left or right traffic), kept per airport. */

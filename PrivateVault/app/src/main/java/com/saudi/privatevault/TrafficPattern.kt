@@ -20,106 +20,132 @@ import org.osmdroid.views.overlay.Overlay
  * 1,000 ft (AC 90-66) unless set.
  */
 class PatternOverlay(private val map: MapView) : Overlay() {
-    /** Runway designator → (threshold, far end). */
-    var ends: Map<String, Pair<GeoPoint, GeoPoint>> = emptyMap()
-    var runway: String? = null
+    /** One airport's runways for the patterns. */
+    class Field(val ident: String, val name: String, val ends: Map<String, Pair<GeoPoint, GeoPoint>>, val tpaFt: Int, var active: String?)
+
+    /** Every airport shown, by its identifier. */
+    val fields = LinkedHashMap<String, Field>()
+    /** The numbered steps (①…⑥) on the active pattern: the airport view, where there is room for them. */
+    var steps = false
+    /** Right traffic, per airport and runway. */
+    var isRight: (String, String) -> Boolean = { _, _ -> false }
+
+    // Kept for the airport view, which shows one airport.
+    var ends: Map<String, Pair<GeoPoint, GeoPoint>>
+        get() = fields.values.firstOrNull()?.ends ?: emptyMap()
+        set(v) { fields.clear(); fields["_"] = Field("_", airport, v, tpaFt, runway) }
+    var runway: String?
+        get() = fields.values.firstOrNull()?.active
+        set(v) { fields.values.firstOrNull()?.active = v }
     var right = false
     var tpaFt = 0
-    /** Whose pattern (shown on the main chart beside the runway label). */
     var airport = ""
 
     private val d = map.resources.displayMetrics.density
     private val leg = Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.STROKE; strokeCap = Paint.Cap.ROUND; strokeJoin = Paint.Join.ROUND }
     private val fill = Paint(Paint.ANTI_ALIAS_FLAG)
-    private val text = Paint(Paint.ANTI_ALIAS_FLAG).apply { textSize = 11.5f * d; isFakeBoldText = true }
+    private val text = Paint(Paint.ANTI_ALIAS_FLAG).apply { textSize = 10.5f * d; isFakeBoldText = true; textAlign = Paint.Align.CENTER }
     private val pill = RectF()
     private val pt = Point()
 
     private fun xy(g: GeoPoint, out: Point = Point()): Point { map.projection.toPixels(g, out); return out }
-
     private fun dest(g: GeoPoint, brg: Double, nm: Double) = Nav.destination(g.latitude, g.longitude, (brg + 720) % 360, nm)
+    private fun mid(a: GeoPoint, b: GeoPoint) = GeoPoint((a.latitude + b.latitude) / 2, (a.longitude + b.longitude) / 2)
 
-    override fun draw(c: Canvas, mv: MapView, shadow: Boolean) {
-        if (shadow || mv.zoomLevelDouble < 11.5) return
-        val (t, far) = ends[runway ?: return] ?: return
+    /** A pattern's corners: threshold, far end, upwind, crosswind turn, abeam the numbers, base turn, final turn, and the 45° entry. */
+    private class Shape(val pts: List<GeoPoint>, val cross: GeoPoint, val tpaPoint: GeoPoint, val downMid: GeoPoint, val abeam: GeoPoint,
+                        val base: GeoPoint, val fin: GeoPoint, val entry: GeoPoint)
+
+    private fun shape(t: GeoPoint, far: GeoPoint, right: Boolean): Shape {
         val h = Nav.bearingTrue(t.latitude, t.longitude, far.latitude, far.longitude)
         val side = h + if (right) 90 else -90
-        val o = 0.65    // downwind about 2/3 nm out: a light sport aircraft's pattern
-        val ext = 0.6
+        val o = 0.65    // downwind about 2/3 nm out, for a light aircraft
         val up = dest(far, h, 0.5)
         val cross = dest(up, side, o)
         val abeam = dest(t, side, o)
-        val baseTurn = dest(abeam, h + 180, ext)
-        val finalTurn = dest(t, h + 180, ext)
-        val downMid = GeoPoint((cross.latitude + abeam.latitude) / 2, (cross.longitude + abeam.longitude) / 2)
+        val baseTurn = dest(abeam, h + 180, 0.6)
+        val finalTurn = dest(t, h + 180, 0.6)
+        val downMid = mid(cross, abeam)
         val dw = h + 180
-        val entryHdg = dw + if (right) 45 else -45
-        val entry = dest(downMid, entryHdg + 180, 0.75)
-
-        // The legs: one line, arrows on the way round.
-        val path = Path()
-        val pts = listOf(t, far, up, cross, abeam, baseTurn, finalTurn, t)
-        for ((i, g) in pts.withIndex()) { val p = xy(g); if (i == 0) path.moveTo(p.x.toFloat(), p.y.toFloat()) else path.lineTo(p.x.toFloat(), p.y.toFloat()) }
-        leg.pathEffect = null
-        leg.color = 0x66000000; leg.strokeWidth = 7 * d; c.drawPath(path, leg)
-        leg.color = 0xFF4DA3FF.toInt(); leg.strokeWidth = 3.5f * d; c.drawPath(path, leg)
-        for (i in 1 until pts.size) arrow(c, pts[i - 1], pts[i])
-        // The 45° entry, dashed.
-        leg.color = 0xFFFFC107.toInt(); leg.strokeWidth = 2.5f * d
-        leg.pathEffect = DashPathEffect(floatArrayOf(10 * d, 7 * d), 0f)
-        val e1 = xy(entry); val e2 = xy(downMid)
-        c.drawLine(e1.x.toFloat(), e1.y.toFloat(), e2.x.toFloat(), e2.y.toFloat(), leg)
-        leg.pathEffect = null
-
-        // Close in: what is done where; further out, only which runway and which side.
-        if (mv.zoomLevelDouble < 13.3) {
-            callout(c, dest(t, h + 180, 0.05), "$airport RWY $runway · ${if (right) "RIGHT" else "LEFT"} TFC" + if (tpaFt > 0) " · TPA %,d".format(tpaFt) else "", 0xFFFFFFFF.toInt())
-            return
-        }
-        // What is done where (the school's whiteboard, SportStar).
-        val tpa = if (tpaFt > 0) "%,d ft".format(tpaFt) else "TPA"
-        callout(c, mid(t, far), "UPWIND", 0xFF4DA3FF.toInt())
-        callout(c, cross, "CROSSWIND · within 300 ft of TPA (AC 90-66)", 0xFF4DA3FF.toInt())
-        callout(c, dest(cross, dw, 0.15), "@TPA $tpa: pitch · power 4800 · 85 kt · trim", 0xFF34C759.toInt())
-        callout(c, downMid, "DOWNWIND · before-landing checklist (BCGUMPS)", 0xFF4DA3FF.toInt())
-        callout(c, abeam, "ABEAM NUMBERS: 3200 RPM · <70 kt · flaps 1 · descend", 0xFFFF9F0A.toInt())
-        callout(c, mid(baseTurn, finalTurn), "BASE: flaps 2", 0xFFFF9F0A.toInt())
-        callout(c, mid(finalTurn, t), "FINAL: 3° · 60–65 kt", 0xFFFF453A.toInt())
-        callout(c, entry, "45° ENTRY", 0xFFFFC107.toInt())
-        callout(c, dest(t, h + 180, 0.05), "RWY $runway · ${if (right) "RIGHT" else "LEFT"} TRAFFIC", 0xFFFFFFFF.toInt())
+        val entry = dest(downMid, dw + (if (right) 45 else -45) + 180, 0.75)
+        return Shape(listOf(t, far, up, cross, abeam, baseTurn, finalTurn, t), mid(up, cross), dest(cross, dw, 0.15), downMid, abeam,
+            mid(baseTurn, finalTurn), mid(finalTurn, t), entry)
     }
 
-    private fun mid(a: GeoPoint, b: GeoPoint) = GeoPoint((a.latitude + b.latitude) / 2, (a.longitude + b.longitude) / 2)
+    override fun draw(c: Canvas, mv: MapView, shadow: Boolean) {
+        if (shadow || mv.zoomLevelDouble < 11.5) return
+        val bb = mv.boundingBox
+        for (f in fields.values) {
+            // The other runways first, quiet; the one in use over them.
+            val order = f.ends.keys.sortedBy { if (it == f.active) 1 else 0 }
+            for (r in order) {
+                val (t, far) = f.ends[r] ?: continue
+                if (t.latitude !in bb.latSouth - 0.05..bb.latNorth + 0.05 || t.longitude !in bb.lonWest - 0.06..bb.lonEast + 0.06) continue
+                val rightTfc = if (f.ident == "_") (if (r == f.active) right else isRight(f.name, r)) else isRight(f.ident, r)
+                val sh = shape(t, far, rightTfc)
+                val path = Path()
+                for ((i, g) in sh.pts.withIndex()) { val p = xy(g); if (i == 0) path.moveTo(p.x.toFloat(), p.y.toFloat()) else path.lineTo(p.x.toFloat(), p.y.toFloat()) }
+                val on = r == f.active
+                if (on) {
+                    leg.pathEffect = null
+                    leg.color = 0x55000000; leg.strokeWidth = 5 * d; c.drawPath(path, leg)
+                    leg.color = 0xFF4DA3FF.toInt(); leg.strokeWidth = 2.5f * d; c.drawPath(path, leg)
+                    for (i in 1 until sh.pts.size) arrow(c, sh.pts[i - 1], sh.pts[i])
+                    leg.color = 0xCCFFC107.toInt(); leg.strokeWidth = 1.8f * d
+                    leg.pathEffect = DashPathEffect(floatArrayOf(8 * d, 6 * d), 0f)
+                    val e1 = xy(sh.entry); val e2 = xy(sh.downMid)
+                    c.drawLine(e1.x.toFloat(), e1.y.toFloat(), e2.x.toFloat(), e2.y.toFloat(), leg)
+                    leg.pathEffect = null
+                } else {
+                    leg.color = 0x99B0BEC5.toInt(); leg.strokeWidth = 1.3f * d
+                    leg.pathEffect = DashPathEffect(floatArrayOf(6 * d, 5 * d), 0f)
+                    c.drawPath(path, leg)
+                    leg.pathEffect = null
+                }
+                tag(c, sh.downMid, "$r ${if (rightTfc) "R" else "L"}" + if (on && f.tpaFt > 0) " · TPA %,d".format(f.tpaFt) else "", on)
+                if (on && steps) {
+                    dot(c, sh.cross, "1"); dot(c, sh.tpaPoint, "2"); dot(c, dest(sh.downMid, Nav.bearingTrue(t.latitude, t.longitude, far.latitude, far.longitude), 0.12), "3")
+                    dot(c, sh.abeam, "4"); dot(c, sh.base, "5"); dot(c, sh.fin, "6"); dot(c, sh.entry, "E")
+                }
+            }
+        }
+    }
 
     private fun arrow(c: Canvas, a: GeoPoint, b: GeoPoint) {
         val p1 = xy(a); val p2 = xy(b)
         val mx = (p1.x + p2.x) / 2f; val my = (p1.y + p2.y) / 2f
         val ang = Math.atan2((p2.y - p1.y).toDouble(), (p2.x - p1.x).toDouble())
-        val s = 9 * d
-        val tri = Path().apply {
+        val s = 7 * d
+        fill.color = 0xFFFFFFFF.toInt()
+        c.drawPath(Path().apply {
             moveTo((mx + s * Math.cos(ang)).toFloat(), (my + s * Math.sin(ang)).toFloat())
             lineTo((mx + s * Math.cos(ang + 2.5)).toFloat(), (my + s * Math.sin(ang + 2.5)).toFloat())
             lineTo((mx + s * Math.cos(ang - 2.5)).toFloat(), (my + s * Math.sin(ang - 2.5)).toFloat())
             close()
-        }
-        fill.color = 0xFFFFFFFF.toInt()
-        c.drawPath(tri, fill)
+        }, fill)
     }
 
-    /** A dark label with a coloured edge, kept upright whatever way the view is turned. */
-    private fun callout(c: Canvas, g: GeoPoint, s: String, color: Int) {
-        val p = xy(g, pt)
-        val x = p.x.toFloat(); val y = p.y.toFloat()
-        c.save()
-        c.rotate(-map.mapOrientation, x, y)
-        val w = text.measureText(s)
-        pill.set(x - w / 2 - 7 * d, y - 12 * d, x + w / 2 + 7 * d, y + 6 * d)
-        fill.color = 0xE60F1318.toInt()
-        c.drawRoundRect(pill, 6 * d, 6 * d, fill)
-        leg.color = color; leg.strokeWidth = 1.5f * d
-        c.drawRoundRect(pill, 6 * d, 6 * d, leg)
-        text.color = color
-        c.drawText(s, x - w / 2, y, text)
+    /** A small runway tag on the downwind: "27 L · TPA 3,200". */
+    private fun tag(c: Canvas, g: GeoPoint, s: String, on: Boolean) {
+        val p = xy(g, pt); val x = p.x.toFloat(); val y = p.y.toFloat()
+        c.save(); c.rotate(-map.mapOrientation, x, y)
+        val w = text.measureText(s) / 2 + 6 * d
+        pill.set(x - w, y - 9 * d, x + w, y + 6 * d)
+        fill.color = if (on) 0xF01A6FE0.toInt() else 0xCC263238.toInt()
+        c.drawRoundRect(pill, 5 * d, 5 * d, fill)
+        text.color = 0xFFFFFFFF.toInt()
+        c.drawText(s, x, y + 2.5f * d, text)
+        c.restore()
+    }
+
+    /** A numbered step on the pattern, explained under the view. */
+    private fun dot(c: Canvas, g: GeoPoint, n: String) {
+        val p = xy(g, pt); val x = p.x.toFloat(); val y = p.y.toFloat()
+        c.save(); c.rotate(-map.mapOrientation, x, y)
+        fill.color = if (n == "E") 0xFFFFC107.toInt() else 0xFFFF9F0A.toInt()
+        c.drawCircle(x, y, 9 * d, fill)
+        text.color = 0xFF111111.toInt()
+        c.drawText(n, x, y + 3.5f * d, text)
         c.restore()
     }
 

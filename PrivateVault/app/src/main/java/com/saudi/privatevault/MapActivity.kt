@@ -496,28 +496,37 @@ class MapActivity : BaseActivity() {
     private var lastWeatherBox = ""
 
     /** After the map settles: the weather of the airports in view. */
-    /** Zoomed in near an airport: its traffic pattern, for the runway into the wind. */
+    private val patternEnds = HashMap<String, Map<String, Pair<GeoPoint, GeoPoint>>>()
+    private val patternLoading = HashSet<String>()
+
+    /** Zoomed in: the traffic patterns of every airport in view, each runway, the one into the wind bright. */
     private fun showPattern() {
         if (!::patternOv.isInitialized || !prefs.getBoolean("tp_on", true)) return
-        if (map.zoomLevelDouble < 11) { if (patternOv.runway != null) { patternOv.runway = null; patternFor = ""; map.invalidate() }; return }
+        if (map.zoomLevelDouble < 11) { if (patternOv.fields.isNotEmpty()) { patternOv.fields.clear(); map.invalidate() }; return }
+        val bb = map.boundingBox
         val c = map.mapCenter
-        val a = airports.minByOrNull { Nav.distanceNm(c.latitude, c.longitude, it.lat, it.lon) }
-            ?.takeIf { Nav.distanceNm(c.latitude, c.longitude, it.lat, it.lon) < 6 } ?: return
-        if (a.ident == patternFor) return
-        patternFor = a.ident
-        lifecycleScope.launch {
-            val json = withContext(Dispatchers.IO) { try { AirportDiagramActivity.fetch(this@MapActivity, a.ident, a.lat, a.lon, refresh = false) } catch (e: Exception) { null } }
-            val ends = PatternOverlay.endsFrom(json)
-            if (ends.isEmpty() || patternFor != a.ident) return@launch
-            val metar = airportsLayer.weather[airportsLayer.station(a)]?.json
-            val rwy = PatternOverlay.favored(a.ident, ends.keys, metar, a.lat, a.lon)
-            patternOv.ends = ends
-            patternOv.airport = a.icao.ifEmpty { a.ident }
-            patternOv.tpaFt = PatternOverlay.tpa(a.elevation)
-            patternOv.runway = rwy
-            patternOv.right = rwy != null && PatternOverlay.isRight(this@MapActivity, a.ident, rwy)
-            map.invalidate()
+        val inView = airports.filter { it.lat in bb.latSouth..bb.latNorth && it.lon in bb.lonWest..bb.lonEast }
+            .sortedBy { Nav.distanceNm(c.latitude, c.longitude, it.lat, it.lon) }.take(8)
+        patternOv.isRight = { id, r -> PatternOverlay.isRight(this, id, r) }
+        patternOv.fields.keys.retainAll(inView.map { it.ident }.toSet())
+        for (a in inView) {
+            val ends = patternEnds[a.ident]
+            if (ends != null) {
+                if (ends.isEmpty()) continue
+                val metar = airportsLayer.weather[airportsLayer.station(a)]?.json
+                patternOv.fields[a.ident] = PatternOverlay.Field(a.ident, a.icao.ifEmpty { a.ident }, ends, PatternOverlay.tpa(a.elevation),
+                    PatternOverlay.favored(a.ident, ends.keys, metar, a.lat, a.lon))
+                continue
+            }
+            if (!patternLoading.add(a.ident)) continue
+            lifecycleScope.launch {
+                val json = withContext(Dispatchers.IO) { try { AirportDiagramActivity.fetch(this@MapActivity, a.ident, a.lat, a.lon, refresh = false) } catch (e: Exception) { null } }
+                patternEnds[a.ident] = PatternOverlay.endsFrom(json)
+                patternLoading.remove(a.ident)
+                showPattern()
+            }
         }
+        map.invalidate()
     }
 
     private fun idle(): Boolean {
