@@ -947,8 +947,22 @@ def _post_json(url, body, headers=None, timeout=120):
 
 
 class Assistant:
-    def __init__(self, auth):
+    def __init__(self, auth, cloud=None):
         self.auth = auth
+        # The linked cloud vault: it has its own model, and keeps the key for the phone too.
+        self.cloud = cloud
+
+    def _cloud(self, path, body=None, timeout=600):
+        link = self.cloud.link if self.cloud else {}
+        if not link.get("url") or not link.get("token"):
+            return None
+        import urllib.request
+        headers = {"Authorization": "Bearer " + link["token"]}
+        if body is None:
+            req = urllib.request.Request(link["url"] + path, headers=headers)
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                return json.loads(r.read().decode("utf-8"))
+        return _post_json(link["url"] + path, body, headers=headers, timeout=timeout)
 
     @property
     def key(self):
@@ -961,6 +975,11 @@ class Assistant:
             else:
                 self.auth.cfg.pop("gemini_key", None)
             self.auth._save()
+        # The same key on the cloud, so the phone's reader uses it too.
+        try:
+            self._cloud("/api/ai/key", {"key": key.strip()}, timeout=20)
+        except Exception:
+            pass
 
     def local_ready(self) -> bool:
         import urllib.request
@@ -972,7 +991,14 @@ class Assistant:
             return False
 
     def status(self):
-        return {"gemini": bool(self.key), "local": self.local_ready(), "local_model": LOCAL_MODEL}
+        st = {"gemini": bool(self.key), "local": self.local_ready(), "local_model": LOCAL_MODEL}
+        try:
+            c = self._cloud("/api/ai/status", timeout=8)
+            if c is not None:
+                st["cloud"] = {"gemini": bool(c.get("gemini")), "local": bool(c.get("local"))}
+        except Exception:
+            st["cloud"] = {"error": True}
+        return st
 
     def _gemini(self, prompt):
         last = None
@@ -1008,6 +1034,13 @@ class Assistant:
                 return self._gemini(prompt), "gemini"
             except Exception:
                 pass
+        # No key here, or Gemini failed: the cloud vault answers, with its key or its own model.
+        try:
+            out = self._cloud("/api/ai", {"mode": mode, "text": text, "question": question})
+            if out and out.get("answer"):
+                return out["answer"], "cloud-" + str(out.get("engine", ""))
+        except Exception:
+            pass
         # The small model reads less at once.
         local_prompt = PROMPTS.get(mode, PROMPTS["ask"]).format(text=text[:7000], question=(question or "").strip())
         return self._local(local_prompt), "local"
@@ -1046,7 +1079,7 @@ class App:
         self.cloud = CloudSync(self)
         self.converter = Converter(home)
         self.notes = Notes(home)
-        self.assistant = Assistant(self.auth)
+        self.assistant = Assistant(self.auth, self.cloud)
 
 
 class Handler(BaseHTTPRequestHandler):

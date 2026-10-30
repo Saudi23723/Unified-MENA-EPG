@@ -142,6 +142,7 @@ header .grow { flex: 1; }
     <button class="primary" id="btnUpload">⬆ إضافة ملفات</button>
     <button id="btnPhone">📱 الهاتف</button>
     <button id="btnCloud">☁️ السحابة <span id="cloudBadge"></span></button>
+    <button id="btnAi">🤖 الذكاء الاصطناعي</button>
     <button id="btnLock">🔒 قفل</button>
     <input type="file" id="fileInput" multiple class="hidden">
   </header>
@@ -711,6 +712,53 @@ $("#btnFolder").onclick = async () => {
 };
 $("#btnPhone").onclick = phonePanel;
 $("#btnCloud").onclick = cloudPanel;
+$("#btnAi").onclick = aiPanel;
+
+// ---------- AI: the Gemini key (kept here and on the linked cloud) and a question box ----------
+async function aiPanel() {
+  let st = {};
+  try { st = await api("/api/ai/status"); } catch (e) { if (e.message === "login") return; }
+  const yes = (b) => b ? "✅" : "❌";
+  const cloud = st.cloud ? (st.cloud.error ? "☁️ السحابة: ما ردّت" :
+    `☁️ السحابة: مفتاح Gemini ${yes(st.cloud.gemini)} · نموذج السيرفر ${yes(st.cloud.local)}`) : "☁️ السحابة: غير مربوطة";
+  modal(`<h2>🤖 الذكاء الاصطناعي</h2>
+    <p class="small">💻 اللابتوب: مفتاح Gemini ${yes(st.gemini)}<br>${cloud}</p>
+    <p class="small">المفتاح ببلاش من <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a> ← Create API key. بينحفظ هون وعلى السحابة، فالموبايل بيستعمله كمان.</p>
+    <input id="aiKey" type="password" placeholder="AIza…" dir="ltr" autocomplete="off">
+    <div class="actions">
+      <button class="primary" id="aiSave">حفظ المفتاح</button>
+      <button id="aiRemove">حذف المفتاح</button>
+    </div>
+    <hr style="opacity:.2;margin:16px 0">
+    <textarea id="aiQ" rows="3" style="width:100%;box-sizing:border-box" placeholder="اسأل أي سؤال… مثلاً: شو الفرق بين Class C و Class D؟"></textarea>
+    <div class="actions">
+      <button class="primary" id="aiAsk">اسأل</button>
+      <button id="aiClose">إغلاق</button>
+    </div>
+    <div id="aiOut" style="white-space:pre-wrap;max-height:40vh;overflow:auto;margin-top:10px"></div>`,
+    (w, close) => {
+      const out = w.querySelector("#aiOut");
+      const save = async (key) => {
+        out.textContent = "…";
+        try { await api("/api/ai/key", { key }); close(); aiPanel(); }
+        catch (e) { out.textContent = "ما انحفظ: " + e.message; }
+      };
+      w.querySelector("#aiSave").onclick = () => { const k = w.querySelector("#aiKey").value.trim(); if (k) save(k); };
+      w.querySelector("#aiRemove").onclick = () => save("");
+      w.querySelector("#aiClose").onclick = close;
+      w.querySelector("#aiAsk").onclick = async () => {
+        const q = w.querySelector("#aiQ").value.trim();
+        if (!q) return;
+        out.textContent = "يفكّر… (Gemini خلال ثوانٍ، أو نموذج السيرفر خلال دقيقة تقريباً)";
+        try {
+          const r = await api("/api/ai", { mode: "ask", text: "", question: q });
+          out.textContent = r.answer + "\n\n— " + (String(r.engine).includes("gemini") ? "Gemini" : "نموذج السيرفر");
+        } catch (e) {
+          out.textContent = "ما في ذكاء اصطناعي متاح: حط مفتاح Gemini، أو تأكد إن السحابة مربوطة.";
+        }
+      };
+    });
+}
 
 // ---------- cloud ----------
 // The originals stay here; the cloud gets 720p copies of the videos, sent
