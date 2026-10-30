@@ -103,17 +103,19 @@ class MapActivity : BaseActivity() {
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         setSupportActionBar(b.toolbar)
         b.toolbar.setNavigationOnClickListener { finish() }
+        cockpitLook()
 
-        map = MapView(this)
+        layer = AviationData.LAYERS.firstOrNull { it.key == prefs.getString("map_layer", "sectional") } ?: AviationData.LAYERS[0]
+        // The chart at its printed sharpness: one chart pixel to one screen pixel, enlarged smoothly past that.
+        map = MapView(this, SmoothTileProvider(applicationContext, layer.source()))
         b.mapHolder.addView(map, FrameLayout.LayoutParams(-1, -1))
         map.setMultiTouchControls(true)
         map.zoomController.setVisibility(CustomZoomButtonsController.Visibility.NEVER)
-        map.minZoomLevel = 4.0
-        // Past a chart's finest scale the tiles are enlarged, so it zooms in as far as wanted.
-        map.maxZoomLevel = 20.0
-        map.isTilesScaledToDpi = !prefs.getBoolean("map_sharp", false)
-        layer = AviationData.LAYERS.firstOrNull { it.key == prefs.getString("map_layer", "sectional") } ?: AviationData.LAYERS[0]
-        map.setTileSource(layer.source())
+        map.minZoomLevel = 5.0
+        map.isTilesScaledToDpi = prefs.getBoolean("map_big", false)
+        zoomLimit()
+        map.overlayManager.tilesOverlay.setLoadingBackgroundColor(0xFFEDE8DA.toInt())
+        map.overlayManager.tilesOverlay.setLoadingLineColor(0xFFEDE8DA.toInt())
 
         // Where the map was left; the first time, over Boulder City (KBVU).
         val lat = prefs.getFloat("map_lat", 35.9478f).toDouble()
@@ -197,6 +199,7 @@ class MapActivity : BaseActivity() {
                 .show()
         }
         askGps()
+        if (intent.getBooleanExtra(EXTRA_NAVLOG, false)) b.root.post { navLog() }
     }
 
     override fun onResume() {
@@ -268,6 +271,7 @@ class MapActivity : BaseActivity() {
                     layer = chosen
                     prefs.edit().putString("map_layer", layer.key).apply()
                     map.setTileSource(layer.source())
+                    zoomLimit()
                 }
                 if (cRadar.isChecked != (radar != null)) setRadar(cRadar.isChecked)
                 weather.showAirmets = cAirmet.isChecked
@@ -683,6 +687,8 @@ class MapActivity : BaseActivity() {
             b.hudVs.text = "VS"
         }
         if (!gotGps) b.hudGps.text = "GPS…"
+        // The flight is noticed and timed from the GPS, then offered to the logbook.
+        if (gotGps && !quiet) FlightRecorder.onFix(this, l, airports)?.let { e -> offerLog(e) }
         if (plan.sequence(l.latitude, l.longitude)) {
             plan.save(this)
             map.invalidate()
@@ -719,6 +725,17 @@ class MapActivity : BaseActivity() {
             }
             b.root.postDelayed(this, if (moving || following) 33L else 250L)
         }
+    }
+
+    private fun offerLog(e: LogEntry) {
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.log_flight_done)
+            .setMessage("${e.from} → ${e.to}\n%.1f h · ${e.dayLdg} ldg · %.0f nm".format(e.total, e.distanceNm))
+            .setPositiveButton(R.string.log_save) { _, _ ->
+                startActivity(android.content.Intent(this, LogbookActivity::class.java).putExtra(LogbookActivity.EXTRA_NEW, e.toJson().toString()))
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
     }
 
     private fun follow() {
@@ -952,7 +969,8 @@ class MapActivity : BaseActivity() {
         menu.add(0, 11, 0, R.string.map_find)
         menu.add(0, 12, 0, R.string.wb_title)
         menu.add(0, 13, 0, R.string.wx_winds)
-        menu.add(0, 14, 0, R.string.map_sharp).setCheckable(true).isChecked = prefs.getBoolean("map_sharp", false)
+        menu.add(0, 16, 0, R.string.map_3d).setCheckable(true).isChecked = tilted
+        menu.add(0, 14, 0, R.string.map_sharp).setCheckable(true).isChecked = prefs.getBoolean("map_big", false)
         menu.add(0, 15, 0, R.string.map_clear_trail)
         menu.add(0, 4, 0, R.string.map_download)
         menu.add(0, 5, 0, R.string.map_aircraft)
@@ -988,11 +1006,13 @@ class MapActivity : BaseActivity() {
             14 -> {
                 val on = !item.isChecked
                 item.isChecked = on
-                prefs.edit().putBoolean("map_sharp", on).apply()
-                map.isTilesScaledToDpi = !on
+                prefs.edit().putBoolean("map_big", on).apply()
+                map.isTilesScaledToDpi = on
+                zoomLimit()
                 map.invalidate()
             }
             15 -> { ownship.clearTrail(); map.invalidate() }
+            16 -> { tilt(!tilted); item.isChecked = tilted }
             5 -> askCruise()
             6 -> MaterialAlertDialogBuilder(this)
                 .setMessage(R.string.map_clear_confirm)
@@ -1007,6 +1027,51 @@ class MapActivity : BaseActivity() {
             else -> return super.onOptionsItemSelected(item)
         }
         return true
+    }
+
+    /** How far in a chart can be read: two to three steps past its printed scale. */
+    private fun zoomLimit() {
+        map.maxZoomLevel = layer.maxZoom + if (map.isTilesScaledToDpi) 1.5 else 2.5
+        if (map.zoomLevelDouble > map.maxZoomLevel) map.controller.setZoom(map.maxZoomLevel)
+    }
+
+    private var tilted = false
+
+    /** The chart laid down in perspective, the horizon ahead, the aircraft low on the screen. */
+    private fun tilt(on: Boolean) {
+        tilted = on
+        val h = b.mapHolder.height.toFloat().coerceAtLeast(1f)
+        map.pivotX = map.width / 2f
+        map.pivotY = h
+        map.cameraDistance = 12000 * resources.displayMetrics.density
+        map.animate().rotationX(if (on) 38f else 0f).scaleX(if (on) 1.55f else 1f).scaleY(if (on) 1.35f else 1f)
+            .setDuration(650).setInterpolator(android.view.animation.DecelerateInterpolator()).start()
+        b.mapHolder.background = if (on) android.graphics.drawable.GradientDrawable(
+            android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM,
+            intArrayOf(0xFF0B1A33.toInt(), 0xFF2D5C8A.toInt(), 0xFF9EC3E0.toInt()),
+        ) else null
+        map.setMapCenterOffset(0, if (on) (h * 0.22f).toInt() else 0)
+    }
+
+    /** The cockpit colours: dark bars, glowing buttons, and nothing under the status bar. */
+    private fun cockpitLook() {
+        window.statusBarColor = EfbUi.BG
+        window.navigationBarColor = EfbUi.BG
+        b.toolbar.setBackgroundColor(EfbUi.BG)
+        b.toolbar.setTitleTextColor(EfbUi.TEXT)
+        b.toolbar.navigationIcon?.setTint(EfbUi.TEXT)
+        b.toolbar.overflowIcon?.setTint(EfbUi.TEXT)
+        for (f in listOf(b.fabLayers, b.fabDraw, b.fabLocate, b.zoomIn, b.zoomOut)) {
+            f.backgroundTintList = android.content.res.ColorStateList.valueOf(0xF016213A.toInt())
+            f.imageTintList = android.content.res.ColorStateList.valueOf(EfbUi.ACCENT)
+        }
+        androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(b.root) { _, insets ->
+            val bars = insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.systemBars())
+            b.topBar.setPadding(0, bars.top, 0, 0)
+            b.topBar.setBackgroundColor(EfbUi.BG)
+            (b.fabs.parent as View).setPadding(0, 0, 0, bars.bottom)
+            insets
+        }
     }
 
     private fun findAirport() {
@@ -1027,9 +1092,8 @@ class MapActivity : BaseActivity() {
                     return@setPositiveButton
                 }
                 if (following) follow()
-                map.controller.setZoom(11.0)
-                map.controller.setCenter(GeoPoint(a.lat, a.lon))
-                showAirport(a)
+                map.controller.animateTo(GeoPoint(a.lat, a.lon), layer.maxZoom.toDouble(), 1400L)
+                b.root.postDelayed({ showAirport(a) }, 1300)
             }
             .setNegativeButton(R.string.cancel, null)
             .show()
@@ -1082,6 +1146,10 @@ class MapActivity : BaseActivity() {
     }
 
     /** Saves the charts of the area on screen, down to the chart's finest scale, for flying offline. */
+    companion object {
+        const val EXTRA_NAVLOG = "navlog"
+    }
+
     private fun downloadArea() {
         val bb = map.boundingBox
         val zMin = map.zoomLevelDouble.toInt().coerceIn(4, layer.maxZoom)

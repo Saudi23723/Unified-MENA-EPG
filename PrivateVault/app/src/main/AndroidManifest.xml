@@ -55,6 +55,22 @@
             android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden"
             android:exported="false" />
         <activity
+            android:name=".EfbHomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LogbookActivity"
+            android:exported="false" />
+        <activity
+            android:name=".E6bActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ChecklistActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AirportDiagramActivity"
+            android:exported="false"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden" />
+        <activity
             android:name=".WeightBalanceActivity"
             android:exported="false" />
         <activity

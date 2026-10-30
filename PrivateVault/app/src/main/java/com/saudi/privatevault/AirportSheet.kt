@@ -70,6 +70,7 @@ class AirportSheet(
             isAllCaps = false
             setOnClickListener { onClick() }
         }, LinearLayout.LayoutParams(-2, -2).apply { marginEnd = dp(8) })
+        button(R.string.efb_diagram) { AirportDiagramActivity.open(act, a) }
         button(R.string.apt_direct) { dialog.dismiss(); onDirect() }
         button(R.string.apt_add_route) { dialog.dismiss(); onAddToRoute() }
         button(R.string.apt_plates) { plates() }
