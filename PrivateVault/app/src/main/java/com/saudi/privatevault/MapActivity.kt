@@ -900,6 +900,32 @@ class MapActivity : BaseActivity() {
             .show()
     }
 
+    /** Every Chart Supplement page of Nevada and California, on the phone for good (about 50 MB). */
+    private fun supplementsWest() {
+        val list = airports.filter { it.lat in 32.4..42.1 && it.lon in -124.6..-114.0 }
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.cs_bulk)
+            .setMessage(getString(R.string.cs_bulk_msg, list.size))
+            .setPositiveButton(R.string.map_download_go) { _, _ ->
+                val status = android.widget.TextView(this).apply { setPadding(dp(24), dp(16), dp(24), dp(8)); textSize = 15f }
+                var stop = false
+                val d = MaterialAlertDialogBuilder(this).setTitle(R.string.cs_bulk).setView(status)
+                    .setNegativeButton(R.string.cancel) { _, _ -> stop = true }.setCancelable(false).show()
+                lifecycleScope.launch {
+                    var got = 0
+                    for ((i, a) in list.withIndex()) {
+                        if (stop) break
+                        status.text = "${i + 1}/${list.size}  ${a.icao.ifEmpty { a.ident }}  ·  $got ✓"
+                        if (withContext(Dispatchers.IO) { OfflinePack.supplement(this@MapActivity, a.ident, a.icao) }.isNotEmpty()) got++
+                    }
+                    d.dismiss()
+                    Toast.makeText(this@MapActivity, getString(R.string.cs_bulk_done, got), Toast.LENGTH_LONG).show()
+                }
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
     /** The weather along the route: each airport's METAR and TAF, and every SIGMET, AIRMET and TFR the line crosses. */
     private fun briefing() {
         if (plan.points.size < 2) {
@@ -1186,6 +1212,7 @@ class MapActivity : BaseActivity() {
         menu.add(0, 20, 0, "NRST").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
         menu.add(0, 21, 0, R.string.pack_title)
         menu.add(0, 22, 0, R.string.brief_title)
+        menu.add(0, 25, 0, R.string.cs_bulk)
         menu.add(0, 23, 0, R.string.timer_title)
         menu.add(0, 24, 0, R.string.lang_switch)
         menu.add(0, 10, 0, R.string.plan_title)
@@ -1225,6 +1252,7 @@ class MapActivity : BaseActivity() {
             20 -> nearest()
             21 -> packFlight()
             22 -> briefing()
+            25 -> supplementsWest()
             23 -> { timerStart = if (timerStart == 0L) android.os.SystemClock.elapsedRealtime() else 0L; b.toolbar.subtitle = null }
             24 -> Lang.choose(this)
             11 -> findAirport()

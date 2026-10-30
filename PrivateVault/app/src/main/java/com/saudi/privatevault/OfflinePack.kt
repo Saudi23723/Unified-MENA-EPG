@@ -38,34 +38,51 @@ object OfflinePack {
         val file = File(ctx.filesDir, "aviation/cs.json")
         val cached = try { JSONObject(file.readText()) } catch (e: Exception) { null }
         if (cached?.optString("ed") == ed) return cached
+        // The FAA has published the edition's XML index in more than one place over the years.
+        for (url in listOf(
+            "https://aeronav.faa.gov/afd/$ed/afd_$ed.xml",
+            "https://aeronav.faa.gov/Upload_313-d/supplements/afd_$ed.xml",
+            "https://aeronav.faa.gov/upload_313-d/supplements/afd_$ed.xml",
+        )) {
+            val out = parseIndex(url)
+            if (out.length() > 0) {
+                val index = JSONObject().put("ed", ed).put("a", out)
+                file.parentFile?.mkdirs()
+                file.writeText(index.toString())
+                return index
+            }
+        }
+        return cached
+    }
+
+    private fun parseIndex(url: String): JSONObject {
         val out = JSONObject()
         try {
-            val c = get("https://aeronav.faa.gov/afd/$ed/afd_$ed.xml")
+            val c = get(url)
             try {
-                if (c.responseCode == 200) {
-                    val x = android.util.Xml.newPullParser()
-                    x.setInput(c.inputStream.buffered(), null)
-                    var tag = ""
-                    var apt = ""
-                    var pages = JSONArray()
-                    while (true) {
-                        when (x.next()) {
-                            org.xmlpull.v1.XmlPullParser.END_DOCUMENT -> break
-                            org.xmlpull.v1.XmlPullParser.START_TAG -> {
-                                tag = x.name
-                                if (x.name == "airport") { apt = ""; pages = JSONArray() }
+                if (c.responseCode != 200) return out
+                val x = android.util.Xml.newPullParser()
+                x.setInput(c.inputStream.buffered(), null)
+                var tag = ""
+                var ids = ArrayList<String>()
+                var pages = JSONArray()
+                while (true) {
+                    when (x.next()) {
+                        org.xmlpull.v1.XmlPullParser.END_DOCUMENT -> break
+                        org.xmlpull.v1.XmlPullParser.START_TAG -> {
+                            tag = x.name.lowercase(Locale.US)
+                            if (tag == "airport") { ids = ArrayList(); pages = JSONArray() }
+                        }
+                        org.xmlpull.v1.XmlPullParser.TEXT -> {
+                            val t = x.text.trim()
+                            if (t.isNotEmpty()) when {
+                                tag == "pdf" || t.endsWith(".pdf", true) -> pages.put(t)
+                                tag.contains("id") -> ids.add(t.uppercase(Locale.US))
                             }
-                            org.xmlpull.v1.XmlPullParser.TEXT -> {
-                                val t = x.text.trim()
-                                if (t.isNotEmpty()) when (tag) {
-                                    "aptid" -> apt = t
-                                    "pdf" -> pages.put(t)
-                                }
-                            }
-                            org.xmlpull.v1.XmlPullParser.END_TAG -> {
-                                if (x.name == "airport" && apt.isNotEmpty() && pages.length() > 0) out.put(apt, pages)
-                                tag = ""
-                            }
+                        }
+                        org.xmlpull.v1.XmlPullParser.END_TAG -> {
+                            if (x.name.equals("airport", true) && pages.length() > 0) for (id in ids) out.put(id, pages)
+                            tag = ""
                         }
                     }
                 }
@@ -74,11 +91,24 @@ object OfflinePack {
             }
         } catch (e: Exception) {
         }
-        if (out.length() == 0) return cached
-        val index = JSONObject().put("ed", ed).put("a", out)
-        file.parentFile?.mkdirs()
-        file.writeText(index.toString())
-        return index
+        return out
+    }
+
+    /** Chart Supplement page links found on a web page about the airport. */
+    private fun scrape(url: String): List<String> = try {
+        val c = get(url, 20000)
+        try {
+            if (c.responseCode != 200) emptyList() else {
+                val html = c.inputStream.bufferedReader().readText()
+                Regex("https?://aeronav\\.faa\\.gov/[^\"'\\s>]+?\\.pdf", RegexOption.IGNORE_CASE).findAll(html).map { it.value }
+                    .filter { it.contains("/afd/", true) || it.contains("supplement", true) || Regex("_\\d+_\\d{2}[A-Z]{3}\\d{4}", RegexOption.IGNORE_CASE).containsMatchIn(it) }
+                    .distinct().toList()
+            }
+        } finally {
+            c.disconnect()
+        }
+    } catch (e: Exception) {
+        emptyList()
     }
 
     private fun download(url: String, f: File): File? {
@@ -100,15 +130,35 @@ object OfflinePack {
         }
     }
 
-    /** The Chart Supplement pages of an airport as one PDF list, downloaded once per edition. */
-    fun supplement(ctx: Context, ident: String): List<File> {
-        val index = csIndex(ctx) ?: return emptyList()
-        val ed = index.optString("ed")
-        val pages = index.optJSONObject("a")?.optJSONArray(ident) ?: return emptyList()
-        return (0 until pages.length()).mapNotNull { i ->
-            val name = pages.getString(i)
-            download("https://aeronav.faa.gov/afd/$ed/$name", File(ctx.filesDir, "supplement/$ed/$name"))
+    /** Which pages each airport's supplement is on, as saved on this phone: it answers without signal. */
+    private fun saved(ctx: Context): JSONObject = try { JSONObject(File(ctx.filesDir, "supplement/saved.json").readText()) } catch (e: Exception) { JSONObject() }
+
+    private fun remember(ctx: Context, ident: String, files: List<File>) {
+        val o = saved(ctx)
+        o.put(ident, JSONArray().apply { for (f in files) put(f.absolutePath) })
+        File(ctx.filesDir, "supplement").mkdirs()
+        File(ctx.filesDir, "supplement/saved.json").writeText(o.toString())
+    }
+
+    /** The Chart Supplement pages of an airport: from the phone when saved, else from the FAA (then saved). */
+    fun supplement(ctx: Context, ident: String, icao: String = ""): List<File> {
+        val ed = csEdition()
+        val keys = listOf(ident.uppercase(Locale.US), icao.uppercase(Locale.US)).filter { it.isNotEmpty() }
+        val mine = saved(ctx)
+        val have = keys.firstNotNullOfOrNull { k -> mine.optJSONArray(k) }?.let { a -> (0 until a.length()).map { File(a.getString(it)) } }?.filter { it.length() > 0 }
+        if (have != null && have.isNotEmpty() && have.all { it.parentFile?.name == ed }) return have
+        var urls: List<String> = csIndex(ctx)?.optJSONObject("a")?.let { a ->
+            keys.firstNotNullOfOrNull { k -> a.optJSONArray(k) }?.let { p -> (0 until p.length()).map { "https://aeronav.faa.gov/afd/$ed/" + p.getString(it) } }
+        } ?: emptyList()
+        if (urls.isEmpty()) urls = scrape("https://www.faa.gov/air_traffic/flight_info/aeronav/digital_products/dafd/search/results/?ident=${keys.first()}")
+        if (urls.isEmpty()) urls = scrape("https://www.airnav.com/airport/${keys.last()}")
+        val files = urls.mapNotNull { u -> download(u, File(ctx.filesDir, "supplement/$ed/" + u.substringAfterLast('/'))) }
+        if (files.isNotEmpty()) {
+            remember(ctx, keys.first(), files)
+            return files
         }
+        // No signal and no new edition: the last saved edition is better than nothing.
+        return have ?: emptyList()
     }
 
     /** Fetches all of one airport; reports what it managed. */
@@ -120,7 +170,7 @@ object OfflinePack {
         step("$id · 3D")
         AirportDiagramActivity.fetch(ctx, a.ident, a.lat, a.lon, refresh = false)?.let { n++ }
         step("$id · Chart Supplement")
-        n += supplement(ctx, a.ident).size
+        n += supplement(ctx, a.ident, a.icao).size
         val plates = AviationData.plates(ctx, a.ident)
         if (plates != null) {
             for ((i, p) in plates.second.withIndex()) {

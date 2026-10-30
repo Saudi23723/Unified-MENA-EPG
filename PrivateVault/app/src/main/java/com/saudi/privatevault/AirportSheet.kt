@@ -206,7 +206,7 @@ class AirportSheet(
     /** The FAA Chart Supplement pages, from the phone when packed; the web as a last resort. */
     private fun supplement() {
         act.lifecycleScope.launch {
-            val pages = withContext(Dispatchers.IO) { OfflinePack.supplement(act, a.ident) }
+            val pages = withContext(Dispatchers.IO) { OfflinePack.supplement(act, a.ident, a.icao) }
             if (pages.isEmpty()) {
                 open("https://www.airnav.com/airport/${a.icao.ifEmpty { a.ident }}")
                 return@launch
