@@ -28,7 +28,9 @@ class EfbHomeActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        col = EfbUi.screen(this, getString(R.string.efb_title))
+        col = EfbUi.screen(this, getString(R.string.efb_title)) { bar ->
+            bar.menu.add(R.string.lang_switch).setOnMenuItemClickListener { Lang.choose(this); true }
+        }
         wx = EfbUi.card(this)
         col.addView(wx)
         EfbUi.pressable(wx) { askHome() }

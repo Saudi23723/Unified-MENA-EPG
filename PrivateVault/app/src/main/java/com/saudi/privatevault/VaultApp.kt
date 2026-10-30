@@ -8,6 +8,7 @@ import androidx.lifecycle.ProcessLifecycleOwner
 class VaultApp : Application() {
     override fun onCreate() {
         super.onCreate()
+        Lang.init(this)
         VaultStore.init(this)
         // The whole app counts as one session: leaving it starts the lock's
         // countdown, and coming back after it ran out asks for the PIN.

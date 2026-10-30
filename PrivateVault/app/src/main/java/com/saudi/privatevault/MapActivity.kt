@@ -689,6 +689,7 @@ class MapActivity : BaseActivity() {
         if (!gotGps) b.hudGps.text = "GPS…"
         // The flight is noticed and timed from the GPS, then offered to the logbook.
         if (gotGps && !quiet) FlightRecorder.onFix(this, l, airports)?.let { e -> offerLog(e) }
+        if (gotGps && !quiet) checkAirspace(l)
         if (plan.sequence(l.latitude, l.longitude)) {
             plan.save(this)
             map.invalidate()
@@ -704,6 +705,11 @@ class MapActivity : BaseActivity() {
         override fun run() {
             // While the map keeps following, it never settles: refresh what is in view every 15 s.
             val now = android.os.SystemClock.elapsedRealtime()
+            if (timerStart > 0) {
+                val t = (now - timerStart) / 1000
+                val text = "⏱ %d:%02d:%02d".format(t / 3600, t / 60 % 60, t % 60)
+                if (b.toolbar.subtitle?.toString() != text) b.toolbar.subtitle = text
+            }
             if (following && now - lastIdle > 15000) {
                 lastIdle = now
                 idle()
@@ -724,6 +730,194 @@ class MapActivity : BaseActivity() {
                 }
             }
             b.root.postDelayed(this, if (moving || following) 33L else 250L)
+        }
+    }
+
+    private var timerStart = 0L
+
+    // ---- staying out of trouble ----
+
+    private val warned = HashSet<String>()
+    private var banner: android.widget.TextView? = null
+
+    /** Inside a TFR or SIGMET, or about to be within five minutes along the track: a red banner and a buzz. */
+    private fun checkAirspace(l: Location) {
+        val kt = if (l.hasSpeed()) l.speed * 1.943844 else 0.0
+        val probes = mutableListOf(0.0)
+        if (kt > 30 && l.hasBearing()) probes.addAll(listOf(2.0, 5.0))
+        for (min in probes) {
+            val p = if (min == 0.0) GeoPoint(l.latitude, l.longitude) else Nav.destination(l.latitude, l.longitude, l.bearing.toDouble(), kt * min / 60)
+            val hit = (weather.tfrs + weather.areas.filter { it.kind == "SIGMET" }).firstOrNull { it.contains(p.latitude, p.longitude) } ?: continue
+            val key = hit.text + (min == 0.0)
+            if (!warned.add(key)) return
+            alert(if (min == 0.0) "⛔ INSIDE ${hit.label}" else "⚠️ ${hit.label} AHEAD · ${min.toInt()} MIN", hit.text)
+            return
+        }
+    }
+
+    private fun alert(title: String, detail: String) {
+        val v = banner ?: android.widget.TextView(this).apply {
+            setBackgroundColor(0xFFC62828.toInt())
+            setTextColor(0xFFFFFFFF.toInt())
+            textSize = 16f
+            setTypeface(typeface, android.graphics.Typeface.BOLD)
+            gravity = android.view.Gravity.CENTER
+            setPadding(dp(12), dp(8), dp(12), dp(8))
+            setOnClickListener { MaterialAlertDialogBuilder(this@MapActivity).setMessage(tag as? String ?: "").setPositiveButton(android.R.string.ok, null).show() }
+            b.topBar.addView(this)
+            banner = this
+        }
+        v.text = title
+        v.tag = detail
+        v.visibility = View.VISIBLE
+        v.alpha = 0f
+        v.animate().alpha(1f).setDuration(200).start()
+        (getSystemService(VIBRATOR_SERVICE) as? android.os.Vibrator)?.let {
+            try { it.vibrate(android.os.VibrationEffect.createWaveform(longArrayOf(0, 300, 150, 300, 150, 300), -1)) } catch (e: Exception) {}
+        }
+        b.root.removeCallbacks(hideBanner)
+        b.root.postDelayed(hideBanner, 15000)
+    }
+
+    private val hideBanner = Runnable { banner?.animate()?.alpha(0f)?.setDuration(400)?.withEndAction { banner?.visibility = View.GONE }?.start() }
+
+    /** The nearest airports, the ones within gliding distance marked green; a tap flies direct. */
+    private fun nearest() {
+        val here = ownship.position() ?: map.mapCenter as GeoPoint
+        val fix = ownship.fix
+        val gs = ownship.speedKt()
+        val altFt = fix?.takeIf { it.hasAltitude() && gotGps }?.altitude?.times(3.28084)
+        val list = airports.sortedBy { Nav.distanceNm(here.latitude, here.longitude, it.lat, it.lon) }.take(15)
+        if (list.isEmpty()) return
+        val rows = list.map { a ->
+            val d = Nav.distanceNm(here.latitude, here.longitude, a.lat, a.lon)
+            val brg = Nav.magnetic(Nav.bearingTrue(here.latitude, here.longitude, a.lat, a.lon), here.latitude, here.longitude)
+            // About 1.5 nm for each 1000 ft above the field, at best glide.
+            val glide = altFt?.let { (it - a.elevation) / 1000 * 1.5 }
+            val cat = airportsLayer.weather[airportsLayer.station(a)]?.category ?: ""
+            val mark = when {
+                glide == null -> "•"
+                d <= glide -> "🟢"
+                d <= glide * 1.3 -> "🟡"
+                else -> "🔴"
+            }
+            "$mark ${a.icao.ifEmpty { a.ident }}  ${Nav.deg(brg)}M  %.1f nm".format(d) +
+                (if (gs > 30) "  ${FlightPlan.hm(d / gs * 60)}" else "") + (if (cat.isNotEmpty()) "  $cat" else "")
+        }
+        MaterialAlertDialogBuilder(this)
+            .setTitle(getString(R.string.nrst_title) + (altFt?.let { " · %,d ft".format(Math.round(it)) } ?: ""))
+            .setItems(rows.toTypedArray()) { _, i ->
+                val a = list[i]
+                directTo(FlightPlan.Waypoint(a.icao.ifEmpty { a.ident }, a.lat, a.lon))
+                if (!following) follow()
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
+    /** The airports of the route, the home field, and those within 8 nm of the line. */
+    private fun routeAirports(): List<AviationData.Airport> {
+        val out = LinkedHashSet<AviationData.Airport>()
+        val home = prefs.getString("efb_home", "KBVU")!!
+        airports.firstOrNull { it.icao == home || it.ident == home }?.let { out.add(it) }
+        for (w in plan.points) airports.firstOrNull { it.icao == w.id || it.ident == w.id }?.let { out.add(it) }
+        for (i in 1 until plan.points.size) {
+            val a = plan.points[i - 1]; val c = plan.points[i]
+            val steps = (Nav.distanceNm(a.lat, a.lon, c.lat, c.lon) / 5).toInt().coerceAtLeast(1)
+            for (k in 0..steps) {
+                val lat = a.lat + (c.lat - a.lat) * k / steps
+                val lon = a.lon + (c.lon - a.lon) * k / steps
+                airports.filter { Nav.distanceNm(lat, lon, it.lat, it.lon) < 8 }.forEach { out.add(it) }
+            }
+        }
+        if (plan.points.size < 2) {
+            val bb = map.boundingBox
+            airports.filter { it.lat in bb.latSouth..bb.latNorth && it.lon in bb.lonWest..bb.lonEast }.take(15).forEach { out.add(it) }
+        }
+        return out.toList()
+    }
+
+    /** Before the flight, on Wi-Fi: plates, Chart Supplement, airport data, 3D diagrams and the charts along the way. */
+    private fun packFlight() {
+        val list = routeAirports()
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.pack_title)
+            .setMessage(getString(R.string.pack_msg, list.size, list.joinToString(" ") { it.icao.ifEmpty { it.ident } }))
+            .setPositiveButton(R.string.map_download_go) { _, _ ->
+                val status = android.widget.TextView(this).apply { setPadding(dp(24), dp(16), dp(24), dp(8)); textSize = 15f }
+                val d = MaterialAlertDialogBuilder(this).setTitle(R.string.pack_title).setView(status).setCancelable(false).show()
+                lifecycleScope.launch {
+                    var files = 0
+                    for ((i, a) in list.withIndex()) {
+                        files += withContext(Dispatchers.IO) {
+                            OfflinePack.airport(this@MapActivity, a) { step -> runOnUiThread { status.text = "${i + 1}/${list.size}  $step" } }
+                        }
+                    }
+                    val pts = if (plan.points.size > 1) plan.points.map { GeoPoint(it.lat, it.lon) } else listOf(map.mapCenter as GeoPoint)
+                    val box = org.osmdroid.util.BoundingBox(
+                        pts.maxOf { it.latitude } + 0.25, pts.maxOf { it.longitude } + 0.3,
+                        pts.minOf { it.latitude } - 0.25, pts.minOf { it.longitude } - 0.3,
+                    )
+                    d.dismiss()
+                    Toast.makeText(this@MapActivity, R.string.pack_charts, Toast.LENGTH_LONG).show()
+                    try {
+                        CacheManager(map).downloadAreaAsync(this@MapActivity, box, 7, layer.maxZoom, object : CacheManager.CacheManagerCallback {
+                            override fun onTaskComplete() {
+                                Toast.makeText(this@MapActivity, getString(R.string.pack_done, files), Toast.LENGTH_LONG).show()
+                            }
+                            override fun updateProgress(progress: Int, currentZoomLevel: Int, zoomMin: Int, zoomMax: Int) {}
+                            override fun downloadStarted() {}
+                            override fun setPossibleTilesInArea(total: Int) {}
+                            override fun onTaskFailed(errors: Int) {
+                                Toast.makeText(this@MapActivity, getString(R.string.map_download_fail, errors), Toast.LENGTH_LONG).show()
+                            }
+                        })
+                    } catch (e: Exception) {
+                    }
+                }
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
+    /** The weather along the route: each airport's METAR and TAF, and every SIGMET, AIRMET and TFR the line crosses. */
+    private fun briefing() {
+        if (plan.points.size < 2) {
+            Toast.makeText(this, R.string.plan_empty, Toast.LENGTH_LONG).show()
+            return
+        }
+        val text = android.widget.TextView(this).apply {
+            typeface = android.graphics.Typeface.MONOSPACE
+            textSize = 12f
+            setTextIsSelectable(true)
+            layoutDirection = View.LAYOUT_DIRECTION_LTR
+            textDirection = View.TEXT_DIRECTION_LTR
+            setPadding(dp(14), dp(8), dp(14), dp(8))
+            this.text = getString(R.string.map_loading_wx)
+        }
+        MaterialAlertDialogBuilder(this).setTitle(R.string.brief_title)
+            .setView(android.widget.ScrollView(this).apply { addView(text) })
+            .setPositiveButton(android.R.string.ok, null).show()
+        val stations = plan.points.mapNotNull { w -> airports.firstOrNull { it.icao == w.id || it.ident == w.id }?.let { airportsLayer.station(it) } }.distinct()
+        lifecycleScope.launch {
+            val sb = StringBuilder(plan.points.joinToString(" ") { it.id }).append("\n\n")
+            for (st in stations) {
+                val (m, t) = withContext(Dispatchers.IO) { AviationData.metar(st) to AviationData.taf(st) }
+                sb.append("■ $st ${m?.category ?: ""}\n${m?.raw ?: "no METAR"}\n${t ?: ""}\n\n")
+            }
+            val hazards = LinkedHashSet<String>()
+            for (i in 1 until plan.points.size) {
+                val a = plan.points[i - 1]; val c = plan.points[i]
+                val steps = (Nav.distanceNm(a.lat, a.lon, c.lat, c.lon) / 3).toInt().coerceAtLeast(1)
+                for (k in 0..steps) {
+                    val lat = a.lat + (c.lat - a.lat) * k / steps
+                    val lon = a.lon + (c.lon - a.lon) * k / steps
+                    (weather.areas + weather.tfrs).filter { it.contains(lat, lon) }.forEach { hazards.add(it.text) }
+                }
+            }
+            sb.append(if (hazards.isEmpty()) "✅ No SIGMET, AIRMET or TFR on the route line.\n" else "⚠️ ON THE ROUTE\n\n" + hazards.joinToString("\n\n────\n\n"))
+            sb.append("\n\nCheck NOTAMs and get an official briefing (1800wxbrief.com).")
+            text.text = sb.toString()
         }
     }
 
@@ -965,6 +1159,11 @@ class MapActivity : BaseActivity() {
         menu.add(0, 1, 0, R.string.map_airports).setCheckable(true).isChecked = prefs.getBoolean("map_airports", true)
         menu.add(0, 2, 0, R.string.map_measures).setCheckable(true).isChecked = draw.showMeasures
         menu.add(0, 3, 0, R.string.map_track_up).setCheckable(true).isChecked = trackUp
+        menu.add(0, 20, 0, "NRST").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+        menu.add(0, 21, 0, R.string.pack_title)
+        menu.add(0, 22, 0, R.string.brief_title)
+        menu.add(0, 23, 0, R.string.timer_title)
+        menu.add(0, 24, 0, R.string.lang_switch)
         menu.add(0, 10, 0, R.string.plan_title)
         menu.add(0, 11, 0, R.string.map_find)
         menu.add(0, 12, 0, R.string.wb_title)
@@ -1000,6 +1199,11 @@ class MapActivity : BaseActivity() {
             }
             4 -> downloadArea()
             10 -> navLog()
+            20 -> nearest()
+            21 -> packFlight()
+            22 -> briefing()
+            23 -> { timerStart = if (timerStart == 0L) android.os.SystemClock.elapsedRealtime() else 0L; b.toolbar.subtitle = null }
+            24 -> Lang.choose(this)
             11 -> findAirport()
             12 -> openWb()
             13 -> windsAloft()

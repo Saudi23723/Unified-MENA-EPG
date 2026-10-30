@@ -48,6 +48,10 @@
         android:title="@string/update_check"
         app:showAsAction="never" />
     <item
+        android:id="@+id/action_language"
+        android:title="@string/lang_switch"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_lock"
         android:title="@string/lock_now"
         app:showAsAction="never" />
