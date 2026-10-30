@@ -68,9 +68,6 @@ class MapActivity : BaseActivity() {
     private lateinit var airspace: AirspaceOverlay
     private lateinit var traffic: TrafficOverlay
     private var radarProvider: MapTileProviderBasic? = null
-    private lateinit var extras: ExtrasOverlay
-    private var satellite: TilesOverlay? = null
-    private var satelliteProvider: MapTileProviderBasic? = null
     private var plan = FlightPlan()
     private var airports: List<AviationData.Airport> = emptyList()
     private var layer = AviationData.LAYERS[0]
@@ -138,14 +135,7 @@ class MapActivity : BaseActivity() {
         })
         // A long press on the chart: fly direct there, or add it to the route.
         map.overlays.add(MapEventsOverlay(object : MapEventsReceiver {
-            override fun singleTapConfirmedHelper(p: GeoPoint?): Boolean {
-                // Drawing a practice area: each tap is a corner.
-                val draft = extras.drafting ?: return false
-                if (p == null) return false
-                extras.drafting = draft + listOf(p.latitude, p.longitude)
-                map.invalidate()
-                return true
-            }
+            override fun singleTapConfirmedHelper(p: GeoPoint?): Boolean = false
             override fun longPressHelper(p: GeoPoint?): Boolean {
                 if (p == null || draw.tool != MapDrawOverlay.MapTool.PAN) return false
                 pointMenu(p)
@@ -172,27 +162,8 @@ class MapActivity : BaseActivity() {
             onPick = { texts -> MaterialAlertDialogBuilder(this@MapActivity).setMessage(texts.joinToString("\n\n")).setPositiveButton(android.R.string.ok, null).show() }
         }
         if (prefs.getBoolean("wx_airspace", true)) map.overlays.add(airspace)
-        lifecycleScope.launch { withContext(Dispatchers.IO) { Airspace.load(this@MapActivity) }; ModeC.build(airports); map.invalidate() }
+        lifecycleScope.launch { withContext(Dispatchers.IO) { Airspace.load(this@MapActivity) }; map.invalidate() }
         map.overlays.add(weather)
-        extras = ExtrasOverlay(map,
-            { if (::ownship.isInitialized) ownship.position() else null },
-            { if (::ownship.isInitialized) ownship.fix?.takeIf { it.hasAltitude() && gotGps }?.altitude?.times(3.28084) else null }).apply {
-            // The new layers start off: the chart stays clean until the pilot picks what to add.
-            if (!prefs.getBoolean("x_clean_v2", false)) {
-                prefs.edit().apply { for (k in prefs.all.keys) if (k.startsWith("x_") && k != "x_aloft_ft") remove(k) }
-                    .putBoolean("x_clean_v2", true).apply()
-            }
-            mtr = prefs.getBoolean("x_mtr", false); modeC = prefs.getBoolean("x_modec", false)
-            waypoints = prefs.getBoolean("x_wp", false); navaids = prefs.getBoolean("x_nav", false)
-            obstacles = prefs.getBoolean("x_obst", false); sfcWind = prefs.getBoolean("x_sfcwind", false)
-            aloft = prefs.getBoolean("x_aloft", false); aloftFt = prefs.getInt("x_aloft_ft", 6000)
-            ceilVis = prefs.getBoolean("x_ceilvis", false); densityAlt = prefs.getBoolean("x_da", false)
-            rings = prefs.getBoolean("x_rings", false); centerlines = prefs.getBoolean("x_rwy", false)
-            practice = prefs.getBoolean("x_practice", true); night = prefs.getBoolean("x_night", false)
-            metars = { airportsLayer.weather.values }
-            practiceAreas = PracticeAreas.load(this@MapActivity)
-        }
-        map.overlays.add(extras)
         plan = FlightPlan.load(this)
         route = RouteOverlay(map, { plan }, { if (::ownship.isInitialized) ownship.position() else null })
         map.overlays.add(route)
@@ -266,7 +237,6 @@ class MapActivity : BaseActivity() {
 
         loadAirports()
         if (prefs.getBoolean("wx_radar", false)) setRadar(true)
-        if (prefs.getBoolean("x_sat", false)) setSatellite(true)
         refreshWeather()
         if (!prefs.getBoolean("map_disclaimer_seen", false)) {
             MaterialAlertDialogBuilder(this)
@@ -308,7 +278,6 @@ class MapActivity : BaseActivity() {
         stopGps()
         Traffic.stopReceiver()
         radarProvider?.detach()
-        satelliteProvider?.detach()
         map.onDetach()
     }
 
@@ -347,33 +316,6 @@ class MapActivity : BaseActivity() {
         val cAirspace = check(R.string.wx_airspace, map.overlays.contains(airspace))
         val cTraffic = check(R.string.wx_traffic, map.overlays.contains(traffic))
         val cAirports = check(R.string.map_airports, prefs.getBoolean("map_airports", true))
-        fun head(label: Int) = box.addView(android.widget.TextView(this).apply {
-            text = getString(label)
-            setPadding(0, dp(14), 0, dp(4))
-            setTypeface(typeface, android.graphics.Typeface.BOLD)
-        })
-        val cMtr = check(R.string.x_mtr, extras.mtr)
-        val cModeC = check(R.string.x_modec, extras.modeC)
-        val cWp = check(R.string.x_wp, extras.waypoints)
-        val cNav = check(R.string.x_nav, extras.navaids)
-        val cObst = check(R.string.x_obst, extras.obstacles)
-        head(R.string.x_head_wx)
-        val cSfc = check(R.string.x_sfcwind, extras.sfcWind)
-        val cAloft = check(R.string.x_aloft, extras.aloft)
-        val alts = intArrayOf(3000, 6000, 9000, 12000)
-        val altGroup = android.widget.RadioGroup(this).apply { orientation = android.widget.RadioGroup.HORIZONTAL; setPadding(dp(32), 0, 0, 0) }
-        for ((i, ft) in alts.withIndex()) altGroup.addView(android.widget.RadioButton(this).apply {
-            id = 2000 + i; text = "%,d".format(ft); isChecked = ft == extras.aloftFt
-        })
-        box.addView(altGroup)
-        val cCeil = check(R.string.x_ceilvis, extras.ceilVis)
-        val cSat = check(R.string.x_sat, satellite != null)
-        val cDa = check(R.string.x_da, extras.densityAlt)
-        head(R.string.x_head_tools)
-        val cRings = check(R.string.x_rings, extras.rings)
-        val cRwy = check(R.string.x_rwy, extras.centerlines)
-        val cPractice = check(R.string.x_practice, extras.practice)
-        val cNight = check(R.string.x_night, extras.night)
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.map_layers)
             .setView(android.widget.ScrollView(this).apply { addView(box) })
@@ -406,21 +348,6 @@ class MapActivity : BaseActivity() {
                     lastWeatherBox = ""
                     loadAirports()
                 }
-                extras.apply {
-                    mtr = cMtr.isChecked; modeC = cModeC.isChecked; waypoints = cWp.isChecked; navaids = cNav.isChecked
-                    obstacles = cObst.isChecked; sfcWind = cSfc.isChecked; aloft = cAloft.isChecked
-                    aloftFt = alts.getOrElse(altGroup.checkedRadioButtonId - 2000) { aloftFt }
-                    ceilVis = cCeil.isChecked; densityAlt = cDa.isChecked; rings = cRings.isChecked
-                    centerlines = cRwy.isChecked; practice = cPractice.isChecked; night = cNight.isChecked
-                }
-                prefs.edit().putBoolean("x_mtr", extras.mtr).putBoolean("x_modec", extras.modeC).putBoolean("x_wp", extras.waypoints)
-                    .putBoolean("x_nav", extras.navaids).putBoolean("x_obst", extras.obstacles).putBoolean("x_sfcwind", extras.sfcWind)
-                    .putBoolean("x_aloft", extras.aloft).putInt("x_aloft_ft", extras.aloftFt).putBoolean("x_ceilvis", extras.ceilVis)
-                    .putBoolean("x_da", extras.densityAlt).putBoolean("x_rings", extras.rings).putBoolean("x_rwy", extras.centerlines)
-                    .putBoolean("x_practice", extras.practice).putBoolean("x_night", extras.night).putBoolean("x_sat", cSat.isChecked).apply()
-                if (cSat.isChecked != (satellite != null)) setSatellite(cSat.isChecked)
-                loadExtras()
-                nearbyExtras(force = true)
                 refreshWeather()
                 map.invalidate()
             }
@@ -441,120 +368,6 @@ class MapActivity : BaseActivity() {
     }
 
     /** NEXRAD radar, see-through over the chart, just above it. */
-    /** GOES infrared clouds, see-through, under the radar. */
-    private fun setSatellite(on: Boolean) {
-        satellite?.let { map.overlays.remove(it) }
-        satelliteProvider?.detach()
-        satellite = null
-        satelliteProvider = null
-        if (on) {
-            val provider = MapTileProviderBasic(applicationContext, Satellite.source())
-            satelliteProvider = provider
-            satellite = TilesOverlay(provider, this).apply {
-                setLoadingBackgroundColor(android.graphics.Color.TRANSPARENT)
-                setLoadingLineColor(android.graphics.Color.TRANSPARENT)
-                setColorFilter(android.graphics.ColorMatrixColorFilter(android.graphics.ColorMatrix(floatArrayOf(
-                    1f, 0f, 0f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 0f, 0.6f, 0f,
-                ))))
-            }
-            provider.setTileRequestCompleteHandler(map.tileRequestCompleteHandler)
-            map.overlays.add(0, satellite)
-        }
-        map.invalidate()
-    }
-
-    private var extrasLoaded = HashSet<String>()
-    private var aloftAt = 0L
-
-    /** The West's routes, waypoints and navaids (once, kept 28 days), and the winds aloft (every half hour). */
-    private fun loadExtras() {
-        fun once(key: String, on: Boolean, load: () -> Unit) {
-            if (!on || key in extrasLoaded) return
-            extrasLoaded.add(key)
-            lifecycleScope.launch {
-                withContext(Dispatchers.IO) { try { load() } catch (e: Throwable) {} }
-                map.invalidate()
-            }
-        }
-        once("mtr", extras.mtr) { FaaData.loadMtrs(this) }
-        once("wp", extras.waypoints) { FaaData.loadWaypoints(this) }
-        once("nav", extras.navaids) { FaaData.loadNavaids(this) }
-        if (extras.aloft && System.currentTimeMillis() - aloftAt > 30 * 60000L) {
-            aloftAt = System.currentTimeMillis()
-            lifecycleScope.launch {
-                val t = withContext(Dispatchers.IO) { AviationData.windsAloft(6) }
-                if (t.isNotEmpty()) extras.aloftText = t else aloftAt = 0L
-                map.invalidate()
-            }
-        }
-    }
-
-    private var nearKey = ""
-
-    /** Obstacles and runways around the middle of the view, when zoomed in enough to see them. */
-    private fun nearbyExtras(force: Boolean = false) {
-        if (!::extras.isInitialized) return
-        val z = map.zoomLevelDouble
-        val c = map.mapCenter
-        val key = "%.1f,%.1f".format(c.latitude, c.longitude)
-        if (!force && key == nearKey) return
-        nearKey = key
-        val lat = c.latitude; val lon = c.longitude
-        if (extras.obstacles && z >= 9) lifecycleScope.launch {
-            withContext(Dispatchers.IO) { try { FaaData.loadObstacles(this@MapActivity, lat, lon) } catch (e: Throwable) {} }
-            map.invalidate()
-        }
-        if (extras.centerlines && z >= 10) lifecycleScope.launch {
-            withContext(Dispatchers.IO) { try { FaaData.loadRunways(this@MapActivity, lat, lon) } catch (e: Throwable) {} }
-            map.invalidate()
-        }
-    }
-
-    /** Practice areas: the list (open one, delete one) and drawing a new one, corner by corner. */
-    private fun practiceAreas() {
-        val list = PracticeAreas.load(this)
-        val items = list.map { "🟪 " + it.name } + getString(R.string.x_practice_new)
-        MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.x_practice)
-            .setItems(items.toTypedArray()) { _, i ->
-                if (i == list.size) {
-                    extras.practice = true
-                    extras.drafting = emptyList()
-                    com.google.android.material.snackbar.Snackbar.make(b.root, R.string.x_practice_tap, com.google.android.material.snackbar.Snackbar.LENGTH_INDEFINITE)
-                        .setAction(R.string.x_practice_done) { finishPractice() }.show()
-                } else {
-                    val a = list[i]
-                    MaterialAlertDialogBuilder(this).setTitle(a.name)
-                        .setPositiveButton(R.string.x_practice_show) { _, _ ->
-                            val lats = (0 until a.pts.size / 2).map { a.pts[2 * it] }
-                            val lons = (0 until a.pts.size / 2).map { a.pts[2 * it + 1] }
-                            map.zoomToBoundingBox(org.osmdroid.util.BoundingBox(lats.maxOf { it }, lons.maxOf { it }, lats.minOf { it }, lons.minOf { it }).increaseByScale(1.4f), true)
-                        }
-                        .setNegativeButton(R.string.notes_delete) { _, _ ->
-                            list.removeAt(i); PracticeAreas.save(this, list); extras.practiceAreas = list; map.invalidate()
-                        }
-                        .setNeutralButton(R.string.cancel, null).show()
-                }
-            }
-            .show()
-    }
-
-    private fun finishPractice() {
-        val pts = extras.drafting ?: return
-        extras.drafting = null
-        if (pts.size < 6) { map.invalidate(); Toast.makeText(this, R.string.x_practice_few, Toast.LENGTH_LONG).show(); return }
-        val input = android.widget.EditText(this).apply { hint = getString(R.string.x_practice_name) }
-        MaterialAlertDialogBuilder(this).setTitle(R.string.x_practice_name).setView(input)
-            .setPositiveButton(R.string.ok) { _, _ ->
-                val list = PracticeAreas.load(this)
-                list.add(PracticeAreas.Area(input.text.toString().ifBlank { "Practice area ${list.size + 1}" }, pts.toDoubleArray()))
-                PracticeAreas.save(this, list)
-                extras.practiceAreas = list
-                map.invalidate()
-            }
-            .setNegativeButton(R.string.cancel) { _, _ -> map.invalidate() }.show()
-    }
-
     private fun setRadar(on: Boolean) {
         radar?.let { map.overlays.remove(it) }
         radarProvider?.detach()
@@ -600,8 +413,6 @@ class MapActivity : BaseActivity() {
             }
             airportsLayer.airports = if (prefs.getBoolean("map_airports", true)) list else emptyList()
             draw.snapTo = list
-            ModeC.build(list)
-            loadExtras()
             map.invalidate()
             idle()
         }
@@ -612,7 +423,6 @@ class MapActivity : BaseActivity() {
     /** After the map settles: the weather of the airports in view. */
     private fun idle(): Boolean {
         overzoom()
-        nearbyExtras()
         if (map.zoomLevelDouble < 7) return true
         val bb = map.boundingBox
         val key = "%.1f,%.1f,%.1f,%.1f".format(bb.latSouth, bb.lonWest, bb.latNorth, bb.lonEast)
@@ -1682,7 +1492,6 @@ class MapActivity : BaseActivity() {
         menu.add(0, 30, 0, R.string.freq_title)
         menu.add(0, 31, 0, R.string.notes_title)
         menu.add(0, 32, 0, R.string.charts_title)
-        menu.add(0, 33, 0, R.string.x_practice)
         menu.add(0, 21, 0, R.string.pack_title)
         menu.add(0, 22, 0, R.string.brief_title)
         menu.add(0, 26, 0, R.string.map_profile)
@@ -1728,7 +1537,6 @@ class MapActivity : BaseActivity() {
             10 -> navLog()
             20 -> nearest()
             32 -> ChartUpdates.show(this)
-            33 -> practiceAreas()
             31 -> if (NotePad.isOpen()) NotePad.close(this) else Notebooks.choose(this, null)
             30 -> {
                 val here = ownship.position() ?: map.mapCenter as GeoPoint
