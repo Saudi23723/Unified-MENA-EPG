@@ -61,13 +61,14 @@ object FaaData {
         emptyList()
     }
 
-    private fun query(name: String, box: String, where: String = "1=1", pages: Int = 20): JSONArray {
+    private fun query(name: String, box: String, where: String = "1=1", pages: Int = 5, simplify: Boolean = false): JSONArray {
         val all = JSONArray()
         var offset = 0
         repeat(pages) {
             val url = "$BASE/$name/FeatureServer/0/query?where=" + URLEncoder.encode(where, "UTF-8") +
                 "&geometry=$box&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects" +
-                "&outFields=*&returnGeometry=true&outSR=4326&geometryPrecision=5&f=json&resultOffset=$offset&resultRecordCount=2000"
+                "&outFields=*&returnGeometry=true&outSR=4326&geometryPrecision=5&f=json&resultOffset=$offset&resultRecordCount=1000" +
+                (if (simplify) "&maxAllowableOffset=0.003" else "")
             val j = JSONObject(AviationData.get(url, 60000))
             if (j.has("error")) throw java.io.IOException(j.optJSONObject("error")?.optString("message"))
             val f = j.optJSONArray("features") ?: return all
@@ -95,8 +96,10 @@ object FaaData {
     private fun cached(ctx: Context, key: String, fetch: () -> JSONArray?): JSONArray {
         val f = File(dir(ctx), "$key.json")
         val fresh = f.exists() && System.currentTimeMillis() - f.lastModified() < 28L * 86400000
-        if (!fresh) try { fetch()?.let { if (it.length() > 0) f.writeText(it.toString()) } } catch (e: Exception) { status[key] = e.message ?: "" }
-        return try { JSONArray(f.readText()) } catch (e: Exception) { JSONArray() }
+        if (!fresh) try { fetch()?.let { if (it.length() > 0) f.writeText(it.toString()) } } catch (e: Throwable) { status[key] = e.message ?: "" }
+        // Too big to be right (a filter the FAA did not take): not read, so it cannot fill the memory.
+        if (f.length() > 12L * 1024 * 1024) { f.delete(); return JSONArray() }
+        return try { JSONArray(f.readText()) } catch (e: Throwable) { JSONArray() }
     }
 
     class Line(val name: String, val pts: DoubleArray, val note: String)
@@ -141,7 +144,7 @@ object FaaData {
     fun loadMtrs(ctx: Context) {
         val name = find(ctx, listOf("MTR", "Military_Training", "MilitaryTraining"))
         if (name == null) { status["mtr"] = "FAA service not found"; return }
-        mtrs = lines(cached(ctx, "mtr") { query(name, WEST) }, { a ->
+        mtrs = lines(cached(ctx, "mtr") { query(name, WEST, pages = 4, simplify = true) }, { a ->
             listOf(s(a, "TYPE_CODE", "ROUTE_TYPE"), s(a, "IDENT", "NAME", "ROUTE_ID", "ROUTE_NAME")).filter { it.isNotEmpty() }.joinToString("").ifEmpty { "MTR" }
         }, { a -> listOf(s(a, "LOWER_VAL", "MIN_ALT", "LOWALT"), s(a, "UPPER_VAL", "MAX_ALT", "HIGHALT")).filter { it.isNotEmpty() }.joinToString(" – ") })
     }
@@ -153,7 +156,8 @@ object FaaData {
         val arr = cached(ctx, "waypoints") {
             val f = fields(name)
             val id = f.firstOrNull { it.equals("IDENT", true) } ?: f.firstOrNull { it.contains("IDENT", true) } ?: f.firstOrNull { it.equals("NAME", true) }
-            if (id != null) query(name, WEST, "$id LIKE 'VP%'") else query(name, WEST)
+            // Only the VFR waypoints; never every fix of the West.
+            if (id != null) query(name, WEST, "$id LIKE 'VP%'", pages = 2) else null
         }
         waypoints = spots(arr) { a, y, x ->
             val ident = s(a, "IDENT", "NAME", "IDENT_TXT")
@@ -167,7 +171,7 @@ object FaaData {
     fun loadNavaids(ctx: Context) {
         val name = find(ctx, listOf("NAVAID", "Navaid"), listOf("ILS"))
         if (name == null) { status["nav"] = "FAA service not found"; return }
-        navaids = spots(cached(ctx, "navaids") { query(name, WEST) }) { a, y, x ->
+        navaids = spots(cached(ctx, "navaids") { query(name, WEST, pages = 3) }) { a, y, x ->
             val kind = s(a, "CLASS_TXT", "TYPE_CODE", "NAV_TYPE", "CLASS", "TYPE").uppercase()
             if (kind.contains("TACAN") && !kind.contains("VOR")) return@spots null
             val freq = s(a, "FREQUENCY", "FREQ", "CHANNEL")
@@ -175,7 +179,7 @@ object FaaData {
         }
     }
 
-    private val obstacleCells = HashMap<String, List<Spot>>()
+    private val obstacleCells = java.util.concurrent.ConcurrentHashMap<String, List<Spot>>()
 
     /** Obstacles around a point (a half-degree cell each side), 200 ft or more above the ground. */
     fun loadObstacles(ctx: Context, lat: Double, lon: Double) {
@@ -187,7 +191,7 @@ object FaaData {
             val cx = Math.floor(lon * 2) / 2 + dx * 0.5
             val key = "obst_%.1f_%.1f".format(java.util.Locale.US, cy, cx)
             val list = obstacleCells.getOrPut(key) {
-                spots(cached(ctx, key) { query(name, "%.2f,%.2f,%.2f,%.2f".format(java.util.Locale.US, cx, cy, cx + 0.5, cy + 0.5), pages = 6) }) { a, y, x ->
+                spots(cached(ctx, key) { query(name, "%.2f,%.2f,%.2f,%.2f".format(java.util.Locale.US, cx, cy, cx + 0.5, cy + 0.5), pages = 3) }) { a, y, x ->
                     val agl = n(a, "AGL") ?: return@spots null
                     if (agl < 200) return@spots null
                     val msl = n(a, "AMSL", "MSL") ?: 0.0
@@ -209,7 +213,7 @@ object FaaData {
             val cy = Math.floor(lat) + dy
             val cx = Math.floor(lon) + dx
             val key = "rwy_%.0f_%.0f".format(java.util.Locale.US, cy, cx)
-            out.addAll(lines(cached(ctx, key) { query(name, "%.2f,%.2f,%.2f,%.2f".format(java.util.Locale.US, cx, cy, cx + 1, cy + 1)) }, { a ->
+            out.addAll(lines(cached(ctx, key) { query(name, "%.2f,%.2f,%.2f,%.2f".format(java.util.Locale.US, cx, cy, cx + 1, cy + 1), pages = 2) }, { a ->
                 s(a, "DESIGNATOR", "RWY_ID", "RUNWAY_ID", "NAME")
             }))
         }
@@ -285,6 +289,10 @@ class ExtrasOverlay(map: MapView, private val ownship: () -> GeoPoint?, private 
 
     override fun draw(c: Canvas, mv: MapView, shadow: Boolean) {
         if (shadow) return
+        try { paint(c, mv) } catch (e: Exception) { }
+    }
+
+    private fun paint(c: Canvas, mv: MapView) {
         val pr = mv.projection
         val bb = mv.boundingBox
         val z = mv.zoomLevelDouble

@@ -105,6 +105,7 @@ class MapActivity : BaseActivity() {
             setCacheMapTileCount(64.toShort())
         }
         b = ActivityMapBinding.inflate(layoutInflater)
+        CrashReport.showIfAny(this)
         ChartUpdates.autoUpdate(this)
         setContentView(b.root)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
@@ -466,7 +467,7 @@ class MapActivity : BaseActivity() {
             if (!on || key in extrasLoaded) return
             extrasLoaded.add(key)
             lifecycleScope.launch {
-                withContext(Dispatchers.IO) { try { load() } catch (e: Exception) {} }
+                withContext(Dispatchers.IO) { try { load() } catch (e: Throwable) {} }
                 map.invalidate()
             }
         }
@@ -495,11 +496,11 @@ class MapActivity : BaseActivity() {
         nearKey = key
         val lat = c.latitude; val lon = c.longitude
         if (extras.obstacles && z >= 9) lifecycleScope.launch {
-            withContext(Dispatchers.IO) { try { FaaData.loadObstacles(this@MapActivity, lat, lon) } catch (e: Exception) {} }
+            withContext(Dispatchers.IO) { try { FaaData.loadObstacles(this@MapActivity, lat, lon) } catch (e: Throwable) {} }
             map.invalidate()
         }
         if (extras.centerlines && z >= 10) lifecycleScope.launch {
-            withContext(Dispatchers.IO) { try { FaaData.loadRunways(this@MapActivity, lat, lon) } catch (e: Exception) {} }
+            withContext(Dispatchers.IO) { try { FaaData.loadRunways(this@MapActivity, lat, lon) } catch (e: Throwable) {} }
             map.invalidate()
         }
     }

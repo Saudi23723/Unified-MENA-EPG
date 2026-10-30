@@ -138,6 +138,7 @@ object ChartUpdates {
                     save(ctx, o.put("airports", obj))
                 }
                 tiles(ctx, areas)
+            } catch (e: Throwable) {
             } finally {
                 finish(ctx)
             }
@@ -168,9 +169,9 @@ object ChartUpdates {
                 }
                 if (failed <= 30) mark(ctx, area)
             }
-        } finally {
-            writer.onDetach()
+        } catch (e: Throwable) {
         }
+        // The tile store is shared with the map: left open.
     }
 
     private fun mark(ctx: Context, area: JSONObject) {

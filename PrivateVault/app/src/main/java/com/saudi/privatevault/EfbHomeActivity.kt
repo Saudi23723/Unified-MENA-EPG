@@ -41,6 +41,7 @@ class EfbHomeActivity : BaseActivity() {
         }
         col.addView(search, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(4) })
         EfbUi.pressable(search) { searchAirport { a -> startActivity(Intent(this, MapActivity::class.java).putExtra(MapActivity.EXTRA_AIRPORT, a.ident)) } }
+        CrashReport.showIfAny(this)
         ChartUpdates.autoUpdate(this)
         wx = EfbUi.card(this)
         col.addView(wx)
