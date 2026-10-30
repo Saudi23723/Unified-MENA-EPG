@@ -238,7 +238,12 @@ class AirportSheet(
         Toast.makeText(act, R.string.apt_notams_loading, Toast.LENGTH_SHORT).show()
         act.lifecycleScope.launch {
             val id = a.icao.ifEmpty { a.ident }
-            val res = withContext(Dispatchers.IO) { AviationData.notams(act, id) }
+            val before = withContext(Dispatchers.IO) { AviationData.notamsSaved(act, id)?.second ?: 0L }
+            var res = withContext(Dispatchers.IO) { AviationData.notams(act, id) }
+            // Not fresh from the FAA directly: ask through the FAA's own page, unseen.
+            if ((res?.second ?: 0L) <= before) {
+                if (NotamWeb.fetch(act, id)) res = withContext(Dispatchers.IO) { AviationData.notamsSaved(act, id) }
+            }
             if (res == null) {
                 // No list: the FAA's own search page in the app, or the pilot's free FAA key for lists that keep offline.
                 MaterialAlertDialogBuilder(act)

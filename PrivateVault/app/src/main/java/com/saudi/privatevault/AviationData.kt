@@ -347,12 +347,23 @@ object AviationData {
         } catch (e: Exception) {
         }
         if (id.isEmpty()) try {
+            // As the FAA's own page asks it: a session from the page first, then the search with the page's headers.
+            if (java.net.CookieHandler.getDefault() == null) java.net.CookieHandler.setDefault(java.net.CookieManager())
+            (URL("https://notams.aim.faa.gov/notamSearch/nsapp.html").openConnection() as HttpURLConnection).apply {
+                connectTimeout = 15000; readTimeout = 15000
+                setRequestProperty("User-Agent", "Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Mobile Safari/537.36")
+                try { inputStream.use { it.readBytes() } } catch (e: Exception) {} finally { disconnect() }
+            }
             val c = URL("https://notams.aim.faa.gov/notamSearch/search").openConnection() as HttpURLConnection
+            c.setRequestProperty("Referer", "https://notams.aim.faa.gov/notamSearch/nsapp.html")
+            c.setRequestProperty("Origin", "https://notams.aim.faa.gov")
+            c.setRequestProperty("X-Requested-With", "XMLHttpRequest")
+            c.setRequestProperty("Accept", "application/json, text/plain, */*")
             c.connectTimeout = 20000
             c.readTimeout = 30000
             c.requestMethod = "POST"
             c.doOutput = true
-            c.setRequestProperty("User-Agent", "Mozilla/5.0 SSEFB")
+            c.setRequestProperty("User-Agent", "Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Mobile Safari/537.36")
             c.setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
             c.outputStream.use { it.write("searchType=0&designatorsForLocation=$ident&notamsOnly=false&offset=0".toByteArray()) }
             try {
@@ -369,6 +380,12 @@ object AviationData {
             }
         } catch (e: Exception) {
         }
+        return notamsSaved(ctx, ident)
+    }
+
+    /** The NOTAMs last saved for an airport, and when. */
+    fun notamsSaved(ctx: Context, ident: String): Pair<List<String>, Long>? {
+        val file = File(ctx.filesDir, "aviation/notams/${ident.replace(Regex("[^A-Z0-9]"), "")}.json")
         return try {
             val list = JSONObject(file.readText()).getJSONArray("notamList")
             (0 until list.length()).map { i ->
