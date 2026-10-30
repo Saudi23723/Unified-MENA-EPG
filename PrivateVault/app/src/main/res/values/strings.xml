@@ -464,6 +464,41 @@
     <string name="ai_p_extended">اشرح هالصفحة شرح موسّع ومفصّل: كل فكرة ليش هيك، كيف بتشتغل، وكيف بترتبط بباقي المواضيع، مع الأرقام والقواعد المهمة</string>
     <string name="ai_s_examples">🧩 أمثلة للفهم</string>
     <string name="ai_p_examples">أعطيني أمثلة بسيطة من الحياة اليومية وتشبيهات بتساعدني أفهم أفكار هالصفحة وأتذكرها</string>
+    <string name="efbc_title">🛡 EFB check (AC 91-78A)</string>
+    <string name="efbc_status">شو التطبيق بيفحص لحاله</string>
+    <string name="efbc_battery">البطارية %1$d%%</string>
+    <string name="efbc_charging">عالشاحن</string>
+    <string name="efbc_battery_tip" formatted="false">خليها 80% وأكتر قبل الطيران، ومعك شاحن أو power bank بالطيارة</string>
+    <string name="efbc_charts">الخرائط والبيانات سارية</string>
+    <string name="efbc_space">مساحة فاضية: %1$d MB</string>
+    <string name="efbc_version">نسخة SSEFB: %1$s</string>
+    <string name="efbc_version_tip">حدّث التطبيق على Wi-Fi قبل الرحلة، مش بالطيارة</string>
+    <string name="efbc_last">آخر EFB check</string>
+    <string name="efbc_preflight">✅ قبل كل رحلة</string>
+    <string name="efbc_done">تمّ الفحص</string>
+    <string name="efbc_missing">ضايل %1$d بنود ما تأشّروا</string>
+    <string name="efbc_saved">انحفظ: EFB جاهز للرحلة ✅</string>
+    <string name="efbc_pilot">شو بيضل مسؤوليتك</string>
+    <string name="efbc_pilot_text">• الكابتن (PIC) مسؤول عن الـ EFB وعن إنو بياناته سارية ومناسبة للرحلة.
+• لازم يكون عندك بديل إذا الـ EFB وقف: جهاز تاني فيه الخرائط، أو ورق.
+• ثبّت الجهاز (kneeboard أو mount) بحيث ما يعيق التحكم ولا يطير وقت الإقلاع والهبوط.
+• SSEFB أداة مساعدة: الـ POH/AOI والـ Chart Supplement والـ NOTAMs الرسمية هي المرجع.
+• التفاصيل والصياغة الرسمية بالـ AC نفسه (تحت).</string>
+    <string name="efbc_ac">📄 الـ AC نفسه</string>
+    <string name="efbc_ac_text">AC 91-78A من الـ FAA: إرشادات استعمال الـ EFB بدل الورق لطياري Part 91. بينزل مرة وحدة وبينحفظ بمجلد «📚 References» لتقرأه بدون نت، مع الأقلام و Gemini.</string>
+    <string name="efbc_ac_open">افتح AC 91-78A</string>
+    <string name="efbc_ac_loading">عم ينزّل الـ AC من الـ FAA…</string>
+    <string name="efbc_ac_web">ما قدرت أنزّله مباشرة، فتحتلك صفحة الـ FAA</string>
+    <string-array name="efbc_items">
+        <item>🔋 البطارية 80% وأكتر، وشاحن أو power bank بالطيارة</item>
+        <item>🗺 الخرائط والبيانات سارية (الـ cycle الحالي)</item>
+        <item>📦 الرحلة محمّلة للطيران بدون نت (Pack flight)</item>
+        <item>🌤 الطقس والـ NOTAMs شفتهم لكل المطارات</item>
+        <item>📱 في بديل: جهاز تاني فيه الخرائط أو ورق</item>
+        <item>📌 الجهاز مثبّت ومش معيق للتحكم</item>
+        <item>🌙 السطوع مناسب (ليلي إذا طيران ليل)</item>
+        <item>🔕 الإشعارات مسكّرة (Do Not Disturb)</item>
+    </string-array>
     <string name="map_circle">دائرة</string>
     <string name="map_ruler">مسطرة</string>
     <string name="pen_write">كتابة وتظليل</string>

@@ -85,6 +85,9 @@
             android:name=".FrequenciesActivity"
             android:exported="false" />
         <activity
+            android:name=".EfbCheckActivity"
+            android:exported="false" />
+        <activity
             android:name=".LaptopActivity"
             android:exported="false" />
         <activity

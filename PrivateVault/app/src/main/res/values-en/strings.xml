@@ -450,6 +450,41 @@ or tap an airport → Add to route, or long-press anywhere on the chart.</string
     <string name="ai_p_extended">Give me an extended, detailed explanation of this page: why each idea is so, how it works, how it connects to the other topics, with the important numbers and rules</string>
     <string name="ai_s_examples">🧩 Examples for understanding</string>
     <string name="ai_p_examples">Give me simple everyday examples and comparisons that help me understand and remember the ideas on this page</string>
+    <string name="efbc_title">🛡 EFB check (AC 91-78A)</string>
+    <string name="efbc_status">What the app checks by itself</string>
+    <string name="efbc_battery">Battery %1$d%%</string>
+    <string name="efbc_charging">Charging</string>
+    <string name="efbc_battery_tip" formatted="false">Keep it at 80% or more before flight, with a charger or power bank on board</string>
+    <string name="efbc_charts">Charts and data current</string>
+    <string name="efbc_space">Free space: %1$d MB</string>
+    <string name="efbc_version">SSEFB version: %1$s</string>
+    <string name="efbc_version_tip">Update the app on Wi-Fi before the flight, not in the aircraft</string>
+    <string name="efbc_last">Last EFB check</string>
+    <string name="efbc_preflight">✅ Before each flight</string>
+    <string name="efbc_done">Check complete</string>
+    <string name="efbc_missing">%1$d items not ticked yet</string>
+    <string name="efbc_saved">Saved: EFB ready for the flight ✅</string>
+    <string name="efbc_pilot">What stays with the pilot</string>
+    <string name="efbc_pilot_text">• The pilot in command is responsible for the EFB and for its data being current and right for the flight.
+• Have a backup if the EFB fails: a second device with the charts, or paper.
+• Secure the device (kneeboard or mount) so it does not interfere with the controls or come loose on takeoff and landing.
+• SSEFB is an aid: the POH/AOI, the Chart Supplement and the official NOTAMs are the reference.
+• The details and official wording are in the AC itself (below).</string>
+    <string name="efbc_ac">📄 The AC itself</string>
+    <string name="efbc_ac_text">FAA AC 91-78A: guidance on using an EFB in place of paper for Part 91 pilots. Downloaded once and kept in «📚 References» to read offline, with the pens and Gemini.</string>
+    <string name="efbc_ac_open">Open AC 91-78A</string>
+    <string name="efbc_ac_loading">Downloading the AC from the FAA…</string>
+    <string name="efbc_ac_web">Could not download it directly; the FAA page is open</string>
+    <string-array name="efbc_items">
+        <item>🔋 Battery 80% or more, charger or power bank on board</item>
+        <item>🗺 Charts and data current (this cycle)</item>
+        <item>📦 The flight packed for offline use (Pack flight)</item>
+        <item>🌤 Weather and NOTAMs reviewed for every airport</item>
+        <item>📱 A backup: a second device with charts, or paper</item>
+        <item>📌 Device secured, not in the way of the controls</item>
+        <item>🌙 Brightness right (night mode for a night flight)</item>
+        <item>🔕 Notifications silenced (Do Not Disturb)</item>
+    </string-array>
     <string name="map_circle">Circle</string>
     <string name="map_ruler">Ruler</string>
     <string name="pen_write">Write and highlight</string>
