@@ -1135,6 +1135,68 @@ class Notes:
             return merged
 
 
+# ---- official FAA charts, kept for the phones ----
+#
+# The vfr-charts release on GitHub holds the FAA's GeoTIFF charts as WebP
+# MBTiles for the edition in force. A vault keeps a copy (checked twice a
+# day), so a phone that cannot reach GitHub takes them from its own vault.
+
+CHARTS_RELEASE = "https://github.com/Saudi23723/Unified-MENA-EPG/releases/download/vfr-charts/"
+
+
+class ChartMirror:
+    def __init__(self, home):
+        self.dir = os.path.join(home, "charts")
+        os.makedirs(self.dir, exist_ok=True)
+        threading.Thread(target=self._loop, daemon=True).start()
+
+    def path(self, name):
+        name = os.path.basename(name)
+        p = os.path.join(self.dir, name)
+        return p if (name.endswith(".mbtiles") or name == "manifest.json") and os.path.exists(p) else None
+
+    def _get(self, url, dest):
+        import urllib.request
+        req = urllib.request.Request(url, headers={"User-Agent": "Khazanti/" + VERSION})
+        with urllib.request.urlopen(req, timeout=300) as r, open(dest + ".part", "wb") as f:
+            shutil.copyfileobj(r, f, 1 << 20)
+        os.replace(dest + ".part", dest)
+
+    def refresh(self):
+        import urllib.request
+        with urllib.request.urlopen(urllib.request.Request(CHARTS_RELEASE + "manifest.json", headers={"User-Agent": "Khazanti"}), timeout=60) as r:
+            m = json.loads(r.read().decode("utf-8"))
+        mine = os.path.join(self.dir, "manifest.json")
+        try:
+            held = json.load(open(mine, encoding="utf-8")).get("edition")
+        except Exception:
+            held = None
+        names = set()
+        for c in m.get("charts", []):
+            name = os.path.basename(c["file"])
+            names.add(name)
+            p = os.path.join(self.dir, name)
+            if held != m.get("edition") or not os.path.exists(p) or os.path.getsize(p) != c.get("size"):
+                self._get(CHARTS_RELEASE + name, p)
+        with open(mine, "w", encoding="utf-8") as f:
+            json.dump(m, f)
+        for n in os.listdir(self.dir):
+            if n not in names and n != "manifest.json":
+                try:
+                    os.remove(os.path.join(self.dir, n))
+                except OSError:
+                    pass
+
+    def _loop(self):
+        time.sleep(60)
+        while True:
+            try:
+                self.refresh()
+            except Exception:
+                pass
+            time.sleep(12 * 3600)
+
+
 class App:
     def __init__(self, home: str, port: int):
         os.makedirs(home, exist_ok=True)
@@ -1146,6 +1208,7 @@ class App:
         self.converter = Converter(home)
         self.notes = Notes(home)
         self.assistant = Assistant(self.auth, self.cloud)
+        self.charts = ChartMirror(home)
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -1277,6 +1340,12 @@ class Handler(BaseHTTPRequestHandler):
                 return self._error(404, "not found")
             index = self.app.pdf_indexes.get(self.app.vault, item)
             return self._json(index if index is not None else {"working": True})
+        if path.startswith("/api/charts/"):
+            p = self.app.charts.path(path[len("/api/charts/"):])
+            if p is None:
+                return self._error(404, "not here")
+            name = os.path.basename(p)
+            return self._send_file({"name": name, "mime": "application/json" if name.endswith(".json") else "application/octet-stream"}, True, p)
         if path == "/api/ai/status":
             return self._json(self.app.assistant.status())
         if path == "/api/kv":
