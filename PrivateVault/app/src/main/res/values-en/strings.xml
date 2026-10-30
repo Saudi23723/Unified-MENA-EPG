@@ -259,7 +259,7 @@ or tap an airport → Add to route, or long-press anywhere on the chart.</string
     <string name="dia_loading">Drawing the airport…</string>
     <string name="dia_fail">Couldn\'t get the airport, try with internet (after that it works offline)</string>
     <string name="dia_empty">No detailed drawing for this airport, try FAA diagram</string>
-    <string name="dia_hint">Two fingers: zoom and turn · drag two fingers up/down: 3D tilt · double tap: zoom in</string>
+    <string name="dia_hint">Two fingers: zoom and turn · 3D button to tilt · N↑ puts north up</string>
     <string name="dia_away">from the airport</string>
     <string name="log_title">📒 Logbook</string>
     <string name="log_flights">Flights</string>
@@ -303,6 +303,8 @@ or tap an airport → Add to route, or long-press anywhere on the chart.</string
     <string name="search_hint">🔍 FAA ID · ICAO · airport name · city</string>
     <string name="search_nearby">Nearest to you</string>
     <string name="search_count">%d results</string>
+    <string name="dia_photo_only">Satellite photo of the field. (Couldn\'t get the taxiway names right now, tap ⟳ with internet)</string>
+    <string name="map_max_zoom">This is as close as the chart stays sharp. Closer: open the airport diagram 🛬</string>
     <string name="map_circle">Circle</string>
     <string name="map_ruler">Ruler</string>
     <string name="pen_write">Write and highlight</string>

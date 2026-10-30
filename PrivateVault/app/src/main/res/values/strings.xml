@@ -272,7 +272,7 @@
     <string name="dia_loading">جاري رسم المطار…</string>
     <string name="dia_fail">تعذّر جلب المطار، جرّب لما يكون في إنترنت (بعدها بيشتغل بدون إنترنت)</string>
     <string name="dia_empty">ما في رسم مفصّل لهالمطار، جرّب «FAA diagram»</string>
-    <string name="dia_hint">إصبعين: تكبير ولف · اسحب الإصبعين لفوق وتحت: ميلان 3D · دبل كليك: تقريب</string>
+    <string name="dia_hint">إصبعين: تكبير ولف · زر 3D للميلان · N↑ يرجّع الشمال لفوق</string>
     <string name="dia_away">عن المطار</string>
     <string name="log_title">📒 سجل الطيران</string>
     <string name="log_flights">الرحلات</string>
@@ -317,6 +317,8 @@
     <string name="search_hint">🔍 FAA ID · ICAO · اسم المطار · المدينة</string>
     <string name="search_nearby">الأقرب لك</string>
     <string name="search_count">%d نتيجة</string>
+    <string name="dia_photo_only">صورة القمر الصناعي للمطار. (ما قدرت أجيب أسماء الـ taxiways هلأ، اكبس ⟳ لما يكون في إنترنت)</string>
+    <string name="map_max_zoom">هاد أقرب حد بتضل فيه الخريطة واضحة. للأقرب: افتح مخطط المطار 🛬</string>
     <string name="map_circle">دائرة</string>
     <string name="map_ruler">مسطرة</string>
     <string name="pen_write">كتابة وتظليل</string>

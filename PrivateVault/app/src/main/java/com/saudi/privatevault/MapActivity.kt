@@ -174,7 +174,23 @@ class MapActivity : BaseActivity() {
         b.fabLayers.setOnClickListener { chooseLayer() }
         b.fabDraw.setOnClickListener { toggleDrawing() }
         b.fabLocate.setOnClickListener { follow() }
-        b.zoomIn.setOnClickListener { map.controller.zoomIn() }
+        b.zoomIn.setOnClickListener {
+            if (map.zoomLevelDouble >= map.maxZoomLevel - 0.05) Toast.makeText(this, R.string.map_max_zoom, Toast.LENGTH_SHORT).show()
+            map.controller.zoomIn()
+        }
+        // Two fingers turn the chart; a long press on the position button puts north back up.
+        map.overlays.add(org.osmdroid.views.overlay.gestures.RotationGestureOverlay(map).apply { isEnabled = true })
+        b.fabLocate.setOnLongClickListener {
+            trackUp = false
+            map.mapOrientation = 0f
+            Toast.makeText(this, "N↑", Toast.LENGTH_SHORT).show()
+            true
+        }
+        // Any finger on the chart lets go of the aircraft, so the chart moves freely.
+        map.setOnTouchListener { _, e ->
+            if (e.actionMasked == android.view.MotionEvent.ACTION_MOVE && following && draw.tool == MapDrawOverlay.MapTool.PAN) follow()
+            false
+        }
         b.zoomOut.setOnClickListener { map.controller.zoomOut() }
         b.measureKeep.setOnClickListener { draw.keepRuler(); b.measureBar.visibility = View.GONE }
         b.measureClose.setOnClickListener { draw.clearRuler() }
@@ -1242,7 +1258,8 @@ class MapActivity : BaseActivity() {
 
     /** How far in a chart can be read: two to three steps past its printed scale. */
     private fun zoomLimit() {
-        map.maxZoomLevel = layer.maxZoom + if (map.isTilesScaledToDpi) 1.5 else 2.5
+        // A scanned chart holds about one step of enlargement before its print goes soft; closer in, the airport diagram takes over.
+        map.maxZoomLevel = layer.maxZoom + if (layer.maxZoom >= 16) 1.5 else if (map.isTilesScaledToDpi) 0.3 else 1.0
         if (map.zoomLevelDouble > map.maxZoomLevel) map.controller.setZoom(map.maxZoomLevel)
     }
 
