@@ -777,10 +777,47 @@ class CloudSync:
             self._set(phase="index")
             remote = self._get("/api/index")
             have = {i.get("src") for i in remote.get("items", []) if i.get("src")}
+            # Files already on the cloud that came another way (the phone, the web page):
+            # the same file in the same folder, or the same name and size anywhere.
+            rfolders = {d["id"]: d for d in remote.get("folders", [])}
+
+            def rpath(it):
+                names = [it.get("name", "")]
+                d = rfolders.get(it.get("folder"))
+                seen = 0
+                while d and seen < 50:
+                    names.insert(0, d.get("name", ""))
+                    d = rfolders.get(d.get("parent"))
+                    seen += 1
+                return "/".join(n.replace("/", "-") for n in names).lower()
+
+            def stem(name):
+                return os.path.splitext(name)[0].lower()
+
+            there_paths = set()
+            there_names = set()
+            there_sized = set()
+            for it in remote.get("items", []):
+                p = rpath(it)
+                there_paths.add(p)
+                there_paths.add(os.path.splitext(p)[0])
+                there_names.add(stem(it.get("name", "")))
+                there_sized.add((it.get("name", "").lower(), it.get("size")))
+
+            def on_cloud(i):
+                if "laptop:" + i["id"] in have:
+                    return True
+                rel = self._rel_path(i).lower()
+                if rel in there_paths or (is_video(i) and os.path.splitext(rel)[0] in there_paths):
+                    return True
+                if (i["name"].lower(), i.get("size")) in there_sized:
+                    return True
+                # A video was made smaller on the way up, so only its name can match.
+                return is_video(i) and stem(i["name"]) in there_names
+
             snap = self.app.vault.snapshot()
             scope = self.app.vault.subtree(folder) if folder else None
-            items = [i for i in snap["items"] if (scope is None or i.get("folder") in scope)
-                     and "laptop:" + i["id"] not in have]
+            items = [i for i in snap["items"] if (scope is None or i.get("folder") in scope) and not on_cloud(i)]
             no_tool = None
             if compress and any(is_video(i) for i in items) and not self.ffmpeg():
                 try:
@@ -920,7 +957,7 @@ def merge_notes(old: dict, new: dict) -> dict:
 # no limit). The key stays on the server; devices only send the text.
 
 GEMINI_URL = os.environ.get("KHAZANTI_GEMINI_URL", "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent")
-GEMINI_MODELS = ["gemini-flash-latest", "gemini-2.5-flash"]
+GEMINI_MODELS = ["gemini-2.5-flash", "gemini-flash-latest"]
 OLLAMA_URL = os.environ.get("KHAZANTI_OLLAMA_URL", "http://127.0.0.1:11434")
 LOCAL_MODEL = os.environ.get("KHAZANTI_LOCAL_MODEL", "qwen2.5:3b")
 
@@ -1007,8 +1044,9 @@ class Assistant:
                 out = _post_json(GEMINI_URL.format(model=model), {
                     "systemInstruction": {"parts": [{"text": ASSISTANT}]},
                     "contents": [{"role": "user", "parts": [{"text": prompt}]}],
-                    "generationConfig": {"temperature": 0.3},
-                }, headers={"x-goog-api-key": self.key}, timeout=90)
+                    # No long "thinking" first: a study answer in a few seconds.
+                    "generationConfig": {"temperature": 0.3, "thinkingConfig": {"thinkingBudget": 0}},
+                }, headers={"x-goog-api-key": self.key}, timeout=60)
                 parts = out["candidates"][0]["content"]["parts"]
                 text = "".join(p.get("text", "") for p in parts).strip()
                 if text:
