@@ -316,7 +316,7 @@ class ExtrasOverlay(map: MapView, private val ownship: () -> GeoPoint?, private 
             drafting?.let { polygon(c, mv, it.toDoubleArray(), 0xFFFFAB00.toInt(), "…", closed = false) }
         }
 
-        if (mtr && z >= 7) {
+        if (mtr && z >= 8) {
             line.color = 0xFF6D4C41.toInt(); line.strokeWidth = 2 * d; line.pathEffect = null
             for (l in FaaData.mtrs) {
                 if (!(0 until l.pts.size / 2).any { inView(l.pts[2 * it], l.pts[2 * it + 1]) }) continue
@@ -328,11 +328,11 @@ class ExtrasOverlay(map: MapView, private val ownship: () -> GeoPoint?, private 
                 c.drawPath(path, line)
                 val mid = l.pts.size / 4
                 val p = xy(l.pts[2 * mid], l.pts[2 * mid + 1])
-                label(c, l.name, p.x + 4 * d, p.y - 4 * d, 0xFF6D4C41.toInt())
+                if (z >= 9.5) label(c, l.name, p.x + 4 * d, p.y - 4 * d, 0xFF6D4C41.toInt())
             }
         }
 
-        if (modeC && z >= 6) {
+        if (modeC && z >= 6 && z <= 11) {
             // 30 nm around each Class B primary airport (91.215): a transponder with altitude, and ADS-B Out.
             line.color = 0xFF2962FF.toInt(); line.strokeWidth = 1.6f * d
             line.pathEffect = DashPathEffect(floatArrayOf(12 * d, 8 * d), 0f)
@@ -346,7 +346,7 @@ class ExtrasOverlay(map: MapView, private val ownship: () -> GeoPoint?, private 
             line.pathEffect = null
         }
 
-        if (navaids && z >= 7) for (n in FaaData.navaids) {
+        if (navaids && z >= 8) for (n in FaaData.navaids) {
             if (!inView(n.lat, n.lon)) continue
             val p = xy(n.lat, n.lon)
             val x = p.x.toFloat(); val y = p.y.toFloat()
@@ -355,17 +355,17 @@ class ExtrasOverlay(map: MapView, private val ownship: () -> GeoPoint?, private 
             val hex = Path().apply { for (k in 0..6) { val a = Math.toRadians(60.0 * k); val px = x + r * Math.cos(a).toFloat(); val py = y + r * Math.sin(a).toFloat(); if (k == 0) moveTo(px, py) else lineTo(px, py) } }
             c.drawPath(hex, line)
             fill.color = 0xFF0D47A1.toInt(); c.drawCircle(x, y, 1.8f * d, fill)
-            if (z >= 8) label(c, "${n.ident} ${n.extra}".trim(), x + 9 * d, y - 6 * d, 0xFF0D47A1.toInt())
+            if (z >= 9.5) label(c, "${n.ident} ${n.extra}".trim(), x + 9 * d, y - 6 * d, 0xFF0D47A1.toInt())
         }
 
-        if (waypoints && z >= 8) for (w in FaaData.waypoints) {
+        if (waypoints && z >= 9) for (w in FaaData.waypoints) {
             if (!inView(w.lat, w.lon)) continue
             val p = xy(w.lat, w.lon)
             val x = p.x.toFloat(); val y = p.y.toFloat()
             fill.color = 0xFFAD1457.toInt()
             val flag = Path().apply { moveTo(x, y); lineTo(x, y - 12 * d); lineTo(x + 8 * d, y - 9 * d); lineTo(x, y - 6 * d); close() }
             c.drawPath(flag, fill)
-            if (z >= 9) label(c, w.ident, x + 9 * d, y - 4 * d, 0xFFAD1457.toInt())
+            if (z >= 10.5) label(c, w.ident, x + 9 * d, y - 4 * d, 0xFFAD1457.toInt())
         }
 
         if (obstacles && z >= 9) {
@@ -403,7 +403,7 @@ class ExtrasOverlay(map: MapView, private val ownship: () -> GeoPoint?, private 
             line.pathEffect = null
         }
 
-        if (sfcWind && z >= 7) for (m in metars()) {
+        if (sfcWind && z >= 8.5) for (m in metars()) {
             val j = m.json ?: continue
             val lat = j.optDouble("lat"); val lon = j.optDouble("lon")
             if (lat.isNaN() || !inView(lat, lon)) continue
@@ -412,11 +412,11 @@ class ExtrasOverlay(map: MapView, private val ownship: () -> GeoPoint?, private 
             val p = xy(lat, lon)
             val gust = j.optString("wgst").toIntOrNull()
             barb(c, p.x.toFloat(), p.y.toFloat(), dir, spd, mv.mapOrientation, if (spd >= 16 || (gust ?: 0) >= 20) 0xFFD50000.toInt() else 0xFF263238.toInt())
-            if (z >= 9) label(c, (if (dir == null) "VRB" else "%03d".format(dir)) + "/$spd" + (gust?.let { "G$it" } ?: ""),
+            if (z >= 10.5) label(c, (if (dir == null) "VRB" else "%03d".format(dir)) + "/$spd" + (gust?.let { "G$it" } ?: ""),
                 p.x.toFloat(), p.y + 16 * d, 0xFF263238.toInt(), Paint.Align.CENTER)
         }
 
-        if (densityAlt && z >= 7) for (m in metars()) {
+        if (densityAlt && z >= 8.5) for (m in metars()) {
             val j = m.json ?: continue
             val lat = j.optDouble("lat"); val lon = j.optDouble("lon")
             if (lat.isNaN() || !inView(lat, lon)) continue
@@ -471,7 +471,7 @@ class ExtrasOverlay(map: MapView, private val ownship: () -> GeoPoint?, private 
         if (kt < 3 || dirTrue == null) { c.drawCircle(x, y, 5 * d, line); return }
         c.save()
         c.rotate(dirTrue + mapTurn, x, y)
-        val staff = 26 * d
+        val staff = 20 * d
         c.drawLine(x, y, x, y - staff, line)
         var left = (kt + 2) / 5 * 5
         var at = y - staff

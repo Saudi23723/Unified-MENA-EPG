@@ -177,12 +177,17 @@ class MapActivity : BaseActivity() {
         extras = ExtrasOverlay(map,
             { if (::ownship.isInitialized) ownship.position() else null },
             { if (::ownship.isInitialized) ownship.fix?.takeIf { it.hasAltitude() && gotGps }?.altitude?.times(3.28084) else null }).apply {
-            mtr = prefs.getBoolean("x_mtr", true); modeC = prefs.getBoolean("x_modec", true)
-            waypoints = prefs.getBoolean("x_wp", true); navaids = prefs.getBoolean("x_nav", false)
-            obstacles = prefs.getBoolean("x_obst", false); sfcWind = prefs.getBoolean("x_sfcwind", true)
+            // The new layers start off: the chart stays clean until the pilot picks what to add.
+            if (!prefs.getBoolean("x_clean_v2", false)) {
+                prefs.edit().apply { for (k in prefs.all.keys) if (k.startsWith("x_") && k != "x_aloft_ft") remove(k) }
+                    .putBoolean("x_clean_v2", true).apply()
+            }
+            mtr = prefs.getBoolean("x_mtr", false); modeC = prefs.getBoolean("x_modec", false)
+            waypoints = prefs.getBoolean("x_wp", false); navaids = prefs.getBoolean("x_nav", false)
+            obstacles = prefs.getBoolean("x_obst", false); sfcWind = prefs.getBoolean("x_sfcwind", false)
             aloft = prefs.getBoolean("x_aloft", false); aloftFt = prefs.getInt("x_aloft_ft", 6000)
             ceilVis = prefs.getBoolean("x_ceilvis", false); densityAlt = prefs.getBoolean("x_da", false)
-            rings = prefs.getBoolean("x_rings", false); centerlines = prefs.getBoolean("x_rwy", true)
+            rings = prefs.getBoolean("x_rings", false); centerlines = prefs.getBoolean("x_rwy", false)
             practice = prefs.getBoolean("x_practice", true); night = prefs.getBoolean("x_night", false)
             metars = { airportsLayer.weather.values }
             practiceAreas = PracticeAreas.load(this@MapActivity)
