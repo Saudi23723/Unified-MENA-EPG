@@ -18,13 +18,14 @@ class ChecklistActivity : BaseActivity() {
 
     private lateinit var col: LinearLayout
     private val prefs get() = VaultLock.prefs(this)
-    private var aircraft = "SportStar"
+    private var aircraft = "SportStar MAX"
     private val done = HashSet<String>()
+    private var emergency: View? = null
     private fun dp(v: Int) = EfbUi.dp(this, v)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        aircraft = prefs.getString("ck_aircraft", "SportStar")!!
+        aircraft = prefs.getString("ck_aircraft", "SportStar MAX")!!.let { if (it == "SportStar") "SportStar MAX" else it }
         col = EfbUi.screen(this, getString(R.string.ck_title)) { bar ->
             bar.menu.add(R.string.ck_reset).setOnMenuItemClickListener { done.clear(); build(); true }
             bar.menu.add(R.string.ck_edit).setOnMenuItemClickListener { edit(); true }
@@ -38,7 +39,7 @@ class ChecklistActivity : BaseActivity() {
     private fun build() {
         col.removeAllViews()
         val chips = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; setPadding(0, dp(4), 0, dp(4)) }
-        for (a in listOf("SportStar", "C172")) {
+        for (a in listOf("SportStar MAX", "C172")) {
             chips.addView(EfbUi.text(this, a, 15f, EfbUi.TEXT, bold = true).apply {
                 background = EfbUi.cardBg(this@ChecklistActivity, if (a == aircraft) 0xFF00838F.toInt() else EfbUi.CARD, 20)
                 setPadding(dp(16), dp(8), dp(16), dp(8))
@@ -50,13 +51,19 @@ class ChecklistActivity : BaseActivity() {
                 }
             }, LinearLayout.LayoutParams(-2, -2).apply { marginEnd = dp(8) })
         }
-        col.addView(chips)
+        chips.addView(EfbUi.text(this, "🆘 EMERGENCY", 15f, 0xFFFFFFFF.toInt(), bold = true).apply {
+            background = EfbUi.cardBg(this@ChecklistActivity, 0xFFC62828.toInt(), 20)
+            setPadding(dp(16), dp(8), dp(16), dp(8))
+            EfbUi.pressable(this) { emergency?.let { v -> (col.parent as? android.widget.ScrollView)?.smoothScrollTo(0, v.top) } }
+        })
+        col.addView(android.widget.HorizontalScrollView(this).apply { isHorizontalScrollBarEnabled = false; addView(chips) })
         col.addView(EfbUi.text(this, getString(R.string.ck_note), 11f, EfbUi.DIM).apply { setPadding(dp(2), dp(4), dp(2), dp(4)) })
         var card: LinearLayout? = null
         var section = ""
         var progress: TextView? = null
         val rows = ArrayList<Triple<String, View, String>>()   // key, row, section
         val counters = HashMap<String, TextView?>()
+        emergency = null
         for (raw in text().lines()) {
             val line = raw.trim()
             if (line.isEmpty()) continue
@@ -70,9 +77,23 @@ class ChecklistActivity : BaseActivity() {
                 counters[section] = progress
                 card.addView(head)
                 col.addView(card)
+                if (emergency == null && section.contains("EMERGENCY", true)) emergency = card
+                if (section.startsWith("📋")) card.background = EfbUi.cardBg(this, 0xFF0F2236.toInt())
                 continue
             }
             val c = card ?: EfbUi.card(this).also { card = it; col.addView(it) }
+            // Warnings, cautions and notes as printed, not ticked.
+            if (line.startsWith("!")) {
+                val t = line.drop(1).trim()
+                c.addView(EfbUi.text(this, t, 13f, if (t.startsWith("WARNING")) EfbUi.BAD else EfbUi.WARN, bold = true).apply {
+                    setPadding(dp(10), dp(8), dp(10), dp(8))
+                    background = EfbUi.cardBg(this@ChecklistActivity, 0xFF2A1A12.toInt(), 10)
+                    layoutDirection = View.LAYOUT_DIRECTION_LTR
+                    textDirection = View.TEXT_DIRECTION_LTR
+                }, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(6); bottomMargin = dp(6) })
+                continue
+            }
+            val reference = section.startsWith("📋")
             val key = "$section|$line"
             val (item, action) = line.split(Regex("\\s*(\\.{2,}|—|-{2,}|\\|)\\s*"), 2).let { it[0] to it.getOrElse(1) { "" } }
             val row = LinearLayout(this).apply {
@@ -81,11 +102,12 @@ class ChecklistActivity : BaseActivity() {
                 setPadding(dp(4), dp(9), dp(4), dp(9))
                 layoutDirection = View.LAYOUT_DIRECTION_LTR
             }
-            val mark = EfbUi.text(this, "○", 20f, EfbUi.DIM)
+            val mark = EfbUi.text(this, if (reference) "•" else "○", 20f, if (reference) EfbUi.ACCENT else EfbUi.DIM)
             row.addView(mark, LinearLayout.LayoutParams(dp(32), -2))
             row.addView(EfbUi.text(this, item, 15f, EfbUi.TEXT), LinearLayout.LayoutParams(0, -2, 1f))
             row.addView(EfbUi.text(this, action, 15f, EfbUi.WARN, bold = true).apply { gravity = Gravity.END })
             c.addView(row)
+            if (reference) continue
             val sec = section
             val p = progress
             rows.add(Triple(key, row, sec))
@@ -144,82 +166,341 @@ class ChecklistActivity : BaseActivity() {
     }
 
     companion object {
+        /** Evektor SportStar MAX, from its Aircraft Operating Instructions (SSM2008AOIUS), with the AOI page of each part. */
         private val SPORTSTAR = """
-# PREFLIGHT
-Documents (ARROW) .. On board
-Fuel quantity .. Checked visually
-Fuel sump .. Drained, no water
-Oil (Rotax 912) .. Burped, level checked
-Coolant .. Level checked
-Propeller & spinner .. No nicks, secure
-Control surfaces .. Free, hinges secure
-Tires & brakes .. Condition, pressure
-Pitot cover / tie-downs .. Removed
-Canopy .. Clean, latches work
-# BEFORE START
-Seats & harnesses .. Adjusted, fastened
-Brakes .. Set
-Fuel valve .. ON
-Circuit breakers .. In
-Avionics .. OFF
-# ENGINE START
-Choke .. As required (cold)
-Throttle .. Idle
+# 📋 SPEEDS · AOI 2-3, 2-4, 3-3, 4-3
+VS0 · stall, flaps 50°, max weight .. 37 KIAS
+VS1 · stall, flaps 0°, max weight .. 38 KIAS
+VX · flaps 15° / flaps 0° .. 54 / 56 KIAS
+VY · flaps 15° / flaps 0° .. 57 / 65 KIAS
+Climb to 50 ft (flaps 15°) .. 57 KIAS
+Rotation / lift-off airspeed .. 57 KIAS
+Approach, normal landing (flaps 50°) .. 60 KIAS
+Balked landing, flaps 15° .. 56 KIAS
+Best glide (flaps 0°) .. 59 KIAS
+Glide, flaps 15° .. 55 KIAS
+Precautionary / emergency landing (flaps 50°) .. 55 KIAS
+VFE · max flap extended .. 70 KIAS
+VA · manoeuvring .. 90 KIAS
+VNO · max structural cruising .. 115 KIAS
+VNE · never exceed .. 146 KIAS
+Max demonstrated crosswind (AOI 5-14) .. 16 kts
+Max demonstrated tail wind .. 6 kts
+Max demonstrated wind .. 24 kts
+# 📋 LIMITS · AOI 2-5 TO 2-10
+Engine .. ROTAX 912 ULS
+RPM max take-off (max 5 min) .. 5800
+RPM max continuous .. 5500
+RPM idle .. 1400
+Oil temp max / optimum .. 266 °F / 190-230 °F
+Oil pressure min / optimum / max .. 12 / 29-73 / 102 PSI
+Coolant temp max .. 248 °F
+Fuel pressure min .. 2.2 PSI
+Ignition check at 4000 RPM: max drop .. 300 RPM
+Max difference L / R .. 120 RPM
+Max take-off / landing weight .. 1320 lbs
+Max baggage .. 55 lbs
+Min crew weight .. 121 lbs
+Operating C.G. range .. 20 to 34 %MAC
+Load factors .. +4.0 / -2.0
+Fuel: total / usable .. 31.7 / 31.2 US gal
+Oil volume min / max .. 0.53 / 0.79 US gal
+Approved manoeuvres .. bank up to 60°, no spins
+! WARNING: AEROBATICS AS WELL AS INTENTIONAL SPINS ARE PROHIBITED! NOT AUTHORIZED FOR FLIGHT INTO KNOWN OR FORECAST POSSIBLE ICING CONDITIONS. NOT AUTHORIZED FOR FLIGHT WITHIN 25 MILES OF KNOWN LIGHTNING OR THUNDERSTORMS.
+# PRE-FLIGHT CHECK · AOI 4-4 TO 4-7
+! WARNING: CHECK BEFORE PRE-FLIGHT CHECK THAT IGNITION IS SWITCHED OFF!
+1. Left landing gear leg: attachment and condition .. check
+1. Left gear: wheel, tire condition and inflation .. check
+1. Left gear: wheel covers, ground cable (if installed) .. check
+2. Left wing: surface, leading edge, landing light (if installed) .. check
+2. Left wing: Pitot tube condition .. check
+2. Left wing: drain fuel tank (AOI 8-6) .. drain
+2. Left wing: fuel tank cap .. closed
+3. Left wing tip: surface, attachment, fuel tank vent cleanness .. check
+3. Left wing tip: position lights / beacon (if installed) .. check
+4. Left aileron: surface, trim tab (if installed), attachment, free movement .. check
+5. Left wing flap: surface, attachment .. check
+6. Rear fuselage: surface, antennas (if installed) .. check
+7. Tail units: tail skid, surface .. check
+7. Tail units: rudder and elevator attachment, freedom of movement .. check
+7. Tail units: trim tab and elevator trim tab control .. check
+8. Rear fuselage: surface .. check
+9. Right wing flap (see 5.) .. check
+10. Right aileron (see 4., except the trim tab) .. check
+11. Right wing tip (see 3.) .. check
+12. Right wing (see 2., except landing light) .. check
+12. Alternate pitot tube (IFR) / AOA probe (if installed) .. check
+13. Right landing gear leg (see 1.) .. check
+14. Front fuselage right: tip-up canopy attachment and condition .. check
+14. Nose gear leg, nose wheel, nose wheel control rods .. check
+14. External power socket (if installed) .. check
+15. Engine, first flight of day (upper cowling off): engine bed, attachment, exhaust, cowlings .. check
+15. Fuel and electrical system, visual .. check
+15. Coolant in expansion tank (max. 2/3) .. check
+15. Every flight: air intakes cleanness .. check
+15. Oil level (between marks on dip stick) .. check
+15. Coolant in overflow bottle (approx. 0.42 pints) .. check
+15. Upper cowling .. properly closed
+16. Propeller: attachment, blades, hub and spinner .. check
+17. Front fuselage left: tip-up canopy attachment and condition .. check
+18. Cockpit: Master switch .. switched on
+18. Canopy OPEN/CLOSE indication light (or EFIS message) .. function check
+18. All switches .. OFF
+18. Instrument equipment .. check condition
+18. Safety belts condition and attachment .. check
+18. Loose objects in the cockpit .. check
+18. Rudder pedals (if adjustable): same position, secured .. check
+18. AOI and other required documents .. complete and valid
+# BEFORE ENGINE STARTING · AOI 4-8
+Pre-flight check, weight and C.G. .. done
+External power source (if socket installed) .. connect as necessary
+Safety harnesses .. check, fasten
+Control stick .. free
+Rudder pedals .. free
+Wing flaps .. function check
+Trim tab .. function check
+PARKING BRAKE handle (if installed) .. release brakes
+Brakes .. function check
+AVIONICS SWITCH .. check OFF
+Ignition .. check OFF
+Canopy .. close
+# ENGINE STARTING · AOI 4-8 TO 4-10
 Master switch .. ON
-Beacon .. ON
-Ignition A & B .. ON
-Propeller area .. CLEAR
-Starter .. Engage
-Oil pressure .. Rising within 10 s
-Choke .. OFF
-Avionics .. ON, ATIS
-# BEFORE TAKEOFF
-Brakes .. Set
-Oil temperature .. In range for runup
-Throttle .. 4000 RPM
-Ignition check .. Drop within POH limits
-Carb heat / instruments .. Checked
-Throttle .. Idle, smooth
-Flight controls .. Free and correct
-Trim .. Set for takeoff
-Flaps .. Takeoff position
-Canopy .. Closed and locked
-Transponder .. ALT
-Lights .. ON
-# TAKEOFF
-Throttle .. Full
-Engine instruments .. Green
-Rotate .. At POH speed
-Climb .. Vy, flaps up at safe altitude
-# CRUISE
-Power .. Set
-Engine instruments .. Monitor
-Fuel .. Check and log
-# BEFORE LANDING
-Fuel valve .. ON
-Seat belts .. Tight
-Landing light .. ON
-Flaps .. As required
-Approach speed .. Per POH
-# AFTER LANDING
-Flaps .. Up
-Transponder .. Standby
-Lights .. As required
-# SHUTDOWN
-Throttle .. Idle, cool down
-Avionics .. OFF
+Fuel gauge indicators .. check fuel qty.
+FUEL SELECTOR (pull safety button) .. LEFT
+Electric fuel pump (if installed) .. ON
+THROTTLE lever .. idle
+Choke .. as necessary
+Space in the propeller area .. free
+BEACON (if installed) .. ON as necessary
+Brakes .. apply
+Ignition .. START, then BOTH
+! CAUTION: ACTIVATE STARTER FOR 10 SEC. AS A MAXIMUM, THEN LET IT COOL DOWN FOR 2 MINUTES.
+THROTTLE lever .. approx. 2500 RPM
+Oil pressure .. rising within 10 s
+GEN, AUX GEN (if inst.) switches .. ON
+Engine instruments .. check
+Choke .. as necessary
+Engine warm-up: 2000 RPM approx. 2 min, then 2500 RPM .. until oil 122 °F
+FUEL SELECTOR: verify feeding approx. 1 minute .. RIGHT
+FUEL SELECTOR .. LEFT
+External power source (if used) .. disconnect
+AVIONICS SWITCH .. ON
+Radiostation / avionics .. ON
+Other electrical equipment .. ON as necessary
+# BEFORE TAXIING · TAXIING · AOI 4-10
+Transponder (if installed) .. SBY
+Outside lights (if installed) .. as necessary
+THROTTLE lever .. as necessary
+Brakes .. check by depressing
+Rudder pedals .. function check
+# BEFORE TAKE-OFF · AOI 4-11, 4-12
+Brakes .. brake
+Ignition check at 4000 RPM: L, BOTH, R, BOTH .. max drop 300, diff 120
+Engine instruments .. check
+Control stick .. free
+Wing flaps .. Take-off pos. (15°)
+Elevator trim .. NEUTRAL
+Aileron trim (if installed) .. NEUTRAL
+Fuel gauge indicator .. check fuel quantity
+FUEL SELECTOR .. check LEFT
+CARB. PREHEATER (if installed) .. check function, then OFF
+Engine instruments .. check
+Flight instruments .. check
+Radiostation / avionics .. check, set
+Ignition .. check BOTH
+Choke .. close
+Master switch .. check ON
+Safety harnesses .. tighten up
+Canopy .. closed
+Transponder (if installed) .. ON or ALT
+! WARNING: TAKE-OFF IS PROHIBITED IF ENGINE RUNNING IS IRREGULAR, IF CHOKE IS OPEN, OR IF ENGINE INSTRUMENTS ARE NOT WITHIN THE REQUIRED RANGE.
+# TAKE-OFF · CLIMB · AOI 4-12
+THROTTLE lever .. max. take-off power
+Take-off run: lighten the nose wheel smoothly .. until lift-off
+Airspeed .. 57 KIAS
+Brakes .. stop main wheel rotation
+At 150 ft: flaps .. retracted (0°)
+Trim .. as necessary
+Climb: THROTTLE lever .. max. continuous power
+Airspeed .. VY 65 KIAS or VX 56 KIAS
+Engine instruments .. check
+Electric fuel pump (if installed) .. OFF
+# CRUISE · DESCENT · AOI 4-13, 4-14
+THROTTLE lever .. as necessary, max. 5500 RPM
+Engine instruments .. check
+Fuel quantity (level flight, wait approx. 2 min) .. check
+Tanks: switch alternately; not RIGHT if left tank full .. as needed
+CARB. PREHEATER (if installed) .. as necessary
+Descent: increased idle, watch engine temperatures .. as necessary
+# BEFORE LANDING · FINAL · AOI 4-14, 4-15
+Fuel quantity .. check
+FUEL SELECTOR .. LEFT
+Engine instruments .. check
+Brakes .. check by depressing pedals
+Safety harnesses .. tighten up
+Free area of landing .. check
+CARB. PREHEATER (if installed) .. ON
+Approaching speed .. 60 KIAS
+Flaps .. Take-off pos. (15°)
+Trim .. as necessary
+Parking brake (if installed) .. check lever down
+Electric fuel pump (if installed) .. ON
+Final: flaps .. landing pos. (30° or 50°)
+Maintain airspeed .. 60 KIAS
+CARB. PREHEATER (if installed) .. OFF
+Landing: THROTTLE lever .. idle
+Touch-down on main wheels; brakes after nose wheel .. as necessary
+# BALKED LANDING · AOI 4-15
+THROTTLE lever .. max. take-off power
+Flaps .. take-off pos. (15°)
+Airspeed .. 56 KIAS
+At 150 ft: flaps .. retracted (0°)
+Trim .. as necessary
+THROTTLE lever .. max. continuous power
+Instruments .. check
+Climb at airspeed .. 65 KIAS
+# AFTER LANDING · SHUT-OFF · PARKING · AOI 4-16, 4-17
+Flaps .. retracted (0°)
+Trim .. NEUTRAL
+Outside lights (if installed) .. OFF
+Transponder (if installed) .. OFF
+Electric fuel pump (if installed) .. OFF
+THROTTLE lever .. idle
+Engine instruments .. check
+AVIONICS SWITCH .. OFF
+Radiostation / avionics .. OFF
+Other electrical equipment .. OFF
 Ignition .. OFF
-Master .. OFF
-Fuel valve .. OFF
-Hobbs / tach .. Recorded
-# EMERGENCY · ENGINE FAILURE IN FLIGHT
-Airspeed .. Best glide
-Landing site .. Choose
-Fuel valve .. ON
-Ignition .. Both
-Choke / throttle .. Check
-Mayday .. 121.5, squawk 7700
-Rescue system .. As needed
+BEACON (if installed) .. OFF
+Master switch .. OFF
+FUEL SELECTOR (safety button) .. OFF
+PARKING BRAKE (if installed) or chocks .. as necessary
+Canopy .. close, lock as necessary
+# EMERGENCY · ENGINE FAILURE AT TAKE-OFF RUN · AOI 3-3
+THROTTLE lever .. idle
+Brakes .. as necessary
+FUEL SELECTOR .. OFF
+Ignition .. OFF
+Master switch .. OFF
+# EMERGENCY · ENGINE FAILURE AT TAKE-OFF · AOI 3-3, 3-4
+Gliding speed: flaps 15° / flaps 0° .. min. 55 / 59 KIAS
+Below 150 ft .. land straight ahead
+150 - 400 ft .. straight ahead or turn up to 90°
+Above 250 ft .. you can try to start engine
+Above 400 ft .. turn up to 180° possible
+THROTTLE lever .. idle
+Flaps .. as needed
+FUEL SELECTOR .. OFF
+Ignition .. OFF
+ATC .. report
+Master switch .. OFF
+After touch down .. brake as needed
+# EMERGENCY · ENGINE FAILURE IN FLIGHT · AOI 3-4
+Gliding speed .. 59 KIAS
+Altitude .. decide: restart (3.4) or emergency landing (3.8.1)
+# EMERGENCY · ENGINE STARTING IN FLIGHT · AOI 3-4, 3-5
+! NOTE: If the engine is shut down, altitude loss during engine starting can reach up to 1000 ft.
+Gliding speed .. 59 KIAS
+Altitude .. check
+Master switch .. ON
+Electrical fuel pump (if installed) .. ON
+Unnecessary electrical equipment .. switch off
+FUEL SELECTOR .. LEFT (or RIGHT if left is empty)
+Choke .. as needed
+THROTTLE lever .. idle (choke open) or increased idle
+Propeller rotating: Ignition .. BOTH
+Propeller not rotating: Ignition .. START
+No start: increase gliding speed up to .. 108 KIAS
+Ignition .. BOTH
+Unsuccessful .. emergency landing 3.8.1
+# EMERGENCY · FIRE ON THE GROUND · AOI 3-5
+FUEL SELECTOR .. OFF
+Brakes .. brake
+THROTTLE lever .. full
+HOT AIR knob (if installed) .. push
+After engine stops: Ignition .. OFF
+Master switch .. OFF
+Airplane .. leave
+Manual extinguisher (if available) .. use
+# EMERGENCY · FIRE DURING TAKE-OFF · AOI 3-5, 3-6
+FUEL SELECTOR .. OFF
+THROTTLE lever .. full
+Airspeed .. 65 KIAS
+HOT AIR knob (if installed) .. push
+COLD AIR knob (if installed) .. push
+After engine stops: gliding speed .. 55 KIAS
+Ignition .. OFF
+Master switch .. OFF
+Land .. land
+Airplane .. leave
+Manual extinguisher (if available) .. use
+# EMERGENCY · FIRE IN FLIGHT · AOI 3-6, 3-7
+FUEL SELECTOR .. OFF
+THROTTLE lever .. full
+HOT AIR knob (if installed) .. push
+COLD AIR knob (if installed) .. push
+Gliding speed .. 59 KIAS
+Ignition .. OFF
+ATC .. report if possible
+Master switch .. OFF
+! NOTE: For extinguishing the engine fire, you can perform slip if altitude and time allow.
+! WARNING: AFTER EXTINGUISHING THE ENGINE FIRE START ENGINE ONLY IF IT IS NECESSARY TO SAFE LANDING. FIRE COULD RESTORE AGAIN.
+If restarting: all switches OFF, Master ON, only necessary equipment .. as needed
+Emergency landing .. per 3.8.1
+Airplane .. leave
+Manual extinguisher (if available) .. use as needed
+# EMERGENCY · FIRE IN THE COCKPIT · AOI 3-7
+Fire source .. identify
+Master switch (if electrical fire) .. OFF
+Manual extinguisher .. use
+After extinguishing: aerate cockpit, open eye-ball vents .. as needed
+Safety landing .. per 3.8.2
+! WARNING: NEVER AGAIN SWITCH THE DEFECTIVE SYSTEM. If an electrical circuit was the source, switch off its circuit breaker and Master switch back ON.
+# EMERGENCY · LANDING, ENGINE NOT OPERATING · AOI 3-8
+Airspeed .. 59 KIAS
+Landing area .. choose, determine wind direction
+Safety harness .. tighten up
+Flaps .. landing position (50°)
+Airspeed .. 60 KIAS
+Radiostation .. notify ATC (if possible)
+FUEL SELECTOR .. OFF
+Ignition .. OFF
+Master switch .. OFF before touch down
+# EMERGENCY · SAFETY LANDING, ENGINE OPERATING · AOI 3-8
+Area for landing: pass over at 59 KIAS, flaps 15° .. choose, wind direction
+Radiostation .. notify ATC (if possible)
+Safety harness .. tighten up
+Flaps .. landing position (50°)
+Airspeed .. 60 KIAS
+Landing .. carry out
+# EMERGENCY · BURST TIRE · DAMAGED GEAR · AOI 3-9
+Burst tire: keep that wheel off the ground with ailerons (nose wheel: elevator) .. as long as possible
+At running: hold direction with foot control and brakes .. as needed
+Nose gear damage: touch down at lowest speed, keep on main wheels .. as long as possible
+Main gear damage: touch down at lowest speed, keep direction .. if possible
+# EMERGENCY · UNINTENTIONAL SPIN · AOI 3-9, 3-10
+THROTTLE lever .. idle
+Control stick: ailerons .. neutral
+Pedals .. full rudder against rotation
+Control stick .. push forward, hold until rotation stops
+Pedals, immediately after rotation stops .. neutral
+Control stick .. recover the diving
+! CAUTION: ALTITUDE LOSS PER ONE TURN AND RECOVERING FROM THE SPIN IS 500 UP TO 1000 FT.
+# EMERGENCY · VIBRATION · CARBURETTOR ICING · AOI 3-10
+Vibration: engine RPM .. set where vibrations are lowest
+Land at nearest airport or safety landing 3.8.2 .. as needed
+Carb icing: CARB. PREHEATER (if installed) .. ON
+THROTTLE lever .. idle, then cruising power again
+Power not recovered .. land at nearest airport or precautionary landing 3.8.2
+# EMERGENCY · CANOPY OPENING IN FLIGHT · AOI 3-11
+Grasp shaking control stick(s) .. hold
+THROTTLE: reduce airspeed to approx. .. 65 KIAS
+Pull opened canopy down by its frame and keep holding .. hold
+! WARNING: PRIORITY IS TO MAINTAIN AIRPLANE CONTROLLABILITY! ATTEMPTS TO CLOSE THE CANOPY ARE SECONDARY!
+Try to close the canopy (possible in dual flight) .. if able
+Safety landing .. per 3.8.2
+After landing: check canopy, lock system and horizontal tail .. inspect
 """.trimIndent()
 
         private val C172 = """

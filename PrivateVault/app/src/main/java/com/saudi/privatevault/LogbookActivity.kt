@@ -220,7 +220,7 @@ class LogbookActivity : BaseActivity() {
 
     private fun newEntry(): LogEntry {
         val last = entries.firstOrNull()
-        return LogEntry(aircraft = last?.aircraft ?: "SportStar", tail = last?.tail ?: "", from = prefs.getString("efb_home", "KBVU")!!,
+        return LogEntry(aircraft = last?.aircraft ?: "SportStar MAX", tail = last?.tail ?: "", from = prefs.getString("efb_home", "KBVU")!!,
             to = prefs.getString("efb_home", "KBVU")!!, hobbsOut = last?.hobbsIn ?: 0.0)
     }
 

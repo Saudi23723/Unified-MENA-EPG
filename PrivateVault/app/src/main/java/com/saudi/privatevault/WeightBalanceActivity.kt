@@ -101,7 +101,9 @@ class WeightBalanceActivity : BaseActivity() {
             })
         }
         body.addView(TextView(this).apply {
-            text = "Empty %.1f lb @ %.2f in · Max %.0f lb".format(a.emptyWeight, a.emptyArm, a.maxWeight)
+            text = "Empty %.1f lb @ %.2f in".format(a.emptyWeight, a.emptyArm) +
+                (if (a.mac > 0) " (%.2f %%MAC)".format(a.pctMac(a.emptyArm)) else "") + " · Max %.0f lb".format(a.maxWeight) +
+                (if (a.mac > 0) "\n${getString(R.string.wb_aoi_source)}" else "")
             layoutDirection = View.LAYOUT_DIRECTION_LTR
             setPadding(0, dp(4), 0, dp(8))
         })
@@ -168,10 +170,14 @@ class WeightBalanceActivity : BaseActivity() {
         val a = aircraft[current]
         val (to, ld) = a.compute(burn)
         fun line(label: String, r: Aircraft.Result) =
-            "%-8s %7.1f lb  CG %6.2f in  %s".format(label, r.weight, r.cg, if (r.inside) "✅" else "❌")
+            "%-8s %7.1f lb  CG %6.2f in%s  %s".format(label, r.weight, r.cg,
+                if (a.mac > 0) " %5.1f%%MAC".format(a.pctMac(r.cg)) else "", if (r.inside) "✅" else "❌")
+        // The AOI's least crew weight (page 2-7): a light pilot alone puts the C.G. too far forward.
+        val crew = a.stations.firstOrNull { it.name.startsWith("Crew") }?.load
+        val light = if (a.mac > 0 && crew != null && crew < 121) "\n⚠️ Minimum crew weight 121 lbs (AOI 2-7)" else ""
         val over = to.weight - a.maxWeight
         result.text = line("Takeoff", to) + "\n" + line("Landing", ld) + "\n" +
-            (if (over > 0) "⚠️ %.1f lb over the maximum weight".format(over) else "Margin %.1f lb".format(-over))
+            (if (over > 0) "⚠️ %.1f lb over the maximum weight".format(over) else "Margin %.1f lb".format(-over)) + light
         result.setTextColor(if (to.inside && ld.inside) 0xFF2E7D32.toInt() else 0xFFC62828.toInt())
         chart.show(a, to, ld)
     }
@@ -195,7 +201,9 @@ class WeightBalanceActivity : BaseActivity() {
         }
         val name = field(box, "Name", a.name, decimal = false)
         val ew = field(box, "Empty weight (lb)", trim(a.emptyWeight))
-        val ea = field(box, "Empty CG arm (in)", trim(a.emptyArm))
+        // Aircraft with %MAC limits take the empty C.G. as the weighing record gives it, in %MAC.
+        val ea = if (a.mac > 0) field(box, "Empty C.G. (%MAC)", "%.2f".format(a.pctMac(a.emptyArm)))
+            else field(box, "Empty CG arm (in)", trim(a.emptyArm))
         val mw = field(box, "Max takeoff weight (lb)", trim(a.maxWeight))
         val arms = a.stations.map { s -> s to (field(box, "${s.name}: arm (in)", trim(s.arm)) to field(box, "${s.name}: max", trim(s.max))) }
         val env = field(box, getString(R.string.wb_envelope), a.envelope.joinToString("  ") { "${trim(it.first)},${trim(it.second)}" }, decimal = false)
@@ -206,7 +214,7 @@ class WeightBalanceActivity : BaseActivity() {
                 try {
                     a.name = name.text.toString().trim().ifEmpty { a.name }
                     a.emptyWeight = ew.text.toString().toDouble()
-                    a.emptyArm = ea.text.toString().toDouble()
+                    a.emptyArm = if (a.mac > 0) ea.text.toString().toDouble() * a.mac / 100 else ea.text.toString().toDouble()
                     a.maxWeight = mw.text.toString().toDouble()
                     for ((s, f) in arms) {
                         s.arm = f.first.text.toString().toDouble()
@@ -224,7 +232,11 @@ class WeightBalanceActivity : BaseActivity() {
                 }
             }
             .setNeutralButton(R.string.wb_add) { _, _ ->
-                aircraft.add(Aircraft.fromJson(a.toJson()).apply { this.name = a.name + " 2" })
+                aircraft.add(Aircraft.fromJson(a.toJson()).apply {
+                    // Another aircraft of the same type: same arms and limits, its own name and empty weight.
+                    this.name = a.name.replace(Regex("\\s+N\\w+$"), "") + " N"
+                    example = false
+                })
                 current = aircraft.size - 1
                 save()
                 build()

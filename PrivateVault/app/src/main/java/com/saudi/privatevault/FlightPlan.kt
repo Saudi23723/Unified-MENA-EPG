@@ -195,7 +195,11 @@ class Aircraft(
     /** The envelope as (CG arm, weight) corners, in order around it. */
     var envelope: MutableList<Pair<Double, Double>>,
     var example: Boolean = false,
+    /** The mean aerodynamic chord in inches, from the datum, when the C.G. limits are given in %MAC. */
+    var mac: Double = 0.0,
 ) {
+    fun pctMac(arm: Double) = if (mac > 0) arm / mac * 100 else Double.NaN
+
     class Station(val name: String, var arm: Double, var max: Double, val fuel: Boolean = false, var load: Double = 0.0)
 
     class Result(val weight: Double, val cg: Double, val inside: Boolean)
@@ -225,7 +229,7 @@ class Aircraft(
         return inside
     }
 
-    fun toJson(): JSONObject = JSONObject().put("n", name).put("ew", emptyWeight).put("ea", emptyArm).put("mw", maxWeight).put("ex", example)
+    fun toJson(): JSONObject = JSONObject().put("n", name).put("ew", emptyWeight).put("ea", emptyArm).put("mw", maxWeight).put("ex", example).put("mac", mac)
         .put("st", JSONArray().apply { for (s in stations) put(JSONObject().put("n", s.name).put("a", s.arm).put("m", s.max).put("f", s.fuel).put("l", s.load)) })
         .put("env", JSONArray().apply { for ((x, y) in envelope) put(JSONArray().put(x).put(y)) })
 
@@ -237,6 +241,7 @@ class Aircraft(
             } }.toMutableList() },
             o.getJSONArray("env").let { a -> (0 until a.length()).map { i -> a.getJSONArray(i).let { it.getDouble(0) to it.getDouble(1) } }.toMutableList() },
             o.optBoolean("ex"),
+            o.optDouble("mac", 0.0),
         )
 
         /** Cessna 172S, normal category (POH section 6); the empty weight and arm are typical: use the aircraft's own sheet. */
@@ -254,24 +259,34 @@ class Aircraft(
         )
 
         /** Evektor SportStar: only a starting point. Every number must come from the aircraft's own weight and balance sheet. */
-        fun sportStar() = Aircraft(
-            "Evektor SportStar", 780.0, 12.0, 1320.0,
+        /**
+         * Evektor SportStar MAX, from its Aircraft Operating Instructions (SSM2008AOIUS): arms on page 6-8,
+         * C.G. range 20 to 34 %MAC on page 2-7, MAC 4.1 ft (49.2 in) on page 1-7, the wing leading edge as datum.
+         * The empty weight and C.G. are each aircraft's own (N19EV: 765 lb, 19.81 %MAC, page 6-5).
+         */
+        fun sportStarMax(tail: String = "N19EV", empty: Double = 765.0, pctMac: Double = 19.81) = Aircraft(
+            "SportStar MAX $tail", empty, Math.round(pctMac * MAX_MAC / 100 * 1000) / 1000.0, 1320.0,
             mutableListOf(
-                Station("Pilot + passenger (lb)", 22.0, 440.0, load = 170.0),
-                Station("Fuel (gal)", 8.0, 30.0, fuel = true, load = 20.0),
-                Station("Baggage (lb)", 48.0, 55.0),
+                Station("Crew (lb)", 21.45, 560.0, load = 170.0),
+                Station("Fuel (US gal)", 26.75, 31.2, fuel = true, load = 20.0),
+                Station("Baggage (lb)", 42.65, 55.0),
             ),
-            mutableListOf(9.5 to 900.0, 9.5 to 1320.0, 15.0 to 1320.0, 15.0 to 900.0),
-            example = true,
+            mutableListOf(20 * MAX_MAC / 100 to 700.0, 20 * MAX_MAC / 100 to 1320.0, 34 * MAX_MAC / 100 to 1320.0, 34 * MAX_MAC / 100 to 700.0),
+            mac = MAX_MAC,
         )
+
+        const val MAX_MAC = 49.2
 
         fun all(ctx: Context): MutableList<Aircraft> {
             val text = VaultLock.prefs(ctx).getString("wb_aircraft", null)
             return try {
                 val a = JSONArray(text!!)
                 (0 until a.length()).map { fromJson(a.getJSONObject(it)) }.toMutableList()
+                    // The old placeholder SportStar gives way to the real SportStar MAX numbers.
+                    .filterNot { it.example && it.name == "Evektor SportStar" }.toMutableList()
+                    .also { l -> if (l.none { it.name.startsWith("SportStar MAX") }) l.add(0, sportStarMax()) }
             } catch (e: Exception) {
-                mutableListOf(sportStar(), c172())
+                mutableListOf(sportStarMax(), c172())
             }
         }
 
