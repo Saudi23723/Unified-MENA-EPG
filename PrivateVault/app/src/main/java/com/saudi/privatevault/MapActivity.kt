@@ -102,6 +102,7 @@ class MapActivity : BaseActivity() {
             setCacheMapTileCount(64.toShort())
         }
         b = ActivityMapBinding.inflate(layoutInflater)
+        ChartUpdates.autoUpdate(this)
         setContentView(b.root)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         setSupportActionBar(b.toolbar)
@@ -1084,6 +1085,7 @@ class MapActivity : BaseActivity() {
                     OfflinePack.airport(this@MapActivity, a, what) { step -> runOnUiThread { status.text = "${i + 1}/${chosen.size}  $step" } }
                 }
             }
+            if (!stop) ChartUpdates.rememberAirports(this@MapActivity, chosen.map { it.icao.ifEmpty { it.ident } }, what)
             // Terrain for awareness, synthetic vision and the profile, along the route.
             val tpts = if (plan.points.size > 1) plan.points else chosen.map { FlightPlan.Waypoint(it.ident, it.lat, it.lon) }
             if (tpts.isNotEmpty()) withContext(Dispatchers.IO) {
@@ -1113,6 +1115,7 @@ class MapActivity : BaseActivity() {
                     pts.minOf { it.latitude } - 0.25, pts.minOf { it.longitude } - 0.3,
                 )
                 for (l in charts) try {
+                    ChartUpdates.rememberArea(this@MapActivity, l.key, box, 6, l.maxZoom)
                     val cm = CacheManager(l.source(), writer, 6, l.maxZoom)
                     tiles += cm.possibleTilesInArea(box, 6, l.maxZoom)
                     cm.downloadAreaAsyncNoUI(this@MapActivity, box, 6, l.maxZoom, quietCallback)
@@ -1478,6 +1481,7 @@ class MapActivity : BaseActivity() {
         menu.add(0, 20, 0, "NRST").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
         menu.add(0, 30, 0, R.string.freq_title)
         menu.add(0, 31, 0, R.string.notes_title)
+        menu.add(0, 32, 0, R.string.charts_title)
         menu.add(0, 21, 0, R.string.pack_title)
         menu.add(0, 22, 0, R.string.brief_title)
         menu.add(0, 26, 0, R.string.map_profile)
@@ -1522,6 +1526,7 @@ class MapActivity : BaseActivity() {
             4 -> downloadArea()
             10 -> navLog()
             20 -> nearest()
+            32 -> ChartUpdates.show(this)
             31 -> if (NotePad.isOpen()) NotePad.close(this) else Notebooks.choose(this, null)
             30 -> {
                 val here = ownship.position() ?: map.mapCenter as GeoPoint
@@ -1689,6 +1694,7 @@ class MapActivity : BaseActivity() {
             .setTitle(R.string.map_download)
             .setMessage(getString(R.string.map_download_msg, count, getString(layer.label), (count * 25 / 1024).coerceAtLeast(1)))
             .setPositiveButton(R.string.map_download_go) { _, _ ->
+                ChartUpdates.rememberArea(this, layer.key, bb, zMin, zMax)
                 cm.downloadAreaAsync(this, bb, zMin, zMax, object : CacheManager.CacheManagerCallback {
                     override fun onTaskComplete() {
                         Toast.makeText(this@MapActivity, R.string.map_download_done, Toast.LENGTH_LONG).show()

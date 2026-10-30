@@ -41,6 +41,7 @@ class EfbHomeActivity : BaseActivity() {
         }
         col.addView(search, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(4) })
         EfbUi.pressable(search) { searchAirport { a -> startActivity(Intent(this, MapActivity::class.java).putExtra(MapActivity.EXTRA_AIRPORT, a.ident)) } }
+        ChartUpdates.autoUpdate(this)
         wx = EfbUi.card(this)
         col.addView(wx)
         EfbUi.pressable(wx) { askHome() }
@@ -54,6 +55,7 @@ class EfbHomeActivity : BaseActivity() {
             Triple("🎓", R.string.log_109) { startActivity(Intent(this, LogbookActivity::class.java).putExtra(LogbookActivity.EXTRA_TAB, 2)) },
             Triple("⏱", R.string.log_currency) { startActivity(Intent(this, LogbookActivity::class.java).putExtra(LogbookActivity.EXTRA_TAB, 3)) },
             Triple("📻", R.string.freq_title) { open(FrequenciesActivity::class.java) },
+            Triple("🗂", R.string.charts_title) { ChartUpdates.show(this) },
             Triple("🧮", R.string.e6b_title) { open(E6bActivity::class.java) },
             Triple("✅", R.string.ck_title) { open(ChecklistActivity::class.java) },
             Triple("📝", R.string.notes_title) { Notebooks.choose(this, null) },
