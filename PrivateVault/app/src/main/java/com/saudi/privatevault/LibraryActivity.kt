@@ -38,6 +38,8 @@ class LibraryActivity : BaseActivity() {
             "https://www.faa.gov/air_traffic/publications/", "aim[^\"'<>]*basic[^\"'<>]*\\.pdf|aim_[^\"'<>]*\\.pdf"),
         Book("📗", "Pilot/Controller Glossary", "Every ATC word and phrase", "Pilot Controller Glossary.pdf",
             "https://www.faa.gov/air_traffic/publications/", "pcg[^\"'<>]*\\.pdf"),
+        Book("📚", "All of 14 CFR", "Every part, by chapter, with search", null, "cfr:14", null),
+        Book("📚", "49 CFR · NTSB & TSA", "The aviation chapters (VIII, XII)", null, "cfr:49", null),
         Book("⚖️", "14 CFR Part 61", "Certification: pilots and instructors (eCFR, current)", null, "https://www.ecfr.gov/current/title-14/part-61", null),
         Book("⚖️", "14 CFR Part 91", "General operating and flight rules (eCFR, current)", null, "https://www.ecfr.gov/current/title-14/part-91", null),
         Book("⚖️", "14 CFR Part 1", "Definitions and abbreviations (eCFR, current)", null, "https://www.ecfr.gov/current/title-14/part-1", null),
@@ -123,6 +125,7 @@ class LibraryActivity : BaseActivity() {
     private fun read(item: VaultItem) = startActivity(Intent(this, PdfViewerActivity::class.java).putExtra(Viewers.EXTRA_ID, item.id))
 
     private fun open(b: Book, sub: TextView) {
+        if (b.page.startsWith("cfr:")) { CfrBrowseActivity.open(this, b.page.removePrefix("cfr:").toInt()); return }
         if (b.file == null) {
             // The FARs in the app's own reader (the eCFR's official text).
             Regex("title-(\\d+)/part-([0-9A-Za-z]+)").find(b.page)?.let { m -> RegsActivity.open(this, m.groupValues[1].toInt(), m.groupValues[2]); return }
