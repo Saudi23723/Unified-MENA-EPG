@@ -64,6 +64,7 @@ class MapActivity : BaseActivity() {
     private lateinit var weather: WeatherOverlay
     private lateinit var route: RouteOverlay
     private var radar: TilesOverlay? = null
+    private lateinit var hazard: HazardOverlay
     private var radarProvider: MapTileProviderBasic? = null
     private var plan = FlightPlan()
     private var airports: List<AviationData.Airport> = emptyList()
@@ -148,6 +149,11 @@ class MapActivity : BaseActivity() {
                     .show()
             }
         }
+        // Terrain awareness under everything else drawn on the chart.
+        Terrain.init(this)
+        Voice.init(this)
+        hazard = HazardOverlay(map).apply { altitudeFt = prefs.getInt("hazard_alt", 5500).toDouble() }
+        if (prefs.getBoolean("wx_terrain", false)) map.overlays.add(hazard)
         map.overlays.add(weather)
         plan = FlightPlan.load(this)
         route = RouteOverlay(map, { plan }, { if (::ownship.isInitialized) ownship.position() else null })
@@ -227,11 +233,14 @@ class MapActivity : BaseActivity() {
         }
         askGps()
         if (intent.getBooleanExtra(EXTRA_NAVLOG, false)) b.root.post { navLog() }
+        if (intent.getBooleanExtra(EXTRA_PROFILE, false)) b.root.post { profile() }
+        if (intent.getBooleanExtra(EXTRA_NRST, false)) b.root.postDelayed({ nearest() }, 1500)
     }
 
     override fun onResume() {
         super.onResume()
         map.onResume()
+        Terrain.onTile = { map.postInvalidate() }
         b.root.removeCallbacks(frame)
         b.root.post(frame)
         b.root.removeCallbacks(weatherTimer)
@@ -288,6 +297,7 @@ class MapActivity : BaseActivity() {
         val cAirmet = check(R.string.wx_airmet, weather.showAirmets)
         val cTfr = check(R.string.wx_tfr, weather.showTfrs)
         val cPirep = check(R.string.wx_pirep, weather.showPireps)
+        val cTerrain = check(R.string.wx_terrain, map.overlays.contains(hazard))
         val cAirports = check(R.string.map_airports, prefs.getBoolean("map_airports", true))
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.map_layers)
@@ -304,6 +314,9 @@ class MapActivity : BaseActivity() {
                 weather.showAirmets = cAirmet.isChecked
                 weather.showTfrs = cTfr.isChecked
                 weather.showPireps = cPirep.isChecked
+                map.overlays.remove(hazard)
+                if (cTerrain.isChecked) map.overlays.add(map.overlays.indexOf(weather).coerceAtLeast(0), hazard)
+                prefs.edit().putBoolean("wx_terrain", cTerrain.isChecked).apply()
                 val airportsOn = cAirports.isChecked
                 val airportsChanged = airportsOn != prefs.getBoolean("map_airports", true)
                 prefs.edit().putBoolean("wx_radar", cRadar.isChecked).putBoolean("wx_airmet", cAirmet.isChecked)
@@ -518,7 +531,7 @@ class MapActivity : BaseActivity() {
             .setPositiveButton(R.string.plan_edit) { _, _ -> editPlan() }
             .setNeutralButton(R.string.plan_more) { _, _ ->
                 val opts = arrayOf(getString(R.string.plan_reverse), getString(R.string.plan_clear), getString(R.string.plan_share),
-                    getString(R.string.plan_cancel_direct), getString(R.string.wb_title))
+                    getString(R.string.plan_cancel_direct), getString(R.string.wb_title), getString(R.string.map_profile))
                 MaterialAlertDialogBuilder(this).setItems(opts) { _, i ->
                     when (i) {
                         0 -> { plan.points.reverse(); plan.active = 1 }
@@ -529,6 +542,7 @@ class MapActivity : BaseActivity() {
                         }, null))
                         3 -> plan.direct = null
                         4 -> openWb()
+                        5 -> profile()
                     }
                     plan.save(this)
                     updateNav()
@@ -628,6 +642,7 @@ class MapActivity : BaseActivity() {
         b.hudNav.text = "→ %s  BRG %sM  %.1f nm  ETE %s  ETA %s".format(t.id, Nav.deg(brg), dist,
             if (ete.isNaN()) "--:--" else FlightPlan.hm(ete), eta)
         b.hudNav.visibility = View.VISIBLE
+        if (dist < 2 && gs > 30) Voice.say(this, "wp" + t.id, "Approaching ${t.id.toCharArray().joinToString(" ")}, two miles.", 600)
     }
 
     // ---- the aircraft ----
@@ -721,6 +736,22 @@ class MapActivity : BaseActivity() {
         // The flight is noticed and timed from the GPS, then offered to the logbook.
         if (gotGps && !quiet) FlightRecorder.onFix(this, l, airports)?.let { e -> offerLog(e) }
         if (gotGps && !quiet) checkAirspace(l)
+        // Terrain is judged against the GPS altitude in flight, the planned altitude on the ground.
+        val flying = gotGps && l.hasAltitude() && kt > 35
+        hazard.altitudeFt = if (flying) l.altitude * 3.28084 else plan.altitude.toDouble()
+        if (flying && l.hasBearing()) {
+            val altFt = l.altitude * 3.28084
+            for (min in listOf(0.5, 1.0, 2.0)) {
+                val g = Nav.destination(l.latitude, l.longitude, l.bearing.toDouble(), kt * min / 60)
+                val e = Terrain.elevationFt(g.latitude, g.longitude) ?: continue
+                if (e >= altFt - 300 && System.currentTimeMillis() - terrainAlertAt > 30000) {
+                    terrainAlertAt = System.currentTimeMillis()
+                    Voice.say(this, "terrain", if (min <= 1.0) "Caution, terrain. Pull up." else "Caution, terrain ahead.", 30)
+                    alert("⛰ TERRAIN AHEAD · ${if (min < 1) "30 SEC" else "${min.toInt()} MIN"}", "Ground %,d ft MSL ahead, aircraft %,d ft".format(e.toInt(), altFt.toInt()))
+                    break
+                }
+            }
+        }
         // Gliding range above the nearest field's elevation, at about 1.5 nm per 1000 ft.
         ownship.glideNm = if (gotGps && l.hasAltitude() && kt > 35) {
             val ground = airports.minByOrNull { Nav.distanceNm(l.latitude, l.longitude, it.lat, it.lon) }?.elevation ?: 0
@@ -771,6 +802,7 @@ class MapActivity : BaseActivity() {
     }
 
     private var timerStart = 0L
+    private var terrainAlertAt = 0L
 
     // ---- staying out of trouble ----
 
@@ -788,6 +820,7 @@ class MapActivity : BaseActivity() {
             val key = hit.text + (min == 0.0)
             if (!warned.add(key)) return
             alert(if (min == 0.0) "⛔ INSIDE ${hit.label}" else "⚠️ ${hit.label} AHEAD · ${min.toInt()} MIN", hit.text)
+            Voice.say(this, "air" + key, if (min == 0.0) "Warning. Inside ${hit.kind}." else "Caution. ${hit.kind} ahead, ${min.toInt()} minutes.", 120)
             return
         }
     }
@@ -929,6 +962,12 @@ class MapActivity : BaseActivity() {
                     OfflinePack.airport(this@MapActivity, a, what) { step -> runOnUiThread { status.text = "${i + 1}/${chosen.size}  $step" } }
                 }
             }
+            // Terrain for awareness, synthetic vision and the profile, along the route.
+            val tpts = if (plan.points.size > 1) plan.points else chosen.map { FlightPlan.Waypoint(it.ident, it.lat, it.lon) }
+            if (tpts.isNotEmpty()) withContext(Dispatchers.IO) {
+                runOnUiThread { status.text = getString(R.string.pack_terrain) }
+                Terrain.prefetch(tpts.minOf { it.lat } - 0.3, tpts.minOf { it.lon } - 0.4, tpts.maxOf { it.lat } + 0.3, tpts.maxOf { it.lon } + 0.4)
+            }
             d.dismiss()
             if (stop) return@launch
             val writer = (map.tileProvider as? org.osmdroid.tileprovider.MapTileProviderBasic)?.tileWriter
@@ -968,6 +1007,41 @@ class MapActivity : BaseActivity() {
         override fun downloadStarted() {}
         override fun setPossibleTilesInArea(total: Int) {}
         override fun onTaskFailed(errors: Int) {}
+    }
+
+    /** The route from the side: the ground along it against the planned altitude, and the aircraft on it. */
+    private fun profile() {
+        if (plan.points.size < 2) {
+            Toast.makeText(this, R.string.plan_empty, Toast.LENGTH_LONG).show()
+            return
+        }
+        val v = ProfileView(this, plan).apply { minimumHeight = dp(260) }
+        ownship.position()?.let { here ->
+            // Where along the route the aircraft is: distance flown to the nearest point of it.
+            var best = Double.MAX_VALUE; var along = 0.0; var at = 0.0
+            for (i in 1 until plan.points.size) {
+                val a = plan.points[i - 1]; val c = plan.points[i]
+                val len = Nav.distanceNm(a.lat, a.lon, c.lat, c.lon)
+                var s = 0.0
+                while (s <= len) {
+                    val g = Nav.destination(a.lat, a.lon, Nav.bearingTrue(a.lat, a.lon, c.lat, c.lon), s)
+                    val dd = Nav.distanceNm(here.latitude, here.longitude, g.latitude, g.longitude)
+                    if (dd < best) { best = dd; along = at + s }
+                    s += 0.5
+                }
+                at += len
+            }
+            if (best < 5) {
+                v.aircraftNm = along
+                v.aircraftFt = ownship.fix?.takeIf { it.hasAltitude() }?.altitude?.times(3.28084)
+            }
+        }
+        MaterialAlertDialogBuilder(this)
+            .setTitle(getString(R.string.map_profile) + " · %,d ft".format(plan.altitude))
+            .setView(v)
+            .setPositiveButton(android.R.string.ok, null)
+            .show()
+        Thread { v.sample() }.start()
     }
 
     /** Every Chart Supplement page of Nevada and California, on the phone for good (about 50 MB). */
@@ -1282,6 +1356,9 @@ class MapActivity : BaseActivity() {
         menu.add(0, 20, 0, "NRST").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
         menu.add(0, 21, 0, R.string.pack_title)
         menu.add(0, 22, 0, R.string.brief_title)
+        menu.add(0, 26, 0, R.string.map_profile)
+        menu.add(0, 27, 0, R.string.map_svt)
+        menu.add(0, 28, 0, R.string.voice_on).setCheckable(true).isChecked = prefs.getBoolean("voice_on", true)
         menu.add(0, 25, 0, R.string.cs_bulk)
         menu.add(0, 23, 0, R.string.timer_title)
         menu.add(0, 24, 0, R.string.lang_switch)
@@ -1322,6 +1399,9 @@ class MapActivity : BaseActivity() {
             20 -> nearest()
             21 -> packFlight()
             22 -> briefing()
+            26 -> profile()
+            27 -> startActivity(android.content.Intent(this, SvtActivity::class.java))
+            28 -> { val on = !item.isChecked; item.isChecked = on; prefs.edit().putBoolean("voice_on", on).apply() }
             25 -> supplementsWest()
             23 -> { timerStart = if (timerStart == 0L) android.os.SystemClock.elapsedRealtime() else 0L; b.toolbar.subtitle = null }
             24 -> Lang.choose(this)
@@ -1463,6 +1543,8 @@ class MapActivity : BaseActivity() {
     companion object {
         const val EXTRA_NAVLOG = "navlog"
         const val EXTRA_AIRPORT = "airport"
+        const val EXTRA_PROFILE = "profile"
+        const val EXTRA_NRST = "nrst"
     }
 
     private fun downloadArea() {

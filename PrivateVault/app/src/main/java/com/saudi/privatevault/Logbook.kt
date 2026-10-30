@@ -50,6 +50,8 @@ class LogEntry(
     /** The instructor's signature, as a PNG file in the app's storage. */
     var signature: String = "",
     var updated: Long = System.currentTimeMillis(),
+    /** The GPS track of the flight, when it was recorded (a CSV file in the app's storage). */
+    var track: String = "",
 ) {
     fun toJson(): JSONObject = JSONObject().put("id", id).put("date", date).put("ac", aircraft).put("from", from).put("to", to)
         .put("route", route).put("total", total).put("dual", dual).put("solo", solo).put("pic", pic).put("xc", xc)
@@ -57,7 +59,7 @@ class LogEntry(
         .put("far", farthestNm).put("dist", distanceNm).put("rem", remarks)
         .put("tail", tail).put("out", timeOut).put("in", timeIn).put("ho", hobbsOut).put("hi", hobbsIn)
         .put("act", actual).put("gt", groundTrainer).put("app", approaches).put("appt", approachTypes).put("hold", holds)
-        .put("cfi", instructor).put("cfin", instructorCert).put("cfie", instructorExp).put("sig", signature).put("upd", updated)
+        .put("cfi", instructor).put("cfin", instructorCert).put("cfie", instructorExp).put("sig", signature).put("upd", updated).put("trk", track)
 
     fun dateMillis(): Long = try { FMT.parse(date)?.time ?: 0L } catch (e: Exception) { 0L }
 
@@ -74,7 +76,7 @@ class LogEntry(
             o.optDouble("far", 0.0), o.optDouble("dist", 0.0), o.optString("rem"),
             o.optString("tail"), o.optString("out"), o.optString("in"), o.optDouble("ho", 0.0), o.optDouble("hi", 0.0),
             o.optDouble("act", 0.0), o.optDouble("gt", 0.0), o.optInt("app"), o.optString("appt"), o.optInt("hold"),
-            o.optString("cfi"), o.optString("cfin"), o.optString("cfie"), o.optString("sig"), o.optLong("upd", 0L),
+            o.optString("cfi"), o.optString("cfin"), o.optString("cfie"), o.optString("sig"), o.optLong("upd", 0L), o.optString("trk"),
         )
     }
 }
@@ -278,8 +280,24 @@ object FlightRecorder {
                 changed = true
             }
         }
+        if (st.started > 0) track(ctx, st.started, l)
         if (changed || (st.started > 0 && (now / 1000) % 15 == 0L)) store(ctx, st)
         return null
+    }
+
+    private var trackAt = 0L
+
+    private fun trackFile(ctx: Context, started: Long) = File(File(ctx.filesDir, "tracks").apply { mkdirs() }, "$started.csv")
+
+    /** One point every two seconds into the flight's track. */
+    private fun track(ctx: Context, started: Long, l: Location) {
+        val now = System.currentTimeMillis()
+        if (now - trackAt < 2000) return
+        trackAt = now
+        val f = trackFile(ctx, started)
+        if (!f.exists()) f.writeText("time,lat,lon,alt_ft,gs_kt,track\n")
+        f.appendText("%d,%.6f,%.6f,%.0f,%.0f,%.0f\n".format(Locale.US, l.time, l.latitude, l.longitude,
+            if (l.hasAltitude()) l.altitude * 3.28084 else 0.0, if (l.hasSpeed()) l.speed * 1.943844 else 0.0, if (l.hasBearing()) l.bearing.toDouble() else 0.0))
     }
 
     /** Ends the flight being recorded now, if it has landed at least once. */
@@ -300,6 +318,7 @@ object FlightRecorder {
             date = LogEntry.FMT.format(Date(st.started)), from = st.dep, to = st.last.ifEmpty { st.dep }, route = st.stops,
             total = hours, dayLdg = st.landings, farthestNm = Math.round(st.far * 10) / 10.0, distanceNm = Math.round(st.dist).toDouble(),
             xc = if (st.far > 50) hours else 0.0, remarks = "Recorded by GPS",
+            track = "tracks/${st.started}.csv",
             timeOut = HM.format(Date(st.started)), timeIn = if (st.landedAt > 0) HM.format(Date(st.landedAt)) else "",
         )
     }

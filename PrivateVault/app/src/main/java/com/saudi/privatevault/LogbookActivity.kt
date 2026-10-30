@@ -326,6 +326,22 @@ class LogbookActivity : BaseActivity() {
             }
         })
         val rem = f("Remarks", e.remarks, false)
+        // The flight's GPS track: to replay in 3D in Google Earth, or to any flight app.
+        val pts = if (e.track.isNotEmpty()) Tracks.read(this, e.track) else emptyList()
+        if (pts.size > 1) {
+            c.addView(header(getString(R.string.log_track, pts.size)))
+            val row = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
+            fun export(ext: String, mime: String, text: String) {
+                val f = File(File(cacheDir, "exports").apply { mkdirs() }, "Flight_${e.date}_${e.from}-${e.to}.$ext")
+                f.writeText(text)
+                share(f, mime)
+            }
+            val name = "${e.date} ${e.from}-${e.to}"
+            row.addView(button("🌍 Google Earth 3D (KML)", outlined = true) { export("kml", "application/vnd.google-earth.kml+xml", Tracks.kml(name, pts)) },
+                LinearLayout.LayoutParams(0, -2, 1f).apply { marginEnd = dp(6) })
+            row.addView(button("GPX", outlined = true) { export("gpx", "application/gpx+xml", Tracks.gpx(name, pts)) }, LinearLayout.LayoutParams(-2, -2))
+            c.addView(row)
+        }
 
         val buttons = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.END; setPadding(0, dp(14), 0, 0) }
         if (!isNew) buttons.addView(MaterialButton(this, null, com.google.android.material.R.attr.borderlessButtonStyle).apply {
