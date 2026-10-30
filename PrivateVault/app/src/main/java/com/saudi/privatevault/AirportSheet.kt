@@ -324,23 +324,22 @@ class AirportSheet(
     // ---- charts and procedures ----
 
     /** The FAA Chart Supplement pages, from the phone when packed; the web as a last resort. */
+    /**
+     * The FAA Chart Supplement, opened in the app and kept in the vault's Chart Supplement folder
+     * (a new edition replaces the old). When the pages cannot be found directly, AirNav opens inside
+     * the app and its Chart Supplement link is caught, saved and opened the same way.
+     */
     private fun supplement() {
+        Toast.makeText(act, R.string.cs_loading, Toast.LENGTH_SHORT).show()
         act.lifecycleScope.launch {
-            val pages = withContext(Dispatchers.IO) { OfflinePack.supplement(act, a.ident, a.icao) }
-            if (pages.isEmpty()) {
-                open("https://www.airnav.com/airport/${a.icao.ifEmpty { a.ident }}")
+            val item = withContext(Dispatchers.IO) {
+                SupplementShelf.keep(act, a.ident, OfflinePack.supplement(act, a.ident, a.icao))
+            }
+            if (item != null) {
+                SupplementShelf.open(act, item)
                 return@launch
             }
-            fun show(i: Int) {
-                val f = pages[i]
-                val item = VaultItem("cs:" + f.name, "${a.ident} Chart Supplement ${i + 1}", f.absolutePath, "application/pdf", f.length(), f.lastModified(), null)
-                VaultStore.viewOnly(item)
-                act.startActivity(Intent(act, PdfViewerActivity::class.java).putExtra(Viewers.EXTRA_ID, item.id))
-            }
-            if (pages.size == 1) show(0) else MaterialAlertDialogBuilder(act)
-                .setTitle("${a.ident} · Chart Supplement")
-                .setItems(pages.indices.map { "Page ${it + 1}" }.toTypedArray()) { _, i -> show(i) }
-                .show()
+            WebActivity.supplement(act, a.ident, "https://www.airnav.com/airport/${a.icao.ifEmpty { a.ident }}")
         }
     }
 

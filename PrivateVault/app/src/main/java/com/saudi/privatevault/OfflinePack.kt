@@ -178,7 +178,10 @@ object OfflinePack {
         }
         if (parts.supplement) {
             step("$id · Chart Supplement")
-            n += supplement(ctx, a.ident, a.icao).size
+            val pages = supplement(ctx, a.ident, a.icao)
+            n += pages.size
+            // Kept in the vault's Chart Supplement folder too, where the pilot sees it.
+            SupplementShelf.keep(ctx, a.ident, pages)
         }
         if (parts.plates) {
             val plates = AviationData.plates(ctx, a.ident)

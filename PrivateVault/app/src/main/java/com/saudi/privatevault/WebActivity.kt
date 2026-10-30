@@ -34,7 +34,18 @@ class WebActivity : BaseActivity() {
             web.webChromeClient = object : WebChromeClient() {
                 override fun onProgressChanged(v: WebView, p: Int) { bar.progress = p; bar.visibility = if (p >= 100) View.GONE else View.VISIBLE }
             }
+            val csIdent = intent.getStringExtra("cs_ident")
+            // A PDF tapped on the page is saved and read in the app, never handed to the browser.
+            web.setDownloadListener { url, _, _, mime, _ -> if (url.endsWith(".pdf", true) || mime == "application/pdf") savePdf(url, csIdent) }
             web.webViewClient = object : WebViewClient() {
+                override fun shouldOverrideUrlLoading(v: WebView, req: android.webkit.WebResourceRequest): Boolean {
+                    val u = req.url.toString()
+                    // AirNav sends its outgoing links through /depart?<url>.
+                    val real = if (u.contains("/depart?")) u.substringAfter("/depart?") else u
+                    if (real.substringBefore('?').endsWith(".pdf", true)) { savePdf(real, csIdent); return true }
+                    return false
+                }
+
                 override fun onPageFinished(v: WebView, url: String) {
                     if (js != null) v.postDelayed({ v.evaluateJavascript(js, null) }, 1500)
                 }
@@ -43,7 +54,37 @@ class WebActivity : BaseActivity() {
         }
     }
 
+    private fun savePdf(url: String, csIdent: String?) {
+        android.widget.Toast.makeText(this, R.string.cs_loading, android.widget.Toast.LENGTH_SHORT).show()
+        Thread {
+            val dir = java.io.File(filesDir, "supplement/web").apply { mkdirs() }
+            val f = java.io.File(dir, url.substringAfterLast('/').substringBefore('?').ifEmpty { "page.pdf" })
+            val ok = try {
+                val c = java.net.URL(url).openConnection() as java.net.HttpURLConnection
+                c.connectTimeout = 20000; c.readTimeout = 60000
+                c.setRequestProperty("User-Agent", "Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Mobile Safari/537.36")
+                try { if (c.responseCode == 200) { c.inputStream.use { i -> f.outputStream().use { o -> i.copyTo(o) } }; true } else false } finally { c.disconnect() }
+            } catch (e: Exception) { false }
+            runOnUiThread {
+                if (!ok || f.length() == 0L) {
+                    android.widget.Toast.makeText(this, R.string.apt_plates_fail, android.widget.Toast.LENGTH_LONG).show()
+                    return@runOnUiThread
+                }
+                val item = if (csIdent != null) SupplementShelf.keep(this, csIdent, listOf(f)) else null
+                if (item != null) SupplementShelf.open(this, item) else {
+                    val v = VaultItem("web:" + f.name, f.name, f.absolutePath, "application/pdf", f.length(), f.lastModified(), null)
+                    VaultStore.viewOnly(v)
+                    startActivity(Intent(this, PdfViewerActivity::class.java).putExtra(Viewers.EXTRA_ID, v.id))
+                }
+            }
+        }.start()
+    }
+
     companion object {
+        /** A page where a tapped Chart Supplement PDF is kept for [ident]. */
+        fun supplement(act: Activity, ident: String, url: String) = act.startActivity(
+            Intent(act, WebActivity::class.java).putExtra("title", "$ident · Chart Supplement").putExtra("url", url).putExtra("cs_ident", ident))
+
         fun open(act: Activity, title: String, url: String, js: String? = null) =
             act.startActivity(Intent(act, WebActivity::class.java).putExtra("title", title).putExtra("url", url).putExtra("js", js))
 
