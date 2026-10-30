@@ -1011,7 +1011,7 @@ class PdfViewerActivity : BaseActivity() {
 
     /** From the menu: about the whole page; from a selection: about the chosen words. */
     private fun askAssistant(selected: String?) {
-        if (!LaptopClient.isLinked(this)) {
+        if (!Gemini.hasKey(this) && !LaptopClient.isLinked(this)) {
             Toast.makeText(this, R.string.ai_link_first, Toast.LENGTH_LONG).show()
             return
         }
@@ -1073,7 +1073,7 @@ class PdfViewerActivity : BaseActivity() {
     }
 
     private fun runAssistant(mode: String, text: String, question: String) {
-        if (!LaptopClient.isLinked(this)) {
+        if (!Gemini.hasKey(this) && !LaptopClient.isLinked(this)) {
             Toast.makeText(this, R.string.ai_link_first, Toast.LENGTH_LONG).show()
             return
         }
@@ -1083,7 +1083,11 @@ class PdfViewerActivity : BaseActivity() {
             .setCancelable(false)
             .show()
         lifecycleScope.launch {
-            val a = withContext(Dispatchers.IO) { LaptopClient.ai(this@PdfViewerActivity, mode, text, question) }
+            val a = withContext(Dispatchers.IO) { 
+                // With a key on the phone: straight to Gemini. Without: the linked laptop or cloud.
+                if (Gemini.hasKey(this@PdfViewerActivity)) Gemini.ask(this@PdfViewerActivity, mode, text, question)
+                else LaptopClient.ai(this@PdfViewerActivity, mode, text, question)
+            }
             waiting.dismiss()
             if (a.text == null) {
                 val msg = when (a.problem) {

@@ -11,15 +11,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-/** Setting the Gemini key, which lives on the linked vault so every device uses it. */
+/**
+ * Setting the Gemini key: kept on the phone, which then asks Gemini itself,
+ * and sent to the linked vault too (when there is one) for the laptop.
+ */
 object AiKey {
     fun ask(a: AppCompatActivity) {
-        if (!LaptopClient.isLinked(a)) {
-            Toast.makeText(a, R.string.ai_link_first, Toast.LENGTH_LONG).show()
-            return
-        }
         val input = EditText(a).apply {
             setSingleLine()
+            setText(Gemini.key(a))
             hint = "AIza…"
             inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
         }
@@ -40,13 +40,18 @@ object AiKey {
     }
 
     private fun save(a: AppCompatActivity, key: String) {
+        Gemini.setKey(a, key)
+        if (!LaptopClient.isLinked(a)) {
+            Toast.makeText(a, if (key.isNotEmpty()) R.string.ai_key_saved else R.string.ai_key_removed, Toast.LENGTH_LONG).show()
+            return
+        }
         a.lifecycleScope.launch {
             val st = withContext(Dispatchers.IO) { LaptopClient.setAiKey(a, key) }
             val msg = when {
-                st == null -> a.getString(R.string.ai_offline_or_old)
+                st == null -> a.getString(if (key.isNotEmpty()) R.string.ai_key_saved else R.string.ai_key_removed)
                 st.optBoolean("gemini") -> a.getString(R.string.ai_key_saved)
                 else -> a.getString(R.string.ai_key_removed)
-            } + if (st != null) "\n" + a.getString(if (st.optBoolean("local")) R.string.ai_local_ready else R.string.ai_local_not_ready) else ""
+            }
             Toast.makeText(a, msg, Toast.LENGTH_LONG).show()
         }
     }
