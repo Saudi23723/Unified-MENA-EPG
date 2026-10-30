@@ -25,7 +25,9 @@ class ChecklistActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        aircraft = prefs.getString("ck_aircraft", "SportStar MAX")!!.let { if (it == "SportStar") "SportStar MAX" else it }
+        // The school's checklist, once, the first time it is there; then whichever the pilot picks.
+        if (!prefs.getBoolean("ck_athene_shown", false)) prefs.edit().putBoolean("ck_athene_shown", true).putString("ck_aircraft", ATHENE).apply()
+        aircraft = prefs.getString("ck_aircraft", ATHENE)!!.let { if (it == "SportStar") "SportStar MAX" else it }
         col = EfbUi.screen(this, getString(R.string.ck_title)) { bar ->
             bar.menu.add(R.string.ck_reset).setOnMenuItemClickListener { done.clear(); build(); true }
             bar.menu.add(R.string.ck_edit).setOnMenuItemClickListener { edit(); true }
@@ -35,12 +37,16 @@ class ChecklistActivity : BaseActivity() {
         if (intent.getBooleanExtra("emergency", false)) col.postDelayed({ emergency?.let { v -> (col.parent as? android.widget.ScrollView)?.scrollTo(0, v.top) } }, 600)
     }
 
-    private fun text(): String = prefs.getString("ck_$aircraft", null) ?: if (aircraft == "C172") C172 else SPORTSTAR
+    private fun text(): String = prefs.getString("ck_$aircraft", null) ?: when (aircraft) {
+        "C172" -> C172
+        ATHENE -> ATHENEAIR
+        else -> SPORTSTAR
+    }
 
     private fun build() {
         col.removeAllViews()
         val chips = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; setPadding(0, dp(4), 0, dp(4)) }
-        for (a in listOf("SportStar MAX", "C172")) {
+        for (a in listOf(ATHENE, "SportStar MAX", "C172")) {
             chips.addView(EfbUi.text(this, a, 15f, EfbUi.TEXT, bold = true).apply {
                 background = EfbUi.cardBg(this@ChecklistActivity, if (a == aircraft) 0xFF00838F.toInt() else EfbUi.CARD, 20)
                 setPadding(dp(16), dp(8), dp(16), dp(8))
@@ -168,6 +174,8 @@ class ChecklistActivity : BaseActivity() {
 
     companion object {
         /** Evektor SportStar MAX, from its Aircraft Operating Instructions (SSM2008AOIUS), with the AOI page of each part. */
+        const val ATHENE = "AtheneAir EVSS"
+
         private val SPORTSTAR = """
 # 📋 SPEEDS · AOI 2-3, 2-4, 3-3, 4-3
 VS0 · stall, flaps 50°, max weight .. 37 KIAS
@@ -502,6 +510,259 @@ Pull opened canopy down by its frame and keep holding .. hold
 Try to close the canopy (possible in dual flight) .. if able
 Safety landing .. per 3.8.2
 After landing: check canopy, lock system and horizontal tail .. inspect
+""".trimIndent()
+
+        /** The school's own checklist: AtheneAir EVSS Operating Checklist, Revision 1.3, 06/2026 (N19EV, N79EV, N19MX), as printed. */
+        private val ATHENEAIR = """
+# 📋 SPEEDS · AtheneAir EVSS Operating Checklist Rev 1.3, 06/2026
+Aircraft .. N19EV / N79EV / N19MX
+VR .. 50 KIAS
+VX .. 56 KIAS
+VY .. 65 KIAS
+VA .. 90 KIAS
+VG (best glide) .. 55 KIAS (Flaps 15) / 59 KIAS (Flaps 0)
+Approach .. 65 – 70 KIAS
+Final .. 60 – 65 KIAS
+Short Final .. 60 KIAS
+VFE .. 70 KIAS
+VS0 .. 37 KIAS
+VS1 .. 38 KIAS
+VNO .. 115 KIAS
+VNE .. 146 KIAS
+! For Training use only, reference POH in real Emergency/Abnormal Operations
+! ATTENTION! FUEL: MOGAS & 100LL. ENGINE OIL: Do NOT Overfill (1 Ounce at a Time)
+# PREFLIGHT COCKPIT
+Airplane documents .. CHECK
+Interior for FOD .. CHECK
+Circuit Breakers .. CHECK
+Master Switch .. ON
+Battery Voltage .. CHECK
+Fuel Quantity .. CHECK
+External Lights .. ON
+Flaps .. LOWERED
+Stall Warning .. CHECK
+External Lights .. CHECK
+Flaps .. CHECK
+External Lights .. OFF
+Flaps .. RETRACTED
+Seatbelt .. REMOVED
+Master .. OFF
+# PREFLIGHT EXTERIOR · NOSE
+Canopy Attachment .. CHECK
+Nose Gear, Control Rods .. CHECK
+Tire Inflation/Condition .. CHECK
+1st Flight of the Day .. REMOVE COWLING
+Engine & Coolant Levels .. INSPECT
+Oil Level .. CHECK
+! BURP IF NECESSARY
+Air Intake / Radiator .. CHECK
+Prop/Spinner .. CHECK FOR DAMAGE
+Exhaust .. CHECK
+# PREFLIGHT EXTERIOR · RIGHT WING
+Wing Leading Edge .. CHECK
+Vortex Generators .. CHECK
+Wing Surface Condition .. CHECK
+Wingtip / Fuel Vent .. CHECK
+Wing Tie Down .. REMOVE
+Aileron / Hinge / Pushrod .. CHECK
+Main Gear / Brake Lines .. CHECK
+Tire Inflation and Condition .. CHECK
+Fuel Sump .. CHECK
+Fuel Cap .. CHECK FUEL LEVEL / LOCK
+# PREFLIGHT EXTERIOR · EMPENNAGE
+Antennae .. CHECK
+Vertical Stabilizer .. CHECK
+RH. Horizontal Stabilizer .. CHECK
+Elevator Movement .. CHECK
+Elevator Trim Tab .. CHECK
+Elevator Pushrod .. CHECK
+Surface and Tail Skid .. CHECK
+Tail Tie Down .. REMOVE
+Rudder Movement .. CHECK
+L.H Horizontal Stabilizer .. CHECK
+# PREFLIGHT EXTERIOR · LEFT WING
+Main Gear / Brake Lines .. CHECK
+Fuel Sump .. CHECK
+Tire Inflation and Condition .. CHECK
+Aileron / Hinge / Pushrod .. CHECK
+Wingtip / Fuel Vent .. CHECK
+Wing Tie Down .. REMOVE
+Pitot Static Tube .. CHECK CLEAR
+Wing Leading Edge .. CHECK
+Vortex Generators .. CHECK
+Wing Surface Condition .. CHECK
+Fuel Cap .. CHECK FUEL LEVEL / LOCK
+# BEFORE ENGINE STARTING
+Passenger Briefing .. SAFETY
+Pilot Briefing .. COMPLETE
+Circuit Breakers .. IN
+Control Stick .. Free & Correct
+Rudder Pedals .. Adjusted
+Parking Brake .. As Necessary
+All Switches .. OFF
+Ignition .. OFF
+# ENGINE STARTING
+Master Switch .. ON Wait for Dynon
+Hobbs .. Check & Dispatch
+Fuel Gauge Indicator .. Check Fuel Quantity
+Fuel Selector .. Lowest Tank
+Electric Fuel Pump .. ON Check Fuel Pressure
+Throttle .. Idle / 1 Turn if Warm
+Choke .. As Necessary
+Beacon .. On
+Brakes .. Apply
+Propeller Area .. Clear
+Ignition .. Start
+! Starter: Max 10 sec / 2 min cooldown
+# AFTER START
+Engine Warmup .. 2000RPM
+Oil Pressure .. Check in Green
+Engine Instruments .. Check
+GEN, AUX GEN .. ON
+Avionics Switch .. ON
+Electric Fuel Pump .. OFF Check Fuel Pressure
+# BEFORE TAXI
+Transponder .. ON & ALT, Correct Code
+Lights .. ON as Necessary
+Weather .. ATIS/AWOS/ASOS
+Flight Instruments .. SET
+Radio/Avionics/GPS .. CHECK / SET
+# TAXI
+Taxi Clearance/Briefing .. COMPLETE
+Parking Brake .. RELEASED
+Brakes .. CHECK
+# RUNUP
+Fuel Pump .. ON Check Fuel Pressure
+Fuel Selector .. Change Tank
+Oil Temp .. At Least 122°F
+Brakes .. HOLD
+Throttle (ignition check) .. 4000RPM
+Ignition Check .. Left/Both/Right/Both
+! DO NOT EXCEED 300RPM DROP OR 120RPM DIFFERENCE
+Carb Heat .. On/Check Drop/Off
+Throttle .. 2000 RPM
+Trim .. Set
+Flight Instruments .. Check
+Ignition .. Both
+Choke .. Closed
+# BEFORE TAKEOFF
+Fuel Pump .. ON
+Lights .. ON
+Trim .. SET
+Canopy .. Closed "Green Light"
+Flaps .. 15° Degrees
+! REVIEW EMERGENCY PROCEDURES
+# AFTER TAKEOFF
+Throttle .. Max Take-off Power
+Airspeed .. 65 KIAS
+Flaps .. UP / 0° (Above 150ft AGL)
+Lights .. ON
+# CLIMB
+Throttle .. Max Continuous Power
+! Above 1000 Ft AGL:
+Fuel Pump .. OFF Check Fuel Pressure
+Landing Light .. OFF
+Engine Instruments .. Check in Green
+Flaps .. Verify UP (0°)
+Traffic Avoidance .. SCAN
+# CRUISE
+Throttle .. Max 5400 RPM
+Engine Instruments .. CHECK
+Fuel Quantity .. CHECK
+Trim .. SET
+Carb Preheat .. As Necessary
+Traffic Avoidance .. SCAN
+# DESCENT
+Throttle .. As Necessary
+Airspeed .. As Necessary
+Trim .. As Necessary
+Engine Instruments .. Check in Green
+Carb Preheat .. As Necessary
+Weather .. ATIS, AWOS, ASOS
+# BEFORE LANDING
+Fuel Pump .. ON
+Fuel Selector .. Fullest Tank
+Landing Light .. ON
+Carb Preheat .. As Necessary
+Seatbelts .. On
+# AFTER LANDING
+Fuel Pump .. OFF
+Lights .. As Necessary
+Trim .. Neutral
+Flaps .. UP (0°)
+# SHUTDOWN
+All Electrical Switches .. OFF
+Dynon MFD .. Engine Page
+Ignition .. OFF
+Hobbs/Tach .. Recorded
+Master Switch .. OFF
+Flight Circle .. Check-In
+All Air Vents .. CLOSED
+Control Stick .. SECURE
+Canopy .. LOCKED
+Canopy Cover .. SECURED
+# 📋 EMERGENCY · ENGINE FAILURE BRIEF
+ON Runway .. Throttle idle, apply the brakes smoothly, and bring aircraft to a stop
+After Rotation w/Runway Remaining .. 55 KIAS · Land: Runway · Checklist if time permits · Declare emergency 121.5 / NRST freq
+After Rotation No Runway .. 59 KIAS · Land: no more than 30° on each side · Checklist if time permits · Declare emergency 121.5 / NRST freq
+After Rotation Above 1000 ft AGL .. 59 KIAS · Land: return to runway · Checklist if time permits · Declare emergency 121.5 or NRST freq
+# EMERGENCY · ENGINE FAILURE IN FLIGHT
+Airspeed .. 59 KIAS
+Best Place to Land .. Locate
+Checklist .. Troubleshoot Below
+Declare Emergency .. Squawk 7700 & 121.5
+# EMERGENCY · ENGINE FAILURE · TROUBLESHOOT
+Fuel Pump .. ON
+Fuel Selector .. Switch Tanks
+Air .. Carb Heat ON
+! If power is not restored, secure aircraft & land
+# EMERGENCY · ENGINE FAILURE · SECURE
+Fuel Pump .. OFF
+Fuel Selector .. OFF
+Air .. Carb Heat OFF
+Spark Ignition .. OFF
+Master Switch .. OFF (close to land)
+# EMERGENCY LANDING
+Airspeed .. 59 KIAS
+Best Place to Land .. Locate
+Safety Harness .. Tight
+Flaps .. As Required (50° Recommended)
+Declare Emergency .. Squawk 7700 & 121.5
+Fuel Selector .. OFF
+Ignition .. OFF
+Master Switch .. OFF (Close to Land)
+# EMERGENCY · ENGINE FIRE DURING START
+Start .. Crank
+Fuel Selector .. OFF
+Throttle .. Full
+Fuel Pump .. Off
+Aircraft .. Evacuate
+# EMERGENCY · ENGINE FIRE IN FLIGHT
+Fuel Pump .. OFF
+Fuel Selector .. OFF
+Cabin Air .. OFF
+Throttle .. Full
+Ignition .. OFF
+Airspeed .. 110 KIAS
+ATC .. Distress
+Emergency Landing .. Execute
+Master Switch .. OFF
+Airplane .. Evacuate
+# EMERGENCY · ELECTRICAL FIRE
+Fire Source .. Identify
+Unnecessary Electrical Equipment .. OFF
+Fire Extinguisher .. If Necessary
+Circuit Breakers .. CHECK
+Vents .. OPEN
+Master Switch .. OFF
+! Land as soon as Practical
+# EMERGENCY · ENGINE OVERHEATING (IN CLIMB)
+Airspeed .. >75 KIAS
+Power .. Reduce if Possible
+! Step Climb if Necessary
+! If Temps in RED:
+Land .. As soon as Practical
+Aircraft .. Secure
 """.trimIndent()
 
         private val C172 = """
