@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-31T16:45:31.311Z",
+  "updated_at": "2026-10-31T16:53:35.881Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -57,7 +57,7 @@
           "code": 3,
           "max": 22.2,
           "min": 13.6,
-          "rain": 0
+          "rain": 2
         },
         {
           "date": "2026-11-06",
@@ -434,13 +434,13 @@
       "latitude": 40.7128,
       "longitude": -74.006,
       "temperature_c": 14.1,
-      "humidity": 42,
+      "humidity": 43,
       "wind_speed": 8.7,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-10-31T12:45",
-      "feels_c": 11.1,
+      "feels_c": 11.2,
       "utc_offset": -14400,
       "days": [
         {
@@ -505,13 +505,13 @@
       "latitude": 34.0522,
       "longitude": -118.2437,
       "temperature_c": 20.0,
-      "humidity": 57,
+      "humidity": 56,
       "wind_speed": 7.3,
       "rain_chance": 3,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-10-31T09:45",
-      "feels_c": 19.3,
+      "feels_c": 19.2,
       "utc_offset": -25200,
       "days": [
         {
@@ -576,7 +576,7 @@
       "latitude": 41.8781,
       "longitude": -87.6298,
       "temperature_c": 13.7,
-      "humidity": 79,
+      "humidity": 80,
       "wind_speed": 14.6,
       "rain_chance": 20,
       "condition": "غائم",
@@ -647,7 +647,7 @@
       "latitude": 36.1699,
       "longitude": -115.1398,
       "temperature_c": 16.5,
-      "humidity": 80,
+      "humidity": 79,
       "wind_speed": 4.7,
       "rain_chance": 3,
       "condition": "غائم",
@@ -718,13 +718,13 @@
       "latitude": 32.7767,
       "longitude": -96.797,
       "temperature_c": 22.4,
-      "humidity": 66,
+      "humidity": 71,
       "wind_speed": 12.3,
       "rain_chance": 1,
       "condition": "غائم جزئياً",
       "weather_code": 2,
       "observed_at": "2026-10-31T11:45",
-      "feels_c": 22.6,
+      "feels_c": 23.0,
       "utc_offset": -18000,
       "days": [
         {
@@ -807,7 +807,7 @@
         },
         {
           "date": "2026-11-01",
-          "code": 63,
+          "code": 65,
           "max": 16.3,
           "min": 10.5,
           "rain": 46
