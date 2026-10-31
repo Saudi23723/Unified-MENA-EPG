@@ -5,18 +5,6 @@
     <display-name lang="ar">الفورمولا 1</display-name>
     <display-name lang="en">Formula 1</display-name>
   </channel>
-  <programme start="20261030210000 +0000" stop="20261030220000 +0000" channel="Formula1">
-    <title lang="en">🏁 Mexico City Grand Prix</title>
-    <desc lang="ar">Mexico City Grand Prix
-بتوقيتك
-
-FP1 — الجمعة 11:30
-FP2 — الجمعة 15:00
-FP3 — السبت 10:30
-QUALI — السبت 14:00
-RACE — الأحد 12:00</desc>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/f1_0.png" />
-  </programme>
   <programme start="20261030220000 +0000" stop="20261030230000 +0000" channel="Formula1">
     <title lang="en">🏎️ FP2 · Mexico City Grand Prix</title>
     <desc lang="ar">Mexico City Grand Prix
@@ -66,7 +54,7 @@ RACE — الأحد 12:00</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/f1_0.png" />
   </programme>
   <programme start="20261031210000 +0000" stop="20261031220000 +0000" channel="Formula1">
-    <title lang="en">🏎️ QUALI · Mexico City Grand Prix • Live 🟢</title>
+    <title lang="en">🏎️ QUALI · Mexico City Grand Prix</title>
     <desc lang="ar">Mexico City Grand Prix
 بتوقيتك
 
@@ -75,7 +63,6 @@ FP2 — الجمعة 15:00
 FP3 — السبت 10:30
 QUALI — السبت 14:00
 RACE — الأحد 12:00</desc>
-    <category lang="en">Live</category>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/f1_0.png" />
   </programme>
   <programme start="20261031220000 +0000" stop="20261101200000 +0000" channel="Formula1">
