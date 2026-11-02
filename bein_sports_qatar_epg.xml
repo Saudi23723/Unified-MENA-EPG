@@ -1322,12 +1322,6 @@
     <display-name lang="ar">الرابعة قرآن</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/alrabiaa_quran.png" />
   </channel>
-  <programme start="20261101120200 +0000" stop="20261101135300 +0000" channel="beIN4K.qa">
-    <title lang="en">Chelsea v Manchester United - English Premier League 2026/2027</title>
-    <desc lang="en">Chelsea have won just two of their last 17 Premier League matches against Manchester United, though they were both at Stamford Bridge in 2023-24  and 2024-25. Man Utd won both Premier League games against Chelsea last season – the Red Devils haven’t won three league games in a row against the Blues since September 1965.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
   <programme start="20261101135300 +0000" stop="20261101160000 +0000" channel="beIN4K.qa">
     <title lang="en">Tottenham Hotspur v Crystal Palace - English Premier League 2026/2027</title>
     <desc lang="en">Tottenham have lost their last two home Premier League matches against Crystal Palace, having won nine on the spin beforehand between 2015-16 and 2023-24. Crystal Palace have three wins in their last four Premier League games against Spurs, only one fewer than in their first 30 against them in the competition.</desc>
@@ -1943,18 +1937,13 @@ Arsenal are the defending Champions.</desc>
     <category lang="ar">الدوري الفرنسي</category>
     <category lang="en">French League - Ligue 1</category>
   </programme>
-  <programme start="20261101120000 +0000" stop="20261101140000 +0000" channel="beINSports.qa">
-    <title lang="en">Italy vs Cameroon - Women's Futsal - 2026 Youth Olympic Games – Dakar ‎• Live 🔵‎</title>
-    <desc lang="en">The Dakar 2026 Summer Youth Olympic Games take place from 31 October to 13 November 2026 in Senegal. The Dakar 2026 Summer Youth Olympic Games will be the first-ever Olympic event hosted in Africa.</desc>
-    <category lang="ar">ترفيه</category>
-    <category lang="en">Live</category>
-    <category lang="en">Entertainment</category>
-  </programme>
-  <programme start="20261101140000 +0000" stop="20261101145500 +0000" channel="beINSports.qa">
-    <title lang="en">Senegal vs Dominican Republic - Beach Volleyball - Women - 2026 Youth Olympic Games – Dakar</title>
-    <desc lang="en">The Dakar 2026 Summer Youth Olympic Games take place from 31 October to 13 November 2026 in Senegal. The Dakar 2026 Summer Youth Olympic Games will be the first-ever Olympic event hosted in Africa.</desc>
-    <category lang="ar">ترفيه</category>
-    <category lang="en">Entertainment</category>
+  <programme start="20261108140000 +0000" stop="20261108161500 +0000" channel="beIN4K.qa">
+    <title lang="en">Nottingham Forest vs Manchester City - English Premier League 2026/2027</title>
+    <desc lang="en">All 380 fixtures from the English premier league are live and exclusive only on beIN SPORTS with a choice of Arabic or English commentary.
+The 2026–27 season consists of 33 weekend and five midweek rounds of matches.
+Arsenal are the defending Champions.</desc>
+    <category lang="ar">الدوري الإنجليزي الممتاز</category>
+    <category lang="en">English Premier League</category>
   </programme>
   <programme start="20261101145500 +0000" stop="20261101160000 +0000" channel="beINSports.qa">
     <title lang="en">Swimming - 2026 Youth Olympic Games – Dakar ‎• Live 🔵‎</title>
@@ -2055,16 +2044,16 @@ Arsenal are the defending Champions.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261102120000 +0000" stop="20261102134500 +0000" channel="beINSports.qa">
+  <programme start="20261102120000 +0000" stop="20261102140000 +0000" channel="beINSports.qa">
     <title lang="en">Portugal vs Morocco - Men's Futsal - 2026 Youth Olympic Games – Dakar ‎• Live 🔵‎</title>
     <desc lang="en">The Dakar 2026 Summer Youth Olympic Games take place from 31 October to 13 November 2026 in Senegal. The Dakar 2026 Summer Youth Olympic Games will be the first-ever Olympic event hosted in Africa.</desc>
     <category lang="ar">ترفيه</category>
     <category lang="en">Live</category>
     <category lang="en">Entertainment</category>
   </programme>
-  <programme start="20261102134500 +0000" stop="20261102145500 +0000" channel="beINSports.qa">
-    <title lang="en">Highlights Dakar 2026 Summer Youth Olympic Games</title>
-    <desc lang="en">the most important moments of the DAKAR 2026 Summer Youth Olympic Games (Day 1)</desc>
+  <programme start="20261102140000 +0000" stop="20261102145500 +0000" channel="beINSports.qa">
+    <title lang="en">Greece x Puerto Rico - Beach Volleyball - Women - 2026 Youth Olympic Games – Dakar</title>
+    <desc lang="en">The Dakar 2026 Summer Youth Olympic Games take place from 31 October to 13 November 2026 in Senegal. The Dakar 2026 Summer Youth Olympic Games will be the first-ever Olympic event hosted in Africa.</desc>
     <category lang="ar">ترفيه</category>
     <category lang="en">Entertainment</category>
   </programme>
@@ -2088,8 +2077,20 @@ Arsenal are the defending Champions.</desc>
     <category lang="en">Live</category>
     <category lang="en">Entertainment</category>
   </programme>
-  <programme start="20261102191500 +0000" stop="20261102211500 +0000" channel="beINSports.qa">
-    <title lang="en">Beach Volleyball - 2026 Youth Olympic Games – Dakar</title>
+  <programme start="20261102191500 +0000" stop="20261102200000 +0000" channel="beINSports.qa">
+    <title lang="en">Ghana x Morocco - Beach Volleyball - Men - 2026 Youth Olympic Games – Dakar</title>
+    <desc lang="en">The Dakar 2026 Summer Youth Olympic Games take place from 31 October to 13 November 2026 in Senegal. The Dakar 2026 Summer Youth Olympic Games will be the first-ever Olympic event hosted in Africa.</desc>
+    <category lang="ar">ترفيه</category>
+    <category lang="en">Entertainment</category>
+  </programme>
+  <programme start="20261102200000 +0000" stop="20261102203600 +0000" channel="beINSports.qa">
+    <title lang="en">Greece x Puerto Rico - Beach Volleyball - Women - 2026 Youth Olympic Games – Dakar</title>
+    <desc lang="en">The Dakar 2026 Summer Youth Olympic Games take place from 31 October to 13 November 2026 in Senegal. The Dakar 2026 Summer Youth Olympic Games will be the first-ever Olympic event hosted in Africa.</desc>
+    <category lang="ar">ترفيه</category>
+    <category lang="en">Entertainment</category>
+  </programme>
+  <programme start="20261102203600 +0000" stop="20261102211500 +0000" channel="beINSports.qa">
+    <title lang="en">Brazil x Sierra Leone - Beach Volleyball - Men - 2026 Youth Olympic Games – Dakar</title>
     <desc lang="en">The Dakar 2026 Summer Youth Olympic Games take place from 31 October to 13 November 2026 in Senegal. The Dakar 2026 Summer Youth Olympic Games will be the first-ever Olympic event hosted in Africa.</desc>
     <category lang="ar">ترفيه</category>
     <category lang="en">Entertainment</category>
@@ -2613,12 +2614,12 @@ Arsenal are the defending Champions.</desc>
     <category lang="en">Live</category>
     <category lang="en">Entertainment</category>
   </programme>
-  <programme start="20261101125000 +0000" stop="20261101150000 +0000" channel="beINSports1.qa">
-    <title lang="en">Trabzonspor A.Ş. vs Gaziantep Futbol Kulübü A.Ş. - Turkish Super League 2027 - MD10 ‎• Live 🔵‎</title>
-    <desc lang="en">The Süper Lig is the top tier of Turkish professional football, featuring 18 competing clubs. The current Champions are Galatasaray.</desc>
-    <category lang="ar">الرياضة العام</category>
+  <programme start="20261108135500 +0000" stop="20261108181500 +0000" channel="beINSports.qa">
+    <title lang="en">Athletics - 2026 Youth Olympic Games – Dakar ‎• Live 🔵‎</title>
+    <desc lang="en">The Dakar 2026 Summer Youth Olympic Games take place from 31 October to 13 November 2026 in Senegal. The Dakar 2026 Summer Youth Olympic Games will be the first-ever Olympic event hosted in Africa.</desc>
+    <category lang="ar">ترفيه</category>
     <category lang="en">Live</category>
-    <category lang="en">Sports General</category>
+    <category lang="en">Entertainment</category>
   </programme>
   <programme start="20261101150000 +0000" stop="20261101153000 +0000" channel="beINSports1.qa">
     <title lang="en">EPL Stories  2026/2027 EP.16</title>
@@ -3782,12 +3783,6 @@ Selhurst Park Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">English Premier League</category>
   </programme>
-  <programme start="20261101124500 +0000" stop="20261101144500 +0000" channel="beINSports2.qa">
-    <title lang="en">Aston Villa vs Fulham - English Premier League 2026/2027 - Week 9</title>
-    <desc lang="en">Aston Villa have lost just one of their 18 home Premier League matches against Fulham, a 2-1 defeat in April 2014. Fulham won their last Premier League game against Aston Villa and have registered consecutive wins against them just once before in the competition, winning both games in 2013-14.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
   <programme start="20261101144500 +0000" stop="20261101174500 +0000" channel="beINSports2.qa">
     <title lang="en">Racing Santander vs Real Madrid - Spanish LaLiga 2026/2027 - Week 11 ‎• Live 🔵‎</title>
     <desc lang="en">The Spanish 2026–27 La Liga season is live and exclusive only on beIN SPORTS. All 380 matches across 38 matchdays are available with a choice of Arabic and English commentary.
@@ -4480,14 +4475,6 @@ Craven Cottage Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">CAF Super Cup</category>
   </programme>
-  <programme start="20261101125000 +0000" stop="20261101150000 +0000" channel="beINSports3.qa">
-    <title lang="en">Getafe vs Sevilla - Spanish LaLiga 2026/2027 - Week 11 ‎• Live 🔵‎</title>
-    <desc lang="en">The Spanish 2026–27 La Liga season is live and exclusive only on beIN SPORTS. All 380 matches across 38 matchdays are available with a choice of Arabic and English commentary.
-Barcelona are the two-time defending champions, having won their 29th title last season.</desc>
-    <category lang="ar">الدوري الإسباني لكرة القدم</category>
-    <category lang="en">Live</category>
-    <category lang="en">Spanish League - Primera División</category>
-  </programme>
   <programme start="20261101150000 +0000" stop="20261101172000 +0000" channel="beINSports3.qa">
     <title lang="en">Real Betis vs Malaga - Spanish LaLiga 2026/2027 - Week 11</title>
     <desc lang="en">The Spanish 2026–27 La Liga season is live and exclusive only on beIN SPORTS. All 380 matches across 38 matchdays are available with a choice of Arabic and English commentary.
@@ -5119,11 +5106,16 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="ar">الدوري الإسباني لكرة القدم</category>
     <category lang="en">Spanish League - Primera División</category>
   </programme>
-  <programme start="20261101133000 +0000" stop="20261101135000 +0000" channel="beINSports4.qa">
-    <title lang="en">Interview With Mikel Arteta</title>
-    <desc lang="en">Mikel Arteta reveals his favourite moments as Arsenal manager.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
+  <programme start="20261108135000 +0000" stop="20261108172000 +0000" channel="beINSports3.qa">
+    <title lang="en">Sunderland vs Chelsea - English Premier League 2026/2027 - Week 10 ‎• Live 🔵‎</title>
+    <desc lang="en">Sunderland vs Chelsea
+At 8-11-2026, MECCA 17:00, GMT 14:00
+Premier League
+Season 2026/2027
+Stadium of Light Stadium</desc>
+    <category lang="ar">الدوري الإنجليزي الممتاز</category>
+    <category lang="en">Live</category>
+    <category lang="en">English Premier League</category>
   </programme>
   <programme start="20261101135000 +0000" stop="20261101160500 +0000" channel="beINSports4.qa">
     <title lang="en">Strasbourg vs Auxerre - French Ligue 1 2026/2027 - Week 9 ‎• Live 🔵‎</title>
@@ -5830,18 +5822,12 @@ The reigning champions are Crystal Palace. The Final will be played at Beşikta�
     <category lang="ar">الدوري الفرنسي</category>
     <category lang="en">French League - Ligue 1</category>
   </programme>
-  <programme start="20261101122000 +0000" stop="20261101143000 +0000" channel="beINSports5.qa">
-    <title lang="en">Naegohyang Women's FC (PRK) vs Ayeyawady FC - Women (MYA) - AFC Women's Champions League 2026/27 - M ‎• Live 🔵‎</title>
-    <desc lang="en">The 2026–27 AFC Women's Champions League is the third edition of the AFC Women's Champions League. North Korean Team Naegohyang are the defending champions.</desc>
-    <category lang="ar">دوري أبطال آسيا</category>
+  <programme start="20261108135000 +0000" stop="20261108160500 +0000" channel="beINSports4.qa">
+    <title lang="en">Rennes vs Lille - French Ligue 1 2026/2027 - Week 10 ‎• Live 🔵‎</title>
+    <desc lang="en">All 306 matches from the Ligue 1 2026 – 2027 season are live and exclusive only on beIN SPORTS. Paris Saint-Germain are the defending Champions having secured their historic 14th top-flight title last season.</desc>
+    <category lang="ar">الدوري الفرنسي</category>
     <category lang="en">Live</category>
-    <category lang="en">AFC Champions League</category>
-  </programme>
-  <programme start="20261101143000 +0000" stop="20261101150000 +0000" channel="beINSports5.qa">
-    <title lang="en">Al Ahli Saudi FC (KSA) vs Al Gharafa SC (QAT) - AFC Champions League Elite 2026/2027 - MD 3</title>
-    <desc lang="en">Al-Ahli are unbeaten in their last six AFC Champions League Elite meetings with Al Gharafa, after losing their first two clashes; in fact, they have failed to score in just one of their eight meetings against Al Gharafa in the competition. Al Gharafa have lost each of their last four AFC Champions League Elite games, registering an aggregate score</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
+    <category lang="en">French League - Ligue 1</category>
   </programme>
   <programme start="20261101150000 +0000" stop="20261101153000 +0000" channel="beINSports5.qa">
     <title lang="en">Al Qadsiah Club (KSA) vs Al Sadd SC (QAT) - AFC Champions League Elite 2026/2027 - MD 3</title>
@@ -6470,12 +6456,16 @@ Jaber Al-Mubarak Al-Hamad Stadium Stadium</desc>
     <category lang="ar">الدوري الفرنسي</category>
     <category lang="en">French League - Ligue 1</category>
   </programme>
-  <programme start="20261101115000 +0000" stop="20261101140000 +0000" channel="beINSports6.qa">
-    <title lang="en">Fus Rabat vs Lekie Football Girls - CAF TotalEnergies Women's Champions League Egypt 2026 ‎• Live 🔵‎</title>
-    <desc lang="en">Taking place in Egypt from the 1st to 15th November, The 2026 CAF Women's Champions League will be the sixth edition of the annual African premier women's association football club tournament.</desc>
-    <category lang="ar">الرياضة العام</category>
+  <programme start="20261108135000 +0000" stop="20261108160500 +0000" channel="beINSports5.qa">
+    <title lang="en">Brighton &amp; Hove Albion vs Brentford - English Premier League 2026/2027 - Week 10 ‎• Live 🔵‎</title>
+    <desc lang="en">Brighton vs Brentford
+At 8-11-2026, MECCA 17:00, GMT 14:00
+Premier League
+Season 2026/2027
+American Express Stadium Stadium</desc>
+    <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">Live</category>
-    <category lang="en">Sports General</category>
+    <category lang="en">English Premier League</category>
   </programme>
   <programme start="20261101140000 +0000" stop="20261101155000 +0000" channel="beINSports6.qa">
     <title lang="en">Fulham vs Crystal Palace - Carabao Cup 2026 / 2027 - Round 4</title>
@@ -7055,6 +7045,17 @@ Jaber Al-Mubarak Al-Hamad Stadium Stadium</desc>
     <desc lang="en">ATP Tour This Week It is comprised of the various feature stories created by ATP Media and ATP Tour</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20261108135000 +0000" stop="20261108175000 +0000" channel="beINSports6.qa">
+    <title lang="en">Ipswich Town vs Bournemouth - English Premier League 2026/2027 - Week 10 ‎• Live 🔵‎</title>
+    <desc lang="en">Ipswich Town vs Bournemouth
+At 8-11-2026, MECCA 17:00, GMT 14:00
+Premier League
+Season 2026/2027
+Portman Road Stadium</desc>
+    <category lang="ar">الدوري الإنجليزي الممتاز</category>
+    <category lang="en">Live</category>
+    <category lang="en">English Premier League</category>
   </programme>
   <programme start="20261101130000 +0000" stop="20261101154500 +0000" channel="beINSports7.qa">
     <title lang="en">Alex De Minaur (AUS) vs Carlos Alcaraz (ESP) - Final - ATP 500 Erste Bank Open 2026 ‎• Live 🔵‎</title>
@@ -7650,11 +7651,13 @@ The world’s top tennis stars gather in Paris for the Rolex Paris Masters, the 
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261101133000 +0000" stop="20261101143000 +0000" channel="beINSports8.qa">
-    <title lang="en">Moto 2  - Malaysia GP - Main Race</title>
-    <desc lang="en">Moto2 is the intermediate class of the FIM Grand Prix World Championship, featuring highly competitive racing on identical Triumph-powered 765cc three-cylinder engines and standardized chassis. Running alongside MotoGP across the 2026 Grand Prix calendar, Moto2 provides a crucial development stage for riders aiming to reach the premier class, with</desc>
-    <category lang="ar">بطولة العالم للدراجات النارية</category>
-    <category lang="en">Moto GP - World Championship</category>
+  <programme start="20261108140000 +0000" stop="20261108164500 +0000" channel="beINSports7.qa">
+    <title lang="en">Final - ATP 1000 Rolex Paris Masters 2026 ‎• Live 🔵‎</title>
+    <desc lang="en">ATP Masters 1000 Paris 2026
+The world’s top tennis stars gather in Paris for the Rolex Paris Masters, the final ATP Masters 1000 tournament of the season. Competing on indoor hard courts, the leading players battle for one of the most prestigious titles on the ATP Tour, valuable ranking points and a place in the season-ending ATP Finals. Expect wor</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Live</category>
+    <category lang="en">Sports General</category>
   </programme>
   <programme start="20261101143000 +0000" stop="20261101173500 +0000" channel="beINSports8.qa">
     <title lang="en">Jiri Lehecka (CZE) vs Valentin Vacherot (MON) - Final - ATP 500 Swiss Indoors Basel 2026 ‎• Live 🔵‎</title>
@@ -7986,13 +7989,6 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="ar">الدوري الإسباني لكرة القدم</category>
     <category lang="en">Live</category>
     <category lang="en">Spanish League - Primera División</category>
-  </programme>
-  <programme start="20261101124500 +0000" stop="20261101150000 +0000" channel="beINSports9.qa">
-    <title lang="en">LGCT Grand Prix - Longines Global Champions Tour - Rabat  Jumping - Grand Prix ‎• Live 🔵‎</title>
-    <desc lang="en">The Longines Global Champions Tour brings together the world's leading show-jumping riders and horses for a spectacular season of elite equestrian competition across iconic destinations worldwide. Combining speed, precision, skill and exceptional horsemanship, the tour features thrilling individual and team events, as competitors battle for valuabl</desc>
-    <category lang="ar">الفروسية</category>
-    <category lang="en">Live</category>
-    <category lang="en">Equestrian</category>
   </programme>
   <programme start="20261101150000 +0000" stop="20261101160000 +0000" channel="beINSports9.qa">
     <title lang="en">Class 7 - LGCT GRAND PRIX Of Shanghai - Shanghai Tour Highlights</title>
@@ -8425,22 +8421,19 @@ The reigning champions are Crystal Palace. The Final will be played at Beşikta�
     <category lang="en">Live</category>
     <category lang="en">Moto GP - World Championship</category>
   </programme>
-  <programme start="20261101133200 +0000" stop="20261101140000 +0000" channel="beINSportsEn1.qa">
-    <title lang="en">Manchester City vs Brighton &amp; Hove Albion -English Premier League 2026/2027 - Week 9</title>
-    <desc lang="en">Manchester City won 12 of their last first 14 Premier League matches against Brighton  but they are winless in four since then. Brighton have never won in 16 away league games against Manchester City, though have avoided defeat in their last two. It’s the most Brighton have played away without winning against an opponent and the most Man City have</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
+  <programme start="20261108140000 +0000" stop="20261108151500 +0000" channel="beINSports9.qa">
+    <title lang="en">Moto 3 - Qatar GP - Main Race ‎• Live 🔵‎</title>
+    <desc lang="en">Moto3 is the lightweight class of the FIM Grand Prix World Championship, providing a highly competitive platform for young riders to develop their skills on the international stage. Featuring 250cc four-stroke single-cylinder motorcycles, the championship is renowned for close, unpredictable racing and frequent battles within large groups. Moto3 ru</desc>
+    <category lang="ar">بطولة العالم للدراجات النارية</category>
+    <category lang="en">Live</category>
+    <category lang="en">Moto GP - World Championship</category>
   </programme>
-  <programme start="20261101140000 +0000" stop="20261101143000 +0000" channel="beINSportsEn1.qa">
-    <title lang="en">Tottenham Hotspur vs Crystal Palace - English Premier League 2026/2027 - Week 9</title>
-    <desc lang="en">Tottenham have lost their last two home Premier League matches against Crystal Palace, having won nine on the spin beforehand between 2015-16 and 2023-24. Crystal Palace have three wins in their last four Premier League games against Spurs, only one fewer than in their first 30 against them in the competition.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
-  <programme start="20261101143000 +0000" stop="20261101150000 +0000" channel="beINSportsEn1.qa">
-    <title lang="en">EN EPL The Big Interview 2026/27 | E11</title>
-    <category lang="ar">مسلسلات</category>
-    <category lang="en">Series</category>
+  <programme start="20261108151500 +0000" stop="20261108160000 +0000" channel="beINSports9.qa">
+    <title lang="en">Moto 2 - Qatar GP - Main Race ‎• Live 🔵‎</title>
+    <desc lang="en">Moto2 is the intermediate class of the FIM Grand Prix World Championship, featuring highly competitive racing on identical Triumph-powered 765cc three-cylinder engines and standardized chassis. Running alongside MotoGP across the 2026 Grand Prix calendar, Moto2 provides a crucial development stage for riders aiming to reach the premier class, with</desc>
+    <category lang="ar">بطولة العالم للدراجات النارية</category>
+    <category lang="en">Live</category>
+    <category lang="en">Moto GP - World Championship</category>
   </programme>
   <programme start="20261101150000 +0000" stop="20261101153000 +0000" channel="beINSportsEn1.qa">
     <title lang="en">EN Carabao Cup Highlights 2026/27 | E4</title>
@@ -8947,19 +8940,6 @@ Selhurst Park Stadium</desc>
     <category lang="ar">الدوري الإنجليزي الممتاز</category>
     <category lang="en">Live</category>
     <category lang="en">English Premier League</category>
-  </programme>
-  <programme start="20261101120000 +0000" stop="20261101141500 +0000" channel="beINSportsEn2.qa">
-    <title lang="en">Italy vs Cameroon - Women's Futsal - 2026 Youth Olympic Games – Dakar ‎• Live 🔵‎</title>
-    <desc lang="en">The Dakar 2026 Summer Youth Olympic Games take place from 31 October to 13 November 2026 in Senegal. The Dakar 2026 Summer Youth Olympic Games will be the first-ever Olympic event hosted in Africa.</desc>
-    <category lang="ar">ترفيه</category>
-    <category lang="en">Live</category>
-    <category lang="en">Entertainment</category>
-  </programme>
-  <programme start="20261101141500 +0000" stop="20261101145000 +0000" channel="beINSportsEn2.qa">
-    <title lang="en">EN One Weekly 2026 - Ep 45</title>
-    <desc lang="en">The weekly show looking back at the best performances of ONE Championship's biggest stars ahead of highly anticipated upcoming bouts.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
   </programme>
   <programme start="20261101145000 +0000" stop="20261101171000 +0000" channel="beINSportsEn2.qa">
     <title lang="en">Ghana vs Japan - Quarter-final - FIFA U-17 Women's World Cup 2026 ‎• Live 🔵‎</title>
@@ -9635,11 +9615,12 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Live</category>
     <category lang="en">Entertainment</category>
   </programme>
-  <programme start="20261101133500 +0000" stop="20261101151000 +0000" channel="beINSportsFr1.qa">
-    <title lang="en">J09 Cesson Nantes - Championnat De France Masculin - Handball 2026-2027</title>
-    <desc lang="en">Sport.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
+  <programme start="20261108143000 +0000" stop="20261108180000 +0000" channel="beINSportsEn2.qa">
+    <title lang="en">Cincinnati Bengals @ Atlanta Falcons - NFL -National Footbal League  - 2026/27 ‎• Live 🔵‎</title>
+    <desc lang="en">The National Football League (NFL) is composed of 32 teams and it is divided equally between the American Football Conference (AFC) and the National Football Conference (NFC). The NFL season culminates in the Super Bowl which is played in early February between the winners of the AFC and NFC championship games.</desc>
+    <category lang="ar">دوري كرة القدم الأمريكية</category>
+    <category lang="en">Live</category>
+    <category lang="en">NFL- National Football League</category>
   </programme>
   <programme start="20261101151000 +0000" stop="20261101173000 +0000" channel="beINSportsFr1.qa">
     <title lang="en">Santander vs Real Madrid - Liga - FOOTBALL 2026-2027 ‎• Live 🔵‎</title>
@@ -9835,12 +9816,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261101133000 +0000" stop="20261101141500 +0000" channel="beINSportsFr2.qa">
-    <title lang="en">NFL Extra -</title>
-    <desc lang="en">Sport.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20261101141500 +0000" stop="20261101161000 +0000" channel="beINSportsFr2.qa">
     <title lang="en">Le Havre vs PSG - Ligue 1 - FOOTBALL 2026-2027</title>
     <desc lang="en">Sport.</desc>
@@ -10023,12 +9998,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <desc lang="en">Sport.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Live</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261101130000 +0000" stop="20261101150000 +0000" channel="beINSportsMax1.qa">
-    <title lang="en">beIN SPORTS MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20261101150000 +0000" stop="20261101170000 +0000" channel="beINSportsMax1.qa">
@@ -10260,12 +10229,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20261104190000 +0000" stop="20261104205959 +0000" channel="beINSportsMax1.qa">
-    <title lang="en">beIN SPORTS MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261101130000 +0000" stop="20261101150000 +0000" channel="beINSportsMax2.qa">
     <title lang="en">beIN SPORTS MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
@@ -10505,12 +10468,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261101130000 +0000" stop="20261101150000 +0000" channel="beINSportsMax3.qa">
-    <title lang="en">beIN SPORTS MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20261101150000 +0000" stop="20261101170000 +0000" channel="beINSportsMax3.qa">
     <title lang="en">beIN SPORTS MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
@@ -10740,12 +10697,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20261104190000 +0000" stop="20261104205959 +0000" channel="beINSportsMax3.qa">
-    <title lang="en">beIN SPORTS MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261101130000 +0000" stop="20261101150000 +0000" channel="beINSportsMax4.qa">
     <title lang="en">beIN SPORTS MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
@@ -10985,12 +10936,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261101130000 +0000" stop="20261101150000 +0000" channel="beINSportsMax5.qa">
-    <title lang="en">beIN SPORTS MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20261101150000 +0000" stop="20261101170000 +0000" channel="beINSportsMax5.qa">
     <title lang="en">beIN SPORTS MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
@@ -11220,12 +11165,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20261104190000 +0000" stop="20261104205959 +0000" channel="beINSportsMax5.qa">
-    <title lang="en">beIN SPORTS MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261101130000 +0000" stop="20261101150000 +0000" channel="beINSportsMax6.qa">
     <title lang="en">beIN SPORTS MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
@@ -11464,38 +11403,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261101133000 +0000" stop="20261101134500 +0000" channel="beINSportsNews.qa">
-    <title lang="en">Special Interview  - 1/11/26</title>
-    <desc lang="en">A  daily Special Interview related to an important issue of the day. The interview offers the background and insight into the issue chosen from the world of sport.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261101134500 +0000" stop="20261101140000 +0000" channel="beINSportsNews.qa">
-    <title lang="en">Al Sadd press conference ‎• Live 🔵‎</title>
-    <desc lang="en">Qatar's Al Sadd are still seeking the first win of their campaign while Saudi Arabia's Al Ahli remain on track in their bid to win the title for the third consecutive season.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Live</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261101140000 +0000" stop="20261101143000 +0000" channel="beINSportsNews.qa">
-    <title lang="en">News Bulletin ‎• Live 🔵‎</title>
-    <desc lang="en">Latest news from the beIn SPORTS News room, previewing and reviewing developments and scores with contribution from around the world from beIN's reporters.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Live</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261101143000 +0000" stop="20261101144500 +0000" channel="beINSportsNews.qa">
-    <title lang="en">The summary 1 - 1/11/26</title>
-    <desc lang="en">'"Daily Highlights" is a brief highlight of the previous days action. A look at the goals and talking points that have taken place in the world of sport.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261101144500 +0000" stop="20261101150000 +0000" channel="beINSportsNews.qa">
-    <title lang="en">Where Are They ?</title>
-    <desc lang="en">'Where Are They?" is a special feature on a personality from a previous era of sporting achievement. The report traces where they have been and where they now are after their time as one of the leading sports men or women of their generation.</desc>
-    <category lang="ar">الأخبار الرياضية</category>
-    <category lang="en">Sports News</category>
   </programme>
   <programme start="20261101150000 +0000" stop="20261101160000 +0000" channel="beINSportsNews.qa">
     <title lang="en">Six O'Clock bulletin ‎• Live 🔵‎</title>
@@ -12958,22 +12865,30 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261101130000 +0000" stop="20261101140000 +0000" channel="beINSportsXtra1.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20261108134500 +0000" stop="20261108140000 +0000" channel="beINSportsNews.qa">
+    <title lang="en">Special Report - 8/11/26</title>
+    <desc lang="en">"Special Report" is a single long feature from one of beIN SPORTS News reporters that takes an alternative look at a subject from the world of sport.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261101140000 +0000" stop="20261101150000 +0000" channel="beINSportsXtra1.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20261108140000 +0000" stop="20261108143000 +0000" channel="beINSportsNews.qa">
+    <title lang="en">News Bulletin ‎• Live 🔵‎</title>
+    <desc lang="en">Latest news from the beIn SPORTS News room, previewing and reviewing developments and scores with contribution from around the world from beIN's reporters.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Live</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20261108143000 +0000" stop="20261108150000 +0000" channel="beINSportsNews.qa">
+    <title lang="en">The summary 1 - 8/11/26</title>
+    <desc lang="en">'"Daily Highlights" is a brief highlight of the previous days action. A look at the goals and talking points that have taken place in the world of sport.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261101150000 +0000" stop="20261101151000 +0000" channel="beINSportsXtra1.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20261108150000 +0000" stop="20261108160000 +0000" channel="beINSportsNews.qa">
+    <title lang="en">Six O'Clock bulletin ‎• Live 🔵‎</title>
+    <desc lang="en">Latest news from the beIn SPORTS News room, previewing and reviewing developments and scores with contribution from around the world from beIN's reporters.</desc>
     <category lang="ar">الرياضة العام</category>
+    <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20261101151000 +0000" stop="20261101153000 +0000" channel="beINSportsXtra1.qa">
@@ -14004,9 +13919,9 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Live</category>
     <category lang="en">Entertainment</category>
   </programme>
-  <programme start="20261101133000 +0000" stop="20261101142000 +0000" channel="beINSportsXtra2.qa">
-    <title lang="en">France vs Guam - Beach Volleyball - Women - 2026 Youth Olympic Games – Dakar ‎• Live 🔵‎</title>
-    <desc lang="en">The Dakar 2026 Summer Youth Olympic Games take place from 31 October to 13 November 2026 in Senegal. The Dakar 2026 Summer Youth Olympic Games will be the first-ever Olympic event hosted in Africa.</desc>
+  <programme start="20261108152000 +0000" stop="20261108205959 +0000" channel="beINSportsXtra1.qa">
+    <title lang="en">Corendon Alanyaspor vs Trabzonspor A.Ş. - Turkish Super League 2027 - MD11 ‎• Live 🔵‎</title>
+    <desc lang="en">The Süper Lig is the top tier of Turkish professional football, featuring 18 competing clubs. The current Champions are Galatasaray.</desc>
     <category lang="ar">ترفيه</category>
     <category lang="en">Live</category>
     <category lang="en">Entertainment</category>
@@ -15023,17 +14938,18 @@ The reigning champions are Crystal Palace. The Final will be played at Beşikta�
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261101130000 +0000" stop="20261101140000 +0000" channel="beINSportsXtra3.qa">
+  <programme start="20261108140000 +0000" stop="20261108151500 +0000" channel="beINSportsXtra2.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261101140000 +0000" stop="20261101142000 +0000" channel="beINSportsXtra3.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
+  <programme start="20261108151500 +0000" stop="20261108180000 +0000" channel="beINSportsXtra2.qa">
+    <title lang="en">Girona vs Almeria - LaLiga Hypermotion 2026/2027 ‎• Live 🔵‎</title>
+    <desc lang="en">La Liga 2 is the men's second professional association football division of the Spanish football league system. It is contested by 22 teams, with the top two teams plus the winner of a play-off promoted to La Liga and replaced by the three lowest-placed teams in that division.</desc>
+    <category lang="ar">الدوري الأسباني للدرجة الثانية</category>
+    <category lang="en">Live</category>
+    <category lang="en">Spanish League - Segunda Division</category>
   </programme>
   <programme start="20261101142000 +0000" stop="20261101163000 +0000" channel="beINSportsXtra3.qa">
     <title lang="en">Melbourne City FC (AUS) vs PFC Nasaf (UZB) - AFC Women's Champions League 2026/27 - MD1 ‎• Live 🔵‎</title>
@@ -16017,34 +15933,17 @@ Al Taawoun Club Stadium Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261101130000 +0000" stop="20261101140000 +0000" channel="beINSportsXtra4.qa">
+  <programme start="20261108140000 +0000" stop="20261108150000 +0000" channel="beINSportsXtra3.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261101140000 +0000" stop="20261101141000 +0000" channel="beINSportsXtra4.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20261108150000 +0000" stop="20261108180000 +0000" channel="beINSportsXtra3.qa">
+    <title lang="en">Beach Wrestling - 2026 Youth Olympic Games – Dakar ‎• Live 🔵‎</title>
+    <desc lang="en">The Dakar 2026 Summer Youth Olympic Games take place from 31 October to 13 November 2026 in Senegal. The Dakar 2026 Summer Youth Olympic Games will be the first-ever Olympic event hosted in Africa.</desc>
     <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261101141000 +0000" stop="20261101142000 +0000" channel="beINSportsXtra4.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261101142000 +0000" stop="20261101143000 +0000" channel="beINSportsXtra4.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261101143000 +0000" stop="20261101145000 +0000" channel="beINSportsXtra4.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20261101145000 +0000" stop="20261101170000 +0000" channel="beINSportsXtra4.qa">
@@ -17094,31 +16993,13 @@ The reigning champions are Crystal Palace. The Final will be played at Beşikta�
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261101130000 +0000" stop="20261101140000 +0000" channel="beINSportsXtra5.qa">
+  <programme start="20261108140000 +0000" stop="20261108150000 +0000" channel="beINSportsXtra4.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261101140000 +0000" stop="20261101141000 +0000" channel="beINSportsXtra5.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261101141000 +0000" stop="20261101142000 +0000" channel="beINSportsXtra5.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261101142000 +0000" stop="20261101143000 +0000" channel="beINSportsXtra5.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261101143000 +0000" stop="20261101145000 +0000" channel="beINSportsXtra5.qa">
+  <programme start="20261108150000 +0000" stop="20261108161000 +0000" channel="beINSportsXtra4.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -18150,37 +18031,13 @@ The reigning champions are Crystal Palace. The Final will be played at Beşikta�
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261101130000 +0000" stop="20261101140000 +0000" channel="beINSportsXtra6.qa">
+  <programme start="20261108140000 +0000" stop="20261108150000 +0000" channel="beINSportsXtra5.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261101140000 +0000" stop="20261101141000 +0000" channel="beINSportsXtra6.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261101141000 +0000" stop="20261101142000 +0000" channel="beINSportsXtra6.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261101142000 +0000" stop="20261101143000 +0000" channel="beINSportsXtra6.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261101143000 +0000" stop="20261101144000 +0000" channel="beINSportsXtra6.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261101144000 +0000" stop="20261101150000 +0000" channel="beINSportsXtra6.qa">
+  <programme start="20261108150000 +0000" stop="20261108160000 +0000" channel="beINSportsXtra5.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -19212,35 +19069,19 @@ The reigning champions are Crystal Palace. The Final will be played at Beşikta�
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261101130000 +0000" stop="20261101140000 +0000" channel="beINSportsXtra7.qa">
+  <programme start="20261108140000 +0000" stop="20261108150500 +0000" channel="beINSportsXtra6.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261101140000 +0000" stop="20261101141000 +0000" channel="beINSportsXtra7.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261101141000 +0000" stop="20261101142000 +0000" channel="beINSportsXtra7.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261101142000 +0000" stop="20261101143000 +0000" channel="beINSportsXtra7.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261101143000 +0000" stop="20261101145000 +0000" channel="beINSportsXtra7.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
+  <programme start="20261108150500 +0000" stop="20261108172000 +0000" channel="beINSportsXtra6.qa">
+    <title lang="en">Real Sociedad vs Rayo Vallecano - Spanish LaLiga 2026/2027 - Week 12 ‎• Live 🔵‎</title>
+    <desc lang="en">The Spanish 2026–27 La Liga season is live and exclusive only on beIN SPORTS. All 380 matches across 38 matchdays are available with a choice of Arabic and English commentary.
+Barcelona are the two-time defending champions, having won their 29th title last season.</desc>
+    <category lang="ar">الدوري الإسباني لكرة القدم</category>
+    <category lang="en">Live</category>
+    <category lang="en">Spanish League - Primera División</category>
   </programme>
   <programme start="20261101145000 +0000" stop="20261101170000 +0000" channel="beINSportsXtra7.qa">
     <title lang="en">Fc Masar vs Mamelodi Sundowns - CAF TotalEnergies Women's Champions League Egypt 2026 ‎• Live 🔵‎</title>
@@ -20255,17 +20096,17 @@ The reigning champions are Crystal Palace. The Final will be played at Beşikta�
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261101130000 +0000" stop="20261101140000 +0000" channel="beINSportsXtra8.qa">
+  <programme start="20261108140000 +0000" stop="20261108150000 +0000" channel="beINSportsXtra7.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261101140000 +0000" stop="20261101142000 +0000" channel="beINSportsXtra8.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
+  <programme start="20261108150000 +0000" stop="20261108170000 +0000" channel="beINSportsXtra7.qa">
+    <title lang="en">M1 - ATP 250 Bybit Stockholm Open 2026 ‎• Live 🔵‎</title>
+    <category lang="ar">تنس -  فئة 250</category>
+    <category lang="en">Live</category>
+    <category lang="en">Tennis - ATP 250</category>
   </programme>
   <programme start="20261101142000 +0000" stop="20261101163000 +0000" channel="beINSportsXtra8.qa">
     <title lang="en">Ho Chi Minh City Women's FC (VIE) vs East Bengal FC (IND) - AFC Women's Champions League 2026/27 - M ‎• Live 🔵‎</title>
@@ -21298,13 +21139,13 @@ The reigning champions are Crystal Palace. The Final will be played at Beşikta�
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261101130000 +0000" stop="20261101140000 +0000" channel="beINSportsXtra9.qa">
+  <programme start="20261108140000 +0000" stop="20261108150000 +0000" channel="beINSportsXtra8.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261101140000 +0000" stop="20261101150000 +0000" channel="beINSportsXtra9.qa">
+  <programme start="20261108150000 +0000" stop="20261108160000 +0000" channel="beINSportsXtra8.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -22317,6 +22158,18 @@ The reigning champions are Crystal Palace. The Final will be played at Beşikta�
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20261108130000 +0000" stop="20261108140000 +0000" channel="beINSportsXtra9.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20261108140000 +0000" stop="20261108150000 +0000" channel="beINSportsXtra9.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20261108150000 +0000" stop="20261108160000 +0000" channel="beINSportsXtra9.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -56293,4 +56146,4 @@ Big Ed draws a singing T-Rex.</desc>
     <title lang="en">24/7 Program</title>
     <desc lang="ar">IQ| Al Rabiaa Quran — الرابعة قرآن</desc>
   </programme>
-<programme start="20261103161500 +0000" stop="20261103210000 +0000" channel="beINSports.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261106222500 +0000" stop="20261107082000 +0000" channel="beINSports5.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261104003000 +0000" stop="20261104082000 +0000" channel="beINSports8.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261105054500 +0000" stop="20261105173500 +0000" channel="beINSports8.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261106021000 +0000" stop="20261106153000 +0000" channel="beINSports8.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261106220000 +0000" stop="20261107143000 +0000" channel="beINSports8.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261108040000 +0000" stop="20261108125000 +0000" channel="beINSports8.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261106225000 +0000" stop="20261107124000 +0000" channel="beINSports9.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261103110000 +0000" stop="20261103170000 +0000" channel="beINSportsEn1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261107060000 +0000" stop="20261107100000 +0000" channel="beINSportsEn1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261108044500 +0000" stop="20261108103000 +0000" channel="beINSportsEn1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261106210000 +0000" stop="20261107110000 +0000" channel="beINSportsEn2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261107213000 +0000" stop="20261108100000 +0000" channel="beINSportsEn2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101231000 +0000" stop="20261102050000 +0000" channel="beINSportsFr1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261103205959 +0000" stop="20261104134055 +0000" channel="beINSportsFr1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261102004000 +0000" stop="20261102050000 +0000" channel="beINSportsFr2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261103205959 +0000" stop="20261104134055 +0000" channel="beINSportsFr2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261107193000 +0000" stop="20261108103000 +0000" channel="beINSportsXtra1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261103110000 +0000" stop="20261103165000 +0000" channel="beINSportsXtra2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261102235959 +0000" stop="20261104134055 +0000" channel="beINStarAction.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261103235959 +0000" stop="20261104134055 +0000" channel="beINStarMovies.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261102235959 +0000" stop="20261104134055 +0000" channel="beINStarWorld.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261102235959 +0000" stop="20261104134055 +0000" channel="beINFoodNetwork.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261102235959 +0000" stop="20261104134055 +0000" channel="beINHGTV.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261102235959 +0000" stop="20261104134055 +0000" channel="beINNatGeo.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261102235959 +0000" stop="20261104134055 +0000" channel="beINNatGeoWild.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261102235959 +0000" stop="20261104134055 +0000" channel="beINBBCEarth.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261103235959 +0000" stop="20261104134055 +0000" channel="beINDiscovery.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261102235959 +0000" stop="20261104134055 +0000" channel="beINDisney.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261102235959 +0000" stop="20261104134055 +0000" channel="beINDisneyJr.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261102235959 +0000" stop="20261104134055 +0000" channel="beINBabyTV.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261102235959 +0000" stop="20261104134055 +0000" channel="beINCartoonito.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261102235959 +0000" stop="20261104134055 +0000" channel="beINCartoonNetwork.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261102235959 +0000" stop="20261104134055 +0000" channel="beINCartoonNetworkArabic.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+<programme start="20261103161500 +0000" stop="20261103210000 +0000" channel="beINSports.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261106222500 +0000" stop="20261107082000 +0000" channel="beINSports5.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261108031000 +0000" stop="20261108135000 +0000" channel="beINSports5.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261104003000 +0000" stop="20261104082000 +0000" channel="beINSports8.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261105054500 +0000" stop="20261105173500 +0000" channel="beINSports8.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261106021000 +0000" stop="20261106153000 +0000" channel="beINSports8.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261106220000 +0000" stop="20261107143000 +0000" channel="beINSports8.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261108040000 +0000" stop="20261108125000 +0000" channel="beINSports8.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261106225000 +0000" stop="20261107124000 +0000" channel="beINSports9.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261107210000 +0000" stop="20261108140000 +0000" channel="beINSports9.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261103110000 +0000" stop="20261103170000 +0000" channel="beINSportsEn1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261107060000 +0000" stop="20261107100000 +0000" channel="beINSportsEn1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261108044500 +0000" stop="20261108103000 +0000" channel="beINSportsEn1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261106210000 +0000" stop="20261107110000 +0000" channel="beINSportsEn2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261107213000 +0000" stop="20261108100000 +0000" channel="beINSportsEn2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261101231000 +0000" stop="20261102050000 +0000" channel="beINSportsFr1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261103205959 +0000" stop="20261104152732 +0000" channel="beINSportsFr1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261102004000 +0000" stop="20261102050000 +0000" channel="beINSportsFr2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261103205959 +0000" stop="20261104152732 +0000" channel="beINSportsFr2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261107193000 +0000" stop="20261108103000 +0000" channel="beINSportsXtra1.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261103110000 +0000" stop="20261103165000 +0000" channel="beINSportsXtra2.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261102235959 +0000" stop="20261104152732 +0000" channel="beINStarAction.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261103235959 +0000" stop="20261104152732 +0000" channel="beINStarMovies.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261102235959 +0000" stop="20261104152732 +0000" channel="beINStarWorld.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261102235959 +0000" stop="20261104152732 +0000" channel="beINFoodNetwork.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261102235959 +0000" stop="20261104152732 +0000" channel="beINHGTV.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261102235959 +0000" stop="20261104152732 +0000" channel="beINNatGeo.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261102235959 +0000" stop="20261104152732 +0000" channel="beINNatGeoWild.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261102235959 +0000" stop="20261104152732 +0000" channel="beINBBCEarth.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261103235959 +0000" stop="20261104152732 +0000" channel="beINDiscovery.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261102235959 +0000" stop="20261104152732 +0000" channel="beINDisney.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261102235959 +0000" stop="20261104152732 +0000" channel="beINDisneyJr.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261102235959 +0000" stop="20261104152732 +0000" channel="beINBabyTV.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261102235959 +0000" stop="20261104152732 +0000" channel="beINCartoonito.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261102235959 +0000" stop="20261104152732 +0000" channel="beINCartoonNetwork.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261102235959 +0000" stop="20261104152732 +0000" channel="beINCartoonNetworkArabic.qa"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
