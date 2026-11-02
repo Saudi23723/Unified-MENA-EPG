@@ -1,0 +1,37 @@
+name: Compact main's history
+on:
+  schedule:
+    - cron: "13 3 * * 1"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: compact-history
+  cancel-in-progress: false
+jobs:
+  compact:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Replace main with one commit holding its current files
+        env:
+          REPO: ${{ github.repository }}
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          git init -q work && cd work
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git remote add origin "https://x-access-token:${TOKEN}@github.com/${REPO}.git"
+          for attempt in 1 2 3 4 5 6; do
+            git fetch -q --depth=1 origin main
+            tip=$(git rev-parse FETCH_HEAD)
+            tree=$(git rev-parse "FETCH_HEAD^{tree}")
+            new=$(git commit-tree "$tree" -m "Compact history: main as of ${tip:0:9}")
+            if git push -q --force-with-lease="refs/heads/main:${tip}" origin "${new}:refs/heads/main"; then
+              echo "done"
+              exit 0
+            fi
+            sleep $(( 20 + RANDOM % 40 ))
+          done
+          exit 1
