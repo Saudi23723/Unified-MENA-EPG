@@ -345,11 +345,6 @@ class MapActivity : BaseActivity(), NeonHost {
             setPadding(0, dp(14), 0, dp(4))
             setTypeface(typeface, android.graphics.Typeface.BOLD)
         })
-        fun check(label: Int, on: Boolean) = android.widget.CheckBox(this).apply {
-            text = getString(label)
-            isChecked = on
-            box.addView(this)
-        }
         // Overlays as an EFB shows them: a grid of tiles, each ticked when on.
         val grid = android.widget.GridLayout(this).apply { columnCount = 2 }
         box.addView(grid)
