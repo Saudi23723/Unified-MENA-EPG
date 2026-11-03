@@ -67,6 +67,7 @@ jobs:
             # what happened, without any login (the script never prints it)
             { date -u; echo "exit $c"; tail -3 "_msg_$p.txt"; } > "_status/$p.txt"
             [ "$c" = 0 ] && [ -f "_new/$p.json" ] && cp "_new/$p.json" "_patch/$p.json"
+            [ "$c" = 0 ] && [ -f "_new/$p.catalog.json" ] && mkdir -p _patch/catalog && cp "_new/$p.catalog.json" "_patch/catalog/$p.json"
             # movies / series (the relay cannot read them either): every 2 hours is enough
             age=999999; [ -f "_patch/$p/stamp" ] && age=$(( $(date +%s) - $(cat "_patch/$p/stamp") ))
             if [ "$c" = 0 ] && [ "$age" -gt 7000 -o "${FORCE_VOD:-}" = 1 ]; then
