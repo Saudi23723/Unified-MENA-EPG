@@ -75,7 +75,8 @@ class HandbookActivity : BaseActivity() {
         col.addView(EfbUi.text(this, getString(R.string.hb_failed), 14f, EfbUi.WARN).apply { setPadding(dp(4), dp(12), dp(4), dp(12)) })
         col.addView(EfbUi.text(this, "🌐 " + getString(R.string.hb_browser), 14f, EfbUi.ACCENT, bold = true).apply {
             setPadding(dp(4), dp(8), dp(4), dp(8))
-            setOnClickListener { try { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(page))) } catch (e: Exception) {} }
+            // Still in the app: the FAA page in the app's own browser.
+            setOnClickListener { WebActivity.open(this@HandbookActivity, name, page) }
         })
     }
 

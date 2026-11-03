@@ -680,12 +680,13 @@ class MapActivity : BaseActivity(), NeonHost {
             "\n${Nav.deg(Nav.magnetic(Nav.bearingTrue(it.latitude, it.longitude, g.latitude, g.longitude), it.latitude, it.longitude))}M · %.1f nm"
                 .format(Nav.distanceNm(it.latitude, it.longitude, g.latitude, g.longitude))
         } ?: "")
-        MaterialAlertDialogBuilder(this)
-            .setTitle(where)
-            .setItems(arrayOf(getString(R.string.apt_direct), getString(R.string.apt_add_route))) { _, i ->
-                if (i == 0) directTo(wp) else addToRoute(wp)
-            }
-            .show()
+        // The airport nearest the press (within 10 nm), with its weather.
+        val near = airports.minByOrNull { Nav.distanceNm(g.latitude, g.longitude, it.lat, it.lon) }
+            ?.takeIf { Nav.distanceNm(g.latitude, g.longitude, it.lat, it.lon) < 10 }
+        val target = near?.let { FlightPlan.Waypoint(it.icao.ifEmpty { it.ident }, it.lat, it.lon) } ?: wp
+        PointSheet(this, near?.lat ?: g.latitude, near?.lon ?: g.longitude, near, from?.let { it.latitude to it.longitude },
+            onDirect = { directTo(target) }, onAdd = { addToRoute(target) },
+            onAirport = near?.let { a -> { showAirport(a) } }).show()
     }
 
     private fun findWaypoint(token: String): FlightPlan.Waypoint? {

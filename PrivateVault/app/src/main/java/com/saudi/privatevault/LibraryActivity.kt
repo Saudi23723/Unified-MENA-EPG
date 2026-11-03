@@ -177,10 +177,9 @@ class LibraryActivity : BaseActivity() {
             }
             if (item != null) { sub.text = b.sub + "  ·  ✓ " + getString(R.string.lib_saved); read(item) }
             else {
-                // The FAA moved it: its page, to tap the PDF there.
+                // The FAA moved it: its page's PDFs, listed and read here in the app.
                 sub.text = b.sub
-                Toast.makeText(this@LibraryActivity, R.string.lib_page, Toast.LENGTH_LONG).show()
-                try { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(b.page))) } catch (e: Exception) {}
+                HandbookActivity.open(this@LibraryActivity, b.title, b.page)
             }
         }
     }

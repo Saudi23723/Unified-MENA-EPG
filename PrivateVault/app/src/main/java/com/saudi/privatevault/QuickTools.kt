@@ -19,6 +19,8 @@ import android.widget.Toast
 /** A screen that can write neon that stays on its own page (the book reader, the map). */
 interface NeonHost {
     fun neonPen()
+    /** Neon that fades, on the page itself; by default over the whole screen. */
+    fun neonFade() = NeonLayer.start(this as Activity, fade = true)
 }
 
 /**
@@ -81,7 +83,7 @@ object QuickTools {
         m.setOnMenuItemClickListener {
             when (it.itemId) {
                 1 -> if (NotePad.isOpen()) NotePad.close(act) else Notebooks.choose(act, null)
-                2 -> NeonLayer.start(act, fade = true)
+                2 -> if (act is NeonHost) act.neonFade() else NeonLayer.start(act, fade = true)
                 // On a book or the map, the neon stays on the page itself (it moves and zooms with it).
                 3 -> if (act is NeonHost) act.neonPen() else NeonLayer.start(act, fade = false)
                 4 -> {

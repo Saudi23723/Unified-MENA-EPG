@@ -163,6 +163,10 @@ class AnnotatedPageView @JvmOverloads constructor(
 
     private var current: Mark? = null
 
+    /** Neon that fades: what is written is not kept, and is gone four and a half seconds after the pen lifts. */
+    var laser = false
+    private val fading = ArrayList<Pair<Mark, Long>>()
+
     // Held still at the end of a stroke: the stroke becomes the shape it looks like.
     private var snapped = false
     private var holdX = 0f
@@ -262,6 +266,18 @@ class AnnotatedPageView @JvmOverloads constructor(
         canvas.concat(imageMatrix)
         for (m in marks) MarkPainter.draw(canvas, m, w, h)
         current?.let { MarkPainter.draw(canvas, it, w, h) }
+        if (fading.isNotEmpty()) {
+            val now = System.currentTimeMillis()
+            fading.removeAll { now - it.second > 4500 }
+            for ((m, t) in fading) {
+                val age = now - t
+                val a = if (age < 3000) 255 else (255 * (1f - (age - 3000) / 1500f)).toInt().coerceIn(0, 255)
+                canvas.saveLayerAlpha(null, a)
+                MarkPainter.draw(canvas, m, w, h)
+                canvas.restore()
+            }
+            postInvalidateOnAnimation()
+        }
         selected?.let { drawSelected(canvas, it, w, h) }
         lasso?.let { l ->
             if (l.size >= 4) {
@@ -369,7 +385,9 @@ class AnnotatedPageView @JvmOverloads constructor(
                     removeCallbacks(snap)
                     val m = current
                     current = null
-                    if (m != null && worthKeeping(m)) {
+                    if (m != null && laser) {
+                        fading.add(m to System.currentTimeMillis())
+                    } else if (m != null && worthKeeping(m)) {
                         marks.add(m)
                         onEdit?.invoke(Edit.Added(m))
                         // A new shape stays picked, so it can be moved or resized straight away.

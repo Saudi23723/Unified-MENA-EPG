@@ -457,6 +457,13 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
         p.tool = Tool.HAND
     }
 
+    /** Neon that fades after four seconds: the neon pen, with nothing kept; the pen bar stays in reach. */
+    override fun neonFade() {
+        neonPen()
+        b.page.laser = true
+        Toast.makeText(this, R.string.neon_fade_on, Toast.LENGTH_LONG).show()
+    }
+
     /** Neon that stays: the neon pen on the page. */
     override fun neonPen() {
         startWriting()
@@ -480,6 +487,7 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
     }
 
     private fun pick(tool: Tool, quiet: Boolean = false) {
+        b.page.laser = false
         val p = b.page
         p.tool = tool
         if (tool != Tool.SELECT && !(tool == Tool.LINE || tool == Tool.ARROW || tool == Tool.RECT || tool == Tool.OVAL)) p.selected = null

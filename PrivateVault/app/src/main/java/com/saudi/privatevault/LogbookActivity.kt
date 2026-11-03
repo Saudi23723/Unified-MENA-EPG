@@ -168,7 +168,14 @@ class LogbookActivity : BaseActivity() {
             setPadding(dp(14), dp(10), dp(14), dp(10))
         }
         top.addView(search, LinearLayout.LayoutParams(0, -2, 1f))
-        top.addView(button("➕", outlined = false) { edit(newEntry(), isNew = true) }, LinearLayout.LayoutParams(-2, -2).apply { marginStart = dp(8) })
+        // A flight or a ground lesson: both go in this one list.
+        top.addView(button("➕", outlined = false) {
+            com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
+                .setItems(arrayOf("✈️  " + getString(R.string.log_add_flight), "📚  " + getString(R.string.ground_add))) { _, w ->
+                    if (w == 0) edit(newEntry(), isNew = true)
+                    else editGround(GroundLesson(instructor = prefs.getString("last_cfi", "") ?: ""), true)
+                }.show()
+        }, LinearLayout.LayoutParams(-2, -2).apply { marginStart = dp(8) })
         body.addView(top)
         val list = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
         body.addView(list)
@@ -178,19 +185,23 @@ class LogbookActivity : BaseActivity() {
             val shown = if (q.isEmpty()) entries else entries.filter { e ->
                 listOf(e.date, e.aircraft, e.tail, e.from, e.to, e.route, e.remarks, e.instructor).any { it.uppercase().contains(q) }
             }
-            if (shown.isEmpty()) {
+            val lessons = Logbook.ground(this).filter { g -> q.isEmpty() || listOf(g.date, g.kind, g.topics, g.instructor, g.remarks).any { it.uppercase().contains(q) } }
+            if (shown.isEmpty() && lessons.isEmpty()) {
                 list.addView(EfbUi.text(this, getString(if (entries.isEmpty()) R.string.log_empty else R.string.empty_search), 14f, EfbUi.DIM).apply { setPadding(dp(4), dp(16), dp(4), 0) })
                 return
             }
+            // Flights and ground lessons by date, newest first; each month with both totals.
+            val rows = (shown.map { it.date to (it as Any) } + lessons.map { it.date to (it as Any) }).sortedByDescending { it.first }
             var month = ""
-            for (e in shown) {
-                val m = e.date.take(7)
+            for ((date, item) in rows) {
+                val m = date.take(7)
                 if (m != month) {
                     month = m
-                    val hours = shown.filter { it.date.startsWith(m) }.sumOf { it.total }
-                    list.addView(header("${monthName(m)}  ·  %.1f h".format(hours)))
+                    val fh = shown.filter { it.date.startsWith(m) }.sumOf { it.total }
+                    val gh = lessons.filter { it.date.startsWith(m) }.sumOf { it.hours }
+                    list.addView(header("${monthName(m)}  ·  ✈️ %.1f h".format(fh) + if (gh > 0) "  ·  📚 %.1f h".format(gh) else ""))
                 }
-                list.addView(flightCard(e))
+                if (item is LogEntry) list.addView(flightCard(item)) else if (item is GroundLesson) list.addView(lessonCard(item))
             }
         }
         search.addTextChangedListener(object : TextWatcher {
@@ -205,6 +216,35 @@ class LogbookActivity : BaseActivity() {
         val c = Calendar.getInstance().apply { time = LogEntry.FMT.parse("$ym-01")!! }
         java.text.SimpleDateFormat("MMMM yyyy", resources.configuration.locales[0]).format(c.time)
     } catch (e: Exception) { ym }
+
+    /** A ground lesson in the list: its kind, topics, instructor and hours. */
+    private fun lessonCard(g: GroundLesson): View {
+        val c = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+            background = EfbUi.cardBg(this@LogbookActivity)
+            setPadding(dp(12), dp(12), dp(14), dp(12))
+            layoutDirection = View.LAYOUT_DIRECTION_LTR
+            layoutParams = LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(8) }
+        }
+        c.addView(LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            gravity = Gravity.CENTER
+            background = EfbUi.cardBg(this@LogbookActivity, 0xFF2A1F0A.toInt(), 12)
+            setPadding(dp(8), dp(6), dp(8), dp(6))
+            addView(EfbUi.text(this@LogbookActivity, g.date.takeLast(2), 20f, 0xFFFFB020.toInt(), bold = true).apply { gravity = Gravity.CENTER })
+            addView(EfbUi.text(this@LogbookActivity, monthName(g.date.take(7)).take(3).uppercase(), 10f, EfbUi.DIM).apply { gravity = Gravity.CENTER })
+        }, LinearLayout.LayoutParams(dp(54), -2))
+        val mid = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(dp(12), 0, dp(8), 0) }
+        mid.addView(EfbUi.text(this, "📚 " + g.kind, 16f, EfbUi.TEXT, bold = true))
+        val topics = g.topics.split(',').filter { it.isNotBlank() }
+        mid.addView(EfbUi.text(this, listOf(g.instructor, if (topics.isNotEmpty()) topics.take(3).joinToString(", ") + if (topics.size > 3) " +${topics.size - 3}" else "" else "")
+            .filter { it.isNotEmpty() }.joinToString("  ·  ").ifEmpty { getString(R.string.log_ground_lesson) }, 12f, EfbUi.DIM).apply { maxLines = 2 })
+        c.addView(mid, LinearLayout.LayoutParams(0, -2, 1f))
+        c.addView(EfbUi.text(this, "%.1f".format(g.hours), 20f, 0xFFFFB020.toInt(), bold = true, mono = true))
+        c.setOnClickListener { editGround(g, false) }
+        return c
+    }
 
     private fun flightCard(e: LogEntry): View {
         val c = LinearLayout(this).apply {
