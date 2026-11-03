@@ -107,7 +107,7 @@ def main(playlist, out):
         want = json.load(open(f, encoding="utf-8")) if os.path.exists(f) else {}
         shown = arrange(cats, want)
         keep = {str(c.get("category_id")) for c in shown}
-        items = [light(x) for x in items if isinstance(x, dict) and str(x.get("category_id")) in keep]
+        items = [x for x in items if str(x.get("category_id")) in keep]
         dump(shown, os.path.join(out, f"{kind}_categories.json"))
         dump(items, os.path.join(out, "vod_streams.json" if kind == "vod" else "series.json"))
         by = {}
