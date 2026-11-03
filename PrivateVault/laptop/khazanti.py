@@ -94,6 +94,9 @@ class Vault:
         self.lock = threading.RLock()
         self.folders: list = []
         self.items: list = []
+        # What was deleted here (its source and name), so the devices that synced it delete it too
+        # and do not send it up again.
+        self.deleted: list = []
         # Bumped on every change, so open windows and phones know to reload.
         self.rev = 0
         self._load()
@@ -105,15 +108,16 @@ class Vault:
             data = json.load(f)
         self.folders = data.get("folders", [])
         self.items = data.get("items", [])
+        self.deleted = data.get("deleted", [])
 
     def save(self):
         with self.lock:
             self.rev += 1
-            write_json(self.index_path, {"version": 1, "folders": self.folders, "items": self.items})
+            write_json(self.index_path, {"version": 1, "folders": self.folders, "items": self.items, "deleted": self.deleted[-5000:]})
 
     def snapshot(self) -> dict:
         with self.lock:
-            return {"rev": self.rev, "folders": list(self.folders), "items": list(self.items)}
+            return {"rev": self.rev, "folders": list(self.folders), "items": list(self.items), "deleted": list(self.deleted[-5000:])}
 
     def folder(self, fid):
         return next((d for d in self.folders if d["id"] == fid), None)
@@ -195,6 +199,8 @@ class Vault:
             else:
                 gone = [i for i in self.items if i["id"] == oid]
                 self.items = [i for i in self.items if i["id"] != oid]
+            for it in gone:
+                self.deleted.append({"src": it.get("src") or "", "name": it.get("name", ""), "size": it.get("size"), "at": int(time.time())})
             self.save()
         for it in gone:
             try:
@@ -777,6 +783,15 @@ class CloudSync:
             self._set(phase="index")
             remote = self._get("/api/index")
             have = {i.get("src") for i in remote.get("items", []) if i.get("src")}
+            # Deleted on the cloud (from the phone or the tablet): deleted here too, never sent up again.
+            gone_src = {d.get("src") for d in remote.get("deleted", []) if d.get("src", "").startswith("laptop:")}
+            for src in gone_src:
+                lid = src[len("laptop:"):]
+                if self.app.vault.item(lid) is not None:
+                    try:
+                        self.app.vault.delete("item", lid)
+                    except Exception:
+                        pass
             # Files already on the cloud that came another way (the phone, the web page):
             # the same file in the same folder, or the same name and size anywhere.
             rfolders = {d["id"]: d for d in remote.get("folders", [])}

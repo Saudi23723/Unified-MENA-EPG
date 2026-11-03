@@ -676,6 +676,12 @@
     <string name="map_data_none">ولا شي</string>
     <string name="map_data_weather">الطقس (Station model: ريح، حرارة، altimeter)</string>
     <string name="map_data_winds">Winds Aloft (اختار الارتفاع تحت)</string>
+    <string name="cloud_delete">🗑 احذف من الـ Cloud</string>
+    <string name="cloud_delete_q">تحذف «%1$s»؟</string>
+    <string name="cloud_delete_msg">بينحذف من الـ Cloud ومن كل أجهزتك اللي بتتزامن معه (التلفون، التابلت، اللابتوب). ما بترجع.</string>
+    <string name="cloud_delete_folder_msg">المجلد وكل اللي جوّاه بينحذف من الـ Cloud ومن كل أجهزتك. ما بترجع.</string>
+    <string name="cloud_deleted">انحذف من كل الأجهزة</string>
+    <string name="cloud_delete_failed">ما انحذف: %1$s</string>
     <string name="map_circle">دائرة</string>
     <string name="map_ruler">مسطرة</string>
     <string name="pen_write">كتابة وتظليل</string>

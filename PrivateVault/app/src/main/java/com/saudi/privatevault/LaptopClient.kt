@@ -27,7 +27,9 @@ object LaptopClient {
     }
 
     /** [sources]: the "phone:<id>" marks of files already sent from this phone. */
-    class Index(val name: String, val folders: List<Folder>, val items: List<VaultItem>, val sources: Set<String>)
+    class Index(val name: String, val folders: List<Folder>, val items: List<VaultItem>, val sources: Set<String>,
+                /** Each item's source mark, and the marks of what was deleted on the vault. */
+                val srcOf: Map<String, String> = emptyMap(), val deleted: Set<String> = emptySet())
 
     class NotAuthorized : IOException("not authorized")
 
@@ -133,10 +135,11 @@ object LaptopClient {
         }
         val items = mutableListOf<VaultItem>()
         val sources = mutableSetOf<String>()
+        val srcOf = HashMap<String, String>()
         val ia = json.getJSONArray("items")
         for (i in 0 until ia.length()) {
             val o = ia.getJSONObject(i)
-            o.nullableString("src")?.let { sources.add(it) }
+            o.nullableString("src")?.let { sources.add(it); srcOf[o.getString("id")] = it }
             items.add(
                 VaultItem(
                     o.getString("id"), o.getString("name"), "", o.optString("mime"), o.optLong("size"),
@@ -144,7 +147,25 @@ object LaptopClient {
                 )
             )
         }
-        return Index(status.optString("name"), folders, items, sources)
+        val deleted = HashSet<String>()
+        json.optJSONArray("deleted")?.let { d -> for (i in 0 until d.length()) d.optJSONObject(i)?.optString("src")?.takeIf { it.isNotEmpty() }?.let { deleted.add(it) } }
+        return Index(status.optString("name"), folders, items, sources, srcOf, deleted)
+    }
+
+    /** Deletes a file or a folder (and all in it) on the vault, for every device. */
+    fun delete(ctx: Context, kind: String, id: String) {
+        val base = url(ctx) ?: throw NotAuthorized()
+        val conn = open("$base/api/delete", token(ctx))
+        try {
+            conn.requestMethod = "POST"
+            conn.doOutput = true
+            conn.setRequestProperty("Content-Type", "application/json")
+            conn.outputStream.use { it.write(JSONObject().put("kind", kind).put("id", id).toString().toByteArray()) }
+            if (conn.responseCode == 401 || conn.responseCode == 403) throw NotAuthorized()
+            if (conn.responseCode !in 200..299) throw IOException("HTTP ${conn.responseCode}")
+        } finally {
+            conn.disconnect()
+        }
     }
 
     /** Address the player streams from; the token rides along because players cannot add headers. */

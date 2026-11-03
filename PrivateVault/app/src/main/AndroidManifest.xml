@@ -106,6 +106,9 @@
             android:name=".SettingsActivity"
             android:exported="false" />
         <activity
+            android:name=".ScratchPadActivity"
+            android:exported="false" />
+        <activity
             android:name=".LaptopActivity"
             android:exported="false" />
         <activity

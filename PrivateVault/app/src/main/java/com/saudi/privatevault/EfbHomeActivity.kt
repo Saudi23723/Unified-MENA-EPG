@@ -113,7 +113,7 @@ class EfbHomeActivity : BaseActivity() {
             Item("🛬", 0xFF2D7FF9.toInt(), R.string.efb_diagram, R.string.sub_diagram) { diagram() },
             Item("🛩", 0xFF5E5CE6.toInt(), R.string.efb_svt, R.string.sub_svt) { open(SvtActivity::class.java) },
             Item("🆘", 0xFFFF453A.toInt(), R.string.nrst_title, R.string.sub_nrst) { startActivity(Intent(this, MapActivity::class.java).putExtra(MapActivity.EXTRA_NRST, true)) },
-            Item("📝", 0xFFFFB020.toInt(), R.string.notes_title, R.string.sub_notes) { Notebooks.choose(this, null) },
+            Item("📝", 0xFFFFB020.toInt(), R.string.notes_title, R.string.sub_notes) { startActivity(Intent(this, ScratchPadActivity::class.java)) },
         ))
         group(R.string.home_training, listOf(
             Item("📒", 0xFFFF9F0A.toInt(), R.string.log_title, R.string.sub_log) { open(LogbookActivity::class.java) },

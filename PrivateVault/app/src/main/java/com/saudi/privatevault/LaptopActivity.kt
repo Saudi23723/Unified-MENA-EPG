@@ -37,6 +37,8 @@ class LaptopActivity : BaseActivity() {
     private var folders: List<Folder> = emptyList()
     private var items: List<VaultItem> = emptyList()
     private var sentFromPhone: Set<String> = emptySet()
+    private var srcOf: Map<String, String> = emptyMap()
+    private var deletedOnVault: Set<String> = emptySet()
     private var sending = false
     private var folderId: String? = null
     private var query = ""
@@ -121,6 +123,11 @@ class LaptopActivity : BaseActivity() {
                     folders = result.folders
                     items = result.items
                     sentFromPhone = result.sources
+                    srcOf = result.srcOf
+                    deletedOnVault = result.deleted
+                    // Deleted on the vault from another device: gone from this phone too.
+                    val gone = VaultStore.items.filter { "phone:" + it.id in result.deleted }
+                    for (g in gone) VaultStore.deleteItem(g)
                     loaded = true
                     render()
                 }
@@ -329,15 +336,45 @@ class LaptopActivity : BaseActivity() {
     }
 
     private fun showMenu(e: Entry, anchor: View) {
-        if (e !is Entry.FileEntry) return
-        val item = e.item
         val popup = PopupMenu(this, anchor)
-        popup.menu.add(0, 1, 0, R.string.download_to_phone)
+        if (e is Entry.FileEntry) popup.menu.add(0, 1, 0, R.string.download_to_phone)
+        popup.menu.add(0, 2, 1, R.string.cloud_delete)
         popup.setOnMenuItemClickListener {
-            downloadToPhone(item)
+            when (it.itemId) {
+                1 -> (e as? Entry.FileEntry)?.let { f -> downloadToPhone(f.item) }
+                2 -> confirmDelete(e)
+            }
             true
         }
         popup.show()
+    }
+
+    /** Deleted on the vault, so from every device that syncs with it; asked first. */
+    private fun confirmDelete(e: Entry) {
+        val (kind, id, name) = when (e) {
+            is Entry.FileEntry -> Triple("item", e.item.id, e.item.name)
+            is Entry.FolderEntry -> Triple("folder", e.folder.id, e.folder.name)
+        }
+        MaterialAlertDialogBuilder(this)
+            .setTitle(getString(R.string.cloud_delete_q, name))
+            .setMessage(if (kind == "folder") R.string.cloud_delete_folder_msg else R.string.cloud_delete_msg)
+            .setPositiveButton(R.string.cloud_delete) { _, _ ->
+                lifecycleScope.launch {
+                    val err = withContext(Dispatchers.IO) {
+                        try { LaptopClient.delete(this@LaptopActivity, kind, id); null } catch (x: Exception) { x }
+                    }
+                    if (err == null) {
+                        // This phone's own copy goes too, when the file came from it.
+                        if (kind == "item") srcOf[id]?.takeIf { it.startsWith("phone:") }?.let { s ->
+                            VaultStore.items.firstOrNull { it.id == s.removePrefix("phone:") }?.let { VaultStore.deleteItem(it) }
+                        }
+                        Toast.makeText(this@LaptopActivity, R.string.cloud_deleted, Toast.LENGTH_SHORT).show()
+                        load()
+                    } else Toast.makeText(this@LaptopActivity, getString(R.string.cloud_delete_failed, err.message ?: ""), Toast.LENGTH_LONG).show()
+                }
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
     }
 
     private fun downloadToPhone(item: VaultItem) {
@@ -367,7 +404,7 @@ class LaptopActivity : BaseActivity() {
 
     private fun sendPhoneFiles() {
         if (sending || !loaded) return
-        val pending = VaultStore.items.filter { !it.isLink && "phone:" + it.id !in sentFromPhone }
+        val pending = VaultStore.items.filter { !it.isLink && "phone:" + it.id !in sentFromPhone && "phone:" + it.id !in deletedOnVault }
         if (pending.isEmpty()) {
             Toast.makeText(this, R.string.send_phone_none, Toast.LENGTH_LONG).show()
             return

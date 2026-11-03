@@ -662,6 +662,12 @@ or tap an airport → Add to route, or long-press anywhere on the chart.</string
     <string name="map_data_none">None</string>
     <string name="map_data_weather">Weather (station model: wind, temp, altimeter)</string>
     <string name="map_data_winds">Winds Aloft (pick the altitude below)</string>
+    <string name="cloud_delete">🗑 Delete from the cloud</string>
+    <string name="cloud_delete_q">Delete “%1$s”?</string>
+    <string name="cloud_delete_msg">It is deleted from the cloud and from every device that syncs with it (phone, tablet, laptop). This cannot be undone.</string>
+    <string name="cloud_delete_folder_msg">The folder and everything in it are deleted from the cloud and every device. This cannot be undone.</string>
+    <string name="cloud_deleted">Deleted from every device</string>
+    <string name="cloud_delete_failed">Not deleted: %1$s</string>
     <string name="map_circle">Circle</string>
     <string name="map_ruler">Ruler</string>
     <string name="pen_write">Write and highlight</string>
