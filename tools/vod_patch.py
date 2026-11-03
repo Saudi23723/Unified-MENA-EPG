@@ -99,6 +99,10 @@ def main(playlist, out):
         if not isinstance(cats, list) or not isinstance(items, list):
             print(f"{kind}: unexpected answer")
             return 1
+        # an empty answer is a provider hiccup, not "no movies": the last good lists stay (Dream4k, 3 Nov 2026)
+        if not cats or not items:
+            print(f"{kind}: provider sent an empty list - last lists kept")
+            return 1
         f = os.path.join(ROOT, "xtream", playlist, "vod_order.json" if kind == "vod" else "series_order.json")
         want = json.load(open(f, encoding="utf-8")) if os.path.exists(f) else {}
         shown = arrange(cats, want)
