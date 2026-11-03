@@ -7,6 +7,17 @@ import androidx.appcompat.app.AppCompatActivity
 
 /** Every vault screen: no screenshots, blank in the recent-apps list, PIN on return. */
 open class BaseActivity : AppCompatActivity() {
+    companion object {
+        /** Keep the screen on: always, never, or as each screen chooses (the map, the diagram). */
+        fun keepScreen(act: android.app.Activity) {
+            val f = WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+            when (VaultLock.prefs(act).getString("screen_on", "auto")) {
+                "on" -> act.window.addFlags(f)
+                "off" -> act.window.clearFlags(f)
+            }
+        }
+    }
+
     /** Screens over a chart or a photo stay dark whatever the app's look. */
     protected open val alwaysDark = false
 
@@ -21,6 +32,7 @@ open class BaseActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         look()
+        keepScreen(this)
         VaultLock.applySecure(this)
         VaultLock.checkTimeout(this)
         if (!VaultLock.unlocked) {
@@ -33,6 +45,14 @@ open class BaseActivity : AppCompatActivity() {
             VaultLock.keepUnlockedOnce = false
             onUnlockedResume()
         }
+    }
+
+    /** The floating tools button (note, neon); off on screens where it would be in the way. */
+    protected open val quickTools = true
+
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+        if (quickTools) QuickTools.attach(this)
     }
 
     /** onResume, but only once the vault is open. */

@@ -40,6 +40,14 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <!-- Gemini over a book: a see-through window, so the page shows behind the panel. -->
+    <style name="Theme.Vault.Floating" parent="Theme.Vault">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.InputMethod</item>
+    </style>
+
     <style name="Theme.Vault.Fullscreen" parent="Theme.Vault">
         <item name="android:windowBackground">@android:color/black</item>
         <item name="android:statusBarColor">@android:color/black</item>

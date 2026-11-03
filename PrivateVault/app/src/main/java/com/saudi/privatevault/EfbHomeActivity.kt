@@ -40,8 +40,12 @@ class EfbHomeActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         col = EfbUi.screen(this, getString(R.string.app_name)) { bar ->
+            bar.menu.add(R.string.set_title).setOnMenuItemClickListener { startActivity(Intent(this, SettingsActivity::class.java)); true }
             bar.menu.add(R.string.lang_switch).setOnMenuItemClickListener { Lang.choose(this); true }
             bar.menu.add(R.string.theme_title).setOnMenuItemClickListener { EfbUi.chooseTheme(this); true }
+            bar.menu.add(R.string.qt_toggle).setOnMenuItemClickListener {
+                QuickTools.setEnabled(this, !QuickTools.enabled(this)); QuickTools.attach(this); true
+            }
             getDrawable(R.mipmap.ic_launcher_round)?.let { bar.logo = android.graphics.drawable.BitmapDrawable(resources, it.toBitmap(dp(30), dp(30))) }
             bar.titleMarginStart = dp(12)
         }

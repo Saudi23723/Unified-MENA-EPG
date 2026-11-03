@@ -42,6 +42,10 @@ class AirportSheet(
     private val wx = text("${act.getString(R.string.map_loading_wx)}")
     private val info = text("")
     private val pattern = text("", mono = true)
+    private val badge = TextView(act).apply {
+        textSize = 13f; setTypeface(typeface, android.graphics.Typeface.BOLD); setTextColor(0xFFFFFFFF.toInt())
+        setPadding(dp(12), dp(4), dp(12), dp(4)); visibility = View.GONE
+    }
     private val dialog = BottomSheetDialog(act)
 
     private fun text(s: String, size: Float = 14f, bold: Boolean = false, mono: Boolean = false) = TextView(act).apply {
@@ -65,37 +69,73 @@ class AirportSheet(
             sub += "\n${Nav.deg(brg)}M · %.1f nm".format(dist)
         }
         body.addView(text(sub))
+        // The flight category, filled in when the weather comes.
+        body.addView(badge, LinearLayout.LayoutParams(-2, -2).apply { topMargin = dp(4) })
         val buttons = LinearLayout(act).apply { orientation = LinearLayout.HORIZONTAL }
-        fun button(label: Int, onClick: () -> Unit) = buttons.addView(MaterialButton(act, null, com.google.android.material.R.attr.materialButtonOutlinedStyle).apply {
+        fun button(label: Int, into: LinearLayout = buttons, onClick: () -> Unit) = into.addView(MaterialButton(act, null, com.google.android.material.R.attr.materialButtonOutlinedStyle).apply {
             text = act.getString(label)
             isAllCaps = false
             setOnClickListener { onClick() }
         }, LinearLayout.LayoutParams(-2, -2).apply { marginEnd = dp(8) })
-        button(R.string.efb_diagram) { AirportDiagramActivity.open(act, a) }
-        button(R.string.freq_title) { FrequenciesActivity.open(act, a.icao.ifEmpty { a.ident }) }
+        button(R.string.apt_direct) { dialog.dismiss(); onDirect() }
+        button(R.string.apt_add_route) { dialog.dismiss(); onAddToRoute() }
         button(if (Favorites.has(act, a.ident)) R.string.fav_remove else R.string.fav_add) {
             val now = Favorites.toggle(act, a.ident)
             Toast.makeText(act, if (now) R.string.fav_added else R.string.fav_removed, Toast.LENGTH_SHORT).show()
         }
-        button(R.string.apt_notams) { notams() }
-        button(R.string.apt_history) { history() }
-        button(R.string.apt_direct) { dialog.dismiss(); onDirect() }
-        button(R.string.apt_add_route) { dialog.dismiss(); onAddToRoute() }
-        button(R.string.apt_plates) { plates() }
-        button(R.string.apt_supplement) { supplement() }
         button(R.string.notes_title) { dialog.dismiss(); Notebooks.choose(act, a.icao.ifEmpty { a.ident }) }
         body.addView(HorizontalScrollView(act).apply {
             isHorizontalScrollBarEnabled = false
             addView(buttons)
         })
-        body.addView(header(R.string.apt_weather))
-        body.addView(wx)
-        body.addView(header(R.string.apt_runways))
-        body.addView(info)
-        body.addView(header(R.string.tp_title))
-        body.addView(pattern)
-        body.addView(header(R.string.apt_sun))
-        body.addView(text(sunText(), mono = true))
+
+        // Tabs, as an EFB lays out an airport: Info, Runways, Weather, Charts & data.
+        fun page() = LinearLayout(act).apply { orientation = LinearLayout.VERTICAL }
+        val infoPage = page().apply {
+            addView(header(R.string.apt_sun)); addView(text(sunText(), mono = true))
+            addView(header(R.string.tp_title)); addView(pattern)
+        }
+        val rwyPage = page().apply { addView(header(R.string.apt_runways)); addView(info) }
+        val wxPage = page().apply { addView(header(R.string.apt_weather)); addView(wx) }
+        val chartsPage = page()
+        val chartBtns = LinearLayout(act).apply { orientation = LinearLayout.VERTICAL }
+        fun wide(label: Int, onClick: () -> Unit) = chartBtns.addView(MaterialButton(act, null, com.google.android.material.R.attr.materialButtonOutlinedStyle).apply {
+            text = act.getString(label); isAllCaps = false; setOnClickListener { onClick() }
+        }, LinearLayout.LayoutParams(-1, -2))
+        wide(R.string.apt_plates) { plates() }
+        wide(R.string.efb_diagram) { AirportDiagramActivity.open(act, a) }
+        wide(R.string.apt_supplement) { supplement() }
+        wide(R.string.freq_title) { FrequenciesActivity.open(act, a.icao.ifEmpty { a.ident }) }
+        wide(R.string.apt_notams) { notams() }
+        wide(R.string.apt_history) { history() }
+        chartsPage.addView(chartBtns)
+        val pages = listOf(R.string.apt_tab_info to infoPage, R.string.apt_runways to rwyPage, R.string.apt_weather to wxPage, R.string.apt_tab_charts to chartsPage)
+        val tabs = LinearLayout(act).apply { orientation = LinearLayout.HORIZONTAL; setPadding(0, dp(10), 0, dp(2)) }
+        val tabViews = ArrayList<TextView>()
+        fun select(k: Int) {
+            pages.forEachIndexed { i, (_, v) -> v.visibility = if (i == k) View.VISIBLE else View.GONE }
+            tabViews.forEachIndexed { i, t ->
+                t.setTextColor(if (i == k) 0xFFFFFFFF.toInt() else 0xFF1E88E5.toInt())
+                t.background = android.graphics.drawable.GradientDrawable().apply {
+                    cornerRadius = dp(8).toFloat()
+                    if (i == k) setColor(0xFF1E88E5.toInt()) else setStroke(dp(1), 0xFF1E88E5.toInt())
+                }
+            }
+            act.getSharedPreferences("apt_sheet", 0).edit().putInt("tab", k).apply()
+        }
+        pages.forEachIndexed { i, (label, _) ->
+            val t = TextView(act).apply {
+                text = act.getString(label).uppercase(); textSize = 12.5f; gravity = android.view.Gravity.CENTER
+                setTypeface(typeface, android.graphics.Typeface.BOLD); letterSpacing = 0.04f
+                setPadding(dp(4), dp(9), dp(4), dp(9)); maxLines = 1
+                setOnClickListener { select(i) }
+            }
+            tabViews.add(t)
+            tabs.addView(t, LinearLayout.LayoutParams(0, -2, 1f).apply { marginEnd = if (i < pages.size - 1) dp(6) else 0 })
+        }
+        body.addView(tabs)
+        for ((_, v) in pages) body.addView(v)
+        select(act.getSharedPreferences("apt_sheet", 0).getInt("tab", 2).coerceIn(0, pages.size - 1))
         dialog.setContentView(android.widget.ScrollView(act).apply { addView(body) })
         dialog.behavior.peekHeight = (act.resources.displayMetrics.heightPixels * 0.55).toInt()
         dialog.show()
@@ -132,10 +172,47 @@ class AirportSheet(
                 Triple(AviationData.metar(station), AviationData.taf(station), AviationData.airportInfo(act, station))
             }
             wx.text = weather(metar, taf, apt)
+            belowMinimums(metar)?.let { w ->
+                wx.text = "⚠️ " + act.getString(R.string.set_below_min) + "\n" + w + "\n\n" + wx.text
+                badge.text = "⚠️ " + act.getString(R.string.set_below_min)
+                badge.background = android.graphics.drawable.GradientDrawable().apply { cornerRadius = dp(12).toFloat(); setColor(0xFFD32F2F.toInt()) }
+                badge.visibility = View.VISIBLE
+            }
             info.text = runways(apt, metar)
             pattern.text = patternText(apt, metar)
-            metar?.category?.takeIf { it.isNotEmpty() }?.let { wx.setTextColor(AviationData.categoryColor(it)) }
+            metar?.category?.takeIf { it.isNotEmpty() }?.let {
+                wx.setTextColor(AviationData.categoryColor(it))
+                badge.text = it
+                badge.background = android.graphics.drawable.GradientDrawable().apply { cornerRadius = dp(12).toFloat(); setColor(AviationData.categoryColor(it)) }
+                badge.visibility = View.VISIBLE
+            }
         }
+    }
+
+    /** The weather against the pilot's personal minimums (Settings): what is outside them. */
+    private fun belowMinimums(m: AviationData.Metar?): String? {
+        val j = m?.json ?: return null
+        val p = VaultLock.prefs(act)
+        fun lim(k: String) = p.getString(k, "")?.toDoubleOrNull()
+        val out = ArrayList<String>()
+        lim("min_ceiling")?.let { c ->
+            var ceil: Int? = null
+            j.optJSONArray("clouds")?.let { arr ->
+                for (i in 0 until arr.length()) {
+                    val o = arr.getJSONObject(i)
+                    val b = o.optInt("base", -1)
+                    if (o.optString("cover") in setOf("BKN", "OVC", "OVX", "VV") && b >= 0 && (ceil == null || b < ceil!!)) ceil = b
+                }
+            }
+            ceil?.let { if (it < c) out.add("Ceiling %,d ft (yours %,d)".format(it, c.toInt())) }
+        }
+        lim("min_vis")?.let { v ->
+            val vis = j.opt("visib")?.toString()?.replace("+", "")?.toDoubleOrNull()
+            if (vis != null && vis < v) out.add("Visibility ${EfbUi.num(vis)} sm (yours ${EfbUi.num(v)})")
+        }
+        lim("min_wind")?.let { w -> val s = j.optInt("wspd", -1); if (s > w) out.add("Wind $s kt (yours ${w.toInt()})") }
+        lim("min_gust")?.let { g -> val s = j.optInt("wgst", -1); if (s > g) out.add("Gusts $s kt (yours ${g.toInt()})") }
+        return if (out.isEmpty()) null else out.joinToString("\n")
     }
 
     private fun num(o: JSONObject?, key: String): Double? = o?.opt(key)?.toString()?.replace("+", "")?.toDoubleOrNull()

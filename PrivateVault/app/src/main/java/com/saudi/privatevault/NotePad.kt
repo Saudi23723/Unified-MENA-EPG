@@ -305,9 +305,11 @@ object NotePad {
         showPage()
         var isBig = big
         lateinit var grow: TextView
+        // Small, or bigger (never the whole screen); the corner grip sets any size between.
+        val bigW = minOf((sw * 0.86).toInt(), dp(720))
+        val bigH = (sh * 0.8).toInt()
         fun place() {
-            frame.layoutParams = if (isBig) FrameLayout.LayoutParams(-1, -1)
-            else FrameLayout.LayoutParams(smallW, smallH, Gravity.END or Gravity.CENTER_VERTICAL).apply { marginEnd = dp(8) }
+            frame.layoutParams = FrameLayout.LayoutParams(if (isBig) bigW else smallW, if (isBig) bigH else smallH, Gravity.END or Gravity.CENTER_VERTICAL).apply { marginEnd = dp(8) }
             frame.translationX = 0f; frame.translationY = 0f
             grow.text = if (isBig) "⤡" else "⤢"
         }
@@ -322,7 +324,6 @@ object NotePad {
         head.addView(chip("✕", 16f) { close(act) })
         var dx = 0f; var dy = 0f
         head.setOnTouchListener { _, e ->
-            if (isBig) return@setOnTouchListener false
             when (e.actionMasked) {
                 MotionEvent.ACTION_DOWN -> { dx = frame.translationX - e.rawX; dy = frame.translationY - e.rawY }
                 MotionEvent.ACTION_MOVE -> { frame.translationX = e.rawX + dx; frame.translationY = e.rawY + dy }
@@ -378,6 +379,26 @@ object NotePad {
         tools.addView(chip("📄 PDF", 12f) { book.save(); Notebooks.exportPdf(act, book) })
         col.addView(HorizontalScrollView(act).apply { isHorizontalScrollBarEnabled = false; addView(tools) })
         col.addView(canvas, LinearLayout.LayoutParams(-1, 0, 1f))
+
+        // The grip at the bottom-left corner: drag to make the note any size.
+        val grip = TextView(act).apply {
+            text = "◢"; rotation = 90f; textSize = 16f; setTextColor(EfbUi.ACCENT); gravity = Gravity.CENTER
+            setPadding(dp(6), dp(6), dp(6), dp(6))
+        }
+        var gx = 0f; var gy = 0f; var gw = 0; var gh = 0
+        grip.setOnTouchListener { _, e ->
+            val lp = frame.layoutParams as FrameLayout.LayoutParams
+            when (e.actionMasked) {
+                MotionEvent.ACTION_DOWN -> { gx = e.rawX; gy = e.rawY; gw = frame.width; gh = frame.height }
+                MotionEvent.ACTION_MOVE -> {
+                    lp.width = (gw - (e.rawX - gx)).toInt().coerceIn(dp(220), (sw * 0.94).toInt())
+                    lp.height = (gh + (e.rawY - gy)).toInt().coerceIn(dp(240), (sh * 0.9).toInt())
+                    frame.layoutParams = lp
+                }
+            }
+            true
+        }
+        frame.addView(grip, FrameLayout.LayoutParams(dp(34), dp(34), Gravity.BOTTOM or Gravity.START))
 
         frame.tag = Runnable { if (dirty) book.save() }
         content.addView(frame)

@@ -61,6 +61,7 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         b = ActivityMainBinding.inflate(layoutInflater)
         setContentView(b.root)
+        Splash.show(this)
         setSupportActionBar(b.toolbar)
         b.toolbar.setNavigationOnClickListener { onBackPressedDispatcher.onBackPressed() }
 

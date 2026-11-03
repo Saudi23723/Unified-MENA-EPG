@@ -22,7 +22,7 @@ object Notebooks {
         (VaultStore.childFolders(null).firstOrNull { it.name == FOLDER } ?: VaultStore.addFolder(FOLDER, null)).id
 
     /** big: open as a full page (screens with no map behind); otherwise small on the right. */
-    fun choose(act: Activity, topic: String?, big: Boolean = act !is MapActivity) {
+    fun choose(act: Activity, topic: String?, big: Boolean = false) {
         val d = act.resources.displayMetrics.density
         fun dp(v: Int) = (v * d).toInt()
         val list = LinearLayout(act).apply { orientation = LinearLayout.VERTICAL; setPadding(dp(16), dp(8), dp(16), dp(8)) }

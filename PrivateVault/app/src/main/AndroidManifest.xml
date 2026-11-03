@@ -103,6 +103,9 @@
             android:name=".HandbookActivity"
             android:exported="false" />
         <activity
+            android:name=".SettingsActivity"
+            android:exported="false" />
+        <activity
             android:name=".LaptopActivity"
             android:exported="false" />
         <activity
@@ -111,6 +114,7 @@
         <activity
             android:name=".AiChatActivity"
             android:exported="false"
+            android:theme="@style/Theme.Vault.Floating"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ImageViewerActivity"

@@ -38,6 +38,7 @@ class LockActivity : AppCompatActivity() {
         VaultLock.applySecure(this)
         b = ActivityLockBinding.inflate(layoutInflater)
         setContentView(b.root)
+        Splash.show(this)
 
         val changing = intent.getBooleanExtra(EXTRA_CHANGE, false)
         setupMode = changing || !VaultLock.hasPin(this)

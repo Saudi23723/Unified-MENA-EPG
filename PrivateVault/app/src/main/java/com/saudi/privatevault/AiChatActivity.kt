@@ -49,17 +49,23 @@ class AiChatActivity : BaseActivity() {
         var speakRadio = false
 
         fun openTrainer(ctx: Context, title: String, system: String, hello: String, chips: List<Pair<String, String>>, radio: Boolean, start: String?) {
-            pageImage = null; selected = null; bookTitle = title; pageNumber = 0
+            pageImage = null; selected = null; bookTitle = title; pageNumber = 0; floating = false
             trainerSystem = system; trainerHello = hello; trainerChips = chips; speakRadio = radio
             ctx.startActivity(Intent(ctx, AiChatActivity::class.java).apply { start?.let { putExtra(EXTRA_START, it) } })
         }
 
+        /** Over a book: a panel at the bottom, the page still readable (and turned) above it. */
+        var floating = false
+
         fun open(ctx: Context, image: ByteArray?, sel: String?, title: String, page: Int, start: String? = null) {
             pageImage = image; selected = sel; bookTitle = title; pageNumber = page
+            floating = image != null
             trainerSystem = null; trainerHello = null; trainerChips = null; speakRadio = false
             ctx.startActivity(Intent(ctx, AiChatActivity::class.java).apply { start?.let { putExtra(EXTRA_START, it) } })
         }
     }
+
+    override val quickTools = false
 
     private val turns = ArrayList<Gemini.Turn>()
     // What is on screen, to draw again in the other theme: (from the pilot?, text).
@@ -85,9 +91,33 @@ class AiChatActivity : BaseActivity() {
 
     private fun dp(v: Int) = EfbUi.dp(this, v)
 
+    // The floating panel: open over the bottom of the book, or folded down to its bar.
+    private var mini = false
+    private var tall = false
+    private lateinit var root: LinearLayout
+
+    private fun place() {
+        if (!floating) return
+        val dm = resources.displayMetrics
+        val lp = window.attributes
+        lp.gravity = Gravity.BOTTOM or Gravity.END
+        lp.width = if (mini) minOf((dm.widthPixels * 0.9).toInt(), dp(460)) else android.view.WindowManager.LayoutParams.MATCH_PARENT
+        lp.height = if (mini) android.view.WindowManager.LayoutParams.WRAP_CONTENT else (dm.heightPixels * (if (tall) 0.88 else 0.56)).toInt()
+        lp.y = if (mini) dp(72) else 0
+        lp.x = if (mini) dp(12) else 0
+        window.attributes = lp
+        for (i in 1 until root.childCount) root.getChildAt(i).visibility = if (mini) View.GONE else View.VISIBLE
+        if (mini) currentFocus?.let { (getSystemService(INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager).hideSoftInputFromWindow(it.windowToken, 0) }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         light = VaultLock.prefs(this).getBoolean("ai_light", false)
+        if (floating) {
+            // Touches outside the panel reach the book behind it.
+            window.addFlags(android.view.WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL)
+            window.clearFlags(android.view.WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+        } else window.setBackgroundDrawable(android.graphics.drawable.ColorDrawable(bg))
         build()
         Gemini.warmUp()
         if (!Gemini.hasKey(this)) {
@@ -99,20 +129,38 @@ class AiChatActivity : BaseActivity() {
 
     /** The whole screen, in the current look; the conversation so far is drawn again. */
     private fun build() {
-        window.statusBarColor = bg
-        window.navigationBarColor = bg
-        androidx.core.view.WindowCompat.getInsetsController(window, window.decorView).apply {
-            isAppearanceLightStatusBars = light
-            isAppearanceLightNavigationBars = light
+        if (!floating) {
+            window.statusBarColor = bg
+            window.navigationBarColor = bg
+            androidx.core.view.WindowCompat.getInsetsController(window, window.decorView).apply {
+                isAppearanceLightStatusBars = light
+                isAppearanceLightNavigationBars = light
+            }
         }
-        val root = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setBackgroundColor(bg) }
+        root = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            if (floating) {
+                background = android.graphics.drawable.GradientDrawable().apply {
+                    setColor(bg); setStroke(dp(1), dim and 0x55FFFFFF)
+                    val r = dp(22).toFloat()
+                    cornerRadii = if (mini) floatArrayOf(r, r, r, r, r, r, r, r) else floatArrayOf(r, r, r, r, 0f, 0f, 0f, 0f)
+                }
+                elevation = dp(18).toFloat()
+                clipToOutline = true
+            } else setBackgroundColor(bg)
+        }
 
         // Top bar: back, Gemini, light or dark, the language, the key.
         val bar = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL; setPadding(dp(6), dp(6), dp(10), dp(6)) }
         bar.addView(TextView(this).apply {
-            text = "‹"; textSize = 30f; setTextColor(ink); setPadding(dp(12), 0, dp(12), dp(4))
+            text = if (floating) "✕" else "‹"; textSize = if (floating) 22f else 30f; setTextColor(ink); setPadding(dp(12), 0, dp(12), dp(4))
             setOnClickListener { finish() }
         })
+        if (floating) {
+            // Fold down to the bar to read the book, then open again; ⤢ taller.
+            bar.addView(pill(if (mini) "⌃" else "⌄", bubble) { mini = !mini; build() }, LinearLayout.LayoutParams(-2, -2).apply { marginEnd = dp(6) })
+            if (!mini) bar.addView(pill(if (tall) "⤡" else "⤢", bubble) { tall = !tall; place() }, LinearLayout.LayoutParams(-2, -2).apply { marginEnd = dp(6) })
+        }
         bar.addView(TextView(this).apply {
             text = "✦ Gemini"; textSize = 20f; setTextColor(ink); setTypeface(typeface, Typeface.BOLD)
         }, LinearLayout.LayoutParams(0, -2, 1f))
@@ -190,6 +238,7 @@ class AiChatActivity : BaseActivity() {
         root.addView(inBar, LinearLayout.LayoutParams(-1, -2).apply { setMargins(dp(12), dp(6), dp(12), dp(12)) })
 
         setContentView(root)
+        place()
         androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(root) { v, insets ->
             val b = insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.systemBars() or androidx.core.view.WindowInsetsCompat.Type.ime())
             v.setPadding(0, b.top, 0, b.bottom)

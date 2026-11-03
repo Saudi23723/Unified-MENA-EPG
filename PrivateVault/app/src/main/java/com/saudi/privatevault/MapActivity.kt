@@ -54,7 +54,7 @@ import java.io.File
  * from the GPS, drawing and measuring on the chart, and areas saved for
  * flying without signal. Drawings are shared through the linked vault.
  */
-class MapActivity : BaseActivity() {
+class MapActivity : BaseActivity(), NeonHost {
     override val alwaysDark = true
 
     private lateinit var b: ActivityMapBinding
@@ -1500,6 +1500,14 @@ class MapActivity : BaseActivity() {
         }
         draw.onTextAt = { g -> askText(g) }
         pick(MapDrawOverlay.MapTool.PAN)
+    }
+
+    /** Neon that stays: the neon pen on the map, kept with its drawings. */
+    override fun neonPen() {
+        if (b.penBar.visibility != View.VISIBLE) toggleDrawing()
+        draw.penStyle = PenStyle.NEON.ordinal
+        prefs.edit().putInt("map_pen_style", draw.penStyle).apply()
+        pick(MapDrawOverlay.MapTool.PEN)
     }
 
     private fun toggleDrawing() {

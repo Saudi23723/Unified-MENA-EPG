@@ -34,7 +34,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class PdfViewerActivity : BaseActivity() {
+class PdfViewerActivity : BaseActivity(), NeonHost {
 
     private lateinit var b: ActivityPdfBinding
     private var renderer: PdfRenderer? = null
@@ -455,6 +455,14 @@ class PdfViewerActivity : BaseActivity() {
         markerColor = VaultLock.prefs(this).getInt("marker_color", markerColor)
         pick(Tool.PEN, quiet = true)
         p.tool = Tool.HAND
+    }
+
+    /** Neon that stays: the neon pen on the page. */
+    override fun neonPen() {
+        startWriting()
+        b.page.penStyle = PenStyle.NEON.ordinal
+        VaultLock.prefs(this).edit().putInt("pen_style", PenStyle.NEON.ordinal).apply()
+        pick(Tool.PEN)
     }
 
     private fun startWriting() {
