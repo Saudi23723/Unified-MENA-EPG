@@ -78,3 +78,8 @@ boards/dubai_f1_*
 
 # Logos drawn by playlist_logos.py — published on the att-epg branch only
 logos_gen/
+
+# SAUDI.1 app build output
+saudi1/app/build/
+saudi1/.gradle/
+saudi1/build/
