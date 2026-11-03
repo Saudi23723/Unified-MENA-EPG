@@ -1,6 +1,7 @@
 package com.saudi.privatevault
 
 import android.content.Context
+import kotlin.math.hypot
 import android.graphics.Canvas
 import android.graphics.Matrix
 import android.graphics.Paint
@@ -62,7 +63,33 @@ class AnnotatedPageView @JvmOverloads constructor(
         set(value) {
             field = value
             clearSelection()
+            showFound()
         }
+
+    /** Words searched for: shown on each page they are on, as a selection. */
+    var find: String? = null
+        set(value) {
+            field = value
+            clearSelection()
+            showFound()
+        }
+
+    private fun showFound() {
+        val q = find?.filterNot { it.isWhitespace() }?.lowercase() ?: return
+        val ls = letters ?: return
+        if (q.isEmpty()) return
+        val sb = StringBuilder()
+        val owner = ArrayList<Int>()
+        ls.forEachIndexed { i, c -> for (ch in c.ch.lowercase()) { sb.append(ch); owner.add(i) } }
+        val at = sb.indexOf(q)
+        if (at < 0) return
+        selFrom = owner[at]
+        selTo = owner[at + q.length - 1]
+        invalidate()
+    }
+
+    /** The top of the words now selected (a fraction of the page), for a read-later mark. */
+    fun selectionTop(): Float = letters?.getOrNull(selFrom)?.top ?: 0f
 
     /** Words were selected: one band per line (l, t, r, b fractions) and the text. */
     var onSelection: ((FloatArray, String) -> Unit)? = null
@@ -100,6 +127,9 @@ class AnnotatedPageView @JvmOverloads constructor(
         class Added(val mark: Mark) : Edit()
         class Removed(val removed: List<Pair<Int, Mark>>) : Edit()
 
+        /** Several marks moved together (a lasso), by (dx, dy) page fractions. */
+        class Moved(val marks: List<Mark>, val dx: Float, val dy: Float) : Edit()
+
         /** Moved, resized or recoloured: the points and colour before and after. */
         class Changed(
             val mark: Mark, val before: FloatArray, val after: FloatArray, val colorBefore: Int, val colorAfter: Int,
@@ -132,6 +162,68 @@ class AnnotatedPageView @JvmOverloads constructor(
     private val knobRing = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0xFFFFFFFF.toInt() }
 
     private var current: Mark? = null
+
+    // Held still at the end of a stroke: the stroke becomes the shape it looks like.
+    private var snapped = false
+    private var holdX = 0f
+    private var holdY = 0f
+    private val snap = Runnable {
+        val m = current ?: return@Runnable
+        if (snapped || !freehand()) return@Runnable
+        val shape = ShapeSnap.recognize(currentPoints.toFloatArray(), pageW(), pageH(), m, tool == Tool.HIGHLIGHT) ?: return@Runnable
+        current = shape
+        snapped = true
+        performHapticFeedback(android.view.HapticFeedbackConstants.LONG_PRESS)
+        invalidate()
+    }
+    private fun holdSoon(x: Float, y: Float) {
+        holdX = x; holdY = y
+        removeCallbacks(snap)
+        postDelayed(snap, 650)
+    }
+
+    // The lasso of the select tool, and the marks it caught (moved together).
+    private var lasso: ArrayList<Float>? = null
+    private var group: List<Mark> = emptyList()
+    private var groupDx = 0f
+    private var groupDy = 0f
+    private var movingGroup = false
+    private val lassoPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        style = Paint.Style.STROKE
+        color = 0xFF1E88E5.toInt()
+    }
+    private val lassoFill = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0x221E88E5; style = Paint.Style.FILL }
+
+    private fun groupBounds(): android.graphics.RectF? {
+        if (group.isEmpty()) return null
+        val r = android.graphics.RectF(MarkPainter.bounds(group[0], pageW(), pageH()))
+        for (m in group.drop(1)) r.union(MarkPainter.bounds(m, pageW(), pageH()))
+        return r
+    }
+
+    /** The marks the lasso goes round: by the middle of each. */
+    private fun inLasso(poly: FloatArray, x: Float, y: Float): Boolean {
+        var inside = false
+        var j = poly.size - 2
+        var i = 0
+        while (i < poly.size) {
+            val xi = poly[i]; val yi = poly[i + 1]; val xj = poly[j]; val yj = poly[j + 1]
+            if ((yi > y) != (yj > y) && x < (xj - xi) * (y - yi) / (yj - yi) + xi) inside = !inside
+            j = i; i += 2
+        }
+        return inside
+    }
+
+    fun clearGroup() { group = emptyList(); lasso = null; invalidate() }
+    fun deleteGroup() {
+        if (group.isEmpty()) return
+        val removed = group.map { marks.indexOf(it) to it }.filter { it.first >= 0 }.sortedBy { it.first }
+        for ((_, m) in removed.asReversed()) marks.remove(m)
+        group = emptyList()
+        onEdit?.invoke(Edit.Removed(removed))
+        invalidate()
+    }
+    var onGroup: ((Int) -> Unit)? = null
     private var currentPoints = ArrayList<Float>()
     private var erased = ArrayList<Pair<Int, Mark>>()
     private var navigating = false
@@ -171,6 +263,28 @@ class AnnotatedPageView @JvmOverloads constructor(
         for (m in marks) MarkPainter.draw(canvas, m, w, h)
         current?.let { MarkPainter.draw(canvas, it, w, h) }
         selected?.let { drawSelected(canvas, it, w, h) }
+        lasso?.let { l ->
+            if (l.size >= 4) {
+                val path = android.graphics.Path()
+                path.moveTo(l[0] * w, l[1] * h)
+                var k = 2
+                while (k + 1 < l.size) { path.lineTo(l[k] * w, l[k + 1] * h); k += 2 }
+                path.close()
+                val sc = scaleNow()
+                lassoPaint.strokeWidth = dpx(1.5f) / sc
+                lassoPaint.pathEffect = android.graphics.DashPathEffect(floatArrayOf(dpx(6f) / sc, dpx(4f) / sc), 0f)
+                canvas.drawPath(path, lassoFill)
+                canvas.drawPath(path, lassoPaint)
+            }
+        }
+        groupBounds()?.let { r ->
+            val sc = scaleNow()
+            r.inset(-dpx(8f) / sc, -dpx(8f) / sc)
+            dash.strokeWidth = dpx(1.5f) / sc
+            dash.pathEffect = android.graphics.DashPathEffect(floatArrayOf(dpx(5f) / sc, dpx(4f) / sc), 0f)
+            canvas.drawRect(r, lassoFill)
+            canvas.drawRect(r, dash)
+        }
         val bands = selectionBands()
         var i = 0
         while (i + 3 < bands.size) {
@@ -221,14 +335,19 @@ class AnnotatedPageView @JvmOverloads constructor(
                     if (!freehand()) currentPoints.addAll(listOf(pt[0], pt[1]))
                     levelDecided = false
                     levelLocked = false
+                    snapped = false
                     current = build()
+                    if (freehand()) holdSoon(event.x, event.y)
                 }
             }
             MotionEvent.ACTION_MOVE -> {
                 if (erasing) {
                     for (i in 0 until event.historySize) eraseAt(event.getHistoricalX(i), event.getHistoricalY(i))
                     eraseAt(event.x, event.y)
+                } else if (current != null && snapped) {
+                    // A shape now: it stays as recognised until the finger lifts.
                 } else if (current != null) {
+                    if (freehand() && hypot(event.x - holdX, event.y - holdY) > dpx(7f)) holdSoon(event.x, event.y)
                     if (freehand()) {
                         for (i in 0 until event.historySize) addPoint(event.getHistoricalX(i), event.getHistoricalY(i))
                         addPoint(event.x, event.y)
@@ -247,6 +366,7 @@ class AnnotatedPageView @JvmOverloads constructor(
                 } else if (tool == Tool.TEXT) {
                     if (toPage(event.x, event.y)) onTextAt?.invoke(pt[0], pt[1])
                 } else {
+                    removeCallbacks(snap)
                     val m = current
                     current = null
                     if (m != null && worthKeeping(m)) {
@@ -258,6 +378,7 @@ class AnnotatedPageView @JvmOverloads constructor(
                 }
             }
             MotionEvent.ACTION_CANCEL -> {
+                removeCallbacks(snap)
                 current = null
                 restoreErased()
             }
@@ -352,6 +473,16 @@ class AnnotatedPageView @JvmOverloads constructor(
                     handle = handleAt(sel, x, y)
                     if (handle >= 0) drag = Drag.HANDLE else if (bodyAt(sel, x, y)) drag = Drag.MOVE
                 }
+                // Inside the lassoed marks: move them all.
+                if (tool == Tool.SELECT && group.isNotEmpty()) {
+                    val r = groupBounds()
+                    if (r != null && r.apply { inset(-dpx(14f) / scaleNow(), -dpx(14f) / scaleNow()) }.contains(x * pageW(), y * pageH())) {
+                        movingGroup = true; groupDx = 0f; groupDy = 0f
+                        return true
+                    }
+                    group = emptyList()
+                    onGroup?.invoke(0)
+                }
                 if (drag == Drag.NONE && tool == Tool.SELECT) {
                     val hit = marks.lastOrNull { MarkPainter.hits(it, x * pageW(), y * pageH(), pageW(), pageH(), dpx(14f) / scaleNow()) }
                         ?: marks.lastOrNull { bodyAt(it, x, y) }
@@ -363,9 +494,20 @@ class AnnotatedPageView @JvmOverloads constructor(
                     return true
                 }
                 if (tool != Tool.SELECT) selected = null
+                // On nothing: draw a lasso round what to pick.
+                if (tool == Tool.SELECT) lasso = arrayListOf(x, y)
                 return tool == Tool.SELECT
             }
             MotionEvent.ACTION_MOVE -> {
+                if (movingGroup) {
+                    if (!toPage(event.x, event.y)) return true
+                    val dx = pt[0] - lastX; val dy = pt[1] - lastY
+                    for (m in group) { var i = 0; while (i + 1 < m.points.size) { m.points[i] += dx; m.points[i + 1] += dy; i += 2 } }
+                    groupDx += dx; groupDy += dy
+                    lastX = pt[0]; lastY = pt[1]
+                    return true
+                }
+                lasso?.let { l -> if (toPage(event.x, event.y)) { l.add(pt[0]); l.add(pt[1]) }; return true }
                 if (drag == Drag.NONE) return tool == Tool.SELECT
                 val m = selected ?: return true
                 if (!toPage(event.x, event.y)) return true
@@ -397,6 +539,22 @@ class AnnotatedPageView @JvmOverloads constructor(
                 return true
             }
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                if (movingGroup) {
+                    movingGroup = false
+                    if (groupDx != 0f || groupDy != 0f) onEdit?.invoke(Edit.Moved(group, groupDx, groupDy))
+                    return true
+                }
+                lasso?.let { l ->
+                    lasso = null
+                    val poly = l.toFloatArray()
+                    if (poly.size >= 6) {
+                        val w = pageW(); val h = pageH()
+                        group = marks.filter { m -> MarkPainter.bounds(m, w, h).let { r -> inLasso(poly, r.centerX() / w, r.centerY() / h) } }
+                        if (group.size == 1) { selected = group[0]; group = emptyList() }
+                        onGroup?.invoke(group.size)
+                    }
+                    return true
+                }
                 if (drag == Drag.NONE) return tool == Tool.SELECT
                 val m = selected
                 val b = before

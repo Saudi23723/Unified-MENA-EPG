@@ -10,12 +10,14 @@ import android.os.Bundle
 import android.os.ParcelFileDescriptor
 import android.text.InputType
 import android.graphics.drawable.GradientDrawable
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -112,6 +114,8 @@ class PdfViewerActivity : BaseActivity() {
                 R.id.v_bookmark -> toggleBookmark()
                 R.id.v_bookmarks -> showBookmarks()
                 R.id.v_ai -> askAssistant(null)
+                R.id.v_search -> searchBook()
+                R.id.v_later -> showLater()
                 R.id.v_finger -> {
                     b.page.fingerDraws = !b.page.fingerDraws
                     mi.isChecked = b.page.fingerDraws
@@ -209,6 +213,7 @@ class PdfViewerActivity : BaseActivity() {
     }
 
     override fun onDestroy() {
+        tts?.shutdown()
         super.onDestroy()
         val r = renderer
         renderer = null
@@ -431,7 +436,11 @@ class PdfViewerActivity : BaseActivity() {
         bar.addView(View(this).apply { setBackgroundColor(0x33000000) }, LinearLayout.LayoutParams(dp(1), dp(28)).apply { setMargins(dp(6), 0, dp(6), 0) })
         colorButton = button(R.drawable.ic_tool_pen, R.string.pen_color) { chooseColor() }
         sizeButton = button(R.drawable.ic_tool_pen, R.string.pen_size) { chooseSize() }
-        deleteButton = button(R.drawable.ic_delete, R.string.pen_delete) { b.page.deleteSelected() }
+        deleteButton = button(R.drawable.ic_delete, R.string.pen_delete) { b.page.deleteSelected(); b.page.deleteGroup() }
+        p.onGroup = { n ->
+            deleteButton?.alpha = if (n > 0) 1f else 0.35f
+            if (n > 0) Toast.makeText(this, getString(R.string.pen_lassoed, n), Toast.LENGTH_SHORT).show()
+        }
         deleteButton?.alpha = 0.35f
         p.onSelected = { m ->
             deleteButton?.alpha = if (m != null) 1f else 0.35f
@@ -651,40 +660,53 @@ class PdfViewerActivity : BaseActivity() {
     }
 
     /** A grid of colours; with a mark picked, it recolours that mark. */
+    private fun forgetColor(c: Int) =
+        VaultLock.prefs(this).edit().putString("custom_colors", customColors().filter { it != c }.joinToString(",")).apply()
+
     private fun chooseColor() {
         val p = b.page
         val picked = p.selected
         val marker = if (picked != null) picked.tool == Tool.HIGHLIGHT || picked.tool == Tool.TEXTMARK else p.tool == Tool.HIGHLIGHT
-        val colors = (if (marker) MarkPainter.MARKER.toList() else MarkPainter.INK.toList()) + customColors()
         val current = picked?.color ?: p.color
-        val grid = android.widget.GridLayout(this).apply {
-            columnCount = 6
-            setPadding(dp(14), dp(10), dp(14), dp(4))
-            layoutDirection = View.LAYOUT_DIRECTION_LTR
-        }
-        val scroll = android.widget.ScrollView(this).apply { addView(grid) }
-        val dialog = MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.pen_color)
-            .setView(scroll)
-            .setNeutralButton(R.string.pen_custom_color) { _, _ -> customColor(marker, picked, current) }
-            .show()
-        for (c in colors.distinct()) {
-            grid.addView(View(this).apply {
+        val col = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(dp(14), dp(6), dp(14), dp(4)) }
+        val scroll = android.widget.ScrollView(this).apply { addView(col) }
+        lateinit var dialog: androidx.appcompat.app.AlertDialog
+        fun grid() = android.widget.GridLayout(this).apply { columnCount = 6; layoutDirection = View.LAYOUT_DIRECTION_LTR }
+        fun swatch(g: android.widget.GridLayout, c: Int, mine: Boolean) {
+            val cell = FrameLayout(this)
+            cell.addView(View(this).apply {
                 background = GradientDrawable().apply {
                     shape = GradientDrawable.OVAL
                     setColor(c)
                     setStroke(dp(if (c == current) 4 else 1), if (c == current) 0xFF1E88E5.toInt() else 0x44000000)
                 }
-                setOnClickListener {
-                    applyColor(c, marker, picked)
-                    dialog.dismiss()
-                }
-            }, android.widget.GridLayout.LayoutParams().apply {
-                width = dp(40)
-                height = dp(40)
-                setMargins(dp(5), dp(5), dp(5), dp(5))
-            })
+                setOnClickListener { applyColor(c, marker, picked); dialog.dismiss() }
+            }, FrameLayout.LayoutParams(dp(40), dp(40)).apply { gravity = Gravity.CENTER })
+            if (mine) {
+                // Your own colours can go: the ✕ on each.
+                cell.addView(TextView(this).apply {
+                    text = "✕"; textSize = 10f; gravity = Gravity.CENTER; setTextColor(0xFFFFFFFF.toInt())
+                    background = GradientDrawable().apply { shape = GradientDrawable.OVAL; setColor(0xFFE53935.toInt()) }
+                    setOnClickListener { forgetColor(c); g.removeView(cell) }
+                }, FrameLayout.LayoutParams(dp(18), dp(18)).apply { gravity = Gravity.TOP or Gravity.END })
+            }
+            g.addView(cell, android.widget.GridLayout.LayoutParams().apply { width = dp(48); height = dp(48); setMargins(dp(2), dp(2), dp(2), dp(2)) })
         }
+        val base = grid()
+        for (c in (if (marker) MarkPainter.MARKER else MarkPainter.INK).toList()) swatch(base, c, false)
+        col.addView(base)
+        val mine = customColors().filter { it !in MarkPainter.MARKER && it !in MarkPainter.INK }
+        if (mine.isNotEmpty()) {
+            col.addView(TextView(this).apply { text = getString(R.string.pen_my_colors); textSize = 13f; setPadding(dp(4), dp(12), dp(4), dp(4)) })
+            val g = grid()
+            for (c in mine) swatch(g, c, true)
+            col.addView(g)
+        }
+        dialog = MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.pen_color)
+            .setView(scroll)
+            .setNeutralButton(R.string.pen_custom_color) { _, _ -> customColor(marker, picked, current) }
+            .show()
     }
 
     private fun askText(x: Float, y: Float) {
@@ -715,6 +737,7 @@ class PdfViewerActivity : BaseActivity() {
         when (e) {
             is AnnotatedPageView.Edit.Added -> list.remove(e.mark)
             is AnnotatedPageView.Edit.Removed -> for ((i, m) in e.removed.asReversed()) list.add(i.coerceAtMost(list.size), m)
+            is AnnotatedPageView.Edit.Moved -> for (m in e.marks) { var i = 0; while (i + 1 < m.points.size) { m.points[i] -= e.dx; m.points[i + 1] -= e.dy; i += 2 } }
             is AnnotatedPageView.Edit.Changed -> {
                 e.before.copyInto(e.mark.points)
                 e.mark.color = e.colorBefore
@@ -734,6 +757,7 @@ class PdfViewerActivity : BaseActivity() {
         when (e) {
             is AnnotatedPageView.Edit.Added -> list.add(e.mark)
             is AnnotatedPageView.Edit.Removed -> for ((_, m) in e.removed) list.remove(m)
+            is AnnotatedPageView.Edit.Moved -> for (m in e.marks) { var i = 0; while (i + 1 < m.points.size) { m.points[i] += e.dx; m.points[i + 1] += e.dy; i += 2 } }
             is AnnotatedPageView.Edit.Changed -> {
                 e.after.copyInto(e.mark.points)
                 e.mark.color = e.colorAfter
@@ -986,11 +1010,17 @@ class PdfViewerActivity : BaseActivity() {
 
     private fun onTextSelected(text: String) {
         val items = arrayOf(getString(R.string.sel_highlight), getString(R.string.sel_copy),
-            getString(R.string.ai_explain_sel), getString(R.string.ai_ask_sel))
+            getString(R.string.ai_explain_sel), getString(R.string.ai_ask_sel), getString(R.string.sel_speak), getString(R.string.sel_later))
         MaterialAlertDialogBuilder(this)
             .setTitle(text.replace('\n', ' ').take(80) + if (text.length > 80) "…" else "")
             .setItems(items) { _, which ->
-                if (which == 2 || which == 3) {
+                if (which == 5) {
+                    addLater(text)
+                    b.page.clearSelection()
+                } else if (which == 4) {
+                    b.page.clearSelection()
+                    speak(text)
+                } else if (which == 2 || which == 3) {
                     b.page.clearSelection()
                     if (which == 2) askAssistant(text, getString(R.string.ai_p_explain_sel)) else askAssistant(text)
                 } else if (which == 0) {
@@ -1005,6 +1035,147 @@ class PdfViewerActivity : BaseActivity() {
             .setOnCancelListener { b.page.clearSelection() }
             .setNegativeButton(R.string.cancel) { _, _ -> b.page.clearSelection() }
             .show()
+    }
+
+    // ---- searching the book ----
+
+    private var lastFind = ""
+
+    /** Every page the words are on, with the line around them; tap one to go there. */
+    private fun searchBook() {
+        val input = EditText(this).apply { hint = getString(R.string.find_hint); setSingleLine(); setText(lastFind); selectAll() }
+        val box = FrameLayout(this).apply { setPadding(dp(20), dp(8), dp(20), 0); addView(input) }
+        val dialog = MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.find_title)
+            .setView(box)
+            .setPositiveButton(R.string.find_go) { _, _ -> runSearch(input.text.toString().trim()) }
+            .setNegativeButton(R.string.cancel, null)
+            .apply { if (b.page.find != null) setNeutralButton(R.string.find_clear) { _, _ -> b.page.find = null } }
+            .show()
+        input.setOnEditorActionListener { _, _, _ -> dialog.dismiss(); runSearch(input.text.toString().trim()); true }
+        input.requestFocus()
+        dialog.window?.setSoftInputMode(android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+    }
+
+    private fun runSearch(q: String) {
+        if (q.length < 2) return
+        lastFind = q
+        val l = links ?: run { Toast.makeText(this, R.string.find_wait, Toast.LENGTH_SHORT).show(); return }
+        val count = renderer?.pageCount ?: return
+        val hits = ArrayList<Pair<Int, String>>()
+        val status = TextView(this).apply { setPadding(dp(22), dp(10), dp(22), dp(4)); textSize = 13f }
+        val list = android.widget.ListView(this)
+        val adapter = android.widget.ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ArrayList())
+        list.adapter = adapter
+        val col = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; addView(status); addView(list, LinearLayout.LayoutParams(-1, dp(420))) }
+        var job: kotlinx.coroutines.Job? = null
+        val dialog = MaterialAlertDialogBuilder(this)
+            .setTitle("🔎 $q")
+            .setView(col)
+            .setNegativeButton(R.string.cancel, null)
+            .setOnDismissListener { job?.cancel() }
+            .show()
+        list.setOnItemClickListener { _, _, pos, _ ->
+            val page = hits.getOrNull(pos)?.first ?: return@setOnItemClickListener
+            dialog.dismiss()
+            b.page.find = q
+            jump(page)
+        }
+        val needle = q.lowercase()
+        job = lifecycleScope.launch {
+            for (i in 0 until count) {
+                val text = withContext(linkThread) { l.textOf(i) }
+                val low = text.lowercase()
+                var at = low.indexOf(needle)
+                var n = 0
+                while (at >= 0 && n < 3) {
+                    val from = maxOf(0, at - 40)
+                    val to = minOf(text.length, at + needle.length + 60)
+                    val line = (if (from > 0) "…" else "") + text.substring(from, to).replace(Regex("\\s+"), " ") + if (to < text.length) "…" else ""
+                    hits.add(i to line)
+                    adapter.add(getString(R.string.find_hit, i + 1, line))
+                    n++
+                    at = low.indexOf(needle, at + needle.length)
+                }
+                status.text = getString(R.string.find_progress, i + 1, count, hits.size)
+            }
+            status.text = getString(R.string.find_done, hits.size)
+        }
+    }
+
+    // ---- read later: a paragraph marked, to come back to ----
+
+    private fun laterKey() = "later_$itemId"
+
+    private fun later(): org.json.JSONArray = try { org.json.JSONArray(VaultLock.prefs(this).getString(laterKey(), "[]")) } catch (e: Exception) { org.json.JSONArray() }
+
+    private fun addLater(text: String) {
+        val a = later()
+        a.put(org.json.JSONObject().put("p", pageIndex).put("y", b.page.selectionTop().toDouble())
+            .put("t", text.replace(Regex("\\s+"), " ").trim().take(160)).put("d", System.currentTimeMillis()))
+        VaultLock.prefs(this).edit().putString(laterKey(), a.toString()).apply()
+        Toast.makeText(this, R.string.later_saved, Toast.LENGTH_SHORT).show()
+    }
+
+    /** The paragraphs kept to read later, and where you stopped last time. */
+    private fun showLater() {
+        val a = later()
+        val rows = ArrayList<String>()
+        val pages = ArrayList<Int>()
+        val last = VaultLock.prefs(this).getInt("pdf_$itemId", -1)
+        if (last >= 0) { rows.add(getString(R.string.later_where, last + 1)); pages.add(last) }
+        for (i in a.length() - 1 downTo 0) {
+            val o = a.getJSONObject(i)
+            rows.add("📍 p. ${o.optInt("p") + 1} · ${o.optString("t")}")
+            pages.add(o.optInt("p"))
+        }
+        if (rows.isEmpty()) { Toast.makeText(this, R.string.later_none, Toast.LENGTH_LONG).show(); return }
+        val dialog = MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.later_title)
+            .setItems(rows.toTypedArray()) { _, w -> jump(pages[w]) }
+            .setNegativeButton(R.string.cancel, null)
+            .create()
+        dialog.setOnShowListener {
+            // Long press one to take it off the list.
+            dialog.listView?.setOnItemLongClickListener { _, _, pos, _ ->
+                val k = pos - (if (last >= 0) 1 else 0)
+                if (k < 0) return@setOnItemLongClickListener false
+                val idx = a.length() - 1 - k
+                val keep = org.json.JSONArray()
+                for (i in 0 until a.length()) if (i != idx) keep.put(a.get(i))
+                VaultLock.prefs(this).edit().putString(laterKey(), keep.toString()).apply()
+                dialog.dismiss()
+                Toast.makeText(this, R.string.later_removed, Toast.LENGTH_SHORT).show()
+                true
+            }
+        }
+        dialog.show()
+    }
+
+    // ---- reading aloud ----
+
+    private var tts: android.speech.tts.TextToSpeech? = null
+
+    /** The chosen words read out, in English (or Arabic when they are Arabic). */
+    private fun speak(text: String) {
+        val clean = text.replace(Regex("-\\n"), "").replace(Regex("\\s+"), " ").trim()
+        if (clean.isEmpty()) return
+        val arabic = clean.any { it in '\u0600'..'\u06FF' }
+        val go = { t: android.speech.tts.TextToSpeech ->
+            t.language = if (arabic) java.util.Locale("ar") else java.util.Locale.US
+            t.setSpeechRate(1.0f)
+            // Long passages in pieces the engine accepts.
+            clean.chunked(3500).forEachIndexed { i, part ->
+                t.speak(part, if (i == 0) android.speech.tts.TextToSpeech.QUEUE_FLUSH else android.speech.tts.TextToSpeech.QUEUE_ADD, null, "s$i")
+            }
+            Unit
+        }
+        tts?.let { go(it); return }
+        var t: android.speech.tts.TextToSpeech? = null
+        t = android.speech.tts.TextToSpeech(this) { ok ->
+            if (ok == android.speech.tts.TextToSpeech.SUCCESS) t?.let { tts = it; go(it) }
+        }
+        Toast.makeText(this, R.string.sel_speaking, Toast.LENGTH_SHORT).show()
     }
 
     // ---- the study assistant ----

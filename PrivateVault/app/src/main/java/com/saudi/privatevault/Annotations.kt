@@ -413,13 +413,12 @@ object MarkPainter {
         Color.parseColor("#4A148C"), Color.parseColor("#8E24AA"), Color.parseColor("#AB47BC"),
         Color.parseColor("#5E35B1"), Color.parseColor("#7E57C2"), Color.parseColor("#B39DDB"),
     )
+    /** Study highlighters: soft and clear on the page, the text still dark under them. */
     val MARKER = intArrayOf(
-        Color.parseColor("#FFEB3B"), Color.parseColor("#FFF176"), Color.parseColor("#FFD54F"),
-        Color.parseColor("#FFAB40"), Color.parseColor("#FF8A65"), Color.parseColor("#FF8A80"),
-        Color.parseColor("#FF4081"), Color.parseColor("#F48FB1"), Color.parseColor("#EA80FC"),
-        Color.parseColor("#B388FF"), Color.parseColor("#82B1FF"), Color.parseColor("#40C4FF"),
-        Color.parseColor("#84FFFF"), Color.parseColor("#64FFDA"), Color.parseColor("#69F0AE"),
-        Color.parseColor("#76FF03"), Color.parseColor("#C6FF00"), Color.parseColor("#E0E0E0"),
+        Color.parseColor("#FFEB3B"), Color.parseColor("#FFC46B"), Color.parseColor("#FF9E80"),
+        Color.parseColor("#F8A5C2"), Color.parseColor("#D7A8F0"), Color.parseColor("#B5B9FF"),
+        Color.parseColor("#8FD3FF"), Color.parseColor("#7FE3E0"), Color.parseColor("#9BE7A8"),
+        Color.parseColor("#D6F07A"), Color.parseColor("#FFD8C2"), Color.parseColor("#D0D7DE"),
     )
 
     /** Thin, medium and thick, as fractions of the page width. */

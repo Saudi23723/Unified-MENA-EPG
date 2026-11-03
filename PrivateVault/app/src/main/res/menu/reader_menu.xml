@@ -16,6 +16,15 @@
         android:title="@string/ai_title"
         app:showAsAction="never" />
     <item
+        android:id="@+id/v_search"
+        android:icon="@drawable/ic_search"
+        android:title="@string/find_title"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/v_later"
+        android:title="@string/later_title"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/v_bookmarks"
         android:title="@string/bm_list"
         app:showAsAction="never" />

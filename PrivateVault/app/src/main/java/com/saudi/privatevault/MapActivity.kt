@@ -1584,6 +1584,7 @@ class MapActivity : BaseActivity() {
             is AnnotatedPageView.Edit.Added -> draw.marks.remove(e.mark)
             is AnnotatedPageView.Edit.Removed -> for ((i, m) in e.removed.asReversed()) draw.marks.add(i.coerceAtMost(draw.marks.size), m)
             is AnnotatedPageView.Edit.Changed -> { e.before.copyInto(e.mark.points); e.mark.color = e.colorBefore }
+            is AnnotatedPageView.Edit.Moved -> {}
         }
         redo.addLast(e)
         draw.selected = null
@@ -1596,6 +1597,7 @@ class MapActivity : BaseActivity() {
             is AnnotatedPageView.Edit.Added -> draw.marks.add(e.mark)
             is AnnotatedPageView.Edit.Removed -> for ((_, m) in e.removed) draw.marks.remove(m)
             is AnnotatedPageView.Edit.Changed -> { e.after.copyInto(e.mark.points); e.mark.color = e.colorAfter }
+            is AnnotatedPageView.Edit.Moved -> {}
         }
         undo.addLast(e)
         draw.selected = null
