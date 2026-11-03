@@ -25,7 +25,7 @@ import java.io.File
 /** A notebook written by hand: pages of strokes on a blank, lined, grid, dotted or scratchpad page. */
 class NoteBook(val file: File) {
     enum class Style(val label: String) {
-        SCRATCHPAD("✈️ Scratchpad (ATIS + clearance)"), LINED("📄 Lined"), BLANK("⬜ Blank"), GRID("▦ Grid"), DOTS("⠿ Dots"),
+        SCRATCHPAD("✈️ Scratchpad (ATIS + clearance)"), ATIS("📻 ATIS"), CRAFT("🛫 CRAFT clearance"), PIREP("🌦 PIREP"), LINED("📄 Lined"), BLANK("⬜ Blank"), GRID("▦ Grid"), DOTS("⠿ Dots"),
     }
 
     class Stroke(val tool: NotePad.Tool, val color: Int, val width: Float, val pts: FloatArray, val pen: Int = 0)
@@ -249,7 +249,27 @@ object NotePad {
             }
             top += 10
         }
+        // One template a page, as an EFB's scratch pads: the boxes, each with its name.
+        fun boxes(title: String, names: List<String>, two: Boolean) {
+            val ink = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0xFF37474F.toInt(); textSize = 24f; isFakeBoldText = true }
+            val small = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0xFF78909C.toInt(); textSize = 16f }
+            p.color = 0xFF90A4AE.toInt(); p.strokeWidth = 1.6f
+            c.drawText(title, m, top, ink)
+            top += 16
+            val rowH = ((H - m - top) / (if (two) (names.size + 1) / 2 else names.size)).coerceIn(70f, 150f)
+            for ((i, t) in names.withIndex()) {
+                val x = if (two && i % 2 == 1) W / 2 + 8 else m
+                val y = top + (if (two) i / 2 else i) * rowH
+                val w = if (two) W / 2 - m - 8 else W - 2 * m
+                c.drawRect(x, y, x + w, y + rowH - 10, p)
+                c.drawText(t, x + 8, y + 22, small)
+            }
+            top = H
+        }
         when (style) {
+            NoteBook.Style.ATIS -> if (page == 0) boxes("ATIS / AWOS", listOf("Airport", "Information", "Time Z", "Wind", "Visibility", "Weather", "Sky", "Temp / Dew", "Altimeter", "Runway / Approach", "NOTAMs", "Remarks"), true)
+            NoteBook.Style.CRAFT -> if (page == 0) boxes("CLEARANCE", listOf("C · Clearance limit", "R · Route", "A · Altitude (initial / expect)", "F · Departure frequency", "T · Transponder code"), false)
+            NoteBook.Style.PIREP -> if (page == 0) boxes("PIREP  ·  UA / UUA", listOf("OV · Location", "TM · Time Z", "FL · Altitude", "TP · Aircraft type", "SK · Sky cover", "WX · Weather / visibility", "TA · Temperature", "WV · Wind", "TB · Turbulence", "IC · Icing", "RM · Remarks"), true)
             NoteBook.Style.BLANK -> {}
             NoteBook.Style.GRID -> {
                 p.color = 0xFFDDE4EA.toInt(); p.strokeWidth = 1f

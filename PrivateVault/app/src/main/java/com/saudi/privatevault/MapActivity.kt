@@ -175,6 +175,7 @@ class MapActivity : BaseActivity(), NeonHost {
         patternOv = PatternOverlay(map)
         if (prefs.getBoolean("tp_on", true)) map.overlays.add(patternOv)
         airportsLayer = AirportsOverlay(map).apply { onPick = { showAirport(it) } }
+        setStationData(AirportsOverlay.Data.values().firstOrNull { it.name == prefs.getString("map_data", "NONE") } ?: AirportsOverlay.Data.NONE, prefs.getInt("winds_alt", 6000))
         map.overlays.add(airportsLayer)
         draw = MapDrawOverlay(map)
         draw.cruiseKt = prefs.getFloat("cruise_kt", 100f).toDouble()
@@ -349,6 +350,21 @@ class MapActivity : BaseActivity(), NeonHost {
             isChecked = on
             box.addView(this)
         }
+        // Overlays as an EFB shows them: a grid of tiles, each ticked when on.
+        val grid = android.widget.GridLayout(this).apply { columnCount = 2 }
+        box.addView(grid)
+        class Tile(val v: android.widget.TextView) { var isChecked = false
+            fun paint() { v.setTextColor(if (isChecked) EfbUi.ACCENT else EfbUi.TEXT); v.text = (if (isChecked) "✓  " else "     ") + (v.tag as String)
+                v.background = EfbUi.cardBg(this@MapActivity, if (isChecked) 0x221E88E5 else EfbUi.CARD, 10).apply { setStroke(dp(1), if (isChecked) EfbUi.ACCENT else EfbUi.CARD_LINE) } } }
+        fun check(label: Int, on: Boolean): Tile {
+            val v = android.widget.TextView(this).apply { tag = getString(label); textSize = 14f; setPadding(dp(10), dp(12), dp(10), dp(12)); maxLines = 2 }
+            val t = Tile(v); t.isChecked = on; t.paint()
+            v.setOnClickListener { t.isChecked = !t.isChecked; t.paint() }
+            grid.addView(v, android.widget.GridLayout.LayoutParams().apply {
+                width = 0; columnSpec = android.widget.GridLayout.spec(android.widget.GridLayout.UNDEFINED, 1f); setMargins(dp(3), dp(3), dp(3), dp(3))
+            })
+            return t
+        }
         val cRadar = check(R.string.wx_radar, radar != null)
         val cAirmet = check(R.string.wx_airmet, weather.showAirmets)
         val cTfr = check(R.string.wx_tfr, weather.showTfrs)
@@ -358,6 +374,24 @@ class MapActivity : BaseActivity(), NeonHost {
         val cTraffic = check(R.string.wx_traffic, map.overlays.contains(traffic))
         val cAirports = check(R.string.map_airports, prefs.getBoolean("map_airports", true))
         val cPattern = check(R.string.tp_layer, prefs.getBoolean("tp_on", true))
+        // One kind of data on the airports at a time: none, the weather (station model), or the winds aloft.
+        box.addView(android.widget.TextView(this).apply {
+            text = getString(R.string.map_station_data); setPadding(0, dp(14), 0, dp(4)); setTypeface(typeface, android.graphics.Typeface.BOLD)
+        })
+        val dataGroup = android.widget.RadioGroup(this)
+        val dataNames = listOf(R.string.map_data_none, R.string.map_data_weather, R.string.map_data_winds)
+        for ((i, n) in dataNames.withIndex()) dataGroup.addView(android.widget.RadioButton(this).apply { id = 2000 + i; text = getString(n); isChecked = airportsLayer.data.ordinal == i })
+        box.addView(dataGroup)
+        val altRow = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; layoutDirection = View.LAYOUT_DIRECTION_LTR }
+        var windAlt = prefs.getInt("winds_alt", 6000)
+        val altViews = ArrayList<Pair<Int, android.widget.TextView>>()
+        fun paintAlt() = altViews.forEach { (a, v) -> v.setTextColor(if (a == windAlt) 0xFFFFFFFF.toInt() else EfbUi.ACCENT); v.background = EfbUi.cardBg(this, if (a == windAlt) EfbUi.ACCENT else EfbUi.CARD, 8) }
+        for (a in listOf(3000, 6000, 9000, 12000, 18000)) {
+            val v = android.widget.TextView(this).apply { text = "${a / 1000}k"; gravity = android.view.Gravity.CENTER; setPadding(dp(4), dp(8), dp(4), dp(8)); setOnClickListener { windAlt = a; paintAlt() } }
+            altViews.add(a to v); altRow.addView(v, LinearLayout.LayoutParams(0, -2, 1f).apply { marginEnd = dp(4) })
+        }
+        paintAlt()
+        box.addView(altRow)
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.map_layers)
             .setView(android.widget.ScrollView(this).apply { addView(box) })
@@ -394,11 +428,26 @@ class MapActivity : BaseActivity(), NeonHost {
                     lastWeatherBox = ""
                     loadAirports()
                 }
+                val data = AirportsOverlay.Data.values().getOrElse(dataGroup.checkedRadioButtonId - 2000) { AirportsOverlay.Data.NONE }
+                prefs.edit().putString("map_data", data.name).putInt("winds_alt", windAlt).apply()
+                setStationData(data, windAlt)
                 refreshWeather()
                 map.invalidate()
             }
             .setNegativeButton(R.string.cancel, null)
             .show()
+    }
+
+    /** Weather or winds aloft on every airport; the winds are read once and kept for the session. */
+    private fun setStationData(data: AirportsOverlay.Data, alt: Int) {
+        airportsLayer.data = data
+        airportsLayer.windsAlt = alt
+        if (data == AirportsOverlay.Data.WINDS && airportsLayer.winds.isEmpty()) lifecycleScope.launch {
+            val fb = withContext(Dispatchers.IO) { try { AviationData.windsAloft(6) } catch (e: Exception) { "" } }
+            airportsLayer.winds = fb
+            map.invalidate()
+        }
+        map.invalidate()
     }
 
     // ---- weather over the chart ----

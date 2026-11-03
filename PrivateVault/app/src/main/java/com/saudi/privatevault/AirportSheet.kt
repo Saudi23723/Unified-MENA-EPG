@@ -42,6 +42,40 @@ class AirportSheet(
     private val wx = text("${act.getString(R.string.map_loading_wx)}")
     private val info = text("")
     private val pattern = text("", mono = true)
+    private val facts = LinearLayout(act).apply {
+        orientation = LinearLayout.HORIZONTAL; layoutDirection = View.LAYOUT_DIRECTION_LTR
+        background = EfbUi.cardBg(act, EfbUi.CARD, 12).apply { setStroke(0, 0) }
+        setPadding(dp(12), dp(10), dp(12), dp(10))
+    }
+
+    private fun factsFill(apt: JSONObject?, m: AviationData.Metar?) {
+        facts.removeAllViews()
+        fun col(rows: List<Pair<String, String>>) = LinearLayout(act).apply {
+            orientation = LinearLayout.VERTICAL
+            for ((k, v) in rows) addView(LinearLayout(act).apply {
+                orientation = LinearLayout.HORIZONTAL; layoutDirection = View.LAYOUT_DIRECTION_LTR; setPadding(0, dp(2), 0, dp(2))
+                addView(TextView(act).apply { text = k; textSize = 12f; setTextColor(EfbUi.DIM) }, LinearLayout.LayoutParams(dp(92), -2))
+                addView(TextView(act).apply { text = v; textSize = 13f; setTextColor(EfbUi.TEXT); setTypeface(typeface, android.graphics.Typeface.BOLD) })
+            })
+        }
+        val t = Sun.times(a.lat, a.lon)
+        val left = ArrayList<Pair<String, String>>()
+        left.add("Sunrise/Sunset" to "${t["sunrise"]} / ${t["sunset"]}")
+        left.add("Pattern Alt" to "%,d ft MSL".format(PatternOverlay.tpa(a.elevation)))
+        m?.json?.let { j ->
+            val wd = j.opt("wdir")?.toString(); val ws = j.optInt("wspd", -1)
+            if (ws >= 0) left.add("Wind" to if (ws == 0) "Calm" else "${if (wd == "VRB") "VRB" else "%03d°".format(wd?.toDoubleOrNull()?.toInt() ?: 0)} @ $ws kt")
+        }
+        val rwys = apt?.optJSONArray("runways")
+        val ends = (0 until (rwys?.length() ?: 0)).flatMap { i -> rwys!!.optJSONObject(i)?.optString("id")?.split('/')?.map { it.trim() }.orEmpty() }.filter { it.any { c -> c.isDigit() } }
+        PatternOverlay.favored(a.ident, ends, m?.json, a.lat, a.lon)?.let { left.add("Best Wind" to "RWY $it") }
+        val right = Frequencies.forAirport(act, a, apt)
+            .filter { it.kind.label.contains("ATIS", true) || it.kind.label.contains("AWOS", true) || it.kind.label.contains("Ground", true) || it.kind.label.contains("Tower", true) || it.kind.label.contains("CTAF", true) || it.kind.label.contains("Clearance", true) }
+            .distinctBy { it.kind }.take(5).map { it.kind.label to Frequencies.mhz(it.mhz) }
+        facts.addView(col(left), LinearLayout.LayoutParams(0, -2, 1.15f))
+        if (right.isNotEmpty()) facts.addView(col(right), LinearLayout.LayoutParams(0, -2, 1f))
+    }
+
     private val badge = TextView(act).apply {
         textSize = 13f; setTypeface(typeface, android.graphics.Typeface.BOLD); setTextColor(0xFFFFFFFF.toInt())
         setPadding(dp(12), dp(4), dp(12), dp(4)); visibility = View.GONE
@@ -71,6 +105,8 @@ class AirportSheet(
         body.addView(text(sub))
         // The flight category, filled in when the weather comes.
         body.addView(badge, LinearLayout.LayoutParams(-2, -2).apply { topMargin = dp(4) })
+        // The facts at a glance, as an EFB heads its airport page.
+        body.addView(facts, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(8); bottomMargin = dp(8) })
         val buttons = LinearLayout(act).apply { orientation = LinearLayout.HORIZONTAL }
         fun button(label: Int, into: LinearLayout = buttons, onClick: () -> Unit) = into.addView(MaterialButton(act, null, com.google.android.material.R.attr.materialButtonOutlinedStyle).apply {
             text = act.getString(label)
@@ -171,6 +207,7 @@ class AirportSheet(
             val (metar, taf, apt) = withContext(Dispatchers.IO) {
                 Triple(AviationData.metar(station), AviationData.taf(station), AviationData.airportInfo(act, station))
             }
+            factsFill(apt, metar)
             wx.text = weather(metar, taf, apt)
             belowMinimums(metar)?.let { w ->
                 wx.text = "⚠️ " + act.getString(R.string.set_below_min) + "\n" + w + "\n\n" + wx.text
