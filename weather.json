@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-03T15:32:06.521Z",
+  "updated_at": "2026-11-03T15:38:23.616Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -434,13 +434,13 @@
       "latitude": 40.7128,
       "longitude": -74.006,
       "temperature_c": 16.8,
-      "humidity": 54,
+      "humidity": 58,
       "wind_speed": 11.0,
       "rain_chance": 1,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-11-03T10:30",
-      "feels_c": 14.5,
+      "feels_c": 14.8,
       "utc_offset": -18000,
       "days": [
         {
@@ -508,8 +508,8 @@
       "humidity": 67,
       "wind_speed": 5.9,
       "rain_chance": 0,
-      "condition": "غائم",
-      "weather_code": 3,
+      "condition": "غائم جزئياً",
+      "weather_code": 2,
       "observed_at": "2026-11-03T07:30",
       "feels_c": 13.4,
       "utc_offset": -28800,
@@ -576,13 +576,13 @@
       "latitude": 41.8781,
       "longitude": -87.6298,
       "temperature_c": 19.4,
-      "humidity": 81,
+      "humidity": 80,
       "wind_speed": 23.5,
       "rain_chance": 2,
-      "condition": "غائم جزئياً",
-      "weather_code": 2,
+      "condition": "غائم",
+      "weather_code": 3,
       "observed_at": "2026-11-03T09:30",
-      "feels_c": 18.1,
+      "feels_c": 18.0,
       "utc_offset": -21600,
       "days": [
         {
@@ -647,13 +647,13 @@
       "latitude": 36.1699,
       "longitude": -115.1398,
       "temperature_c": 13.7,
-      "humidity": 60,
+      "humidity": 55,
       "wind_speed": 2.0,
       "rain_chance": 0,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-11-03T07:30",
-      "feels_c": 12.4,
+      "feels_c": 12.1,
       "utc_offset": -28800,
       "days": [
         {
@@ -718,13 +718,13 @@
       "latitude": 32.7767,
       "longitude": -96.797,
       "temperature_c": 18.7,
-      "humidity": 62,
+      "humidity": 60,
       "wind_speed": 16.7,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-11-03T09:30",
-      "feels_c": 16.7,
+      "feels_c": 16.5,
       "utc_offset": -21600,
       "days": [
         {
@@ -807,7 +807,7 @@
         },
         {
           "date": "2026-11-04",
-          "code": 53,
+          "code": 3,
           "max": 17.7,
           "min": 12.2,
           "rain": 6
