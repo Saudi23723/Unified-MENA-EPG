@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-03T06:17:59.553Z",
+  "updated_at": "2026-11-03T06:23:56.157Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -43,14 +43,14 @@
           "code": 61,
           "max": 19.3,
           "min": 13.1,
-          "rain": 35
+          "rain": 18
         },
         {
           "date": "2026-11-07",
           "code": 3,
           "max": 15.9,
           "min": 11.7,
-          "rain": 14
+          "rain": 10
         },
         {
           "date": "2026-11-08",
@@ -114,7 +114,7 @@
           "code": 3,
           "max": 28.6,
           "min": 20.5,
-          "rain": 3
+          "rain": 0
         },
         {
           "date": "2026-11-07",
@@ -304,7 +304,7 @@
         {
           "date": "2026-11-03",
           "code": 53,
-          "max": 12.2,
+          "max": 12.3,
           "min": 8.4,
           "rain": 29
         },
@@ -351,7 +351,7 @@
           "rain": 21
         }
       ],
-      "today_max": 12.2,
+      "today_max": 12.3,
       "today_min": 8.4,
       "sunrise": "06:57",
       "sunset": "16:30",
@@ -362,20 +362,20 @@
       "country": "بريطانيا",
       "latitude": 53.4808,
       "longitude": -2.2426,
-      "temperature_c": 9.2,
-      "humidity": 90,
+      "temperature_c": 9.3,
+      "humidity": 88,
       "wind_speed": 4.3,
       "rain_chance": 0,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-11-03T06:15",
-      "feels_c": 7.9,
+      "feels_c": 8.0,
       "utc_offset": 0,
       "days": [
         {
           "date": "2026-11-03",
           "code": 51,
-          "max": 11.3,
+          "max": 11.5,
           "min": 8.2,
           "rain": 0
         },
@@ -422,7 +422,7 @@
           "rain": 20
         }
       ],
-      "today_max": 11.3,
+      "today_max": 11.5,
       "today_min": 8.2,
       "sunrise": "07:11",
       "sunset": "16:32",
