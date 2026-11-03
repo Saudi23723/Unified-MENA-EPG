@@ -79,6 +79,7 @@ def main(playlist, out):
     except Exception as e:  # noqa: BLE001 - never print the URL (it holds the login)
         print(f"provider not reachable ({type(e).__name__})")
         return 1
+<<<<<<< HEAD
     # the provider's group names too (no login in them): lets the repo show channels the owner's TiviMate copy hid
     try:
         with urllib.request.urlopen(urllib.request.Request(f"{host}/player_api.php?" + q.replace("get_live_streams", "get_live_categories"),
@@ -86,6 +87,8 @@ def main(playlist, out):
             pcats = json.load(r)
     except Exception:  # noqa: BLE001
         pcats = []
+=======
+>>>>>>> 7c056993c (Update today's matches)
     if not isinstance(live, list) or not live:
         print("provider sent an empty list")
         return 1
@@ -93,8 +96,11 @@ def main(playlist, out):
     mine = json.load(open(os.path.join(d, "live_streams.json"), encoding="utf-8"))
     cats = json.load(open(os.path.join(d, "live_categories.json"), encoding="utf-8"))
     ev = {str(c["category_id"]) for c in cats if EVENT_GROUP.search(c.get("category_name") or "")}
+<<<<<<< HEAD
     # groups that are one provider package each (Strong's beIN, 3 Nov 2026): the provider's new channels join them too
     whole = {str(c["category_id"]) for c in cats if re.search(r"\bbeIN\b", c.get("category_name") or "", re.I)}
+=======
+>>>>>>> 7c056993c (Update today's matches)
     now = {str(x["stream_id"]): x for x in live}
     ours = {str(x["stream_id"]): x for x in mine}
     weak = lambda x: not x.get("stream_icon") or str(x["stream_icon"]).endswith("#weak")
@@ -122,7 +128,11 @@ def main(playlist, out):
             g = str(ours[str(x["stream_id"])]["category_id"])
             votes[g] = votes.get(g, 0) + 1
         g = max(votes, key=votes.get)
+<<<<<<< HEAD
         if g not in ev and g not in whole:  # only event / PPV / whole-package groups get new channels
+=======
+        if g not in ev:  # only event / PPV groups get new channels (the others are hand-picked)
+>>>>>>> 7c056993c (Update today's matches)
             continue
         for x in xs:
             if str(x["stream_id"]) in ours or not x.get("name"):
@@ -133,11 +143,14 @@ def main(playlist, out):
     patch = {"t": int(time.time() * 1000), "n": n, "i": i, "add": add, "gone": gone if len(gone) < len(mine) / 3 else []}
     os.makedirs(os.path.dirname(out) or ".", exist_ok=True)
     json.dump(patch, open(out, "w", encoding="utf-8"), ensure_ascii=True, separators=(",", ":"))
+<<<<<<< HEAD
     # catalog of the provider's list (ids, names, groups, logos, guide ids; no login): out/<playlist>.catalog.json
     cat = {"t": patch["t"], "cats": [[str(c.get("category_id")), c.get("category_name")] for c in pcats if isinstance(c, dict)],
            "live": [[x.get("stream_id"), x.get("name"), str(x.get("category_id")), x.get("stream_icon") or "", x.get("epg_channel_id") or ""]
                     for x in live]}
     json.dump(cat, open(os.path.splitext(out)[0] + ".catalog.json", "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
+=======
+>>>>>>> 7c056993c (Update today's matches)
     print(f"{playlist}: {len(n)} event names, {len(i)} logos, {sum(len(v) for v in add.values())} new, {len(patch['gone'])} removed")
     return 0
 
