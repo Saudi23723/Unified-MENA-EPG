@@ -39,7 +39,7 @@ class EfbHomeActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        col = EfbUi.screen(this, "SSEFB") { bar ->
+        col = EfbUi.screen(this, getString(R.string.app_name)) { bar ->
             bar.menu.add(R.string.lang_switch).setOnMenuItemClickListener { Lang.choose(this); true }
             bar.menu.add(R.string.theme_title).setOnMenuItemClickListener { EfbUi.chooseTheme(this); true }
             getDrawable(R.mipmap.ic_launcher_round)?.let { bar.logo = android.graphics.drawable.BitmapDrawable(resources, it.toBitmap(dp(30), dp(30))) }

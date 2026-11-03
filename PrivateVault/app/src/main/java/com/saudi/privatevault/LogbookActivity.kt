@@ -438,6 +438,24 @@ class LogbookActivity : BaseActivity() {
             "Approaches" to entries.sumOf { it.approaches }.toDouble(),
         ))
 
+        // Everything the logbook holds, together: flying, ground school, the simulator.
+        val ground = Logbook.ground(this)
+        val flight = entries.sumOf { it.total }
+        val gh = ground.sumOf { it.hours }
+        val sim = entries.sumOf { it.groundTrainer }
+        body.addView(header(getString(R.string.log_training)))
+        val tr = EfbUi.card(this)
+        body.addView(tr)
+        tr.addView(EfbUi.text(this, "%.1f h".format(flight + gh + sim), 28f, EfbUi.ACCENT, bold = true))
+        tr.addView(EfbUi.text(this, getString(R.string.log_training_sub, entries.size, ground.size), 13f, EfbUi.DIM))
+        grid(tr, listOf("Flight" to flight, "Ground school" to gh, "Sim / ATD" to sim))
+        for ((k, v) in ground.groupBy { it.kind }.entries.sortedByDescending { it.value.sumOf { g -> g.hours } }) {
+            val row = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; layoutDirection = View.LAYOUT_DIRECTION_LTR; setPadding(0, dp(4), 0, dp(4)) }
+            row.addView(EfbUi.text(this, "📚 $k", 14.5f, EfbUi.TEXT), LinearLayout.LayoutParams(0, -2, 1f))
+            row.addView(EfbUi.text(this, "${v.size}  ·  %.1f h".format(v.sumOf { it.hours }), 14f, EfbUi.ACCENT, mono = true))
+            tr.addView(row)
+        }
+
         body.addView(header(getString(R.string.log_periods)))
         val periods = EfbUi.card(this)
         body.addView(periods)
@@ -727,6 +745,15 @@ class LogbookActivity : BaseActivity() {
         c.addView(EfbUi.text(this, getString(if (isNew) R.string.ground_add else R.string.ground_edit), 18f, EfbUi.ACCENT, bold = true))
         val date = EfbUi.field(this, c, "Date (yyyy-mm-dd)", g.date, false)
         val hours = EfbUi.field(this, c, "Hours", if (g.hours == 0.0) "" else EfbUi.num(g.hours))
+        // The usual lengths of a lesson, one tap each.
+        val quick = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; layoutDirection = View.LAYOUT_DIRECTION_LTR; setPadding(0, dp(4), 0, dp(6)) }
+        for (h in listOf(0.5, 1.0, 1.5, 2.0, 3.0, 4.0)) quick.addView(EfbUi.text(this, EfbUi.num(h) + " h", 14f, EfbUi.ACCENT, bold = true).apply {
+            gravity = Gravity.CENTER
+            background = EfbUi.cardBg(this@LogbookActivity, EfbUi.BG, 10)
+            setPadding(dp(4), dp(8), dp(4), dp(8))
+            setOnClickListener { hours.setText(EfbUi.num(h)) }
+        }, LinearLayout.LayoutParams(0, -2, 1f).apply { marginEnd = dp(5) })
+        c.addView(quick)
         c.addView(header(getString(R.string.ground_kind)))
         var kind = g.kind
         val kinds = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
@@ -938,7 +965,7 @@ class LogbookActivity : BaseActivity() {
     }
 
     private fun backup() {
-        val f = File(File(cacheDir, "exports").apply { mkdirs() }, "SSEFB_logbook_${LogEntry.today()}.json")
+        val f = File(File(cacheDir, "exports").apply { mkdirs() }, "PilotCompanion_logbook_${LogEntry.today()}.json")
         f.writeText(Logbook.backup(this))
         share(f, "application/json")
     }

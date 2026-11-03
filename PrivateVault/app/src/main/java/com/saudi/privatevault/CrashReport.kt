@@ -22,7 +22,7 @@ object CrashReport {
         Thread.setDefaultUncaughtExceptionHandler { t, e ->
             try {
                 val v = try { app.packageManager.getPackageInfo(app.packageName, 0).versionName } catch (x: Exception) { "?" }
-                file(app).writeText("SSEFB $v · ${java.util.Date()}\nthread: ${t.name}\n\n${Log.getStackTraceString(e)}")
+                file(app).writeText("Pilot Companion $v · ${java.util.Date()}\nthread: ${t.name}\n\n${Log.getStackTraceString(e)}")
             } catch (x: Throwable) {
             }
             previous?.uncaughtException(t, e)

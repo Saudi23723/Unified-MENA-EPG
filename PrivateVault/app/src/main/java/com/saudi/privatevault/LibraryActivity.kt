@@ -59,6 +59,12 @@ class LibraryActivity : BaseActivity() {
             "https://www.faa.gov/regulations_policies/handbooks_manuals/aviation/phak", "faa-h-8083-25[a-z]?\\.pdf"),
         Book("📙", "Airplane Flying Handbook", "FAA-H-8083-3", "Airplane Flying Handbook FAA-H-8083-3.pdf",
             "https://www.faa.gov/regulations_policies/handbooks_manuals/aviation/airplane_handbook", "faa-h-8083-3[a-z]?\\.pdf"),
+        Book("📝", "Airman Knowledge Testing Supplement", "FAA-CT-8080-2: the figures of the written test", null,
+            "hb:https://www.faa.gov/training_testing/testing/supplements", null),
+        Book("🗺", "Aeronautical Chart User's Guide", "Every symbol on the sectional and the TAC", null,
+            "hb:https://www.faa.gov/air_traffic/flight_info/aeronav/digital_products/aero_guide/", null),
+        Book("📚", "All FAA handbooks & manuals", "Risk Management, Weight & Balance, Instructor's… chapter by chapter", null,
+            "hb:https://www.faa.gov/regulations_policies/handbooks_manuals/aviation", null),
         Book("🌤", "Aviation Weather Handbook", "FAA-H-8083-28", "Aviation Weather Handbook FAA-H-8083-28.pdf",
             "https://www.faa.gov/regulations_policies/handbooks_manuals/aviation", "faa-h-8083-28[a-z]?\\.pdf"),
     )
@@ -126,12 +132,15 @@ class LibraryActivity : BaseActivity() {
 
     private fun open(b: Book, sub: TextView) {
         if (b.page.startsWith("cfr:")) { CfrBrowseActivity.open(this, b.page.removePrefix("cfr:").toInt()); return }
+        if (b.page.startsWith("hb:")) { HandbookActivity.open(this, b.title, b.page.removePrefix("hb:")); return }
         if (b.file == null) {
             // The FARs in the app's own reader (the eCFR's official text).
             Regex("title-(\\d+)/part-([0-9A-Za-z]+)").find(b.page)?.let { m -> RegsActivity.open(this, m.groupValues[1].toInt(), m.groupValues[2]); return }
             WebActivity.open(this, b.title, b.page); return
         }
         held(b)?.let { read(it); return }
+        // An FAA handbook: its chapters, from the FAA page, read here one by one.
+        if (b.page.contains("/handbooks_manuals/aviation/")) { HandbookActivity.open(this, b.title, b.page); return }
         // Shipped with the app: copied into References once, then read like any book.
         b.asset?.let { name ->
             val target = VaultStore.downloadTarget(b.file)

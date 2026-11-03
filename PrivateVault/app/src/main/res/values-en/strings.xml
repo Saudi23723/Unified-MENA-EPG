@@ -113,7 +113,7 @@ Then that vault\'s password.</string>
     <string name="update_offline">Couldn\'t check for updates, check the internet</string>
     <string name="update_downloading">Downloading the update… %d%%</string>
     <string name="update_failed">Couldn\'t download the update</string>
-    <string name="update_allow">Allow SSEFB to install updates, then come back and tap Update again</string>
+    <string name="update_allow">Allow Pilot Companion to install updates, then come back and tap Update again</string>
     <string name="pdf_contents">Contents</string>
     <string name="pdf_no_contents">No table of contents in this book. Use the bar or tap the page number to move around</string>
     <string name="pdf_goto">Go to page</string>
@@ -323,7 +323,7 @@ or tap an airport → Add to route, or long-press anywhere on the chart.</string
     <string name="log_backup">💾 Backup</string>
     <string name="log_restore">📂 Restore a backup</string>
     <string name="log_restored">✅ Restored %d flights</string>
-    <string name="log_restore_bad">Not a valid SSEFB backup</string>
+    <string name="log_restore_bad">Not a valid Pilot Companion backup</string>
     <string name="log_pilot">Pilot</string>
     <string name="log_pilot_name">Name</string>
     <string name="log_pilot_cert">Certificate number</string>
@@ -457,7 +457,7 @@ or tap an airport → Add to route, or long-press anywhere on the chart.</string
     <string name="efbc_battery_tip" formatted="false">Keep it at 80% or more before flight, with a charger or power bank on board</string>
     <string name="efbc_charts">Charts and data current</string>
     <string name="efbc_space">Free space: %1$d MB</string>
-    <string name="efbc_version">SSEFB version: %1$s</string>
+    <string name="efbc_version">Pilot Companion version: %1$s</string>
     <string name="efbc_version_tip">Update the app on Wi-Fi before the flight, not in the aircraft</string>
     <string name="efbc_last">Last EFB check</string>
     <string name="efbc_preflight">✅ Before each flight</string>
@@ -465,7 +465,7 @@ or tap an airport → Add to route, or long-press anywhere on the chart.</string
     <string name="efbc_missing">%1$d items not ticked yet</string>
     <string name="efbc_saved">Saved: EFB ready for the flight ✅</string>
     <string name="efbc_pilot">What stays with the pilot</string>
-    <string name="efbc_pilot_text">Per AC 91-78A (23 Feb 2024):\n• 9.2: in-flight use of an EFB is the decision of the operator and the PIC, and \"requires no formal operational approval as long as the guidelines of this AC are followed.\"\n• 9.1: it may replace paper when:\n  1. It does not replace any system or equipment required by part 91 (navigation, communication, surveillance).\n  2. It shows only information functionally equivalent to the paper it replaces.\n  3. The information used for navigation or performance planning is \"current, up to date, and valid, as verified by the pilot.\"\n  4. It meets § 91.21: no interference with the aircraft\'s equipment.\n• 11.1: mind stowage during takeoff and landing, an unsecured EFB, display and lighting, and system failures.\n• 11.2: training: preflight checks of the system, each function, when not to use it, and cross-checking data and results.\n• SSEFB is an aid: the POH/AOI, the Chart Supplement and the official NOTAMs are the reference; carry a backup.</string>
+    <string name="efbc_pilot_text">Per AC 91-78A (23 Feb 2024):\n• 9.2: in-flight use of an EFB is the decision of the operator and the PIC, and \"requires no formal operational approval as long as the guidelines of this AC are followed.\"\n• 9.1: it may replace paper when:\n  1. It does not replace any system or equipment required by part 91 (navigation, communication, surveillance).\n  2. It shows only information functionally equivalent to the paper it replaces.\n  3. The information used for navigation or performance planning is \"current, up to date, and valid, as verified by the pilot.\"\n  4. It meets § 91.21: no interference with the aircraft\'s equipment.\n• 11.1: mind stowage during takeoff and landing, an unsecured EFB, display and lighting, and system failures.\n• 11.2: training: preflight checks of the system, each function, when not to use it, and cross-checking data and results.\n• Pilot Companion is an aid: the POH/AOI, the Chart Supplement and the official NOTAMs are the reference; carry a backup.</string>
     <string name="efbc_ac">📄 The AC itself</string>
     <string name="efbc_ac_text">FAA AC 91-78A: guidance on using an EFB in place of paper for Part 91 pilots. Downloaded once and kept in «📚 References» to read offline, with the pens and Gemini.</string>
     <string name="efbc_ac_open">Open AC 91-78A</string>
@@ -486,7 +486,7 @@ or tap an airport → Add to route, or long-press anywhere on the chart.</string
     <string name="efbc_selftest">🧪 Self-test</string>
     <string name="efbc_selftest_run">Test the app now</string>
     <string name="efbc_dpe">🎓 With the instructor or DPE</string>
-    <string name="efbc_dpe_text">What they may ask to see, and how to be ready:\n\n1️⃣ Current data: open this page → Data sources, or show the green strip under the chart (VFR … ✓ · AIRAC).\n2️⃣ The self-test: run it in front of them before the flight, all ✅.\n3️⃣ A backup: a second device with Garmin Pilot or SSEFB with the charts saved, or paper charts; and say what you do if the device fails.\n4️⃣ Battery and mounting: 80 percent or more, a charger, a kneeboard or mount.\n5️⃣ That you use it quickly: an airport, its Chart Supplement, plates, METAR/TAF, NOTAMs, TFRs, and the nearest airport (NRST) in seconds.\n6️⃣ Pilotage and dead reckoning: on the checkride you fly by chart, clock and compass without GPS. Practise it: chart menu → 🧭 Pilotage practice hides the aircraft and the GPS readouts; use the NavLog for DR.\n7️⃣ Weight and balance and performance: from the POH/AOI numbers; the app helps you compute.\n8️⃣ That you know its limits: radar, traffic and terrain are awareness only, and the GPS is not a certified navigator.\n\n💡 Most important: ask the school and the DPE beforehand whether they accept your app as the primary EFB.</string>
+    <string name="efbc_dpe_text">What they may ask to see, and how to be ready:\n\n1️⃣ Current data: open this page → Data sources, or show the green strip under the chart (VFR … ✓ · AIRAC).\n2️⃣ The self-test: run it in front of them before the flight, all ✅.\n3️⃣ A backup: a second device with Garmin Pilot or Pilot Companion with the charts saved, or paper charts; and say what you do if the device fails.\n4️⃣ Battery and mounting: 80 percent or more, a charger, a kneeboard or mount.\n5️⃣ That you use it quickly: an airport, its Chart Supplement, plates, METAR/TAF, NOTAMs, TFRs, and the nearest airport (NRST) in seconds.\n6️⃣ Pilotage and dead reckoning: on the checkride you fly by chart, clock and compass without GPS. Practise it: chart menu → 🧭 Pilotage practice hides the aircraft and the GPS readouts; use the NavLog for DR.\n7️⃣ Weight and balance and performance: from the POH/AOI numbers; the app helps you compute.\n8️⃣ That you know its limits: radar, traffic and terrain are awareness only, and the GPS is not a certified navigator.\n\n💡 Most important: ask the school and the DPE beforehand whether they accept your app as the primary EFB.</string>
     <string name="pilotage_menu">🧭 Pilotage practice (no GPS)</string>
     <string name="pilotage_on">🧭 Pilotage practice: the aircraft and GPS readouts are hidden. Fly by chart, clock and compass</string>
     <string name="pilotage_off">Aircraft and GPS back</string>
@@ -594,6 +594,11 @@ or tap an airport → Add to route, or long-press anywhere on the chart.</string
     <string name="regs_explain">Explain</string>
     <string name="regs_explain_prompt">Explain this regulation simply for a student pilot, with a real example, and what could be asked about it on the written test and the checkride</string>
     <string name="cfr_search">Search: number or name (e.g. 135, airspace, drone)</string>
+    <string name="log_training">All training</string>
+    <string name="log_training_sub">%1$d flights · %2$d ground lessons</string>
+    <string name="hb_failed">Could not reach the FAA page. Check the connection and try again</string>
+    <string name="hb_browser">Open the page in the browser</string>
+    <string name="hb_intro">Each chapter downloads once into References and opens here in the app</string>
     <string name="map_circle">Circle</string>
     <string name="map_ruler">Ruler</string>
     <string name="pen_write">Write and highlight</string>

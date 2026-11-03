@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">SSEFB</string>
+    <string name="app_name">Pilot Companion</string>
 
     <string name="lock_enter">أدخل الرمز السري</string>
     <string name="lock_create">اختر رمزاً سرياً جديداً (4 إلى 8 أرقام)</string>
@@ -265,7 +265,7 @@
     <string name="wb_envelope">حدود الـ CG: نقاط arm,weight بالترتيب</string>
     <string name="wb_bad_number">في رقم غلط، جرّب مرة ثانية</string>
     <string name="wb_add">نسخة جديدة</string>
-    <string name="efb_title">✈️ SSEFB</string>
+    <string name="efb_title">✈️ Pilot Companion</string>
     <string name="efb_map">🗺 الخريطة</string>
     <string name="efb_diagram">🛬 مخطط المطار 3D</string>
     <string name="efb_home">مطارك الأساسي</string>
@@ -337,7 +337,7 @@
     <string name="log_backup">💾 نسخة احتياطية</string>
     <string name="log_restore">📂 استرجاع نسخة</string>
     <string name="log_restored">✅ تم استرجاع %d رحلة</string>
-    <string name="log_restore_bad">الملف مش نسخة SSEFB صحيحة</string>
+    <string name="log_restore_bad">الملف مش نسخة Pilot Companion صحيحة</string>
     <string name="log_pilot">الطيار</string>
     <string name="log_pilot_name">الاسم</string>
     <string name="log_pilot_cert">رقم الشهادة</string>
@@ -471,7 +471,7 @@
     <string name="efbc_battery_tip" formatted="false">خليها 80% وأكتر قبل الطيران، ومعك شاحن أو power bank بالطيارة</string>
     <string name="efbc_charts">الخرائط والبيانات سارية</string>
     <string name="efbc_space">مساحة فاضية: %1$d MB</string>
-    <string name="efbc_version">نسخة SSEFB: %1$s</string>
+    <string name="efbc_version">نسخة Pilot Companion: %1$s</string>
     <string name="efbc_version_tip">حدّث التطبيق على Wi-Fi قبل الرحلة، مش بالطيارة</string>
     <string name="efbc_last">آخر EFB check</string>
     <string name="efbc_preflight">✅ قبل كل رحلة</string>
@@ -479,7 +479,7 @@
     <string name="efbc_missing">ضايل %1$d بنود ما تأشّروا</string>
     <string name="efbc_saved">انحفظ: EFB جاهز للرحلة ✅</string>
     <string name="efbc_pilot">شو بيضل مسؤوليتك</string>
-    <string name="efbc_pilot_text">حسب AC 91-78A (23 Feb 2024):\n• 9.2: استعمال الـ EFB بالطيران قرار الـ operator والكابتن (PIC)، و«ما بيحتاج موافقة رسمية» طالما بتتبع إرشادات الـ AC.\n• 9.1: بيصير بدل الورق إذا:\n  1. ما بيحلّ محل أي جهاز مطلوب بـ Part 91 (ملاحة، اتصال، مراقبة).\n  2. بيعرض معلومات مكافئة للورق اللي بيستبدله.\n  3. المعلومات للملاحة والأداء «حالية ومحدّثة وصالحة، والكابتن تأكد منها».\n  4. بيطابق 91.21: ما بيأثر على أجهزة الطيارة.\n• 11.1: انتبه للتثبيت وقت الإقلاع والهبوط، وللجهاز إذا مش مثبّت، والإضاءة، وإذا وقف.\n• 11.2: التدريب: فحص الجهاز قبل الرحلة، كل وظيفة فيه، وإيمتى ما بتستعمله، والتأكد من الحسابات.\n• SSEFB أداة مساعدة: الـ POH/AOI والـ Chart Supplement والـ NOTAMs الرسمية هي المرجع، وخلي معك بديل.</string>
+    <string name="efbc_pilot_text">حسب AC 91-78A (23 Feb 2024):\n• 9.2: استعمال الـ EFB بالطيران قرار الـ operator والكابتن (PIC)، و«ما بيحتاج موافقة رسمية» طالما بتتبع إرشادات الـ AC.\n• 9.1: بيصير بدل الورق إذا:\n  1. ما بيحلّ محل أي جهاز مطلوب بـ Part 91 (ملاحة، اتصال، مراقبة).\n  2. بيعرض معلومات مكافئة للورق اللي بيستبدله.\n  3. المعلومات للملاحة والأداء «حالية ومحدّثة وصالحة، والكابتن تأكد منها».\n  4. بيطابق 91.21: ما بيأثر على أجهزة الطيارة.\n• 11.1: انتبه للتثبيت وقت الإقلاع والهبوط، وللجهاز إذا مش مثبّت، والإضاءة، وإذا وقف.\n• 11.2: التدريب: فحص الجهاز قبل الرحلة، كل وظيفة فيه، وإيمتى ما بتستعمله، والتأكد من الحسابات.\n• Pilot Companion أداة مساعدة: الـ POH/AOI والـ Chart Supplement والـ NOTAMs الرسمية هي المرجع، وخلي معك بديل.</string>
     <string name="efbc_ac">📄 الـ AC نفسه</string>
     <string name="efbc_ac_text">AC 91-78A من الـ FAA: إرشادات استعمال الـ EFB بدل الورق لطياري Part 91. بينزل مرة وحدة وبينحفظ بمجلد «📚 References» لتقرأه بدون نت، مع الأقلام و Gemini.</string>
     <string name="efbc_ac_open">افتح AC 91-78A</string>
@@ -500,7 +500,7 @@
     <string name="efbc_selftest">🧪 فحص ذاتي</string>
     <string name="efbc_selftest_run">افحص التطبيق هلأ</string>
     <string name="efbc_dpe">🎓 مع المدرّب أو الـ DPE</string>
-    <string name="efbc_dpe_text">شو ممكن يطلب يشوف، وكيف تجهّز:\n\n1️⃣ البيانات سارية: افتح هالصفحة ← «مصادر البيانات»، أو ورجيه الشريط الأخضر تحت الخريطة (VFR … ✓ · AIRAC).\n2️⃣ الفحص الذاتي: اعمله قدّامه قبل الرحلة، كله ✅.\n3️⃣ البديل: جهاز تاني فيه Garmin Pilot أو SSEFB بالخرائط محمّلة، أو خرائط ورق. وقلّه شو بتعمل إذا الجهاز وقف.\n4️⃣ البطارية والتثبيت: 80 بالمية وأكتر، شاحن، kneeboard أو mount.\n5️⃣ إنك بتعرف تستعمله بسرعة: تلاقي مطار، Chart Supplement، الـ plates، الـ METAR/TAF، الـ NOTAMs، الـ TFRs، وأقرب مطار (NRST) بثواني.\n6️⃣ الـ Pilotage والـ Dead reckoning: بالـ checkride بيطلب تطير بالخريطة والساعة والبوصلة بدون GPS. تدرّب عليها: من قائمة الخريطة ← «🧭 تدريب Pilotage» بيخفي الطيارة وقراءات الـ GPS، واستعمل الـ NavLog للـ DR.\n7️⃣ الـ Weight and Balance والأداء: من الـ POH/AOI بالأرقام، والتطبيق بيساعدك تحسب.\n8️⃣ إنك فاهم حدوده: الرادار والترافيك والتضاريس للتوعية بس، والـ GPS مش جهاز ملاحة معتمد.\n\n💡 الأهم: اسأل المدرسة والـ DPE مسبقاً إذا بيقبلوا تطبيقك كـ EFB أساسي.</string>
+    <string name="efbc_dpe_text">شو ممكن يطلب يشوف، وكيف تجهّز:\n\n1️⃣ البيانات سارية: افتح هالصفحة ← «مصادر البيانات»، أو ورجيه الشريط الأخضر تحت الخريطة (VFR … ✓ · AIRAC).\n2️⃣ الفحص الذاتي: اعمله قدّامه قبل الرحلة، كله ✅.\n3️⃣ البديل: جهاز تاني فيه Garmin Pilot أو Pilot Companion بالخرائط محمّلة، أو خرائط ورق. وقلّه شو بتعمل إذا الجهاز وقف.\n4️⃣ البطارية والتثبيت: 80 بالمية وأكتر، شاحن، kneeboard أو mount.\n5️⃣ إنك بتعرف تستعمله بسرعة: تلاقي مطار، Chart Supplement، الـ plates، الـ METAR/TAF، الـ NOTAMs، الـ TFRs، وأقرب مطار (NRST) بثواني.\n6️⃣ الـ Pilotage والـ Dead reckoning: بالـ checkride بيطلب تطير بالخريطة والساعة والبوصلة بدون GPS. تدرّب عليها: من قائمة الخريطة ← «🧭 تدريب Pilotage» بيخفي الطيارة وقراءات الـ GPS، واستعمل الـ NavLog للـ DR.\n7️⃣ الـ Weight and Balance والأداء: من الـ POH/AOI بالأرقام، والتطبيق بيساعدك تحسب.\n8️⃣ إنك فاهم حدوده: الرادار والترافيك والتضاريس للتوعية بس، والـ GPS مش جهاز ملاحة معتمد.\n\n💡 الأهم: اسأل المدرسة والـ DPE مسبقاً إذا بيقبلوا تطبيقك كـ EFB أساسي.</string>
     <string name="pilotage_menu">🧭 تدريب Pilotage (بدون GPS)</string>
     <string name="pilotage_on">🧭 تدريب Pilotage: الطيارة وقراءات الـ GPS مخفية. طير بالخريطة والساعة والبوصلة</string>
     <string name="pilotage_off">رجعت الطيارة والـ GPS</string>
@@ -608,6 +608,11 @@
     <string name="regs_explain">اشرح</string>
     <string name="regs_explain_prompt">اشرح هالقانون ببساطة لطالب طيران، مع مثال حقيقي، وشو ممكن ينسأل عنه بالـ written والـ checkride</string>
     <string name="cfr_search">دوّر: رقم أو اسم (مثلاً 135، airspace، drone)</string>
+    <string name="log_training">التدريب كله</string>
+    <string name="log_training_sub">%1$d رحلة · %2$d حصة أرضية</string>
+    <string name="hb_failed">ما قدرت أوصل لصفحة الـ FAA. تأكد من النت وجرّب كمان مرة</string>
+    <string name="hb_browser">افتح الصفحة بالمتصفح</string>
+    <string name="hb_intro">كل فصل بينزل لحاله مرة وحدة وبينحفظ بالمراجع، وبتقراه هون بالتطبيق</string>
     <string name="map_circle">دائرة</string>
     <string name="map_ruler">مسطرة</string>
     <string name="pen_write">كتابة وتظليل</string>
