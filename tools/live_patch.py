@@ -93,6 +93,8 @@ def main(playlist, out):
     mine = json.load(open(os.path.join(d, "live_streams.json"), encoding="utf-8"))
     cats = json.load(open(os.path.join(d, "live_categories.json"), encoding="utf-8"))
     ev = {str(c["category_id"]) for c in cats if EVENT_GROUP.search(c.get("category_name") or "")}
+    # groups that are one provider package each (Strong's beIN, 3 Nov 2026): the provider's new channels join them too
+    whole = {str(c["category_id"]) for c in cats if re.search(r"\bbeIN\b", c.get("category_name") or "", re.I)}
     now = {str(x["stream_id"]): x for x in live}
     ours = {str(x["stream_id"]): x for x in mine}
     weak = lambda x: not x.get("stream_icon") or str(x["stream_icon"]).endswith("#weak")
@@ -120,7 +122,7 @@ def main(playlist, out):
             g = str(ours[str(x["stream_id"])]["category_id"])
             votes[g] = votes.get(g, 0) + 1
         g = max(votes, key=votes.get)
-        if g not in ev:  # only event / PPV groups get new channels (the others are hand-picked)
+        if g not in ev and g not in whole:  # only event / PPV / whole-package groups get new channels
             continue
         for x in xs:
             if str(x["stream_id"]) in ours or not x.get("name"):
