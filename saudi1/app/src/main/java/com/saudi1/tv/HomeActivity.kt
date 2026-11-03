@@ -58,13 +58,22 @@ class HomeActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         if (!Prefs.ready) { startActivity(Intent(this, SetupActivity::class.java)); return }
-        status.text = Prefs.server.substringAfter("://")
+        status.text = (Device.name.ifEmpty { Prefs.server.substringAfter("://") }) + "   ·   Device " + Device.pretty
         // the lists are ready before Live TV opens: from the copy on the TV first, then fresh in the background
-        if (Api.groups.isEmpty()) lifecycleScope.launch(Dispatchers.IO) {
-            try { Api.load(cached = true) } catch (_: Exception) { }
-            try { Api.load(cached = false) } catch (_: Exception) { }
+        lifecycleScope.launch(Dispatchers.IO) {
+            if (Api.groups.isEmpty()) try { Api.load(cached = true) } catch (_: Exception) { }
+            // stopped / expired / moved to another playlist on the admin site
+            if (!Device.manual && Device.check() != "offline" && !Prefs.ready) {
+                withContext(Dispatchers.Main) { startActivity(Intent(this@HomeActivity, SetupActivity::class.java)) }
+                return@launch
+            }
+            if (Api.groups.isEmpty() || System.currentTimeMillis() - lastLoad > 15 * 60_000) {
+                try { if (Api.load(cached = false)) lastLoad = System.currentTimeMillis() } catch (_: Exception) { }
+            }
         }
     }
+
+    private var lastLoad = 0L
 
     private fun open(c: Class<*>) = startActivity(Intent(this, c))
 
@@ -73,7 +82,12 @@ class HomeActivity : AppCompatActivity() {
     private fun reload() {
         status.text = "Loading…"
         lifecycleScope.launch {
-            val ok = withContext(Dispatchers.IO) { try { Api.load(cached = false) } catch (e: Exception) { false } }
+            val ok = withContext(Dispatchers.IO) {
+                // the owner may have changed this device's playlist or login on the admin site
+                if (!Device.manual) Device.check()
+                try { Prefs.ready && Api.load(cached = false) } catch (e: Exception) { false }
+            }
+            if (!Prefs.ready) { startActivity(Intent(this@HomeActivity, SetupActivity::class.java)); return@launch }
             val n = Api.groups.firstOrNull { it.id == Api.ALL }?.channels?.size ?: 0
             status.text = if (ok) "Updated · $n channels" else "Could not reach the server"
         }
