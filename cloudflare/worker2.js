@@ -384,6 +384,11 @@ export default {
       if (GITHUB_LIVE.has(PLAYLIST) && /^get_(vod_categories|series_categories|vod_streams|series)$/.test(action)) {
         const kind = /vod/.test(action) ? "vod" : "series";
         const cat = q.get("category_id");
+        // GitHub has no lists for this playlist (its provider sent GitHub an empty answer, Dream4k 3 Nov 2026):
+        // DreamTV asks the provider itself instead of getting empty movie / series pages
+        const have = await fetch(REPO + "live-patch/" + PLAYLIST + "/" + kind + "_categories.json?v=" + Math.floor(Date.now() / 120000),
+          { cf: { cacheTtl: 120, cacheEverything: true } }).then(async (r) => r.ok && (await r.text()).length > 2).catch(() => false);
+        if (!have) return Response.redirect(`${PROVIDER}/player_api.php${url.search}`, 302);
         const f = action.endsWith("categories") ? `${kind}_categories.json` : cat ? `${kind}/${encodeURIComponent(cat)}.json`
           : kind === "vod" ? "vod_streams.json" : "series.json";
         const r = await fetch(REPO + "live-patch/" + PLAYLIST + "/" + f + "?v=" + Math.floor(Date.now() / 120000), { cf: { cacheTtl: 120, cacheEverything: true } });
