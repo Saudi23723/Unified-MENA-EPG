@@ -408,11 +408,6 @@
   <channel id="STC: STAR ACTION  [1080p]"><display-name>STC: STAR ACTION  [1080p]</display-name></channel>
   <channel id="STC: STAR MOVIES  [1080p]"><display-name>STC: STAR MOVIES  [1080p]</display-name></channel>
   <channel id="STC: STAR WORLD  [1080p]"><display-name>STC: STAR WORLD  [1080p]</display-name></channel>
-<programme start="20261103163000 +0000" stop="20261103164000 +0000" channel="ARA: 2M MONDE [1080p]">
-    <title lang="ar">صباحيات 2M</title>
-    <title lang="en">Sabahiyat 2M</title>
-    <desc lang="ar">‫‫يجيب أفراد فريق من الخبراء عن أسئلة المشاهدين في العديد من المواضيع مثل الصحة والجمال والموضة والطبخ.‬‬</desc>
-  </programme>
 <programme start="20261103164000 +0000" stop="20261103165000 +0000" channel="ARA: 2M MONDE [1080p]">
     <title lang="ar">أبطال البحار</title>
     <title lang="en">Abtal Al Behar</title>
@@ -852,6 +847,11 @@
     <title lang="ar">النشرة الاقتصادية</title>
     <title lang="en">Al Nashra Al Eqtisadiah</title>
     <desc lang="ar">‫‫يقوم خبراء ماليون بمقابلة العديد من صناع القرار لمناقشة مواضيع عامة متعلقة بالأعمال ومراجعة الأسواق الخليجية.‬‬</desc>
+  </programme>
+<programme start="20261105194500 +0000" stop="20261105201500 +0000" channel="ARA: 2M MONDE [1080p]">
+    <title lang="ar">المسائية</title>
+    <title lang="en">Al Massaiya</title>
+    <desc lang="en">‫‬</desc>
   </programme>
 <programme start="20261103160000 +0000" stop="20261103170000 +0000" channel="ARA: ABU DHABI TV [720p]">
     <title lang="en">Oloum Al-Dar</title>
@@ -5231,10 +5231,6 @@
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
 <programme start="20261105172530 +0000" stop="20261105173008 +0000" channel="ARA: AL KASS 1 [H265]"><title lang="ar">لم يُعلن البث — No listing published</title></programme>
-<programme start="20261103151500 +0000" stop="20261103164500 +0000" channel="ARA: AL KASS 7 [720p] (LIVE EVENT ONLY)">
-    <title lang="en">World Shooting Championships Studio</title>
-    <category lang="ar">الرياضة</category>
-  </programme>
 <programme start="20261103164500 +0000" stop="20261103171500 +0000" channel="ARA: AL KASS 7 [720p] (LIVE EVENT ONLY)">
     <title lang="en">Inside Line</title>
     <category lang="ar">الرياضة</category>
@@ -5525,13 +5521,6 @@
     <desc lang="ar">القناة: Alwan Sport 2
 المصدر: https://t.me/s/AlwanSports</desc>
   </programme>
-<programme start="20261103000000 +0300" stop="20261103164500 +0300" channel="ARA: ALWAN SPORT 2 [480p]">
-    <title lang="ar">التالي: أ.بنغال - السيب ‎⏰‎</title>
-    <category lang="en">Filler</category>
-    <desc lang="ar">المباراة القادمة على Alwan Sport 2:
-أ.بنغال - السيب
-‎Tue 3/11 16:45‎</desc>
-  </programme>
 <programme start="20261103184000 +0300" stop="20261103190000 +0300" channel="ARA: ALWAN SPORT 2 [480p]">
     <title lang="ar">التالي: أستقلال - الشمال ‎⏰‎</title>
     <category lang="en">Filler</category>
@@ -5574,13 +5563,6 @@
     <desc lang="ar">القناة: Alwan Sport 2
 المصدر: https://t.me/s/AlwanSports</desc>
   </programme>
-<programme start="20261103000000 +0300" stop="20261103164500 +0300" channel="ARA: ALWAN SPORT 2 [4K-Q]">
-    <title lang="ar">التالي: أ.بنغال - السيب ‎⏰‎</title>
-    <category lang="en">Filler</category>
-    <desc lang="ar">المباراة القادمة على Alwan Sport 2:
-أ.بنغال - السيب
-‎Tue 3/11 16:45‎</desc>
-  </programme>
 <programme start="20261103184000 +0300" stop="20261103190000 +0300" channel="ARA: ALWAN SPORT 2 [4K-Q]">
     <title lang="ar">التالي: أستقلال - الشمال ‎⏰‎</title>
     <category lang="en">Filler</category>
@@ -5622,13 +5604,6 @@
     <category lang="en">Sports</category>
     <desc lang="ar">القناة: Alwan Sport 2
 المصدر: https://t.me/s/AlwanSports</desc>
-  </programme>
-<programme start="20261103000000 +0300" stop="20261103164500 +0300" channel="ARA: ALWAN SPORT 2 [720p]">
-    <title lang="ar">التالي: أ.بنغال - السيب ‎⏰‎</title>
-    <category lang="en">Filler</category>
-    <desc lang="ar">المباراة القادمة على Alwan Sport 2:
-أ.بنغال - السيب
-‎Tue 3/11 16:45‎</desc>
   </programme>
 <programme start="20261103184000 +0300" stop="20261103190000 +0300" channel="ARA: ALWAN SPORT 2 [720p]">
     <title lang="ar">التالي: أستقلال - الشمال ‎⏰‎</title>
@@ -13559,6 +13534,10 @@
     <title lang="en">To Catch a Smuggler: Tropical Takedown</title>
     <desc lang="en">To Catch a Smuggler: Tropical Takedown 1</desc>
   </programme>
+<programme start="20261105194000 +0000" stop="20261105200000 +0000" channel="ARA: AD NAT GEO [720p]">
+    <title lang="en">Trials of The Wild</title>
+    <desc lang="en">Trials of The Wild 1</desc>
+  </programme>
 <programme start="20261103160000 +0000" stop="20261103170000 +0000" channel="STC: NAT. GEO. AD  [1080p]">
     <title lang="en">Lost Beasts Unearthed</title>
     <desc lang="en">Lost Beasts Unearthed 1</desc>
@@ -13842,6 +13821,10 @@
 <programme start="20261105190000 +0000" stop="20261105194000 +0000" channel="STC: NAT. GEO. AD  [1080p]">
     <title lang="en">To Catch a Smuggler: Tropical Takedown</title>
     <desc lang="en">To Catch a Smuggler: Tropical Takedown 1</desc>
+  </programme>
+<programme start="20261105194000 +0000" stop="20261105200000 +0000" channel="STC: NAT. GEO. AD  [1080p]">
+    <title lang="en">Trials of The Wild</title>
+    <desc lang="en">Trials of The Wild 1</desc>
   </programme>
 <programme start="20261102220000 +0000" stop="20261103190000 +0000" channel="ARA: ON SPORT 1 [1080p]">
     <title lang="ar">⏰ التالي اليوم · سموحة - بيراميدز</title>
@@ -16534,10 +16517,6 @@
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
 <programme start="20261105172438 +0000" stop="20261105173008 +0000" channel="OSN: MOVIES ACTION [1080p]"><title lang="ar">لم يُعلن البث — No listing published</title></programme>
-<programme start="20261103151000 +0000" stop="20261103164500 +0000" channel="OSN: MOVIES FAMILY [1080p]">
-    <title lang="en">Megamind</title>
-    <desc lang="en">Following the destruction of his home planet by a blackhole, the 8-day-old alien genius Megamind (Will Ferrell) arrives on Earth. However Megamind does not find much affection among the citizens of Earth and grows up to become quite a bitter individual. In particular Megamind is envious of the attention and praise that is showered on Metro Man (Brad Pitt) who repeatedly saves Metro City.</desc>
-  </programme>
 <programme start="20261103164500 +0000" stop="20261103182500 +0000" channel="OSN: MOVIES FAMILY [1080p]">
     <title lang="en">Happy Feet Two</title>
     <desc lang="en">In this sequel, the penguin Mumble gives birth to a small penguin Erik, who does not like dancing and singing as his father, but wishes to fly. Many adventures happen when they are attacked by strange forces, but by uniting they can overcome the difficulties.</desc>
@@ -17491,10 +17470,6 @@
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
 <programme start="20261105172438 +0000" stop="20261105173008 +0000" channel="OSN: SHOWCASE [1080p]"><title lang="ar">لم يُعلن البث — No listing published</title></programme>
-<programme start="20261103155500 +0000" stop="20261103164500 +0000" channel="OSN: TLC [1080p]">
-    <title lang="en">The Family Chantel:Two Households, Both Alike</title>
-    <desc lang="en">The lives of Chantel and Pedro - and their lively in-laws. They have weathered major ups and downs involving everything, from feisty family members to their own trust issues. What will the future hold as they try and navigate married life together?</desc>
-  </programme>
 <programme start="20261103164500 +0000" stop="20261103171000 +0000" channel="OSN: TLC [1080p]">
     <title lang="en">Kitchen Boss:Soup And Panini</title>
     <desc lang="en">In this show Paddy prepares favourite recipes of his family for everyone to enjoy.</desc>
@@ -17739,10 +17714,6 @@
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
 <programme start="20261105172438 +0000" stop="20261105173008 +0000" channel="OSN: TLC [1080p]"><title lang="ar">لم يُعلن البث — No listing published</title></programme>
-<programme start="20261103155500 +0000" stop="20261103164500 +0000" channel="STC: TLC  [1080p]">
-    <title lang="en">The Family Chantel:Two Households, Both Alike</title>
-    <desc lang="en">The lives of Chantel and Pedro - and their lively in-laws. They have weathered major ups and downs involving everything, from feisty family members to their own trust issues. What will the future hold as they try and navigate married life together?</desc>
-  </programme>
 <programme start="20261103164500 +0000" stop="20261103171000 +0000" channel="STC: TLC  [1080p]">
     <title lang="en">Kitchen Boss:Soup And Panini</title>
     <desc lang="en">In this show Paddy prepares favourite recipes of his family for everyone to enjoy.</desc>
@@ -17987,10 +17958,6 @@
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
 <programme start="20261105172438 +0000" stop="20261105173008 +0000" channel="STC: TLC  [1080p]"><title lang="ar">لم يُعلن البث — No listing published</title></programme>
-<programme start="20261103155500 +0000" stop="20261103164500 +0000" channel="SW: TLC [1080p]">
-    <title lang="en">The Family Chantel:Two Households, Both Alike</title>
-    <desc lang="en">The lives of Chantel and Pedro - and their lively in-laws. They have weathered major ups and downs involving everything, from feisty family members to their own trust issues. What will the future hold as they try and navigate married life together?</desc>
-  </programme>
 <programme start="20261103164500 +0000" stop="20261103171000 +0000" channel="SW: TLC [1080p]">
     <title lang="en">Kitchen Boss:Soup And Panini</title>
     <desc lang="en">In this show Paddy prepares favourite recipes of his family for everyone to enjoy.</desc>
@@ -18235,10 +18202,6 @@
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
 <programme start="20261105172438 +0000" stop="20261105173008 +0000" channel="SW: TLC [1080p]"><title lang="ar">لم يُعلن البث — No listing published</title></programme>
-<programme start="20261103155500 +0000" stop="20261103164500 +0000" channel="UK: TLC [H265] [1080p]">
-    <title lang="en">The Family Chantel:Two Households, Both Alike</title>
-    <desc lang="en">The lives of Chantel and Pedro - and their lively in-laws. They have weathered major ups and downs involving everything, from feisty family members to their own trust issues. What will the future hold as they try and navigate married life together?</desc>
-  </programme>
 <programme start="20261103164500 +0000" stop="20261103171000 +0000" channel="UK: TLC [H265] [1080p]">
     <title lang="en">Kitchen Boss:Soup And Panini</title>
     <desc lang="en">In this show Paddy prepares favourite recipes of his family for everyone to enjoy.</desc>
@@ -18483,10 +18446,6 @@
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
 <programme start="20261105172438 +0000" stop="20261105173008 +0000" channel="UK: TLC [H265] [1080p]"><title lang="ar">لم يُعلن البث — No listing published</title></programme>
-<programme start="20261103155500 +0000" stop="20261103164500 +0000" channel="UK: TLC [H265] [720p]">
-    <title lang="en">The Family Chantel:Two Households, Both Alike</title>
-    <desc lang="en">The lives of Chantel and Pedro - and their lively in-laws. They have weathered major ups and downs involving everything, from feisty family members to their own trust issues. What will the future hold as they try and navigate married life together?</desc>
-  </programme>
 <programme start="20261103164500 +0000" stop="20261103171000 +0000" channel="UK: TLC [H265] [720p]">
     <title lang="en">Kitchen Boss:Soup And Panini</title>
     <desc lang="en">In this show Paddy prepares favourite recipes of his family for everyone to enjoy.</desc>
@@ -18731,10 +18690,6 @@
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
 <programme start="20261105172438 +0000" stop="20261105173008 +0000" channel="UK: TLC [H265] [720p]"><title lang="ar">لم يُعلن البث — No listing published</title></programme>
-<programme start="20261103155500 +0000" stop="20261103164500 +0000" channel="USA: TLC WEST [1080p]">
-    <title lang="en">The Family Chantel:Two Households, Both Alike</title>
-    <desc lang="en">The lives of Chantel and Pedro - and their lively in-laws. They have weathered major ups and downs involving everything, from feisty family members to their own trust issues. What will the future hold as they try and navigate married life together?</desc>
-  </programme>
 <programme start="20261103164500 +0000" stop="20261103171000 +0000" channel="USA: TLC WEST [1080p]">
     <title lang="en">Kitchen Boss:Soup And Panini</title>
     <desc lang="en">In this show Paddy prepares favourite recipes of his family for everyone to enjoy.</desc>
@@ -18979,10 +18934,6 @@
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
 <programme start="20261105172438 +0000" stop="20261105173008 +0000" channel="USA: TLC WEST [1080p]"><title lang="ar">لم يُعلن البث — No listing published</title></programme>
-<programme start="20261103155500 +0000" stop="20261103164500 +0000" channel="USA: TLC [720p]">
-    <title lang="en">The Family Chantel:Two Households, Both Alike</title>
-    <desc lang="en">The lives of Chantel and Pedro - and their lively in-laws. They have weathered major ups and downs involving everything, from feisty family members to their own trust issues. What will the future hold as they try and navigate married life together?</desc>
-  </programme>
 <programme start="20261103164500 +0000" stop="20261103171000 +0000" channel="USA: TLC [720p]">
     <title lang="en">Kitchen Boss:Soup And Panini</title>
     <desc lang="en">In this show Paddy prepares favourite recipes of his family for everyone to enjoy.</desc>
@@ -21617,9 +21568,8 @@
     <title lang="ar">فترة الاطفال - اينا مينا ديكا</title>
     <desc lang="ar">ثعلب يطارد ثلاثة دجاجات اينا مينا ديكا وسط مواقف كوميدية شيقة هل تنجح الدجاجات بالإفلات وهل ييأس الثعلب من المطاردة؟</desc>
   </programme>
-<programme start="20261103162558 +0000" stop="20261103164454 +0000" channel="ARA: ROYA KITCHEN [1080p]">
-    <title lang="ar">مطبخ رؤيا - نصائح صحية</title>
-    <desc lang="ar">فقرة نصائح صحية ضمن مطبخ رؤيا تتحدث عن أهم النصائح الصحية، وطريقة الاهتمام بالتغذية السليمة للحفاظ على الصحية والوقاية من الأمراض.</desc>
+<programme start="20261105194022 +0000" stop="20261105203216 +0000" channel="ARA: ROYA KIDS [1080p]">
+    <title lang="ar">الموسم السابع</title>
   </programme>
 <programme start="20261103164454 +0000" stop="20261103165319 +0000" channel="ARA: ROYA KITCHEN [1080p]">
     <title lang="ar">مطبخ رؤيا مع نبيل - موسم 2022</title>
@@ -22276,6 +22226,10 @@
 <programme start="20261105193350 +0000" stop="20261105194215 +0000" channel="ARA: ROYA KITCHEN [1080p]">
     <title lang="ar">مطبخ رؤيا مع نبيل - موسم 2022</title>
     <desc lang="ar">برنامج طبخ حي من تقديم الشيف نضال البريحي يتضمن عرض لاشهر الوصفات المحلية والعربيه و العالميه بالاضافة الى الوصفات الرمضانية، يحتوي على عدة فقرات مرتبطة بالمطبخ وبعض التقارير المميزة</desc>
+  </programme>
+<programme start="20261105194215 +0000" stop="20261105200314 +0000" channel="ARA: ROYA KITCHEN [1080p]">
+    <title lang="ar">مطبخ رؤيا - سلطات</title>
+    <desc lang="ar">انواع سلطات مختلفة ولذيذة ضمن مطبخ رؤيا.</desc>
   </programme>
 <programme start="20261104215614 +0000" stop="20261104220000 +0000" channel="ARA: ROYA KITCHEN [1080p]">
     <title lang="ar">لم يُعلن البث — No listing published</title>
@@ -24483,6 +24437,11 @@
     <title lang="en">Antom Al Mostaqbal</title>
     <desc lang="en">‫‬</desc>
   </programme>
+<programme start="20261105194500 +0000" stop="20261105200000 +0000" channel="ARA: SHARQIA [1080p]">
+    <title lang="ar">من الجامعة</title>
+    <title lang="en">Men Al Jameaa</title>
+    <desc lang="ar">‫‫يسلط الراوي الضوء على مجموعة من المواضيع والقضايا المثيرة لاهتمام طلاب الجامعات، ويقدم العديد من النصائح والمعلومات التي تساعدهم في حياتهم.‬‬</desc>
+  </programme>
 <programme start="20261103162800 +0000" stop="20261103170000 +0000" channel="STC: SHARQIYA FROM KALBA  [1080p]">
     <title lang="ar">مغاصات الشرقية</title>
     <title lang="en">Maghasaat Al Sharqeyyah</title>
@@ -24952,6 +24911,11 @@
     <title lang="ar">أنتم المستقبل</title>
     <title lang="en">Antom Al Mostaqbal</title>
     <desc lang="en">‫‬</desc>
+  </programme>
+<programme start="20261105194500 +0000" stop="20261105200000 +0000" channel="STC: SHARQIYA FROM KALBA  [1080p]">
+    <title lang="ar">من الجامعة</title>
+    <title lang="en">Men Al Jameaa</title>
+    <desc lang="ar">‫‫يسلط الراوي الضوء على مجموعة من المواضيع والقضايا المثيرة لاهتمام طلاب الجامعات، ويقدم العديد من النصائح والمعلومات التي تساعدهم في حياتهم.‬‬</desc>
   </programme>
 <programme start="20261103163000 +0000" stop="20261103170000 +0000" channel="STC: SPACETOON  [1080p]">
     <title lang="ar">إغ إينجلز كوكوتاما</title>
@@ -32964,6 +32928,12 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
     <category lang="ar">بطولة العالم للفورمولا وان</category>
     <category lang="en">Formula One World Championship</category>
   </programme>
+<programme start="20261105194500 +0000" stop="20261105213000 +0000" channel="ARA: BEIN SPORTS [4K-Q]/[4K-Q] [EVENT]">
+    <title lang="en">PSG vs Lyon - 4K - French Ligue 1 2026/2027</title>
+    <desc lang="en">All 306 matches from the Ligue 1 2026 – 2027 season are live and exclusive only on beIN SPORTS. Paris Saint-Germain are the defending Champions having secured their historic 14th top-flight title last season.</desc>
+    <category lang="ar">الدوري الفرنسي</category>
+    <category lang="en">French League - Ligue 1</category>
+  </programme>
 <programme start="20261103143700 +0000" stop="20261103173700 +0000" channel="BE: BEIN [4K-Q]  [[4K-Q]-Q] [[4K-Q]-Q]">
     <title lang="en">F1 Mexico Grand Prix - 2026 - Main Race - FIA Formula 1 World Championship 2026</title>
     <desc lang="en">24 Grand Prix from the Formula 1 Season are live and exclusive only on beIN.
@@ -33161,6 +33131,12 @@ The 2026 season will consist of 6 Sprint Races within the 24 weekends.
 For the first time 11 Teams and 22 Drivers will compete to win the World Formula 1 Championships for</desc>
     <category lang="ar">بطولة العالم للفورمولا وان</category>
     <category lang="en">Formula One World Championship</category>
+  </programme>
+<programme start="20261105194500 +0000" stop="20261105213000 +0000" channel="BE: BEIN [4K-Q]  [[4K-Q]-Q] [[4K-Q]-Q]">
+    <title lang="en">PSG vs Lyon - 4K - French Ligue 1 2026/2027</title>
+    <desc lang="en">All 306 matches from the Ligue 1 2026 – 2027 season are live and exclusive only on beIN SPORTS. Paris Saint-Germain are the defending Champions having secured their historic 14th top-flight title last season.</desc>
+    <category lang="ar">الدوري الفرنسي</category>
+    <category lang="en">French League - Ligue 1</category>
   </programme>
 <programme start="20261103143700 +0000" stop="20261103173700 +0000" channel="NM: BEIN [4K-Q]  [[4K-Q]-Q] [[4K-Q]-Q]">
     <title lang="en">F1 Mexico Grand Prix - 2026 - Main Race - FIA Formula 1 World Championship 2026</title>
@@ -33360,6 +33336,12 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
     <category lang="ar">بطولة العالم للفورمولا وان</category>
     <category lang="en">Formula One World Championship</category>
   </programme>
+<programme start="20261105194500 +0000" stop="20261105213000 +0000" channel="NM: BEIN [4K-Q]  [[4K-Q]-Q] [[4K-Q]-Q]">
+    <title lang="en">PSG vs Lyon - 4K - French Ligue 1 2026/2027</title>
+    <desc lang="en">All 306 matches from the Ligue 1 2026 – 2027 season are live and exclusive only on beIN SPORTS. Paris Saint-Germain are the defending Champions having secured their historic 14th top-flight title last season.</desc>
+    <category lang="ar">الدوري الفرنسي</category>
+    <category lang="en">French League - Ligue 1</category>
+  </programme>
 <programme start="20261103143700 +0000" stop="20261103173700 +0000" channel="SS: BEIN [4K-Q]  [[4K-Q]-Q] [[4K-Q]-Q]">
     <title lang="en">F1 Mexico Grand Prix - 2026 - Main Race - FIA Formula 1 World Championship 2026</title>
     <desc lang="en">24 Grand Prix from the Formula 1 Season are live and exclusive only on beIN.
@@ -33557,6 +33539,12 @@ The 2026 season will consist of 6 Sprint Races within the 24 weekends.
 For the first time 11 Teams and 22 Drivers will compete to win the World Formula 1 Championships for</desc>
     <category lang="ar">بطولة العالم للفورمولا وان</category>
     <category lang="en">Formula One World Championship</category>
+  </programme>
+<programme start="20261105194500 +0000" stop="20261105213000 +0000" channel="SS: BEIN [4K-Q]  [[4K-Q]-Q] [[4K-Q]-Q]">
+    <title lang="en">PSG vs Lyon - 4K - French Ligue 1 2026/2027</title>
+    <desc lang="en">All 306 matches from the Ligue 1 2026 – 2027 season are live and exclusive only on beIN SPORTS. Paris Saint-Germain are the defending Champions having secured their historic 14th top-flight title last season.</desc>
+    <category lang="ar">الدوري الفرنسي</category>
+    <category lang="en">French League - Ligue 1</category>
   </programme>
 <programme start="20261103143700 +0000" stop="20261103173700 +0000" channel="USA: BEIN SPORTS [720p]">
     <title lang="en">F1 Mexico Grand Prix - 2026 - Main Race - FIA Formula 1 World Championship 2026</title>
@@ -33756,6 +33744,12 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
     <category lang="ar">بطولة العالم للفورمولا وان</category>
     <category lang="en">Formula One World Championship</category>
   </programme>
+<programme start="20261105194500 +0000" stop="20261105213000 +0000" channel="USA: BEIN SPORTS [720p]">
+    <title lang="en">PSG vs Lyon - 4K - French Ligue 1 2026/2027</title>
+    <desc lang="en">All 306 matches from the Ligue 1 2026 – 2027 season are live and exclusive only on beIN SPORTS. Paris Saint-Germain are the defending Champions having secured their historic 14th top-flight title last season.</desc>
+    <category lang="ar">الدوري الفرنسي</category>
+    <category lang="en">French League - Ligue 1</category>
+  </programme>
 <programme start="20261103143700 +0000" stop="20261103173700 +0000" channel="[4K-Q]: BEIN [4K-Q]  [[4K-Q]-Q] [[4K-Q]-Q]">
     <title lang="en">F1 Mexico Grand Prix - 2026 - Main Race - FIA Formula 1 World Championship 2026</title>
     <desc lang="en">24 Grand Prix from the Formula 1 Season are live and exclusive only on beIN.
@@ -33953,6 +33947,12 @@ The 2026 season will consist of 6 Sprint Races within the 24 weekends.
 For the first time 11 Teams and 22 Drivers will compete to win the World Formula 1 Championships for</desc>
     <category lang="ar">بطولة العالم للفورمولا وان</category>
     <category lang="en">Formula One World Championship</category>
+  </programme>
+<programme start="20261105194500 +0000" stop="20261105213000 +0000" channel="[4K-Q]: BEIN [4K-Q]  [[4K-Q]-Q] [[4K-Q]-Q]">
+    <title lang="en">PSG vs Lyon - 4K - French Ligue 1 2026/2027</title>
+    <desc lang="en">All 306 matches from the Ligue 1 2026 – 2027 season are live and exclusive only on beIN SPORTS. Paris Saint-Germain are the defending Champions having secured their historic 14th top-flight title last season.</desc>
+    <category lang="ar">الدوري الفرنسي</category>
+    <category lang="en">French League - Ligue 1</category>
   </programme>
 <programme start="20261103160000 +0000" stop="20261103165000 +0000" channel="TUBI: BBC EARTH  [1080p]">
     <title lang="ar">إنكريديبل جيرنيز ويذ سايمون ريف</title>
@@ -34250,10 +34250,6 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
 <programme start="20261105172154 +0000" stop="20261105173008 +0000" channel="STC: CN ARABIC  [1080p]"><title lang="ar">لم يُعلن البث — No listing published</title></programme>
-<programme start="20261103163500 +0000" stop="20261103164000 +0000" channel="IT: CARTOONITO [1080p]">
-    <title lang="ar">بيبي ليمينجس</title>
-    <category lang="ar">ترفيه</category>
-  </programme>
 <programme start="20261103164000 +0000" stop="20261103165500 +0000" channel="IT: CARTOONITO [1080p]">
     <title lang="ar">بيبي ليمينجس</title>
     <category lang="ar">ترفيه</category>
@@ -34418,10 +34414,6 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
 <programme start="20261105172154 +0000" stop="20261105173008 +0000" channel="IT: CARTOONITO [1080p]"><title lang="ar">لم يُعلن البث — No listing published</title></programme>
-<programme start="20261103163500 +0000" stop="20261103164000 +0000" channel="STC: CARTOONITO  [1080p]">
-    <title lang="ar">بيبي ليمينجس</title>
-    <category lang="ar">ترفيه</category>
-  </programme>
 <programme start="20261103164000 +0000" stop="20261103165500 +0000" channel="STC: CARTOONITO  [1080p]">
     <title lang="ar">بيبي ليمينجس</title>
     <category lang="ar">ترفيه</category>
@@ -35710,10 +35702,6 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
 <programme start="20261105172154 +0000" stop="20261105173008 +0000" channel="SW: DISNEY CHANNEL [1080p]"><title lang="ar">لم يُعلن البث — No listing published</title></programme>
-<programme start="20261103161500 +0000" stop="20261103164000 +0000" channel="OSN: DISNEY JUNIOR [1080p]">
-    <title lang="ar">الأميرة صوفيا</title>
-    <category lang="ar">ترفيه</category>
-  </programme>
 <programme start="20261103164000 +0000" stop="20261103165500 +0000" channel="OSN: DISNEY JUNIOR [1080p]">
     <title lang="ar">أيرون مان وأصدقاؤه المذهلون</title>
     <category lang="ar">ترفيه</category>
@@ -35842,10 +35830,6 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
 <programme start="20261105172154 +0000" stop="20261105173008 +0000" channel="OSN: DISNEY JUNIOR [1080p]"><title lang="ar">لم يُعلن البث — No listing published</title></programme>
-<programme start="20261103161500 +0000" stop="20261103164000 +0000" channel="STC: DISNEY JUNIOR  [1080p]">
-    <title lang="ar">الأميرة صوفيا</title>
-    <category lang="ar">ترفيه</category>
-  </programme>
 <programme start="20261103164000 +0000" stop="20261103165500 +0000" channel="STC: DISNEY JUNIOR  [1080p]">
     <title lang="ar">أيرون مان وأصدقاؤه المذهلون</title>
     <category lang="ar">ترفيه</category>
@@ -36370,10 +36354,6 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
 <programme start="20261105172154 +0000" stop="20261105173008 +0000" channel="USA: NAT GEO [720p]"><title lang="ar">لم يُعلن البث — No listing published</title></programme>
-<programme start="20261103143000 +0000" stop="20261103164500 +0000" channel="STC: NAT. GEO. WILD  [1080p]">
-    <title lang="ar">وايلد، سمارت آند ديدلي</title>
-    <category lang="ar">ترفيه</category>
-  </programme>
 <programme start="20261103164500 +0000" stop="20261103173000 +0000" channel="STC: NAT. GEO. WILD  [1080p]">
     <title lang="ar">جريدوس - كينج أوف ذا ماونتنز</title>
     <category lang="ar">ترفيه</category>
@@ -36418,10 +36398,6 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
 <programme start="20261105172154 +0000" stop="20261105173008 +0000" channel="STC: NAT. GEO. WILD  [1080p]"><title lang="ar">لم يُعلن البث — No listing published</title></programme>
-<programme start="20261103143000 +0000" stop="20261103164500 +0000" channel="USA: NAT GEO WILD [720p]">
-    <title lang="ar">وايلد، سمارت آند ديدلي</title>
-    <category lang="ar">ترفيه</category>
-  </programme>
 <programme start="20261103164500 +0000" stop="20261103173000 +0000" channel="USA: NAT GEO WILD [720p]">
     <title lang="ar">جريدوس - كينج أوف ذا ماونتنز</title>
     <category lang="ar">ترفيه</category>
@@ -37254,12 +37230,6 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
 <programme start="20261104184500 +0000" stop="20261104190000 +0000" channel="TR: BEIN SPORTS HABER [720p] (BK)">
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
-<programme start="20261103154500 +0000" stop="20261103164500 +0000" channel="ARA: BEIN SPORTS GLOBAL [1080p]">
-    <title lang="en">Highlights Dakar 2026 Summer Youth Olympic Games</title>
-    <desc lang="en">the most important moments of the DAKAR 2026 Summer Youth Olympic Games (Day 2)</desc>
-    <category lang="ar">ترفيه</category>
-    <category lang="en">Entertainment</category>
-  </programme>
 <programme start="20261103164500 +0000" stop="20261103182800 +0000" channel="ARA: BEIN SPORTS GLOBAL [1080p]">
     <title lang="en">Swimming - 2026 Youth Olympic Games – Dakar</title>
     <desc lang="en">The Dakar 2026 Summer Youth Olympic Games take place from 31 October to 13 November 2026 in Senegal. The Dakar 2026 Summer Youth Olympic Games will be the first-ever Olympic event hosted in Africa.</desc>
@@ -37496,12 +37466,6 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
     <category lang="en">Live</category>
     <category lang="en">Volleyball</category>
   </programme>
-<programme start="20261103154500 +0000" stop="20261103164500 +0000" channel="ARA: BEIN SPORTS GLOBAL [720p]">
-    <title lang="en">Highlights Dakar 2026 Summer Youth Olympic Games</title>
-    <desc lang="en">the most important moments of the DAKAR 2026 Summer Youth Olympic Games (Day 2)</desc>
-    <category lang="ar">ترفيه</category>
-    <category lang="en">Entertainment</category>
-  </programme>
 <programme start="20261103164500 +0000" stop="20261103182800 +0000" channel="ARA: BEIN SPORTS GLOBAL [720p]">
     <title lang="en">Swimming - 2026 Youth Olympic Games – Dakar</title>
     <desc lang="en">The Dakar 2026 Summer Youth Olympic Games take place from 31 October to 13 November 2026 in Senegal. The Dakar 2026 Summer Youth Olympic Games will be the first-ever Olympic event hosted in Africa.</desc>
@@ -37737,12 +37701,6 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
     <category lang="ar">الكرة الطائرة</category>
     <category lang="en">Live</category>
     <category lang="en">Volleyball</category>
-  </programme>
-<programme start="20261103154500 +0000" stop="20261103164500 +0000" channel="BEIN SPORTS GLOBAL  [[4K-Q]-Q]">
-    <title lang="en">Highlights Dakar 2026 Summer Youth Olympic Games</title>
-    <desc lang="en">the most important moments of the DAKAR 2026 Summer Youth Olympic Games (Day 2)</desc>
-    <category lang="ar">ترفيه</category>
-    <category lang="en">Entertainment</category>
   </programme>
 <programme start="20261103164500 +0000" stop="20261103182800 +0000" channel="BEIN SPORTS GLOBAL  [[4K-Q]-Q]">
     <title lang="en">Swimming - 2026 Youth Olympic Games – Dakar</title>
@@ -53362,12 +53320,6 @@ Morodok Techo National Stadium Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">UEFA Europa League</category>
   </programme>
-<programme start="20261103150000 +0000" stop="20261103164500 +0000" channel="ARA: BEIN SPORTS 4 [1080p]">
-    <title lang="en">Havre AC vs PSG - French Ligue 1 2026/2027 - Week 9</title>
-    <desc lang="en">All 306 matches from the Ligue 1 2026 – 2027 season are live and exclusive only on beIN SPORTS. Paris Saint-Germain are the defending Champions having secured their historic 14th top-flight title last season.</desc>
-    <category lang="ar">الدوري الفرنسي</category>
-    <category lang="en">French League - Ligue 1</category>
-  </programme>
 <programme start="20261103164500 +0000" stop="20261103171500 +0000" channel="ARA: BEIN SPORTS 4 [1080p]">
     <title lang="en">Ligue 1 Weekly Review - 2026/2027</title>
     <desc lang="en">Every game, goal, penalty, red card and everything in between is squeezed into this Ligue 1 weekly show to ensure no football fan misses a kick across the game season.</desc>
@@ -53580,12 +53532,6 @@ True BG Stadium Stadium</desc>
     <category lang="ar">الدوري الأوروبي</category>
     <category lang="en">Live</category>
     <category lang="en">UEFA Europa League</category>
-  </programme>
-<programme start="20261103150000 +0000" stop="20261103164500 +0000" channel="ARA: BEIN SPORTS 4 [720p]">
-    <title lang="en">Havre AC vs PSG - French Ligue 1 2026/2027 - Week 9</title>
-    <desc lang="en">All 306 matches from the Ligue 1 2026 – 2027 season are live and exclusive only on beIN SPORTS. Paris Saint-Germain are the defending Champions having secured their historic 14th top-flight title last season.</desc>
-    <category lang="ar">الدوري الفرنسي</category>
-    <category lang="en">French League - Ligue 1</category>
   </programme>
 <programme start="20261103164500 +0000" stop="20261103171500 +0000" channel="ARA: BEIN SPORTS 4 [720p]">
     <title lang="en">Ligue 1 Weekly Review - 2026/2027</title>
@@ -53800,12 +53746,6 @@ True BG Stadium Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">UEFA Europa League</category>
   </programme>
-<programme start="20261103150000 +0000" stop="20261103164500 +0000" channel="ARA: BEIN SPORTS 4 [H265]">
-    <title lang="en">Havre AC vs PSG - French Ligue 1 2026/2027 - Week 9</title>
-    <desc lang="en">All 306 matches from the Ligue 1 2026 – 2027 season are live and exclusive only on beIN SPORTS. Paris Saint-Germain are the defending Champions having secured their historic 14th top-flight title last season.</desc>
-    <category lang="ar">الدوري الفرنسي</category>
-    <category lang="en">French League - Ligue 1</category>
-  </programme>
 <programme start="20261103164500 +0000" stop="20261103171500 +0000" channel="ARA: BEIN SPORTS 4 [H265]">
     <title lang="en">Ligue 1 Weekly Review - 2026/2027</title>
     <desc lang="en">Every game, goal, penalty, red card and everything in between is squeezed into this Ligue 1 weekly show to ensure no football fan misses a kick across the game season.</desc>
@@ -54018,12 +53958,6 @@ True BG Stadium Stadium</desc>
     <category lang="ar">الدوري الأوروبي</category>
     <category lang="en">Live</category>
     <category lang="en">UEFA Europa League</category>
-  </programme>
-<programme start="20261103150000 +0000" stop="20261103164500 +0000" channel="ARA: BEIN SPORTS 4 [[4K-Q]-Q]">
-    <title lang="en">Havre AC vs PSG - French Ligue 1 2026/2027 - Week 9</title>
-    <desc lang="en">All 306 matches from the Ligue 1 2026 – 2027 season are live and exclusive only on beIN SPORTS. Paris Saint-Germain are the defending Champions having secured their historic 14th top-flight title last season.</desc>
-    <category lang="ar">الدوري الفرنسي</category>
-    <category lang="en">French League - Ligue 1</category>
   </programme>
 <programme start="20261103164500 +0000" stop="20261103171500 +0000" channel="ARA: BEIN SPORTS 4 [[4K-Q]-Q]">
     <title lang="en">Ligue 1 Weekly Review - 2026/2027</title>
@@ -54238,12 +54172,6 @@ True BG Stadium Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">UEFA Europa League</category>
   </programme>
-<programme start="20261103150000 +0000" stop="20261103164500 +0000" channel="BEIN SPORT TOD 4 [1080p]">
-    <title lang="en">Havre AC vs PSG - French Ligue 1 2026/2027 - Week 9</title>
-    <desc lang="en">All 306 matches from the Ligue 1 2026 – 2027 season are live and exclusive only on beIN SPORTS. Paris Saint-Germain are the defending Champions having secured their historic 14th top-flight title last season.</desc>
-    <category lang="ar">الدوري الفرنسي</category>
-    <category lang="en">French League - Ligue 1</category>
-  </programme>
 <programme start="20261103164500 +0000" stop="20261103171500 +0000" channel="BEIN SPORT TOD 4 [1080p]">
     <title lang="en">Ligue 1 Weekly Review - 2026/2027</title>
     <desc lang="en">Every game, goal, penalty, red card and everything in between is squeezed into this Ligue 1 weekly show to ensure no football fan misses a kick across the game season.</desc>
@@ -54456,12 +54384,6 @@ True BG Stadium Stadium</desc>
     <category lang="ar">الدوري الأوروبي</category>
     <category lang="en">Live</category>
     <category lang="en">UEFA Europa League</category>
-  </programme>
-<programme start="20261103150000 +0000" stop="20261103164500 +0000" channel="BEIN SPORTS4  [[4K-Q]-Q]">
-    <title lang="en">Havre AC vs PSG - French Ligue 1 2026/2027 - Week 9</title>
-    <desc lang="en">All 306 matches from the Ligue 1 2026 – 2027 season are live and exclusive only on beIN SPORTS. Paris Saint-Germain are the defending Champions having secured their historic 14th top-flight title last season.</desc>
-    <category lang="ar">الدوري الفرنسي</category>
-    <category lang="en">French League - Ligue 1</category>
   </programme>
 <programme start="20261103164500 +0000" stop="20261103171500 +0000" channel="BEIN SPORTS4  [[4K-Q]-Q]">
     <title lang="en">Ligue 1 Weekly Review - 2026/2027</title>
@@ -54676,12 +54598,6 @@ True BG Stadium Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">UEFA Europa League</category>
   </programme>
-<programme start="20261103150000 +0000" stop="20261103164500 +0000" channel="BEIN SPORTS4  [[4K-Q]-Q] [4K-Q]">
-    <title lang="en">Havre AC vs PSG - French Ligue 1 2026/2027 - Week 9</title>
-    <desc lang="en">All 306 matches from the Ligue 1 2026 – 2027 season are live and exclusive only on beIN SPORTS. Paris Saint-Germain are the defending Champions having secured their historic 14th top-flight title last season.</desc>
-    <category lang="ar">الدوري الفرنسي</category>
-    <category lang="en">French League - Ligue 1</category>
-  </programme>
 <programme start="20261103164500 +0000" stop="20261103171500 +0000" channel="BEIN SPORTS4  [[4K-Q]-Q] [4K-Q]">
     <title lang="en">Ligue 1 Weekly Review - 2026/2027</title>
     <desc lang="en">Every game, goal, penalty, red card and everything in between is squeezed into this Ligue 1 weekly show to ensure no football fan misses a kick across the game season.</desc>
@@ -54894,12 +54810,6 @@ True BG Stadium Stadium</desc>
     <category lang="ar">الدوري الأوروبي</category>
     <category lang="en">Live</category>
     <category lang="en">UEFA Europa League</category>
-  </programme>
-<programme start="20261103150000 +0000" stop="20261103164500 +0000" channel="BEIN SPORTS4 G [[4K-Q]-Q]">
-    <title lang="en">Havre AC vs PSG - French Ligue 1 2026/2027 - Week 9</title>
-    <desc lang="en">All 306 matches from the Ligue 1 2026 – 2027 season are live and exclusive only on beIN SPORTS. Paris Saint-Germain are the defending Champions having secured their historic 14th top-flight title last season.</desc>
-    <category lang="ar">الدوري الفرنسي</category>
-    <category lang="en">French League - Ligue 1</category>
   </programme>
 <programme start="20261103164500 +0000" stop="20261103171500 +0000" channel="BEIN SPORTS4 G [[4K-Q]-Q]">
     <title lang="en">Ligue 1 Weekly Review - 2026/2027</title>
@@ -55114,12 +55024,6 @@ True BG Stadium Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">UEFA Europa League</category>
   </programme>
-<programme start="20261103150000 +0000" stop="20261103164500 +0000" channel="CAN: BEIN SPORTS 4 [720p]">
-    <title lang="en">Havre AC vs PSG - French Ligue 1 2026/2027 - Week 9</title>
-    <desc lang="en">All 306 matches from the Ligue 1 2026 – 2027 season are live and exclusive only on beIN SPORTS. Paris Saint-Germain are the defending Champions having secured their historic 14th top-flight title last season.</desc>
-    <category lang="ar">الدوري الفرنسي</category>
-    <category lang="en">French League - Ligue 1</category>
-  </programme>
 <programme start="20261103164500 +0000" stop="20261103171500 +0000" channel="CAN: BEIN SPORTS 4 [720p]">
     <title lang="en">Ligue 1 Weekly Review - 2026/2027</title>
     <desc lang="en">Every game, goal, penalty, red card and everything in between is squeezed into this Ligue 1 weekly show to ensure no football fan misses a kick across the game season.</desc>
@@ -55332,12 +55236,6 @@ True BG Stadium Stadium</desc>
     <category lang="ar">الدوري الأوروبي</category>
     <category lang="en">Live</category>
     <category lang="en">UEFA Europa League</category>
-  </programme>
-<programme start="20261103150000 +0000" stop="20261103164500 +0000" channel="HK: BEIN SPORTS 4 644 [1080p]">
-    <title lang="en">Havre AC vs PSG - French Ligue 1 2026/2027 - Week 9</title>
-    <desc lang="en">All 306 matches from the Ligue 1 2026 – 2027 season are live and exclusive only on beIN SPORTS. Paris Saint-Germain are the defending Champions having secured their historic 14th top-flight title last season.</desc>
-    <category lang="ar">الدوري الفرنسي</category>
-    <category lang="en">French League - Ligue 1</category>
   </programme>
 <programme start="20261103164500 +0000" stop="20261103171500 +0000" channel="HK: BEIN SPORTS 4 644 [1080p]">
     <title lang="en">Ligue 1 Weekly Review - 2026/2027</title>
@@ -55552,12 +55450,6 @@ True BG Stadium Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">UEFA Europa League</category>
   </programme>
-<programme start="20261103150000 +0000" stop="20261103164500 +0000" channel="TR: BEIN SPORTS 4 [720p]">
-    <title lang="en">Havre AC vs PSG - French Ligue 1 2026/2027 - Week 9</title>
-    <desc lang="en">All 306 matches from the Ligue 1 2026 – 2027 season are live and exclusive only on beIN SPORTS. Paris Saint-Germain are the defending Champions having secured their historic 14th top-flight title last season.</desc>
-    <category lang="ar">الدوري الفرنسي</category>
-    <category lang="en">French League - Ligue 1</category>
-  </programme>
 <programme start="20261103164500 +0000" stop="20261103171500 +0000" channel="TR: BEIN SPORTS 4 [720p]">
     <title lang="en">Ligue 1 Weekly Review - 2026/2027</title>
     <desc lang="en">Every game, goal, penalty, red card and everything in between is squeezed into this Ligue 1 weekly show to ensure no football fan misses a kick across the game season.</desc>
@@ -55771,12 +55663,6 @@ True BG Stadium Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">UEFA Europa League</category>
   </programme>
-<programme start="20261103150000 +0000" stop="20261103164500 +0000" channel="TR: BEIN SPORTS 4 [720p] [1080p]">
-    <title lang="en">Havre AC vs PSG - French Ligue 1 2026/2027 - Week 9</title>
-    <desc lang="en">All 306 matches from the Ligue 1 2026 – 2027 season are live and exclusive only on beIN SPORTS. Paris Saint-Germain are the defending Champions having secured their historic 14th top-flight title last season.</desc>
-    <category lang="ar">الدوري الفرنسي</category>
-    <category lang="en">French League - Ligue 1</category>
-  </programme>
 <programme start="20261103164500 +0000" stop="20261103171500 +0000" channel="TR: BEIN SPORTS 4 [720p] [1080p]">
     <title lang="en">Ligue 1 Weekly Review - 2026/2027</title>
     <desc lang="en">Every game, goal, penalty, red card and everything in between is squeezed into this Ligue 1 weekly show to ensure no football fan misses a kick across the game season.</desc>
@@ -55989,12 +55875,6 @@ True BG Stadium Stadium</desc>
     <category lang="ar">الدوري الأوروبي</category>
     <category lang="en">Live</category>
     <category lang="en">UEFA Europa League</category>
-  </programme>
-<programme start="20261103150000 +0000" stop="20261103164500 +0000" channel="USA: BEIN SPORTS 4 [720p]">
-    <title lang="en">Havre AC vs PSG - French Ligue 1 2026/2027 - Week 9</title>
-    <desc lang="en">All 306 matches from the Ligue 1 2026 – 2027 season are live and exclusive only on beIN SPORTS. Paris Saint-Germain are the defending Champions having secured their historic 14th top-flight title last season.</desc>
-    <category lang="ar">الدوري الفرنسي</category>
-    <category lang="en">French League - Ligue 1</category>
   </programme>
 <programme start="20261103164500 +0000" stop="20261103171500 +0000" channel="USA: BEIN SPORTS 4 [720p]">
     <title lang="en">Ligue 1 Weekly Review - 2026/2027</title>
@@ -69372,6 +69252,12 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
+<programme start="20261105194500 +0000" stop="20261105200000 +0000" channel="ARA: BEIN SPORTS NEWS [1080p]">
+    <title lang="en">Special Report - 5/11/26</title>
+    <desc lang="en">"Special Report" is a single long feature from one of beIN SPORTS News reporters that takes an alternative look at a subject from the world of sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
 <programme start="20261103160000 +0000" stop="20261103220000 +0000" channel="ARA: BEIN SPORTS NEWS [720p]">
     <title lang="en">Between The Pitches ‎• Live 🔵‎</title>
     <desc lang="en">"‘Between the Pitches’ program offers live, continuous coverage of the most prestigious tournaments and matches, available across all beIN Sports channels.</desc>
@@ -69701,6 +69587,12 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
+<programme start="20261105194500 +0000" stop="20261105200000 +0000" channel="ARA: BEIN SPORTS NEWS [720p]">
+    <title lang="en">Special Report - 5/11/26</title>
+    <desc lang="en">"Special Report" is a single long feature from one of beIN SPORTS News reporters that takes an alternative look at a subject from the world of sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
 <programme start="20261103160000 +0000" stop="20261103220000 +0000" channel="BEIN SPORTS NEWS  [[4K-Q]-Q]">
     <title lang="en">Between The Pitches ‎• Live 🔵‎</title>
     <desc lang="en">"‘Between the Pitches’ program offers live, continuous coverage of the most prestigious tournaments and matches, available across all beIN Sports channels.</desc>
@@ -70027,6 +69919,12 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
 <programme start="20261105193000 +0000" stop="20261105194500 +0000" channel="BEIN SPORTS NEWS  [[4K-Q]-Q]">
     <title lang="en">Special Interview  - 5/11/26</title>
     <desc lang="en">A  daily Special Interview related to an important issue of the day. The interview offers the background and insight into the issue chosen from the world of sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+<programme start="20261105194500 +0000" stop="20261105200000 +0000" channel="BEIN SPORTS NEWS  [[4K-Q]-Q]">
+    <title lang="en">Special Report - 5/11/26</title>
+    <desc lang="en">"Special Report" is a single long feature from one of beIN SPORTS News reporters that takes an alternative look at a subject from the world of sport.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
