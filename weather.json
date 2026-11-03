@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-03T10:02:23.730Z",
+  "updated_at": "2026-11-03T10:07:45.339Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -43,14 +43,14 @@
           "code": 3,
           "max": 17.9,
           "min": 12.9,
-          "rain": 18
+          "rain": 29
         },
         {
           "date": "2026-11-07",
           "code": 3,
           "max": 16.5,
           "min": 12.2,
-          "rain": 8
+          "rain": 18
         },
         {
           "date": "2026-11-08",
@@ -578,7 +578,7 @@
       "temperature_c": 16.2,
       "humidity": 91,
       "wind_speed": 13.7,
-      "rain_chance": 3,
+      "rain_chance": 2,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-11-03T04:00",
@@ -590,14 +590,14 @@
           "code": 3,
           "max": 21.4,
           "min": 15.1,
-          "rain": 28
+          "rain": 27
         },
         {
           "date": "2026-11-04",
           "code": 3,
           "max": 17.2,
           "min": 10.6,
-          "rain": 49
+          "rain": 48
         },
         {
           "date": "2026-11-05",
@@ -661,7 +661,7 @@
           "code": 3,
           "max": 19.9,
           "min": 10.9,
-          "rain": 0
+          "rain": 1
         },
         {
           "date": "2026-11-04",
@@ -720,7 +720,7 @@
       "temperature_c": 21.4,
       "humidity": 87,
       "wind_speed": 11.0,
-      "rain_chance": 23,
+      "rain_chance": 15,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-11-03T04:00",
@@ -791,7 +791,7 @@
       "temperature_c": 10.9,
       "humidity": 85,
       "wind_speed": 9.2,
-      "rain_chance": 4,
+      "rain_chance": 3,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-11-03T02:00",
@@ -803,14 +803,14 @@
           "code": 63,
           "max": 17.6,
           "min": 10.8,
-          "rain": 56
+          "rain": 63
         },
         {
           "date": "2026-11-04",
           "code": 55,
           "max": 17.7,
           "min": 12.1,
-          "rain": 2
+          "rain": 4
         },
         {
           "date": "2026-11-05",
