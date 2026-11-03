@@ -45,7 +45,6 @@ def tidy(n):
     return re.sub(r"\s+", " ", n).strip()
 
 
-<<<<<<< HEAD
 # Fields DreamTV reads only from the details screen (get_series_info / get_vod_info, which still have them): left
 # out of the long lists. Strong's full series list was 17 MB and DreamTV froze loading it (owner, 1-3 Nov 2026).
 HEAVY = ("plot", "cast", "director", "genre", "backdrop_path", "youtube_trailer", "trailer", "release_date",
@@ -56,8 +55,6 @@ def light(x):
     return {k: v for k, v in x.items() if k not in HEAVY}
 
 
-=======
->>>>>>> 7c056993c (Update today's matches)
 def arrange(cats, want):
     """The relay's rules (cloudflare/worker2.js groups())."""
     if want.get("tidy"):
@@ -106,11 +103,7 @@ def main(playlist, out):
         want = json.load(open(f, encoding="utf-8")) if os.path.exists(f) else {}
         shown = arrange(cats, want)
         keep = {str(c.get("category_id")) for c in shown}
-<<<<<<< HEAD
         items = [light(x) for x in items if isinstance(x, dict) and str(x.get("category_id")) in keep]
-=======
-        items = [x for x in items if str(x.get("category_id")) in keep]
->>>>>>> 7c056993c (Update today's matches)
         dump(shown, os.path.join(out, f"{kind}_categories.json"))
         dump(items, os.path.join(out, "vod_streams.json" if kind == "vod" else "series.json"))
         by = {}
