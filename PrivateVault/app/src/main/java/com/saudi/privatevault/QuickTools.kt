@@ -42,15 +42,18 @@ object QuickTools {
         val d = act.resources.displayMetrics.density
         fun dp(v: Int) = (v * d).toInt()
         val prefs = VaultLock.prefs(act)
-        val b = TextView(act).apply {
+        // A solid blue disc with a thin white ring and a drawn pencil, as an EFB's.
+        val b = android.widget.ImageView(act).apply {
             tag = TAG
-            text = "✎"; textSize = 19f; gravity = Gravity.CENTER
-            setTextColor(0xFFFFFFFF.toInt())
-            background = GradientDrawable().apply { shape = GradientDrawable.OVAL; setColor(0xCC1A6FE0.toInt()); setStroke(dp(1), 0x66FFFFFF) }
+            setImageResource(R.drawable.ic_fab_pencil)
+            scaleType = android.widget.ImageView.ScaleType.CENTER_INSIDE
+            setPadding(dp(13), dp(13), dp(13), dp(13))
+            background = GradientDrawable(GradientDrawable.Orientation.TL_BR, intArrayOf(0xFF2FA4FF.toInt(), 0xFF1178D6.toInt())).apply {
+                shape = GradientDrawable.OVAL; setStroke(dp(2), 0xE6FFFFFF.toInt())
+            }
             elevation = dp(10).toFloat()
-            alpha = 0.86f
         }
-        content.addView(b, FrameLayout.LayoutParams(dp(46), dp(46), Gravity.END or Gravity.BOTTOM).apply { marginEnd = dp(10); bottomMargin = dp(150) })
+        content.addView(b, FrameLayout.LayoutParams(dp(56), dp(56), Gravity.END or Gravity.BOTTOM).apply { marginEnd = dp(14); bottomMargin = dp(150) })
         b.translationX = prefs.getFloat("qt_x", 0f)
         b.translationY = prefs.getFloat("qt_y", 0f)
         var sx = 0f; var sy = 0f; var tx = 0f; var ty = 0f; var moved = false

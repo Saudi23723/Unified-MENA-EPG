@@ -121,9 +121,9 @@ class ScratchPadActivity : BaseActivity() {
         col.addView(pad, LinearLayout.LayoutParams(-1, 0, 1f))
 
         // The pen button.
-        val fab = TextView(this).apply {
-            text = "✎"; textSize = 24f; gravity = Gravity.CENTER; setTextColor(0xFFFFFFFF.toInt())
-            background = GradientDrawable().apply { shape = GradientDrawable.OVAL; setColor(blue) }
+        val fab = android.widget.ImageView(this).apply {
+            setImageResource(R.drawable.ic_fab_pencil); setPadding(dp(15), dp(15), dp(15), dp(15))
+            background = GradientDrawable(GradientDrawable.Orientation.TL_BR, intArrayOf(0xFF2FA4FF.toInt(), 0xFF1178D6.toInt())).apply { shape = GradientDrawable.OVAL; setStroke(dp(2), 0xE6FFFFFF.toInt()) }
             elevation = dp(8).toFloat()
             setOnClickListener { togglePanel() }
         }

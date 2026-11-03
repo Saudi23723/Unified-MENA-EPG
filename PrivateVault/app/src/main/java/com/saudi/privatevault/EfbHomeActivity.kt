@@ -117,6 +117,7 @@ class EfbHomeActivity : BaseActivity() {
         ))
         group(R.string.home_training, listOf(
             Item("📒", 0xFFFF9F0A.toInt(), R.string.log_title, R.string.sub_log) { open(LogbookActivity::class.java) },
+            Item("📚", 0xFFFFB020.toInt(), R.string.log_ground_school, R.string.sub_ground) { startActivity(Intent(this, LogbookActivity::class.java).putExtra(LogbookActivity.EXTRA_TAB, 5)) },
             Item("🎓", 0xFF8E5CF7.toInt(), R.string.log_109, R.string.sub_109) { startActivity(Intent(this, LogbookActivity::class.java).putExtra(LogbookActivity.EXTRA_TAB, 2)) },
             Item("⏱", 0xFF00A6A6.toInt(), R.string.log_currency, R.string.sub_currency) { startActivity(Intent(this, LogbookActivity::class.java).putExtra(LogbookActivity.EXTRA_TAB, 3)) },
         ))

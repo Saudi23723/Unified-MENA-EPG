@@ -74,13 +74,10 @@ class LogbookActivity : BaseActivity() {
             setTabTextColors(EfbUi.DIM, EfbUi.ACCENT)
             setSelectedTabIndicatorColor(EfbUi.ACCENT)
             tabMode = TabLayout.MODE_SCROLLABLE
-            addTab(newTab().setText(R.string.log_flights))
-            addTab(newTab().setText(R.string.log_totals))
-            addTab(newTab().setText(R.string.log_checkride))
-            addTab(newTab().setText(R.string.log_currency))
-            addTab(newTab().setText(R.string.log_endorsements))
-            addTab(newTab().setText(R.string.log_ground))
-            addTab(newTab().setText(R.string.log_docs))
+            // Ground school right after the flights: the logbook holds both.
+            val names = mapOf(0 to R.string.log_flights, 1 to R.string.log_totals, 2 to R.string.log_checkride, 3 to R.string.log_currency,
+                4 to R.string.log_endorsements, 5 to R.string.log_ground, 6 to R.string.log_docs)
+            for (k in ORDER) addTab(newTab().setText(names[k]!!))
         }
         col.addView(tabs)
         body = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
@@ -88,13 +85,13 @@ class LogbookActivity : BaseActivity() {
         entries = Logbook.all(this)
         endorsements = Logbook.endorsements(this)
         tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(t: TabLayout.Tab) = show(t.position)
+            override fun onTabSelected(t: TabLayout.Tab) = show(ORDER[t.position])
             override fun onTabUnselected(t: TabLayout.Tab) {}
-            override fun onTabReselected(t: TabLayout.Tab) = show(t.position)
+            override fun onTabReselected(t: TabLayout.Tab) = show(ORDER[t.position])
         })
         intent.getStringExtra(EXTRA_NEW)?.let { edit(LogEntry.fromJson(JSONObject(it)), isNew = true); return }
         val start = intent.getIntExtra(EXTRA_TAB, 0)
-        if (start == 0) show(0) else tabs.getTabAt(start)?.select()
+        if (start == 0) show(0) else tabs.getTabAt(ORDER.indexOf(start).coerceAtLeast(0))?.select()
     }
 
     override fun onResume() {
@@ -114,7 +111,7 @@ class LogbookActivity : BaseActivity() {
             if (n > 0) {
                 entries = Logbook.all(this@LogbookActivity)
                 endorsements = Logbook.endorsements(this@LogbookActivity)
-                show(tabs.selectedTabPosition.coerceAtLeast(0))
+                show(ORDER[tabs.selectedTabPosition.coerceAtLeast(0)])
             }
             when {
                 n > 0 -> Toast.makeText(this@LogbookActivity, getString(R.string.log_synced, n), Toast.LENGTH_SHORT).show()
@@ -1012,6 +1009,8 @@ class LogbookActivity : BaseActivity() {
 
     companion object {
         const val EXTRA_TAB = "tab"
+        /** The tabs in the order shown: flights, ground school, totals, checkride, currency, endorsements, documents. */
+        val ORDER = intArrayOf(0, 5, 1, 2, 3, 4, 6)
         const val EXTRA_NEW = "new"
     }
 }

@@ -64,7 +64,7 @@ class MapActivity : BaseActivity(), NeonHost {
     private lateinit var ownship: OwnshipOverlay
     private lateinit var weather: WeatherOverlay
     private lateinit var route: RouteOverlay
-    private var radar: TilesOverlay? = null
+    private var radar: RadarOverlay? = null
     private lateinit var hazard: HazardOverlay
     private lateinit var airspace: AirspaceOverlay
     private lateinit var patternOv: PatternOverlay
@@ -449,7 +449,7 @@ class MapActivity : BaseActivity(), NeonHost {
 
     private val weatherTimer: Runnable = object : Runnable {
         override fun run() {
-            if (radar != null) { setRadar(false); setRadar(true) }
+            radar?.refresh()
             lastWeatherBox = ""
             refreshWeather()
             idle()
@@ -490,22 +490,13 @@ class MapActivity : BaseActivity(), NeonHost {
     }
 
     private fun setRadar(on: Boolean) {
-        radar?.let { map.overlays.remove(it) }
-        radarProvider?.detach()
+        radar?.let { map.overlays.remove(it); it.onDetach(map) }
         radar = null
-        radarProvider = null
         if (on) {
-            val provider = MapTileProviderBasic(applicationContext, AviationData.radarSource())
-            radarProvider = provider
-            radar = TilesOverlay(provider, this).apply {
-                setLoadingBackgroundColor(android.graphics.Color.TRANSPARENT)
-                setLoadingLineColor(android.graphics.Color.TRANSPARENT)
-                setColorFilter(android.graphics.ColorMatrixColorFilter(android.graphics.ColorMatrix(floatArrayOf(
-                    1f, 0f, 0f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 0f, 0.7f, 0f,
-                ))))
-            }
-            provider.setTileRequestCompleteHandler(map.tileRequestCompleteHandler)
-            map.overlays.add(0, radar)
+            // Over the chart (and the official chart), under everything drawn on it.
+            val r = RadarOverlay(map)
+            radar = r
+            map.overlays.add(if (official != null) 1 else 0, r)
         }
         map.invalidate()
     }
