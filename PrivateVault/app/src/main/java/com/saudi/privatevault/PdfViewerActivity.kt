@@ -449,6 +449,8 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
         }
         undoButton = button(R.drawable.ic_undo, R.string.pen_undo) { undoLast() }
         redoButton = button(R.drawable.ic_redo, R.string.pen_redo) { redoLast() }
+        // Undo and redo first on the bar, always in sight on a narrow screen.
+        for ((i, v) in listOf(undoButton, redoButton).withIndex()) v?.let { bar.removeView(it); bar.addView(it, i) }
         button(R.drawable.ic_check, R.string.pen_done) { stopWriting() }
         p.textSize = VaultLock.prefs(this).getFloat("size_text", 0.028f)
         penColor = VaultLock.prefs(this).getInt("pen_color", penColor)

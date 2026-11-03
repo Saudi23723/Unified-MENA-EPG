@@ -145,7 +145,7 @@ class AirportSheet(
         wide(R.string.apt_notams) { notams() }
         wide(R.string.apt_history) { history() }
         chartsPage.addView(chartBtns)
-        val pages = listOf(R.string.apt_tab_info to infoPage, R.string.apt_runways to rwyPage, R.string.apt_weather to wxPage, R.string.apt_tab_charts to chartsPage)
+        val pages = listOf(R.string.apt_tab_info to infoPage, R.string.apt_tab_rwy to rwyPage, R.string.apt_tab_wx to wxPage, R.string.apt_tab_charts to chartsPage)
         val tabs = LinearLayout(act).apply { orientation = LinearLayout.HORIZONTAL; setPadding(0, dp(10), 0, dp(2)) }
         val tabViews = ArrayList<TextView>()
         fun select(k: Int) {
@@ -163,7 +163,8 @@ class AirportSheet(
             val t = TextView(act).apply {
                 text = act.getString(label).uppercase(); textSize = 12.5f; gravity = android.view.Gravity.CENTER
                 setTypeface(typeface, android.graphics.Typeface.BOLD); letterSpacing = 0.04f
-                setPadding(dp(4), dp(9), dp(4), dp(9)); maxLines = 1
+                setPadding(dp(2), dp(9), dp(2), dp(9)); maxLines = 1
+                setAutoSizeTextTypeUniformWithConfiguration(9, 13, 1, android.util.TypedValue.COMPLEX_UNIT_SP)
                 setOnClickListener { select(i) }
             }
             tabViews.add(t)

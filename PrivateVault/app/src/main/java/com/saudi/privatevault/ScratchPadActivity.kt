@@ -34,6 +34,38 @@ class ScratchPadActivity : BaseActivity() {
 
     private val tabs = listOf("Page 1", "Page 2", "Page 3", "ATIS", "CRAFT", "PIREP")
     private val pages = HashMap<Int, ArrayList<Stroke>>()
+    // Each page's own undo and redo: what was added, or what Clear and the eraser took.
+    private val undo = HashMap<Int, ArrayList<List<Stroke>>>()
+    private val redo = HashMap<Int, ArrayList<List<Stroke>>>()
+    private val undoneAdds = HashMap<Int, ArrayList<Boolean>>()
+
+    private fun record(added: Boolean, strokes: List<Stroke>) {
+        undo.getOrPut(tab) { ArrayList() }.add(strokes)
+        undoneAdds.getOrPut(tab) { ArrayList() }.add(added)
+        redo[tab]?.clear()
+    }
+
+    private fun undoLast() {
+        val u = undo[tab]?.removeLastOrNull() ?: return
+        val added = undoneAdds[tab]!!.removeAt(undoneAdds[tab]!!.size - 1)
+        val list = pages.getOrPut(tab) { ArrayList() }
+        if (added) list.removeAll(u.toSet()) else list.addAll(u)
+        redo.getOrPut(tab) { ArrayList() }.add(u)
+        redoKinds.getOrPut(tab) { ArrayList() }.add(added)
+        save(); pad.invalidate()
+    }
+
+    private val redoKinds = HashMap<Int, ArrayList<Boolean>>()
+
+    private fun redoLast() {
+        val r = redo[tab]?.removeLastOrNull() ?: return
+        val added = redoKinds[tab]!!.removeAt(redoKinds[tab]!!.size - 1)
+        val list = pages.getOrPut(tab) { ArrayList() }
+        if (added) list.addAll(r) else list.removeAll(r.toSet())
+        undo.getOrPut(tab) { ArrayList() }.add(r)
+        undoneAdds.getOrPut(tab) { ArrayList() }.add(added)
+        save(); pad.invalidate()
+    }
     private var tab = 0
     private var kind = 0 // 0 pen, 1 marker, 2 highlighter, 3 eraser
     private var widthIdx = 0
@@ -70,6 +102,10 @@ class ScratchPadActivity : BaseActivity() {
         val top = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL; setBackgroundColor(bar); setPadding(dp(6), dp(8), dp(8), 0); layoutDirection = View.LAYOUT_DIRECTION_LTR }
         top.addView(TextView(this).apply { text = "‹"; textSize = 28f; setTextColor(fg); setPadding(dp(12), 0, dp(14), dp(4)); setOnClickListener { finish() } })
         top.addView(TextView(this).apply { text = "Scratch Pad"; textSize = 21f; setTextColor(fg); setTypeface(typeface, android.graphics.Typeface.BOLD) }, LinearLayout.LayoutParams(0, -2, 1f))
+        for ((t, go) in listOf("↶" to { undoLast() }, "↷" to { redoLast() })) top.addView(TextView(this).apply {
+            text = t; textSize = 24f; setTextColor(fg); setPadding(dp(12), 0, dp(12), dp(4))
+            setOnClickListener { go() }
+        })
         top.addView(TextView(this).apply {
             text = "📒"; textSize = 19f; setPadding(dp(10), dp(4), dp(10), dp(4))
             setOnClickListener { Notebooks.choose(this@ScratchPadActivity, null, big = true) }
@@ -134,7 +170,7 @@ class ScratchPadActivity : BaseActivity() {
         right.addView(Wheel(this), LinearLayout.LayoutParams(dp(130), dp(130)))
         right.addView(TextView(this).apply {
             text = "CLEAR"; textSize = 14f; setTextColor(blue); setTypeface(typeface, android.graphics.Typeface.BOLD); setPadding(dp(8), dp(10), dp(8), dp(4))
-            setOnClickListener { pages[tab]?.clear(); save(); pad.invalidate() }
+            setOnClickListener { pages[tab]?.let { if (it.isNotEmpty()) { record(false, ArrayList(it)); it.clear() } }; save(); pad.invalidate() }
         })
         right.addView(TextView(this).apply {
             text = "INVERT COLORS"; textSize = 14f; setTextColor(blue); setTypeface(typeface, android.graphics.Typeface.BOLD); setPadding(dp(8), dp(4), dp(8), dp(4))
@@ -183,6 +219,7 @@ class ScratchPadActivity : BaseActivity() {
         private val line = Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.STROKE }
         private val label = Paint(Paint.ANTI_ALIAS_FLAG)
         private var cur: ArrayList<Float>? = null
+        private var erased: ArrayList<Stroke>? = null
         private val d = resources.displayMetrics.density
 
         override fun onDraw(c: Canvas) {
@@ -246,7 +283,12 @@ class ScratchPadActivity : BaseActivity() {
                     for (h in 0 until e.historySize) { cu.add(e.getHistoricalX(h) / width); cu.add(e.getHistoricalY(h) / width) }
                     cu.add(x); cu.add(y)
                 }
-                MotionEvent.ACTION_UP -> { cur?.let { list.add(Stroke(kind, color, widthsPx[widthIdx], it.toFloatArray())); save() }; cur = null }
+                MotionEvent.ACTION_UP -> {
+                    cur?.let { val s = Stroke(kind, color, widthsPx[widthIdx], it.toFloatArray()); list.add(s); record(true, listOf(s)) }
+                    erased?.let { if (it.isNotEmpty()) record(false, it) }
+                    erased = null
+                    save(); cur = null
+                }
                 MotionEvent.ACTION_CANCEL -> cur = null
             }
             invalidate()
@@ -255,7 +297,8 @@ class ScratchPadActivity : BaseActivity() {
 
         private fun erase(list: ArrayList<Stroke>, x: Float, y: Float) {
             val r = 16 * d / width
-            list.removeAll { s -> (0 until s.pts.size / 2).any { i -> Math.hypot((s.pts[2 * i] - x).toDouble(), (s.pts[2 * i + 1] - y).toDouble()) < r } }
+            val hit = list.filter { s -> (0 until s.pts.size / 2).any { i -> Math.hypot((s.pts[2 * i] - x).toDouble(), (s.pts[2 * i + 1] - y).toDouble()) < r } }
+            if (hit.isNotEmpty()) { list.removeAll(hit.toSet()); (erased ?: ArrayList<Stroke>().also { erased = it }).addAll(hit) }
         }
     }
 
