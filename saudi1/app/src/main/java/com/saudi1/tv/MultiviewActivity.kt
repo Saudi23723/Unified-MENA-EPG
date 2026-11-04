@@ -26,6 +26,7 @@ class MultiviewActivity : BaseActivity() {
     private class Tile(val root: View, val pv: PlayerView, val player: ExoPlayer, val bar: View, val logo: ImageView,
                        val name: TextView, val now: TextView, val sound: TextView, val empty: View) {
         var channel: Channel? = null
+        var src: OtherList? = null     // null = the device's playlist in use; else one of its other playlists
         var tries = 0
         var lastPos = -1L; var still = 0
     }
@@ -83,19 +84,34 @@ class MultiviewActivity : BaseActivity() {
             }
         }
         val first = Api.byId[intent.getIntExtra("channel", -1)]
+        // the device has more than one playlist (admin site): each screen gets its own playlist = its own connection
+        val others = Device.playlists().filter { it.optString("name") != Device.active && it.optString("user").isNotEmpty() }.map { OtherList(it) }
+        if (others.isNotEmpty()) for (k in 1 until n) tiles[k].src = others[(k - 1) % others.size]
         if (first != null) set(0, first)
-        // the other tiles start with the last channels watched
-        History.ids().filter { it != first?.id }.mapNotNull { Api.byId[it] }.take(n - 1).forEachIndexed { k, c -> set(k + 1, c) }
+        val recent = History.ids().filter { it != first?.id }.mapNotNull { Api.byId[it] }
+        tiles.forEachIndexed { k, t ->
+            if (k == 0) return@forEachIndexed
+            val src = t.src
+            val want = recent.getOrNull(k - 1) ?: first
+            if (src == null) { want?.let { set(k, it) }; return@forEachIndexed }
+            // the other playlist: the same channel there when it has it
+            t.empty.let { (it as? TextView)?.text = "＋\nAdd a channel\n(${src.name})" }
+            lifecycleScope.launch {
+                val ok = withContext(Dispatchers.IO) { try { src.load() } catch (e: Exception) { false } }
+                if (!ok) { (t.empty as? TextView)?.text = "${src.name}: could not load"; return@launch }
+                (want?.let { src.same(it) } ?: first?.let { src.same(it) })?.let { set(k, it) }
+            }
+        }
         tiles[0].root.post { tiles[0].root.requestFocus() }
     }
 
     private fun recover(t: Tile) {
         val c = t.channel ?: return
         t.tries++
-        val pick = if (t.tries % 2 == 0) Api.qualities(c).filter { it.id != c.id }.getOrNull(t.tries / 2 - 1) ?: light(c) else light(c)
+        val pick = if (t.src != null) c else if (t.tries % 2 == 0) Api.qualities(c).filter { it.id != c.id }.getOrNull(t.tries / 2 - 1) ?: light(c) else light(c)
         // most subscriptions allow ONE stream at a time: a second screen is refused by the provider. Two tries only,
         // so the other screen is not kicked off again and again.
-        if (t.tries > 2) { t.now.text = "⚠ The subscription allows 1 screen — needs a 2-connection login"; return }
+        if (t.tries > 2) { t.now.text = if (t.src != null) "⚠ ${t.src?.name}: not available right now" else "⚠ The subscription allows 1 screen — add a 2nd playlist on the admin site"; return }
         t.now.text = "Reconnecting…"
         t.player.setMediaItem(MediaItem.fromUri(Api.streamUrl(pick)))
         t.player.prepare(); t.player.playWhenReady = true
@@ -114,12 +130,13 @@ class MultiviewActivity : BaseActivity() {
         t.empty.visibility = if (c == null) View.VISIBLE else View.GONE
         t.bar.visibility = if (c == null) View.GONE else View.VISIBLE
         if (c == null) { t.player.stop(); t.player.clearMediaItems(); sound(tiles.indexOfFirst { it.root.hasFocus() }.coerceAtLeast(0)); return }
-        t.name.text = "${c.num}   ${c.name}"; t.now.text = ""
+        t.name.text = "${c.num}   ${c.name}" + (t.src?.let { "   ·   " + it.name } ?: ""); t.now.text = ""
         t.logo.load(c.logo.ifEmpty { null })
         // the TV's chip decodes 2 pictures at once only when they are light: a 4K / HEVC channel plays in its HD copy
-        t.player.setMediaItem(MediaItem.fromUri(Api.streamUrl(light(c))))
+        t.player.setMediaItem(MediaItem.fromUri(Api.streamUrl(if (t.src != null) c else light(c))))
         t.player.prepare(); t.player.playWhenReady = true
         sound(tiles.indexOfFirst { it.root.hasFocus() }.coerceAtLeast(0))
+        if (t.src != null) return
         lifecycleScope.launch {
             val list = withContext(Dispatchers.IO) { Api.guide(c) }
             val now = System.currentTimeMillis() / 1000
@@ -135,6 +152,18 @@ class MultiviewActivity : BaseActivity() {
     }
 
     private fun pick(i: Int) {
+        val src = tiles[i].src
+        if (src != null) {
+            lifecycleScope.launch {
+                val ok = withContext(Dispatchers.IO) { try { src.load() } catch (e: Exception) { false } }
+                if (!ok) { android.widget.Toast.makeText(this@MultiviewActivity, "${src.name}: could not load", android.widget.Toast.LENGTH_LONG).show(); return@launch }
+                AlertDialog.Builder(this@MultiviewActivity).setTitle("${src.name} · group").setItems(src.groups.map { it.name }.toTypedArray()) { _, g ->
+                    val gr = src.groups[g]
+                    AlertDialog.Builder(this@MultiviewActivity).setTitle(gr.name).setItems(gr.channels.map { "${it.num}   ${it.name}" }.toTypedArray()) { _, k -> set(i, gr.channels[k]) }.show()
+                }.show()
+            }
+            return
+        }
         val gs = Api.groups.filter { it.channels.isNotEmpty() }
         val recent = History.ids().mapNotNull { Api.byId[it] }.take(5)
         val names = recent.map { "↺   ${it.num}   ${it.name}" } + gs.map { "▸   " + it.name }
@@ -145,7 +174,9 @@ class MultiviewActivity : BaseActivity() {
         }.show()
     }
 
-    private fun openFull(c: Channel) {
+    private fun openFull(c0: Channel) {
+        // a channel of the other playlist opens full screen as the same channel of the playlist in use
+        val c = if (Api.byId[c0.id]?.name == c0.name) c0 else Api.qualities(c0).firstOrNull { Api.byId[it.id] != null && it.url.isEmpty() } ?: c0
         startActivity(android.content.Intent(this, LiveActivity::class.java).putExtra("channel", c.id).addFlags(android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP))
         finish()
     }
