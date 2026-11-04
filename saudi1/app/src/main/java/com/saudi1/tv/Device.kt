@@ -68,6 +68,8 @@ object Device {
                 Prefs.server = pick.optString("server"); Prefs.user = pick.optString("user"); Prefs.pass = pick.optString("pass")
                 active = pick.optString("name")
                 name = o.optString("name"); expires = o.optLong("expires")
+                // the VPN the owner put on the admin site (an empty one there keeps a file imported on the phone)
+                o.optString("vpn").takeIf { it.isNotBlank() }?.let { if (it != Vpn.conf) { Vpn.conf = it; Vpn.wanted = true } }
                 manual = false
                 if (changed) Api.groups = emptyList()
             } else if (!manual && (st == "stopped" || st == "expired")) {

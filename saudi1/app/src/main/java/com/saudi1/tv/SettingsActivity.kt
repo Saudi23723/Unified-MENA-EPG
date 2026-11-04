@@ -66,6 +66,16 @@ class SettingsActivity : BaseActivity() {
             App.prefs.edit().putBoolean("zap_invert", !zapInvert).apply(); build()
         }
 
+        section("VPN")
+        row("VPN (WireGuard)", when {
+            Vpn.conf.isBlank() -> "Not set · the owner adds it on the admin site"
+            Vpn.up -> "🛡 On · " + Vpn.endpoint()
+            else -> "Off · " + Vpn.endpoint()
+        }) { vpnToggle() }
+        if (isTouch) row("Import a VPN file", "A WireGuard .conf file from your VPN provider") {
+            startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT).addCategory(Intent.CATEGORY_OPENABLE).setType("*/*"), 11)
+        }
+
         section("Parental lock")
         row("PIN lock", if (Parental.on) "On · adult groups are locked" else "Off") { pinDialog() }
         if (Parental.on) row("Lock / unlock groups", "${Parental.locked.size} chosen groups") {
@@ -104,6 +114,38 @@ class SettingsActivity : BaseActivity() {
         section("App")
         row("Version", BuildConfig.VERSION_NAME + "   ·   Check for update") { update() }
         row("Download link", "saudi1.1saifsaudi.workers.dev/apk", null)
+    }
+
+    private fun vpnToggle() {
+        if (Vpn.conf.isBlank()) { android.widget.Toast.makeText(this, "No VPN yet: the owner adds it to this device on the admin site, then Reload", android.widget.Toast.LENGTH_LONG).show(); return }
+        if (Vpn.up) {
+            Vpn.wanted = false
+            lifecycleScope.launch { withContext(Dispatchers.IO) { Vpn.stop(this@SettingsActivity) }; build() }
+            return
+        }
+        val ask = android.net.VpnService.prepare(this)
+        if (ask != null) startActivityForResult(ask, 10) else vpnStart()
+    }
+
+    private fun vpnStart() {
+        android.widget.Toast.makeText(this, "Connecting the VPN…", android.widget.Toast.LENGTH_SHORT).show()
+        lifecycleScope.launch {
+            val err = withContext(Dispatchers.IO) { Vpn.start(this@SettingsActivity) }
+            Vpn.wanted = err == null
+            android.widget.Toast.makeText(this@SettingsActivity, if (err == null) "🛡 VPN on" else "VPN failed: $err", android.widget.Toast.LENGTH_LONG).show()
+            build()
+        }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(req: Int, res: Int, data: Intent?) {
+        super.onActivityResult(req, res, data)
+        if (req == 10 && res == RESULT_OK) vpnStart()
+        if (req == 11 && res == RESULT_OK) data?.data?.let { uri ->
+            val t = try { contentResolver.openInputStream(uri)?.use { it.readBytes().decodeToString() } ?: "" } catch (e: Exception) { "" }
+            if (!Vpn.valid(t)) { android.widget.Toast.makeText(this, "This is not a WireGuard .conf file", android.widget.Toast.LENGTH_LONG).show(); return@let }
+            Vpn.conf = t; build(); vpnToggle()
+        }
     }
 
     private fun pinDialog() {

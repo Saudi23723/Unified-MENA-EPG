@@ -40,6 +40,8 @@ android {
 
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+    // WireGuard VPN (the config comes from the owner's admin site, or a .conf file on phones)
+    implementation("com.wireguard.android:tunnel:1.0.20230706")
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
