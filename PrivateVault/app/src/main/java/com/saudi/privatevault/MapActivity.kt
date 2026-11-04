@@ -259,6 +259,7 @@ class MapActivity : BaseActivity(), NeonHost {
         }
         askGps()
         if (intent.getBooleanExtra(EXTRA_NAVLOG, false)) b.root.post { navLog() }
+        b.root.post { showRoutePanel() }
         if (intent.getBooleanExtra(EXTRA_PROFILE, false)) b.root.post { profile() }
         if (intent.getBooleanExtra(EXTRA_NRST, false)) b.root.postDelayed({ nearest() }, 1500)
     }
@@ -970,7 +971,24 @@ class MapActivity : BaseActivity(), NeonHost {
         }.show()
     }
 
+    private var routePanel: RoutePanel? = null
+
+    /** The floating route card: made once, then kept up with the plan. */
+    private fun showRoutePanel() {
+        val rp = routePanel ?: RoutePanel(this, b.root, { plan }, listOf(
+            getString(R.string.route_edit) to { editPlan() },
+            getString(R.string.route_navlog) to { navLog() },
+            getString(R.string.plan_reverse) to { plan.points.reverse(); plan.active = 1; plan.save(this); updateNav(); map.invalidate() },
+            getString(R.string.map_profile) to { profile() },
+            getString(R.string.wb_title) to { openWb() },
+            getString(R.string.plan_clear) to { plan.points.clear(); plan.direct = null; plan.active = 1; plan.save(this); updateNav(); map.invalidate() },
+        )).also { routePanel = it }
+        rp.topOffset = b.topBar.height
+        rp.refresh()
+    }
+
     private fun updateNav() {
+        showRoutePanel()
         if (!b.hudNav.hasOnClickListeners()) b.hudNav.setOnClickListener { routeMenu() }
         val t = plan.target()
         val here = ownship.position()
