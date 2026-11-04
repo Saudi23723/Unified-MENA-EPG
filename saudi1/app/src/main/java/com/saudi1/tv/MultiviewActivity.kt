@@ -93,8 +93,10 @@ class MultiviewActivity : BaseActivity() {
         val c = t.channel ?: return
         t.tries++
         val pick = if (t.tries % 2 == 0) Api.qualities(c).filter { it.id != c.id }.getOrNull(t.tries / 2 - 1) ?: light(c) else light(c)
-        t.now.text = if (t.tries > 4) "Not available right now" else "Reconnecting…"
-        if (t.tries > 6) return
+        // most subscriptions allow ONE stream at a time: a second screen is refused by the provider. Two tries only,
+        // so the other screen is not kicked off again and again.
+        if (t.tries > 2) { t.now.text = "⚠ The subscription allows 1 screen — needs a 2-connection login"; return }
+        t.now.text = "Reconnecting…"
         t.player.setMediaItem(MediaItem.fromUri(Api.streamUrl(pick)))
         t.player.prepare(); t.player.playWhenReady = true
     }
