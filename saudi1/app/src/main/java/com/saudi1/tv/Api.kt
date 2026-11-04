@@ -270,3 +270,11 @@ object History {
         App.prefs.edit().putString("history", l.joinToString(",")).apply()
     }
 }
+
+/** channels that play only with their HLS (.m3u8) link: found once, then used straight away */
+object Hls {
+    private fun ids(): MutableSet<String> = (App.prefs.getStringSet("hls_ids", emptySet()) ?: emptySet()).toMutableSet()
+    fun has(id: Int) = id.toString() in ids()
+    fun add(id: Int) { val s = ids(); if (s.add(id.toString())) App.prefs.edit().putStringSet("hls_ids", s).apply() }
+    fun remove(id: Int) { val s = ids(); if (s.remove(id.toString())) App.prefs.edit().putStringSet("hls_ids", s).apply() }
+}

@@ -65,7 +65,8 @@ class LiveActivity : BaseActivity() {
     private var bannerJob: Job? = null
     private var toastJob: Job? = null
     private var overlayJob: Job? = null
-    private var retried = false
+    private var tries = 0
+    private var usingHls = false
     private val time = SimpleDateFormat("h:mm", Locale.ENGLISH)
     private val clockF = SimpleDateFormat("h:mm a", Locale.ENGLISH)
     private val dayF = SimpleDateFormat("EEEE d MMMM", Locale.ENGLISH)
@@ -110,10 +111,21 @@ class LiveActivity : BaseActivity() {
         player.addListener(object : Player.Listener {
             override fun onPlayerError(error: PlaybackException) {
                 val c = playing ?: return
-                if (!retried) { retried = true; lifecycleScope.launch { delay(1500); if (playing === c) start(c) } }
-                else toast("This channel is not available right now")
+                // 1st: the same link again (a provider "500" is often a busy moment); 2nd: the channel's HLS link
+                // (some channels are sent as HLS on the .ts address: "no extractor could read the stream"); then give up
+                when (tries++) {
+                    0 -> lifecycleScope.launch { delay(1200); if (playing === c) start(c) }
+                    1 -> lifecycleScope.launch { delay(500); if (playing === c) start(c, hls = !Hls.has(c.id)) }
+                    else -> toast("This channel is not available right now")
+                }
             }
-            override fun onPlaybackStateChanged(state: Int) { if (state == Player.STATE_READY) retried = false }
+            override fun onPlaybackStateChanged(state: Int) {
+                if (state == Player.STATE_READY) {
+                    // remember which link worked for this channel
+                    playing?.let { c -> if (usingHls) Hls.add(c.id) else if (tries > 0) Hls.remove(c.id) }
+                    tries = 0
+                }
+            }
         })
         // phones / tablets: a tap on the picture shows the controls, a swipe ▲▼ changes channel, a tap in browse mode goes full screen
         if (isTouch) touchSetup() else playerView.setOnClickListener { if (!full) setFull(true) else if (overlay) hideOverlay() else showOverlay() }
@@ -223,14 +235,17 @@ class LiveActivity : BaseActivity() {
         History.add(c.id)
         playing = c
         Prefs.lastChannel = c.id
-        retried = false
+        tries = 0
         start(c)
         channelAdapter.items.indexOfFirst { it.id == old?.id }.takeIf { it >= 0 }?.let { channelAdapter.notifyItemChanged(it) }
         channelAdapter.items.indexOfFirst { it.id == c.id }.takeIf { it >= 0 }?.let { channelAdapter.notifyItemChanged(it) }
     }
 
-    private fun start(c: Channel) {
-        player.setMediaItem(MediaItem.fromUri(Api.streamUrl(c)))
+    private fun start(c: Channel, hls: Boolean = Hls.has(c.id)) {
+        val u = Api.streamUrl(c)
+        usingHls = hls && u.endsWith(".ts")
+        player.setMediaItem(if (usingHls) MediaItem.Builder().setUri(u.removeSuffix(".ts") + ".m3u8")
+            .setMimeType(androidx.media3.common.MimeTypes.APPLICATION_M3U8).build() else MediaItem.fromUri(u))
         player.prepare()
         player.playWhenReady = true
     }
@@ -513,6 +528,11 @@ class LiveActivity : BaseActivity() {
         return super.dispatchKeyEvent(e)
     }
 
+    private fun jumpTo(rv: RecyclerView, pos: Int) {
+        (rv.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(pos, 120)
+        rv.post { rv.findViewHolderForAdapterPosition(pos)?.itemView?.requestFocus() }
+    }
+
     private fun openGroups() {
         groupsPanel.visibility = View.VISIBLE
         if (overlay) groupsPanel.setBackgroundResource(R.drawable.panel_bg) else groupsPanel.setBackgroundColor(getColor(R.color.bg))
@@ -631,7 +651,15 @@ class LiveActivity : BaseActivity() {
                 Parental.ask(this@LiveActivity) { groupsPanel.visibility = View.GONE; channelsRv.post { showGroup(g); groupAdapter.notifyDataSetChanged() } }
             }
             h.itemView.setOnKeyListener { _, k, e ->
-                if (e.action == KeyEvent.ACTION_DOWN && k == KeyEvent.KEYCODE_DPAD_RIGHT) { closeGroups(); true } else false
+                if (e.action != KeyEvent.ACTION_DOWN) return@setOnKeyListener false
+                val p = h.bindingAdapterPosition
+                when {
+                    k == KeyEvent.KEYCODE_DPAD_RIGHT -> { closeGroups(); true }
+                    // the end of the list goes round to the other end
+                    k == KeyEvent.KEYCODE_DPAD_DOWN && p == itemCount - 1 -> { jumpTo(groupsRv, 0); true }
+                    k == KeyEvent.KEYCODE_DPAD_UP && p == 0 -> { jumpTo(groupsRv, itemCount - 1); true }
+                    else -> false
+                }
             }
         }
     }
@@ -657,7 +685,14 @@ class LiveActivity : BaseActivity() {
             }
             h.itemView.setOnLongClickListener { items.getOrNull(h.bindingAdapterPosition)?.let { fav(it) }; true }
             h.itemView.setOnKeyListener { _, k, e ->
-                if (e.action == KeyEvent.ACTION_DOWN && k == KeyEvent.KEYCODE_DPAD_LEFT) { openGroups(); true } else false
+                if (e.action != KeyEvent.ACTION_DOWN) return@setOnKeyListener false
+                val p = h.bindingAdapterPosition
+                when {
+                    k == KeyEvent.KEYCODE_DPAD_LEFT -> { openGroups(); true }
+                    k == KeyEvent.KEYCODE_DPAD_DOWN && p == itemCount - 1 && itemCount > 1 -> { jumpTo(channelsRv, 0); true }
+                    k == KeyEvent.KEYCODE_DPAD_UP && p == 0 && itemCount > 1 && e.repeatCount == 0 -> { jumpTo(channelsRv, itemCount - 1); true }
+                    else -> false
+                }
             }
             return h
         }
