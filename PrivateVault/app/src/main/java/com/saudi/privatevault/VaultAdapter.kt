@@ -73,6 +73,31 @@ class VaultAdapter(
         h.itemView.setOnClickListener { onClick(e) }
         h.b.more.setOnClickListener { v -> onMore(e, v) }
         h.itemView.setOnLongClickListener { onMore(e, h.b.more); true }
+        // With a remote: the rows take the focus, not their ⋮ (the menu is a long OK, or Menu);
+        // down past the last row goes back to the first, up from the first to the last.
+        if (Tv.isTv(ctx)) {
+            h.b.more.isFocusable = false
+            h.itemView.isFocusable = true
+            h.itemView.setOnKeyListener { v, key, ev ->
+                if (ev.action != android.view.KeyEvent.ACTION_DOWN) return@setOnKeyListener false
+                val list = v.parent as? androidx.recyclerview.widget.RecyclerView ?: return@setOnKeyListener false
+                val pos = h.bindingAdapterPosition
+                val last = itemCount - 1
+                when {
+                    key == android.view.KeyEvent.KEYCODE_MENU -> { onMore(e, h.b.more); true }
+                    key == android.view.KeyEvent.KEYCODE_DPAD_DOWN && pos == last && last > 0 -> { jump(list, 0); true }
+                    key == android.view.KeyEvent.KEYCODE_DPAD_UP && pos == 0 && last > 0 -> { jump(list, last); true }
+                    key == android.view.KeyEvent.KEYCODE_DPAD_RIGHT -> true
+                    else -> false
+                }
+            }
+        }
+    }
+
+    /** Scrolls to a row and gives it the focus once it is laid out. */
+    private fun jump(list: androidx.recyclerview.widget.RecyclerView, to: Int) {
+        list.scrollToPosition(to)
+        list.post { list.findViewHolderForAdapterPosition(to)?.itemView?.requestFocus() }
     }
 
     private fun loadThumb(h: Holder, item: VaultItem) {
