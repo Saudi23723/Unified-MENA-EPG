@@ -135,7 +135,7 @@ class LogbookActivity : BaseActivity() {
         EfbUi.stagger(body)
     }
 
-    private fun header(text: String) = EfbUi.text(this, text, 13f, EfbUi.ACCENT, bold = true).apply { setPadding(dp(4), dp(18), dp(4), dp(2)) }
+    private fun header(text: String) = EfbUi.text(this, text.uppercase(), 12.5f, EfbUi.DIM, bold = true).apply { letterSpacing = 0.06f; setPadding(dp(4), dp(18), dp(4), dp(4)) }
 
     private fun button(text: String, outlined: Boolean = false, onClick: () -> Unit) =
         (if (outlined) MaterialButton(this, null, com.google.android.material.R.attr.materialButtonOutlinedStyle) else MaterialButton(this)).apply {

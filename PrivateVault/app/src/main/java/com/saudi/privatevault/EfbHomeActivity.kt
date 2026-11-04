@@ -52,9 +52,26 @@ class EfbHomeActivity : BaseActivity() {
         CrashReport.showIfAny(this)
         ChartUpdates.autoUpdate(this)
 
-        // Zulu and local time, as every EFB shows them.
-        clock = EfbUi.ltr(EfbUi.text(this, "", 13f, EfbUi.DIM, mono = true)).apply { setPadding(dp(4), dp(2), dp(4), dp(8)) }
-        col.addView(clock)
+        // The header: a dusk-to-day sky with the name, and Zulu and local time large, as an EFB opens.
+        val hero = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            background = GradientDrawable(GradientDrawable.Orientation.TL_BR, intArrayOf(0xFF0B1A33.toInt(), 0xFF153A6B.toInt(), 0xFF1F6FC4.toInt())).apply { cornerRadius = dp(18).toFloat() }
+            setPadding(dp(20), dp(18), dp(20), dp(18))
+            elevation = dp(4).toFloat()
+        }
+        hero.addView(TextView(this).apply {
+            text = android.text.SpannableString("PILOT COMPANION").apply { setSpan(android.text.style.ForegroundColorSpan(0xFF8CC8FF.toInt()), 6, 15, 0) }
+            textSize = 13f; letterSpacing = 0.18f; setTextColor(0xFFFFFFFF.toInt()); typeface = EfbUi.MEDIUM
+        })
+        clock = EfbUi.ltr(TextView(this).apply {
+            textSize = 30f; setTextColor(0xFFFFFFFF.toInt()); typeface = Typeface.create("sans-serif-light", Typeface.NORMAL)
+            setPadding(0, dp(6), 0, 0)
+        })
+        hero.addView(clock)
+        hero.addView(EfbUi.ltr(TextView(this).apply {
+            text = getString(R.string.home_hero_sub, home()); textSize = 13f; setTextColor(0xCCFFFFFF.toInt()); setPadding(0, dp(2), 0, 0)
+        }))
+        col.addView(hero, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(6); bottomMargin = dp(12) })
 
         // Search, the first thing on the page.
         val search = EfbUi.text(this, getString(R.string.search_hint), 16f, EfbUi.DIM).apply {
@@ -73,29 +90,44 @@ class EfbHomeActivity : BaseActivity() {
         EfbUi.pressable(wx) { askHome() }
 
         // Quick actions.
-        val quick = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
+        val quick = android.widget.GridLayout(this).apply { columnCount = 4 }
         for ((i, q) in listOf(
             Triple(R.drawable.ic_map, R.string.efb_map) { open(MapActivity::class.java) },
             Triple(R.drawable.ic_check, R.string.ck_title) { open(ChecklistActivity::class.java) },
             Triple(R.drawable.ic_doc, R.string.log_title) { open(LogbookActivity::class.java) },
             Triple(R.drawable.ic_sos, R.string.nrst_title) { startActivity(Intent(this, MapActivity::class.java).putExtra(MapActivity.EXTRA_NRST, true)) },
+            Triple(R.drawable.ic_fab_pencil, R.string.notes_title) { open(ScratchPadActivity::class.java) },
+            Triple(R.drawable.ic_contents, R.string.lib_title) { open(LibraryActivity::class.java) },
+            Triple(R.drawable.ic_ruler, R.string.wb_title) { open(WeightBalanceActivity::class.java) },
+            Triple(R.drawable.ic_more, R.string.set_title) { open(SettingsActivity::class.java) },
         ).withIndex()) {
+            val grad = when (i) {
+                3 -> intArrayOf(0xFFFF6B5E.toInt(), 0xFFD62D20.toInt())
+                1 -> intArrayOf(0xFF4CD97B.toInt(), 0xFF1E9E4A.toInt())
+                2, 4 -> intArrayOf(0xFFFFC24D.toInt(), 0xFFE08A00.toInt())
+                5 -> intArrayOf(0xFFA98BFF.toInt(), 0xFF6C47E0.toInt())
+                else -> intArrayOf(0xFF4DB2FF.toInt(), 0xFF0A72E0.toInt())
+            }
             val b = LinearLayout(this).apply {
                 orientation = LinearLayout.VERTICAL
                 gravity = Gravity.CENTER
-                background = EfbUi.cardBg(this@EfbHomeActivity, if (i == 3) EfbUi.pick(0xFF3A1714.toInt(), 0xFFFFE9E7.toInt()) else EfbUi.CARD, 16).apply { setStroke(0, 0) }
+                background = EfbUi.cardBg(this@EfbHomeActivity, EfbUi.CARD, 14)
                 setPadding(dp(4), dp(14), dp(4), dp(12))
                 addView(android.widget.ImageView(this@EfbHomeActivity).apply {
                     setImageResource(q.first)
-                    setColorFilter(if (i == 3) EfbUi.BAD else EfbUi.ACCENT)
-                }, LinearLayout.LayoutParams(dp(26), dp(26)))
+                    setColorFilter(0xFFFFFFFF.toInt())
+                    setPadding(dp(10), dp(10), dp(10), dp(10))
+                    background = GradientDrawable(GradientDrawable.Orientation.TL_BR, grad).apply { shape = GradientDrawable.OVAL }
+                    elevation = dp(2).toFloat()
+                }, LinearLayout.LayoutParams(dp(46), dp(46)))
                 addView(EfbUi.text(this@EfbHomeActivity, label(q.second), 12f, EfbUi.TEXT, bold = true).apply {
-                    gravity = Gravity.CENTER; maxLines = 1; setPadding(0, dp(6), 0, 0)
+                    gravity = Gravity.CENTER; maxLines = 1; ellipsize = android.text.TextUtils.TruncateAt.END; setPadding(dp(2), dp(8), dp(2), 0)
                 })
             }
             EfbUi.pressable(b) { q.third() }
-            quick.addView(b, LinearLayout.LayoutParams(0, -2, 1f).apply {
-                marginStart = if (i == 0) 0 else dp(5); marginEnd = if (i == 3) 0 else dp(5)
+            quick.addView(b, android.widget.GridLayout.LayoutParams().apply {
+                width = 0; columnSpec = android.widget.GridLayout.spec(android.widget.GridLayout.UNDEFINED, 1f)
+                setMargins(dp(4), dp(4), dp(4), dp(4))
             })
         }
         col.addView(quick, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(12) })
@@ -139,10 +171,7 @@ class EfbHomeActivity : BaseActivity() {
 
     /** A section: its small header, then rows in one card (icon, title, what it does, ›). */
     private fun group(title: Int, items: List<Item>) {
-        col.addView(EfbUi.text(this, getString(title).uppercase(), 12f, EfbUi.DIM, bold = true).apply {
-            letterSpacing = 0.08f
-            setPadding(dp(6), dp(22), dp(6), dp(6))
-        })
+        col.addView(EfbUi.section(this, getString(title)))
         val card = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             background = EfbUi.cardBg(this@EfbHomeActivity, EfbUi.CARD, 16).apply { setStroke(0, 0) }
@@ -155,15 +184,15 @@ class EfbHomeActivity : BaseActivity() {
                 gravity = Gravity.CENTER_VERTICAL
                 setPadding(dp(14), dp(11), dp(12), dp(11))
             }
-            row.addView(EfbUi.text(this, it.icon, 17f).apply {
+            row.addView(EfbUi.text(this, it.icon, 18f).apply {
                 gravity = Gravity.CENTER
-                background = GradientDrawable().apply { cornerRadius = dp(9).toFloat(); setColor((it.color and 0x00FFFFFF) or 0x33000000) }
-            }, LinearLayout.LayoutParams(dp(36), dp(36)))
+                background = GradientDrawable().apply { shape = GradientDrawable.OVAL; setColor((it.color and 0x00FFFFFF) or 0x2E000000); setStroke(dp(1), (it.color and 0x00FFFFFF) or 0x66000000) }
+            }, LinearLayout.LayoutParams(dp(40), dp(40)))
             val texts = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(dp(12), 0, dp(8), 0) }
             texts.addView(EfbUi.text(this, label(it.title), 16f, EfbUi.TEXT).apply { setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL)) })
             texts.addView(EfbUi.text(this, getString(it.sub), 12.5f, EfbUi.DIM).apply { maxLines = 1; ellipsize = android.text.TextUtils.TruncateAt.END })
             row.addView(texts, LinearLayout.LayoutParams(0, -2, 1f))
-            row.addView(EfbUi.text(this, "›", 22f, EfbUi.DIM).apply { scaleX = if (isRtl()) -1f else 1f })
+            row.addView(EfbUi.text(this, "›", 24f, EfbUi.ACCENT).apply { scaleX = if (isRtl()) -1f else 1f })
             row.setBackgroundResource(android.R.drawable.list_selector_background)
             val go = it.go
             row.setOnClickListener { go() }
@@ -181,7 +210,7 @@ class EfbHomeActivity : BaseActivity() {
         root.addView(View(this).apply { setBackgroundColor(EfbUi.CARD_LINE) }, LinearLayout.LayoutParams(-1, 1))
         val bar = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
-            setBackgroundColor(EfbUi.pick(0xFF12171E.toInt(), 0xFFFFFFFF.toInt()))
+            setBackgroundColor(EfbUi.BAR)
             setPadding(0, dp(6), 0, dp(6))
         }
         for ((i, t) in listOf(
@@ -210,7 +239,13 @@ class EfbHomeActivity : BaseActivity() {
             val z = SimpleDateFormat("HH:mm", Locale.US).apply { timeZone = TimeZone.getTimeZone("UTC") }.format(now)
             val l = SimpleDateFormat("HH:mm", Locale.US).format(now)
             val d = SimpleDateFormat("EEE d MMM", Locale.US).format(now)
-            clock.text = "${z}Z   ·   $l LCL   ·   $d"
+            clock.text = android.text.SpannableStringBuilder().apply {
+                append("${z}Z")
+                setSpan(android.text.style.StyleSpan(Typeface.BOLD), 0, length, 0)
+                val from = length
+                append("   $l LCL  ·  $d")
+                setSpan(android.text.style.RelativeSizeSpan(0.55f), from, length, 0)
+            }
             clock.postDelayed(this, 15000)
         }
     }
@@ -252,6 +287,8 @@ class EfbHomeActivity : BaseActivity() {
                 return@launch
             }
             wx.removeAllViews()
+            // The card edged in the flight category's colour.
+            wx.background = EfbUi.cardBg(this@EfbHomeActivity, EfbUi.CARD, 14).apply { setStroke(dp(2), AviationData.categoryColor(m.category)) }
             val j = m.json
             val head = LinearLayout(this@EfbHomeActivity).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
             val names = LinearLayout(this@EfbHomeActivity).apply { orientation = LinearLayout.VERTICAL }

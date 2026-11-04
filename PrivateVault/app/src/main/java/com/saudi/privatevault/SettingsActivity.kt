@@ -76,9 +76,7 @@ class SettingsActivity : BaseActivity() {
         a.addView(EfbUi.text(this, getString(R.string.set_about_sub), 12.5f, EfbUi.DIM).apply { setPadding(0, dp(4), 0, 0) })
     }
 
-    private fun section(res: Int) = col.addView(EfbUi.text(this, getString(res).uppercase(), 12f, EfbUi.DIM, bold = true).apply {
-        letterSpacing = 0.08f; setPadding(dp(6), dp(18), dp(6), dp(6))
-    })
+    private fun section(res: Int) = col.addView(EfbUi.section(this, getString(res)))
 
     private fun card(): LinearLayout = LinearLayout(this).apply {
         orientation = LinearLayout.VERTICAL

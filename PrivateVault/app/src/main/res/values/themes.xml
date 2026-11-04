@@ -2,18 +2,18 @@
 <resources>
     <!-- The day look: light ground, white cards, the same clear blue. -->
     <style name="Theme.Vault" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">#FF1A6FE0</item>
+        <item name="colorPrimary">#FF0A72E0</item>
         <item name="colorOnPrimary">#FFFFFFFF</item>
         <item name="colorPrimaryContainer">#FFDCE9FF</item>
         <item name="colorOnPrimaryContainer">#FF0A2A55</item>
-        <item name="colorSecondary">#FF1A6FE0</item>
+        <item name="colorSecondary">#FF0A72E0</item>
         <item name="colorOnSecondary">#FFFFFFFF</item>
         <item name="colorSecondaryContainer">#FFE3ECFA</item>
         <item name="colorOnSecondaryContainer">#FF14284A</item>
         <item name="colorTertiary">#FF1E9E4A</item>
         <item name="colorError">#FFD93025</item>
-        <item name="android:colorBackground">#FFF4F6F9</item>
-        <item name="colorSurface">#FFF4F6F9</item>
+        <item name="android:colorBackground">#FFEEF0F3</item>
+        <item name="colorSurface">#FFEEF0F3</item>
         <item name="colorOnSurface">#FF111827</item>
         <item name="colorOnSurfaceVariant">#FF5B6573</item>
         <item name="colorSurfaceVariant">#FFFFFFFF</item>
@@ -24,8 +24,8 @@
         <item name="colorSurfaceContainerHighest">#FFE8EBF0</item>
         <item name="colorOutline">#FFC5CCD6</item>
         <item name="colorOutlineVariant">#FFE2E6EC</item>
-        <item name="android:statusBarColor">#FFF4F6F9</item>
-        <item name="android:navigationBarColor">#FFF4F6F9</item>
+        <item name="android:statusBarColor">#FFEEF0F3</item>
+        <item name="android:navigationBarColor">#FFEEF0F3</item>
         <item name="android:windowLightStatusBar">true</item>
     </style>
 

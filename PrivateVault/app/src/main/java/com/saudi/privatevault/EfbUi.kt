@@ -22,12 +22,30 @@ import com.google.android.material.appbar.MaterialToolbar
 object EfbUi {
     // A modern EFB's palette, night (the default, kind to the eyes in the cockpit) or day.
     @JvmStatic var light = false
-    val BG get() = if (light) 0xFFF4F6F9.toInt() else 0xFF0F1318.toInt()
-    val CARD get() = if (light) 0xFFFFFFFF.toInt() else 0xFF1A2029.toInt()
-    val CARD_LINE get() = if (light) 0xFFE2E6EC.toInt() else 0xFF29313D.toInt()
-    val ACCENT get() = if (light) 0xFF1A6FE0.toInt() else 0xFF4DA3FF.toInt()
-    val TEXT get() = if (light) 0xFF111827.toInt() else 0xFFF1F4F8.toInt()
-    val DIM get() = if (light) 0xFF5B6573.toInt() else 0xFF8D97A8.toInt()
+    // Graphite and one clear blue, as the avionics apps look: calm surfaces, strong type.
+    val BG get() = if (light) 0xFFEEF0F3.toInt() else 0xFF15171B.toInt()
+    val CARD get() = if (light) 0xFFFFFFFF.toInt() else 0xFF20242A.toInt()
+    val CARD_LINE get() = if (light) 0xFFDCE0E5.toInt() else 0xFF30353C.toInt()
+    val ACCENT get() = if (light) 0xFF0A72E0.toInt() else 0xFF2E9BFF.toInt()
+    val TEXT get() = if (light) 0xFF14171C.toInt() else 0xFFF3F4F6.toInt()
+    val DIM get() = if (light) 0xFF646C77.toInt() else 0xFF98A1AC.toInt()
+    /** The title bar and section bands: a step lighter than the ground. */
+    val BAR get() = if (light) 0xFFFFFFFF.toInt() else 0xFF1C1F24.toInt()
+    val BAND get() = if (light) 0xFFE2E5EA.toInt() else 0xFF2A2E35.toInt()
+
+    val MEDIUM: Typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
+
+    /** A section header, as a band across the page: its name in capitals. */
+    fun section(ctx: Context, title: String) = TextView(ctx).apply {
+        text = title.uppercase()
+        textSize = 12.5f
+        letterSpacing = 0.06f
+        typeface = MEDIUM
+        setTextColor(if (light) 0xFF3D444D.toInt() else 0xFFC9CED6.toInt())
+        background = GradientDrawable().apply { cornerRadius = dp(ctx, 8).toFloat(); setColor(BAND) }
+        setPadding(dp(ctx, 14), dp(ctx, 8), dp(ctx, 14), dp(ctx, 8))
+        layoutParams = LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(ctx, 20); bottomMargin = dp(ctx, 6) }
+    }
     val GOOD get() = if (light) 0xFF1E9E4A.toInt() else 0xFF34C759.toInt()
     val WARN get() = if (light) 0xFFB86E00.toInt() else 0xFFFFB020.toInt()
     val BAD get() = if (light) 0xFFD93025.toInt() else 0xFFFF453A.toInt()
@@ -72,7 +90,7 @@ object EfbUi {
             isAppearanceLightStatusBars = light
             isAppearanceLightNavigationBars = light
         }
-        act.window.statusBarColor = BG
+        act.window.statusBarColor = BAR
         act.window.navigationBarColor = BG
         val root = LinearLayout(act).apply {
             orientation = LinearLayout.VERTICAL
@@ -81,7 +99,9 @@ object EfbUi {
         val bar = MaterialToolbar(act).apply {
             this.title = title
             setTitleTextColor(TEXT)
-            setBackgroundColor(BG)
+            setTitleTextAppearance(act, com.google.android.material.R.style.TextAppearance_Material3_TitleLarge)
+            setBackgroundColor(BAR)
+            elevation = 0f
             setNavigationIcon(R.drawable.ic_back)
             navigationIcon?.setTint(TEXT)
             setNavigationOnClickListener { act.finish() }
@@ -89,6 +109,7 @@ object EfbUi {
         }
         menu?.invoke(bar)
         root.addView(bar)
+        root.addView(View(act).apply { setBackgroundColor(CARD_LINE) }, LinearLayout.LayoutParams(-1, 1))
         val col = LinearLayout(act).apply {
             orientation = LinearLayout.VERTICAL
             setPadding(dp(act, 14), dp(act, 6), dp(act, 14), dp(act, 32))
@@ -107,10 +128,11 @@ object EfbUi {
         return col
     }
 
-    fun cardBg(ctx: Context, color: Int = CARD, radius: Int = 18) = GradientDrawable().apply {
-        cornerRadius = dp(ctx, radius).toFloat()
+    fun cardBg(ctx: Context, color: Int = CARD, radius: Int = 12) = GradientDrawable().apply {
+        cornerRadius = dp(ctx, minOf(radius, 14)).toFloat()
         setColor(color)
-        setStroke(dp(ctx, 1), CARD_LINE)
+        // A hairline in daylight; at night the surface alone sets the card off.
+        setStroke(if (light) dp(ctx, 1) else 0, CARD_LINE)
     }
 
     fun card(ctx: Context): LinearLayout = LinearLayout(ctx).apply {
@@ -125,7 +147,7 @@ object EfbUi {
         textSize = size
         setTextColor(color)
         if (mono) typeface = Typeface.MONOSPACE
-        if (bold) setTypeface(typeface, Typeface.BOLD)
+        if (bold) typeface = if (mono) Typeface.create(Typeface.MONOSPACE, Typeface.BOLD) else Typeface.create("sans-serif-medium", Typeface.BOLD)
     }
 
     fun ltr(v: TextView) = v.apply {
@@ -190,9 +212,9 @@ object EfbUi {
         for (i in from until group.childCount) {
             val v = group.getChildAt(i)
             v.alpha = 0f
-            v.translationY = dp(group.context, 26).toFloat()
-            v.animate().alpha(1f).translationY(0f).setStartDelay(40L * (i - from)).setDuration(420)
-                .setInterpolator(OvershootInterpolator(0.8f)).start()
+            v.translationY = dp(group.context, 10).toFloat()
+            v.animate().alpha(1f).translationY(0f).setStartDelay(18L * minOf(i - from, 12)).setDuration(220)
+                .setInterpolator(DecelerateInterpolator()).start()
         }
     }
 
