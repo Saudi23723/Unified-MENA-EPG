@@ -39,7 +39,7 @@ class SportsActivity : BaseActivity() {
     /** the guide's own countdown blocks before a match ("⏰ Next: …"): the match itself comes after them */
     private val filler = Regex("(?i)^\\s*⏰|التالي\\s*:|المباراة القادمة|\\bnext\\s*:|\\bup next\\b|\\bcoming up\\b|program 24/7")
     private val liveMark = Regex("(?i)\\blive\\b|مباشر|🔴|\\(l\\)|\\[l\\]|canlı|en vivo|en direct")
-    private val replayMark = Regex("(?i)\\breplay\\b|\\brepeat\\b|\\bdelayed\\b|\\(r\\)|\\[r\\]|إعادة|اعادة|مسجل|tekrar|rediffusion|\\bencore\\b")
+    private val replayMark = Regex("(?i)\\breplay\\b|\\brepeat\\b|\\bdelayed\\b|\\(r\\)|\\[r\\]|إعادة|اعادة|مسجل|tekrar|\\bbant\\b|\\bretro\\b|\\bclassics?\\b|best of|rewind|rediffusion|\\bencore\\b")
     /** a match: two sides (Team A vs / v / × / x / ضد / - Team B) */
     private val matchTitle = Regex("(?i)\\S.*\\s(vs\\.?|v|×|x|ضد|–|-)\\s.*\\S")
     private val notMatch = Regex("(?i)\\b(news|highlights|magazine|review|preview|replay|classic|studio|show|talk|podcast|weekly|countdown)\\b|ملخص|إعادة|اعادة|استوديو|برنامج|أخبار|اخبار")
