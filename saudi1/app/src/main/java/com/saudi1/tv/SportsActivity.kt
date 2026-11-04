@@ -36,6 +36,8 @@ class SportsActivity : BaseActivity() {
 
     /** only the sports channels the owner chose (by channel or group name) */
     private val sportChan = Regex("(?i)tnt\\s*sports?|sky\\s*sports?|\\btsn\\b|sportsnet|bein|ʙᴇɪɴ|thmanyah|thamanya|ثمانية|alwan|ألوان|الوان|fajer|فجر|shasha|شاشا|tabii|trt\\s*spor")
+    /** the guide's own countdown blocks before a match ("⏰ Next: …"): the match itself comes after them */
+    private val filler = Regex("(?i)^\\s*⏰|التالي\\s*:|المباراة القادمة|\\bnext\\s*:|\\bup next\\b|\\bcoming up\\b|program 24/7")
     private val liveMark = Regex("(?i)\\blive\\b|مباشر|🔴|\\(l\\)|\\[l\\]|canlı|en vivo|en direct")
     private val replayMark = Regex("(?i)\\breplay\\b|\\brepeat\\b|\\bdelayed\\b|\\(r\\)|\\[r\\]|إعادة|اعادة|مسجل|tekrar|rediffusion|\\bencore\\b")
     /** a match: two sides (Team A vs / v / × / x / ضد / - Team B) */
@@ -84,7 +86,8 @@ class SportsActivity : BaseActivity() {
                 part.map { c -> async { c to Api.guide(c) } }.map { it.await() }.forEach { (c, list) ->
                     for (p in list) {
                         if (p.stop <= now || p.start > until || !matchTitle.containsMatchIn(p.title) || notMatch.containsMatchIn(p.title) ||
-                            replayMark.containsMatchIn(p.title) || replayMark.containsMatchIn(p.desc)) continue  // recorded / replays are left out
+                            replayMark.containsMatchIn(p.title) || replayMark.containsMatchIn(p.desc) ||
+                            filler.containsMatchIn(p.title)) continue  // recorded / replays / "next match" countdown blocks are left out
                         val t = p.title.replace(Regex("(?i)^\\s*(live|مباشر)\\s*[:|-]?\\s*"), "").trim()
                         val k = (p.start / 300).toString() + "|" + t.lowercase().replace(Regex("[^\\p{L}\\p{N}]"), "")
                         val m = byKey.getOrPut(k) { Match(p.start, p.stop, t, ArrayList()) }
