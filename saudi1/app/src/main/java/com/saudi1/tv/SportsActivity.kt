@@ -26,7 +26,7 @@ import java.util.Locale
  *  Amman, Dubai, London or Chicago alike. OK = watch (choose the channel), hold OK = remind me. */
 @SuppressLint("NotifyDataSetChanged", "SetTextI18n")
 class SportsActivity : BaseActivity() {
-    private class Match(val start: Long, val stop: Long, val title: String, val channels: MutableList<Channel>) { var live = false }
+    private class Match(val start: Long, val stop: Long, val title: String, val channels: MutableList<Channel>) { var live = false; var names = "" }
     private var items: List<Match> = emptyList()
     private lateinit var info: TextView
     private val d by lazy { resources.displayMetrics.density }
@@ -71,42 +71,87 @@ class SportsActivity : BaseActivity() {
         load()
     }
 
+    /** the day's real broadcast listings (livefootballtv + live-footballontv, gathered by the repo every few minutes):
+     *  live matches only, each with the channels that carry it. The file prints its times in US Pacific;
+     *  they are turned into world time here, then shown in this device's clock. */
+    private fun listings(): List<Triple<Long, String, String>> {
+        val xml = App.http.newCall(okhttp3.Request.Builder()
+            .url("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/today_matches_epg.xml?t=" + System.currentTimeMillis() / 300_000).build())
+            .execute().use { it.body!!.string() }
+        val zone = java.time.ZoneId.of("America/Los_Angeles")
+        val bidi = Regex("[\u2066-\u2069\u200E\u200F\u202A-\u202E]")
+        val head = Regex("(\\d{2})/(\\d{2})")
+        val row = Regex("^\\s*\\S*\\s*(\\d{1,2}):(\\d{2})\\s+(.+)$")
+        // the desc of each day's first block lists the whole day
+        val days = LinkedHashMap<String, String>(); val years = HashMap<String, Int>()
+        val parser = android.util.Xml.newPullParser()
+        parser.setInput(java.io.StringReader(xml))
+        var start = ""; var inDesc = false
+        while (parser.next() != org.xmlpull.v1.XmlPullParser.END_DOCUMENT) {
+            when (parser.eventType) {
+                org.xmlpull.v1.XmlPullParser.START_TAG -> {
+                    if (parser.name == "programme") start = parser.getAttributeValue(null, "start") ?: ""
+                    inDesc = parser.name == "desc"
+                }
+                org.xmlpull.v1.XmlPullParser.TEXT -> if (inDesc) {
+                    val d = parser.text.replace(bidi, "")
+                    val h = d.lineSequence().firstOrNull() ?: ""
+                    if ((days[h]?.length ?: 0) < d.length) { days[h] = d; years[h] = start.take(4).toIntOrNull() ?: 2026 }
+                }
+                org.xmlpull.v1.XmlPullParser.END_TAG -> inDesc = false
+            }
+        }
+        val out = ArrayList<Triple<Long, String, String>>()
+        for ((h, d) in days) {
+            val m = head.find(h) ?: continue
+            val day = m.groupValues[1].toInt(); val month = m.groupValues[2].toInt(); val year = years[h] ?: 2026
+            val lines = d.lines()
+            var k = 1
+            while (k < lines.size) {
+                val r = row.find(lines[k])
+                if (r != null) {
+                    val t = java.time.ZonedDateTime.of(year, month, day, r.groupValues[1].toInt(), r.groupValues[2].toInt(), 0, 0, zone).toEpochSecond()
+                    val chans = lines.getOrNull(k + 1)?.takeIf { row.find(it) == null }?.trim() ?: ""
+                    out.add(Triple(t, r.groupValues[3].trim(), chans))
+                }
+                k++
+            }
+        }
+        return out
+    }
+
+    /** "beIN 5", "TNT 2", "Alwan 3", "Sky Sports Football" -> the playlist's channels with that name (every quality) */
+    private fun channelsFor(names: String, all: Map<String, List<Channel>>): MutableList<Channel> {
+        val out = ArrayList<Channel>()
+        for (n in names.split("·", "+").map { it.trim() }.filter { it.length > 1 }) {
+            val k = key(n)
+            if (k.length < 3) continue
+            all[k]?.forEach { c -> if (out.none { it.id == c.id }) out.add(c) }
+        }
+        return out
+    }
+
+    private fun key(n: String) = Api.baseName(n).replace("SPORT", "").replace("ENGLISH", "EN").replace("الكأس", "ALKASS").replace("ALKAS", "ALKASS")
+
     private fun load() = lifecycleScope.launch {
         val found = withContext(Dispatchers.IO) {
             if (Api.groups.isEmpty()) try { Api.load(cached = true) } catch (_: Exception) { }
-            val chans = Api.groups.filter { it.id != Api.FAV && it.id != Api.SEARCH }
-                .flatMap { g -> g.channels.filter { c -> sportChan.containsMatchIn(c.name) || (g.id != Api.ALL && sportChan.containsMatchIn(g.name)) } }
-                .filter { it.id > 0 }.distinctBy { it.id }
-            // one channel per quality family is enough to read the guide (4K / FHD / HD share it)
-            val readers = chans.groupBy { Api.baseName(it.name) }.values.map { it.first() }.take(220)
+            val rows = try { listings() } catch (e: Exception) { emptyList() }
+            val all = (Api.groups.firstOrNull { it.id == Api.ALL }?.channels ?: emptyList()).filter { it.id > 0 }.groupBy { key(it.name) }
             val now = System.currentTimeMillis() / 1000
-            val until = now + 48 * 3600
-            val byKey = LinkedHashMap<String, Match>()
-            readers.chunked(10).forEach { part ->
-                part.map { c -> async { c to Api.guide(c) } }.map { it.await() }.forEach { (c, list) ->
-                    for (p in list) {
-                        if (p.stop <= now || p.start > until || !matchTitle.containsMatchIn(p.title) || notMatch.containsMatchIn(p.title) ||
-                            replayMark.containsMatchIn(p.title) || replayMark.containsMatchIn(p.desc) ||
-                            filler.containsMatchIn(p.title)) continue  // recorded / replays / "next match" countdown blocks are left out
-                        val t = p.title.replace(Regex("(?i)^\\s*(live|مباشر)\\s*[:|-]?\\s*"), "").trim()
-                        val k = (p.start / 300).toString() + "|" + t.lowercase().replace(Regex("[^\\p{L}\\p{N}]"), "")
-                        val m = byKey.getOrPut(k) { Match(p.start, p.stop, t, ArrayList()) }
-                        if (liveMark.containsMatchIn(p.title) || liveMark.containsMatchIn(p.desc)) m.live = true
-                        // every quality of that channel can play it
-                        Api.qualities(c).forEach { q -> if (m.channels.none { it.id == q.id }) m.channels.add(q) }
-                    }
-                }
-                val snap = byKey.values.sortedBy { it.start }
-                withContext(Dispatchers.Main) { items = snap; adapter.notifyDataSetChanged(); info.text = "${snap.size} matches so far…" }
+            rows.filter { it.first + 2 * 3600 > now }.distinctBy { it.first.toString() + it.second.lowercase() }.sortedBy { it.first }.map { (t, title, names) ->
+                Match(t, t + 2 * 3600, title, channelsFor(names, all)).also { it.names = names }
             }
-            byKey.values.sortedBy { it.start }
         }
         items = found; adapter.notifyDataSetChanged()
-        info.text = (if (found.isEmpty()) "No matches found in the guide right now" else "${found.size} matches") +
+        info.text = (if (found.isEmpty()) "No live matches listed right now" else "${found.size} live matches") +
             "   ·   times in your clock (" + java.util.TimeZone.getDefault().id + ")   ·   OK watch · hold OK remind me"
     }
 
     private fun watch(m: Match) {
+        if (m.channels.isEmpty()) {
+            android.widget.Toast.makeText(this, "On ${m.names.ifEmpty { "—" }} · not found in your playlist", android.widget.Toast.LENGTH_LONG).show(); return
+        }
         if (m.channels.size == 1) { tune(m.channels[0]); return }
         AlertDialog.Builder(this).setTitle(m.title)
             .setItems(m.channels.map { "${it.num}   ${it.name}   ·   " + (Api.group(it.group)?.name ?: "") }.toTypedArray()) { _, w -> tune(m.channels[w]) }.show()
@@ -126,7 +171,7 @@ class SportsActivity : BaseActivity() {
             h.row.setOnClickListener { items.getOrNull(h.bindingAdapterPosition)?.let { watch(it) } }
             h.row.setOnLongClickListener {
                 val m = items.getOrNull(h.bindingAdapterPosition) ?: return@setOnLongClickListener true
-                val c = m.channels.first()
+                val c = m.channels.firstOrNull() ?: return@setOnLongClickListener true
                 val on = Reminders.toggle(Reminder(c.id, m.start, m.title, c.name))
                 android.widget.Toast.makeText(this@SportsActivity, if (on) "⏰ I'll remind you 10 s before" else "Reminder removed", android.widget.Toast.LENGTH_SHORT).show()
                 notifyItemChanged(h.bindingAdapterPosition); true
@@ -141,11 +186,11 @@ class SportsActivity : BaseActivity() {
             val today = dayF.format(Date()); val tomorrow = dayF.format(Date(System.currentTimeMillis() + 86_400_000))
             h.day.text = when (dd) { today -> "Today · $dd"; tomorrow -> "Tomorrow · $dd"; else -> dd }
             h.time.text = timeF.format(Date(m.start * 1000))
-            h.title.text = (if (m.live) "🔴 " else "") + m.title
-            h.desc.text = m.channels.take(4).joinToString("  ·  ") { it.name } + if (m.channels.size > 4) "  +${m.channels.size - 4}" else ""
+            h.title.text = m.title
+            h.desc.text = m.names + if (m.channels.isEmpty()) "   ·   not in your playlist" else "   ·   ${m.channels.size} in your playlist"
             val nowS = System.currentTimeMillis() / 1000
             val live = nowS in m.start until m.stop
-            h.mark.text = when { live -> "LIVE"; Reminders.has(m.channels.first().id, m.start) -> "⏰"; else -> "" }
+            h.mark.text = when { live -> "LIVE"; m.channels.isNotEmpty() && Reminders.has(m.channels.first().id, m.start) -> "⏰"; else -> "" }
             h.mark.setTextColor(getColor(if (live) R.color.live else R.color.accent))
             if (i == 0 && !h.row.hasFocus()) h.row.post { if (currentFocus == null) h.row.requestFocus() }
         }

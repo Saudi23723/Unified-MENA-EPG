@@ -106,6 +106,15 @@ val android.content.Context.isTouch: Boolean
 
 /** Every screen: night dimming on top, and the reminder countdown. */
 open class BaseActivity : AppCompatActivity() {
+    companion object {
+        private var started = 0
+        /** the app was in the background (HOME, another app, TV off) and is coming back */
+        @Volatile var cameBack = false
+        private var wasHidden = false
+    }
+    override fun onStart() { super.onStart(); if (started++ == 0 && wasHidden) cameBack = true; wasHidden = false }
+    override fun onStop() { super.onStop(); if (--started == 0) wasHidden = true }
+
     private var dimView: View? = null
     private var box: View? = null
     private var watch: Job? = null
@@ -115,6 +124,7 @@ open class BaseActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        if (this !is HomeActivity) cameBack = false   // came back straight onto this screen: nothing to jump to
         applyDim()
         watch = lifecycleScope.launch {
             while (isActive) {

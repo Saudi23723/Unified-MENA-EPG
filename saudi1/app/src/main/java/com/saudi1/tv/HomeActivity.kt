@@ -58,10 +58,6 @@ class HomeActivity : BaseActivity() {
             setTextColor(getColorStateList(R.color.on_focus))
             setOnClickListener { reload() }
         }
-        // like TiviMate: the app opens straight on the channel that was playing when it was closed
-        if (savedInstanceState == null && Prefs.ready && App.prefs.contains("last_channel") && App.prefs.getBoolean("open_last", true) &&
-            Api.byId[Prefs.lastChannel]?.let { c -> Parental.isLocked(c.group, Api.group(c.group)?.name ?: "") } != true)
-            startActivity(Intent(this, LiveActivity::class.java).putExtra("channel", Prefs.lastChannel))
         lifecycleScope.launch {
             val clock = findViewById<TextView>(R.id.clock)
             val f = SimpleDateFormat("EEEE d MMMM  ·  h:mm a", Locale.ENGLISH)
@@ -71,6 +67,14 @@ class HomeActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
+        // opened again from the TV's home screen: straight back to the channel that was on (like TiviMate)
+        val fresh = !resumedOnce; resumedOnce = true
+        if (fresh || BaseActivity.cameBack) {
+            BaseActivity.cameBack = false
+            if (Prefs.ready && App.prefs.contains("last_channel") && App.prefs.getBoolean("open_last", true)) {
+                startActivity(Intent(this, LiveActivity::class.java).putExtra("channel", Prefs.lastChannel)); return
+            }
+        }
         if (!Prefs.ready) { startActivity(Intent(this, SetupActivity::class.java)); return }
         status.text = (Device.name.ifEmpty { Prefs.server.substringAfter("://") }) + "   ·   Device " + Device.pretty
         // the lists are ready before Live TV opens: from the copy on the TV first, then fresh in the background
@@ -90,6 +94,7 @@ class HomeActivity : BaseActivity() {
     }
 
     private var lastLoad = 0L
+    private var resumedOnce = false
 
     private fun playlists() {
         val ps = Device.playlists()
