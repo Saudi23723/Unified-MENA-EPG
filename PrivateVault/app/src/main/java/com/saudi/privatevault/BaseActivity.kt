@@ -33,6 +33,7 @@ open class BaseActivity : AppCompatActivity() {
         super.onResume()
         look()
         keepScreen(this)
+        EyeComfort.apply(this)
         VaultLock.applySecure(this)
         VaultLock.checkTimeout(this)
         if (!VaultLock.unlocked) {

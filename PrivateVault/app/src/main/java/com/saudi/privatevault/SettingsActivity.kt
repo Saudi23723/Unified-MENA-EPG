@@ -45,6 +45,7 @@ class SettingsActivity : BaseActivity() {
         toggle(card, getString(R.string.qt_toggle).removePrefix("✎ "), getString(R.string.set_tools_sub), QuickTools.enabled(this)) {
             QuickTools.setEnabled(this, it); QuickTools.attach(this)
         }
+        link(card, "🌙  " + getString(R.string.eye_title)) { EyeComfort.choose(this) }
         toggle(card, getString(R.string.set_volume_pages), getString(R.string.set_volume_pages_sub), prefs.getBoolean("volume_pages", false)) {
             prefs.edit().putBoolean("volume_pages", it).apply()
         }

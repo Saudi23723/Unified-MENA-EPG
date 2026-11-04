@@ -52,6 +52,7 @@ class TvActivity : BaseActivity() {
             Tile(R.drawable.ic_laptop, R.string.tv_cloud, R.string.tv_cloud_sub, intArrayOf(0xFF4DB2FF.toInt(), 0xFF0A72E0.toInt())) { startActivity(Intent(this, LaptopActivity::class.java)) },
             Tile(R.drawable.ic_video, R.string.tv_device, R.string.tv_device_sub, intArrayOf(0xFFFF8A65.toInt(), 0xFFD84315.toInt())) { startActivity(Intent(this, MainActivity::class.java)) },
             Tile(R.drawable.ic_contents, R.string.tv_library, R.string.tv_library_sub, intArrayOf(0xFFA98BFF.toInt(), 0xFF6C47E0.toInt())) { startActivity(Intent(this, LibraryActivity::class.java)) },
+            Tile(R.drawable.ic_moon, R.string.eye_title, R.string.eye_sub, intArrayOf(0xFFFFC24D.toInt(), 0xFFE08A00.toInt())) { EyeComfort.choose(this) },
             Tile(R.drawable.ic_upload, R.string.tv_update, R.string.tv_update_sub, intArrayOf(0xFF4CD97B.toInt(), 0xFF1E9E4A.toInt())) { Updater.check(this, quiet = false) },
             Tile(R.drawable.ic_more, R.string.set_title, R.string.tv_settings_sub, intArrayOf(0xFF8E9AAB.toInt(), 0xFF4A5566.toInt())) { startActivity(Intent(this, SettingsActivity::class.java)) },
         )
