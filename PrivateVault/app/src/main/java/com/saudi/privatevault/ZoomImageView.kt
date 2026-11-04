@@ -124,6 +124,7 @@ open class ZoomImageView @JvmOverloads constructor(
         m.postTranslate((width - dw * s) / 2f, (height - dh * s) / 2f)
         minScale = s
         imageMatrix = m
+        onMoved?.invoke()
     }
 
     private fun currentScale(): Float {
@@ -134,6 +135,23 @@ open class ZoomImageView @JvmOverloads constructor(
     private fun isZoomed() = currentScale() > minScale * 1.02f
 
     // ---- for a remote control: set zoom levels, and a smooth move about a zoomed page ----
+
+    /** Called whenever the page moves or zooms (for a position map). */
+    var onMoved: (() -> Unit)? = null
+
+    /** The part of the page on screen, as fractions of the page (0..1), or null. */
+    fun viewport(): RectF? {
+        val d = drawable ?: return null
+        val inv = Matrix()
+        if (!m.invert(inv)) return null
+        val r = RectF(0f, 0f, width.toFloat(), height.toFloat())
+        inv.mapRect(r)
+        val w = d.intrinsicWidth.toFloat(); val h = d.intrinsicHeight.toFloat()
+        return RectF((r.left / w).coerceIn(0f, 1f), (r.top / h).coerceIn(0f, 1f), (r.right / w).coerceIn(0f, 1f), (r.bottom / h).coerceIn(0f, 1f))
+    }
+
+    /** The page's shape, height over width. */
+    fun aspect(): Float = drawable?.let { if (it.intrinsicWidth > 0) it.intrinsicHeight.toFloat() / it.intrinsicWidth else 1.3f } ?: 1.3f
 
     /** Called each time a new page is shown and fitted (so a reader can keep its zoom). */
     var onFitted: (() -> Unit)? = null
@@ -221,6 +239,7 @@ open class ZoomImageView @JvmOverloads constructor(
         }
         m.postTranslate(dx, dy)
         imageMatrix = m
+        onMoved?.invoke()
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {

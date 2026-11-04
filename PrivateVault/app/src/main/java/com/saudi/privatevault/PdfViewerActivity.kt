@@ -378,6 +378,11 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
         setChrome(false)
         b.root.postDelayed({ if (!chromeShown) { setChrome(false); b.page.fit() } }, 400)
         flashTv(getString(R.string.tv_keys))
+        pageMap = PageMap(this).also {
+            it.alpha = 0f
+            (b.root as? FrameLayout)?.addView(it, FrameLayout.LayoutParams(dp(120), dp(160), Gravity.TOP or Gravity.END).apply { setMargins(0, dp(24), dp(24), 0) })
+        }
+        b.page.onMoved = { showPageMap() }
     }
 
     /** A short note at the bottom of the screen: the page, the zoom. */
@@ -419,10 +424,46 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
         tvFoot = false
     }
 
+    // A press at a page's edge asks for a second one before the page turns.
+    private var edgeKey = -1
+    private var edgeAt = 0L
+    private var okLong = false
+
+    /** At the edge: the first press says so, a second one (within 3 s) turns the page. */
+    private fun atEdge(keyCode: Int, dir: Int, hint: Int): Boolean {
+        val now = android.os.SystemClock.uptimeMillis()
+        if (edgeKey == keyCode && now - edgeAt < 3000) {
+            edgeKey = -1
+            if (dir < 0 && keyCode == android.view.KeyEvent.KEYCODE_DPAD_UP) tvFoot = true
+            turnTv(dir)
+            return true
+        }
+        edgeKey = keyCode; edgeAt = now
+        flashTv(getString(hint))
+        return true
+    }
+
+    private fun turnTv(dir: Int) {
+        val count = renderer?.pageCount ?: return
+        if (pageIndex + dir !in 0 until count) { flashTv(getString(if (dir > 0) R.string.tv_last_page else R.string.tv_first_page)); return }
+        turn(dir)
+        flashTv("${pageIndex + dir + 1} / $count")
+    }
+
     // With the bars hidden the arrows belong to the page, not to whatever button had the focus.
     override fun dispatchKeyEvent(event: android.view.KeyEvent): Boolean {
-        if (tvHint != null && !chromeShown && event.action == android.view.KeyEvent.ACTION_DOWN && tvKey(event.keyCode)) return true
-        if (tvHint != null && !chromeShown && event.action == android.view.KeyEvent.ACTION_UP && event.keyCode != android.view.KeyEvent.KEYCODE_BACK) return true
+        if (tvHint != null && !chromeShown) {
+            val ok = event.keyCode == android.view.KeyEvent.KEYCODE_DPAD_CENTER || event.keyCode == android.view.KeyEvent.KEYCODE_ENTER
+            if (ok) {
+                // OK: a press steps the zoom; a long press opens the menu.
+                if (event.action == android.view.KeyEvent.ACTION_DOWN && event.repeatCount == 0) okLong = false
+                if (event.action == android.view.KeyEvent.ACTION_DOWN && event.repeatCount >= 2 && !okLong) { okLong = true; setChrome(true); b.toolbar.showOverflowMenu() }
+                if (event.action == android.view.KeyEvent.ACTION_UP && !okLong) stepZoom()
+                return true
+            }
+            if (event.action == android.view.KeyEvent.ACTION_DOWN && tvKey(event.keyCode)) return true
+            if (event.action == android.view.KeyEvent.ACTION_UP && event.keyCode != android.view.KeyEvent.KEYCODE_BACK) return true
+        }
         // Bars shown: Back hides them first.
         if (tvHint != null && chromeShown && event.keyCode == android.view.KeyEvent.KEYCODE_BACK) {
             if (event.action == android.view.KeyEvent.ACTION_UP) setChrome(false)
@@ -431,52 +472,55 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
         return super.dispatchKeyEvent(event)
     }
 
+    private fun stepZoom() {
+        val levels = tvLevels()
+        val zoomed = b.page.zoomed()
+        tvZoom = (tvZoom + 1) % levels.size
+        when {
+            tvZoom == 0 -> b.page.fit()
+            !zoomed -> b.page.zoomTo(levels[tvZoom])
+            else -> b.page.zoomKeep(levels[tvZoom])
+        }
+        flashTv(tvZoomLabel() + if (tvZoom == 1) "   ·   " + getString(R.string.tv_zoom_move) else "")
+    }
+
     /**
-     * The remote, as a TV reader works it:
-     * OK steps the zoom (whole page → page width → closer → whole page);
+     * The remote (a Chromecast's has only the arrows, OK and Back):
      * whole page: left / right turn the page, up / down too;
-     * zoomed: the arrows move about the page, and past its foot (or top, or side)
-     * the next (or previous) page opens at the same zoom;
-     * Back goes to the whole page first, then out; Menu shows the bars.
+     * zoomed: the arrows only move about the page; at an edge a second press
+     * of the same arrow opens the next (or previous) page at the same zoom;
+     * OK steps the zoom, a long OK opens the menu; Back gives the whole page, then leaves.
      */
     private fun tvKey(keyCode: Int): Boolean {
-        val count = renderer?.pageCount ?: 0
-        val sx = b.page.width * 0.45f
-        val sy = b.page.height * 0.6f
+        val sx = b.page.width * 0.4f
+        val sy = b.page.height * 0.55f
         val zoomed = b.page.zoomed()
+        if (keyCode != edgeKey) edgeKey = -1
         when (keyCode) {
-            android.view.KeyEvent.KEYCODE_DPAD_CENTER, android.view.KeyEvent.KEYCODE_ENTER, android.view.KeyEvent.KEYCODE_NUMPAD_ENTER -> {
-                val levels = tvLevels()
-                tvZoom = (tvZoom + 1) % levels.size
-                when {
-                    tvZoom == 0 -> b.page.fit()
-                    !zoomed -> b.page.zoomTo(levels[tvZoom])
-                    else -> b.page.zoomKeep(levels[tvZoom])
-                }
-                flashTv(tvZoomLabel())
-            }
             android.view.KeyEvent.KEYCODE_DPAD_RIGHT -> when {
-                !zoomed || b.page.atRight() -> if (pageIndex < count - 1) { turn(1); flashTv("${pageIndex + 2} / $count") }
+                !zoomed -> turnTv(1)
+                b.page.atRight() -> atEdge(keyCode, 1, R.string.tv_edge_next)
                 else -> b.page.panSmooth(-sx, 0f)
             }
             android.view.KeyEvent.KEYCODE_DPAD_LEFT -> when {
-                !zoomed || b.page.atLeft() -> if (pageIndex > 0) { turn(-1); flashTv("$pageIndex / $count") }
+                !zoomed -> turnTv(-1)
+                b.page.atLeft() -> atEdge(keyCode, -1, R.string.tv_edge_prev)
                 else -> b.page.panSmooth(sx, 0f)
             }
             android.view.KeyEvent.KEYCODE_DPAD_DOWN -> when {
-                !zoomed -> if (pageIndex < count - 1) { turn(1); flashTv("${pageIndex + 2} / $count") }
-                b.page.atFoot() -> if (pageIndex < count - 1) { turn(1); flashTv("${pageIndex + 2} / $count") }
+                !zoomed -> turnTv(1)
+                b.page.atFoot() -> atEdge(keyCode, 1, R.string.tv_edge_next)
                 else -> b.page.panSmooth(0f, -sy)
             }
             android.view.KeyEvent.KEYCODE_DPAD_UP -> when {
-                !zoomed -> if (pageIndex > 0) { turn(-1); flashTv("$pageIndex / $count") }
-                b.page.atTop() -> if (pageIndex > 0) { tvFoot = true; turn(-1); flashTv("$pageIndex / $count") }
+                !zoomed -> turnTv(-1)
+                b.page.atTop() -> atEdge(keyCode, -1, R.string.tv_edge_prev)
                 else -> b.page.panSmooth(0f, sy)
             }
             android.view.KeyEvent.KEYCODE_MEDIA_FAST_FORWARD, android.view.KeyEvent.KEYCODE_PAGE_DOWN, android.view.KeyEvent.KEYCODE_CHANNEL_DOWN,
-            android.view.KeyEvent.KEYCODE_MEDIA_NEXT -> if (pageIndex < count - 1) { turn(1); flashTv("${pageIndex + 2} / $count") }
+            android.view.KeyEvent.KEYCODE_MEDIA_NEXT -> turnTv(1)
             android.view.KeyEvent.KEYCODE_MEDIA_REWIND, android.view.KeyEvent.KEYCODE_PAGE_UP, android.view.KeyEvent.KEYCODE_CHANNEL_UP,
-            android.view.KeyEvent.KEYCODE_MEDIA_PREVIOUS -> if (pageIndex > 0) { turn(-1); flashTv("$pageIndex / $count") }
+            android.view.KeyEvent.KEYCODE_MEDIA_PREVIOUS -> turnTv(-1)
             android.view.KeyEvent.KEYCODE_BACK -> {
                 if (zoomed || tvZoom != 0) { tvZoom = 0; b.page.fit(); flashTv(getString(R.string.tv_zoom_page)) } else finish()
             }
@@ -484,6 +528,37 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
             else -> return false
         }
         return true
+    }
+
+    // ---- where you are on a zoomed page: the page small in the corner, the screen's part on it ----
+
+    private inner class PageMap(ctx: android.content.Context) : View(ctx) {
+        private val page = android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG).apply { color = 0xCCFFFFFF.toInt() }
+        private val edge = android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG).apply { style = android.graphics.Paint.Style.STROKE; strokeWidth = dp(1).toFloat(); color = 0xFF000000.toInt() }
+        private val view = android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG).apply { color = 0x662E9BFF }
+        private val viewEdge = android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG).apply { style = android.graphics.Paint.Style.STROKE; strokeWidth = dp(2).toFloat(); color = 0xFF2E9BFF.toInt() }
+        override fun onDraw(c: android.graphics.Canvas) {
+            val v = b.page.viewport() ?: return
+            val w = width.toFloat(); val h = height.toFloat()
+            c.drawRoundRect(0f, 0f, w, h, dp(4).toFloat(), dp(4).toFloat(), page)
+            c.drawRoundRect(0f, 0f, w, h, dp(4).toFloat(), dp(4).toFloat(), edge)
+            val r = android.graphics.RectF(v.left * w, v.top * h, v.right * w, v.bottom * h)
+            c.drawRect(r, view); c.drawRect(r, viewEdge)
+        }
+    }
+
+    private var pageMap: PageMap? = null
+
+    private fun showPageMap() {
+        val map = pageMap ?: return
+        if (!b.page.zoomed()) { map.animate().alpha(0f).setDuration(200).start(); return }
+        val w = dp(120)
+        val h = (w * b.page.aspect()).toInt().coerceIn(dp(60), dp(200))
+        if (map.layoutParams.height != h) map.layoutParams = (map.layoutParams as FrameLayout.LayoutParams).apply { height = h }
+        map.invalidate()
+        map.animate().cancel()
+        map.alpha = 1f
+        map.animate().alpha(0.35f).setStartDelay(2500).setDuration(600).start()
     }
 
     /** A page turned with a short slide, the way a book turns. */

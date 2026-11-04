@@ -707,7 +707,7 @@ or tap an airport → Add to route, or long-press anywhere on the chart.</string
     <string name="route_settings">TAS %1$d kt · wind %2$03d°/%3$d kt · %4$.1f gph</string>
     <string name="route_edit">✎ Edit</string>
     <string name="route_navlog">📋 Nav log</string>
-    <string name="tv_keys">OK: zoom · ◀ ▶ ▲ ▼: turn pages, or move about a zoomed page · Back: whole page · Menu: the bars</string>
+    <string name="tv_keys">◀ ▶ pages · OK zoom · zoomed: the arrows move, at an edge press again to turn · long OK: menu · Back: whole page</string>
     <string name="tv_video_keys">OK: play/pause · ◀ 15 s · ▶ 30 s · ▼ picture size · ▲ controls</string>
     <string name="tv_continue">Continue reading</string>
     <string name="tv_page">page %1$d</string>
@@ -715,6 +715,11 @@ or tap an airport → Add to route, or long-press anywhere on the chart.</string
     <string name="tv_update_sub">Look for a new version and install it</string>
     <string name="tv_zoom_page">📄 Whole page</string>
     <string name="tv_zoom_width">↔ Page width</string>
+    <string name="tv_edge_next">At the edge · press again for the next page</string>
+    <string name="tv_edge_prev">At the edge · press again for the previous page</string>
+    <string name="tv_last_page">This is the last page</string>
+    <string name="tv_first_page">This is the first page</string>
+    <string name="tv_zoom_move">the arrows move the page</string>
     <string name="map_circle">Circle</string>
     <string name="map_ruler">Ruler</string>
     <string name="pen_write">Write and highlight</string>

@@ -721,7 +721,7 @@
     <string name="route_settings">TAS %1$d kt · ريح %2$03d°/%3$d kt · %4$.1f gph</string>
     <string name="route_edit">✎ تعديل</string>
     <string name="route_navlog">📋 Nav log</string>
-    <string name="tv_keys">OK: تكبير · ◀ ▶ ▲ ▼: قلب الصفحات أو التنقل بالصفحة المكبّرة · Back: الصفحة كاملة · Menu: القائمة</string>
+    <string name="tv_keys">◀ ▶ الصفحات · OK تكبير · بالتكبير: الأسهم بتحرّك، وبالطرف كبسة كمان بتقلب · OK طويلة: القائمة · Back: الصفحة كاملة</string>
     <string name="tv_video_keys">OK: تشغيل/إيقاف · ◀ 15 ث · ▶ 30 ث · ▼ حجم الصورة · ▲ التحكم</string>
     <string name="tv_continue">كمّل القراءة</string>
     <string name="tv_page">صفحة %1$d</string>
@@ -729,6 +729,11 @@
     <string name="tv_update_sub">دوّر على نسخة جديدة ونزّلها</string>
     <string name="tv_zoom_page">📄 الصفحة كاملة</string>
     <string name="tv_zoom_width">↔ بعرض الشاشة</string>
+    <string name="tv_edge_next">وصلت الطرف · كبسة كمان للصفحة الجاية</string>
+    <string name="tv_edge_prev">وصلت الطرف · كبسة كمان للصفحة اللي قبل</string>
+    <string name="tv_last_page">هاي آخر صفحة</string>
+    <string name="tv_first_page">هاي أول صفحة</string>
+    <string name="tv_zoom_move">الأسهم بتحرّك الصفحة</string>
     <string name="map_circle">دائرة</string>
     <string name="map_ruler">مسطرة</string>
     <string name="pen_write">كتابة وتظليل</string>
