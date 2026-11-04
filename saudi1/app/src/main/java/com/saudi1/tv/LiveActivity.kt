@@ -445,7 +445,7 @@ class LiveActivity : BaseActivity() {
             val cur = list.firstOrNull { it.now(t) }
             val nx = list.firstOrNull { it.start >= (cur?.stop ?: t) }
             if (cur != null) {
-                now.text = "${time.format(Date(cur.start * 1000))} – ${time.format(Date(cur.stop * 1000))}   ${cur.title}"
+                now.text = "\u200E${time.format(Date(cur.start * 1000))} – ${time.format(Date(cur.stop * 1000))}   ${cur.title}"
                 bar.progress = (((t - cur.start) * 1000) / (cur.stop - cur.start).coerceAtLeast(1)).toInt()
                 desc?.text = cur.desc
             } else now.text = "No guide"
