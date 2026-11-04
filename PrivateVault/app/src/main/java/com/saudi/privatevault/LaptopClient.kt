@@ -150,7 +150,8 @@ object LaptopClient {
         val l = links(ctx)
         for (u in known(ctx)) {
             if (u == now) continue
-            val t = l.optString(u).ifEmpty { continue }
+            val t = l.optString(u)
+            if (t.isEmpty()) continue
             val ok = try {
                 val c = open("$u/api/status", t).apply { connectTimeout = 6000; readTimeout = 8000 }
                 try { c.responseCode == 200 } finally { c.disconnect() }
