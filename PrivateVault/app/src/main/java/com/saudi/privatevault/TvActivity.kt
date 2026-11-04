@@ -27,7 +27,7 @@ class TvActivity : BaseActivity() {
         val root = FrameLayout(this).apply {
             background = GradientDrawable(GradientDrawable.Orientation.TL_BR, intArrayOf(0xFF07101F.toInt(), 0xFF0B1A33.toInt(), 0xFF15315A.toInt()))
         }
-        val col = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(dp(56), dp(40), dp(56), dp(32)) }
+        val col = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(dp(48), dp(28), dp(48), dp(20)) }
         root.addView(col, FrameLayout.LayoutParams(-1, -1))
         col.addView(TextView(this).apply {
             text = android.text.SpannableString("PILOT COMPANION").apply { setSpan(android.text.style.ForegroundColorSpan(0xFF8CC8FF.toInt()), 6, 15, 0) }
@@ -36,8 +36,9 @@ class TvActivity : BaseActivity() {
         col.addView(TextView(this).apply {
             text = getString(R.string.tv_sub); textSize = 16f; setTextColor(0xB3FFFFFF.toInt()); setPadding(0, dp(6), 0, dp(28))
         })
-        val row = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
-        col.addView(row)
+        // Three tiles a row, so every one is on screen.
+        val row = android.widget.GridLayout(this).apply { columnCount = 3 }
+        col.addView(row, LinearLayout.LayoutParams(-1, -2))
         // The book last read, a press away.
         val last = VaultLock.prefs(this).getString("last_book", null)?.let { VaultStore.item(it) }
         val tiles = listOfNotNull(
@@ -57,7 +58,11 @@ class TvActivity : BaseActivity() {
         var first: View? = null
         for ((i, t) in tiles.withIndex()) {
             val v = tile(t)
-            row.addView(v, LinearLayout.LayoutParams(0, dp(230), 1f).apply { marginEnd = if (i < tiles.size - 1) dp(22) else 0 })
+            row.addView(v, android.widget.GridLayout.LayoutParams().apply {
+                width = 0; height = dp(190)
+                columnSpec = android.widget.GridLayout.spec(android.widget.GridLayout.UNDEFINED, 1f)
+                setMargins(dp(10), dp(10), dp(10), dp(10))
+            })
             if (first == null) first = v
         }
         col.addView(TextView(this).apply {
@@ -65,6 +70,8 @@ class TvActivity : BaseActivity() {
         })
         setContentView(root)
         first?.requestFocus()
+        // What made the app close last time, if it did: shown here on the TV too.
+        CrashReport.showIfAny(this)
         // A new version is offered here too, as on the phone.
         Updater.checkQuietly(this)
     }
@@ -84,7 +91,7 @@ class TvActivity : BaseActivity() {
         addView(android.widget.ImageView(context).apply {
             setImageResource(t.icon); setColorFilter(0xFFFFFFFF.toInt()); setPadding(dp(20), dp(20), dp(20), dp(20))
             background = GradientDrawable(GradientDrawable.Orientation.TL_BR, t.grad).apply { shape = GradientDrawable.OVAL }
-        }, LinearLayout.LayoutParams(dp(84), dp(84)))
+        }, LinearLayout.LayoutParams(dp(70), dp(70)))
         addView(TextView(context).apply {
             text = t.titleText ?: getString(t.title).replace(Regex("^[^\\p{L}]+"), ""); textSize = 22f; setTextColor(0xFFFFFFFF.toInt())
             typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL); gravity = Gravity.CENTER; setPadding(0, dp(16), 0, dp(4))
