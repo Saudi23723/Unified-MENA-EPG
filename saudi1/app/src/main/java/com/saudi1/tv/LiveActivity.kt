@@ -157,8 +157,8 @@ class LiveActivity : BaseActivity() {
                 if (playing == null || usingHls || player.playbackState != Player.STATE_READY || !player.isPlaying) continue
                 val ahead = player.bufferedPosition - player.currentPosition
                 val fast = player.playbackParameters.speed > 1f
-                if (fast) lag = (lag - 70).coerceAtLeast(0)
-                val want = when { ahead > 9_000 || (lag > 1_500 && ahead > 4_000) -> 1.07f; fast && ahead > 3_500 && (lag > 0 || ahead > 6_000) -> 1.07f; else -> 1f }
+                if (fast) lag = (lag - 50).coerceAtLeast(0)
+                val want = when { ahead > 9_000 || (lag > 1_500 && ahead > 4_000) -> 1.05f; fast && ahead > 3_500 && (lag > 0 || ahead > 6_000) -> 1.05f; else -> 1f }
                 if (want != player.playbackParameters.speed) player.setPlaybackSpeed(want)
                 if (lag > 12_000 && ahead < 2_500) { lag = 0; playing?.let { start(it) } }
             }
@@ -166,13 +166,21 @@ class LiveActivity : BaseActivity() {
         // a picture that stops moving (the provider's stream stalls) starts again by itself
         lifecycleScope.launch {
             var last = -1L; var still = 0
+            var frames = -1; var frozen = 0
             while (isActive) {
                 delay(3000)
                 val c = playing
-                if (c == null || !player.playWhenReady || player.playbackState == Player.STATE_IDLE || player.playbackState == Player.STATE_ENDED) { still = 0; last = -1; continue }
+                if (c == null || !player.playWhenReady || player.playbackState == Player.STATE_IDLE || player.playbackState == Player.STATE_ENDED) { still = 0; last = -1; frames = -1; frozen = 0; continue }
                 val pos = player.currentPosition
-                if (pos == last) { if (++still >= 3) { still = 0; last = -1; start(c); continue } } else still = 0
+                if (pos == last) { if (++still >= 3) { still = 0; last = -1; android.util.Log.w("SAUDI", "stalled: restart ${c.name}"); start(c); continue } } else still = 0
                 last = pos
+                // the sound goes on but the picture is stuck (the video decoder stopped): the clock still moves, so
+                // watch the pictures shown instead — none for 6 s while playing = the channel again
+                val n = player.videoDecoderCounters?.let { it.ensureUpdated(); it.renderedOutputBufferCount } ?: -1
+                if (player.isPlaying && player.videoFormat != null && n >= 0 && n == frames) {
+                    if (++frozen >= 2) { frozen = 0; frames = -1; android.util.Log.w("SAUDI", "picture frozen: restart ${c.name}"); player.setPlaybackSpeed(1f); start(c); continue }
+                } else frozen = 0
+                frames = n
             }
         }
     }
