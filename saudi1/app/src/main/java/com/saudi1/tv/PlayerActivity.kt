@@ -56,6 +56,8 @@ class PlayerActivity : BaseActivity() {
         player = Players.make(this, live = false)
         view.player = player
         view.setShowNextButton(nextUrls.isNotEmpty()); view.setShowPreviousButton(false)
+        // the remote: ◀ ▶ always move 10 s (faster when held), OK = pause / play — the bar shows by itself only then
+        view.controllerAutoShow = false; view.useController = true; view.controllerShowTimeoutMs = 3500
         view.resizeMode = App.prefs.getInt("resize", 0)
         load(url, intent.getLongExtra("from", Resume.get(key)))
         player.addListener(object : Player.Listener {
@@ -144,7 +146,7 @@ class PlayerActivity : BaseActivity() {
         val diff = target - player.currentPosition
         seekLabel.text = (if (diff >= 0) "⏩  +" else "⏪  −") + fmt(kotlin.math.abs(diff)) + "     " + fmt(target) +
             (if (player.duration > 0) "  /  " + fmt(player.duration) else "")
-        seekLabel.visibility = View.VISIBLE; seekLabel.bringToFront()
+        seekLabel.visibility = View.VISIBLE; seekLabel.bringToFront(); view.showController()
         seekJob?.cancel()
     }
 
@@ -160,7 +162,7 @@ class PlayerActivity : BaseActivity() {
         if (!overlayOpen && nextBox == null) {
             val down = e.action == KeyEvent.ACTION_DOWN
             when (e.keyCode) {
-                KeyEvent.KEYCODE_DPAD_LEFT, KeyEvent.KEYCODE_DPAD_RIGHT -> if (!view.isControllerFullyVisible || pendingSeek != null) {
+                KeyEvent.KEYCODE_DPAD_LEFT, KeyEvent.KEYCODE_DPAD_RIGHT -> {
                     if (down) {
                         val dir = if (e.keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) 1 else -1
                         val base = pendingSeek ?: player.currentPosition
@@ -173,7 +175,16 @@ class PlayerActivity : BaseActivity() {
                 KeyEvent.KEYCODE_MEDIA_FAST_FORWARD -> { if (down) { player.seekTo(player.currentPosition + 60_000); view.showController() }; return true }
                 KeyEvent.KEYCODE_MEDIA_REWIND -> { if (down) { player.seekTo((player.currentPosition - 60_000).coerceAtLeast(0)); view.showController() }; return true }
                 KeyEvent.KEYCODE_MEDIA_NEXT -> { if (down && nextUrls.isNotEmpty()) playNext(); return true }
-                KeyEvent.KEYCODE_DPAD_CENTER, KeyEvent.KEYCODE_ENTER -> if (down && e.repeatCount == 1) { options(); return true }
+                KeyEvent.KEYCODE_DPAD_CENTER, KeyEvent.KEYCODE_ENTER, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE -> {
+                    // short press: pause / play (and show the bar) · hold: options
+                    if (down && e.repeatCount == 1) options()
+                    else if (!down && !e.isCanceled && e.eventTime - e.downTime < 500) {
+                        if (player.isPlaying) player.pause() else player.play()
+                        view.showController()
+                    }
+                    return true
+                }
+                KeyEvent.KEYCODE_DPAD_UP, KeyEvent.KEYCODE_DPAD_DOWN -> { if (down) view.showController(); return true }
                 KeyEvent.KEYCODE_MENU -> { if (down) options(); return true }
             }
         }

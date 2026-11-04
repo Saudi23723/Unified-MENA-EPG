@@ -39,10 +39,10 @@ class HomeActivity : BaseActivity() {
             tiles.addView(v)
         }
         tile("📺", "Live TV") { open(LiveActivity::class.java) }
-        tile("⚽", "Sports today") { startActivity(Intent(this, LiveActivity::class.java).putExtra("group", Api.DASH)) }
         tile("🗓", "TV Guide") { open(GuideActivity::class.java) }
         tile("🎬", "Movies") { startActivity(Intent(this, VodActivity::class.java).putExtra("series", false)) }
         tile("🎞", "Series") { startActivity(Intent(this, VodActivity::class.java).putExtra("series", true)) }
+        tile("⚽", "Sports today") { startActivity(Intent(this, LiveActivity::class.java).putExtra("group", Api.DASH)) }
         tile("🔍", "Search") { open(SearchActivity::class.java) }
         tile("☰", "Playlists") { playlists() }
         tile("⚙", "Settings") { startActivity(Intent(this, SettingsActivity::class.java)) }
@@ -60,7 +60,7 @@ class HomeActivity : BaseActivity() {
         }
         // like TiviMate: the app opens straight on the channel that was playing when it was closed
         if (savedInstanceState == null && Prefs.ready && App.prefs.contains("last_channel") && App.prefs.getBoolean("open_last", true) &&
-            Api.byId[Prefs.lastChannel]?.let { c -> Parental.isLocked(c.group, Api.groups.firstOrNull { it.id == c.group }?.name ?: "") } != true)
+            Api.byId[Prefs.lastChannel]?.let { c -> Parental.isLocked(c.group, Api.group(c.group)?.name ?: "") } != true)
             startActivity(Intent(this, LiveActivity::class.java).putExtra("channel", Prefs.lastChannel))
         lifecycleScope.launch {
             val clock = findViewById<TextView>(R.id.clock)

@@ -41,6 +41,11 @@ object Api {
     fun streamUrl(c: Channel) = c.url.ifEmpty { "${Prefs.server}/live/${enc(Prefs.user)}/${enc(Prefs.pass)}/${c.id}.ts" }
 
     const val DASH = "__dash"
+    const val SEARCH = "__search_live"
+    @Volatile var dash: Group? = null
+
+    /** a group by id, the Sports today (dashboard) one included */
+    fun group(id: String?): Group? = groups.firstOrNull { it.id == id } ?: dash?.takeIf { it.id == id }
 
     /** The repo's dashboard screens (football / sports guide, news, weather, prayer, Ain FM) as the first group, in the
      *  device's own time: the Middle East set for a device on Asian time (Jordan, Gulf), else the US set. */
@@ -52,7 +57,7 @@ object Api {
             get("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/$file?t=" + System.currentTimeMillis() / 600_000)
                 .use { it.body!!.string() }.also { cf.writeText(it) }
         } catch (e: Exception) { if (cf.exists()) cf.readText() else return null }
-        val g = Group(DASH, "📊 Dashboard")
+        val g = Group(DASH, "⚽ Sports today")
         var name = ""; var logo = ""; var n = 0
         for (line in text.lines()) {
             if (line.startsWith("#EXTINF")) {
@@ -140,7 +145,13 @@ object Api {
         out.add(Group(FAV, "★ Favorites", all.filter { it.id.toString() in fav }.toMutableList()))
         out.add(Group(ALL, "All channels", all))
         out.addAll(order.filter { it.channels.isNotEmpty() })
-        dashboard()?.let { d -> out.add(2, d); d.channels.forEach { ids[it.id] = it } }
+        // the dashboard screens open from "Sports today" on the home screen (not a group in the list);
+        // Ain FM is the first channel of All channels
+        val d = dashboard()
+        d?.channels?.forEach { ids[it.id] = it }
+        d?.channels?.firstOrNull { it.name.contains("Ain FM", true) }?.let { all.add(0, it) }
+        out.add(2, Group(SEARCH, "🔍  Search channels & guide"))
+        dash = d
         groups = out; byId = ids; baseCache = null
     }
 

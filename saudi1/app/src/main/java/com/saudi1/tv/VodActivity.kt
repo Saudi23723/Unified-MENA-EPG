@@ -113,7 +113,7 @@ class VodActivity : BaseActivity() {
         if (Parental.isLocked(c.id, c.name)) { Parental.ask(this) { open(c) }; return }
         current = c.id
         if (c.id != RESUME && c.id != FAV && c.id != DL) App.prefs.edit().putString("vod_cat_$series", c.id).apply()
-        findViewById<TextView>(R.id.catName).text = c.name.removePrefix("▶  ")
+        findViewById<TextView>(R.id.catName).text = c.name.removePrefix("▶  ") + if (c.id == RESUME) "   ·   hold OK to remove" else ""
         catAdapter.notifyDataSetChanged()
         loadJob?.cancel()
         if (c.id == RESUME) {
@@ -214,7 +214,13 @@ class VodActivity : BaseActivity() {
                 items.getOrNull(h.bindingAdapterPosition)?.let {
                     if (current == DL) AlertDialog.Builder(this@VodActivity).setTitle(it.name).setItems(arrayOf("🗑  Delete the download")) { _, _ ->
                         Downloads.remove(this@VodActivity, it.ext); open(cats.first { c -> c.id == DL })
-                    }.show() else toggleFav(it)
+                    }.show()
+                    else if (current == RESUME) AlertDialog.Builder(this@VodActivity).setTitle(it.name).setItems(arrayOf("✕  Remove from Continue watching", "⟲  Play from the beginning")) { _, w ->
+                        val k = (if (series) "e" else "m") + it.id
+                        if (w == 0) { Resume.remove(k); open(cats.first { c -> c.id == RESUME }) }
+                        else startActivity(Intent(this@VodActivity, PlayerActivity::class.java).putExtra("url", it.ext).putExtra("title", it.name).putExtra("key", k).putExtra("poster", it.poster).putExtra("from", 0L))
+                    }.show()
+                    else toggleFav(it)
                 }; true
             }
             // the whole name scrolls on the focused poster

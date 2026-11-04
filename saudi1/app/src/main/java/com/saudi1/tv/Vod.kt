@@ -130,7 +130,27 @@ object Resume {
     fun list(): List<JSONObject> = try {
         val a = JSONArray(App.prefs.getString("resume", "[]")); (0 until a.length()).map { a.getJSONObject(it) }
     } catch (e: Exception) { emptyList() }
+    /** take it off Continue watching (and forget where it was left) */
+    fun remove(key: String) { App.prefs.edit().remove("pos_$key").apply(); drop(key) }
     private fun drop(key: String) {
         App.prefs.edit().putString("resume", JSONArray(list().filterNot { it.optString("k") == key }).toString()).apply()
+    }
+}
+
+/** ★ Favorites of movies / series (the same list the Favorites group shows) */
+object VodFav {
+    private fun key(series: Boolean) = if (series) "vfav_s" else "vfav_m"
+    fun list(series: Boolean): List<JSONObject> = try {
+        val a = JSONArray(App.prefs.getString(key(series), "[]")); (0 until a.length()).map { a.getJSONObject(it) }
+    } catch (e: Exception) { emptyList() }
+    fun has(series: Boolean, id: Int) = list(series).any { it.optInt("id") == id }
+    /** true = added */
+    fun toggle(series: Boolean, id: Int, name: String, poster: String, ext: String, rating: String): Boolean {
+        val l = list(series).toMutableList()
+        val on = l.none { it.optInt("id") == id }
+        if (on) l.add(0, JSONObject().put("id", id).put("n", name).put("p", poster).put("e", ext).put("r", rating))
+        else l.removeAll { it.optInt("id") == id }
+        App.prefs.edit().putString(key(series), JSONArray(l).toString()).apply()
+        return on
     }
 }

@@ -80,7 +80,7 @@ class SettingsActivity : BaseActivity() {
         row("PIN lock", if (Parental.on) "On · adult groups are locked" else "Off") { pinDialog() }
         if (Parental.on) row("Lock / unlock groups", "${Parental.locked.size} chosen groups") {
             Parental.ask(this) {
-                val gs = Api.groups.filter { it.id != Api.FAV && it.id != Api.ALL }
+                val gs = Api.groups.filter { it.id != Api.FAV && it.id != Api.ALL && it.id != Api.SEARCH }
                 val chk = gs.map { it.id in Parental.locked }.toBooleanArray()
                 AlertDialog.Builder(this).setTitle("Locked groups").setMultiChoiceItems(gs.map { it.name }.toTypedArray(), chk) { _, w, c -> chk[w] = c }
                     .setPositiveButton("Save") { _, _ -> Parental.locked = gs.filterIndexed { i, _ -> chk[i] }.map { it.id }.toSet(); build() }.show()

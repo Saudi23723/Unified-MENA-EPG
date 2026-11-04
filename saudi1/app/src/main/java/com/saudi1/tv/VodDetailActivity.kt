@@ -60,6 +60,10 @@ class VodDetailActivity : BaseActivity() {
             val cast = i.optString("cast").ifEmpty { i.optString("actors") }
             if (cast.isNotEmpty()) line("Cast: $cast", 14f, R.color.text2, 2)
             if (!series) buttons(info.optJSONObject("movie_data")) else seriesUi(info)
+            if (series) {  // ★ for the series (movies have it next to Play)
+                val ext = intent.getStringExtra("ext") ?: ""
+                right.addView(favButton(i.optString("rating")), 2.coerceAtMost(right.childCount))
+            }
         }
     }
 
@@ -98,6 +102,8 @@ class VodDetailActivity : BaseActivity() {
             dl.text = dlText()
         }
         row.addView(dl)
+        row.addView(View(this), LinearLayout.LayoutParams((14 * d).toInt(), 1))
+        row.addView(favButton(""))
         right.addView(HorizontalScrollView(this).apply { isHorizontalScrollBarEnabled = false; addView(row) })
         play.requestFocus()
     }
@@ -140,7 +146,13 @@ class VodDetailActivity : BaseActivity() {
                 orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL
                 setBackgroundResource(if (pos > 0) R.drawable.resume_row_bg else R.drawable.item_bg); isFocusable = true; isClickable = true
                 setPadding((16 * d).toInt(), (8 * d).toInt(), (16 * d).toInt(), (8 * d).toInt())
-                setOnClickListener { watch(Vod.episodeUrl(e.id, e.ext), "$name · S$s E${e.num}", key, Resume.get(key), nextAfter(s, e)) }
+                setOnClickListener {
+                    val p = Resume.get(key)
+                    val go = { from: Long -> watch(Vod.episodeUrl(e.id, e.ext), "$name · S$s E${e.num}", key, from, nextAfter(s, e)) }
+                    if (p <= 0) go(0)
+                    else androidx.appcompat.app.AlertDialog.Builder(this@VodDetailActivity).setTitle("E${e.num}  ·  ${e.title}")
+                        .setItems(arrayOf("▶  Resume from " + hms(p), "⟲  From the beginning")) { _, w -> go(if (w == 0) p else 0) }.show()
+                }
                 // hold OK / long press: download this episode (or delete the download)
                 setOnLongClickListener {
                     if (Downloads.get(key) == null) { askNotify(); Downloads.add(this@VodDetailActivity, key, "$name · S$s E${e.num}", poster, Vod.episodeUrl(e.id, e.ext)); toastS("⬇ Downloading E${e.num}") }
@@ -157,6 +169,16 @@ class VodDetailActivity : BaseActivity() {
             }, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
             episodesBox.addView(row, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply { bottomMargin = (6 * d).toInt() })
         }
+    }
+
+    private fun favButton(rating: String): TextView {
+        lateinit var b: TextView
+        fun label() = if (VodFav.has(series, id)) "★  In Favorites" else "☆  Add to Favorites"
+        b = button(label(), false) {
+            val on = VodFav.toggle(series, id, name, poster, intent.getStringExtra("ext") ?: "", rating)
+            b.text = label(); toastS(if (on) "★ Added to Favorites" else "Removed from Favorites")
+        }
+        return b
     }
 
     private fun toastS(t: String) = android.widget.Toast.makeText(this, t, android.widget.Toast.LENGTH_SHORT).show()

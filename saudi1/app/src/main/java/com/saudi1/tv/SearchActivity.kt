@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -35,7 +36,8 @@ class SearchActivity : BaseActivity() {
     private lateinit var box: EditText
     private lateinit var info: TextView
     private var job: Job? = null
-    private val live = Row(0); private val movies = Row(1); private val series = Row(2)
+    private val live = Row(0); private val movies = Row(1); private val series = Row(2); private val progs = Row(3)
+    private var guides: List<Pair<Channel, List<Program>>> = emptyList()
     private var allMovies: List<VodItem>? = null
     private var allSeries: List<VodItem>? = null
 
@@ -53,8 +55,8 @@ class SearchActivity : BaseActivity() {
         col.addView(info)
         // movies / series lists load in the background while the viewer types
         val mode = intent.getStringExtra("mode") ?: ""
-        listOf(live to "Live TV", movies to "Movies", series to "Series").let { rows ->
-            (if (mode == "s") listOf(rows[2], rows[1], rows[0]) else if (mode == "m") listOf(rows[1], rows[2], rows[0]) else rows).forEach { (r, t) -> r.attach(col, t) }
+        listOf(live to "Live TV", progs to "TV Guide (programs)", movies to "Movies", series to "Series").let { rows ->
+            (if (mode == "s") listOf(rows[3], rows[2], rows[0], rows[1]) else if (mode == "m") listOf(rows[2], rows[3], rows[0], rows[1]) else rows).forEach { (r, t) -> r.attach(col, t) }
         }
         setContentView(ScrollView(this).apply { addView(col); isFillViewport = true })
         box.addTextChangedListener(object : TextWatcher {
@@ -64,6 +66,15 @@ class SearchActivity : BaseActivity() {
         })
         lifecycleScope.launch(Dispatchers.IO) {
             if (Api.groups.isEmpty()) try { Api.load(cached = true) } catch (_: Exception) { }
+            // the guide of the channels the viewer uses (favorites, last watched, the group open last): searched by program name
+            val chans = (Api.groups.firstOrNull { it.id == Api.FAV }?.channels.orEmpty() + History.ids().mapNotNull { Api.byId[it] } +
+                Api.group(Prefs.lastGroup)?.channels.orEmpty()).filter { it.id > 0 }.distinctBy { it.id }.take(80)
+            val got = ArrayList<Pair<Channel, List<Program>>>()
+            chans.chunked(8).forEach { part ->
+                part.map { c -> async { c to Api.guide(c) } }.forEach { got.add(it.await()) }
+                guides = got.toList()
+            }
+            withContext(Dispatchers.Main) { if (box.text.length >= 3) query(box.text.toString()) }
             allMovies = try { Vod.all(false) } catch (e: Exception) { emptyList() }
             allSeries = try { Vod.all(true) } catch (e: Exception) { emptyList() }
             withContext(Dispatchers.Main) { if (box.text.length >= 3) query(box.text.toString()) }
@@ -73,14 +84,14 @@ class SearchActivity : BaseActivity() {
 
     private fun hideKeyboard() = (getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(box.windowToken, 0)
 
-    private fun firstResult(): View? = listOf(live, movies, series).sortedBy { it.order }.firstOrNull { it.items.isNotEmpty() }?.rv?.getChildAt(0)
+    private fun firstResult(): View? = listOf(live, progs, movies, series).sortedBy { it.order }.firstOrNull { it.items.isNotEmpty() }?.rv?.getChildAt(0)
 
     private fun norm(s: String) = java.text.Normalizer.normalize(s, java.text.Normalizer.Form.NFKD).replace(Regex("\\p{M}"), "").lowercase()
 
     private fun query(q0: String) {
         val q = norm(q0.trim())
         job?.cancel()
-        if (q.length < 3) { listOf(live, movies, series).forEach { it.set(emptyList()) }; info.text = "Type 3 letters or more"; return }
+        if (q.length < 3) { listOf(live, progs, movies, series).forEach { it.set(emptyList()) }; info.text = "Type 3 letters or more"; return }
         job = lifecycleScope.launch {
             delay(250)
             val words = q.split(' ').filter { it.isNotEmpty() }
@@ -91,13 +102,19 @@ class SearchActivity : BaseActivity() {
                 val se = (allSeries ?: emptyList()).filter { hit(it.name) }.sortedByDescending { it.added }.take(200)
                 Triple(ch.map { Item(it.name, it.logo, it, null, false) }, mv.map { Item(it.name, it.poster, null, it, false) }, se.map { Item(it.name, it.poster, null, it, true) })
             }
-            live.set(l); movies.set(m); series.set(s)
+            val tf = java.text.SimpleDateFormat("EEE h:mm a", java.util.Locale.ENGLISH)
+            val now = System.currentTimeMillis() / 1000
+            val pr = withContext(Dispatchers.Default) {
+                guides.flatMap { (c, list) -> list.filter { it.stop > now && hit(it.title) }.map { c to it } }.sortedBy { it.second.start }.take(150)
+                    .map { (c, p) -> Item(p.title, c.logo, c, null, false, (if (p.now(now)) "● Now  ·  " else tf.format(java.util.Date(p.start * 1000)) + "  ·  ") + c.name) }
+            }
+            live.set(l); progs.set(pr); movies.set(m); series.set(s)
             val loading = if (allMovies == null) "   ·   movies & series still loading…" else ""
-            info.text = "${l.size} channels   ·   ${m.size} movies   ·   ${s.size} series$loading"
+            info.text = "${l.size} channels   ·   ${pr.size} programs   ·   ${m.size} movies   ·   ${s.size} series$loading"
         }
     }
 
-    private class Item(val name: String, val image: String, val channel: Channel?, val vod: VodItem?, val series: Boolean)
+    private class Item(val name: String, val image: String, val channel: Channel?, val vod: VodItem?, val series: Boolean, val sub: String = "")
 
     private fun open(it: Item) {
         it.channel?.let { c ->
@@ -126,7 +143,7 @@ class SearchActivity : BaseActivity() {
         private val adapter = object : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             override fun getItemCount() = items.size
             override fun onCreateViewHolder(p: ViewGroup, t: Int): RecyclerView.ViewHolder {
-                val v = if (kind == 0) LayoutInflater.from(p.context).inflate(R.layout.item_channel, p, false).apply {
+                val v = if (kind == 0 || kind == 3) LayoutInflater.from(p.context).inflate(R.layout.item_channel, p, false).apply {
                     layoutParams = RecyclerView.LayoutParams((330 * d).toInt(), (64 * d).toInt()).apply { marginEnd = (10 * d).toInt() }
                 } else LayoutInflater.from(p.context).inflate(R.layout.item_poster, p, false).apply {
                     layoutParams = RecyclerView.LayoutParams((170 * d).toInt(), ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -140,9 +157,9 @@ class SearchActivity : BaseActivity() {
             override fun onBindViewHolder(h: RecyclerView.ViewHolder, i: Int) {
                 val it = items[i]; val v = h.itemView
                 v.findViewById<TextView>(R.id.name).text = it.name
-                if (kind == 0) {
-                    v.findViewById<TextView>(R.id.num).text = it.channel?.num?.toString() ?: ""
-                    v.findViewById<TextView>(R.id.now).text = Api.groups.firstOrNull { g -> g.id == it.channel?.group }?.name ?: ""
+                if (kind == 0 || kind == 3) {
+                    v.findViewById<TextView>(R.id.num).text = if (kind == 3) "" else it.channel?.num?.toString() ?: ""
+                    v.findViewById<TextView>(R.id.now).text = if (kind == 3) it.sub else Api.group(it.channel?.group)?.name ?: ""
                     v.findViewById<ImageView>(R.id.logo).let { img -> if (it.image.isEmpty()) img.setImageDrawable(null) else img.load(it.image) { size(124, 80) } }
                 } else {
                     val img = v.findViewById<ImageView>(R.id.poster)

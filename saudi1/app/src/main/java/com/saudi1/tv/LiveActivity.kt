@@ -143,7 +143,7 @@ class LiveActivity : BaseActivity() {
     override fun tuneTo(channel: Int) { Api.byId[channel]?.let { tune(it) } }
 
     private fun tune(c: Channel) {
-        val g = Api.groups.firstOrNull { it.id == c.group } ?: group
+        val g = Api.group(c.group) ?: group
         if (g != null && g !== group) showGroup(g, c)
         play(c); focused = c
         setFull(true)
@@ -156,11 +156,11 @@ class LiveActivity : BaseActivity() {
         }
         if (Api.groups.isEmpty()) { toast("Could not load the channels"); return }
         groupAdapter.notifyDataSetChanged()
-        fun ok(c: Channel?) = c?.takeIf { ch -> !Parental.isLocked(ch.group, Api.groups.firstOrNull { it.id == ch.group }?.name ?: "") }
+        fun ok(c: Channel?) = c?.takeIf { ch -> !Parental.isLocked(ch.group, Api.group(ch.group)?.name ?: "") }
         val asked = if (intent.hasExtra("channel")) ok(Api.byId[intent.getIntExtra("channel", 0)]) else null
         val last = asked ?: ok(Api.byId[Prefs.lastChannel])
         val wantGroup = intent.getStringExtra("group")
-        val g = Api.groups.firstOrNull { it.id == (wantGroup ?: asked?.group ?: Prefs.lastGroup) && it.channels.isNotEmpty() && !Parental.isLocked(it.id, it.name) }
+        val g = Api.group(wantGroup ?: asked?.group ?: last?.group ?: Prefs.lastGroup)?.takeIf { it.channels.isNotEmpty() && !Parental.isLocked(it.id, it.name) }
             ?: Api.groups.firstOrNull { it.id != Api.FAV && it.id != Api.ALL } ?: Api.groups[0]
         showGroup(g, last)
         last?.let { play(it) }
@@ -176,7 +176,7 @@ class LiveActivity : BaseActivity() {
     private fun refreshLists() {
         val gid = group?.id; val fid = focused?.id
         groupAdapter.notifyDataSetChanged()
-        val g = Api.groups.firstOrNull { it.id == gid } ?: return
+        val g = Api.group(gid) ?: return
         group = g
         channelAdapter.items = g.channels
         channelAdapter.notifyDataSetChanged()
@@ -320,7 +320,7 @@ class LiveActivity : BaseActivity() {
     }
 
     private fun jump(p: Channel) {
-        val g = Api.groups.firstOrNull { gr -> gr.id == p.group } ?: group
+        val g = Api.group(p.group) ?: group
         if (g != null && g !== group) showGroup(g, p)
         play(p); focused = p
         showBanner()
@@ -401,7 +401,7 @@ class LiveActivity : BaseActivity() {
         lifecycleScope.launch {
             val same = withContext(Dispatchers.Default) { Api.qualities(c) }
             if (same.size < 2) { toast("This channel has one quality"); return@launch }
-            val labels = same.map { (if (it.id == c.id) "▶  " else "") + it.name + "   ·   " + (Api.groups.firstOrNull { g -> g.id == it.group }?.name ?: "") }
+            val labels = same.map { (if (it.id == c.id) "▶  " else "") + it.name + "   ·   " + (Api.group(it.group)?.name ?: "") }
             AlertDialog.Builder(this@LiveActivity).setTitle("Quality").setItems(labels.toTypedArray()) { _, w ->
                 if (same[w].id != c.id) jump(same[w])
             }.show()
@@ -619,10 +619,11 @@ class LiveActivity : BaseActivity() {
         override fun onCreateViewHolder(p: ViewGroup, t: Int) = H(LayoutInflater.from(p.context).inflate(R.layout.item_group, p, false))
         override fun onBindViewHolder(h: H, i: Int) {
             val g = Api.groups[i]
-            h.name.text = g.name; h.count.text = g.channels.size.toString()
+            h.name.text = g.name; h.count.text = if (g.id == Api.SEARCH) "" else g.channels.size.toString()
             h.itemView.isActivated = g.id == group?.id
             h.name.text = (if (Parental.isLocked(g.id, g.name)) "🔒 " else "") + g.name
             h.itemView.setOnClickListener {
+                if (g.id == Api.SEARCH) { startActivity(Intent(this@LiveActivity, SearchActivity::class.java).putExtra("mode", "live")); return@setOnClickListener }
                 if (g.channels.isEmpty()) return@setOnClickListener
                 Parental.ask(this@LiveActivity) { groupsPanel.visibility = View.GONE; channelsRv.post { if (!full) place(); showGroup(g); groupAdapter.notifyDataSetChanged() } }
             }
