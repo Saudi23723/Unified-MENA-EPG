@@ -721,7 +721,11 @@ class LiveActivity : BaseActivity() {
         override fun getItemCount() = items.size
         override fun onCreateViewHolder(p: ViewGroup, t: Int): H {
             val h = H(LayoutInflater.from(p.context).inflate(R.layout.item_channel, p, false))
-            h.itemView.setOnFocusChangeListener { _, f -> if (f) items.getOrNull(h.bindingAdapterPosition)?.let { onFocusChannel(it) } }
+            // the focused channel's whole name scrolls (a long name was cut with "…")
+            h.itemView.setOnFocusChangeListener { v, f ->
+                v.findViewById<TextView>(R.id.name)?.isSelected = f
+                if (f) items.getOrNull(h.bindingAdapterPosition)?.let { onFocusChannel(it) }
+            }
             h.itemView.setOnClickListener {
                 val c = items.getOrNull(h.bindingAdapterPosition) ?: return@setOnClickListener
                 when {
