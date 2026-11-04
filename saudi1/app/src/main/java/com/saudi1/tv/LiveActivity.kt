@@ -209,9 +209,10 @@ class LiveActivity : BaseActivity() {
         groupAdapter.notifyDataSetChanged()
         fun ok(c: Channel?) = c?.takeIf { ch -> !Parental.isLocked(ch.group, Api.group(ch.group)?.name ?: "") }
         val asked = if (intent.hasExtra("channel")) ok(Api.byId[intent.getIntExtra("channel", 0)]) else null
-        val last = asked ?: ok(Api.byId[Prefs.lastChannel])
+        // a guide screen (Sports today) is never "the last channel": Live TV opens on the real channels
+        val last = asked ?: ok(Api.byId[Prefs.lastChannel])?.takeIf { it.id > 0 && it.group != Api.DASH }
         val wantGroup = intent.getStringExtra("group")
-        val g = Api.group(wantGroup ?: asked?.group ?: last?.group ?: Prefs.lastGroup)?.takeIf { it.channels.isNotEmpty() && !Parental.isLocked(it.id, it.name) }
+        val g = Api.group(wantGroup ?: asked?.group ?: last?.group ?: Prefs.lastGroup.takeIf { it != Api.DASH })?.takeIf { it.channels.isNotEmpty() && !Parental.isLocked(it.id, it.name) }
             ?: Api.groups.firstOrNull { it.id != Api.FAV && it.id != Api.ALL && it.id != Api.SEARCH && it.channels.isNotEmpty() } ?: Api.groups[0]
         showGroup(g, last)
         last?.let { play(it) }

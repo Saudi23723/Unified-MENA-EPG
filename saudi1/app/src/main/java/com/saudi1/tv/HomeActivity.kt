@@ -151,7 +151,7 @@ class HomeActivity : BaseActivity() {
 
     /** Live TV card: the channel that was on, what is on it now and how far along it is */
     private fun showLast() {
-        val c = Api.byId[Prefs.lastChannel] ?: return
+        val c = Api.byId[Prefs.lastChannel]?.takeIf { it.id > 0 && it.group != Api.DASH } ?: return
         liveName?.text = c.name
         lifecycleScope.launch {
             val p = withContext(Dispatchers.IO) { try { Api.guide(c) } catch (e: Exception) { emptyList() } }.firstOrNull { it.now() } ?: return@launch
