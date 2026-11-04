@@ -64,8 +64,11 @@ class LockActivity : AppCompatActivity() {
 
     private fun buildKeypad() {
         val keys = listOf("1", "2", "3", "4", "5", "6", "7", "8", "9", "extra", "0", "del")
-        val size = (resources.displayMetrics.density * 76).toInt()
-        val margin = (resources.displayMetrics.density * 8).toInt()
+        // Keys that always fit: four rows within the screen's height (a TV's is short).
+        val dm = resources.displayMetrics
+        val margin = (dm.density * 8).toInt()
+        val fit = ((dm.heightPixels - dm.density * 96) / 4 - 2 * margin).toInt()
+        val size = minOf((dm.density * 76).toInt(), fit).coerceAtLeast((dm.density * 44).toInt())
         for (key in keys) {
             val btn = MaterialButton(this, null, com.google.android.material.R.attr.materialButtonOutlinedStyle)
             btn.insetTop = 0
@@ -106,8 +109,30 @@ class LockActivity : AppCompatActivity() {
                 height = size
                 setMargins(margin, margin, margin, margin)
             }
+            // The remote's focus: the key lights up in blue.
+            btn.setOnFocusChangeListener { v, has ->
+                (v as MaterialButton).backgroundTintList = android.content.res.ColorStateList.valueOf(if (has) 0xFF2E9BFF.toInt() else 0x00000000)
+                v.animate().scaleX(if (has) 1.12f else 1f).scaleY(if (has) 1.12f else 1f).setDuration(120).start()
+            }
             b.keypad.addView(btn, lp)
         }
+        b.keypad.getChildAt(0)?.requestFocus()
+    }
+
+    /** The number keys of a remote or a keyboard type the PIN; back deletes, OK confirms a new one. */
+    override fun onKeyDown(keyCode: Int, event: android.view.KeyEvent): Boolean {
+        val digit = when (keyCode) {
+            in android.view.KeyEvent.KEYCODE_0..android.view.KeyEvent.KEYCODE_9 -> keyCode - android.view.KeyEvent.KEYCODE_0
+            in android.view.KeyEvent.KEYCODE_NUMPAD_0..android.view.KeyEvent.KEYCODE_NUMPAD_9 -> keyCode - android.view.KeyEvent.KEYCODE_NUMPAD_0
+            else -> -1
+        }
+        if (digit >= 0) { press(digit.toString()); return true }
+        if (keyCode == android.view.KeyEvent.KEYCODE_DEL) {
+            if (entered.isNotEmpty()) entered.deleteCharAt(entered.length - 1)
+            updateDots(); return true
+        }
+        if (keyCode == android.view.KeyEvent.KEYCODE_NUMPAD_ENTER && setupMode) { submitSetup(); return true }
+        return super.onKeyDown(keyCode, event)
     }
 
     private fun press(digit: String) {
