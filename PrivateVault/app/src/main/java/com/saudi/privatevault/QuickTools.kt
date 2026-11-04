@@ -77,27 +77,65 @@ object QuickTools {
         }
     }
 
+    /** The button's panel: dark and rounded beside it, a row per tool, as an EFB's tool pop-up. */
     private fun menu(act: Activity, anchor: View) {
-        val m = android.widget.PopupMenu(act, anchor)
-        m.menu.add(0, 1, 0, act.getString(R.string.qt_note))
-        m.menu.add(0, 2, 1, act.getString(R.string.qt_neon_fade))
-        m.menu.add(0, 3, 2, act.getString(R.string.qt_neon_stay))
-        m.menu.add(0, 4, 3, act.getString(R.string.qt_hide))
-        m.setOnMenuItemClickListener {
-            when (it.itemId) {
-                1 -> if (NotePad.isOpen()) NotePad.close(act) else Notebooks.choose(act, null)
-                2 -> if (act is NeonHost) act.neonFade() else NeonLayer.start(act, fade = true)
-                // On a book or the map, the neon stays on the page itself (it moves and zooms with it).
-                3 -> if (act is NeonHost) act.neonPen() else NeonLayer.start(act, fade = false)
-                4 -> {
-                    setEnabled(act, false)
-                    attach(act)
-                    Toast.makeText(act, R.string.qt_hidden, Toast.LENGTH_LONG).show()
-                }
-            }
-            true
+        val content = act.findViewById<FrameLayout>(android.R.id.content) ?: return
+        content.findViewWithTag<View>("qt_panel")?.let { content.removeView(it); return }
+        val d = act.resources.displayMetrics.density
+        fun dp(v: Int) = (v * d).toInt()
+        // A see-through sheet over the screen: a tap outside closes the panel.
+        val shade = FrameLayout(act).apply { tag = "qt_panel"; elevation = dp(28).toFloat(); isClickable = true }
+        shade.setOnClickListener { content.removeView(shade) }
+        val panel = LinearLayout(act).apply {
+            orientation = LinearLayout.VERTICAL
+            background = GradientDrawable().apply { cornerRadius = dp(18).toFloat(); setColor(0xF2161618.toInt()); setStroke(dp(1), 0xFF2C2C2E.toInt()) }
+            setPadding(dp(8), dp(8), dp(8), dp(8))
+            elevation = dp(16).toFloat()
+            isClickable = true
+            layoutDirection = View.LAYOUT_DIRECTION_LTR
         }
-        m.show()
+        fun row(iconRes: Int?, glyph: String?, tint: Int, title: Int, sub: Int?, go: () -> Unit) {
+            val r = LinearLayout(act).apply {
+                orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL
+                setPadding(dp(8), dp(8), dp(14), dp(8))
+                background = android.graphics.drawable.RippleDrawable(android.content.res.ColorStateList.valueOf(0x22FFFFFF), null,
+                    GradientDrawable().apply { cornerRadius = dp(12).toFloat(); setColor(0xFFFFFFFF.toInt()) })
+                setOnClickListener { content.removeView(shade); go() }
+            }
+            val icon: View = if (iconRes != null) android.widget.ImageView(act).apply {
+                setImageResource(iconRes); setColorFilter(0xFFFFFFFF.toInt()); setPadding(dp(9), dp(9), dp(9), dp(9))
+            } else TextView(act).apply { text = glyph; textSize = 17f; gravity = Gravity.CENTER; setTextColor(0xFFFFFFFF.toInt()) }
+            icon.background = GradientDrawable().apply { shape = GradientDrawable.OVAL; setColor(tint) }
+            r.addView(icon, LinearLayout.LayoutParams(dp(38), dp(38)))
+            val texts = LinearLayout(act).apply { orientation = LinearLayout.VERTICAL; setPadding(dp(12), 0, 0, 0) }
+            texts.addView(TextView(act).apply { text = act.getString(title); textSize = 15f; setTextColor(0xFFFFFFFF.toInt()); typeface = EfbUi.MEDIUM })
+            sub?.let { texts.addView(TextView(act).apply { text = act.getString(it); textSize = 12f; setTextColor(0xFF8E8E93.toInt()) }) }
+            r.addView(texts)
+            panel.addView(r, LinearLayout.LayoutParams(-1, -2))
+        }
+        row(R.drawable.ic_fab_pencil, null, 0xFF2E9BFF.toInt(), R.string.qt_note_t, R.string.qt_note_s) {
+            if (NotePad.isOpen()) NotePad.close(act) else Notebooks.choose(act, null)
+        }
+        row(null, "✦", 0xFFBF5AF2.toInt(), R.string.qt_neon_fade_t, R.string.qt_neon_fade_s) {
+            if (act is NeonHost) act.neonFade() else NeonLayer.start(act, fade = true)
+        }
+        row(null, "✎", 0xFF30D158.toInt(), R.string.qt_neon_stay_t, R.string.qt_neon_stay_s) {
+            if (act is NeonHost) act.neonPen() else NeonLayer.start(act, fade = false)
+        }
+        panel.addView(View(act).apply { setBackgroundColor(0xFF2C2C2E.toInt()) }, LinearLayout.LayoutParams(-1, 1).apply { setMargins(dp(10), dp(4), dp(10), dp(4)) })
+        row(R.drawable.ic_close, null, 0xFF48484A.toInt(), R.string.qt_hide_t, null) {
+            setEnabled(act, false)
+            attach(act)
+            Toast.makeText(act, R.string.qt_hidden, Toast.LENGTH_LONG).show()
+        }
+        // Above the button, at the screen's edge.
+        val loc = IntArray(2); anchor.getLocationInWindow(loc)
+        val cLoc = IntArray(2); content.getLocationInWindow(cLoc)
+        val bottom = content.height - (loc[1] - cLoc[1]) + dp(8)
+        shade.addView(panel, FrameLayout.LayoutParams(dp(290), -2, Gravity.END or Gravity.BOTTOM).apply { marginEnd = dp(14); bottomMargin = bottom.coerceAtLeast(dp(16)) })
+        content.addView(shade, FrameLayout.LayoutParams(-1, -1))
+        panel.alpha = 0f; panel.translationY = dp(12).toFloat()
+        panel.animate().alpha(1f).translationY(0f).setDuration(160).start()
     }
 }
 

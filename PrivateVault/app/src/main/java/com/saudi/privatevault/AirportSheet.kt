@@ -85,6 +85,7 @@ class AirportSheet(
     private fun text(s: String, size: Float = 14f, bold: Boolean = false, mono: Boolean = false) = TextView(act).apply {
         text = s
         textSize = size
+        setTextColor(EfbUi.TEXT)
         if (bold) setTypeface(typeface, android.graphics.Typeface.BOLD)
         if (mono) typeface = android.graphics.Typeface.MONOSPACE
         layoutDirection = View.LAYOUT_DIRECTION_LTR
@@ -95,14 +96,17 @@ class AirportSheet(
 
     fun show() {
         val title = "${a.icao.ifEmpty { a.ident }}${if (a.icao.isNotEmpty() && a.icao != a.ident) " (${a.ident})" else ""}"
-        body.addView(text(title, 22f, bold = true))
+        body.setBackgroundColor(EfbUi.BG)
+        body.addView(View(act).apply { background = android.graphics.drawable.GradientDrawable().apply { setColor(EfbUi.CARD_LINE); cornerRadius = dp(3).toFloat() } },
+            LinearLayout.LayoutParams(dp(40), dp(5)).apply { gravity = android.view.Gravity.CENTER_HORIZONTAL; bottomMargin = dp(10) })
+        body.addView(text(title, 26f, bold = true))
         var sub = "${a.name}\n${a.city.lowercase().split(' ').joinToString(" ") { it.replaceFirstChar { c -> c.uppercase() } }} · Elev ${"%,d".format(a.elevation)} ft"
         from?.let {
             val dist = Nav.distanceNm(it.latitude, it.longitude, a.lat, a.lon)
             val brg = Nav.magnetic(Nav.bearingTrue(it.latitude, it.longitude, a.lat, a.lon), it.latitude, it.longitude)
             sub += "\n${Nav.deg(brg)}M · %.1f nm".format(dist)
         }
-        body.addView(text(sub))
+        body.addView(text(sub).apply { setTextColor(EfbUi.DIM) })
         // The flight category, filled in when the weather comes.
         body.addView(badge, LinearLayout.LayoutParams(-2, -2).apply { topMargin = dp(4) })
         // The facts at a glance, as an EFB heads its airport page.
@@ -189,11 +193,8 @@ class AirportSheet(
             "(phone time zone)"
     }
 
-    private fun header(res: Int) = text(act.getString(res), 16f, bold = true).apply {
-        setPadding(0, dp(14), 0, dp(2))
-        setTextColor(0xFF1565C0.toInt())
-        layoutDirection = View.LAYOUT_DIRECTION_INHERIT
-        textDirection = View.TEXT_DIRECTION_INHERIT
+    private fun header(res: Int) = EfbUi.section(act, act.getString(res).replace(Regex("^[^\\p{L}\\p{N}]+\\s*"), "")).apply {
+        layoutParams = LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(14); bottomMargin = dp(6) }
     }
 
     private fun open(url: String) {

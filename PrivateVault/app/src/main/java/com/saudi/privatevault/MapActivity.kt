@@ -203,6 +203,7 @@ class MapActivity : BaseActivity(), NeonHost {
 
         b.fabLayers.setOnClickListener { chooseLayer() }
         b.fabDraw.setOnClickListener { toggleDrawing() }
+        styleControls()
         b.fabLocate.setOnClickListener { follow() }
         b.fabSos.setOnClickListener { emergency() }
         b.zoomIn.setOnClickListener {
@@ -883,6 +884,56 @@ class MapActivity : BaseActivity(), NeonHost {
             .setNeutralButton(R.string.pos_save) { _, _ -> prefs.edit().putString("callsign", input.text.toString().trim()).apply() }
             .setNegativeButton(R.string.cancel, null)
             .show()
+    }
+
+    /**
+     * The map's buttons as an EFB draws them: dark rounded squares with white icons
+     * over the chart, the emergency one in red, the aircraft one in blue.
+     */
+    private fun styleControls() {
+        val dark = android.content.res.ColorStateList.valueOf(0xEB1C1F24.toInt())
+        val white = android.content.res.ColorStateList.valueOf(0xFFFFFFFF.toInt())
+        val shape = com.google.android.material.shape.ShapeAppearanceModel.builder()
+            .setAllCorners(com.google.android.material.shape.CornerFamily.ROUNDED, dp(14).toFloat()).build()
+        for (f in listOf(b.northUp, b.zoomIn, b.zoomOut, b.fabSos, b.fabLayers, b.fabDraw, b.fabLocate)) {
+            f.backgroundTintList = dark
+            f.imageTintList = white
+            f.shapeAppearanceModel = shape
+            f.rippleColor = android.content.res.ColorStateList.valueOf(0x44FFFFFF)
+            f.compatElevation = dp(6).toFloat()
+        }
+        b.fabSos.imageTintList = android.content.res.ColorStateList.valueOf(0xFFFF453A.toInt())
+        b.fabLocate.backgroundTintList = android.content.res.ColorStateList.valueOf(0xFF2E9BFF.toInt())
+        b.penBar.background = android.graphics.drawable.GradientDrawable().apply {
+            cornerRadius = dp(18).toFloat(); setColor(0xF21C1F24.toInt()); setStroke(dp(1), 0xFF30353C.toInt())
+        }
+        b.hudNav.setBackgroundColor(0xF0101418.toInt())
+    }
+
+    /** Every line on the map that can go, in one list: the route, the Direct-To, the drawings, the track. */
+    private fun clearLines() {
+        val opts = arrayOf(
+            getString(R.string.plan_cancel_direct), getString(R.string.plan_clear),
+            getString(R.string.clear_drawings, draw.marks.size), getString(R.string.clear_track), getString(R.string.clear_all_lines),
+        )
+        MaterialAlertDialogBuilder(this).setTitle(R.string.clear_lines).setItems(opts) { _, i ->
+            if (i == 0 || i == 4) plan.direct = null
+            if (i == 1 || i == 4) { plan.points.clear(); plan.direct = null; plan.active = 1 }
+            if ((i == 2 || i == 4) && draw.marks.isNotEmpty()) {
+                // Undoable, like any rubbing out.
+                val gone = draw.marks.mapIndexed { k, m -> k to m }
+                draw.marks.clear()
+                draw.selected = null
+                undo.addLast(AnnotatedPageView.Edit.Removed(gone)); redo.clear()
+                saveDrawings()
+            }
+            if (i == 3 || i == 4) ownship.clearTrail()
+            draw.clearRuler()
+            plan.save(this)
+            updateNav()
+            map.invalidate()
+            Toast.makeText(this, R.string.cleared, Toast.LENGTH_SHORT).show()
+        }.show()
     }
 
     /** The glide ratio from the POH, so the ring can be drawn; empty takes it off. */
@@ -1773,6 +1824,8 @@ class MapActivity : BaseActivity(), NeonHost {
             it.icon?.setTint(EfbUi.TEXT)
         }
         menu.add(0, 20, 0, "NRST").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+        menu.add(0, 38, 0, R.string.clear_lines).setIcon(R.drawable.ic_delete).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+        menu.findItem(38)?.icon?.setTint(EfbUi.TEXT)
         menu.add(0, 36, 0, R.string.pos_report)
         menu.add(0, 37, 0, R.string.glide_menu)
         menu.add(0, 30, 0, R.string.freq_title)
@@ -1829,6 +1882,7 @@ class MapActivity : BaseActivity(), NeonHost {
             35 -> startActivity(android.content.Intent(this, EfbCheckActivity::class.java))
             31 -> if (NotePad.isOpen()) NotePad.close(this) else Notebooks.choose(this, null)
             36 -> positionReport()
+            38 -> clearLines()
             37 -> askGlide()
             30 -> {
                 val here = ownship.position() ?: map.mapCenter as GeoPoint

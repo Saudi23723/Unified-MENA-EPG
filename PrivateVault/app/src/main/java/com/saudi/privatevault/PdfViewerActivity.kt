@@ -399,6 +399,7 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
             contentDescription = getString(label)
             tooltipText = getString(label)
             background = null
+            imageTintList = android.content.res.ColorStateList.valueOf(0xFFFFFFFF.toInt())
             setPadding(dp(10), dp(10), dp(10), dp(10))
             setOnClickListener { onClick() }
             bar.addView(this, LinearLayout.LayoutParams(dp(46), dp(46)).apply { setMargins(dp(2), 0, dp(2), 0) })
@@ -436,6 +437,11 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
         bar.addView(View(this).apply { setBackgroundColor(0x33000000) }, LinearLayout.LayoutParams(dp(1), dp(28)).apply { setMargins(dp(6), 0, dp(6), 0) })
         colorButton = button(R.drawable.ic_tool_pen, R.string.pen_color) { chooseColor() }
         sizeButton = button(R.drawable.ic_tool_pen, R.string.pen_size) { chooseSize() }
+        // The colour and size show as dots of their own colour.
+        colorButton?.imageTintList = null
+        sizeButton?.imageTintList = null
+        // A dark bar with white icons, as a phone's pen tools.
+        b.penBar.background = GradientDrawable().apply { cornerRadius = dp(22).toFloat(); setColor(0xF21C1F24.toInt()); setStroke(dp(1), 0xFF30353C.toInt()) }
         deleteButton = button(R.drawable.ic_delete, R.string.pen_delete) { b.page.deleteSelected(); b.page.deleteGroup() }
         p.onGroup = { n ->
             deleteButton?.alpha = if (n > 0) 1f else 0.35f

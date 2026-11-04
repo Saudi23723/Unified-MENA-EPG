@@ -29,6 +29,8 @@ import java.io.File
  */
 class ScratchPadActivity : BaseActivity() {
     override val alwaysDark = true
+    // Its own pen button already sits in that corner.
+    override val quickTools = false
 
     private class Stroke(val kind: Int, var color: Int, val width: Float, val pts: FloatArray)
 
