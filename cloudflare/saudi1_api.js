@@ -73,6 +73,9 @@ export default {
       return json({ status: "active", server: PLAYLISTS[d.playlist] || d.playlist, user: l.user, pass: l.pass, name: d.name || "", expires: d.expires || 0 });
     }
 
+    // short link for Downloader: saudi1.1saifsaudi.workers.dev/apk
+    if (p === "/apk" || p === "/apk/") return Response.redirect("https://github.com/Saudi23723/Unified-MENA-EPG/releases/download/saudi1/SAUDI1.apk", 302);
+
     // ---- the owner's admin page ----
     if (p === "/" || p === "/admin") return new Response(PAGE, { headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store" } });
 

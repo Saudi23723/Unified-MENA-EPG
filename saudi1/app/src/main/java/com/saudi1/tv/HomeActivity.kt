@@ -8,7 +8,6 @@ import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -18,7 +17,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : BaseActivity() {
     private lateinit var status: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +40,7 @@ class HomeActivity : AppCompatActivity() {
         tile("📺", "Live TV") { open(LiveActivity::class.java) }
         tile("🎬", "Movies") { soon() }
         tile("🎞", "Series") { soon() }
+        tile("🌙", "Dimming") { dim() }
         tile("⚙", "Settings") { startActivity(Intent(this, SetupActivity::class.java)) }
         tiles.getChildAt(0).requestFocus()
 
@@ -74,6 +74,13 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private var lastLoad = 0L
+
+    private fun dim() {
+        androidx.appcompat.app.AlertDialog.Builder(this).setTitle("Night dimming")
+            .setSingleChoiceItems(Dim.levels.map { if (it == 0) "Off" else "$it %" }.toTypedArray(), Dim.levels.indexOf(Dim.level).coerceAtLeast(0)) { d, w ->
+                Dim.level = Dim.levels[w]; applyDim(); d.dismiss()
+            }.show()
+    }
 
     private fun open(c: Class<*>) = startActivity(Intent(this, c))
 
