@@ -84,7 +84,7 @@ class VodActivity : BaseActivity() {
     }
 
     private fun show() {
-        findViewById<TextView>(R.id.count).text = items.size.toString()
+        findViewById<TextView>(R.id.vodCount).text = items.size.toString()
         gridAdapter.notifyDataSetChanged(); grid.scrollToPosition(0)
     }
 
