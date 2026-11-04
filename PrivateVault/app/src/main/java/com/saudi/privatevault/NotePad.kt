@@ -353,8 +353,9 @@ object NotePad {
         showPage()
         var isBig = big
         lateinit var grow: TextView
-        val smallW = minOf((sw * 0.46).toInt(), dp(400)).coerceAtLeast(dp(260))
-        val smallH = (smallW * 1.25).toInt().coerceAtMost((sh * 0.62).toInt())
+        // Roomy from the start: most of a tablet's width, nearly the whole of a phone's.
+        val smallW = minOf((sw * 0.62).toInt(), dp(560)).coerceAtLeast(minOf(dp(320), (sw * 0.92).toInt()))
+        val smallH = (smallW * 1.35).toInt().coerceAtMost((sh * 0.78).toInt())
         val bigW = minOf((sw * 0.86).toInt(), dp(720))
         val bigH = (sh * 0.8).toInt()
         fun place() {
@@ -363,6 +364,7 @@ object NotePad {
             grow.text = if (isBig) "⤡" else "⤢"
         }
         head.addView(pageLabel)
+        head.addView(icon(R.drawable.ic_folder) { switcher(act, frame, book, isBig) }, LinearLayout.LayoutParams(dp(38), dp(38)))
         head.addView(glyph("–", 22f) { minimise(act, frame, book) })
         grow = glyph("⤢", 18f) { isBig = !isBig; place() }
         head.addView(grow)
@@ -461,7 +463,8 @@ object NotePad {
         }
         frame.addView(grip, FrameLayout.LayoutParams(dp(18), dp(18), Gravity.BOTTOM or Gravity.START).apply { setMargins(dp(4), 0, 0, dp(52)) })
 
-        frame.tag = Runnable { if (dirty) book.save() }
+        // A note closed with nothing written is not kept.
+        frame.tag = Runnable { if (book.pages.all { it.isEmpty() } && book.style == NoteBook.Style.BLANK) book.file.delete() else if (dirty) book.save() }
         content.addView(frame)
         place()
         frame.alpha = 0f; frame.scaleX = 0.94f; frame.scaleY = 0.94f
@@ -475,6 +478,80 @@ object NotePad {
             }
         }
         frame.postDelayed(saver, 4000)
+    }
+
+    /**
+     * Every note, inside the note's own window: a dark sheet with the kinds of page to start
+     * (blank, lined, grid, ATIS, CRAFT, PIREP…) along the top, then the notes, newest first,
+     * each with a small picture of its first page.
+     */
+    private fun switcher(act: Activity, frame: FrameLayout, current: NoteBook, big: Boolean) {
+        frame.findViewWithTag<View>("switcher")?.let { frame.removeView(it); return }
+        val d = act.resources.displayMetrics.density
+        fun dp(v: Int) = (v * d).toInt()
+        val white = 0xFFFFFFFF.toInt(); val grey = 0xFF8E8E93.toInt()
+        val sheet = LinearLayout(act).apply {
+            tag = "switcher"; orientation = LinearLayout.VERTICAL; isClickable = true
+            setBackgroundColor(0xF5000000.toInt()); setPadding(dp(14), dp(14), dp(14), dp(10))
+            layoutDirection = View.LAYOUT_DIRECTION_LTR
+        }
+        val top = LinearLayout(act).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
+        top.addView(TextView(act).apply { text = act.getString(R.string.notes_title).replace(Regex("^[^\\p{L}]+"), ""); textSize = 22f; setTextColor(white); typeface = EfbUi.MEDIUM }, LinearLayout.LayoutParams(0, -2, 1f))
+        top.addView(TextView(act).apply { text = "✕"; textSize = 20f; setTextColor(white); setPadding(dp(10), dp(4), dp(6), dp(4)); setOnClickListener { frame.removeView(sheet) } })
+        sheet.addView(top)
+
+        // New: one chip per kind of page.
+        val chips = LinearLayout(act).apply { orientation = LinearLayout.HORIZONTAL; setPadding(0, dp(10), 0, dp(12)) }
+        for (st in listOf(NoteBook.Style.BLANK, NoteBook.Style.LINED, NoteBook.Style.GRID, NoteBook.Style.DOTS, NoteBook.Style.ATIS, NoteBook.Style.CRAFT, NoteBook.Style.PIREP, NoteBook.Style.SCRATCHPAD)) {
+            chips.addView(TextView(act).apply {
+                text = "＋ " + st.label.replace(Regex("^[^\\p{L}]+"), "").substringBefore(" (")
+                textSize = 13f; setTextColor(white); typeface = EfbUi.MEDIUM
+                background = GradientDrawable().apply { cornerRadius = dp(16).toFloat(); setColor(0xFF1C1C1E.toInt()); setStroke(dp(1), 0xFF3A3A3C.toInt()) }
+                setPadding(dp(14), dp(8), dp(14), dp(8))
+                setOnClickListener { show(act, NoteBook.create(act, st, current.topic), big) }
+            }, LinearLayout.LayoutParams(-2, -2).apply { marginEnd = dp(8) })
+        }
+        sheet.addView(HorizontalScrollView(act).apply { isHorizontalScrollBarEnabled = false; addView(chips) })
+
+        val list = LinearLayout(act).apply { orientation = LinearLayout.VERTICAL }
+        val fmt = java.text.SimpleDateFormat("d MMM · HH:mm", java.util.Locale.US)
+        for (b in NoteBook.all(act).filter { it.file != current.file || it.pages.any { p -> p.isNotEmpty() } }) {
+            val row = LinearLayout(act).apply {
+                orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL
+                setPadding(dp(8), dp(8), dp(8), dp(8))
+                background = GradientDrawable().apply { cornerRadius = dp(14).toFloat(); setColor(if (b.file == current.file) 0xFF0A2A4A.toInt() else 0xFF1C1C1E.toInt()) }
+            }
+            // A small picture of its first page.
+            val thumb = FrameLayout(act).apply { background = GradientDrawable().apply { cornerRadius = dp(8).toFloat(); setColor(0xFF000000.toInt()); setStroke(dp(1), 0xFF3A3A3C.toInt()) }; clipToOutline = true }
+            thumb.addView(NoteCanvas(act, b).apply { dark = true; isEnabled = false; setOnTouchListener { _, _ -> false } }, FrameLayout.LayoutParams(-1, -1))
+            row.addView(thumb, LinearLayout.LayoutParams(dp(56), dp(72)))
+            val texts = LinearLayout(act).apply { orientation = LinearLayout.VERTICAL; setPadding(dp(12), 0, dp(8), 0) }
+            texts.addView(TextView(act).apply { text = b.title.substringBefore(" · ").ifEmpty { b.title }; textSize = 15f; setTextColor(white); typeface = EfbUi.MEDIUM; maxLines = 1 })
+            texts.addView(TextView(act).apply { text = fmt.format(java.util.Date(b.file.lastModified())) + "  ·  " + b.pages.size + " p"; textSize = 12f; setTextColor(grey) })
+            row.addView(texts, LinearLayout.LayoutParams(0, -2, 1f))
+            row.addView(android.widget.ImageView(act).apply {
+                setImageResource(R.drawable.ic_delete); setColorFilter(0xFFFF453A.toInt()); setPadding(dp(10), dp(10), dp(10), dp(10))
+                setOnClickListener {
+                    com.google.android.material.dialog.MaterialAlertDialogBuilder(act).setMessage(act.getString(R.string.notes_delete_q, b.title))
+                        .setPositiveButton(R.string.notes_delete) { _, _ ->
+                            b.file.delete(); list.removeView(row)
+                            if (b.file == current.file) close(act)
+                        }.setNegativeButton(R.string.cancel, null).show()
+                }
+            }, LinearLayout.LayoutParams(dp(42), dp(42)))
+            row.setOnClickListener { if (b.file == current.file) frame.removeView(sheet) else show(act, NoteBook.load(b.file) ?: b, big) }
+            list.addView(row, LinearLayout.LayoutParams(-1, -2).apply { bottomMargin = dp(8) })
+        }
+        for (item in Notebooks.pdfs(current.topic)) {
+            list.addView(TextView(act).apply {
+                text = "📄  " + item.name.removeSuffix(".pdf"); textSize = 14f; setTextColor(grey); setPadding(dp(10), dp(10), dp(10), dp(10))
+                setOnClickListener { act.startActivity(android.content.Intent(act, PdfViewerActivity::class.java).putExtra(Viewers.EXTRA_ID, item.id)) }
+            })
+        }
+        sheet.addView(android.widget.ScrollView(act).apply { addView(list) }, LinearLayout.LayoutParams(-1, 0, 1f))
+        frame.addView(sheet, FrameLayout.LayoutParams(-1, -1))
+        sheet.alpha = 0f; sheet.translationY = dp(24).toFloat()
+        sheet.animate().alpha(1f).translationY(0f).setDuration(180).start()
     }
 
     /** Folded to a round bubble at the screen's edge, as a phone's floating note; a tap opens it again. */

@@ -21,8 +21,21 @@ object Notebooks {
     private fun folderId(): String =
         (VaultStore.childFolders(null).firstOrNull { it.name == FOLDER } ?: VaultStore.addFolder(FOLDER, null)).id
 
-    /** big: open as a full page (screens with no map behind); otherwise small on the right. */
+    /**
+     * Opens straight on a blank black page, as a phone's quick note: the last blank one if it
+     * is still empty, or a new one. Other notes and the templates are a tap away inside the note.
+     */
     fun choose(act: Activity, topic: String?, big: Boolean = false) {
+        val empty = NoteBook.all(act).firstOrNull { it.topic == topic && it.style == NoteBook.Style.BLANK && it.pages.all { p -> p.isEmpty() } }
+        NotePad.show(act, empty ?: NoteBook.create(act, NoteBook.Style.BLANK, topic), big)
+    }
+
+    /** The PDFs made from notebooks, kept in the vault. */
+    fun pdfs(topic: String?): List<VaultItem> =
+        VaultStore.itemsIn(folderId()).filter { topic == null || it.name.startsWith(topic) }.sortedByDescending { it.added }
+
+    /** The old list of notebooks in a dialog. */
+    fun chooseList(act: Activity, topic: String?, big: Boolean = false) {
         val d = act.resources.displayMetrics.density
         fun dp(v: Int) = (v * d).toInt()
         val list = LinearLayout(act).apply { orientation = LinearLayout.VERTICAL; setPadding(dp(16), dp(8), dp(16), dp(8)) }
