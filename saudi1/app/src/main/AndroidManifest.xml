@@ -34,6 +34,10 @@
             android:exported="false" android:grantUriPermissions="true">
             <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/files" />
         </provider>
+        <activity android:name=".VodActivity" android:exported="false" android:screenOrientation="sensorLandscape" />
+        <activity android:name=".VodDetailActivity" android:exported="false" android:screenOrientation="sensorLandscape" />
+        <activity android:name=".PlayerActivity" android:exported="false" android:screenOrientation="sensorLandscape"
+            android:configChanges="keyboard|keyboardHidden|navigation|screenSize|smallestScreenSize|screenLayout|orientation" />
         <activity android:name=".GuideActivity" android:exported="false" android:screenOrientation="sensorLandscape" />
         <activity android:name=".LiveActivity" android:exported="false" android:screenOrientation="sensorLandscape"
             android:configChanges="keyboard|keyboardHidden|navigation|screenSize|smallestScreenSize|screenLayout|orientation" />

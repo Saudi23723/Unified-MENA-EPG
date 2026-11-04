@@ -39,8 +39,8 @@ class HomeActivity : BaseActivity() {
         }
         tile("📺", "Live TV") { open(LiveActivity::class.java) }
         tile("🗓", "TV Guide") { open(GuideActivity::class.java) }
-        tile("🎬", "Movies") { soon() }
-        tile("🎞", "Series") { soon() }
+        tile("🎬", "Movies") { startActivity(Intent(this, VodActivity::class.java).putExtra("series", false)) }
+        tile("🎞", "Series") { startActivity(Intent(this, VodActivity::class.java).putExtra("series", true)) }
         tile("🌙", "Dimming") { dim() }
         tile("⚙", "Settings") { startActivity(Intent(this, SettingsActivity::class.java)) }
         tiles.getChildAt(0).requestFocus()

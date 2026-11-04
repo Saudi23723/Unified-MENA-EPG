@@ -96,8 +96,8 @@ class SettingsActivity : BaseActivity() {
             setPadding((18 * d).toInt(), 0, (18 * d).toInt(), 0)
             if (go != null) setOnClickListener { go() }
         }
-        val a = TextView(this).apply { text = title; textSize = 17f; setTypeface(typeface, Typeface.BOLD); setTextColor(getColorStateList(R.color.on_focus)); duplicateParentState = true }
-        val b = TextView(this).apply { text = value; textSize = 15f; setTextColor(getColorStateList(R.color.on_focus2)); duplicateParentState = true; gravity = Gravity.END }
+        val a = TextView(this).apply { text = title; textSize = 17f; setTypeface(typeface, Typeface.BOLD); setTextColor(getColorStateList(R.color.on_focus)); isDuplicateParentStateEnabled = true }
+        val b = TextView(this).apply { text = value; textSize = 15f; setTextColor(getColorStateList(R.color.on_focus2)); isDuplicateParentStateEnabled = true; gravity = Gravity.END }
         r.addView(a, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
         r.addView(b, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1.3f))
         list.addView(r, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (58 * d).toInt()).apply { bottomMargin = (6 * d).toInt() })
