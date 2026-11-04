@@ -124,6 +124,16 @@ object Api {
         else -> j.nextString()
     }
 
+    /** a channel's name without quality / format marks: "beIN Sports 1 HD" and "beIN SPORTS 1 4K" are the same channel */
+    fun baseName(n: String): String {
+        var t = java.text.Normalizer.normalize(n, java.text.Normalizer.Form.NFKC).uppercase()
+        t = t.replace(Regex("^\\|?[A-Z]{2,3}\\s*[:|]\\s*"), "").replace(Regex("^[^A-Z0-9\\u0600-\\u06FF]+"), "")
+        t = t.replace(".QA", " ").replace(Regex("\\bENGLISH\\b|\\bENG\\b"), "EN").replace(Regex("\\bFRENCH\\b|\\bFRANCE\\b"), "FR")
+        t = t.replace(Regex("\\b(UHD|FHD|HD|SD|LQ|4K|8K|HEVC|H265|RAW|3840P|2160P|1080P|720P|60FPS|50FPS|HDR|BACKUP|BK)\\b"), " ")
+        t = t.replace("SPORTS", "SPORT").replace(Regex("\\bXTRA\\s*(\\d)"), "$1 XTRA").replace(Regex("\\b0(\\d)\\b"), "$1")
+        return t.replace(Regex("[^A-Z0-9\\u0600-\\u06FF]"), "")
+    }
+
     fun toggleFavorite(c: Channel): Boolean {
         val f = Prefs.favorites.toMutableSet()
         val on = f.add(c.id.toString()) || run { f.remove(c.id.toString()); false }

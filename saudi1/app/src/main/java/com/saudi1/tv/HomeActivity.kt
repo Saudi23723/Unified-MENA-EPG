@@ -42,7 +42,7 @@ class HomeActivity : BaseActivity() {
         tile("🎬", "Movies") { soon() }
         tile("🎞", "Series") { soon() }
         tile("🌙", "Dimming") { dim() }
-        tile("⚙", "Settings") { startActivity(Intent(this, SetupActivity::class.java)) }
+        tile("⚙", "Settings") { startActivity(Intent(this, SettingsActivity::class.java)) }
         tiles.getChildAt(0).requestFocus()
 
         findViewById<TextView>(R.id.reload).apply {

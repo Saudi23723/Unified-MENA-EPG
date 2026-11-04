@@ -211,12 +211,14 @@ class LiveActivity : BaseActivity() {
 
     private fun play(c: Channel) {
         if (playing?.id == c.id && player.playbackState != Player.STATE_IDLE) return
-        if (playing != null && playing?.id != c.id) previous = playing
+        val old = playing
+        if (old != null && old.id != c.id) previous = old
         playing = c
         Prefs.lastChannel = c.id
         retried = false
         start(c)
-        channelAdapter.notifyDataSetChanged()
+        channelAdapter.items.indexOfFirst { it.id == old?.id }.takeIf { it >= 0 }?.let { channelAdapter.notifyItemChanged(it) }
+        channelAdapter.items.indexOfFirst { it.id == c.id }.takeIf { it >= 0 }?.let { channelAdapter.notifyItemChanged(it) }
     }
 
     private fun start(c: Channel) {
@@ -234,7 +236,7 @@ class LiveActivity : BaseActivity() {
         rightCol.visibility = View.VISIBLE
         channelCol.background = null
         browse.visibility = if (on) View.GONE else View.VISIBLE
-        fullClock.visibility = if (on) View.VISIBLE else View.GONE
+        fullClock.visibility = if (on && App.prefs.getBoolean("clock", true)) View.VISIBLE else View.GONE
         place()
         if (on) showBanner() else {
             banner.visibility = View.GONE
@@ -325,9 +327,10 @@ class LiveActivity : BaseActivity() {
 
     /** audio / subtitles / picture size / night dimming (MENU, or hold OK in full screen) */
     private fun options() {
-        val items = arrayOf("Audio", "Subtitles", "Picture size", "Night dimming", "Previous channel", "TV Guide")
-        AlertDialog.Builder(this).setTitle(playing?.name ?: "Options").setItems(items) { _, w ->
-            when (w) {
+        val items = arrayOf("Quality", "Audio", "Subtitles", "Picture size", "Night dimming", "Previous channel", "TV Guide")
+        AlertDialog.Builder(this).setTitle(playing?.name ?: "Options").setItems(items) { _, w0 ->
+            if (w0 == 0) { quality(); return@setItems }
+            when (w0 - 1) {
                 0 -> tracks(C.TRACK_TYPE_AUDIO)
                 1 -> tracks(C.TRACK_TYPE_TEXT)
                 2 -> {
@@ -341,6 +344,16 @@ class LiveActivity : BaseActivity() {
                 5 -> startActivity(Intent(this, GuideActivity::class.java))
             }
         }.show()
+    }
+
+    /** the same channel in its other qualities (4K / FHD / HD / SD / HEVC / RAW...) from the whole list */
+    private fun quality() {
+        val c = playing ?: return
+        val key = Api.baseName(c.name)
+        val same = (Api.groups.firstOrNull { it.id == Api.ALL }?.channels ?: emptyList()).filter { Api.baseName(it.name) == key }
+        if (same.size < 2) { toast("This channel has one quality"); return }
+        val labels = same.map { (if (it.id == c.id) "▶  " else "") + it.name + "   ·   " + (Api.groups.firstOrNull { g -> g.id == it.group }?.name ?: "") }
+        AlertDialog.Builder(this).setTitle("Quality").setItems(labels.toTypedArray()) { _, w -> play(same[w]); showBanner() }.show()
     }
 
     private fun dimDialog() {
@@ -413,8 +426,8 @@ class LiveActivity : BaseActivity() {
         val down = e.action == KeyEvent.ACTION_DOWN
         if (full && !overlay && epgPanel.visibility != View.VISIBLE) {
             when (e.keyCode) {
-                KeyEvent.KEYCODE_DPAD_UP, KeyEvent.KEYCODE_CHANNEL_UP -> { if (down) zap(-1); return true }
-                KeyEvent.KEYCODE_DPAD_DOWN, KeyEvent.KEYCODE_CHANNEL_DOWN -> { if (down) zap(1); return true }
+                KeyEvent.KEYCODE_DPAD_UP, KeyEvent.KEYCODE_CHANNEL_UP -> { if (down) zap(if (App.prefs.getBoolean("zap_invert", false)) -1 else 1); return true }
+                KeyEvent.KEYCODE_DPAD_DOWN, KeyEvent.KEYCODE_CHANNEL_DOWN -> { if (down) zap(if (App.prefs.getBoolean("zap_invert", false)) 1 else -1); return true }
                 KeyEvent.KEYCODE_DPAD_CENTER, KeyEvent.KEYCODE_ENTER -> {
                     // short press: channel list over the picture; hold: options
                     if (down && e.repeatCount == 1) options()
@@ -440,8 +453,8 @@ class LiveActivity : BaseActivity() {
         }
         if (down && !full) {
             when (e.keyCode) {
-                KeyEvent.KEYCODE_CHANNEL_UP -> { zap(-1); return true }
-                KeyEvent.KEYCODE_CHANNEL_DOWN -> { zap(1); return true }
+                KeyEvent.KEYCODE_CHANNEL_UP -> { zap(1); return true }
+                KeyEvent.KEYCODE_CHANNEL_DOWN -> { zap(-1); return true }
                 KeyEvent.KEYCODE_LAST_CHANNEL -> { back(); return true }
                 KeyEvent.KEYCODE_BACK -> if (groupsPanel.visibility == View.VISIBLE) { closeGroups(); return true }
                 KeyEvent.KEYCODE_MENU -> { options(); return true }
@@ -466,11 +479,16 @@ class LiveActivity : BaseActivity() {
     private fun fav(c: Channel) {
         val on = Api.toggleFavorite(c)
         toast(if (on) "★ Added to Favorites" else "Removed from Favorites")
-        channelAdapter.notifyDataSetChanged(); groupAdapter.notifyDataSetChanged()
+        channelAdapter.items.indexOfFirst { it.id == c.id }.takeIf { it >= 0 }?.let { channelAdapter.notifyItemChanged(it) }
+        groupAdapter.notifyItemChanged(0)
     }
 
     override fun onStop() { super.onStop(); player.pause() }
-    override fun onStart() { super.onStart(); if (playing != null) player.play() }
+    override fun onStart() {
+        super.onStart()
+        playerView.resizeMode = App.prefs.getInt("resize", AspectRatioFrameLayout.RESIZE_MODE_FIT)
+        if (playing != null) player.play()
+    }
     override fun onDestroy() { super.onDestroy(); player.release() }
 
     // ---------------- adapters ----------------

@@ -64,19 +64,33 @@ class GuideActivity : BaseActivity() {
         from = (System.currentTimeMillis() / 1000) / 1800 * 1800
         group = Api.groups.firstOrNull { it.id == Prefs.lastGroup && it.channels.isNotEmpty() }
             ?: Api.groups.firstOrNull { it.id != Api.FAV && it.id != Api.ALL }
-        title.text = group?.name ?: "TV Guide"
+        title.text = "▾  " + (group?.name ?: "TV Guide")
+        title.setPadding((14 * d).toInt(), (6 * d).toInt(), (14 * d).toInt(), (6 * d).toInt())
+        title.setBackgroundResource(R.drawable.item_bg); title.isFocusable = true; title.isClickable = true
+        title.setTextColor(getColorStateList(R.color.on_focus))
         title.setOnClickListener { pickGroup(title) }
+        info.setPadding((18 * d).toInt(), 0, 0, 0)
         rows.post {
             pxPerSec = (rows.width - 230 * d) / span
             drawRuler(); adapter.notifyDataSetChanged()
-            rows.post { rows.findViewHolderForAdapterPosition(0)?.itemView?.findViewWithTag<View>("cell")?.requestFocus() }
+            // open on the channel that is playing (else the first)
+            val pos = group?.channels?.indexOfFirst { it.id == Prefs.lastChannel }?.coerceAtLeast(0) ?: 0
+            (rows.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(pos, (140 * d).toInt())
+            focusRow(pos)
         }
+    }
+
+    private fun focusRow(pos: Int, tries: Int = 0) {
+        rows.postDelayed({
+            val v = rows.findViewHolderForAdapterPosition(pos)?.itemView?.findViewWithTag<View>("cell")
+            if (v != null) v.requestFocus() else if (tries < 10) focusRow(pos, tries + 1)
+        }, 150)
     }
 
     private fun pickGroup(title: TextView) {
         val gs = Api.groups.filter { it.channels.isNotEmpty() }
         AlertDialog.Builder(this).setTitle("Group").setItems(gs.map { it.name }.toTypedArray()) { _, w ->
-            group = gs[w]; title.text = gs[w].name; adapter.notifyDataSetChanged(); rows.scrollToPosition(0)
+            group = gs[w]; title.text = "▾  " + gs[w].name; adapter.notifyDataSetChanged(); rows.scrollToPosition(0); focusRow(0)
         }.show()
     }
 
@@ -107,6 +121,9 @@ class GuideActivity : BaseActivity() {
                 if (e.keyCode == KeyEvent.KEYCODE_DPAD_LEFT && idx == 0 && from > System.currentTimeMillis() / 1000 - 2 * 3600) { shift(-2 * 3600); return true }
             }
             if (e.keyCode == KeyEvent.KEYCODE_MENU) { pickGroup(titleV); return true }
+            // ⏪ / ⏩ on the remote: a day back / forward
+            if (e.keyCode == KeyEvent.KEYCODE_MEDIA_FAST_FORWARD) { shift(24 * 3600); return true }
+            if (e.keyCode == KeyEvent.KEYCODE_MEDIA_REWIND) { shift(-24 * 3600); return true }
         }
         return super.dispatchKeyEvent(e)
     }
@@ -147,7 +164,7 @@ class GuideActivity : BaseActivity() {
                 textSize = 15f; maxLines = 2; ellipsize = TextUtils.TruncateAt.END; gravity = Gravity.CENTER_VERTICAL
                 setPadding((10 * d).toInt(), 0, (8 * d).toInt(), 0)
                 isFocusable = true; isClickable = true
-                setBackgroundResource(if (p.now(now)) R.drawable.cell_now else R.drawable.item_bg)
+                setBackgroundResource(if (p.now(now) && p.title != "No guide") R.drawable.cell_now else R.drawable.item_bg)
                 setTextColor(getColorStateList(R.color.on_focus))
                 setOnFocusChangeListener { _, f -> if (f) info.text = "${c.name}   ·   ${time.format(Date(p.start * 1000))} – ${time.format(Date(p.stop * 1000))}   ${p.title}\n${p.desc}" }
                 setOnClickListener {

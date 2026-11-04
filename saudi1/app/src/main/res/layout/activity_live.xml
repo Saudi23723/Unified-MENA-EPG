@@ -83,8 +83,8 @@
 
     <!-- full screen: clock (bottom right, like TiviMate) -->
     <TextView android:id="@+id/fullClock" android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end" android:layout_margin="28dp" android:background="@drawable/panel_bg"
-        android:paddingStart="16dp" android:paddingEnd="16dp" android:paddingTop="6dp" android:paddingBottom="6dp"
+        android:layout_gravity="bottom|end" android:layout_margin="28dp" android:alpha="0.85"
+        android:shadowColor="#CC000000" android:shadowDx="0" android:shadowDy="2" android:shadowRadius="6"
         android:textSize="22sp" android:textStyle="bold" android:visibility="gone"/>
 
     <!-- full screen: the channel's guide for the next days (RIGHT) -->
