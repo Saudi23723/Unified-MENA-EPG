@@ -47,6 +47,15 @@ CC = {"us": "US", "uk": "UK", "gb": "UK", "ie": "UK", "ca": "CA", "tr": "TR", "i
 
 # (group regex or None, name regex, logo). "" = leave it to the provider. Checked before everything else.
 FIRST = [
+    # ESPN groups (owner, 4 Nov 2026: "each channel its own original logo"): ESPN+, and the ESPN World channels
+    # (New Zealand, Netherlands, Chile, Australia) by their number, not another country's logo found by name
+    (r"ESPN", r"ESPN\+\s*\d", TVLOGOS + "countries/united-states/espn-plus-us.png"),
+    (r"ESPN", r"OCHO", "https://images.fubo.tv/channel-config-ui/station-logos/on-dark/espn_8_the_ocho_bw.png"),
+    (r"\|\s*ESPN$", r"^ESPN(\s+USA)?\s+(RAW|HD)\b", TVLOGOS + "countries/united-states/espn-us.png"),
+    (r"ᴡᴏʀʟᴅ|WORLD", r"\bESPN\s*2\b", "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/ESPN2_logo.svg/500px-ESPN2_logo.svg.png"),
+    (r"ᴡᴏʀʟᴅ|WORLD", r"\bESPN\s*3\b", "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/ESPN3_Logo.png/960px-ESPN3_Logo.png"),
+    (r"ᴡᴏʀʟᴅ|WORLD", r"\bESPN\s*4\b", "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/ESPN_4_logo.svg/960px-ESPN_4_logo.svg.png"),
+    (r"ᴡᴏʀʟᴅ|WORLD", r"\bESPN\b", "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/ESPN_wordmark.svg/500px-ESPN_wordmark.svg.png"),
     (r"US|ᴇɴᴛᴇʀᴛᴀɪɴᴍᴇɴᴛ|ENTERTAINMENT", r"^(US:?\s*)?USA\s*NETWORK", "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/USA_Network_logo_%282016%29.svg/500px-USA_Network_logo_%282016%29.svg.png"),
     # US networks: the collection's colour logos (the guide's ones are dark / odd on DreamTV; owner, 28 Oct 2026)
     (r"US|ᴇɴᴛᴇʀᴛᴀɪɴᴍᴇɴᴛ|ENTERTAINMENT", r"^(US:?\s*)?TNT\b(?!.*(SPORT|BOX|ULTIMATE|2M|AL\s|ARRIADIA|MEDI|TAMAZIGHT|ALMAGHRIB|ASSADISSA))", TVLOGOS + "countries/united-states/tnt-us.png"),

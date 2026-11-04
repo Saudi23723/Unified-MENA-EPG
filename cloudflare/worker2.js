@@ -43,7 +43,8 @@ async function digest(t) {
 // instance and every category request gets it (owner, 28 Oct 2026: NBA PASS names stayed on yesterday's games).
 const PATCH_AGE = 15 * 60000;
 // separator rows some providers put inside groups ("✶⋆✶ FITE EVENTS ✶⋆✶", "##### UK #####")
-const SEPARATOR = /✶|⋆/;
+// provider separator rows ("####### beIN SPORTS HD #######", "### SA beIN SPORTS SD ###", "-----"), never channels
+const SEPARATOR = /✶|⋆|^\s*#{3,}|#{3,}\s*$|^\s*[-=_]{4,}/;
 // playlists whose hidden PPV / UFC packages are shown automatically, and which packages count
 const EXTRA = /^(argon)$/;
 const EXTRA_GROUP = /PPV|PAY\s*PER\s*VIEW|\bUFC\b|\bEVENTS?\b|FIGHT|BOXING|\bWWE\b|\bMMA\b|BKFC|BELLATOR|\bPFL\b/i;
