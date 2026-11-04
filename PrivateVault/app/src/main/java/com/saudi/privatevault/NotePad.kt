@@ -98,6 +98,15 @@ class NoteCanvas(ctx: Context, val book: NoteBook) : View(ctx) {
     var color = Color.BLACK
     var pen = 0
     var onChange: () -> Unit = {}
+    /** Black paper and white ink, as a phone's note pop-up. */
+    var dark = false
+    private val invert = Paint().apply {
+        colorFilter = android.graphics.ColorMatrixColorFilter(android.graphics.ColorMatrix(floatArrayOf(
+            -1f, 0f, 0f, 0f, 255f, 0f, -1f, 0f, 0f, 255f, 0f, 0f, -1f, 0f, 255f, 0f, 0f, 0f, 1f, 0f,
+        )))
+    }
+    /** On black paper, ink written black shows white. */
+    private fun ink(c: Int) = if (dark && Color.red(c) + Color.green(c) + Color.blue(c) < 90) Color.WHITE else c
 
     private val undone = ArrayList<NoteBook.Stroke>()
     private var current: ArrayList<Float>? = null
@@ -111,18 +120,22 @@ class NoteCanvas(ctx: Context, val book: NoteBook) : View(ctx) {
     private val strokes get() = book.pages[page]
 
     override fun onDraw(c: Canvas) {
-        c.drawColor(0xFF263238.toInt())
-        scale = minOf(width / NotePad.W, height / NotePad.H)
+        c.drawColor(if (dark) 0xFF000000.toInt() else 0xFF263238.toInt())
+        // A note pop-up fills its window width; a page scrolls of its own height.
+        scale = if (dark) width / NotePad.W else minOf(width / NotePad.W, height / NotePad.H)
         val w = NotePad.W * scale
         val h = NotePad.H * scale
-        box.set((width - w) / 2, (height - h) / 2, (width + w) / 2, (height + h) / 2)
+        if (dark) box.set(0f, 0f, w, h) else box.set((width - w) / 2, (height - h) / 2, (width + w) / 2, (height + h) / 2)
         c.save()
         c.translate(box.left, box.top)
         c.scale(scale, scale)
         bg.style = Paint.Style.FILL
         bg.color = Color.WHITE
+        // The ruling drawn on white, then turned to black paper with grey lines.
+        if (dark) c.saveLayer(0f, 0f, NotePad.W, NotePad.H, invert)
         c.drawRect(0f, 0f, NotePad.W, NotePad.H, bg)
         NotePad.background(c, book.style, page, bg)
+        if (dark) c.restore()
         // Highlighter under the ink, like real paper.
         for (s in strokes) if (s.tool == NotePad.Tool.HIGHLIGHTER) draw(c, s)
         for (s in strokes) if (s.tool != NotePad.Tool.HIGHLIGHTER) draw(c, s)
@@ -134,10 +147,10 @@ class NoteCanvas(ctx: Context, val book: NoteBook) : View(ctx) {
         if (s.tool == NotePad.Tool.ERASER) return
         if (s.tool == NotePad.Tool.FINE || s.tool == NotePad.Tool.PENCIL || s.tool == NotePad.Tool.MARKER) {
             val k = when (s.tool) { NotePad.Tool.FINE -> PenStyle.FINE; NotePad.Tool.PENCIL -> PenStyle.PENCIL; else -> PenStyle.MARKER }
-            PenInk.draw(c, k, s.color, NotePad.Tool.PEN.width, s.pts); return
+            PenInk.draw(c, k, ink(s.color), NotePad.Tool.PEN.width, s.pts); return
         }
-        if (s.tool == NotePad.Tool.PEN) { PenInk.draw(c, PenInk.style(s.pen), s.color, s.width, s.pts); return }
-        paint.color = s.color
+        if (s.tool == NotePad.Tool.PEN) { PenInk.draw(c, PenInk.style(s.pen), ink(s.color), s.width, s.pts); return }
+        paint.color = ink(s.color)
         paint.alpha = s.tool.alpha
         paint.strokeWidth = s.width
         paint.strokeCap = if (s.tool == NotePad.Tool.HIGHLIGHTER) Paint.Cap.SQUARE else Paint.Cap.ROUND
@@ -296,114 +309,141 @@ object NotePad {
         fun dp(v: Int) = (v * d).toInt()
         val sw = act.resources.displayMetrics.widthPixels
         val sh = act.resources.displayMetrics.heightPixels
-        val smallW = minOf((sw * 0.42).toInt(), dp(380)).coerceAtLeast(dp(220))
-        val smallH = (smallW * 1.6).toInt().coerceAtMost((sh * 0.7).toInt())
+        val white = 0xFFFFFFFF.toInt()
+        val grey = 0xFF8E8E93.toInt()
+        val blue = 0xFF2E9BFF.toInt()
 
+        // A black pop-up window with rounded corners and a soft shadow, as a phone's floating note.
         val frame = FrameLayout(act).apply {
-            elevation = dp(16).toFloat()
-            background = GradientDrawable().apply { setColor(0xFF101826.toInt()); cornerRadius = dp(14).toFloat(); setStroke(dp(1), EfbUi.ACCENT) }
+            elevation = dp(24).toFloat()
+            background = GradientDrawable().apply { setColor(0xFF000000.toInt()); cornerRadius = dp(22).toFloat(); setStroke(dp(1), 0xFF2C2C2E.toInt()) }
             clipToOutline = true
             isClickable = true
         }
         val col = LinearLayout(act).apply { orientation = LinearLayout.VERTICAL; layoutDirection = View.LAYOUT_DIRECTION_LTR }
         frame.addView(col, FrameLayout.LayoutParams(-1, -1))
-        val canvas = NoteCanvas(act, book)
+        val canvas = NoteCanvas(act, book).apply { dark = true; color = Color.WHITE }
         var dirty = false
         canvas.onChange = { dirty = true }
 
-        // Title bar: drag to move the small window; ⤢ grows or shrinks it; ✕ closes and saves.
-        val head = LinearLayout(act).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL; setPadding(dp(8), dp(2), dp(2), dp(2)) }
-        val title = TextView(act).apply { text = book.title; setTextColor(EfbUi.TEXT); textSize = 12f; maxLines = 1; ellipsize = android.text.TextUtils.TruncateAt.END }
-        head.addView(title, LinearLayout.LayoutParams(0, -2, 1f))
-        fun chip(t: String, size: Float = 15f, onClick: (TextView) -> Unit) = TextView(act).apply {
-            text = t; textSize = size; setTextColor(EfbUi.TEXT); gravity = Gravity.CENTER
-            setPadding(dp(9), dp(7), dp(9), dp(7))
+        fun icon(res: Int, tint: Int = white, onClick: (android.widget.ImageView) -> Unit) = android.widget.ImageView(act).apply {
+            setImageResource(res); setColorFilter(tint); setPadding(dp(9), dp(9), dp(9), dp(9))
+            background = android.graphics.drawable.RippleDrawable(android.content.res.ColorStateList.valueOf(0x33FFFFFF), null,
+                GradientDrawable().apply { shape = GradientDrawable.OVAL; setColor(white) })
             setOnClickListener { onClick(this) }
         }
-        val pageLabel = TextView(act).apply { setTextColor(EfbUi.DIM); textSize = 12f; setPadding(dp(4), 0, dp(4), 0) }
-        fun showPage() { pageLabel.text = "${canvas.page + 1}/${book.pages.size}" }
+        fun glyph(t: String, size: Float = 18f, onClick: (TextView) -> Unit) = TextView(act).apply {
+            text = t; textSize = size; setTextColor(white); gravity = Gravity.CENTER
+            setPadding(dp(10), dp(6), dp(10), dp(6)); setOnClickListener { onClick(this) }
+        }
+
+        // The handle: a small pill to drag the window by.
+        col.addView(View(act).apply { background = GradientDrawable().apply { setColor(0xFF3A3A3C.toInt()); cornerRadius = dp(3).toFloat() } },
+            LinearLayout.LayoutParams(dp(40), dp(5)).apply { gravity = Gravity.CENTER_HORIZONTAL; topMargin = dp(8) })
+
+        // The title, the page, and minimise / size / close.
+        val head = LinearLayout(act).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL; setPadding(dp(14), dp(2), dp(6), 0) }
+        head.addView(TextView(act).apply {
+            text = book.title; setTextColor(white); textSize = 15f; maxLines = 1; ellipsize = android.text.TextUtils.TruncateAt.END
+            typeface = EfbUi.MEDIUM
+        }, LinearLayout.LayoutParams(0, -2, 1f))
+        val pageLabel = TextView(act).apply { setTextColor(grey); textSize = 12f; setPadding(dp(6), 0, dp(6), 0) }
+        fun showPage() { pageLabel.text = "${canvas.page + 1} / ${book.pages.size}" }
         showPage()
         var isBig = big
         lateinit var grow: TextView
-        // Small, or bigger (never the whole screen); the corner grip sets any size between.
+        val smallW = minOf((sw * 0.46).toInt(), dp(400)).coerceAtLeast(dp(260))
+        val smallH = (smallW * 1.25).toInt().coerceAtMost((sh * 0.62).toInt())
         val bigW = minOf((sw * 0.86).toInt(), dp(720))
         val bigH = (sh * 0.8).toInt()
         fun place() {
-            frame.layoutParams = FrameLayout.LayoutParams(if (isBig) bigW else smallW, if (isBig) bigH else smallH, Gravity.END or Gravity.CENTER_VERTICAL).apply { marginEnd = dp(8) }
+            frame.layoutParams = FrameLayout.LayoutParams(if (isBig) bigW else smallW, if (isBig) bigH else smallH, Gravity.END or Gravity.CENTER_VERTICAL).apply { marginEnd = dp(12) }
             frame.translationX = 0f; frame.translationY = 0f
             grow.text = if (isBig) "⤡" else "⤢"
         }
-        head.addView(chip("‹") { if (canvas.page > 0) { canvas.page--; showPage() } })
         head.addView(pageLabel)
-        head.addView(chip("›") { if (canvas.page < book.pages.size - 1) { canvas.page++; showPage() } })
-        head.addView(chip("＋") {
-            book.pages.add(canvas.page + 1, ArrayList()); canvas.page++; showPage(); dirty = true
-        })
-        grow = chip("⤢", 17f) { isBig = !isBig; place() }
+        head.addView(glyph("–", 22f) { minimise(act, frame, book) })
+        grow = glyph("⤢", 18f) { isBig = !isBig; place() }
         head.addView(grow)
-        head.addView(chip("✕", 16f) { close(act) })
+        head.addView(icon(R.drawable.ic_close) { close(act) }, LinearLayout.LayoutParams(dp(38), dp(38)))
         var dx = 0f; var dy = 0f
-        head.setOnTouchListener { _, e ->
+        val drag = View.OnTouchListener { _, e ->
             when (e.actionMasked) {
                 MotionEvent.ACTION_DOWN -> { dx = frame.translationX - e.rawX; dy = frame.translationY - e.rawY }
                 MotionEvent.ACTION_MOVE -> { frame.translationX = e.rawX + dx; frame.translationY = e.rawY + dy }
             }
             true
         }
+        head.setOnTouchListener(drag)
+        col.getChildAt(0).setOnTouchListener(drag)
         col.addView(head)
 
-        // Pens, colours, undo / redo, clear, PDF.
-        val tools = LinearLayout(act).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL; setPadding(dp(4), 0, dp(4), dp(2)) }
-        val toolChips = ArrayList<Pair<Tool, TextView>>()
-        fun mark() = toolChips.forEach { (t, v) -> v.background = if (t == canvas.tool) GradientDrawable().apply { setColor(0xFF1E3A5F.toInt()); cornerRadius = dp(8).toFloat() } else null }
-        // Every kind of pen, then the highlighter and the eraser.
-        lateinit var penChip: TextView
-        fun penLabel() { penChip.text = PenStyle.values()[canvas.pen].label + " ▾" }
-        penChip = chip("", 12f) {
-            if (canvas.tool == Tool.PEN) PenInk.choose(act, canvas.pen) { i -> canvas.pen = i; penLabel(); mark() }
-            else { canvas.tool = Tool.PEN; mark() }
+        col.addView(canvas, LinearLayout.LayoutParams(-1, 0, 1f))
+
+        // The tools along the bottom, on a dark strip: pens, colours, undo / redo, pages.
+        val tools = LinearLayout(act).apply {
+            orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL
+            setPadding(dp(6), dp(4), dp(6), dp(6)); setBackgroundColor(0xFF1C1C1E.toInt())
         }
-        penChip.setOnLongClickListener { PenInk.choose(act, canvas.pen) { i -> canvas.pen = i; canvas.tool = Tool.PEN; penLabel(); mark() }; true }
-        toolChips.add(Tool.PEN to penChip); tools.addView(penChip)
-        penLabel()
-        for (t in listOf(Tool.HIGHLIGHTER, Tool.ERASER)) {
-            val v = chip(t.label, 12f) { canvas.tool = t; mark() }
-            toolChips.add(t to v); tools.addView(v)
+        val toolViews = ArrayList<Pair<Tool, android.widget.ImageView>>()
+        fun mark() = toolViews.forEach { (t, v) ->
+            v.setColorFilter(if (t == canvas.tool || (t == Tool.PEN && canvas.tool != Tool.HIGHLIGHTER && canvas.tool != Tool.ERASER)) blue else white)
+        }
+        for ((t, res) in listOf(Tool.PEN to R.drawable.ic_tool_pen, Tool.HIGHLIGHTER to R.drawable.ic_tool_highlight, Tool.ERASER to R.drawable.ic_tool_eraser)) {
+            val v = icon(res) {
+                if (t == Tool.PEN && canvas.tool == Tool.PEN) PenInk.choose(act, canvas.pen) { i -> canvas.pen = i }
+                canvas.tool = t; mark()
+            }
+            if (t == Tool.PEN) v.setOnLongClickListener { PenInk.choose(act, canvas.pen) { i -> canvas.pen = i; canvas.tool = Tool.PEN; mark() }; true }
+            toolViews.add(t to v)
+            tools.addView(v, LinearLayout.LayoutParams(dp(40), dp(40)))
         }
         mark()
+        tools.addView(View(act).apply { setBackgroundColor(0xFF3A3A3C.toInt()) }, LinearLayout.LayoutParams(dp(1), dp(22)).apply { setMargins(dp(4), 0, dp(6), 0) })
+        val inks = intArrayOf(Color.WHITE, 0xFFFFD60A.toInt(), 0xFF64D2FF.toInt(), 0xFF30D158.toInt(), 0xFFFF375F.toInt(), 0xFFBF5AF2.toInt())
         val dots = ArrayList<View>()
-        for (c in COLORS) {
+        fun ring() = dots.forEachIndexed { i, v -> (v.background as GradientDrawable).setStroke(dp(2), if (inks[i] == canvas.color) blue else 0x00000000) }
+        for (cl in inks) {
             val dot = View(act).apply {
-                background = GradientDrawable().apply { shape = GradientDrawable.OVAL; setColor(c); setStroke(dp(2), if (c == canvas.color) EfbUi.ACCENT else 0xFF455A64.toInt()) }
+                background = GradientDrawable().apply { shape = GradientDrawable.OVAL; setColor(cl) }
                 setOnClickListener {
-                    canvas.color = c
+                    canvas.color = cl
                     if (canvas.tool == Tool.ERASER) { canvas.tool = Tool.PEN; mark() }
-                    dots.forEachIndexed { i, v -> (v.background as GradientDrawable).setStroke(dp(2), if (COLORS[i] == c) EfbUi.ACCENT else 0xFF455A64.toInt()) }
+                    ring()
                 }
             }
             dots.add(dot)
-            tools.addView(dot, LinearLayout.LayoutParams(dp(24), dp(24)).apply { marginStart = dp(5); marginEnd = dp(5) })
+            tools.addView(dot, LinearLayout.LayoutParams(dp(22), dp(22)).apply { marginStart = dp(4); marginEnd = dp(4) })
         }
-        tools.addView(chip("↶") { canvas.undo() })
-        tools.addView(chip("↷") { canvas.redo() })
-        tools.addView(chip("🗑 Page", 12f) {
-            com.google.android.material.dialog.MaterialAlertDialogBuilder(act)
-                .setMessage(R.string.notes_clear_page)
-                .setPositiveButton(R.string.notes_clear) { _, _ ->
-                    if (book.pages.size > 1 && book.pages[canvas.page].isEmpty()) { book.pages.removeAt(canvas.page); canvas.page = canvas.page.coerceAtMost(book.pages.size - 1); showPage() }
-                    else canvas.clearPage()
-                    dirty = true
-                }
-                .setNegativeButton(R.string.cancel, null).show()
+        ring()
+        tools.addView(View(act), LinearLayout.LayoutParams(0, 1, 1f))
+        tools.addView(icon(R.drawable.ic_undo) { canvas.undo() }, LinearLayout.LayoutParams(dp(38), dp(38)))
+        tools.addView(icon(R.drawable.ic_redo) { canvas.redo() }, LinearLayout.LayoutParams(dp(38), dp(38)))
+        tools.addView(glyph("‹", 20f) { if (canvas.page > 0) { canvas.page--; showPage() } })
+        tools.addView(glyph("›", 20f) { if (canvas.page < book.pages.size - 1) { canvas.page++; showPage() } })
+        tools.addView(glyph("＋", 16f) { book.pages.add(canvas.page + 1, ArrayList()); canvas.page++; showPage(); dirty = true })
+        tools.addView(glyph("⋯", 18f) { v ->
+            val m = android.widget.PopupMenu(act, v)
+            m.menu.add(0, 1, 0, act.getString(R.string.notes_clear))
+            m.menu.add(0, 2, 1, "PDF")
+            m.setOnMenuItemClickListener {
+                if (it.itemId == 1) com.google.android.material.dialog.MaterialAlertDialogBuilder(act)
+                    .setMessage(R.string.notes_clear_page)
+                    .setPositiveButton(R.string.notes_clear) { _, _ ->
+                        if (book.pages.size > 1 && book.pages[canvas.page].isEmpty()) { book.pages.removeAt(canvas.page); canvas.page = canvas.page.coerceAtMost(book.pages.size - 1); showPage() }
+                        else canvas.clearPage()
+                        dirty = true
+                    }.setNegativeButton(R.string.cancel, null).show()
+                else { book.save(); Notebooks.exportPdf(act, book) }
+                true
+            }
+            m.show()
         })
-        tools.addView(chip("📄 PDF", 12f) { book.save(); Notebooks.exportPdf(act, book) })
-        col.addView(HorizontalScrollView(act).apply { isHorizontalScrollBarEnabled = false; addView(tools) })
-        col.addView(canvas, LinearLayout.LayoutParams(-1, 0, 1f))
+        col.addView(HorizontalScrollView(act).apply { isHorizontalScrollBarEnabled = false; isFillViewport = true; setBackgroundColor(0xFF1C1C1E.toInt()); addView(tools) })
 
-        // The grip at the bottom-left corner: drag to make the note any size.
-        val grip = TextView(act).apply {
-            text = "◢"; rotation = 90f; textSize = 16f; setTextColor(EfbUi.ACCENT); gravity = Gravity.CENTER
-            setPadding(dp(6), dp(6), dp(6), dp(6))
+        // The corner grip: any size between small and nearly the whole screen.
+        val grip = View(act).apply {
+            background = GradientDrawable().apply { setColor(0x553A3A3C); cornerRadius = dp(4).toFloat() }
         }
         var gx = 0f; var gy = 0f; var gw = 0; var gh = 0
         grip.setOnTouchListener { _, e ->
@@ -411,22 +451,21 @@ object NotePad {
             when (e.actionMasked) {
                 MotionEvent.ACTION_DOWN -> { gx = e.rawX; gy = e.rawY; gw = frame.width; gh = frame.height }
                 MotionEvent.ACTION_MOVE -> {
-                    lp.width = (gw - (e.rawX - gx)).toInt().coerceIn(dp(220), (sw * 0.94).toInt())
-                    lp.height = (gh + (e.rawY - gy)).toInt().coerceIn(dp(240), (sh * 0.9).toInt())
+                    lp.width = (gw - (e.rawX - gx)).toInt().coerceIn(dp(240), (sw * 0.94).toInt())
+                    lp.height = (gh + (e.rawY - gy)).toInt().coerceIn(dp(260), (sh * 0.9).toInt())
                     frame.layoutParams = lp
                 }
             }
             true
         }
-        frame.addView(grip, FrameLayout.LayoutParams(dp(34), dp(34), Gravity.BOTTOM or Gravity.START))
+        frame.addView(grip, FrameLayout.LayoutParams(dp(18), dp(18), Gravity.BOTTOM or Gravity.START).apply { setMargins(dp(4), 0, 0, dp(52)) })
 
         frame.tag = Runnable { if (dirty) book.save() }
         content.addView(frame)
         place()
-        frame.alpha = 0f; frame.scaleX = 0.92f; frame.scaleY = 0.92f
-        frame.animate().alpha(1f).scaleX(1f).scaleY(1f).setDuration(200).start()
+        frame.alpha = 0f; frame.scaleX = 0.94f; frame.scaleY = 0.94f
+        frame.animate().alpha(1f).scaleX(1f).scaleY(1f).setDuration(180).start()
         window = frame
-        // Saved every few seconds while open, so nothing is lost if the app is closed.
         val saver = object : Runnable {
             override fun run() {
                 if (window !== frame) return
@@ -435,6 +474,35 @@ object NotePad {
             }
         }
         frame.postDelayed(saver, 4000)
+    }
+
+    /** Folded to a round bubble at the screen's edge, as a phone's floating note; a tap opens it again. */
+    private fun minimise(act: Activity, frame: View, book: NoteBook) {
+        (frame.tag as? Runnable)?.run()
+        val content = act.findViewById<FrameLayout>(android.R.id.content)
+        val d = act.resources.displayMetrics.density
+        frame.visibility = View.GONE
+        val bubble = android.widget.ImageView(act).apply {
+            setImageResource(R.drawable.ic_fab_pencil)
+            setPadding((14 * d).toInt(), (14 * d).toInt(), (14 * d).toInt(), (14 * d).toInt())
+            background = GradientDrawable().apply { shape = GradientDrawable.OVAL; setColor(0xFF000000.toInt()); setStroke((2 * d).toInt(), 0xFF2E9BFF.toInt()) }
+            elevation = 20 * d
+        }
+        content.addView(bubble, FrameLayout.LayoutParams((54 * d).toInt(), (54 * d).toInt(), Gravity.END or Gravity.CENTER_VERTICAL).apply { marginEnd = (10 * d).toInt() })
+        var sx = 0f; var sy = 0f; var ty = 0f; var moved = false
+        bubble.setOnTouchListener { v, e ->
+            when (e.actionMasked) {
+                MotionEvent.ACTION_DOWN -> { sx = e.rawX; sy = e.rawY; ty = v.translationY; moved = false }
+                MotionEvent.ACTION_MOVE -> { if (Math.abs(e.rawY - sy) > 10 * d) moved = true; if (moved) v.translationY = ty + e.rawY - sy }
+                MotionEvent.ACTION_UP -> if (!moved) { content.removeView(bubble); frame.visibility = View.VISIBLE }
+            }
+            true
+        }
+        // Closing the note elsewhere takes the bubble too.
+        frame.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+            override fun onViewAttachedToWindow(v: View) {}
+            override fun onViewDetachedFromWindow(v: View) { content.removeView(bubble) }
+        })
     }
 
     fun isOpen() = window?.isAttachedToWindow == true
