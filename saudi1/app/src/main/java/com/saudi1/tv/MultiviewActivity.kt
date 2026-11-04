@@ -36,36 +36,50 @@ class MultiviewActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         val d = resources.displayMetrics.density
         val n = if (android.os.Build.MODEL.contains("Chromecast", true) || android.os.Build.MODEL.contains("Google TV", true)) 2 else 4
-        val gap = (8 * d).toInt()
+        val two = n == 2
+        // two screens: edge to edge, no gaps, no rounded corners — each half of the TV is all picture
+        val gap = if (two) 0 else (5 * d).toInt()
         val grid = GridLayout(this).apply {
             columnCount = 2; rowCount = if (n == 2) 1 else 2
-            setBackgroundResource(R.drawable.multi_screen_bg); setPadding(gap * 2, gap * 2, gap * 2, gap * 2)
+            setBackgroundResource(R.drawable.multi_screen_bg); setPadding(gap, gap, gap, gap)
+            // two screens: each as big as half the TV allows, 16:9, in the middle (no tall empty tiles)
+            if (n == 2) { useDefaultMargins = false; alignmentMode = GridLayout.ALIGN_BOUNDS }
         }
-        setContentView(grid)
+        setContentView(android.widget.FrameLayout(this).apply {
+            setBackgroundResource(R.drawable.multi_screen_bg)
+            addView(grid, android.widget.FrameLayout.LayoutParams(-1, if (n == 2) -2 else -1, android.view.Gravity.CENTER))
+        })
+        val sw = resources.displayMetrics.widthPixels
+        val tileW = if (two) sw / 2 else (sw - gap * 2) / 2 - gap * 2
+        fill = App.prefs.getBoolean("mv_fill", false)
+        tileH = { if (fill) resources.displayMetrics.heightPixels else tileW * 9 / 16 }
+        val ring = android.graphics.drawable.GradientDrawable().apply { setColor(0); setStroke((2.5f * d).toInt(), getColor(R.color.accent)) }
         val round = object : ViewOutlineProvider() {
             override fun getOutline(v: View, o: Outline) { o.setRoundRect(0, 0, v.width, v.height, 15 * d) }
         }
         for (i in 0 until n) {
             val v = LayoutInflater.from(this).inflate(R.layout.item_multiview, grid, false)
-            v.findViewById<View>(R.id.clip).apply { outlineProvider = round; clipToOutline = true }
+            if (two) { v.setPadding(0, 0, 0, 0); v.background = null } else v.findViewById<View>(R.id.clip).apply { outlineProvider = round; clipToOutline = true }
             val pv = v.findViewById<PlayerView>(R.id.pv)
+            if (two && fill) pv.resizeMode = androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_ZOOM
             // no audio focus: with it, each new screen took the focus and the other one paused (froze)
-            val p = Players.make(this, live = true, audioFocus = false)
+            val p = Players.make(this, live = true, audioFocus = false, maxHd = true)
             pv.player = p
             val t = Tile(v, pv, p, v.findViewById(R.id.bar), v.findViewById(R.id.logo), v.findViewById(R.id.name),
                 v.findViewById(R.id.now), v.findViewById(R.id.sound), v.findViewById(R.id.empty))
-            val lp = GridLayout.LayoutParams(GridLayout.spec(i / 2, 1f), GridLayout.spec(i % 2, 1f)).apply {
-                width = 0; height = 0; setMargins(gap, gap, gap, gap)
-            }
+            val lp = (if (n == 2) GridLayout.LayoutParams(GridLayout.spec(0), GridLayout.spec(i)).apply { width = tileW; height = tileH() }
+                else GridLayout.LayoutParams(GridLayout.spec(i / 2, 1f), GridLayout.spec(i % 2, 1f)).apply { width = 0; height = 0 })
+                .apply { setMargins(gap, gap, gap, gap) }
             grid.addView(v, lp)
             val idx = i
             v.setOnClickListener { pick(idx) }
             v.setOnLongClickListener { tiles[idx].channel?.let { c -> openFull(c) }; true }
             v.setOnFocusChangeListener { view, f ->
-                view.animate().scaleX(if (f) 1f else 0.97f).scaleY(if (f) 1f else 0.97f).alpha(if (f) 1f else 0.82f).setDuration(160).start()
+                if (two) view.foreground = if (f) ring else null
+                else view.animate().scaleX(if (f) 1f else 0.97f).scaleY(if (f) 1f else 0.97f).alpha(if (f) 1f else 0.82f).setDuration(160).start()
                 if (f) sound(idx)
             }
-            v.scaleX = 0.97f; v.scaleY = 0.97f; v.alpha = 0.82f
+            if (!two) { v.scaleX = 0.97f; v.scaleY = 0.97f; v.alpha = 0.82f }
             tiles.add(t)
             // a screen that fails or stops moving starts again by itself (then its other quality)
             p.addListener(object : androidx.media3.common.Player.Listener {
@@ -83,12 +97,38 @@ class MultiviewActivity : BaseActivity() {
                 }
             }
         }
-        val first = Api.byId[intent.getIntExtra("channel", -1)]
-        // the device has more than one playlist (admin site): each screen gets its own playlist = its own connection
-        val others = Device.playlists().filter { it.optString("name") != Device.active && it.optString("user").isNotEmpty() }.map { OtherList(it) }
-        if (others.isNotEmpty()) for (k in 1 until n) tiles[k].src = others[(k - 1) % others.size]
+        first = Api.byId[intent.getIntExtra("channel", -1)]?.takeIf { it.id > 0 }
         if (first != null) set(0, first)
-        val recent = History.ids().filter { it != first?.id }.mapNotNull { Api.byId[it] }
+        // the device has more than one playlist (admin site): the viewer picks the playlist of the other screen(s)
+        others = Device.playlists().filter { it.optString("name") != Device.active && it.optString("user").isNotEmpty() }.map { OtherList(it) }
+        if (others.isEmpty()) fillOthers(null) else choosePlaylist { fillOthers(it) }
+        tiles[0].root.post { tiles[0].root.requestFocus() }
+    }
+
+    private var first: Channel? = null
+    private var fill = false
+    private var tileH: () -> Int = { 0 }
+
+    /** two screens: whole picture (16:9, black above / below) or fill the TV (the sides of each picture are cut) */
+    private fun setFill(on: Boolean) {
+        fill = on; App.prefs.edit().putBoolean("mv_fill", on).apply()
+        tiles.forEach { t ->
+            t.pv.resizeMode = if (on) androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_ZOOM else androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_FIT
+            t.root.layoutParams = t.root.layoutParams.apply { height = tileH() }
+        }
+    }
+    private var others: List<OtherList> = emptyList()
+
+    /** "Second screen · which playlist?" — the same one, or another playlist of this device (its own connection) */
+    private fun choosePlaylist(done: (OtherList?) -> Unit) {
+        val names = arrayOf("Same playlist  ·  ${Device.active}") + others.map { "${it.name}   (own connection)" }
+        AlertDialog.Builder(this).setTitle("Other screen · which playlist?").setItems(names) { _, w -> done(if (w == 0) null else others[w - 1]) }
+            .setOnCancelListener { done(others.firstOrNull()) }.show()
+    }
+
+    private fun fillOthers(src: OtherList?) {
+        for (k in 1 until tiles.size) tiles[k].src = src
+        val recent = History.ids().filter { it != first?.id && it > 0 }.mapNotNull { Api.byId[it] }
         tiles.forEachIndexed { k, t ->
             if (k == 0) return@forEachIndexed
             val src = t.src
@@ -102,7 +142,6 @@ class MultiviewActivity : BaseActivity() {
                 (want?.let { src.same(it) } ?: first?.let { src.same(it) })?.let { set(k, it) }
             }
         }
-        tiles[0].root.post { tiles[0].root.requestFocus() }
     }
 
     private fun recover(t: Tile) {
@@ -133,7 +172,7 @@ class MultiviewActivity : BaseActivity() {
         t.name.text = "${c.num}   ${c.name}" + (t.src?.let { "   ·   " + it.name } ?: ""); t.now.text = ""
         t.logo.load(c.logo.ifEmpty { null })
         // the TV's chip decodes 2 pictures at once only when they are light: a 4K / HEVC channel plays in its HD copy
-        t.player.setMediaItem(MediaItem.fromUri(Api.streamUrl(if (t.src != null) c else light(c))))
+        t.player.setMediaItem(MediaItem.fromUri(Api.streamUrl(t.src?.let { lightIn(it, c) } ?: light(c))))
         t.player.prepare(); t.player.playWhenReady = true
         sound(tiles.indexOfFirst { it.root.hasFocus() }.coerceAtLeast(0))
         if (t.src != null) return
@@ -149,6 +188,14 @@ class MultiviewActivity : BaseActivity() {
         if (!heavy.containsMatchIn(c.name)) return c
         val q = Api.qualities(c).filter { !heavy.containsMatchIn(it.name) }
         return q.firstOrNull { Regex("(?i)\\bfhd|1080").containsMatchIn(it.name) } ?: q.firstOrNull { Regex("(?i)\\bhd\\b").containsMatchIn(it.name) } ?: q.firstOrNull() ?: c
+    }
+
+    /** the same for a channel of the other playlist: its HD copy there when the channel is 4K / HEVC */
+    private fun lightIn(src: OtherList, c: Channel): Channel {
+        if (!heavy.containsMatchIn(c.name)) return c
+        val b = Api.baseName(c.name)
+        val q = src.groups.asSequence().flatMap { it.channels.asSequence() }.filter { Api.baseName(it.name) == b && !heavy.containsMatchIn(it.name) }.toList()
+        return q.firstOrNull { Regex("(?i)\\bfhd|1080").containsMatchIn(it.name) } ?: q.firstOrNull() ?: c
     }
 
     private fun pick(i: Int) {
@@ -188,8 +235,17 @@ class MultiviewActivity : BaseActivity() {
                 tiles.getOrNull(i)?.channel?.let { openFull(it) }; return true
             }
             if (e.keyCode == KeyEvent.KEYCODE_MENU && i >= 0) {
-                AlertDialog.Builder(this).setItems(arrayOf("Change channel", "Remove channel", "Full screen")) { _, w ->
-                    when (w) { 0 -> pick(i); 1 -> set(i, null); 2 -> tiles[i].channel?.let { openFull(it) } }
+                val items = arrayListOf("Change channel", "Remove channel", "Full screen")
+                if (i > 0 && others.isNotEmpty()) items.add("Change playlist")
+                val fillItem = if (tiles.size == 2) (if (fill) "Show the whole picture" else "Fill the screen (crop the sides)") else null
+                fillItem?.let { items.add(it) }
+                AlertDialog.Builder(this).setItems(items.toTypedArray()) { _, w ->
+                    when (w) {
+                        0 -> pick(i); 1 -> set(i, null); 2 -> tiles[i].channel?.let { openFull(it) }
+                        items.indexOf(fillItem ?: "\u0000") -> setFill(!fill)
+                        3 -> choosePlaylist { src -> val c = tiles[i].channel; tiles[i].src = src; set(i, null)
+                            if (src == null) c?.let { ch -> (Api.byId[ch.id] ?: first)?.let { set(i, it) } } else pick(i) }
+                    }
                 }.show(); return true
             }
         }
