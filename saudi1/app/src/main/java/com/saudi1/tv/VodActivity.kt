@@ -95,7 +95,18 @@ class VodActivity : BaseActivity() {
         }
     }
 
-    override fun onResume() { super.onResume(); if (current == RESUME || current == DL) open(cats.first { it.id == current }) else gridAdapter.notifyDataSetChanged() }
+    private var lastPos = -1
+
+    override fun onResume() {
+        super.onResume()
+        if (current == RESUME || current == DL) open(cats.first { it.id == current })
+        else if (lastPos >= 0) {
+            // back from a movie: the focus stays on the poster that was opened (not the groups)
+            val p = lastPos
+            gridAdapter.notifyItemRangeChanged(0, items.size)
+            grid.post { grid.layoutManager?.findViewByPosition(p)?.requestFocus() ?: moveTo(p) }
+        }
+    }
 
     private fun open(c: VodCat) {
         if (c.id == SEARCH) { search(); return }
@@ -197,7 +208,7 @@ class VodActivity : BaseActivity() {
         override fun onCreateViewHolder(p: ViewGroup, t: Int): H {
             val h = H(LayoutInflater.from(p.context).inflate(R.layout.item_poster, p, false))
             if (isTouch) (h.poster.parent as View).layoutParams.height = (200 * resources.displayMetrics.density).toInt()  // phones: smaller posters
-            h.itemView.setOnClickListener { items.getOrNull(h.bindingAdapterPosition)?.let { play(it) } }
+            h.itemView.setOnClickListener { lastPos = h.bindingAdapterPosition; items.getOrNull(h.bindingAdapterPosition)?.let { play(it) } }
             // hold OK: add to / remove from Favorites
             h.itemView.setOnLongClickListener {
                 items.getOrNull(h.bindingAdapterPosition)?.let {
