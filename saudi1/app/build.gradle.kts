@@ -42,10 +42,10 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.4")
-    implementation("androidx.media3:media3-exoplayer:1.4.1")
-    implementation("androidx.media3:media3-exoplayer-hls:1.4.1")
-    implementation("androidx.media3:media3-ui:1.4.1")
-    implementation("androidx.media3:media3-datasource-okhttp:1.4.1")
+    implementation("androidx.media3:media3-exoplayer:1.3.1")
+    implementation("androidx.media3:media3-exoplayer-hls:1.3.1")
+    implementation("androidx.media3:media3-ui:1.3.1")
+    implementation("androidx.media3:media3-datasource-okhttp:1.3.1")
     // AC3 / E-AC3 / MP2 / DTS sound on TVs and phones without those decoders
     // (the version that matches Media3 is looked up by the build; without one the app is built without it)
     System.getenv("FFMPEG_VER")?.takeIf { it.isNotBlank() }?.let { implementation("org.jellyfin.media3:media3-ffmpeg-decoder:$it") }
