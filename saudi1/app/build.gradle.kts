@@ -47,7 +47,8 @@ dependencies {
     implementation("androidx.media3:media3-ui:1.4.1")
     implementation("androidx.media3:media3-datasource-okhttp:1.4.1")
     // AC3 / E-AC3 / MP2 / DTS sound on TVs and phones without those decoders
-    implementation("org.jellyfin.media3:media3-ffmpeg-decoder:1.4.1+1")
+    // (the version that matches Media3 is looked up by the build; without one the app is built without it)
+    System.getenv("FFMPEG_VER")?.takeIf { it.isNotBlank() }?.let { implementation("org.jellyfin.media3:media3-ffmpeg-decoder:$it") }
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("io.coil-kt:coil:2.6.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")

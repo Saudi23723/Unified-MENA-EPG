@@ -24,6 +24,13 @@ jobs:
         with: { distribution: temurin, java-version: "17" }
       - uses: gradle/actions/setup-gradle@v4
         with: { gradle-version: "8.7" }
+      - name: Find the FFmpeg sound decoder for this Media3 version
+        run: |
+          M=$(grep -o 'media3-exoplayer:[0-9.]*' saudi1/app/build.gradle.kts | head -1 | cut -d: -f2)
+          curl -s https://repo1.maven.org/maven2/org/jellyfin/media3/media3-ffmpeg-decoder/maven-metadata.xml | grep -o '<version>[^<]*' | sed 's/<version>//' | tee /tmp/ff.txt
+          V=$(grep "^$M+" /tmp/ff.txt | tail -1)
+          echo "media3 $M -> ffmpeg decoder '$V'"
+          echo "FFMPEG_VER=$V" >> $GITHUB_ENV
       - name: Build
         env:
           BUILD_NUMBER: ${{ github.run_number }}
