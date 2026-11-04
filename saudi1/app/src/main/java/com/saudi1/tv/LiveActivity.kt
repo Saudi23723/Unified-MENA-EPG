@@ -136,8 +136,7 @@ class LiveActivity : BaseActivity() {
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        val id = intent.getIntExtra("channel", -1)
-        if (id > 0) Api.byId[id]?.let { tune(it) }
+        if (intent.hasExtra("channel")) Api.byId[intent.getIntExtra("channel", 0)]?.let { tune(it) }
     }
 
     /** a reminder: straight to the channel, full screen */
@@ -158,7 +157,7 @@ class LiveActivity : BaseActivity() {
         if (Api.groups.isEmpty()) { toast("Could not load the channels"); return }
         groupAdapter.notifyDataSetChanged()
         fun ok(c: Channel?) = c?.takeIf { ch -> !Parental.isLocked(ch.group, Api.groups.firstOrNull { it.id == ch.group }?.name ?: "") }
-        val asked = ok(Api.byId[intent.getIntExtra("channel", -1)])
+        val asked = if (intent.hasExtra("channel")) ok(Api.byId[intent.getIntExtra("channel", 0)]) else null
         val last = asked ?: ok(Api.byId[Prefs.lastChannel])
         val wantGroup = intent.getStringExtra("group")
         val g = Api.groups.firstOrNull { it.id == (wantGroup ?: asked?.group ?: Prefs.lastGroup) && it.channels.isNotEmpty() && !Parental.isLocked(it.id, it.name) }

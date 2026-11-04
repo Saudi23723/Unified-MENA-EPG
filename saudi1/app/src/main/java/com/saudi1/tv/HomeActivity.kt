@@ -59,7 +59,7 @@ class HomeActivity : BaseActivity() {
             setOnClickListener { reload() }
         }
         // like TiviMate: the app opens straight on the channel that was playing when it was closed
-        if (savedInstanceState == null && Prefs.ready && Prefs.lastChannel > 0 && App.prefs.getBoolean("open_last", true) &&
+        if (savedInstanceState == null && Prefs.ready && App.prefs.contains("last_channel") && App.prefs.getBoolean("open_last", true) &&
             Api.byId[Prefs.lastChannel]?.let { c -> Parental.isLocked(c.group, Api.groups.firstOrNull { it.id == c.group }?.name ?: "") } != true)
             startActivity(Intent(this, LiveActivity::class.java).putExtra("channel", Prefs.lastChannel))
         lifecycleScope.launch {
