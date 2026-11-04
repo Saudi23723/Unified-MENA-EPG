@@ -237,7 +237,8 @@ class LiveActivity : BaseActivity() {
 
     private fun showGroup(g: Group, select: Channel? = null) {
         group = g
-        Prefs.lastGroup = g.id
+        // the guide screens (Sports today) are not a real group: Live TV opens on the normal channels next time
+        if (g.id != Api.DASH) Prefs.lastGroup = g.id
         findViewById<TextView>(R.id.groupName).text = g.name
         findViewById<TextView>(R.id.groupCount).text = g.channels.size.toString()
         channelAdapter.items = g.channels
@@ -271,9 +272,8 @@ class LiveActivity : BaseActivity() {
         if (playing?.id == c.id && player.playbackState != Player.STATE_IDLE) return
         val old = playing
         if (old != null && old.id != c.id) previous = old
-        History.add(c.id)
+        if (c.id > 0) { History.add(c.id); Prefs.lastChannel = c.id }
         playing = c
-        Prefs.lastChannel = c.id
         tries = 0
         start(c)
         channelAdapter.items.indexOfFirst { it.id == old?.id }.takeIf { it >= 0 }?.let { channelAdapter.notifyItemChanged(it) }

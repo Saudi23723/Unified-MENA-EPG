@@ -70,9 +70,10 @@ class GuideActivity : BaseActivity() {
         title.setTextColor(getColorStateList(R.color.on_focus))
         title.setOnClickListener { pickGroup(title) }
         info.setPadding((18 * d).toInt(), 0, 0, 0)
+        // the width is known now (full screen): one layout pass instead of two when the guide opens
+        pxPerSec = (resources.displayMetrics.widthPixels - 36 * d - 230 * d) / span
+        drawRuler()
         rows.post {
-            pxPerSec = (rows.width - 230 * d) / span
-            drawRuler(); adapter.notifyDataSetChanged()
             // open on the channel that is playing (else the first)
             val pos = group?.channels?.indexOfFirst { it.id == Prefs.lastChannel }?.coerceAtLeast(0) ?: 0
             (rows.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(pos, (140 * d).toInt())

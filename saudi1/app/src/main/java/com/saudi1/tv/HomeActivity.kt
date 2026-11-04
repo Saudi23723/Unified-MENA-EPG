@@ -24,6 +24,7 @@ class HomeActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+        findViewById<View>(R.id.homeBg).setLayerType(View.LAYER_TYPE_HARDWARE, null)
         status = findViewById(R.id.status)
         val logo = SpannableString("SAUDI.TV")
         logo.setSpan(ForegroundColorSpan(getColor(R.color.accent)), 5, 8, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
@@ -104,12 +105,12 @@ class HomeActivity : BaseActivity() {
         v.addView(ic); v.addView(lb, LinearLayout.LayoutParams(-2, -2).apply { marginStart = dp(10f) })
         v.setOnClickListener { go() }
         focusFx(v, solid(0x14FFFFFF, 16f, 0x1AFFFFFF), solid(0xFFF2F4F8.toInt(), 16f), 16f) { f -> lb.setTextColor(if (f) 0xFF0B0E14.toInt() else 0xFFE6E9F0.toInt()) }
-        row.addView(v, LinearLayout.LayoutParams(0, dp(58f * k), 1f).apply { if (!last) marginEnd = dp(16f) })
+        row.addView(v, LinearLayout.LayoutParams(0, dp(54f * k), 1f).apply { if (!last) marginEnd = dp(16f) })
     }
 
     private fun buildCards() {
         val main = findViewById<LinearLayout>(R.id.mainRow); val small = findViewById<LinearLayout>(R.id.smallRow)
-        val h = dp(310f * k)
+        val h = dp(286f * k)
         // Live TV: the big card on the left — the channel that was on, what is on it and how far along
         val live = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; isFocusable = true; isClickable = true; setPadding(dp(28f), dp(24f), dp(28f), dp(24f)) }
         val top = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = android.view.Gravity.CENTER_VERTICAL }

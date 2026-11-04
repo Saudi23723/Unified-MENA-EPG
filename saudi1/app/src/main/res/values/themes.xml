@@ -4,5 +4,13 @@
         <item name="android:windowFullscreen">true</item>
         <item name="colorAccent">@color/accent</item>
         <item name="android:textColor">@color/text</item>
+        <item name="android:windowAnimationStyle">@style/FastScreens</item>
+    </style>
+    <!-- screens: the new one fades in over the old one (170 ms), going back it fades out -->
+    <style name="FastScreens" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/fast_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/stay</item>
+        <item name="android:activityCloseEnterAnimation">@anim/stay</item>
+        <item name="android:activityCloseExitAnimation">@anim/fast_out</item>
     </style>
 </resources>
