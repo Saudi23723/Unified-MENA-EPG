@@ -186,6 +186,11 @@ class VodActivity : BaseActivity() {
         grid.postDelayed({ grid.layoutManager?.findViewByPosition(pos)?.requestFocus() }, 220)
     }
 
+    private fun wrapGrid(pos: Int) {
+        (grid.layoutManager as GridLayoutManager).scrollToPositionWithOffset(pos, 0)
+        grid.post { grid.findViewHolderForAdapterPosition(pos)?.itemView?.requestFocus() }
+    }
+
     private fun wrapCats(pos: Int) {
         (catsRv.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(pos, 0)
         catsRv.post { catsRv.findViewHolderForAdapterPosition(pos)?.itemView?.requestFocus() }
@@ -213,8 +218,8 @@ class VodActivity : BaseActivity() {
                 when {
                     k == KeyEvent.KEYCODE_DPAD_RIGHT && items.isNotEmpty() -> { grid.findViewHolderForAdapterPosition(0)?.itemView?.requestFocus(); true }
                     // the end of the groups goes round to the first one, and ▲ on the first to the last (like Live TV)
-                    k == KeyEvent.KEYCODE_DPAD_DOWN && p == cats.size - 1 && e.repeatCount == 0 -> { wrapCats(0); true }
-                    k == KeyEvent.KEYCODE_DPAD_UP && p == 0 && e.repeatCount == 0 -> { wrapCats(cats.size - 1); true }
+                    k == KeyEvent.KEYCODE_DPAD_DOWN && p == cats.size - 1 -> { wrapCats(0); true }
+                    k == KeyEvent.KEYCODE_DPAD_UP && p == 0 -> { wrapCats(cats.size - 1); true }
                     else -> false
                 }
             }
@@ -252,7 +257,8 @@ class VodActivity : BaseActivity() {
                 if (e.action != KeyEvent.ACTION_DOWN) return@setOnKeyListener false
                 val p = h.bindingAdapterPosition; if (p < 0) return@setOnKeyListener false
                 when (k) {
-                    KeyEvent.KEYCODE_DPAD_DOWN -> { if (p + COLS < items.size) moveTo(p + COLS) else if (p / COLS < (items.size - 1) / COLS) moveTo(items.size - 1); true }
+                    // the last row goes round to the first one (same column), like the lists
+                    KeyEvent.KEYCODE_DPAD_DOWN -> { if (p + COLS < items.size) moveTo(p + COLS) else if (p / COLS < (items.size - 1) / COLS) moveTo(items.size - 1) else wrapGrid(p % COLS); true }
                     KeyEvent.KEYCODE_DPAD_UP -> { if (p - COLS >= 0) moveTo(p - COLS) else findViewById<View>(R.id.vodSort).requestFocus(); true }
                     KeyEvent.KEYCODE_DPAD_RIGHT -> { if (p % COLS < COLS - 1 && p + 1 < items.size) moveTo(p + 1); true }
                     KeyEvent.KEYCODE_DPAD_LEFT -> { if (p % COLS > 0) moveTo(p - 1) else focusCats(); true }
