@@ -95,6 +95,12 @@ object Api {
         val c = get(url("get_live_categories")).use { it.body!!.bytes() }
         val tmp = cache("live_streams.tmp")
         get(url("get_live_streams")).use { r -> tmp.outputStream().use { o -> r.body!!.byteStream().copyTo(o) } }
+        // a server that answers with no channels (relay / provider trouble) must not wipe the lists already on the TV
+        if (tmp.length() < 50) {
+            tmp.delete()
+            if (cf.exists() && sf.exists()) build(cf.inputStream(), sf.inputStream())
+            return false
+        }
         build(c.inputStream(), tmp.inputStream())
         cf.writeBytes(c); tmp.renameTo(sf)
         return true

@@ -63,7 +63,7 @@ class GuideActivity : BaseActivity() {
 
         from = (System.currentTimeMillis() / 1000) / 1800 * 1800
         group = Api.groups.firstOrNull { it.id == Prefs.lastGroup && it.channels.isNotEmpty() }
-            ?: Api.groups.firstOrNull { it.id != Api.FAV && it.id != Api.ALL }
+            ?: Api.groups.firstOrNull { it.id != Api.FAV && it.id != Api.ALL && it.id != Api.SEARCH && it.channels.isNotEmpty() }
         title.text = "▾  " + (group?.name ?: "TV Guide")
         title.setPadding((14 * d).toInt(), (6 * d).toInt(), (14 * d).toInt(), (6 * d).toInt())
         title.setBackgroundResource(R.drawable.item_bg); title.isFocusable = true; title.isClickable = true

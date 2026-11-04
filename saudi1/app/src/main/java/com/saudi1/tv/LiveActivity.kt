@@ -161,7 +161,7 @@ class LiveActivity : BaseActivity() {
         val last = asked ?: ok(Api.byId[Prefs.lastChannel])
         val wantGroup = intent.getStringExtra("group")
         val g = Api.group(wantGroup ?: asked?.group ?: last?.group ?: Prefs.lastGroup)?.takeIf { it.channels.isNotEmpty() && !Parental.isLocked(it.id, it.name) }
-            ?: Api.groups.firstOrNull { it.id != Api.FAV && it.id != Api.ALL } ?: Api.groups[0]
+            ?: Api.groups.firstOrNull { it.id != Api.FAV && it.id != Api.ALL && it.id != Api.SEARCH && it.channels.isNotEmpty() } ?: Api.groups[0]
         showGroup(g, last)
         last?.let { play(it) }
         if (asked != null) setFull(true)
