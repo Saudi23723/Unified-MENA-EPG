@@ -50,6 +50,7 @@ class EfbHomeActivity : BaseActivity() {
             bar.titleMarginStart = dp(12)
         }
         CrashReport.showIfAny(this)
+        Updater.checkQuietly(this)
         ChartUpdates.autoUpdate(this)
 
         // The header: a dusk-to-day sky with the name, and Zulu and local time large, as an EFB opens.

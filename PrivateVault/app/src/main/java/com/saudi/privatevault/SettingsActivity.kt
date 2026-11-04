@@ -65,6 +65,7 @@ class SettingsActivity : BaseActivity() {
 
         section(R.string.set_data)
         val d = card()
+        link(d, "⬆️  " + getString(R.string.tv_update)) { Updater.check(this, quiet = false) }
         link(d, "🔑  " + getString(R.string.set_ai_key)) { AiKey.ask(this) }
         link(d, "🗓  " + getString(R.string.set_charts)) { ChartUpdates.autoUpdate(this) }
         link(d, "📒  " + getString(R.string.set_logbook)) { startActivity(android.content.Intent(this, LogbookActivity::class.java)) }
