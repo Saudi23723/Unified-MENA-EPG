@@ -53,6 +53,7 @@ class MultiviewActivity : BaseActivity() {
         val tileW = if (two) sw / 2 else (sw - gap * 2) / 2 - gap * 2
         fill = App.prefs.getBoolean("mv_fill", false)
         tileH = { if (fill) resources.displayMetrics.heightPixels else tileW * 9 / 16 }
+        big = App.prefs.getInt("mv_big", -1).takeIf { two } ?: -1
         val ring = android.graphics.drawable.GradientDrawable().apply { setColor(0); setStroke((2.5f * d).toInt(), getColor(R.color.accent)) }
         val round = object : ViewOutlineProvider() {
             override fun getOutline(v: View, o: Outline) { o.setRoundRect(0, 0, v.width, v.height, 15 * d) }
@@ -103,19 +104,37 @@ class MultiviewActivity : BaseActivity() {
         others = Device.playlists().filter { it.optString("name") != Device.active && it.optString("user").isNotEmpty() }.map { OtherList(it) }
         if (others.isEmpty()) fillOthers(null) else choosePlaylist { fillOthers(it) }
         tiles[0].root.post { tiles[0].root.requestFocus() }
+        if (big >= 0) grid.post { relayout() }
     }
 
     private var first: Channel? = null
     private var fill = false
     private var tileH: () -> Int = { 0 }
+    /** two screens: -1 = same size, else that screen is big (2/3 of the TV) and the other small (1/3) */
+    private var big = -1
+
+    /** sizes of the two screens for the chosen layout (same size / big + small) and picture mode (whole / fill) */
+    private fun relayout() {
+        if (tiles.size != 2) return
+        val sw = resources.displayMetrics.widthPixels; val sh = resources.displayMetrics.heightPixels
+        tiles.forEachIndexed { k, t ->
+            val w = when (big) { -1 -> sw / 2; k -> sw * 2 / 3; else -> sw - sw * 2 / 3 }
+            val lp = t.root.layoutParams as GridLayout.LayoutParams
+            lp.width = w; lp.height = if (fill) sh else w * 9 / 16
+            lp.setGravity(android.view.Gravity.CENTER_VERTICAL)
+            t.root.layoutParams = lp
+        }
+    }
+
+    private fun setBig(i: Int) { big = i; App.prefs.edit().putInt("mv_big", i).apply(); relayout() }
 
     /** two screens: whole picture (16:9, black above / below) or fill the TV (the sides of each picture are cut) */
     private fun setFill(on: Boolean) {
         fill = on; App.prefs.edit().putBoolean("mv_fill", on).apply()
         tiles.forEach { t ->
             t.pv.resizeMode = if (on) androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_ZOOM else androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_FIT
-            t.root.layoutParams = t.root.layoutParams.apply { height = tileH() }
         }
+        relayout()
     }
     private var others: List<OtherList> = emptyList()
 
@@ -250,10 +269,13 @@ class MultiviewActivity : BaseActivity() {
                 if (i > 0 && others.isNotEmpty()) items.add("Change playlist")
                 val fillItem = if (tiles.size == 2) (if (fill) "Show the whole picture" else "Fill the screen (crop the sides)") else null
                 fillItem?.let { items.add(it) }
+                val bigItem = if (tiles.size == 2) (if (big == i) "Same size" else "Make this screen big") else null
+                bigItem?.let { items.add(it) }
                 AlertDialog.Builder(this).setItems(items.toTypedArray()) { _, w ->
                     when (w) {
                         0 -> pick(i); 1 -> set(i, null); 2 -> tiles[i].channel?.let { openFull(it) }
                         items.indexOf(fillItem ?: "\u0000") -> setFill(!fill)
+                        items.indexOf(bigItem ?: "\u0000") -> setBig(if (big == i) -1 else i)
                         3 -> choosePlaylist { src -> val c = tiles[i].channel; tiles[i].src = src; set(i, null)
                             if (src == null) c?.let { ch -> (Api.byId[ch.id] ?: first)?.let { set(i, it) } } else pick(i) }
                     }
