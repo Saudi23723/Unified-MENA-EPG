@@ -186,6 +186,11 @@ class VodActivity : BaseActivity() {
         grid.postDelayed({ grid.layoutManager?.findViewByPosition(pos)?.requestFocus() }, 220)
     }
 
+    private fun wrapCats(pos: Int) {
+        (catsRv.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(pos, 0)
+        catsRv.post { catsRv.findViewHolderForAdapterPosition(pos)?.itemView?.requestFocus() }
+    }
+
     private fun focusCats() {
         val i = cats.indexOfFirst { it.id == current }.coerceAtLeast(0)
         catsRv.layoutManager?.findViewByPosition(i)?.requestFocus() ?: run {
@@ -203,9 +208,15 @@ class VodActivity : BaseActivity() {
             h.itemView.isActivated = c.id == current
             h.itemView.setOnClickListener { open(c) }
             h.itemView.setOnKeyListener { _, k, e ->
-                if (e.action == KeyEvent.ACTION_DOWN && k == KeyEvent.KEYCODE_DPAD_RIGHT && items.isNotEmpty()) {
-                    grid.findViewHolderForAdapterPosition(0)?.itemView?.requestFocus(); true
-                } else false
+                if (e.action != KeyEvent.ACTION_DOWN) return@setOnKeyListener false
+                val p = h.bindingAdapterPosition
+                when {
+                    k == KeyEvent.KEYCODE_DPAD_RIGHT && items.isNotEmpty() -> { grid.findViewHolderForAdapterPosition(0)?.itemView?.requestFocus(); true }
+                    // the end of the groups goes round to the first one, and ▲ on the first to the last (like Live TV)
+                    k == KeyEvent.KEYCODE_DPAD_DOWN && p == cats.size - 1 && e.repeatCount == 0 -> { wrapCats(0); true }
+                    k == KeyEvent.KEYCODE_DPAD_UP && p == 0 && e.repeatCount == 0 -> { wrapCats(cats.size - 1); true }
+                    else -> false
+                }
             }
         }
     }
