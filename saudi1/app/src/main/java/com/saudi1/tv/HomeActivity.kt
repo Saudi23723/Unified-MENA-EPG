@@ -24,8 +24,8 @@ class HomeActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         status = findViewById(R.id.status)
-        val logo = SpannableString("SAUDI.1")
-        logo.setSpan(ForegroundColorSpan(getColor(R.color.accent)), 5, 7, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        val logo = SpannableString("SAUDI.TV")
+        logo.setSpan(ForegroundColorSpan(getColor(R.color.accent)), 5, 8, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         findViewById<TextView>(R.id.logo).text = logo
         findViewById<TextView>(R.id.footer).text = "Version " + BuildConfig.VERSION_NAME
 

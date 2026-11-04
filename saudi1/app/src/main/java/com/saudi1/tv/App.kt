@@ -34,7 +34,7 @@ class App : Application(), ImageLoaderFactory {
                 .connectTimeout(15, TimeUnit.SECONDS)
                 .readTimeout(60, TimeUnit.SECONDS)
                 .followRedirects(true).followSslRedirects(true)
-                .addInterceptor { c -> c.proceed(c.request().newBuilder().header("User-Agent", "SAUDI.1/" + BuildConfig.VERSION_NAME).build()) }
+                .addInterceptor { c -> c.proceed(c.request().newBuilder().header("User-Agent", "SAUDI.TV/" + BuildConfig.VERSION_NAME).build()) }
                 .build()
         }
     }

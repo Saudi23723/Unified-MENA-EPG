@@ -1,4 +1,4 @@
-name: SAUDI.1 app
+name: SAUDI.TV app
 
 # Builds the SAUDI.1 Android TV / phone app and publishes it as the "saudi1" release:
 #   https://github.com/Saudi23723/Unified-MENA-EPG/releases/download/saudi1/SAUDI1.apk  (the Downloader link)
@@ -34,7 +34,7 @@ jobs:
         run: |
           cp saudi1/app/build/outputs/apk/release/app-release.apk SAUDI1.apk
           ls -la SAUDI1.apk
-          gh release view saudi1 >/dev/null 2>&1 || gh release create saudi1 --title "SAUDI.1" --notes "SAUDI.1 for Android TV, phones and tablets. Downloader link: https://github.com/${{ github.repository }}/releases/download/saudi1/SAUDI1.apk" --latest=false
+          gh release view saudi1 >/dev/null 2>&1 || gh release create saudi1 --title "SAUDI.TV" --notes "SAUDI.TV for Android TV, phones and tablets. Downloader link: https://github.com/${{ github.repository }}/releases/download/saudi1/SAUDI1.apk" --latest=false
           gh release upload saudi1 SAUDI1.apk --clobber
           echo "build ${{ github.run_number }}" > version.txt
           gh release upload saudi1 version.txt --clobber

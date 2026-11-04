@@ -139,7 +139,7 @@ export default {
 };
 
 const PAGE = `<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SAUDI.1 · الإدارة</title>
+<title>SAUDI.TV · الإدارة</title>
 <style>
 :root{--bg:#0b0e14;--p:#141923;--p2:#1b2130;--t:#f2f4f8;--t2:#9aa3b5;--a:#00d68f;--r:#ff4d5e}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--t);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif}
@@ -158,7 +158,7 @@ th{color:var(--t2);font-weight:600}.tag{display:inline-block;padding:2px 9px;bor
 .ok{color:var(--a)}.bad{color:var(--r)}.muted{color:var(--t2)}.hide{display:none}.code{font-family:ui-monospace,monospace;letter-spacing:1px}
 .msg{margin-top:10px;min-height:20px}.wrap{overflow-x:auto}
 </style></head><body>
-<header><h1>SAUDI<b>.1</b> · الإدارة</h1><button id="out" class="ghost hide">خروج</button></header>
+<header><h1>SAUDI<b>.TV</b> · الإدارة</h1><button id="out" class="ghost hide">خروج</button></header>
 <main>
 <div id="login" class="card hide">
   <h2 id="lt">دخول</h2><p id="lh" class="muted"></p>
@@ -168,7 +168,7 @@ th{color:var(--t2);font-weight:600}.tag{display:inline-block;padding:2px 9px;bor
 <div id="app" class="hide">
   <div class="card">
     <h2 style="margin-top:0">إضافة / تعديل جهاز</h2>
-    <p class="muted">كود الجهاز بيطلع على شاشة SAUDI.1 عند الزبون (8 أرقام). بعد الحفظ، الزبون بيكبس Reload.</p>
+    <p class="muted">كود الجهاز بيطلع على شاشة SAUDI.TV عند الزبون (8 أرقام). بعد الحفظ، الزبون بيكبس Reload.</p>
     <div class="row">
       <div><label>كود الجهاز</label><input id="code" inputmode="numeric" maxlength="9" placeholder="1234 5678" class="code"></div>
       <div><label>اسم الزبون</label><input id="name" placeholder="مثلاً: أبو أحمد"></div>
