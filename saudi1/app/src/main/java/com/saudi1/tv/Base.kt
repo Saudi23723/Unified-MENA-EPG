@@ -58,11 +58,22 @@ object Reminders {
 
 /** Night dimming levels: 0, 20, 40, 60, 80 % */
 object Dim {
-    val levels = intArrayOf(0, 20, 40, 60, 80)
+    val levels = intArrayOf(0, 20, 30, 40, 50, 60, 70, 80)
     var level: Int
         get() = App.prefs.getInt("dim", 0)
         set(v) = App.prefs.edit().putInt("dim", v).apply()
+    /** Eye comfort (warm screen, like Samsung's Eye Comfort Shield): 0 off, 1 low, 2 medium, 3 high */
+    val warmNames = arrayOf("Off", "Low", "Medium", "High")
+    val warmAlpha = floatArrayOf(0f, 0.10f, 0.17f, 0.25f)
+    var warm: Int
+        get() = App.prefs.getInt("warm", 0)
+        set(v) = App.prefs.edit().putInt("warm", v).apply()
 }
+
+/** phone / tablet (touch screen, no remote) instead of a TV */
+val android.content.Context.isTouch: Boolean
+    get() = !packageManager.hasSystemFeature("android.software.leanback") &&
+        packageManager.hasSystemFeature("android.hardware.touchscreen")
 
 /** Every screen: night dimming on top, and the reminder countdown. */
 open class BaseActivity : AppCompatActivity() {
@@ -86,8 +97,30 @@ open class BaseActivity : AppCompatActivity() {
 
     override fun onPause() { super.onPause(); watch?.cancel() }
 
+    /** night dimming + eye comfort, from any screen */
+    fun nightDialog() {
+        androidx.appcompat.app.AlertDialog.Builder(this).setTitle("Night mode")
+            .setItems(arrayOf("Dimming: " + (if (Dim.level == 0) "Off" else "${Dim.level} %"), "Eye comfort: " + Dim.warmNames[Dim.warm])) { _, w ->
+                if (w == 0) androidx.appcompat.app.AlertDialog.Builder(this).setTitle("Dimming")
+                    .setSingleChoiceItems(Dim.levels.map { if (it == 0) "Off" else "$it %" }.toTypedArray(), Dim.levels.indexOf(Dim.level).coerceAtLeast(0)) { d, k ->
+                        Dim.level = Dim.levels[k]; applyDim(); d.dismiss()
+                    }.show()
+                else androidx.appcompat.app.AlertDialog.Builder(this).setTitle("Eye comfort (warm screen)")
+                    .setSingleChoiceItems(Dim.warmNames, Dim.warm) { d, k -> Dim.warm = k; applyDim(); d.dismiss() }.show()
+            }.show()
+    }
+
+    private var warmView: View? = null
+
     fun applyDim() {
         val root = window.decorView as ViewGroup
+        if (warmView == null) {
+            warmView = View(this).apply { isClickable = false; isFocusable = false; setBackgroundColor(0xFFFF8A1E.toInt()) }
+            root.addView(warmView, ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
+        }
+        warmView!!.alpha = Dim.warmAlpha[Dim.warm.coerceIn(0, 3)]
+        warmView!!.visibility = if (Dim.warm > 0) View.VISIBLE else View.GONE
+        warmView!!.bringToFront()
         if (dimView == null) {
             dimView = View(this).apply { isClickable = false; isFocusable = false; setBackgroundColor(Color.BLACK) }
             root.addView(dimView, ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))

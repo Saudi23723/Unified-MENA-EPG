@@ -104,9 +104,7 @@ class LiveActivity : BaseActivity() {
         }
 
         // fast start for live TV: small buffers, play as soon as there is a second of video
-        val load = DefaultLoadControl.Builder().setBufferDurationsMs(8_000, 30_000, 1_000, 2_000).build()
-        player = ExoPlayer.Builder(this).setLoadControl(load)
-            .setMediaSourceFactory(DefaultMediaSourceFactory(OkHttpDataSource.Factory(App.http))).build()
+        player = Players.make(this, live = true)
         playerView.player = player
         playerView.resizeMode = App.prefs.getInt("resize", AspectRatioFrameLayout.RESIZE_MODE_FIT)
         player.addListener(object : Player.Listener {
@@ -117,10 +115,17 @@ class LiveActivity : BaseActivity() {
             }
             override fun onPlaybackStateChanged(state: Int) { if (state == Player.STATE_READY) retried = false }
         })
-        // phones / tablets: a tap on the picture shows the channel list, a tap in browse mode goes full screen
-        playerView.setOnClickListener { if (!full) setFull(true) else if (overlay) hideOverlay() else showOverlay() }
+        // phones / tablets: a tap on the picture shows the controls, a swipe ▲▼ changes channel, a tap in browse mode goes full screen
+        if (isTouch) touchSetup() else playerView.setOnClickListener { if (!full) setFull(true) else if (overlay) hideOverlay() else showOverlay() }
+        findViewById<View>(R.id.groupName).setOnClickListener { if (groupsPanel.visibility == View.VISIBLE) closeGroups() else openGroups() }
 
-        previewBox.post { previewBox.layoutParams.height = previewBox.width * 9 / 16; previewBox.requestLayout(); previewBox.post { place() } }
+        // the preview box keeps 16:9 whatever the width (groups open / closed, phone / TV), and the picture follows it
+        previewBox.addOnLayoutChangeListener { v, l, t, r, b, ol, ot, or, ob ->
+            val want = (r - l) * 9 / 16
+            if (want > 0 && v.layoutParams.height != want) { v.layoutParams.height = want; v.post { v.requestLayout() } }
+            if (!full && (l != ol || t != ot || r != or || b != ob)) v.post { if (!full) place() }
+        }
+        findViewById<View>(R.id.root).addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> if (!full) previewBox.post { if (!full) place() } }
 
         lifecycleScope.launch {
             val clock = findViewById<TextView>(R.id.clock); val bClock = findViewById<TextView>(R.id.bClock)
@@ -203,6 +208,7 @@ class LiveActivity : BaseActivity() {
         } else {
             val loc = IntArray(2); previewBox.getLocationInWindow(loc)
             val root = IntArray(2); findViewById<View>(R.id.root).getLocationInWindow(root)
+            if (previewBox.width == 0 || previewBox.height == 0) { previewBox.post { place() }; return }
             lp.width = previewBox.width; lp.height = previewBox.height
             lp.leftMargin = loc[0] - root[0]; lp.topMargin = loc[1] - root[1]
         }
@@ -213,6 +219,7 @@ class LiveActivity : BaseActivity() {
         if (playing?.id == c.id && player.playbackState != Player.STATE_IDLE) return
         val old = playing
         if (old != null && old.id != c.id) previous = old
+        History.add(c.id)
         playing = c
         Prefs.lastChannel = c.id
         retried = false
@@ -231,6 +238,7 @@ class LiveActivity : BaseActivity() {
 
     private fun setFull(on: Boolean) {
         full = on; overlay = false
+        hideTouch()
         epgPanel.visibility = View.GONE
         browse.background = ColorDrawable(getColor(R.color.bg))
         rightCol.visibility = View.VISIBLE
@@ -251,6 +259,7 @@ class LiveActivity : BaseActivity() {
     /** OK in full screen: the channel list over the picture, the picture keeps playing (like TiviMate) */
     private fun showOverlay() {
         overlay = true
+        hideTouch()
         banner.visibility = View.GONE; epgPanel.visibility = View.GONE
         browse.background = null
         rightCol.visibility = View.INVISIBLE
@@ -305,11 +314,27 @@ class LiveActivity : BaseActivity() {
     }
 
     private fun back() {
-        val p = previous ?: run { toast("No previous channel"); return }
+        val p = previous ?: History.ids().drop(1).firstNotNullOfOrNull { Api.byId[it] } ?: run { toast("No previous channel"); return }
+        jump(p)
+    }
+
+    private fun jump(p: Channel) {
         val g = Api.groups.firstOrNull { gr -> gr.id == p.group } ?: group
         if (g != null && g !== group) showGroup(g, p)
         play(p); focused = p
         showBanner()
+    }
+
+    /** LEFT: the last channels watched (up to 5) — OK on one goes there; LEFT again = the one before */
+    private fun recent() {
+        val list = History.ids().filter { it != playing?.id }.mapNotNull { Api.byId[it] }.take(5)
+        if (list.isEmpty()) { toast("No previous channel"); return }
+        val d = AlertDialog.Builder(this).setTitle("Last channels")
+            .setItems(list.map { "${it.num}   ${it.name}" }.toTypedArray()) { _, w -> jump(list[w]) }.create()
+        d.setOnKeyListener { dd, k, e ->
+            if (k == KeyEvent.KEYCODE_DPAD_LEFT && e.action == KeyEvent.ACTION_DOWN && e.repeatCount == 0) { dd.dismiss(); jump(list[0]); true } else false
+        }
+        d.show()
     }
 
     private fun showBanner() {
@@ -328,11 +353,12 @@ class LiveActivity : BaseActivity() {
     /** audio / subtitles / picture size / night dimming (MENU, or hold OK in full screen) */
     private fun options() {
         val recording = Recorder.current != null
-        val items = arrayOf("Quality", "Audio", "Subtitles", "Picture size", "Night dimming", "Previous channel", "TV Guide",
-            "Multiview", if (recording) "⏹ Stop recording" else "⏺ Record")
+        val items = arrayOf("Quality", "Audio", "Subtitles", "Picture size", "Night mode", "Last channels", "TV Guide",
+            "Multiview", if (recording) "⏹ Stop recording" else "⏺ Record", "Search")
         AlertDialog.Builder(this).setTitle(playing?.name ?: "Options").setItems(items) { _, w0 ->
             if (w0 == 0) { quality(); return@setItems }
             if (w0 == 7) { startActivity(Intent(this, MultiviewActivity::class.java).putExtra("channel", playing?.id ?: -1)); return@setItems }
+            if (w0 == 9) { startActivity(Intent(this, SearchActivity::class.java)); return@setItems }
             if (w0 == 8) { if (recording) { Recorder.stop(this); toast("Recording stopped") } else record(); return@setItems }
             when (w0 - 1) {
                 0 -> tracks(C.TRACK_TYPE_AUDIO)
@@ -344,7 +370,7 @@ class LiveActivity : BaseActivity() {
                     }.show()
                 }
                 3 -> dimDialog()
-                4 -> back()
+                4 -> recent()
                 5 -> startActivity(Intent(this, GuideActivity::class.java))
             }
         }.show()
@@ -371,18 +397,18 @@ class LiveActivity : BaseActivity() {
     /** the same channel in its other qualities (4K / FHD / HD / SD / HEVC / RAW...) from the whole list */
     private fun quality() {
         val c = playing ?: return
-        val key = Api.baseName(c.name)
-        val same = (Api.groups.firstOrNull { it.id == Api.ALL }?.channels ?: emptyList()).filter { Api.baseName(it.name) == key }
-        if (same.size < 2) { toast("This channel has one quality"); return }
-        val labels = same.map { (if (it.id == c.id) "▶  " else "") + it.name + "   ·   " + (Api.groups.firstOrNull { g -> g.id == it.group }?.name ?: "") }
-        AlertDialog.Builder(this).setTitle("Quality").setItems(labels.toTypedArray()) { _, w -> play(same[w]); showBanner() }.show()
+        lifecycleScope.launch {
+            val same = withContext(Dispatchers.Default) { Api.qualities(c) }
+            if (same.size < 2) { toast("This channel has one quality"); return@launch }
+            val labels = same.map { (if (it.id == c.id) "▶  " else "") + it.name + "   ·   " + (Api.groups.firstOrNull { g -> g.id == it.group }?.name ?: "") }
+            AlertDialog.Builder(this@LiveActivity).setTitle("Quality").setItems(labels.toTypedArray()) { _, w ->
+                if (same[w].id != c.id) jump(same[w])
+            }.show()
+        }
     }
 
     private fun dimDialog() {
-        AlertDialog.Builder(this).setTitle("Night dimming")
-            .setSingleChoiceItems(Dim.levels.map { if (it == 0) "Off" else "$it %" }.toTypedArray(), Dim.levels.indexOf(Dim.level).coerceAtLeast(0)) { d, w ->
-                Dim.level = Dim.levels[w]; applyDim(); d.dismiss()
-            }.show()
+        nightDialog()
     }
 
     private fun tracks(type: Int) {
@@ -456,7 +482,8 @@ class LiveActivity : BaseActivity() {
                     else if (!down && !e.isCanceled && e.eventTime - e.downTime < 500) showOverlay()
                     return true
                 }
-                KeyEvent.KEYCODE_DPAD_LEFT, KeyEvent.KEYCODE_LAST_CHANNEL -> { if (down) back(); return true }
+                KeyEvent.KEYCODE_DPAD_LEFT -> { if (down && e.repeatCount == 0) recent(); return true }
+                KeyEvent.KEYCODE_LAST_CHANNEL -> { if (down) back(); return true }
                 KeyEvent.KEYCODE_DPAD_RIGHT, KeyEvent.KEYCODE_GUIDE -> { if (down) showEpgPanel(); return true }
                 KeyEvent.KEYCODE_INFO -> { if (down) showBanner(); return true }
                 KeyEvent.KEYCODE_MENU -> { if (down) options(); return true }
@@ -512,6 +539,74 @@ class LiveActivity : BaseActivity() {
         if (playing != null) player.play()
     }
     override fun onDestroy() { super.onDestroy(); player.release() }
+
+    // ---------------- phones / tablets ----------------
+
+    private var touchBar: View? = null
+    private var touchJob: Job? = null
+    private var touchName: TextView? = null
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun touchSetup() {
+        val d = resources.displayMetrics.density
+        fun btn(t: String, size: Float = 15f, go: () -> Unit) = TextView(this).apply {
+            text = t; textSize = size; gravity = android.view.Gravity.CENTER; setTypeface(typeface, android.graphics.Typeface.BOLD)
+            setBackgroundResource(R.drawable.touch_btn); isClickable = true
+            setPadding((16 * d).toInt(), (10 * d).toInt(), (16 * d).toInt(), (10 * d).toInt())
+            setOnClickListener { go(); stayTouch() }
+        }
+        val bar = FrameLayout(this).apply { setBackgroundResource(R.drawable.touch_scrim); visibility = View.GONE; isClickable = true }
+        val top = android.widget.LinearLayout(this).apply { orientation = android.widget.LinearLayout.HORIZONTAL; gravity = android.view.Gravity.CENTER_VERTICAL }
+        top.addView(btn("✕", 18f) { setFull(false) })
+        touchName = TextView(this).apply { textSize = 18f; setTypeface(typeface, android.graphics.Typeface.BOLD); setPadding((16 * d).toInt(), 0, 0, 0); setSingleLine(true); ellipsize = android.text.TextUtils.TruncateAt.END }
+        top.addView(touchName, android.widget.LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
+        top.addView(btn("⋮", 20f) { options() })
+        bar.addView(top, FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, android.view.Gravity.TOP).apply { setMargins((16 * d).toInt(), (14 * d).toInt(), (16 * d).toInt(), 0) })
+        val side = android.widget.LinearLayout(this).apply { orientation = android.widget.LinearLayout.VERTICAL }
+        side.addView(btn("▲", 22f) { zap(1) }); side.addView(View(this), android.widget.LinearLayout.LayoutParams(1, (14 * d).toInt())); side.addView(btn("▼", 22f) { zap(-1) })
+        bar.addView(side, FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, android.view.Gravity.END or android.view.Gravity.CENTER_VERTICAL).apply { marginEnd = (18 * d).toInt() })
+        val bottom = android.widget.LinearLayout(this).apply { orientation = android.widget.LinearLayout.HORIZONTAL; gravity = android.view.Gravity.CENTER }
+        listOf<Pair<String, () -> Unit>>(
+            "☰  Channels" to { showOverlay() }, "⟲  Last" to { recent() }, "🗓  Guide" to { showEpgPanel() },
+            "HD  Quality" to { quality() }, "🔈  Audio" to { tracks(C.TRACK_TYPE_AUDIO) }, "◐  Night" to { nightDialog() },
+        ).forEach { (t, go) ->
+            bottom.addView(btn(t) { go() }, android.widget.LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply { marginStart = (5 * d).toInt(); marginEnd = (5 * d).toInt() })
+        }
+        bar.addView(android.widget.HorizontalScrollView(this).apply { isHorizontalScrollBarEnabled = false; addView(bottom) },
+            FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, android.view.Gravity.BOTTOM or android.view.Gravity.CENTER_HORIZONTAL).apply { bottomMargin = (18 * d).toInt() })
+        bar.setOnClickListener { hideTouch() }
+        (findViewById<ViewGroup>(R.id.root)).addView(bar, FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
+        touchBar = bar
+
+        val gd = android.view.GestureDetector(this, object : android.view.GestureDetector.SimpleOnGestureListener() {
+            override fun onDown(e: android.view.MotionEvent) = true
+            override fun onSingleTapConfirmed(e: android.view.MotionEvent): Boolean {
+                when { !full -> setFull(true); overlay -> hideOverlay(); else -> showTouch() }
+                return true
+            }
+            override fun onDoubleTap(e: android.view.MotionEvent): Boolean { if (full) showOverlay(); return true }
+            override fun onFling(e1: android.view.MotionEvent?, e2: android.view.MotionEvent, vx: Float, vy: Float): Boolean {
+                if (!full || e1 == null) return false
+                val dx = e2.x - e1.x; val dy = e2.y - e1.y
+                if (kotlin.math.abs(dy) > kotlin.math.abs(dx) && kotlin.math.abs(dy) > 80 * d) zap(if (dy < 0) 1 else -1)   // swipe up = next
+                else if (kotlin.math.abs(dx) > 80 * d) { if (dx < 0) showEpgPanel() else recent() }
+                return true
+            }
+        })
+        playerView.setOnTouchListener { _, ev -> gd.onTouchEvent(ev) }
+    }
+
+    private fun showTouch() {
+        val b = touchBar ?: return
+        touchName?.text = playing?.let { "${it.num}   ${it.name}" } ?: ""
+        b.visibility = View.VISIBLE; b.bringToFront(); toastV.bringToFront()
+        showBanner(); b.bringToFront()
+        applyDim()
+        stayTouch()
+    }
+
+    private fun stayTouch() { touchJob?.cancel(); touchJob = lifecycleScope.launch { delay(6000); hideTouch() } }
+    private fun hideTouch() { touchJob?.cancel(); touchBar?.visibility = View.GONE }
 
     // ---------------- adapters ----------------
 

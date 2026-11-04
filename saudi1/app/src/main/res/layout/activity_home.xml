@@ -3,19 +3,24 @@
     android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/bg">
     <ImageView android:layout_width="match_parent" android:layout_height="match_parent"
         android:src="@drawable/home_bg" android:scaleType="centerCrop" android:alpha="0.9"/>
-    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
-        android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="48dp">
+    <ScrollView android:layout_width="match_parent" android:layout_height="match_parent" android:fillViewport="true">
+    <LinearLayout android:id="@+id/homeCol" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="48dp" android:paddingBottom="60dp">
         <TextView android:id="@+id/logo" android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:textSize="46sp" android:textStyle="bold" android:letterSpacing="0.04"/>
         <TextView android:id="@+id/clock" android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:textColor="@color/text2" android:textSize="18sp" android:layout_marginTop="4dp"/>
-        <LinearLayout android:id="@+id/tiles" android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:orientation="horizontal" android:layout_marginTop="56dp"/>
+        <HorizontalScrollView android:id="@+id/tilesScroll" android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_marginTop="56dp" android:scrollbars="none" android:clipToPadding="false">
+            <LinearLayout android:id="@+id/tiles" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:paddingTop="6dp" android:paddingBottom="6dp"/>
+        </HorizontalScrollView>
         <TextView android:id="@+id/reload" android:layout_width="300dp" android:layout_height="52dp"
             android:layout_marginTop="44dp" android:background="@drawable/item_bg" android:focusable="true"
             android:gravity="center" android:text="⟳  Reload" android:textSize="19sp" android:textStyle="bold"
             android:duplicateParentState="false"/>
     </LinearLayout>
+    </ScrollView>
     <TextView android:id="@+id/footer" android:layout_width="wrap_content" android:layout_height="wrap_content"
         android:layout_gravity="bottom|start" android:layout_margin="24dp" android:textColor="@color/text2" android:textSize="14sp"/>
     <TextView android:id="@+id/status" android:layout_width="wrap_content" android:layout_height="wrap_content"

@@ -141,7 +141,7 @@ object Api {
         out.add(Group(ALL, "All channels", all))
         out.addAll(order.filter { it.channels.isNotEmpty() })
         dashboard()?.let { d -> out.add(2, d); d.channels.forEach { ids[it.id] = it } }
-        groups = out; byId = ids
+        groups = out; byId = ids; baseCache = null
     }
 
     private fun str(j: JsonReader): String = when (j.peek()) {
@@ -152,13 +152,26 @@ object Api {
     }
 
     /** a channel's name without quality / format marks: "beIN Sports 1 HD" and "beIN SPORTS 1 4K" are the same channel */
+    @Volatile private var baseCache: Map<String, List<Channel>>? = null
+
+    /** the same channel in all its qualities, from the whole list (built once per list load, in the background) */
+    fun qualities(c: Channel): List<Channel> {
+        val m = baseCache ?: (groups.firstOrNull { it.id == ALL }?.channels ?: emptyList()).groupBy { baseName(it.name) }.also { baseCache = it }
+        return m[baseName(c.name)] ?: listOf(c)
+    }
+
+    private val rPrefix = Regex("^\\|?[A-Z]{2,3}\\s*[:|]\\s*"); private val rLead = Regex("^[^A-Z0-9\\u0600-\\u06FF]+")
+    private val rEn = Regex("\\bENGLISH\\b|\\bENG\\b"); private val rFr = Regex("\\bFRENCH\\b|\\bFRANCE\\b")
+    private val rQ = Regex("\\b(UHD|FHD|HD|SD|LQ|4K|8K|HEVC|H265|RAW|3840P|2160P|1080P|720P|60FPS|50FPS|HDR|BACKUP|BK)\\b")
+    private val rXtra = Regex("\\bXTRA\\s*(\\d)"); private val rZero = Regex("\\b0(\\d)\\b"); private val rRest = Regex("[^A-Z0-9\\u0600-\\u06FF]")
+
     fun baseName(n: String): String {
         var t = java.text.Normalizer.normalize(n, java.text.Normalizer.Form.NFKC).uppercase()
-        t = t.replace(Regex("^\\|?[A-Z]{2,3}\\s*[:|]\\s*"), "").replace(Regex("^[^A-Z0-9\\u0600-\\u06FF]+"), "")
-        t = t.replace(".QA", " ").replace(Regex("\\bENGLISH\\b|\\bENG\\b"), "EN").replace(Regex("\\bFRENCH\\b|\\bFRANCE\\b"), "FR")
-        t = t.replace(Regex("\\b(UHD|FHD|HD|SD|LQ|4K|8K|HEVC|H265|RAW|3840P|2160P|1080P|720P|60FPS|50FPS|HDR|BACKUP|BK)\\b"), " ")
-        t = t.replace("SPORTS", "SPORT").replace(Regex("\\bXTRA\\s*(\\d)"), "$1 XTRA").replace(Regex("\\b0(\\d)\\b"), "$1")
-        return t.replace(Regex("[^A-Z0-9\\u0600-\\u06FF]"), "")
+        t = t.replace(rPrefix, "").replace(rLead, "")
+        t = t.replace(".QA", " ").replace(rEn, "EN").replace(rFr, "FR")
+        t = t.replace(rQ, " ")
+        t = t.replace("SPORTS", "SPORT").replace(rXtra, "$1 XTRA").replace(rZero, "$1")
+        return t.replace(rRest, "")
     }
 
     fun toggleFavorite(c: Channel): Boolean {
@@ -230,4 +243,13 @@ object Api {
     private fun b64(s: String): String = try {
         String(Base64.decode(s, Base64.DEFAULT), Charsets.UTF_8).trim()
     } catch (e: Exception) { s }
+}
+
+/** the last channels watched, newest first (LEFT in full screen) */
+object History {
+    fun ids(): List<Int> = (App.prefs.getString("history", "") ?: "").split(',').mapNotNull { it.toIntOrNull() }
+    fun add(id: Int) {
+        val l = (listOf(id) + ids().filter { it != id }).take(8)
+        App.prefs.edit().putString("history", l.joinToString(",")).apply()
+    }
 }

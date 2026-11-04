@@ -16,6 +16,9 @@
                 android:singleLine="true" android:ellipsize="end" android:textSize="19sp" android:textStyle="bold"/>
             <TextView android:id="@+id/vodCount" android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:textColor="@color/text2" android:textSize="16sp"/>
+            <TextView android:id="@+id/vodSort" android:layout_width="wrap_content" android:layout_height="36dp" android:layout_marginStart="14dp"
+                android:gravity="center" android:paddingStart="14dp" android:paddingEnd="14dp" android:background="@drawable/tile_bg"
+                android:focusable="true" android:clickable="true" android:textSize="14sp" android:textStyle="bold"/>
         </LinearLayout>
         <androidx.recyclerview.widget.RecyclerView android:id="@+id/grid" android:layout_width="match_parent"
             android:layout_height="match_parent" android:clipToPadding="false" android:paddingBottom="120dp"/>

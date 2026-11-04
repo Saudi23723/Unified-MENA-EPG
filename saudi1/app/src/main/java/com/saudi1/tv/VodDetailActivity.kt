@@ -70,10 +70,10 @@ class VodDetailActivity : BaseActivity() {
         })
     }
 
-    private fun button(t: String, primary: Boolean, go: () -> Unit) = TextView(this).apply {
+    private fun button(t: String, primary: Boolean, resume: Boolean = false, go: () -> Unit) = TextView(this).apply {
         text = t; textSize = 17f; gravity = Gravity.CENTER; isFocusable = true; isClickable = true
         setTypeface(typeface, Typeface.BOLD)
-        setBackgroundResource(if (primary) R.drawable.tile_bg else R.drawable.item_bg)
+        setBackgroundResource(if (resume) R.drawable.resume_bg else if (primary) R.drawable.tile_bg else R.drawable.item_bg)
         setTextColor(getColorStateList(R.color.on_focus))
         setPadding((26 * d).toInt(), (12 * d).toInt(), (26 * d).toInt(), (12 * d).toInt())
         setOnClickListener { go() }
@@ -85,7 +85,7 @@ class VodDetailActivity : BaseActivity() {
         val key = "m$id"
         val row = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; setPadding(0, (24 * d).toInt(), 0, 0) }
         val pos = Resume.get(key)
-        val play = button(if (pos > 0) "▶  Resume" else "▶  Play", true) { watch(url, name, key, if (pos > 0) pos else 0) }
+        val play = button(if (pos > 0) "▶  Resume from " + hms(pos) else "▶  Play", true, resume = pos > 0) { watch(url, name, key, if (pos > 0) pos else 0) }
         row.addView(play)
         if (pos > 0) { row.addView(View(this), LinearLayout.LayoutParams((14 * d).toInt(), 1)); row.addView(button("⟲  From the start", false) { watch(url, name, key, 0) }) }
         right.addView(row)
@@ -115,29 +115,48 @@ class VodDetailActivity : BaseActivity() {
     private fun showSeason(s: String) {
         App.prefs.edit().putString("last_season_$id", s).apply()
         episodesBox.removeAllViews()
+        var resumeRow: View? = null
         for (e in seasons[s] ?: emptyList()) {
             val key = "e${e.id}"
             val pos = Resume.get(key)
+            val done = Resume.done(key)
             val row = LinearLayout(this).apply {
                 orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL
-                setBackgroundResource(R.drawable.item_bg); isFocusable = true; isClickable = true
+                setBackgroundResource(if (pos > 0) R.drawable.resume_row_bg else R.drawable.item_bg); isFocusable = true; isClickable = true
                 setPadding((16 * d).toInt(), (8 * d).toInt(), (16 * d).toInt(), (8 * d).toInt())
-                setOnClickListener { watch(Vod.episodeUrl(e.id, e.ext), "$name · S$s E${e.num}", key, pos) }
+                setOnClickListener { watch(Vod.episodeUrl(e.id, e.ext), "$name · S$s E${e.num}", key, Resume.get(key), nextAfter(s, e)) }
             }
+            if (pos > 0 && resumeRow == null) resumeRow = row
             row.addView(TextView(this).apply { text = "E${e.num}"; textSize = 16f; setTypeface(typeface, Typeface.BOLD); setTextColor(getColorStateList(R.color.on_focus)); isDuplicateParentStateEnabled = true },
                 LinearLayout.LayoutParams((70 * d).toInt(), ViewGroup.LayoutParams.WRAP_CONTENT))
             row.addView(TextView(this).apply {
-                text = e.title + (if (pos > 0) "   ▶ resume" else "") + (if (e.duration.isNotEmpty()) "   ·   ${e.duration}" else "")
+                text = (if (done) "✓  " else "") + e.title + (if (pos > 0) "   ▶ Resume " + hms(pos) else "") + (if (e.duration.isNotEmpty()) "   ·   ${e.duration}" else "")
                 textSize = 15f; maxLines = 2; ellipsize = TextUtils.TruncateAt.END; setTextColor(getColorStateList(R.color.on_focus)); isDuplicateParentStateEnabled = true
             }, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
             episodesBox.addView(row, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply { bottomMargin = (6 * d).toInt() })
         }
     }
 
-    private fun watch(url: String, title: String, key: String, from: Long) {
+    private fun watch(url: String, title: String, key: String, from: Long, next: List<Triple<String, String, String>> = emptyList()) {
         startActivity(Intent(this, PlayerActivity::class.java).putExtra("url", url).putExtra("title", title)
-            .putExtra("key", key).putExtra("poster", poster).putExtra("from", from))
+            .putExtra("key", key).putExtra("poster", poster).putExtra("from", from)
+            .putExtra("nextUrls", ArrayList(next.map { it.first })).putExtra("nextTitles", ArrayList(next.map { it.second }))
+            .putExtra("nextKeys", ArrayList(next.map { it.third })))
     }
+
+    /** the episodes after this one (rest of the season, then the next seasons): the player goes on by itself */
+    private fun nextAfter(season: String, ep: Episode): List<Triple<String, String, String>> {
+        val out = ArrayList<Triple<String, String, String>>()
+        var on = false
+        for ((s, list) in seasons) for (e in list) {
+            if (on) out.add(Triple(Vod.episodeUrl(e.id, e.ext), "$name · S$s E${e.num}", "e${e.id}"))
+            if (s == season && e.id == ep.id) on = true
+            if (out.size >= 40) return out
+        }
+        return out
+    }
+
+    private fun hms(ms: Long): String { val t = ms / 1000; return if (t >= 3600) "%d:%02d:%02d".format(t / 3600, t / 60 % 60, t % 60) else "%d:%02d".format(t / 60, t % 60) }
 
     override fun onResume() {
         super.onResume()

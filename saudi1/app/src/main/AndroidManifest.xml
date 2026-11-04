@@ -38,6 +38,7 @@
             <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/files" />
         </provider>
         <service android:name=".RecordService" android:exported="false" android:foregroundServiceType="dataSync" />
+        <activity android:name=".SearchActivity" android:exported="false" android:screenOrientation="sensorLandscape" android:windowSoftInputMode="stateVisible|adjustPan" />
         <activity android:name=".MultiviewActivity" android:exported="false" android:screenOrientation="sensorLandscape" />
         <activity android:name=".VodActivity" android:exported="false" android:screenOrientation="sensorLandscape" />
         <activity android:name=".VodDetailActivity" android:exported="false" android:screenOrientation="sensorLandscape" />

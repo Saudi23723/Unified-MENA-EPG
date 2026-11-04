@@ -8,7 +8,7 @@
             android:layout_margin="4dp" android:background="@drawable/panel_bg" android:paddingStart="6dp" android:paddingEnd="6dp"
             android:textColor="#FFC83D" android:textSize="12sp" android:textStyle="bold"/>
         <ProgressBar android:id="@+id/progress" style="?android:attr/progressBarStyleHorizontal" android:layout_width="match_parent"
-            android:layout_height="4dp" android:layout_gravity="bottom" android:max="1000" android:progressDrawable="@drawable/progress" android:visibility="gone"/>
+            android:layout_height="4dp" android:layout_gravity="bottom" android:max="1000" android:progressDrawable="@drawable/progress_resume" android:visibility="gone"/>
     </FrameLayout>
     <TextView android:id="@+id/name" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="5dp"
         android:singleLine="true" android:ellipsize="marquee" android:marqueeRepeatLimit="marquee_forever" android:textSize="16sp" android:textStyle="bold" android:textColor="@color/on_focus" android:duplicateParentState="true"/>

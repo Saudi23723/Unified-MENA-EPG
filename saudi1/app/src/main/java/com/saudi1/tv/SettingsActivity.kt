@@ -54,14 +54,13 @@ class SettingsActivity : BaseActivity() {
         row("Picture size", sizes[modes.indexOf(App.prefs.getInt("resize", 0)).coerceAtLeast(0)]) {
             AlertDialog.Builder(this).setTitle("Picture size").setItems(sizes) { _, w -> App.prefs.edit().putInt("resize", modes[w]).apply(); build() }.show()
         }
-        row("Night dimming", if (Dim.level == 0) "Off" else "${Dim.level} %") {
-            AlertDialog.Builder(this).setTitle("Night dimming")
-                .setSingleChoiceItems(Dim.levels.map { if (it == 0) "Off" else "$it %" }.toTypedArray(), Dim.levels.indexOf(Dim.level).coerceAtLeast(0)) { dlg, w ->
-                    Dim.level = Dim.levels[w]; applyDim(); dlg.dismiss(); build()
-                }.show()
+        row("Night mode", (if (Dim.level == 0) "Dimming off" else "Dimming ${Dim.level} %") + " · Eye comfort " + Dim.warmNames[Dim.warm]) {
+            nightDialog()
         }
         val clock = App.prefs.getBoolean("clock", true)
         row("Clock on the picture", if (clock) "On" else "Off") { App.prefs.edit().putBoolean("clock", !clock).apply(); build() }
+        val openLast = App.prefs.getBoolean("open_last", true)
+        row("Start on the last channel", if (openLast) "On" else "Off") { App.prefs.edit().putBoolean("open_last", !openLast).apply(); build() }
         val zapInvert = App.prefs.getBoolean("zap_invert", false)
         row("Channel change with ▲ / ▼", if (zapInvert) "▲ previous · ▼ next" else "▲ next · ▼ previous") {
             App.prefs.edit().putBoolean("zap_invert", !zapInvert).apply(); build()

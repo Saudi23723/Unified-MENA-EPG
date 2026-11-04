@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -36,7 +35,26 @@ class VodActivity : BaseActivity() {
     private val catAdapter = CatAdapter()
     private val gridAdapter = GridAdapter()
 
-    companion object { const val RESUME = "__resume"; const val SEARCH = "__search"; const val FAV = "__fav" }
+    companion object { const val RESUME = "__resume"; const val SEARCH = "__search"; const val FAV = "__fav"; const val COLS = 4 }
+
+    /** newest added by the provider first (like the provider's "last modified"), or A–Z, or by rating */
+    private val sortNames = arrayOf("Latest added", "A – Z", "Top rated")
+    private var sort: Int
+        get() = App.prefs.getInt("vod_sort", 0)
+        set(v) = App.prefs.edit().putInt("vod_sort", v).apply()
+
+    private fun sorted(l: List<VodItem>): List<VodItem> = when (sort) {
+        0 -> if (l.any { it.added > 0 }) l.sortedByDescending { it.added } else l
+        1 -> l.sortedBy { it.name.lowercase() }
+        else -> l.sortedByDescending { it.rating.toDoubleOrNull() ?: 0.0 }
+    }
+
+    private fun sortDialog() {
+        AlertDialog.Builder(this).setTitle("Sort").setSingleChoiceItems(sortNames, sort) { d, w ->
+            sort = w; d.dismiss(); findViewById<TextView>(R.id.vodSort).text = "⇅  " + sortNames[w]
+            if (current != RESUME && current != SEARCH) cats.firstOrNull { it.id == current }?.let { open(it) }
+        }.show()
+    }
 
     private fun favKey() = if (series) "vfav_s" else "vfav_m"
     private fun favs(): List<org.json.JSONObject> = try {
@@ -60,7 +78,10 @@ class VodActivity : BaseActivity() {
         findViewById<TextView>(R.id.title).text = if (series) "Series" else "Movies"
         catsRv = findViewById(R.id.cats); grid = findViewById(R.id.grid)
         catsRv.layoutManager = LinearLayoutManager(this); catsRv.adapter = catAdapter
-        grid.layoutManager = GridLayoutManager(this, 4); grid.adapter = gridAdapter
+        grid.layoutManager = GridLayoutManager(this, COLS); grid.adapter = gridAdapter
+        findViewById<TextView>(R.id.vodSort).apply {
+            setTextColor(getColorStateList(R.color.on_focus)); setOnClickListener { sortDialog() }; text = "⇅  " + sortNames[sort]
+        }
         grid.setItemViewCacheSize(24)
         lifecycleScope.launch {
             val c = withContext(Dispatchers.IO) { try { Vod.cats(series) } catch (e: Exception) { null } }
@@ -97,7 +118,7 @@ class VodActivity : BaseActivity() {
         loadJob = lifecycleScope.launch {
             val l = withContext(Dispatchers.IO) { try { Vod.list(series, c.id) } catch (e: Exception) { null } }
             if (current != c.id) return@launch
-            items = l ?: emptyList(); show()
+            items = sorted(l ?: emptyList()); show()
             if (l == null) android.widget.Toast.makeText(this@VodActivity, "Could not load this group", android.widget.Toast.LENGTH_SHORT).show()
         }
     }
@@ -108,26 +129,7 @@ class VodActivity : BaseActivity() {
     }
 
     private fun search() {
-        val e = EditText(this).apply { hint = if (series) "Series name" else "Movie name"; setSingleLine() }
-        AlertDialog.Builder(this).setTitle("Search").setView(e).setPositiveButton("Search") { _, _ ->
-            val q = e.text.toString().trim().lowercase()
-            if (q.length < 2) return@setPositiveButton
-            current = SEARCH
-            findViewById<TextView>(R.id.catName).text = "Searching “$q”…"
-            items = emptyList(); show()
-            loadJob?.cancel()
-            loadJob = lifecycleScope.launch {
-                val found = ArrayList<VodItem>()
-                for (c in cats.drop(3)) {
-                    val l = withContext(Dispatchers.IO) { try { Vod.list(series, c.id) } catch (e: Exception) { emptyList() } }
-                    found.addAll(l.filter { it.name.lowercase().contains(q) })
-                    if (current != SEARCH) return@launch
-                    items = found.distinctBy { it.id }; show()
-                    delay(10)
-                }
-                findViewById<TextView>(R.id.catName).text = "“$q”"
-            }
-        }.show()
+        startActivity(Intent(this, SearchActivity::class.java).putExtra("mode", if (series) "s" else "m"))
     }
 
     private fun play(it: VodItem) {
@@ -138,6 +140,20 @@ class VodActivity : BaseActivity() {
         }
         startActivity(Intent(this, VodDetailActivity::class.java).putExtra("series", series).putExtra("id", it.id)
             .putExtra("name", it.name).putExtra("poster", it.poster).putExtra("ext", it.ext))
+    }
+
+    private fun moveTo(pos: Int) {
+        val v = grid.layoutManager?.findViewByPosition(pos)
+        if (v != null) { v.requestFocus(); return }
+        grid.scrollToPosition(pos)
+        grid.post { grid.layoutManager?.findViewByPosition(pos)?.requestFocus() }
+    }
+
+    private fun focusCats() {
+        val i = cats.indexOfFirst { it.id == current }.coerceAtLeast(0)
+        catsRv.layoutManager?.findViewByPosition(i)?.requestFocus() ?: run {
+            catsRv.scrollToPosition(i); catsRv.post { catsRv.layoutManager?.findViewByPosition(i)?.requestFocus() }
+        }
     }
 
     inner class CatAdapter : RecyclerView.Adapter<CatAdapter.H>() {
@@ -170,6 +186,19 @@ class VodActivity : BaseActivity() {
             h.itemView.setOnLongClickListener { items.getOrNull(h.bindingAdapterPosition)?.let { toggleFav(it) }; true }
             // the whole name scrolls on the focused poster
             h.itemView.setOnFocusChangeListener { _, f -> h.name.isSelected = f }
+            // the focus stays in the posters: ▼ goes to the poster below (loading it first if needed), never back to the groups
+            h.itemView.setOnKeyListener { _, k, e ->
+                if (e.action != KeyEvent.ACTION_DOWN) return@setOnKeyListener false
+                val p = h.bindingAdapterPosition; if (p < 0) return@setOnKeyListener false
+                when (k) {
+                    KeyEvent.KEYCODE_DPAD_DOWN -> { if (p + COLS < items.size) moveTo(p + COLS) else if (p / COLS < (items.size - 1) / COLS) moveTo(items.size - 1); true }
+                    KeyEvent.KEYCODE_DPAD_UP -> { if (p - COLS >= 0) moveTo(p - COLS) else findViewById<View>(R.id.vodSort).requestFocus(); true }
+                    KeyEvent.KEYCODE_DPAD_RIGHT -> { if (p % COLS < COLS - 1 && p + 1 < items.size) moveTo(p + 1); true }
+                    KeyEvent.KEYCODE_DPAD_LEFT -> { if (p % COLS > 0) moveTo(p - 1) else focusCats(); true }
+                    KeyEvent.KEYCODE_MENU -> { sortDialog(); true }
+                    else -> false
+                }
+            }
             return h
         }
         override fun onBindViewHolder(h: H, i: Int) {
@@ -178,8 +207,10 @@ class VodActivity : BaseActivity() {
             h.rating.text = it.rating.toDoubleOrNull()?.let { r -> "★ " + "%.1f".format(r) } ?: ""
             h.rating.visibility = if (h.rating.text.isEmpty()) View.GONE else View.VISIBLE
             if (it.poster.isEmpty()) h.poster.setImageResource(R.drawable.banner) else h.poster.load(it.poster) { size(240, 360); error(R.drawable.banner) }
-            val pos = Resume.get((if (series) "e" else "m") + it.id)
-            h.progress.visibility = if (pos > 0 && !series) View.VISIBLE else View.GONE
+            val key = (if (series) "e" else "m") + it.id
+            val pos = Resume.get(key); val dur = Resume.dur(key)
+            h.progress.visibility = if (pos > 0 && !series || current == RESUME) View.VISIBLE else View.GONE
+            h.progress.progress = if (dur > 0) (pos * 1000 / dur).toInt() else 0
         }
     }
 }

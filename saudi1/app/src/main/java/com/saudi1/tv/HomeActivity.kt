@@ -6,6 +6,7 @@ import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
@@ -41,14 +42,24 @@ class HomeActivity : BaseActivity() {
         tile("🗓", "TV Guide") { open(GuideActivity::class.java) }
         tile("🎬", "Movies") { startActivity(Intent(this, VodActivity::class.java).putExtra("series", false)) }
         tile("🎞", "Series") { startActivity(Intent(this, VodActivity::class.java).putExtra("series", true)) }
+        tile("🔍", "Search") { open(SearchActivity::class.java) }
         tile("☰", "Playlists") { playlists() }
         tile("⚙", "Settings") { startActivity(Intent(this, SettingsActivity::class.java)) }
         tiles.getChildAt(0).requestFocus()
+        if (isTouch) {  // phones: everything closer together so it fits a phone held sideways
+            val dd = resources.displayMetrics.density
+            findViewById<View>(R.id.homeCol).setPadding(0, (14 * dd).toInt(), 0, (40 * dd).toInt())
+            (findViewById<View>(R.id.tilesScroll).layoutParams as LinearLayout.LayoutParams).topMargin = (18 * dd).toInt()
+            (findViewById<View>(R.id.reload).layoutParams as LinearLayout.LayoutParams).topMargin = (14 * dd).toInt()
+        }
 
         findViewById<TextView>(R.id.reload).apply {
             setTextColor(getColorStateList(R.color.on_focus))
             setOnClickListener { reload() }
         }
+        // like TiviMate: the app opens straight on the channel that was playing when it was closed
+        if (savedInstanceState == null && Prefs.ready && Prefs.lastChannel > 0 && App.prefs.getBoolean("open_last", true))
+            startActivity(Intent(this, LiveActivity::class.java).putExtra("channel", Prefs.lastChannel))
         lifecycleScope.launch {
             val clock = findViewById<TextView>(R.id.clock)
             val f = SimpleDateFormat("EEEE d MMMM  ·  h:mm a", Locale.ENGLISH)
@@ -89,10 +100,7 @@ class HomeActivity : BaseActivity() {
     }
 
     private fun dim() {
-        androidx.appcompat.app.AlertDialog.Builder(this).setTitle("Night dimming")
-            .setSingleChoiceItems(Dim.levels.map { if (it == 0) "Off" else "$it %" }.toTypedArray(), Dim.levels.indexOf(Dim.level).coerceAtLeast(0)) { d, w ->
-                Dim.level = Dim.levels[w]; applyDim(); d.dismiss()
-            }.show()
+        nightDialog()
     }
 
     private fun open(c: Class<*>) = startActivity(Intent(this, c))
