@@ -70,6 +70,35 @@ object Dim {
         set(v) = App.prefs.edit().putInt("warm", v).apply()
 }
 
+/** Parental lock: a 4-digit PIN guards the adult groups (found by name) and any group the owner of the TV locks. */
+object Parental {
+    private val adult = Regex("(?i)\\b(xxx|adult|adults|18\\+|\\+18|for adults|porn|erotic)\\b|للكبار")
+    var pin: String
+        get() = App.prefs.getString("pin", "") ?: ""
+        set(v) = App.prefs.edit().putString("pin", v).apply()
+    val on get() = pin.length == 4
+    var locked: Set<String>
+        get() = App.prefs.getStringSet("locked_groups", emptySet()) ?: emptySet()
+        set(v) = App.prefs.edit().putStringSet("locked_groups", v).apply()
+    @Volatile var unlocked = false      // until the app is closed
+    fun isLocked(groupId: String, groupName: String) = on && !unlocked && (groupId in locked || adult.containsMatchIn(groupName))
+
+    /** asks for the PIN, then runs ok() */
+    fun ask(a: android.app.Activity, ok: () -> Unit) {
+        if (!on || unlocked) { ok(); return }
+        val e = android.widget.EditText(a).apply {
+            inputType = android.text.InputType.TYPE_CLASS_NUMBER or android.text.InputType.TYPE_NUMBER_VARIATION_PASSWORD
+            filters = arrayOf(android.text.InputFilter.LengthFilter(4)); hint = "PIN"; gravity = Gravity.CENTER; textSize = 26f
+        }
+        val d = androidx.appcompat.app.AlertDialog.Builder(a).setTitle("🔒  Locked — enter the PIN").setView(e)
+            .setPositiveButton("OK") { _, _ ->
+                if (e.text.toString() == pin) { unlocked = true; ok() }
+                else android.widget.Toast.makeText(a, "Wrong PIN", android.widget.Toast.LENGTH_SHORT).show()
+            }.setNegativeButton("Cancel", null).create()
+        d.show(); e.requestFocus()
+    }
+}
+
 /** phone / tablet (touch screen, no remote) instead of a TV */
 val android.content.Context.isTouch: Boolean
     get() = !packageManager.hasSystemFeature("android.software.leanback") &&

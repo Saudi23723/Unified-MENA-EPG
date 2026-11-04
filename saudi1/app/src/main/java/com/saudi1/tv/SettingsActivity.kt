@@ -66,6 +66,17 @@ class SettingsActivity : BaseActivity() {
             App.prefs.edit().putBoolean("zap_invert", !zapInvert).apply(); build()
         }
 
+        section("Parental lock")
+        row("PIN lock", if (Parental.on) "On · adult groups are locked" else "Off") { pinDialog() }
+        if (Parental.on) row("Lock / unlock groups", "${Parental.locked.size} chosen groups") {
+            Parental.ask(this) {
+                val gs = Api.groups.filter { it.id != Api.FAV && it.id != Api.ALL }
+                val chk = gs.map { it.id in Parental.locked }.toBooleanArray()
+                AlertDialog.Builder(this).setTitle("Locked groups").setMultiChoiceItems(gs.map { it.name }.toTypedArray(), chk) { _, w, c -> chk[w] = c }
+                    .setPositiveButton("Save") { _, _ -> Parental.locked = gs.filterIndexed { i, _ -> chk[i] }.map { it.id }.toSet(); build() }.show()
+            }
+        }
+
         section("Reminders")
         val rs = Reminders.all()
         row("Reminders", if (rs.isEmpty()) "None" else "${rs.size} set") {
@@ -93,6 +104,16 @@ class SettingsActivity : BaseActivity() {
         section("App")
         row("Version", BuildConfig.VERSION_NAME + "   ·   Check for update") { update() }
         row("Download link", "saudi1.1saifsaudi.workers.dev/apk", null)
+    }
+
+    private fun pinDialog() {
+        val e = android.widget.EditText(this).apply {
+            inputType = android.text.InputType.TYPE_CLASS_NUMBER or android.text.InputType.TYPE_NUMBER_VARIATION_PASSWORD
+            filters = arrayOf(android.text.InputFilter.LengthFilter(4)); hint = "4 digits"; gravity = Gravity.CENTER; textSize = 26f
+        }
+        val set = { AlertDialog.Builder(this).setTitle("New PIN (4 digits)").setView(e).setPositiveButton("Save") { _, _ ->
+            val p = e.text.toString(); if (p.length == 4) { Parental.pin = p; Parental.unlocked = false; build() } }.setNeutralButton("Turn off") { _, _ -> Parental.pin = ""; build() }.show() }
+        if (Parental.on) Parental.ask(this) { set() } else set()
     }
 
     private fun section(t: String) {

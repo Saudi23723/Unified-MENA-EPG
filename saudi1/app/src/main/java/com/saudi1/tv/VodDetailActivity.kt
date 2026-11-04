@@ -88,7 +88,17 @@ class VodDetailActivity : BaseActivity() {
         val play = button(if (pos > 0) "▶  Resume from " + hms(pos) else "▶  Play", true, resume = pos > 0) { watch(url, name, key, if (pos > 0) pos else 0) }
         row.addView(play)
         if (pos > 0) { row.addView(View(this), LinearLayout.LayoutParams((14 * d).toInt(), 1)); row.addView(button("⟲  From the start", false) { watch(url, name, key, 0) }) }
-        right.addView(row)
+        row.addView(View(this), LinearLayout.LayoutParams((14 * d).toInt(), 1))
+        lateinit var dl: TextView
+        fun dlText() = Downloads.get(key)?.let { if (it.done) "✓  Downloaded" else "⬇  Downloading…" } ?: "⬇  Download"
+        dl = button(dlText(), false) {
+            val it = Downloads.get(key)
+            if (it == null) { askNotify(); Downloads.add(this, key, name, poster, url); toastS("Downloading — watch it later without internet") }
+            else androidx.appcompat.app.AlertDialog.Builder(this).setTitle(name).setItems(arrayOf("🗑  Delete the download")) { _, _ -> Downloads.remove(this, key); dl.text = dlText() }.show()
+            dl.text = dlText()
+        }
+        row.addView(dl)
+        right.addView(HorizontalScrollView(this).apply { isHorizontalScrollBarEnabled = false; addView(row) })
         play.requestFocus()
     }
 
@@ -99,7 +109,6 @@ class VodDetailActivity : BaseActivity() {
         val hs = HorizontalScrollView(this).apply { addView(seasonsBox) }
         right.addView(hs)
         episodesBox = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
-        right.addView(episodesBox)
         var firstBtn: View? = null
         seasons.keys.forEach { s ->
             val b = button("Season $s", false) { showSeason(s) }
@@ -107,7 +116,14 @@ class VodDetailActivity : BaseActivity() {
             if (firstBtn == null) firstBtn = b
         }
         // the season of the episode watched last, else the first
+        right.addView(button("⬇  Download this season", false) {
+            val s = App.prefs.getString("last_season_$id", null) ?: seasons.keys.first()
+            askNotify()
+            seasons[s]?.forEach { e -> Downloads.add(this, "e${e.id}", "$name · S$s E${e.num}", poster, Vod.episodeUrl(e.id, e.ext)) }
+            toastS("Season $s: downloading ${seasons[s]?.size ?: 0} episodes"); showSeason(s)
+        }, LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply { bottomMargin = (10 * d).toInt() })
         val last = App.prefs.getString("last_season_$id", null)?.takeIf { it in seasons } ?: seasons.keys.first()
+        right.addView(episodesBox)
         showSeason(last)
         firstBtn?.requestFocus()
     }
@@ -125,19 +141,34 @@ class VodDetailActivity : BaseActivity() {
                 setBackgroundResource(if (pos > 0) R.drawable.resume_row_bg else R.drawable.item_bg); isFocusable = true; isClickable = true
                 setPadding((16 * d).toInt(), (8 * d).toInt(), (16 * d).toInt(), (8 * d).toInt())
                 setOnClickListener { watch(Vod.episodeUrl(e.id, e.ext), "$name · S$s E${e.num}", key, Resume.get(key), nextAfter(s, e)) }
+                // hold OK / long press: download this episode (or delete the download)
+                setOnLongClickListener {
+                    if (Downloads.get(key) == null) { askNotify(); Downloads.add(this@VodDetailActivity, key, "$name · S$s E${e.num}", poster, Vod.episodeUrl(e.id, e.ext)); toastS("⬇ Downloading E${e.num}") }
+                    else { Downloads.remove(this@VodDetailActivity, key); toastS("Download deleted") }
+                    showSeason(s); true
+                }
             }
             if (pos > 0 && resumeRow == null) resumeRow = row
             row.addView(TextView(this).apply { text = "E${e.num}"; textSize = 16f; setTypeface(typeface, Typeface.BOLD); setTextColor(getColorStateList(R.color.on_focus)); isDuplicateParentStateEnabled = true },
                 LinearLayout.LayoutParams((70 * d).toInt(), ViewGroup.LayoutParams.WRAP_CONTENT))
             row.addView(TextView(this).apply {
-                text = (if (done) "✓  " else "") + e.title + (if (pos > 0) "   ▶ Resume " + hms(pos) else "") + (if (e.duration.isNotEmpty()) "   ·   ${e.duration}" else "")
+                text = (if (done) "✓  " else "") + (Downloads.get(key)?.let { if (it.done) "⬇✓ " else "⬇… " } ?: "") + e.title + (if (pos > 0) "   ▶ Resume " + hms(pos) else "") + (if (e.duration.isNotEmpty()) "   ·   ${e.duration}" else "")
                 textSize = 15f; maxLines = 2; ellipsize = TextUtils.TruncateAt.END; setTextColor(getColorStateList(R.color.on_focus)); isDuplicateParentStateEnabled = true
             }, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
             episodesBox.addView(row, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply { bottomMargin = (6 * d).toInt() })
         }
     }
 
-    private fun watch(url: String, title: String, key: String, from: Long, next: List<Triple<String, String, String>> = emptyList()) {
+    private fun toastS(t: String) = android.widget.Toast.makeText(this, t, android.widget.Toast.LENGTH_SHORT).show()
+
+    private fun askNotify() {
+        if (android.os.Build.VERSION.SDK_INT >= 33 && checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS) != android.content.pm.PackageManager.PERMISSION_GRANTED)
+            requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 3)
+    }
+
+    private fun watch(url0: String, title: String, key: String, from: Long, next: List<Triple<String, String, String>> = emptyList()) {
+        // a downloaded copy plays from the device (no internet needed)
+        val url = Downloads.localFile(key)?.let { android.net.Uri.fromFile(it).toString() } ?: url0
         startActivity(Intent(this, PlayerActivity::class.java).putExtra("url", url).putExtra("title", title)
             .putExtra("key", key).putExtra("poster", poster).putExtra("from", from)
             .putExtra("nextUrls", ArrayList(next.map { it.first })).putExtra("nextTitles", ArrayList(next.map { it.second }))

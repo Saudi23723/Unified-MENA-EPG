@@ -157,9 +157,11 @@ class LiveActivity : BaseActivity() {
         }
         if (Api.groups.isEmpty()) { toast("Could not load the channels"); return }
         groupAdapter.notifyDataSetChanged()
-        val asked = Api.byId[intent.getIntExtra("channel", -1)]
-        val last = asked ?: Api.byId[Prefs.lastChannel]
-        val g = Api.groups.firstOrNull { it.id == (asked?.group ?: Prefs.lastGroup) && it.channels.isNotEmpty() }
+        fun ok(c: Channel?) = c?.takeIf { ch -> !Parental.isLocked(ch.group, Api.groups.firstOrNull { it.id == ch.group }?.name ?: "") }
+        val asked = ok(Api.byId[intent.getIntExtra("channel", -1)])
+        val last = asked ?: ok(Api.byId[Prefs.lastChannel])
+        val wantGroup = intent.getStringExtra("group")
+        val g = Api.groups.firstOrNull { it.id == (wantGroup ?: asked?.group ?: Prefs.lastGroup) && it.channels.isNotEmpty() && !Parental.isLocked(it.id, it.name) }
             ?: Api.groups.firstOrNull { it.id != Api.FAV && it.id != Api.ALL } ?: Api.groups[0]
         showGroup(g, last)
         last?.let { play(it) }
@@ -620,7 +622,11 @@ class LiveActivity : BaseActivity() {
             val g = Api.groups[i]
             h.name.text = g.name; h.count.text = g.channels.size.toString()
             h.itemView.isActivated = g.id == group?.id
-            h.itemView.setOnClickListener { if (g.channels.isNotEmpty()) { groupsPanel.visibility = View.GONE; channelsRv.post { if (!full) place(); showGroup(g) } } }
+            h.name.text = (if (Parental.isLocked(g.id, g.name)) "🔒 " else "") + g.name
+            h.itemView.setOnClickListener {
+                if (g.channels.isEmpty()) return@setOnClickListener
+                Parental.ask(this@LiveActivity) { groupsPanel.visibility = View.GONE; channelsRv.post { if (!full) place(); showGroup(g); groupAdapter.notifyDataSetChanged() } }
+            }
             h.itemView.setOnKeyListener { _, k, e ->
                 if (e.action == KeyEvent.ACTION_DOWN && k == KeyEvent.KEYCODE_DPAD_RIGHT) { closeGroups(); true } else false
             }

@@ -35,7 +35,7 @@ class VodActivity : BaseActivity() {
     private val catAdapter = CatAdapter()
     private val gridAdapter = GridAdapter()
 
-    companion object { const val RESUME = "__resume"; const val SEARCH = "__search"; const val FAV = "__fav"; const val COLS = 4 }
+    companion object { const val RESUME = "__resume"; const val SEARCH = "__search"; const val FAV = "__fav"; const val DL = "__dl"; const val COLS = 4 }
 
     /** newest added by the provider first (like the provider's "last modified"), or A–Z, or by rating */
     private val sortNames = arrayOf("Latest added", "A – Z", "Top rated")
@@ -86,27 +86,34 @@ class VodActivity : BaseActivity() {
         lifecycleScope.launch {
             val c = withContext(Dispatchers.IO) { try { Vod.cats(series) } catch (e: Exception) { null } }
             if (c == null) { android.widget.Toast.makeText(this@VodActivity, "Could not load the groups", android.widget.Toast.LENGTH_LONG).show(); return@launch }
-            cats = listOf(VodCat(SEARCH, "🔍  Search"), VodCat(RESUME, "▶  Continue watching"), VodCat(FAV, "★  Favorites")) + c
+            cats = listOf(VodCat(SEARCH, "🔍  Search"), VodCat(RESUME, "▶  Continue watching"), VodCat(FAV, "★  Favorites"), VodCat(DL, "⬇  Downloads")) + c
             catAdapter.notifyDataSetChanged()
-            val first = cats.indexOfFirst { it.id == App.prefs.getString("vod_cat_$series", "") }.takeIf { it >= 3 } ?: 3.coerceAtMost(cats.size - 1)
+            val first = cats.indexOfFirst { it.id == App.prefs.getString("vod_cat_$series", "") }.takeIf { it >= 4 } ?: 4.coerceAtMost(cats.size - 1)
             open(cats[first])
             (catsRv.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(first, 120)
             catsRv.post { catsRv.findViewHolderForAdapterPosition(first)?.itemView?.requestFocus() }
         }
     }
 
-    override fun onResume() { super.onResume(); if (current == RESUME) open(cats.first { it.id == RESUME }) else gridAdapter.notifyDataSetChanged() }
+    override fun onResume() { super.onResume(); if (current == RESUME || current == DL) open(cats.first { it.id == current }) else gridAdapter.notifyDataSetChanged() }
 
     private fun open(c: VodCat) {
         if (c.id == SEARCH) { search(); return }
+        if (Parental.isLocked(c.id, c.name)) { Parental.ask(this) { open(c) }; return }
         current = c.id
-        if (c.id != RESUME && c.id != FAV) App.prefs.edit().putString("vod_cat_$series", c.id).apply()
+        if (c.id != RESUME && c.id != FAV && c.id != DL) App.prefs.edit().putString("vod_cat_$series", c.id).apply()
         findViewById<TextView>(R.id.catName).text = c.name.removePrefix("▶  ")
         catAdapter.notifyDataSetChanged()
         loadJob?.cancel()
         if (c.id == RESUME) {
             items = Resume.list().filter { it.optString("k").startsWith(if (series) "e" else "m") }.map {
                 VodItem(it.optString("k").drop(1).toIntOrNull() ?: 0, it.optString("t"), it.optString("p"), it.optString("u"), "", "")
+            }
+            show(); return
+        }
+        if (c.id == DL) {
+            items = Downloads.all().filter { it.key.startsWith(if (series) "e" else "m") }.map {
+                VodItem(it.key.drop(1).toIntOrNull() ?: 0, (if (it.done) "" else "⬇ ") + it.title, it.poster, it.key, if (it.done) "" else "…", "")
             }
             show(); return
         }
@@ -133,6 +140,14 @@ class VodActivity : BaseActivity() {
     }
 
     private fun play(it: VodItem) {
+        if (current == DL) {
+            val d = Downloads.get(it.ext) ?: return
+            val f = Downloads.localFile(d.key)
+            if (f == null) { android.widget.Toast.makeText(this, "Still downloading", android.widget.Toast.LENGTH_SHORT).show(); return }
+            startActivity(Intent(this, PlayerActivity::class.java).putExtra("url", android.net.Uri.fromFile(f).toString()).putExtra("title", d.title)
+                .putExtra("key", d.key).putExtra("poster", d.poster))
+            return
+        }
         if (current == RESUME) {
             startActivity(Intent(this, PlayerActivity::class.java).putExtra("url", it.ext).putExtra("title", it.name)
                 .putExtra("key", (if (series) "e" else "m") + it.id).putExtra("poster", it.poster))
@@ -181,9 +196,16 @@ class VodActivity : BaseActivity() {
         override fun getItemCount() = items.size
         override fun onCreateViewHolder(p: ViewGroup, t: Int): H {
             val h = H(LayoutInflater.from(p.context).inflate(R.layout.item_poster, p, false))
+            if (isTouch) (h.poster.parent as View).layoutParams.height = (200 * resources.displayMetrics.density).toInt()  // phones: smaller posters
             h.itemView.setOnClickListener { items.getOrNull(h.bindingAdapterPosition)?.let { play(it) } }
             // hold OK: add to / remove from Favorites
-            h.itemView.setOnLongClickListener { items.getOrNull(h.bindingAdapterPosition)?.let { toggleFav(it) }; true }
+            h.itemView.setOnLongClickListener {
+                items.getOrNull(h.bindingAdapterPosition)?.let {
+                    if (current == DL) AlertDialog.Builder(this@VodActivity).setTitle(it.name).setItems(arrayOf("🗑  Delete the download")) { _, _ ->
+                        Downloads.remove(this@VodActivity, it.ext); open(cats.first { c -> c.id == DL })
+                    }.show() else toggleFav(it)
+                }; true
+            }
             // the whole name scrolls on the focused poster
             h.itemView.setOnFocusChangeListener { _, f -> h.name.isSelected = f }
             // the focus stays in the posters: ▼ goes to the poster below (loading it first if needed), never back to the groups

@@ -39,6 +39,7 @@ class HomeActivity : BaseActivity() {
             tiles.addView(v)
         }
         tile("📺", "Live TV") { open(LiveActivity::class.java) }
+        tile("⚽", "Sports today") { startActivity(Intent(this, LiveActivity::class.java).putExtra("group", Api.DASH)) }
         tile("🗓", "TV Guide") { open(GuideActivity::class.java) }
         tile("🎬", "Movies") { startActivity(Intent(this, VodActivity::class.java).putExtra("series", false)) }
         tile("🎞", "Series") { startActivity(Intent(this, VodActivity::class.java).putExtra("series", true)) }
@@ -58,7 +59,8 @@ class HomeActivity : BaseActivity() {
             setOnClickListener { reload() }
         }
         // like TiviMate: the app opens straight on the channel that was playing when it was closed
-        if (savedInstanceState == null && Prefs.ready && Prefs.lastChannel > 0 && App.prefs.getBoolean("open_last", true))
+        if (savedInstanceState == null && Prefs.ready && Prefs.lastChannel > 0 && App.prefs.getBoolean("open_last", true) &&
+            Api.byId[Prefs.lastChannel]?.let { c -> Parental.isLocked(c.group, Api.groups.firstOrNull { it.id == c.group }?.name ?: "") } != true)
             startActivity(Intent(this, LiveActivity::class.java).putExtra("channel", Prefs.lastChannel))
         lifecycleScope.launch {
             val clock = findViewById<TextView>(R.id.clock)
