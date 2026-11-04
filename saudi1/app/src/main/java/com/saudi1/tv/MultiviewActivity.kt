@@ -24,7 +24,11 @@ import kotlinx.coroutines.withContext
  *  OK = choose its channel · hold OK = that channel full screen · MENU = remove the channel. */
 class MultiviewActivity : BaseActivity() {
     private class Tile(val root: View, val pv: PlayerView, val player: ExoPlayer, val bar: View, val logo: ImageView,
-                       val name: TextView, val now: TextView, val sound: TextView, val empty: View) { var channel: Channel? = null }
+                       val name: TextView, val now: TextView, val sound: TextView, val empty: View) {
+        var channel: Channel? = null
+        var tries = 0
+        var lastPos = -1L; var still = 0
+    }
     private val tiles = ArrayList<Tile>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,12 +66,37 @@ class MultiviewActivity : BaseActivity() {
             }
             v.scaleX = 0.97f; v.scaleY = 0.97f; v.alpha = 0.82f
             tiles.add(t)
+            // a screen that fails or stops moving starts again by itself (then its other quality)
+            p.addListener(object : androidx.media3.common.Player.Listener {
+                override fun onPlayerError(error: androidx.media3.common.PlaybackException) { recover(t) }
+            })
+        }
+        lifecycleScope.launch {
+            while (true) {
+                kotlinx.coroutines.delay(4000)
+                for (t in tiles) {
+                    val c = t.channel ?: continue
+                    val pos = t.player.currentPosition
+                    if (t.player.playWhenReady && pos == t.lastPos) { if (++t.still >= 3) { t.still = 0; recover(t) } } else t.still = 0
+                    t.lastPos = pos
+                }
+            }
         }
         val first = Api.byId[intent.getIntExtra("channel", -1)]
         if (first != null) set(0, first)
         // the other tiles start with the last channels watched
         History.ids().filter { it != first?.id }.mapNotNull { Api.byId[it] }.take(n - 1).forEachIndexed { k, c -> set(k + 1, c) }
         tiles[0].root.post { tiles[0].root.requestFocus() }
+    }
+
+    private fun recover(t: Tile) {
+        val c = t.channel ?: return
+        t.tries++
+        val pick = if (t.tries % 2 == 0) Api.qualities(c).filter { it.id != c.id }.getOrNull(t.tries / 2 - 1) ?: light(c) else light(c)
+        t.now.text = if (t.tries > 4) "Not available right now" else "Reconnecting…"
+        if (t.tries > 6) return
+        t.player.setMediaItem(MediaItem.fromUri(Api.streamUrl(pick)))
+        t.player.prepare(); t.player.playWhenReady = true
     }
 
     private fun sound(i: Int) {
@@ -79,7 +108,7 @@ class MultiviewActivity : BaseActivity() {
 
     private fun set(i: Int, c: Channel?) {
         val t = tiles[i]
-        t.channel = c
+        t.channel = c; t.tries = 0; t.still = 0; t.lastPos = -1
         t.empty.visibility = if (c == null) View.VISIBLE else View.GONE
         t.bar.visibility = if (c == null) View.GONE else View.VISIBLE
         if (c == null) { t.player.stop(); t.player.clearMediaItems(); sound(tiles.indexOfFirst { it.root.hasFocus() }.coerceAtLeast(0)); return }

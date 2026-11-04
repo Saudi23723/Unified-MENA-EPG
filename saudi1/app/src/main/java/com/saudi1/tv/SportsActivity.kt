@@ -26,7 +26,7 @@ import java.util.Locale
  *  Amman, Dubai, London or Chicago alike. OK = watch (choose the channel), hold OK = remind me. */
 @SuppressLint("NotifyDataSetChanged", "SetTextI18n")
 class SportsActivity : BaseActivity() {
-    private class Match(val start: Long, val stop: Long, val title: String, val channels: MutableList<Channel>)
+    private class Match(val start: Long, val stop: Long, val title: String, val channels: MutableList<Channel>) { var live = false }
     private var items: List<Match> = emptyList()
     private lateinit var info: TextView
     private val d by lazy { resources.displayMetrics.density }
@@ -34,7 +34,10 @@ class SportsActivity : BaseActivity() {
     private val dayF = SimpleDateFormat("EEEE d MMMM", Locale.ENGLISH)
     private val adapter = A()
 
-    private val sportGroup = Regex("(?i)sport|bein|ssc|espn|dazn|sky sports|tnt sports|alkass|al kass|ad sports|abu dhabi sport|thmanyah|ثمانية|رياض|كأس|fox sports|nba|nfl|ufc|ppv|epl|premier|laliga|la liga|serie a|bundesliga|champions|starz.?play sport|shahid sport|alwan sport")
+    /** only the sports channels the owner chose (by channel or group name) */
+    private val sportChan = Regex("(?i)tnt\\s*sports?|sky\\s*sports?|\\btsn\\b|sportsnet|bein|ʙᴇɪɴ|thmanyah|thamanya|ثمانية|alwan|ألوان|الوان|fajer|فجر|shasha|شاشا|tabii|trt\\s*spor")
+    private val liveMark = Regex("(?i)\\blive\\b|مباشر|🔴|\\(l\\)|\\[l\\]|canlı|en vivo|en direct")
+    private val replayMark = Regex("(?i)\\breplay\\b|\\brepeat\\b|\\bdelayed\\b|\\(r\\)|\\[r\\]|إعادة|اعادة|مسجل|tekrar|rediffusion|\\bencore\\b")
     /** a match: two sides (Team A vs / v / × / x / ضد / - Team B) */
     private val matchTitle = Regex("(?i)\\S.*\\s(vs\\.?|v|×|x|ضد|–|-)\\s.*\\S")
     private val notMatch = Regex("(?i)\\b(news|highlights|magazine|review|preview|replay|classic|studio|show|talk|podcast|weekly|countdown)\\b|ملخص|إعادة|اعادة|استوديو|برنامج|أخبار|اخبار")
@@ -69,8 +72,9 @@ class SportsActivity : BaseActivity() {
     private fun load() = lifecycleScope.launch {
         val found = withContext(Dispatchers.IO) {
             if (Api.groups.isEmpty()) try { Api.load(cached = true) } catch (_: Exception) { }
-            val chans = Api.groups.filter { it.id != Api.FAV && it.id != Api.ALL && it.id != Api.SEARCH && sportGroup.containsMatchIn(it.name) }
-                .flatMap { it.channels }.filter { it.id > 0 }.distinctBy { it.id }
+            val chans = Api.groups.filter { it.id != Api.FAV && it.id != Api.SEARCH }
+                .flatMap { g -> g.channels.filter { c -> sportChan.containsMatchIn(c.name) || (g.id != Api.ALL && sportChan.containsMatchIn(g.name)) } }
+                .filter { it.id > 0 }.distinctBy { it.id }
             // one channel per quality family is enough to read the guide (4K / FHD / HD share it)
             val readers = chans.groupBy { Api.baseName(it.name) }.values.map { it.first() }.take(220)
             val now = System.currentTimeMillis() / 1000
@@ -79,10 +83,12 @@ class SportsActivity : BaseActivity() {
             readers.chunked(10).forEach { part ->
                 part.map { c -> async { c to Api.guide(c) } }.map { it.await() }.forEach { (c, list) ->
                     for (p in list) {
-                        if (p.stop <= now || p.start > until || !matchTitle.containsMatchIn(p.title) || notMatch.containsMatchIn(p.title)) continue
+                        if (p.stop <= now || p.start > until || !matchTitle.containsMatchIn(p.title) || notMatch.containsMatchIn(p.title) ||
+                            replayMark.containsMatchIn(p.title) || replayMark.containsMatchIn(p.desc)) continue  // recorded / replays are left out
                         val t = p.title.replace(Regex("(?i)^\\s*(live|مباشر)\\s*[:|-]?\\s*"), "").trim()
                         val k = (p.start / 300).toString() + "|" + t.lowercase().replace(Regex("[^\\p{L}\\p{N}]"), "")
                         val m = byKey.getOrPut(k) { Match(p.start, p.stop, t, ArrayList()) }
+                        if (liveMark.containsMatchIn(p.title) || liveMark.containsMatchIn(p.desc)) m.live = true
                         // every quality of that channel can play it
                         Api.qualities(c).forEach { q -> if (m.channels.none { it.id == q.id }) m.channels.add(q) }
                     }
@@ -132,7 +138,7 @@ class SportsActivity : BaseActivity() {
             val today = dayF.format(Date()); val tomorrow = dayF.format(Date(System.currentTimeMillis() + 86_400_000))
             h.day.text = when (dd) { today -> "Today · $dd"; tomorrow -> "Tomorrow · $dd"; else -> dd }
             h.time.text = timeF.format(Date(m.start * 1000))
-            h.title.text = m.title
+            h.title.text = (if (m.live) "🔴 " else "") + m.title
             h.desc.text = m.channels.take(4).joinToString("  ·  ") { it.name } + if (m.channels.size > 4) "  +${m.channels.size - 4}" else ""
             val nowS = System.currentTimeMillis() / 1000
             val live = nowS in m.start until m.stop
