@@ -257,18 +257,31 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
         b.next.isEnabled = index < count - 1
         if (count >= 2) b.pageSlider.value = (index + 1).toFloat()
         // Render at twice the screen width so text stays sharp when zoomed in.
-        val width = (maxOf(b.page.width, resources.displayMetrics.widthPixels) * 2).coerceAtMost(3000)
+        // A TV (little memory, seen from afar) gets a page one and a half times its width; a phone twice.
+        val tv = tvHint != null
+        val width = if (tv) (resources.displayMetrics.widthPixels * 1.5f).toInt().coerceAtMost(2400)
+            else (maxOf(b.page.width, resources.displayMetrics.widthPixels) * 2).coerceAtMost(3000)
         lifecycleScope.launch {
             val bmp = withContext(pdfThread) {
                 try {
                     if (renderer == null) return@withContext null
                     val page = r.openPage(index)
                     try {
-                        val h = (width.toFloat() * page.height / page.width).toInt().coerceIn(1, 6000)
-                        Bitmap.createBitmap(width, h, Bitmap.Config.ARGB_8888).also {
-                            it.eraseColor(Color.WHITE)
-                            page.render(it, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY)
+                        // Short of memory: the page again at half the size, rather than the app closing.
+                        var w = width
+                        var out: Bitmap? = null
+                        while (out == null && w >= 600) {
+                            val h = (w.toFloat() * page.height / page.width).toInt().coerceIn(1, 6000)
+                            out = try {
+                                Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888).also {
+                                    it.eraseColor(Color.WHITE)
+                                    page.render(it, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY)
+                                }
+                            } catch (e: OutOfMemoryError) {
+                                System.gc(); w /= 2; null
+                            }
                         }
+                        out
                     } finally {
                         page.close()
                     }
@@ -283,7 +296,8 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
                 b.page.setImageBitmap(bmp)
                 refreshUndo()
                 refreshBookmark()
-                loadLetters(index)
+                // Letters are for selecting words with a finger; a TV has none to spare memory on.
+                if (tvHint == null) loadLetters(index)
             }
         }
     }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- A row in focus (the TV remote's) lit with a blue edge; a touch ripples as before. -->
+<!-- A row in focus (the TV remote's) lit with a blue edge; pressed, a soft wash. Plain colours only. -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_focused="true">
         <shape android:shape="rectangle">
@@ -8,5 +8,13 @@
             <corners android:radius="12dp" />
         </shape>
     </item>
-    <item android:drawable="?attr/selectableItemBackground" />
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <solid android:color="#222E9BFF" />
+            <corners android:radius="12dp" />
+        </shape>
+    </item>
+    <item>
+        <color android:color="#00000000" />
+    </item>
 </selector>
