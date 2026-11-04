@@ -128,7 +128,22 @@ class SportsActivity : BaseActivity() {
             if (k.length < 3) continue
             all[k]?.forEach { c -> if (out.none { it.id == c.id }) out.add(c) }
         }
-        return out
+        // owner, 4 Nov 2026: Alwan and Fajer first, then beIN, TNT, Sky, TSN, Fox, CBS; inside each: HEVC / RAW, 4K, FHD, HD, SD
+        return out.sortedWith(compareBy({ brand(it.name) }, { tier(it.name) })).toMutableList()
+    }
+
+    private val brands = listOf(Regex("(?i)alwan|ألوان"), Regex("(?i)fajer|fajr|الفجر"), Regex("(?i)\\bbe ?in\\b"),
+        Regex("(?i)\\btnt\\b"), Regex("(?i)\\bsky\\b"), Regex("(?i)\\btsn"), Regex("(?i)\\bfox\\b"), Regex("(?i)\\bcbs\\b"))
+    private fun brand(n: String) = brands.indexOfFirst { it.containsMatchIn(n) }.let { if (it < 0) brands.size else it }
+    private fun tier(n: String): Int {
+        val u = java.text.Normalizer.normalize(n, java.text.Normalizer.Form.NFKC).uppercase()
+        return when {
+            Regex("\\b(HEVC|H265|RAW)\\b").containsMatchIn(u) -> 0
+            Regex("\\b(4K|UHD|8K|2160P?|3840P?)\\b").containsMatchIn(u) -> 1
+            Regex("\\b(FHD|1080P?)\\b").containsMatchIn(u) -> 2
+            Regex("\\b(SD|LQ|LOW|LITE)\\b").containsMatchIn(u) -> 4
+            else -> 3
+        }
     }
 
     private fun key(n: String) = Api.baseName(n).replace("SPORT", "").replace("ENGLISH", "EN").replace("الكأس", "ALKASS").replace("ALKAS", "ALKASS")

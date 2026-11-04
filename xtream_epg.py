@@ -122,28 +122,6 @@ def shown(g: str, playlist: str) -> str:
     return g.rstrip() + MARK.get(playlist, "")
 
 
-# beIN Sports TURKEY (owner, 4 Nov 2026): every beIN Sports channel in a Turkish group takes the repo's Turkey
-# guide (bein_sports_turkey_epg.xml), never the Qatar one; the Qatar channels keep theirs.
-_TR_GROUP = re.compile(r"🇹🇷|^\s*TR\s*\||\bTURKEY\b|\bT[UÜ]RK|ᵀᴿ", re.I)
-
-
-def turkey_bein(name, group):
-    if not _TR_GROUP.search(group):
-        return None
-    n = " ".join(name.upper().split())
-    if not re.search(r"\bBE ?IN\b", n) or re.search(r"MOVIE|SERIES|BOX OFFICE|IZ\b|GURME|CONNECT|INFO", n):
-        return None
-    if "HABER" in n:
-        return ("r", "bein_sports_turkey_epg/beINSPORTSHABER.tr")
-    m = re.search(r"\bMAX\s*([12])\b", n)
-    if m:
-        return ("r", f"bein_sports_turkey_epg/beINSPORTSMAX{m.group(1)}.tr")
-    m = re.search(r"\bSPORTS?\s*([1-5])\b", n)
-    if m and "XTRA" not in n and "EXTRA" not in n:
-        return ("r", f"bein_sports_turkey_epg/beINSPORTS{m.group(1)}.tr")
-    return None
-
-
 # 1) channel lists -> Xtream answers + what guides are needed
 want = {"u": set(), "o": set(), "a": set(), "r": set(), "l": set(), "e": set(), "f": set()}
 # channels that loop series / films around the clock and have no guide anywhere (Shoof Max, OSN, Netflix
@@ -181,8 +159,7 @@ for f in sorted(glob.glob("xtream/*/channel_map.json")):
             catid[g] = str(i + 1)
     streams, bycat, mp = [], {}, {}
     for n, c in enumerate(chans, 1):
-        sp = turkey_bein(c["name"], c["group"]) or \
-            split(official_fill.override(c["name"]) or c.get("epg") or official_fill.fill(c["name"], c["group"]))
+        sp = split(official_fill.override(c["name"]) or c.get("epg") or official_fill.fill(c["name"], c["group"]))
         if not sp and not xtream_order.EVENT_GROUP.search(c["group"]) and (FILLER_247.search(c["group"]) or "24/7" in c["name"]) \
                 and not NOT_247.search(c["group"] + " " + c["name"]):
             sp = ("f", "247")
