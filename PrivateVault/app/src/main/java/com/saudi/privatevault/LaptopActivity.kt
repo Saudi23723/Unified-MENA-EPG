@@ -129,6 +129,7 @@ class LaptopActivity : BaseActivity() {
                     val gone = VaultStore.items.filter { "phone:" + it.id in result.deleted }
                     for (g in gone) VaultStore.deleteItem(g)
                     loaded = true
+                    supportActionBar?.subtitle = getString(if (LaptopClient.isCloud(this@LaptopActivity)) R.string.vault_cloud else R.string.vault_laptop)
                     render()
                 }
                 is LaptopClient.NotAuthorized -> {
@@ -142,6 +143,15 @@ class LaptopActivity : BaseActivity() {
                         b.empty.setText(R.string.laptop_offline)
                     } else {
                         Toast.makeText(this@LaptopActivity, R.string.laptop_offline_short, Toast.LENGTH_SHORT).show()
+                    }
+                    // No cloud signed in on this device yet: the files need the laptop on. Offer to link the cloud.
+                    if (LaptopClient.known(this@LaptopActivity).none { it.startsWith("https") }) {
+                        MaterialAlertDialogBuilder(this@LaptopActivity)
+                            .setTitle(R.string.cloud_link_title)
+                            .setMessage(R.string.cloud_link_msg)
+                            .setPositiveButton(R.string.cloud_link_now) { _, _ -> connectDialog() }
+                            .setNegativeButton(R.string.cancel, null)
+                            .show()
                     }
                 }
             }

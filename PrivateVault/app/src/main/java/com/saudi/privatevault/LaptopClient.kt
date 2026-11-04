@@ -104,6 +104,7 @@ object LaptopClient {
                 200 -> {
                     val token = JSONObject(conn.inputStream.bufferedReader().readText()).getString("token")
                     VaultLock.prefs(ctx).edit().putString("laptop_url", url).putString("laptop_token", token).apply()
+                    remember(ctx, url, token)
                     LoginResult.Ok
                 }
                 403, 429 -> {
@@ -123,7 +124,56 @@ object LaptopClient {
         }
     }
 
-    fun index(ctx: Context): Index {
+    // ---- more than one vault: the cloud and the laptop, each with its own sign-in ----
+
+    private fun links(ctx: Context): JSONObject = try { JSONObject(VaultLock.prefs(ctx).getString("vault_links", "{}")!!) } catch (e: Exception) { JSONObject() }
+
+    /** Every vault this device has signed in to, kept so another can stand in when one is off. */
+    private fun remember(ctx: Context, url: String, token: String) {
+        val l = links(ctx).put(url, token)
+        VaultLock.prefs(ctx).edit().putString("vault_links", l.toString()).apply()
+    }
+
+    /** The vaults known, the cloud (https) first. */
+    fun known(ctx: Context): List<String> {
+        val l = links(ctx)
+        url(ctx)?.let { u -> token(ctx)?.let { if (!l.has(u)) remember(ctx, u, it) } }
+        return links(ctx).keys().asSequence().toList().sortedBy { if (it.startsWith("https")) 0 else 1 }
+    }
+
+    /**
+     * The vault in use does not answer (the laptop is off): the first other one that
+     * does, the cloud first, becomes the one in use. True when one was found.
+     */
+    fun failover(ctx: Context): Boolean {
+        val now = url(ctx)
+        val l = links(ctx)
+        for (u in known(ctx)) {
+            if (u == now) continue
+            val t = l.optString(u).ifEmpty { continue }
+            val ok = try {
+                val c = open("$u/api/status", t).apply { connectTimeout = 6000; readTimeout = 8000 }
+                try { c.responseCode == 200 } finally { c.disconnect() }
+            } catch (e: Exception) { false }
+            if (ok) {
+                VaultLock.prefs(ctx).edit().putString("laptop_url", u).putString("laptop_token", t).apply()
+                return true
+            }
+        }
+        return false
+    }
+
+    fun isCloud(ctx: Context) = url(ctx)?.startsWith("https") == true
+
+    fun index(ctx: Context): Index = try {
+        indexOnce(ctx)
+    } catch (e: NotAuthorized) {
+        throw e
+    } catch (e: IOException) {
+        if (failover(ctx)) indexOnce(ctx) else throw e
+    }
+
+    private fun indexOnce(ctx: Context): Index {
         val base = url(ctx) ?: throw NotAuthorized()
         val status = getJson(ctx, "$base/api/status")
         val json = getJson(ctx, "$base/api/index")

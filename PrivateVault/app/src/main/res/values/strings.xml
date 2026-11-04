@@ -82,9 +82,8 @@
 
     <string name="laptop">اللابتوب والسحابة</string>
     <string name="laptop_loading">جاري الاتصال باللابتوب…</string>
-    <string name="laptop_offline">تعذر الوصول إلى اللابتوب.
-تأكد أن خزنتي شغّالة على اللابتوب وأن الهاتف على نفس الواي فاي، ثم اختر «تحديث» من القائمة.</string>
-    <string name="laptop_offline_short">تعذر الوصول إلى اللابتوب</string>
+    <string name="laptop_offline">ما في رد من الخزنة. إذا مربوط باللابتوب لازم يكون شغّال؛ اربط الـ Cloud (عنوانه بيبلّش بـ https) لتشتغل الملفات بدون اللابتوب.</string>
+    <string name="laptop_offline_short">ما في رد من الخزنة</string>
     <string name="laptop_empty">لا يوجد شيء هنا.
 اسحب الملفات إلى نافذة خزنتي على اللابتوب.</string>
     <string name="laptop_relink">انتهى الربط، أدخل كلمة السر مرة أخرى</string>
@@ -748,6 +747,11 @@
     <string name="eye_l1">خفيف</string>
     <string name="eye_l2">متوسط</string>
     <string name="eye_l3">قوي</string>
+    <string name="cloud_link_title">اربط الـ Cloud</string>
+    <string name="cloud_link_msg">هالجهاز مربوط باللابتوب بس، فالملفات بتحتاجه شغّال. اربط الـ Cloud مرة وحدة (نفس عنوانه وكلمة سره)، وبعدها التطبيق بيستعمله لحاله لما اللابتوب طافي.</string>
+    <string name="cloud_link_now">اربط الـ Cloud</string>
+    <string name="vault_cloud">☁️ الـ Cloud</string>
+    <string name="vault_laptop">💻 اللابتوب</string>
     <string name="map_circle">دائرة</string>
     <string name="map_ruler">مسطرة</string>
     <string name="pen_write">كتابة وتظليل</string>

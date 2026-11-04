@@ -75,9 +75,8 @@
     <string name="details_text">Name: %1$s\nType: %2$s\nSize: %3$s\nAdded: %4$s</string>
     <string name="laptop">Laptop and cloud</string>
     <string name="laptop_loading">Connecting to the laptop…</string>
-    <string name="laptop_offline">Can\'t reach the laptop.
-Make sure Khazanti is running on the laptop and the phone is on the same Wi-Fi, then choose Refresh from the menu.</string>
-    <string name="laptop_offline_short">Can\'t reach the laptop</string>
+    <string name="laptop_offline">The vault is not answering. Linked to the laptop, it must be on; link the cloud (an https address) so files work without the laptop.</string>
+    <string name="laptop_offline_short">The vault is not answering</string>
     <string name="laptop_empty">Nothing here.
 Drag files onto the Khazanti window on the laptop.</string>
     <string name="laptop_relink">The link expired, enter the password again</string>
@@ -734,6 +733,11 @@ or tap an airport → Add to route, or long-press anywhere on the chart.</string
     <string name="eye_l1">Light</string>
     <string name="eye_l2">Medium</string>
     <string name="eye_l3">Strong</string>
+    <string name="cloud_link_title">Link the cloud</string>
+    <string name="cloud_link_msg">This device is linked to the laptop only, so the files need it on. Link the cloud once (its address and password), and the app uses it by itself whenever the laptop is off.</string>
+    <string name="cloud_link_now">Link the cloud</string>
+    <string name="vault_cloud">☁️ Cloud</string>
+    <string name="vault_laptop">💻 Laptop</string>
     <string name="map_circle">Circle</string>
     <string name="map_ruler">Ruler</string>
     <string name="pen_write">Write and highlight</string>
