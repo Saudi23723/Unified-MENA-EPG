@@ -182,6 +182,9 @@ class MapActivity : BaseActivity(), NeonHost {
         draw.showMeasures = prefs.getBoolean("map_measures", true)
         map.overlays.add(draw)
         ownship = OwnshipOverlay(map, airplane()).apply { onUserPan = { if (following) follow() } }
+        glide = GlideRing(map, { if (gotGps) ownship.position() else null }, { if (lastAlt.isNaN()) null else lastAlt })
+        glide.ratio = prefs.getString("glide_ratio", "")?.toDoubleOrNull() ?: 0.0
+        map.overlays.add(glide)
         map.overlays.add(ownship)
         traffic = TrafficOverlay(map) { ownship.fix?.takeIf { it.hasAltitude() && gotGps }?.altitude?.times(3.28084) }.apply {
             near = { t -> trafficClose(t) != null }
@@ -852,12 +855,77 @@ class MapActivity : BaseActivity(), NeonHost {
     }
 
     /** The second HUD line: the waypoint ahead, its bearing, distance, time and ETA. */
+    /**
+     * Where the aeroplane is, as said on the radio: the nearest airport, how far
+     * and which way from it, and the altitude; read aloud on request.
+     */
+    private fun positionReport() {
+        val here = ownship.position() ?: run { Toast.makeText(this, R.string.map_no_gps, Toast.LENGTH_LONG).show(); return }
+        val a = airports.minByOrNull { Nav.distanceNm(here.latitude, here.longitude, it.lat, it.lon) } ?: return
+        val dist = Nav.distanceNm(a.lat, a.lon, here.latitude, here.longitude)
+        val brg = Nav.bearingTrue(a.lat, a.lon, here.latitude, here.longitude)
+        val dirs = arrayOf("north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest")
+        val dir = dirs[(((brg + 22.5) % 360) / 45).toInt()]
+        val alt = if (lastAlt.isNaN()) null else (Math.round(lastAlt / 100) * 100).toInt()
+        val call = prefs.getString("callsign", "")?.ifEmpty { null } ?: getString(R.string.pos_callsign)
+        val name = a.name.lowercase().split(' ').joinToString(" ") { it.replaceFirstChar { c -> c.uppercase() } }
+        val text = "$name traffic, $call, " + (if (dist < 1.5) "over the field" else "%.0f miles $dir".format(dist)) +
+            (alt?.let { ", %,d".format(it) } ?: "") + ", $name."
+        val input = android.widget.EditText(this).apply { setText(prefs.getString("callsign", "")); hint = getString(R.string.pos_callsign_hint) }
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.pos_report)
+            .setMessage(text + "\n\n" + getString(R.string.pos_note))
+            .setView(android.widget.FrameLayout(this).apply { setPadding(dp(20), 0, dp(20), 0); addView(input) })
+            .setPositiveButton(R.string.pos_speak) { _, _ ->
+                prefs.edit().putString("callsign", input.text.toString().trim()).apply()
+                Voice.say(this, "pos" + System.currentTimeMillis(), text, 0)
+            }
+            .setNeutralButton(R.string.pos_save) { _, _ -> prefs.edit().putString("callsign", input.text.toString().trim()).apply() }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
+    /** The glide ratio from the POH, so the ring can be drawn; empty takes it off. */
+    private fun askGlide() {
+        val input = android.widget.EditText(this).apply {
+            inputType = android.text.InputType.TYPE_CLASS_NUMBER or android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL
+            setText(prefs.getString("glide_ratio", "")); hint = "e.g. from the POH"
+        }
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.glide_menu)
+            .setMessage(R.string.glide_msg)
+            .setView(android.widget.FrameLayout(this).apply { setPadding(dp(20), 0, dp(20), 0); addView(input) })
+            .setPositiveButton(R.string.ok) { _, _ ->
+                prefs.edit().putString("glide_ratio", input.text.toString().trim()).apply()
+                glide.ratio = input.text.toString().toDoubleOrNull() ?: 0.0
+                map.invalidate()
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
+    /** A tap on the line to the waypoint: take the Direct-To off, clear the whole route, or see the nav log. */
+    private fun routeMenu() {
+        val opts = arrayOf(getString(R.string.plan_cancel_direct), getString(R.string.plan_clear), getString(R.string.plan_title))
+        MaterialAlertDialogBuilder(this).setTitle(R.string.route_line).setItems(opts) { _, i ->
+            when (i) {
+                0 -> plan.direct = null
+                1 -> { plan.points.clear(); plan.direct = null; plan.active = 1 }
+                2 -> { navLog(); return@setItems }
+            }
+            plan.save(this)
+            updateNav()
+            map.invalidate()
+        }.show()
+    }
+
     private fun updateNav() {
+        if (!b.hudNav.hasOnClickListeners()) b.hudNav.setOnClickListener { routeMenu() }
         val t = plan.target()
         val here = ownship.position()
         if (t == null || here == null) {
             b.hudNav.visibility = if (t != null) View.VISIBLE else View.GONE
-            if (t != null) b.hudNav.text = "→ ${t.id}"
+            if (t != null) b.hudNav.text = "→ ${t.id}   ✕"
             return
         }
         val dist = Nav.distanceNm(here.latitude, here.longitude, t.lat, t.lon)
@@ -866,7 +934,7 @@ class MapActivity : BaseActivity(), NeonHost {
         val ete = if (gs > 20) dist / gs * 60 else Double.NaN
         val eta = if (ete.isNaN()) "--:--" else java.text.SimpleDateFormat("HH:mm", java.util.Locale.US)
             .format(java.util.Date(System.currentTimeMillis() + (ete * 60000).toLong()))
-        b.hudNav.text = "→ %s  BRG %sM  %.1f nm  ETE %s  ETA %s".format(t.id, Nav.deg(brg), dist,
+        b.hudNav.text = "→ %s  BRG %sM  %.1f nm  ETE %s  ETA %s   ✕".format(t.id, Nav.deg(brg), dist,
             if (ete.isNaN()) "--:--" else FlightPlan.hm(ete), eta)
         b.hudNav.visibility = View.VISIBLE
         if (dist < 2 && gs > 30) Voice.say(this, "wp" + t.id, "Approaching ${t.id.toCharArray().joinToString(" ")}, two miles.", 600)
@@ -883,6 +951,7 @@ class MapActivity : BaseActivity(), NeonHost {
     private var lm: LocationManager? = null
     private var gotGps = false
     private var lastAlt = Double.NaN
+    private lateinit var glide: GlideRing
     private var lastAltAt = 0L
     private var vs = 0.0
     private val listener = LocationListener { l -> onFix(l) }
@@ -1704,6 +1773,8 @@ class MapActivity : BaseActivity(), NeonHost {
             it.icon?.setTint(EfbUi.TEXT)
         }
         menu.add(0, 20, 0, "NRST").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+        menu.add(0, 36, 0, R.string.pos_report)
+        menu.add(0, 37, 0, R.string.glide_menu)
         menu.add(0, 30, 0, R.string.freq_title)
         menu.add(0, 31, 0, R.string.notes_title)
         menu.add(0, 32, 0, R.string.charts_title)
@@ -1757,6 +1828,8 @@ class MapActivity : BaseActivity(), NeonHost {
             34 -> { setPilotage(!pilotage); item.isChecked = pilotage }
             35 -> startActivity(android.content.Intent(this, EfbCheckActivity::class.java))
             31 -> if (NotePad.isOpen()) NotePad.close(this) else Notebooks.choose(this, null)
+            36 -> positionReport()
+            37 -> askGlide()
             30 -> {
                 val here = ownship.position() ?: map.mapCenter as GeoPoint
                 FrequenciesActivity.open(this, null, here.latitude, here.longitude, plan.points.map { it.id })

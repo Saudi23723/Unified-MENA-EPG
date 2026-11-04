@@ -103,6 +103,13 @@ class InkLayer(ctx: Context, private val file: File) : View(ctx) {
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(e: MotionEvent): Boolean {
+        // The pen's side button rubs out, whatever tool is chosen.
+        if (Stylus.erasing(e)) {
+            parent?.requestDisallowInterceptTouchEvent(true)
+            current = null
+            if (e.actionMasked == MotionEvent.ACTION_DOWN || e.actionMasked == MotionEvent.ACTION_MOVE) erase(e.x, e.y)
+            return true
+        }
         if (tool == Tool.NONE) return false
         parent?.requestDisallowInterceptTouchEvent(true)
         val x = e.x; val y = e.y

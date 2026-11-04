@@ -203,29 +203,39 @@ class EfbHomeActivity : BaseActivity() {
 
     private fun isRtl() = resources.configuration.layoutDirection == View.LAYOUT_DIRECTION_RTL
 
-    /** The tab bar at the bottom: home, maps, airports, logbook, checklists. */
+    /** The tab bar at the bottom, as an EFB's: home, map, airports, logbook, scratch pad, more. */
     private fun tabBar() {
         val scroll = col.parent as? View ?: return
         val root = scroll.parent as? LinearLayout ?: return
         root.addView(View(this).apply { setBackgroundColor(EfbUi.CARD_LINE) }, LinearLayout.LayoutParams(-1, 1))
         val bar = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
             setBackgroundColor(EfbUi.BAR)
-            setPadding(0, dp(6), 0, dp(6))
+            setPadding(dp(4), dp(6), dp(4), dp(8))
         }
         for ((i, t) in listOf(
             Triple(R.drawable.ic_compass, R.string.home_tab_home) { },
             Triple(R.drawable.ic_map, R.string.efb_map) { open(MapActivity::class.java) },
             Triple(R.drawable.ic_search, R.string.home_tab_airports) { searchAirport { a -> startActivity(Intent(this, MapActivity::class.java).putExtra(MapActivity.EXTRA_AIRPORT, a.ident)) } },
             Triple(R.drawable.ic_doc, R.string.log_title) { open(LogbookActivity::class.java) },
-            Triple(R.drawable.ic_check, R.string.ck_title) { open(ChecklistActivity::class.java) },
+            Triple(R.drawable.ic_fab_pencil, R.string.notes_title) { open(ScratchPadActivity::class.java) },
+            Triple(R.drawable.ic_more, R.string.set_title) { open(SettingsActivity::class.java) },
         ).withIndex()) {
-            val color = if (i == 0) EfbUi.ACCENT else EfbUi.DIM
+            val on = i == 0
+            val color = if (on) EfbUi.ACCENT else EfbUi.DIM
             val cell = LinearLayout(this).apply {
                 orientation = LinearLayout.VERTICAL
-                gravity = Gravity.CENTER
-                addView(android.widget.ImageView(this@EfbHomeActivity).apply { setImageResource(t.first); setColorFilter(color) }, LinearLayout.LayoutParams(dp(22), dp(22)))
-                addView(EfbUi.text(this@EfbHomeActivity, label(t.second), 10.5f, color).apply { maxLines = 1; setPadding(0, dp(2), 0, 0) })
+                gravity = Gravity.CENTER_HORIZONTAL
+                // The tab in use: its icon on a soft pill, as Material and the EFBs mark it.
+                addView(android.widget.ImageView(this@EfbHomeActivity).apply {
+                    setImageResource(t.first); setColorFilter(color)
+                    setPadding(dp(16), dp(4), dp(16), dp(4))
+                    if (on) background = GradientDrawable().apply { cornerRadius = dp(16).toFloat(); setColor((EfbUi.ACCENT and 0x00FFFFFF) or 0x2E000000) }
+                }, LinearLayout.LayoutParams(dp(58), dp(30)))
+                addView(EfbUi.text(this@EfbHomeActivity, label(t.second), 11f, color, bold = on).apply {
+                    gravity = Gravity.CENTER; maxLines = 1; ellipsize = android.text.TextUtils.TruncateAt.END; setPadding(dp(2), dp(3), dp(2), 0)
+                }, LinearLayout.LayoutParams(-1, -2))
                 setOnClickListener { t.third() }
             }
             bar.addView(cell, LinearLayout.LayoutParams(0, -2, 1f))

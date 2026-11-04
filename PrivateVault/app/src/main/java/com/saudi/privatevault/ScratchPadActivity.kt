@@ -278,8 +278,8 @@ class ScratchPadActivity : BaseActivity() {
             val x = e.x / width; val y = e.y / width
             val list = pages.getOrPut(tab) { ArrayList() }
             when (e.actionMasked) {
-                MotionEvent.ACTION_DOWN -> if (kind == 3) erase(list, x, y) else cur = arrayListOf(x, y)
-                MotionEvent.ACTION_MOVE -> if (kind == 3) erase(list, x, y) else cur?.let { cu ->
+                MotionEvent.ACTION_DOWN -> if (kind == 3 || Stylus.erasing(e)) erase(list, x, y) else cur = arrayListOf(x, y)
+                MotionEvent.ACTION_MOVE -> if (kind == 3 || Stylus.erasing(e)) { cur = null; erase(list, x, y) } else cur?.let { cu ->
                     for (h in 0 until e.historySize) { cu.add(e.getHistoricalX(h) / width); cu.add(e.getHistoricalY(h) / width) }
                     cu.add(x); cu.add(y)
                 }

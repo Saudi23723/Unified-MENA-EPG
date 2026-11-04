@@ -266,6 +266,11 @@ class MapDrawOverlay(private val map: MapView) : Overlay() {
     }
 
     override fun onTouchEvent(e: MotionEvent, mapView: MapView): Boolean {
+        // The pen's side button (or its eraser end) rubs out drawings whatever the tool.
+        if (Stylus.erasing(e) && marks.isNotEmpty()) {
+            if (e.actionMasked == MotionEvent.ACTION_DOWN || e.actionMasked == MotionEvent.ACTION_MOVE) { erase(e); map.invalidate() }
+            return true
+        }
         if (tool == MapTool.PAN) return false
         // Two fingers always move and zoom the map.
         if (e.pointerCount > 1) {

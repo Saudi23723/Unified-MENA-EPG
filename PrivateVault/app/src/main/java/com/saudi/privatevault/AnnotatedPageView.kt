@@ -320,7 +320,8 @@ class AnnotatedPageView @JvmOverloads constructor(
             fingerDraws = false
             onStylusSeen?.invoke()
         }
-        val writing = tool != Tool.HAND && (stylus || fingerDraws)
+        // The pen's side button erases even with the hand tool in use.
+        val writing = (tool != Tool.HAND && (stylus || fingerDraws)) || Stylus.erasing(event)
         if (event.actionMasked == MotionEvent.ACTION_DOWN) navigating = !writing
         // A second finger while writing with a finger means zoom or pan instead.
         if (!navigating && !stylus && event.pointerCount > 1) {
@@ -331,8 +332,7 @@ class AnnotatedPageView @JvmOverloads constructor(
         }
         if (navigating) return super.onTouchEvent(event)
 
-        val erasing = tool == Tool.ERASER || type == MotionEvent.TOOL_TYPE_ERASER ||
-            (stylus && event.buttonState and MotionEvent.BUTTON_STYLUS_PRIMARY != 0)
+        val erasing = tool == Tool.ERASER || Stylus.erasing(event)
         parent?.requestDisallowInterceptTouchEvent(true)
         if (grab(event, erasing)) {
             invalidate()

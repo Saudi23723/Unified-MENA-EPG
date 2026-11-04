@@ -177,12 +177,13 @@ class NoteCanvas(ctx: Context, val book: NoteBook) : View(ctx) {
         parent?.requestDisallowInterceptTouchEvent(true)
         val x = (e.x - box.left) / scale
         val y = (e.y - box.top) / scale
+        val rub = tool == NotePad.Tool.ERASER || Stylus.erasing(e)
         when (e.actionMasked) {
             MotionEvent.ACTION_DOWN -> {
-                if (tool == NotePad.Tool.ERASER) erase(x, y) else current = arrayListOf(x, y)
+                if (rub) erase(x, y) else current = arrayListOf(x, y)
             }
             MotionEvent.ACTION_MOVE -> {
-                if (tool == NotePad.Tool.ERASER) erase(x, y)
+                if (rub) { current = null; erase(x, y) }
                 else current?.let { cur ->
                     for (h in 0 until e.historySize) { cur.add((e.getHistoricalX(h) - box.left) / scale); cur.add((e.getHistoricalY(h) - box.top) / scale) }
                     cur.add(x); cur.add(y)
