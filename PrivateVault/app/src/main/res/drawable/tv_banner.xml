@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The Android TV banner: the app's mark on a dusk-blue sky. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <gradient android:angle="315" android:startColor="#FF0B1A33" android:centerColor="#FF153A6B" android:endColor="#FF1F6FC4" />
+            <size android:width="320dp" android:height="180dp" />
+        </shape>
+    </item>
+    <item android:drawable="@drawable/ic_launcher_foreground" android:gravity="center" android:width="150dp" android:height="150dp" />
+</layer-list>
