@@ -124,7 +124,14 @@ open class BaseActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (this !is HomeActivity) cameBack = false   // came back straight onto this screen: nothing to jump to
+        // the app opened again from the TV's home screen: it starts on the SAUDI.TV home page (owner, 4 Nov 2026),
+        // unless "Start on the last channel" is on in Settings
+        if (cameBack && this !is HomeActivity) {
+            cameBack = false
+            if (!App.prefs.getBoolean("open_last", false)) {
+                startActivity(Intent(this, HomeActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP))
+            }
+        }
         applyDim()
         watch = lifecycleScope.launch {
             while (isActive) {

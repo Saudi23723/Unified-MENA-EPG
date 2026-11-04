@@ -111,6 +111,8 @@ class LiveActivity : BaseActivity() {
         player.addListener(object : Player.Listener {
             override fun onPlayerError(error: PlaybackException) {
                 val c = playing ?: return
+                // fell behind the live edge (HLS): jump back to live, no error for the viewer
+                if (error.errorCode == PlaybackException.ERROR_CODE_BEHIND_LIVE_WINDOW) { player.seekToDefaultPosition(); player.prepare(); return }
                 // 1st: the same link again (a provider "500" is often a busy moment); 2nd: the channel's HLS link
                 // (some channels are sent as HLS on the .ts address: "no extractor could read the stream"); then give up
                 when (tries++) {
@@ -144,6 +146,18 @@ class LiveActivity : BaseActivity() {
             while (isActive) { val t = clockF.format(Date()); clock.text = t; bClock.text = t; fullClock.text = t; delay(5_000) }
         }
         lifecycleScope.launch { start() }
+        // a picture that stops moving (the provider's stream stalls) starts again by itself
+        lifecycleScope.launch {
+            var last = -1L; var still = 0
+            while (isActive) {
+                delay(3000)
+                val c = playing
+                if (c == null || !player.playWhenReady || player.playbackState == Player.STATE_IDLE || player.playbackState == Player.STATE_ENDED) { still = 0; last = -1; continue }
+                val pos = player.currentPosition
+                if (pos == last) { if (++still >= 3) { still = 0; last = -1; start(c); continue } } else still = 0
+                last = pos
+            }
+        }
     }
 
     override fun onNewIntent(intent: Intent) {

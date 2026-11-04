@@ -59,7 +59,7 @@ class SettingsActivity : BaseActivity() {
         }
         val clock = App.prefs.getBoolean("clock", true)
         row("Clock on the picture", if (clock) "On" else "Off") { App.prefs.edit().putBoolean("clock", !clock).apply(); build() }
-        val openLast = App.prefs.getBoolean("open_last", true)
+        val openLast = App.prefs.getBoolean("open_last", false)
         row("Start on the last channel", if (openLast) "On" else "Off") { App.prefs.edit().putBoolean("open_last", !openLast).apply(); build() }
         val zapInvert = App.prefs.getBoolean("zap_invert", false)
         row("Channel change with ▲ / ▼", if (zapInvert) "▲ previous · ▼ next" else "▲ next · ▼ previous") {

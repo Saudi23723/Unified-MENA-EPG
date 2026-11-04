@@ -67,11 +67,11 @@ class HomeActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        // opened again from the TV's home screen: straight back to the channel that was on (like TiviMate)
+        // only when "Start on the last channel" is on: straight to the channel that was on
         val fresh = !resumedOnce; resumedOnce = true
         if (fresh || BaseActivity.cameBack) {
             BaseActivity.cameBack = false
-            if (Prefs.ready && App.prefs.contains("last_channel") && App.prefs.getBoolean("open_last", true)) {
+            if (Prefs.ready && App.prefs.contains("last_channel") && App.prefs.getBoolean("open_last", false)) {
                 startActivity(Intent(this, LiveActivity::class.java).putExtra("channel", Prefs.lastChannel)); return
             }
         }
