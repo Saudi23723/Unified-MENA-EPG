@@ -5,7 +5,7 @@
     android:background="@drawable/multi_bg" android:focusable="true" android:clickable="true" android:padding="3dp">
     <FrameLayout android:id="@+id/clip" android:layout_width="match_parent" android:layout_height="match_parent" android:background="#05070B">
         <androidx.media3.ui.PlayerView android:id="@+id/pv" android:layout_width="match_parent" android:layout_height="match_parent"
-            app:use_controller="false" app:resize_mode="fit" app:surface_type="texture_view" app:shutter_background_color="#05070B"
+            app:use_controller="false" app:resize_mode="fit" app:surface_type="surface_view" app:shutter_background_color="#05070B"
             app:show_buffering="when_playing" android:focusable="false"/>
         <TextView android:id="@+id/empty" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center"
             android:gravity="center" android:text="＋\nAdd a channel" android:textColor="@color/text2" android:textSize="20sp" android:textStyle="bold"/>

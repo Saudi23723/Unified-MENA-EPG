@@ -515,15 +515,18 @@ class LiveActivity : BaseActivity() {
 
     private fun openGroups() {
         groupsPanel.visibility = View.VISIBLE
-        if (overlay) groupsPanel.setBackgroundResource(R.drawable.panel_bg) else groupsPanel.background = null
+        if (overlay) groupsPanel.setBackgroundResource(R.drawable.panel_bg) else groupsPanel.setBackgroundColor(getColor(R.color.bg))
+        // a short slide in, over the channel list: nothing else on the screen moves or resizes
+        groupsPanel.alpha = 0f; groupsPanel.translationX = -30 * resources.displayMetrics.density
+        groupsPanel.animate().alpha(1f).translationX(0f).setDuration(140).start()
         val pos = Api.groups.indexOfFirst { it.id == group?.id }.coerceAtLeast(0)
         (groupsRv.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(pos, 120)
-        groupsRv.post { groupsRv.findViewHolderForAdapterPosition(pos)?.itemView?.requestFocus(); if (!full) place() }
+        groupsRv.post { groupsRv.findViewHolderForAdapterPosition(pos)?.itemView?.requestFocus() }
     }
 
     private fun closeGroups() {
         groupsPanel.visibility = View.GONE
-        channelsRv.post { if (!full) place(); showGroup(group ?: return@post, focused) }
+        channelsRv.post { showGroup(group ?: return@post, focused) }
     }
 
     private fun fav(c: Channel) {
@@ -625,7 +628,7 @@ class LiveActivity : BaseActivity() {
             h.itemView.setOnClickListener {
                 if (g.id == Api.SEARCH) { startActivity(Intent(this@LiveActivity, SearchActivity::class.java).putExtra("mode", "live")); return@setOnClickListener }
                 if (g.channels.isEmpty()) return@setOnClickListener
-                Parental.ask(this@LiveActivity) { groupsPanel.visibility = View.GONE; channelsRv.post { if (!full) place(); showGroup(g); groupAdapter.notifyDataSetChanged() } }
+                Parental.ask(this@LiveActivity) { groupsPanel.visibility = View.GONE; channelsRv.post { showGroup(g); groupAdapter.notifyDataSetChanged() } }
             }
             h.itemView.setOnKeyListener { _, k, e ->
                 if (e.action == KeyEvent.ACTION_DOWN && k == KeyEvent.KEYCODE_DPAD_RIGHT) { closeGroups(); true } else false

@@ -44,7 +44,8 @@ class MultiviewActivity : BaseActivity() {
             val v = LayoutInflater.from(this).inflate(R.layout.item_multiview, grid, false)
             v.findViewById<View>(R.id.clip).apply { outlineProvider = round; clipToOutline = true }
             val pv = v.findViewById<PlayerView>(R.id.pv)
-            val p = Players.make(this, live = true)
+            // no audio focus: with it, each new screen took the focus and the other one paused (froze)
+            val p = Players.make(this, live = true, audioFocus = false)
             pv.player = p
             val t = Tile(v, pv, p, v.findViewById(R.id.bar), v.findViewById(R.id.logo), v.findViewById(R.id.name),
                 v.findViewById(R.id.now), v.findViewById(R.id.sound), v.findViewById(R.id.empty))
@@ -84,7 +85,8 @@ class MultiviewActivity : BaseActivity() {
         if (c == null) { t.player.stop(); t.player.clearMediaItems(); sound(tiles.indexOfFirst { it.root.hasFocus() }.coerceAtLeast(0)); return }
         t.name.text = "${c.num}   ${c.name}"; t.now.text = ""
         t.logo.load(c.logo.ifEmpty { null })
-        t.player.setMediaItem(MediaItem.fromUri(Api.streamUrl(c)))
+        // the TV's chip decodes 2 pictures at once only when they are light: a 4K / HEVC channel plays in its HD copy
+        t.player.setMediaItem(MediaItem.fromUri(Api.streamUrl(light(c))))
         t.player.prepare(); t.player.playWhenReady = true
         sound(tiles.indexOfFirst { it.root.hasFocus() }.coerceAtLeast(0))
         lifecycleScope.launch {
@@ -92,6 +94,13 @@ class MultiviewActivity : BaseActivity() {
             val now = System.currentTimeMillis() / 1000
             if (t.channel?.id == c.id) t.now.text = list.firstOrNull { it.now(now) }?.title ?: ""
         }
+    }
+
+    private val heavy = Regex("(?i)\\b(4k|uhd|8k|hevc|h265|2160p?|3840p?|raw)\\b")
+    private fun light(c: Channel): Channel {
+        if (!heavy.containsMatchIn(c.name)) return c
+        val q = Api.qualities(c).filter { !heavy.containsMatchIn(it.name) }
+        return q.firstOrNull { Regex("(?i)\\bfhd|1080").containsMatchIn(it.name) } ?: q.firstOrNull { Regex("(?i)\\bhd\\b").containsMatchIn(it.name) } ?: q.firstOrNull() ?: c
     }
 
     private fun pick(i: Int) {

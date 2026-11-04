@@ -7,15 +7,9 @@
     <LinearLayout android:id="@+id/browse" android:layout_width="match_parent" android:layout_height="match_parent"
         android:orientation="horizontal" android:padding="18dp">
 
-        <LinearLayout android:id="@+id/groupsPanel" android:layout_width="270dp" android:layout_height="match_parent"
-            android:orientation="vertical" android:layout_marginEnd="12dp" android:visibility="gone">
-            <TextView android:layout_width="match_parent" android:layout_height="44dp" android:gravity="center_vertical"
-                android:paddingStart="12dp" android:text="Groups" android:textColor="@color/text2" android:textSize="16sp"/>
-            <androidx.recyclerview.widget.RecyclerView android:id="@+id/groups" android:layout_width="match_parent"
-                android:layout_height="match_parent" android:clipToPadding="false" android:paddingBottom="200dp"/>
-        </LinearLayout>
-
-        <LinearLayout android:id="@+id/channelCol" android:layout_width="390dp" android:layout_height="match_parent" android:orientation="vertical">
+        <!-- the groups open over the channel list (nothing else moves: smooth on the TV) -->
+        <FrameLayout android:id="@+id/listBox" android:layout_width="390dp" android:layout_height="match_parent">
+        <LinearLayout android:id="@+id/channelCol" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical">
             <LinearLayout android:layout_width="match_parent" android:layout_height="44dp" android:orientation="horizontal"
                 android:gravity="center_vertical" android:paddingStart="12dp" android:paddingEnd="12dp">
                 <TextView android:id="@+id/groupName" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
@@ -26,6 +20,16 @@
             <androidx.recyclerview.widget.RecyclerView android:id="@+id/channels" android:layout_width="match_parent"
                 android:layout_height="match_parent" android:clipToPadding="false" android:paddingBottom="200dp"/>
         </LinearLayout>
+
+        <LinearLayout android:id="@+id/groupsPanel" android:layout_width="match_parent" android:layout_height="match_parent"
+            android:orientation="vertical" android:background="@color/bg" android:elevation="6dp" android:visibility="gone">
+            <TextView android:layout_width="match_parent" android:layout_height="44dp" android:gravity="center_vertical"
+                android:paddingStart="12dp" android:text="Groups" android:textColor="@color/text2" android:textSize="16sp"/>
+            <androidx.recyclerview.widget.RecyclerView android:id="@+id/groups" android:layout_width="match_parent"
+                android:layout_height="match_parent" android:clipToPadding="false" android:paddingBottom="200dp"/>
+        </LinearLayout>
+
+        </FrameLayout>
 
         <LinearLayout android:id="@+id/rightCol" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
             android:orientation="vertical" android:layout_marginStart="18dp">
