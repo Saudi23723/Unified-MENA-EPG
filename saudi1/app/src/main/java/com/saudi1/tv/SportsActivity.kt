@@ -34,8 +34,10 @@ class SportsActivity : BaseActivity() {
     private val dayF = SimpleDateFormat("EEEE d MMMM", Locale.ENGLISH)
     private val adapter = A()
 
-    private val sportGroup = Regex("(?i)sport|bein|ssc|espn|dazn|sky|tnt|alkass|al kass|ad sports|abu dhabi|thmanyah|ثمانية|رياض|كأس|fox|nba|nfl|ufc|ppv|match|rotana sport|on time|mbc action")
-    private val matchTitle = Regex("(?i)\\bvs?\\.?\\s|\\s×\\s|\\sx\\s|\\sضد\\s|\\s-\\s.+\\s-\\s|مباراة|live:|مباشر|\\blive\\b")
+    private val sportGroup = Regex("(?i)sport|bein|ssc|espn|dazn|sky sports|tnt sports|alkass|al kass|ad sports|abu dhabi sport|thmanyah|ثمانية|رياض|كأس|fox sports|nba|nfl|ufc|ppv|epl|premier|laliga|la liga|serie a|bundesliga|champions|starz.?play sport|shahid sport|alwan sport")
+    /** a match: two sides (Team A vs / v / × / x / ضد / - Team B) */
+    private val matchTitle = Regex("(?i)\\S.*\\s(vs\\.?|v|×|x|ضد|–|-)\\s.*\\S")
+    private val notMatch = Regex("(?i)\\b(news|highlights|magazine|review|preview|replay|classic|studio|show|talk|podcast|weekly|countdown)\\b|ملخص|إعادة|اعادة|استوديو|برنامج|أخبار|اخبار")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,7 +79,7 @@ class SportsActivity : BaseActivity() {
             readers.chunked(10).forEach { part ->
                 part.map { c -> async { c to Api.guide(c) } }.map { it.await() }.forEach { (c, list) ->
                     for (p in list) {
-                        if (p.stop <= now || p.start > until || !matchTitle.containsMatchIn(p.title)) continue
+                        if (p.stop <= now || p.start > until || !matchTitle.containsMatchIn(p.title) || notMatch.containsMatchIn(p.title)) continue
                         val t = p.title.replace(Regex("(?i)^\\s*(live|مباشر)\\s*[:|-]?\\s*"), "").trim()
                         val k = (p.start / 300).toString() + "|" + t.lowercase().replace(Regex("[^\\p{L}\\p{N}]"), "")
                         val m = byKey.getOrPut(k) { Match(p.start, p.stop, t, ArrayList()) }
