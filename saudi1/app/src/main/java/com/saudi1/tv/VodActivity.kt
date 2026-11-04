@@ -77,8 +77,16 @@ class VodActivity : BaseActivity() {
         series = intent.getBooleanExtra("series", false)
         findViewById<TextView>(R.id.title).text = if (series) "Series" else "Movies"
         catsRv = findViewById(R.id.cats); grid = findViewById(R.id.grid)
-        catsRv.layoutManager = LinearLayoutManager(this); catsRv.adapter = catAdapter
-        grid.layoutManager = GridLayoutManager(this, COLS); grid.adapter = gridAdapter
+        // smooth ▲▼: the rows just off screen are always laid out, so the focus moves one row and the list glides
+        // there (no jump to a far position); no change animations that make the focus hop while a list updates
+        catsRv.layoutManager = object : LinearLayoutManager(this) {
+            override fun calculateExtraLayoutSpace(st: RecyclerView.State, extra: IntArray) { val h = height; extra[0] = h / 2; extra[1] = h / 2 }
+        }
+        catsRv.adapter = catAdapter; catsRv.itemAnimator = null
+        grid.layoutManager = object : GridLayoutManager(this, COLS) {
+            override fun calculateExtraLayoutSpace(st: RecyclerView.State, extra: IntArray) { val h = height; extra[0] = h / 2; extra[1] = h }
+        }
+        grid.adapter = gridAdapter; grid.itemAnimator = null
         findViewById<TextView>(R.id.vodSort).apply {
             setTextColor(getColorStateList(R.color.on_focus)); setOnClickListener { sortDialog() }; text = "⇅  " + sortNames[sort]
         }
@@ -111,10 +119,13 @@ class VodActivity : BaseActivity() {
     private fun open(c: VodCat) {
         if (c.id == SEARCH) { search(); return }
         if (Parental.isLocked(c.id, c.name)) { Parental.ask(this) { open(c) }; return }
+        val old = cats.indexOfFirst { it.id == current }
         current = c.id
         if (c.id != RESUME && c.id != FAV && c.id != DL) App.prefs.edit().putString("vod_cat_$series", c.id).apply()
         findViewById<TextView>(R.id.catName).text = c.name.removePrefix("▶  ") + if (c.id == RESUME) "   ·   hold OK to remove" else ""
-        catAdapter.notifyDataSetChanged()
+        // only the two rows whose mark changes (a full refresh moved the focus while ▲▼)
+        if (old >= 0) catAdapter.notifyItemChanged(old)
+        cats.indexOfFirst { it.id == c.id }.takeIf { it >= 0 }?.let { catAdapter.notifyItemChanged(it) }
         loadJob?.cancel()
         if (c.id == RESUME) {
             items = Resume.list().filter { it.optString("k").startsWith(if (series) "e" else "m") }.map {
@@ -170,9 +181,9 @@ class VodActivity : BaseActivity() {
 
     private fun moveTo(pos: Int) {
         val v = grid.layoutManager?.findViewByPosition(pos)
-        if (v != null) { v.requestFocus(); return }
-        grid.scrollToPosition(pos)
-        grid.post { grid.layoutManager?.findViewByPosition(pos)?.requestFocus() }
+        if (v != null) { v.requestFocus(); return }    // RecyclerView glides to it
+        grid.smoothScrollToPosition(pos)
+        grid.postDelayed({ grid.layoutManager?.findViewByPosition(pos)?.requestFocus() }, 220)
     }
 
     private fun focusCats() {
