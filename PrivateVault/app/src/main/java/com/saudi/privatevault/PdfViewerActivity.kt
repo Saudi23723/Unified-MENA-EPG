@@ -452,6 +452,16 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
 
     // With the bars hidden the arrows belong to the page, not to whatever button had the focus.
     override fun dispatchKeyEvent(event: android.view.KeyEvent): Boolean {
+        // The volume keys turn the pages, as e-readers do: down the next page, up the previous
+        // (on a TV always; on a phone or tablet when chosen in Settings).
+        val vol = event.keyCode == android.view.KeyEvent.KEYCODE_VOLUME_DOWN || event.keyCode == android.view.KeyEvent.KEYCODE_VOLUME_UP
+        if (vol && (tvHint != null || VaultLock.prefs(this).getBoolean("volume_pages", false)) && !writing) {
+            if (event.action == android.view.KeyEvent.ACTION_DOWN) {
+                val dir = if (event.keyCode == android.view.KeyEvent.KEYCODE_VOLUME_DOWN) 1 else -1
+                if (tvHint != null) turnTv(dir) else go(pageIndex + dir)
+            }
+            return true
+        }
         if (tvHint != null && !chromeShown) {
             val ok = event.keyCode == android.view.KeyEvent.KEYCODE_DPAD_CENTER || event.keyCode == android.view.KeyEvent.KEYCODE_ENTER
             if (ok) {

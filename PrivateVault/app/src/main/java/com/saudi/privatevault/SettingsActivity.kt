@@ -45,6 +45,9 @@ class SettingsActivity : BaseActivity() {
         toggle(card, getString(R.string.qt_toggle).removePrefix("✎ "), getString(R.string.set_tools_sub), QuickTools.enabled(this)) {
             QuickTools.setEnabled(this, it); QuickTools.attach(this)
         }
+        toggle(card, getString(R.string.set_volume_pages), getString(R.string.set_volume_pages_sub), prefs.getBoolean("volume_pages", false)) {
+            prefs.edit().putBoolean("volume_pages", it).apply()
+        }
         toggle(card, getString(R.string.set_voice), getString(R.string.set_voice_sub), Voice.enabled(this)) {
             prefs.edit().putBoolean("voice_on", it).apply()
         }
