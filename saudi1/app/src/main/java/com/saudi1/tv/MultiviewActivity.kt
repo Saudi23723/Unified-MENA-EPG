@@ -74,7 +74,7 @@ class MultiviewActivity : BaseActivity() {
             grid.addView(v, lp)
             val idx = i
             v.setOnClickListener { pick(idx) }
-            v.setOnLongClickListener { tiles[idx].channel?.let { c -> openFull(c) }; true }
+            v.setOnLongClickListener { holdOk(idx); true }
             v.setOnFocusChangeListener { view, f ->
                 if (two) view.foreground = if (f) ring else null
                 else view.animate().scaleX(if (f) 1f else 0.97f).scaleY(if (f) 1f else 0.97f).alpha(if (f) 1f else 0.82f).setDuration(160).start()
@@ -126,6 +126,11 @@ class MultiviewActivity : BaseActivity() {
         }
     }
 
+    /** hold OK: two screens = this one big / both the same size; four screens = full screen */
+    private fun holdOk(i: Int) {
+        if (tiles.size == 2) { setBig(if (big == i) -1 else i); flash(tiles[i]) } else tiles[i].channel?.let { openFull(it) }
+    }
+
     private fun setBig(i: Int) { big = i; App.prefs.edit().putInt("mv_big", i).apply(); relayout() }
 
     /** two screens: whole picture (16:9, black above / below) or fill the TV (the sides of each picture are cut) */
@@ -139,10 +144,11 @@ class MultiviewActivity : BaseActivity() {
     private var others: List<OtherList> = emptyList()
 
     /** "Second screen · which playlist?" — the same one, or another playlist of this device (its own connection) */
-    private fun choosePlaylist(done: (OtherList?) -> Unit) {
-        val names = arrayOf("Same playlist  ·  ${Device.active}") + others.map { "${it.name}   (own connection)" }
-        AlertDialog.Builder(this).setTitle("Other screen · which playlist?").setItems(names) { _, w -> done(if (w == 0) null else others[w - 1]) }
-            .setOnCancelListener { done(others.firstOrNull()) }.show()
+    private fun choosePlaylist(title: String = "Other screen", now: OtherList? = null, done: (OtherList?) -> Unit) {
+        // every playlist of the device, the one in use marked; a playlist another screen uses shares its connection
+        val names = arrayOf("${Device.active}" + (if (now == null) "   ✓" else "")) + others.map { it.name + (if (it === now) "   ✓" else "") }
+        AlertDialog.Builder(this).setTitle("$title · which playlist?").setItems(names) { _, w -> done(if (w == 0) null else others[w - 1]) }
+            .setOnCancelListener { if (title == "Other screen") done(others.firstOrNull()) }.show()
     }
 
     private fun fillOthers(src: OtherList?) {
@@ -262,11 +268,13 @@ class MultiviewActivity : BaseActivity() {
         if (!overlayOpen && e.action == KeyEvent.ACTION_DOWN) {
             val i = tiles.indexOfFirst { it.root.hasFocus() }
             if ((e.keyCode == KeyEvent.KEYCODE_DPAD_CENTER || e.keyCode == KeyEvent.KEYCODE_ENTER) && e.repeatCount == 1) {
-                tiles.getOrNull(i)?.channel?.let { openFull(it) }; return true
+                if (i >= 0) holdOk(i); return true
             }
+            // the long press goes on repeating while held: one switch per press
+            if ((e.keyCode == KeyEvent.KEYCODE_DPAD_CENTER || e.keyCode == KeyEvent.KEYCODE_ENTER) && e.repeatCount > 1) return true
             if (e.keyCode == KeyEvent.KEYCODE_MENU && i >= 0) {
                 val items = arrayListOf("Change channel", "Remove channel", "Full screen")
-                if (i > 0 && others.isNotEmpty()) items.add("Change playlist")
+                if (others.isNotEmpty()) items.add("Change playlist")
                 val fillItem = if (tiles.size == 2) (if (fill) "Show the whole picture" else "Fill the screen (crop the sides)") else null
                 fillItem?.let { items.add(it) }
                 val bigItem = if (tiles.size == 2) (if (big == i) "Same size" else "Make this screen big") else null
@@ -276,8 +284,13 @@ class MultiviewActivity : BaseActivity() {
                         0 -> pick(i); 1 -> set(i, null); 2 -> tiles[i].channel?.let { openFull(it) }
                         items.indexOf(fillItem ?: "\u0000") -> setFill(!fill)
                         items.indexOf(bigItem ?: "\u0000") -> setBig(if (big == i) -1 else i)
-                        3 -> choosePlaylist { src -> val c = tiles[i].channel; tiles[i].src = src; set(i, null)
-                            if (src == null) c?.let { ch -> (Api.byId[ch.id] ?: first)?.let { set(i, it) } } else pick(i) }
+                        3 -> choosePlaylist("This screen", tiles[i].src) { src -> val c = tiles[i].channel; tiles[i].src = src; set(i, null)
+                            if (src == null) c?.let { ch -> (Api.byId[ch.id] ?: Api.byId.values.firstOrNull { Api.baseName(it.name) == Api.baseName(ch.name) } ?: first)?.let { set(i, it) } }
+                            else lifecycleScope.launch {
+                                val ok = withContext(Dispatchers.IO) { try { src.load() } catch (e: Exception) { false } }
+                                if (!ok) { android.widget.Toast.makeText(this@MultiviewActivity, "${src.name}: could not load", android.widget.Toast.LENGTH_LONG).show(); return@launch }
+                                c?.let { src.same(it) }?.let { set(i, it) } ?: pick(i)
+                            } }
                     }
                 }.show(); return true
             }
