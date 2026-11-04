@@ -180,10 +180,18 @@ class VodActivity : BaseActivity() {
     }
 
     private fun moveTo(pos: Int) {
-        val v = grid.layoutManager?.findViewByPosition(pos)
+        val lm = grid.layoutManager ?: return
+        val v = lm.findViewByPosition(pos)
         if (v != null) { v.requestFocus(); return }    // RecyclerView glides to it
-        grid.smoothScrollToPosition(pos)
-        grid.postDelayed({ grid.layoutManager?.findViewByPosition(pos)?.requestFocus() }, 220)
+        // the row is not built yet: move the list by one row now and put the focus there in the same frame
+        // (waiting for a scroll to end made the highlight come late)
+        val cur = grid.focusedChild ?: grid.getChildAt(0)
+        val row = (cur?.height ?: 0) + ((cur?.layoutParams as? ViewGroup.MarginLayoutParams)?.let { it.topMargin + it.bottomMargin } ?: 0)
+        val from = cur?.let { grid.getChildAdapterPosition(it) } ?: -1
+        if (row > 0 && from >= 0) grid.scrollBy(0, if (pos > from) row else -row)
+        lm.findViewByPosition(pos)?.let { it.requestFocus(); return }
+        grid.scrollToPosition(pos)
+        grid.post { lm.findViewByPosition(pos)?.requestFocus() }
     }
 
     private fun wrapGrid(pos: Int) {
