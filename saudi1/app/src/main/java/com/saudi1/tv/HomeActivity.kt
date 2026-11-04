@@ -42,7 +42,7 @@ class HomeActivity : BaseActivity() {
         tile("🗓", "TV Guide") { open(GuideActivity::class.java) }
         tile("🎬", "Movies") { startActivity(Intent(this, VodActivity::class.java).putExtra("series", false)) }
         tile("🎞", "Series") { startActivity(Intent(this, VodActivity::class.java).putExtra("series", true)) }
-        tile("⚽", "Sports today") { startActivity(Intent(this, LiveActivity::class.java).putExtra("group", Api.DASH)) }
+        tile("⚽", "Sports today") { open(SportsActivity::class.java) }
         tile("🔍", "Search") { open(SearchActivity::class.java) }
         tile("☰", "Playlists") { playlists() }
         tile("⚙", "Settings") { startActivity(Intent(this, SettingsActivity::class.java)) }
