@@ -325,7 +325,7 @@ class LiveActivity : BaseActivity() {
 
     /** audio / subtitles / picture size / night dimming (MENU, or hold OK in full screen) */
     private fun options() {
-        val items = arrayOf("Audio", "Subtitles", "Picture size", "Night dimming", "Previous channel")
+        val items = arrayOf("Audio", "Subtitles", "Picture size", "Night dimming", "Previous channel", "TV Guide")
         AlertDialog.Builder(this).setTitle(playing?.name ?: "Options").setItems(items) { _, w ->
             when (w) {
                 0 -> tracks(C.TRACK_TYPE_AUDIO)
@@ -338,6 +338,7 @@ class LiveActivity : BaseActivity() {
                 }
                 3 -> dimDialog()
                 4 -> back()
+                5 -> startActivity(Intent(this, GuideActivity::class.java))
             }
         }.show()
     }

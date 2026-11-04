@@ -38,6 +38,7 @@ class HomeActivity : BaseActivity() {
             tiles.addView(v)
         }
         tile("📺", "Live TV") { open(LiveActivity::class.java) }
+        tile("🗓", "TV Guide") { open(GuideActivity::class.java) }
         tile("🎬", "Movies") { soon() }
         tile("🎞", "Series") { soon() }
         tile("🌙", "Dimming") { dim() }
