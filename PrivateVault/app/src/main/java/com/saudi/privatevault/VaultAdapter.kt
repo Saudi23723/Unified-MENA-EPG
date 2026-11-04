@@ -73,24 +73,28 @@ class VaultAdapter(
         h.itemView.setOnClickListener { onClick(e) }
         h.b.more.setOnClickListener { v -> onMore(e, v) }
         h.itemView.setOnLongClickListener { onMore(e, h.b.more); true }
-        // With a remote: the rows take the focus, not their ⋮ (the menu is a long OK, or Menu);
-        // down past the last row goes back to the first, up from the first to the last.
+        // With a remote: up and down go row to row (past the last back to the first, and the
+        // other way); right reaches the row's ⋮, left comes back to the row; Menu opens it too.
         if (Tv.isTv(ctx)) {
-            h.b.more.isFocusable = false
             h.itemView.isFocusable = true
-            h.itemView.setOnKeyListener { v, key, ev ->
-                if (ev.action != android.view.KeyEvent.ACTION_DOWN) return@setOnKeyListener false
-                val list = v.parent as? androidx.recyclerview.widget.RecyclerView ?: return@setOnKeyListener false
+            h.b.more.isFocusable = true
+            fun keys(onMore: Boolean) = View.OnKeyListener { v, key, ev ->
+                if (ev.action != android.view.KeyEvent.ACTION_DOWN) return@OnKeyListener false
+                val list = (if (onMore) h.itemView else v).parent as? androidx.recyclerview.widget.RecyclerView ?: return@OnKeyListener false
                 val pos = h.bindingAdapterPosition
                 val last = itemCount - 1
-                when {
-                    key == android.view.KeyEvent.KEYCODE_MENU -> { onMore(e, h.b.more); true }
-                    key == android.view.KeyEvent.KEYCODE_DPAD_DOWN && pos == last && last > 0 -> { jump(list, 0); true }
-                    key == android.view.KeyEvent.KEYCODE_DPAD_UP && pos == 0 && last > 0 -> { jump(list, last); true }
-                    key == android.view.KeyEvent.KEYCODE_DPAD_RIGHT -> true
+                when (key) {
+                    android.view.KeyEvent.KEYCODE_MENU -> { onMore(e, h.b.more); true }
+                    android.view.KeyEvent.KEYCODE_DPAD_RIGHT -> { if (!onMore) h.b.more.requestFocus(); true }
+                    android.view.KeyEvent.KEYCODE_DPAD_LEFT -> if (onMore) { h.itemView.requestFocus(); true } else false
+                    android.view.KeyEvent.KEYCODE_DPAD_DOWN -> { jump(list, if (pos >= last) 0 else pos + 1); true }
+                    android.view.KeyEvent.KEYCODE_DPAD_UP -> { jump(list, if (pos <= 0) last else pos - 1); true }
                     else -> false
                 }
             }
+            h.itemView.setOnKeyListener(keys(false))
+            h.b.more.setOnKeyListener(keys(true))
+            h.b.more.background = androidx.core.content.ContextCompat.getDrawable(ctx, R.drawable.item_focus_bg)
         }
     }
 
