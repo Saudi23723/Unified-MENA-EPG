@@ -77,7 +77,8 @@
                 android:layout_marginTop="6dp" android:singleLine="true" android:ellipsize="end" android:textColor="@color/text2" android:textSize="16sp"/>
         </LinearLayout>
         <TextView android:id="@+id/bClock" android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:layout_marginStart="24dp" android:textSize="24sp" android:textStyle="bold"/>
+            android:layout_marginStart="24dp" android:textSize="24sp" android:textStyle="bold" android:visibility="gone"/>
+        <View android:layout_width="190dp" android:layout_height="1dp"/>
     </LinearLayout>
 
     <!-- full screen: clock (bottom right, like TiviMate) -->
