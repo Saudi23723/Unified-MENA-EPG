@@ -1,28 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Home (modern, 4 Nov 2026): top bar with logo / clock / quick buttons, big cards (Live TV · Movies · Series),
+     then a row of smaller shortcuts. The cards are built in HomeActivity. -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/bg">
     <ImageView android:layout_width="match_parent" android:layout_height="match_parent"
-        android:src="@drawable/home_bg" android:scaleType="centerCrop" android:alpha="0.9"/>
-    <ScrollView android:layout_width="match_parent" android:layout_height="match_parent" android:fillViewport="true">
+        android:src="@drawable/home_bg" android:scaleType="centerCrop" android:alpha="0.55"/>
+    <View android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/home_scrim"/>
+    <ScrollView android:layout_width="match_parent" android:layout_height="match_parent" android:fillViewport="true"
+        android:scrollbars="none">
     <LinearLayout android:id="@+id/homeCol" android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="48dp" android:paddingBottom="60dp">
-        <TextView android:id="@+id/logo" android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:textSize="46sp" android:textStyle="bold" android:letterSpacing="0.04"/>
-        <TextView android:id="@+id/clock" android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:textColor="@color/text2" android:textSize="18sp" android:layout_marginTop="4dp"/>
-        <HorizontalScrollView android:id="@+id/tilesScroll" android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:layout_marginTop="56dp" android:scrollbars="none" android:clipToPadding="false">
-            <LinearLayout android:id="@+id/tiles" android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:orientation="horizontal" android:paddingTop="6dp" android:paddingBottom="6dp"/>
+        android:orientation="vertical" android:paddingStart="56dp" android:paddingEnd="56dp" android:paddingTop="36dp" android:paddingBottom="56dp">
+        <!-- top bar -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <LinearLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:orientation="vertical">
+                <TextView android:id="@+id/logo" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:textSize="30sp" android:textStyle="bold" android:letterSpacing="0.06" android:textColor="@color/text"/>
+                <TextView android:id="@+id/hello" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:textColor="@color/text2" android:textSize="15sp" android:layout_marginTop="2dp"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="vertical"
+                android:gravity="end" android:layout_marginEnd="20dp">
+                <TextView android:id="@+id/clock" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:textColor="@color/text" android:textSize="34sp" android:fontFamily="sans-serif-light"/>
+                <TextView android:id="@+id/date" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:textColor="@color/text2" android:textSize="14sp"/>
+            </LinearLayout>
+            <TextView android:id="@+id/reload" android:layout_width="48dp" android:layout_height="48dp"
+                android:background="@drawable/chip_bg" android:focusable="true" android:clickable="true"
+                android:gravity="center" android:text="⟳" android:textSize="22sp" android:textColor="@color/on_focus"/>
+            <TextView android:id="@+id/settingsChip" android:layout_width="48dp" android:layout_height="48dp" android:layout_marginStart="10dp"
+                android:background="@drawable/chip_bg" android:focusable="true" android:clickable="true"
+                android:gravity="center" android:text="⚙" android:textSize="22sp" android:textColor="@color/on_focus"/>
+        </LinearLayout>
+
+        <HorizontalScrollView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="34dp" android:scrollbars="none" android:clipToPadding="false" android:clipChildren="false">
+            <LinearLayout android:id="@+id/bigRow" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:clipChildren="false" android:paddingTop="10dp" android:paddingBottom="10dp"/>
         </HorizontalScrollView>
-        <TextView android:id="@+id/reload" android:layout_width="300dp" android:layout_height="52dp"
-            android:layout_marginTop="44dp" android:background="@drawable/item_bg" android:focusable="true"
-            android:gravity="center" android:text="⟳  Reload" android:textSize="19sp" android:textStyle="bold"
-            android:duplicateParentState="false"/>
+
+        <HorizontalScrollView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="14dp" android:scrollbars="none" android:clipToPadding="false" android:clipChildren="false">
+            <LinearLayout android:id="@+id/smallRow" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:clipChildren="false" android:paddingTop="8dp" android:paddingBottom="8dp"/>
+        </HorizontalScrollView>
     </LinearLayout>
     </ScrollView>
     <TextView android:id="@+id/footer" android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:layout_gravity="bottom|start" android:layout_margin="24dp" android:textColor="@color/text2" android:textSize="14sp"/>
+        android:layout_gravity="bottom|start" android:layout_marginStart="56dp" android:layout_marginBottom="22dp" android:textColor="@color/text2" android:textSize="13sp" android:alpha="0.8"/>
     <TextView android:id="@+id/status" android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end" android:layout_margin="24dp" android:textColor="@color/text2" android:textSize="14sp"/>
+        android:layout_gravity="bottom|end" android:layout_marginEnd="56dp" android:layout_marginBottom="22dp" android:textColor="@color/text2" android:textSize="13sp" android:alpha="0.8"/>
 </FrameLayout>

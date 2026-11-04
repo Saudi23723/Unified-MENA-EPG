@@ -30,38 +30,91 @@ class HomeActivity : BaseActivity() {
         findViewById<TextView>(R.id.logo).text = logo
         findViewById<TextView>(R.id.footer).text = "Version " + BuildConfig.VERSION_NAME
 
-        val tiles = findViewById<LinearLayout>(R.id.tiles)
-        fun tile(icon: String, label: String, go: () -> Unit) {
-            val v = LayoutInflater.from(this).inflate(R.layout.item_tile, tiles, false)
-            v.findViewById<TextView>(R.id.icon).text = icon
-            v.findViewById<TextView>(R.id.label).apply { text = label; setTextColor(getColorStateList(R.color.on_focus)) }
-            v.setOnClickListener { go() }
-            tiles.addView(v)
-        }
-        tile("📺", "Live TV") { open(LiveActivity::class.java) }
-        tile("🗓", "TV Guide") { open(GuideActivity::class.java) }
-        tile("🎬", "Movies") { startActivity(Intent(this, VodActivity::class.java).putExtra("series", false)) }
-        tile("🎞", "Series") { startActivity(Intent(this, VodActivity::class.java).putExtra("series", true)) }
-        tile("⚽", "Sports today") { open(SportsActivity::class.java) }
-        tile("🔍", "Search") { open(SearchActivity::class.java) }
-        tile("☰", "Playlists") { playlists() }
-        tile("⚙", "Settings") { startActivity(Intent(this, SettingsActivity::class.java)) }
-        tiles.getChildAt(0).requestFocus()
-        if (isTouch) {  // phones: everything closer together so it fits a phone held sideways
-            val dd = resources.displayMetrics.density
-            findViewById<View>(R.id.homeCol).setPadding(0, (14 * dd).toInt(), 0, (40 * dd).toInt())
-            (findViewById<View>(R.id.tilesScroll).layoutParams as LinearLayout.LayoutParams).topMargin = (18 * dd).toInt()
-            (findViewById<View>(R.id.reload).layoutParams as LinearLayout.LayoutParams).topMargin = (14 * dd).toInt()
-        }
-
-        findViewById<TextView>(R.id.reload).apply {
-            setTextColor(getColorStateList(R.color.on_focus))
-            setOnClickListener { reload() }
-        }
+        buildCards()
+        findViewById<TextView>(R.id.reload).setOnClickListener { reload() }
+        findViewById<TextView>(R.id.settingsChip).setOnClickListener { startActivity(Intent(this, SettingsActivity::class.java)) }
         lifecycleScope.launch {
-            val clock = findViewById<TextView>(R.id.clock)
-            val f = SimpleDateFormat("EEEE d MMMM  ·  h:mm a", Locale.ENGLISH)
-            while (true) { clock.text = f.format(Date()); delay(15_000) }
+            val clock = findViewById<TextView>(R.id.clock); val date = findViewById<TextView>(R.id.date); val hello = findViewById<TextView>(R.id.hello)
+            val tf = SimpleDateFormat("h:mm a", Locale.ENGLISH); val df = SimpleDateFormat("EEEE d MMMM", Locale.ENGLISH)
+            while (true) {
+                val now = Date(); clock.text = tf.format(now); date.text = df.format(now)
+                val h = java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY)
+                hello.text = when (h) { in 5..11 -> "Good morning"; in 12..16 -> "Good afternoon"; else -> "Good evening" }
+                delay(15_000)
+            }
+        }
+    }
+
+    // ---------------- the cards ----------------
+    private val d by lazy { resources.displayMetrics.density }
+    private fun dp(v: Float) = (v * d).toInt()
+    private var liveSub: TextView? = null
+
+    /** a big card with a colour gradient: icon on top, name + one line below */
+    private fun bigCard(row: LinearLayout, icon: String, title: String, sub: String, c1: Int, c2: Int, w: Float, go: () -> Unit): TextView {
+        val bg = android.graphics.drawable.GradientDrawable(android.graphics.drawable.GradientDrawable.Orientation.TL_BR, intArrayOf(c1, c2)).apply { cornerRadius = 26 * d }
+        val card = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL; background = bg; isFocusable = true; isClickable = true
+            setPadding(dp(24f), dp(20f), dp(24f), dp(20f)); gravity = android.view.Gravity.BOTTOM
+        }
+        val k = if (isTouch) 0.78f else 1f
+        card.addView(TextView(this).apply { text = icon; textSize = 40f * k }, LinearLayout.LayoutParams(-2, 0, 1f))
+        card.addView(TextView(this).apply { text = title; textSize = 24f * k; setTypeface(typeface, android.graphics.Typeface.BOLD); setTextColor(0xFFFFFFFF.toInt()) })
+        val st = TextView(this).apply { text = sub; textSize = 14f * k; setTextColor(0xD9FFFFFF.toInt()); setSingleLine(); ellipsize = android.text.TextUtils.TruncateAt.END }
+        card.addView(st)
+        card.setOnClickListener { go() }
+        focusFx(card) { f -> bg.setStroke(if (f) dp(3f) else 0, 0xFFFFFFFF.toInt()) }
+        row.addView(card, LinearLayout.LayoutParams(dp(w * k), dp(196f * k)).apply { marginEnd = dp(18f) })
+        return st
+    }
+
+    /** a smaller glass button: icon + name */
+    private fun smallCard(row: LinearLayout, icon: String, label: String, go: () -> Unit) {
+        val bg = android.graphics.drawable.GradientDrawable().apply { cornerRadius = 20 * d; setColor(0x1FFFFFFF); setStroke(dp(1f), 0x26FFFFFF) }
+        val card = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL; background = bg; isFocusable = true; isClickable = true
+            gravity = android.view.Gravity.CENTER_VERTICAL; setPadding(dp(22f), 0, dp(26f), 0)
+        }
+        val ic = TextView(this).apply { text = icon; textSize = 22f }
+        val lb = TextView(this).apply { text = label; textSize = 17f; setTypeface(typeface, android.graphics.Typeface.BOLD); setTextColor(getColor(R.color.text)) }
+        card.addView(ic); card.addView(lb, LinearLayout.LayoutParams(-2, -2).apply { marginStart = dp(12f) })
+        card.setOnClickListener { go() }
+        focusFx(card) { f ->
+            bg.setColor(if (f) 0xFFF2F4F8.toInt() else 0x1FFFFFFF); bg.setStroke(dp(1f), if (f) 0xFFFFFFFF.toInt() else 0x26FFFFFF)
+            lb.setTextColor(if (f) getColor(R.color.textOnFocus) else getColor(R.color.text))
+        }
+        row.addView(card, LinearLayout.LayoutParams(-2, dp(if (isTouch) 54f else 66f)).apply { marginEnd = dp(14f) })
+    }
+
+    /** focus: the card grows a little and lifts, the others stay calm */
+    private fun focusFx(v: View, also: (Boolean) -> Unit) {
+        v.setOnFocusChangeListener { _, f ->
+            also(f)
+            v.animate().scaleX(if (f) 1.06f else 1f).scaleY(if (f) 1.06f else 1f).translationZ(if (f) 12 * d else 0f).setDuration(150).start()
+        }
+    }
+
+    private fun buildCards() {
+        val big = findViewById<LinearLayout>(R.id.bigRow); val small = findViewById<LinearLayout>(R.id.smallRow)
+        liveSub = bigCard(big, "📺", "Live TV", "All your channels", 0xFF00B67A.toInt(), 0xFF0E6E8C.toInt(), 330f) { open(LiveActivity::class.java) }
+        bigCard(big, "🎬", "Movies", "Latest added first", 0xFF7B3FE4.toInt(), 0xFF3A2A8C.toInt(), 230f) { startActivity(Intent(this, VodActivity::class.java).putExtra("series", false)) }
+        bigCard(big, "🎞", "Series", "Continue where you left", 0xFFF2713A.toInt(), 0xFFB4365B.toInt(), 230f) { startActivity(Intent(this, VodActivity::class.java).putExtra("series", true)) }
+        bigCard(big, "⚽", "Sports today", "Today's matches", 0xFF1F6FEB.toInt(), 0xFF0B3C8C.toInt(), 230f) { open(SportsActivity::class.java) }
+        smallCard(small, "🗓", "TV Guide") { open(GuideActivity::class.java) }
+        smallCard(small, "🔍", "Search") { open(SearchActivity::class.java) }
+        smallCard(small, "☰", "Playlists") { playlists() }
+        smallCard(small, "⚙", "Settings") { startActivity(Intent(this, SettingsActivity::class.java)) }
+        big.getChildAt(0).requestFocus()
+        if (isTouch) findViewById<View>(R.id.homeCol).setPadding(dp(22f), dp(14f), dp(22f), dp(40f))
+    }
+
+    /** Live TV card: the channel that was on and what is on it now */
+    private fun showLast() {
+        val c = Api.byId[Prefs.lastChannel] ?: return
+        liveSub?.text = "▶  " + c.name
+        lifecycleScope.launch {
+            val p = withContext(Dispatchers.IO) { try { Api.guide(c) } catch (e: Exception) { emptyList() } }.firstOrNull { it.now() }
+            if (p != null) liveSub?.text = "▶  " + c.name + "  ·  " + p.title
         }
     }
 
@@ -87,6 +140,7 @@ class HomeActivity : BaseActivity() {
             }
             // the VPN starts by itself when it is on (Android asked for permission once, in Settings)
             if (Vpn.wanted && !Vpn.up && Vpn.conf.isNotBlank() && android.net.VpnService.prepare(this@HomeActivity) == null) Vpn.start(this@HomeActivity)
+            withContext(Dispatchers.Main) { showLast() }
             if (Api.groups.isEmpty() || System.currentTimeMillis() - lastLoad > 15 * 60_000) {
                 try { if (Api.load(cached = false)) lastLoad = System.currentTimeMillis() } catch (_: Exception) { }
             }
