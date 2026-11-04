@@ -33,6 +33,24 @@ object Device {
         get() = App.prefs.getLong("expires", 0)
         private set(v) = App.prefs.edit().putLong("expires", v).apply()
 
+    var active: String
+        get() = App.prefs.getString("active_pl", "") ?: ""
+        set(v) = App.prefs.edit().putString("active_pl", v).apply()
+
+    /** the playlists this device may use (from the admin site): name, server, user, pass */
+    fun playlists(): List<JSONObject> = try {
+        val a = org.json.JSONArray(App.prefs.getString("playlists", "[]")); (0 until a.length()).map { a.getJSONObject(it) }
+    } catch (e: Exception) { emptyList() }
+
+    /** switch to another of this device's playlists */
+    fun use(p: JSONObject) {
+        active = p.optString("name")
+        Prefs.server = p.optString("server"); Prefs.user = p.optString("user"); Prefs.pass = p.optString("pass")
+        Api.groups = emptyList()
+        java.io.File(App.app.filesDir, "live_categories.json").delete(); java.io.File(App.app.filesDir, "live_streams.json").delete()
+        Vod.clear()
+    }
+
     /** "active" | "pending" | "stopped" | "expired" | "offline" */
     fun check(): String = try {
         val u = "$API?code=$code&model=" + java.net.URLEncoder.encode(android.os.Build.MODEL, "UTF-8")
@@ -40,8 +58,15 @@ object Device {
             val o = JSONObject(r.body!!.string())
             val st = o.optString("status")
             if (st == "active") {
-                val changed = Prefs.server != o.optString("server") || Prefs.user != o.optString("user") || Prefs.pass != o.optString("pass")
-                Prefs.server = o.optString("server"); Prefs.user = o.optString("user"); Prefs.pass = o.optString("pass")
+                // the playlists the owner gave this device; the one picked on the Playlists screen stays picked
+                val arr = o.optJSONArray("playlists")
+                val lists = if (arr != null && arr.length() > 0) (0 until arr.length()).map { arr.getJSONObject(it) }
+                    else listOf(JSONObject().put("name", "").put("server", o.optString("server")).put("user", o.optString("user")).put("pass", o.optString("pass")))
+                App.prefs.edit().putString("playlists", org.json.JSONArray(lists).toString()).apply()
+                val pick = lists.firstOrNull { it.optString("name") == active } ?: lists[0]
+                val changed = Prefs.server != pick.optString("server") || Prefs.user != pick.optString("user") || Prefs.pass != pick.optString("pass")
+                Prefs.server = pick.optString("server"); Prefs.user = pick.optString("user"); Prefs.pass = pick.optString("pass")
+                active = pick.optString("name")
                 name = o.optString("name"); expires = o.optLong("expires")
                 manual = false
                 if (changed) Api.groups = emptyList()

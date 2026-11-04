@@ -19,6 +19,8 @@ async function schema(db) {
     db.prepare("CREATE TABLE IF NOT EXISTS devices (code TEXT PRIMARY KEY, created INTEGER, seen INTEGER, model TEXT, name TEXT, playlist TEXT, login TEXT, expires INTEGER, active INTEGER DEFAULT 1)"),
     db.prepare("CREATE TABLE IF NOT EXISTS admin (k TEXT PRIMARY KEY, v TEXT)"),
     db.prepare("CREATE TABLE IF NOT EXISTS sessions (token TEXT PRIMARY KEY, until INTEGER)"),
+    // more playlists on the same device (owner, 3 Nov 2026): the app's Playlists screen switches between them
+    db.prepare("CREATE TABLE IF NOT EXISTS extras (code TEXT, playlist TEXT, login TEXT, PRIMARY KEY (code, playlist))"),
   ]);
 }
 
@@ -70,7 +72,12 @@ export default {
       if (d.expires && d.expires < now) return json({ status: "expired", expires: d.expires });
       if (!d.login || !d.playlist) return json({ status: "pending" });
       const l = await open(env, d.login);
-      return json({ status: "active", server: PLAYLISTS[d.playlist] || d.playlist, user: l.user, pass: l.pass, name: d.name || "", expires: d.expires || 0 });
+      const lists = [{ name: d.playlist, server: PLAYLISTS[d.playlist] || d.playlist, user: l.user, pass: l.pass }];
+      const ex = await env.DB.prepare("SELECT playlist, login FROM extras WHERE code=?").bind(code).all();
+      for (const e of ex.results || []) {
+        try { const x = await open(env, e.login); lists.push({ name: e.playlist, server: PLAYLISTS[e.playlist] || e.playlist, user: x.user, pass: x.pass }); } catch (err) {}
+      }
+      return json({ status: "active", server: lists[0].server, user: l.user, pass: l.pass, name: d.name || "", expires: d.expires || 0, playlists: lists });
     }
 
     // short link for Downloader: saudi1.1saifsaudi.workers.dev/apk
@@ -108,7 +115,22 @@ export default {
       if (!(await authed(env, req))) return json({ error: "Sign in" }, 401);
       if (p === "/admin/api/devices") {
         const r = await env.DB.prepare("SELECT code, created, seen, model, name, playlist, expires, active, login IS NOT NULL AS has_login FROM devices ORDER BY seen DESC").all();
-        return json({ devices: r.results });
+        const ex = await env.DB.prepare("SELECT code, playlist FROM extras").all();
+        const by = {};
+        for (const e of ex.results || []) (by[e.code] = by[e.code] || []).push(e.playlist);
+        return json({ devices: (r.results || []).map((d) => ({ ...d, extras: by[d.code] || [] })) });
+      }
+      if (p === "/admin/api/extra" && req.method === "POST") {
+        const b = await req.json();
+        const code = String(b.code || "").replace(/\D/g, "");
+        if (!PLAYLISTS[b.playlist]) return json({ error: "Unknown playlist" }, 400);
+        if (b.remove) { await env.DB.prepare("DELETE FROM extras WHERE code=? AND playlist=?").bind(code, b.playlist).run(); return json({ ok: true }); }
+        if (!b.user || !b.pass) return json({ error: "اكتب اليوزر والباسوورد" }, 400);
+        const d = await env.DB.prepare("SELECT code FROM devices WHERE code=?").bind(code).first();
+        if (!d) return json({ error: "احفظ الجهاز أول" }, 400);
+        await env.DB.prepare("INSERT OR REPLACE INTO extras (code, playlist, login) VALUES (?,?,?)")
+          .bind(code, b.playlist, await seal(env, { user: String(b.user).trim(), pass: String(b.pass).trim() })).run();
+        return json({ ok: true });
       }
       if (p === "/admin/api/save" && req.method === "POST") {
         const b = await req.json();
@@ -127,6 +149,7 @@ export default {
       if (p === "/admin/api/delete" && req.method === "POST") {
         const { code } = await req.json();
         await env.DB.prepare("DELETE FROM devices WHERE code=?").bind(String(code)).run();
+        await env.DB.prepare("DELETE FROM extras WHERE code=?").bind(String(code)).run();
         return json({ ok: true });
       }
       if (p === "/admin/api/logout" && req.method === "POST") {
@@ -179,6 +202,7 @@ th{color:var(--t2);font-weight:600}.tag{display:inline-block;padding:2px 9px;bor
       <div><label>الباسوورد</label><input id="p" type="password" autocomplete="new-password" placeholder="اتركه فاضي لتبقى القديمة"></div>
       <div><label>ينتهي بتاريخ (اختياري)</label><input id="ex" type="date"></div>
     </div>
+    <label style="display:flex;gap:8px;align-items:center;color:var(--t)"><input id="asx" type="checkbox" style="width:auto"> أضفها كـ playlist إضافية لنفس الجهاز (بيختار بينهم من شاشة Playlists بالتطبيق)</label>
     <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap"><button id="save">حفظ</button><button id="clear" class="ghost">جديد</button></div>
     <div id="sm" class="msg"></div>
   </div>
@@ -207,12 +231,15 @@ async function show(){$('login').classList.add('hide');$('app').classList.remove
 async function load(){const r=await api('devices');devs=r.devices||[];$('cnt').textContent=devs.length+' جهاز';
  $('tb').innerHTML=devs.map(d=>{const exp=d.expires&&d.expires<Date.now();
   const st=!d.active?'<span class="bad">موقوف</span>':exp?'<span class="bad">منتهي</span>':d.has_login&&d.playlist?'<span class="ok">شغّال</span>':'<span class="muted">بانتظار التفعيل</span>';
-  return '<tr><td class="code">'+d.code.replace(/(\\d{4})(\\d{4})/,'$1 $2')+'</td><td>'+(d.name||'<span class=muted>—</span>')+'<div class=muted style="font-size:12px">'+(d.model||'')+'</div></td><td>'+(d.playlist?'<span class=tag>'+d.playlist+'</span>':'—')+'</td><td>'+st+'</td><td>'+ago(d.seen)+'</td><td>'+(day(d.expires)||'—')+'</td><td style="white-space:nowrap"><button class="ghost" onclick="edit(\\''+d.code+'\\')">تعديل</button> <button class="ghost" onclick="tog(\\''+d.code+'\\')">'+(d.active?'إيقاف':'تشغيل')+'</button> <button class="red" onclick="del(\\''+d.code+'\\')">حذف</button></td></tr>'}).join('')}
+  return '<tr><td class="code">'+d.code.replace(/(\\d{4})(\\d{4})/,'$1 $2')+'</td><td>'+(d.name||'<span class=muted>—</span>')+'<div class=muted style="font-size:12px">'+(d.model||'')+'</div></td><td>'+(d.playlist?'<span class=tag>'+d.playlist+'</span>':'—')+(d.extras||[]).map(x=>' <span class=tag>+'+x+' <a href="#" style="color:var(--r)" onclick="rmx(\\''+d.code+'\\',\\''+x+'\\');return false">✕</a></span>').join('')+'</td><td>'+st+'</td><td>'+ago(d.seen)+'</td><td>'+(day(d.expires)||'—')+'</td><td style="white-space:nowrap"><button class="ghost" onclick="edit(\\''+d.code+'\\')">تعديل</button> <button class="ghost" onclick="tog(\\''+d.code+'\\')">'+(d.active?'إيقاف':'تشغيل')+'</button> <button class="red" onclick="del(\\''+d.code+'\\')">حذف</button></td></tr>'}).join('')}
 window.edit=c=>{const d=devs.find(x=>x.code===c);$('code').value=d.code;$('name').value=d.name||'';$('pl').value=d.playlist||'strong';$('u').value='';$('p').value='';$('ex').value=day(d.expires);$('sm').textContent=d.has_login?'اليوزر محفوظ. اكتب يوزر وباسوورد جداد بس إذا بدك تغيّرهم.':'';scrollTo(0,0)};
 window.tog=async c=>{const d=devs.find(x=>x.code===c);await api('save',{code:c,name:d.name,playlist:d.playlist,expires:day(d.expires),active:!d.active});load()};
+window.rmx=async(c,x)=>{if(confirm('شيل '+x+' من الجهاز '+c+'؟')){await api('extra',{code:c,playlist:x,remove:true});load()}};
 window.del=async c=>{if(confirm('حذف الجهاز '+c+'؟')){await api('delete',{code:c});load()}};
 $('clear').onclick=()=>{['code','name','u','p','ex'].forEach(i=>$(i).value='');$('sm').textContent=''};
 $('save').onclick=async()=>{const code=$('code').value.replace(/\\D/g,'');const d=devs.find(x=>x.code===code);
+ if($('asx').checked){const r=await api('extra',{code,playlist:$('pl').value,user:$('u').value,pass:$('p').value});$('sm').innerHTML=r.ok?'<span class=ok>انضافت ✓ — خلي الزبون يكبس Reload</span>':'<span class=bad>'+r.error+'</span>';if(r.ok){$('p').value='';$('asx').checked=false;load()}return}
+ if($('asx').checked){const r=await api('extra',{code,playlist:$('pl').value,user:$('u').value,pass:$('p').value});$('sm').innerHTML=r.ok?'<span class=ok>انضافت ✓ — خلي الزبون يكبس Reload</span>':'<span class=bad>'+r.error+'</span>';if(r.ok){$('p').value='';$('asx').checked=false;load()}return}
  if(!d?.has_login&&(!$('u').value||!$('p').value)){$('sm').innerHTML='<span class=bad>اكتب اليوزر والباسوورد</span>';return}
  const r=await api('save',{code,name:$('name').value,playlist:$('pl').value,user:$('u').value,pass:$('p').value,expires:$('ex').value,active:d?!!d.active:true});
  $('sm').innerHTML=r.ok?'<span class=ok>انحفظ ✓ — خلي الزبون يكبس Reload</span>':'<span class=bad>'+r.error+'</span>';if(r.ok){$('p').value='';load()}};

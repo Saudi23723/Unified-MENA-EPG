@@ -327,9 +327,13 @@ class LiveActivity : BaseActivity() {
 
     /** audio / subtitles / picture size / night dimming (MENU, or hold OK in full screen) */
     private fun options() {
-        val items = arrayOf("Quality", "Audio", "Subtitles", "Picture size", "Night dimming", "Previous channel", "TV Guide")
+        val recording = Recorder.current != null
+        val items = arrayOf("Quality", "Audio", "Subtitles", "Picture size", "Night dimming", "Previous channel", "TV Guide",
+            "Multiview", if (recording) "⏹ Stop recording" else "⏺ Record")
         AlertDialog.Builder(this).setTitle(playing?.name ?: "Options").setItems(items) { _, w0 ->
             if (w0 == 0) { quality(); return@setItems }
+            if (w0 == 7) { startActivity(Intent(this, MultiviewActivity::class.java).putExtra("channel", playing?.id ?: -1)); return@setItems }
+            if (w0 == 8) { if (recording) { Recorder.stop(this); toast("Recording stopped") } else record(); return@setItems }
             when (w0 - 1) {
                 0 -> tracks(C.TRACK_TYPE_AUDIO)
                 1 -> tracks(C.TRACK_TYPE_TEXT)
@@ -344,6 +348,24 @@ class LiveActivity : BaseActivity() {
                 5 -> startActivity(Intent(this, GuideActivity::class.java))
             }
         }.show()
+    }
+
+    /** record the playing channel: until the program ends, or for a set time */
+    private fun record() {
+        val c = playing ?: return
+        lifecycleScope.launch {
+            val t = System.currentTimeMillis() / 1000
+            val cur = withContext(Dispatchers.IO) { Api.guide(c) }.firstOrNull { it.now(t) }
+            val opts = ArrayList<Pair<String, Long>>()
+            if (cur != null) opts.add("Until “${cur.title}” ends (${time.format(Date(cur.stop * 1000))})" to cur.stop * 1000 + 120_000)
+            listOf(30, 60, 120, 180).forEach { m -> opts.add("$m minutes" to System.currentTimeMillis() + m * 60_000L) }
+            val free = Recordings.free(this@LiveActivity) / (1024 * 1024 * 1024.0)
+            AlertDialog.Builder(this@LiveActivity).setTitle("Record ${c.name}  ·  %.1f GB free".format(free))
+                .setItems(opts.map { it.first }.toTypedArray()) { _, w ->
+                    Recorder.start(this@LiveActivity, c, opts[w].second)
+                    toast("⏺ Recording — find it in Settings › Recordings")
+                }.show()
+        }
     }
 
     /** the same channel in its other qualities (4K / FHD / HD / SD / HEVC / RAW...) from the whole list */

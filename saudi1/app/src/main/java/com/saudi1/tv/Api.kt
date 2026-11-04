@@ -16,6 +16,7 @@ class Group(val id: String, val name: String, val channels: MutableList<Channel>
 
 class Channel(
     val id: Int, val num: Int, val name: String, val logo: String, val epgId: String, val group: String,
+    val url: String = "",  // own streams (Dashboard): played as they are
 )
 
 class Program(val start: Long, val stop: Long, val title: String, val desc: String) {
@@ -37,7 +38,32 @@ object Api {
 
     private fun enc(s: String) = java.net.URLEncoder.encode(s, "UTF-8")
 
-    fun streamUrl(c: Channel) = "${Prefs.server}/live/${enc(Prefs.user)}/${enc(Prefs.pass)}/${c.id}.ts"
+    fun streamUrl(c: Channel) = c.url.ifEmpty { "${Prefs.server}/live/${enc(Prefs.user)}/${enc(Prefs.pass)}/${c.id}.ts" }
+
+    const val DASH = "__dash"
+
+    /** The repo's dashboard screens (football / sports guide, news, weather, prayer, Ain FM) as the first group, in the
+     *  device's own time: the Middle East set for a device on Asian time (Jordan, Gulf), else the US set. */
+    private fun dashboard(): Group? {
+        val tz = java.util.TimeZone.getDefault().id
+        val file = if (tz.startsWith("Asia/") || tz.startsWith("Africa/Cairo")) "ai_sports_dashboard_dubai.m3u" else "ai_sports_dashboard.m3u"
+        val cf = cache("dash.m3u")
+        val text = try {
+            get("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/$file?t=" + System.currentTimeMillis() / 600_000)
+                .use { it.body!!.string() }.also { cf.writeText(it) }
+        } catch (e: Exception) { if (cf.exists()) cf.readText() else return null }
+        val g = Group(DASH, "📊 Dashboard")
+        var name = ""; var logo = ""; var n = 0
+        for (line in text.lines()) {
+            if (line.startsWith("#EXTINF")) {
+                name = line.substringAfterLast(',').trim()
+                logo = Regex("tvg-logo=\"([^\"]*)\"").find(line)?.groupValues?.get(1) ?: ""
+            } else if (line.startsWith("http") && name.isNotEmpty()) {
+                n++; g.channels.add(Channel(-n, n, name, logo, "", DASH, line.trim())); name = ""
+            }
+        }
+        return g.takeIf { it.channels.isNotEmpty() }
+    }
 
     private fun get(u: String): okhttp3.Response {
         val r = App.http.newCall(Request.Builder().url(u).build()).execute()
@@ -114,6 +140,7 @@ object Api {
         out.add(Group(FAV, "★ Favorites", all.filter { it.id.toString() in fav }.toMutableList()))
         out.add(Group(ALL, "All channels", all))
         out.addAll(order.filter { it.channels.isNotEmpty() })
+        dashboard()?.let { d -> out.add(2, d); d.channels.forEach { ids[it.id] = it } }
         groups = out; byId = ids
     }
 

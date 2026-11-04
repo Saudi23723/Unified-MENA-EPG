@@ -41,7 +41,7 @@ class HomeActivity : BaseActivity() {
         tile("🗓", "TV Guide") { open(GuideActivity::class.java) }
         tile("🎬", "Movies") { startActivity(Intent(this, VodActivity::class.java).putExtra("series", false)) }
         tile("🎞", "Series") { startActivity(Intent(this, VodActivity::class.java).putExtra("series", true)) }
-        tile("🌙", "Dimming") { dim() }
+        tile("☰", "Playlists") { playlists() }
         tile("⚙", "Settings") { startActivity(Intent(this, SettingsActivity::class.java)) }
         tiles.getChildAt(0).requestFocus()
 
@@ -75,6 +75,18 @@ class HomeActivity : BaseActivity() {
     }
 
     private var lastLoad = 0L
+
+    private fun playlists() {
+        val ps = Device.playlists()
+        if (ps.size < 2) { android.widget.Toast.makeText(this, if (ps.isEmpty()) "One playlist on this device" else "Playlist: " + ps[0].optString("name"), android.widget.Toast.LENGTH_LONG).show(); return }
+        val cur = ps.indexOfFirst { it.optString("name") == Device.active }.coerceAtLeast(0)
+        androidx.appcompat.app.AlertDialog.Builder(this).setTitle("Playlists")
+            .setSingleChoiceItems(ps.map { it.optString("name").replaceFirstChar { c -> c.uppercase() } }.toTypedArray(), cur) { d, w ->
+                d.dismiss()
+                if (w == cur) return@setSingleChoiceItems
+                Device.use(ps[w]); reload()
+            }.show()
+    }
 
     private fun dim() {
         androidx.appcompat.app.AlertDialog.Builder(this).setTitle("Night dimming")

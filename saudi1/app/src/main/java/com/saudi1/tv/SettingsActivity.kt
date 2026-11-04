@@ -77,6 +77,20 @@ class SettingsActivity : BaseActivity() {
             }.show()
         }
 
+        section("Recordings")
+        val recs = Recordings.all(this)
+        row("Recordings", (if (Recorder.current != null) "⏺ recording now · " else "") + if (recs.isEmpty()) "None" else "${recs.size}") {
+            if (recs.isEmpty()) return@row
+            AlertDialog.Builder(this).setTitle("Recordings").setItems(recs.map { it.nameWithoutExtension + "   ·   %.1f GB".format(it.length() / 1e9) }.toTypedArray()) { _, w ->
+                val f = recs[w]
+                AlertDialog.Builder(this).setTitle(f.nameWithoutExtension).setItems(arrayOf("▶ Play", "🗑 Delete")) { _, a ->
+                    if (a == 0) startActivity(Intent(this, PlayerActivity::class.java).putExtra("url", android.net.Uri.fromFile(f).toString()).putExtra("title", f.nameWithoutExtension).putExtra("key", "r" + f.name))
+                    else { f.delete(); build() }
+                }.show()
+            }.show()
+        }
+        if (Recorder.current != null) row("Stop recording", Recorder.current ?: "") { Recorder.stop(this); build() }
+
         section("App")
         row("Version", BuildConfig.VERSION_NAME + "   ·   Check for update") { update() }
         row("Download link", "saudi1.1saifsaudi.workers.dev/apk", null)

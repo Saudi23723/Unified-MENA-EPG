@@ -22,6 +22,8 @@ object Vod {
     private val catCache = HashMap<String, List<VodCat>>()
     private val listCache = HashMap<String, Pair<Long, List<VodItem>>>()
 
+    fun clear() { catCache.clear(); listCache.clear() }
+
     fun cats(series: Boolean): List<VodCat> {
         val k = if (series) "s" else "v"
         catCache[k]?.let { return it }

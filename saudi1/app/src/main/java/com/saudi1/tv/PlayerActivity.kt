@@ -31,7 +31,7 @@ class PlayerActivity : BaseActivity() {
         title = intent.getStringExtra("title") ?: ""; key = intent.getStringExtra("key") ?: url; poster = intent.getStringExtra("poster") ?: ""
         view = PlayerView(this)
         setContentView(FrameLayout(this).apply { setBackgroundColor(0xFF000000.toInt()); addView(view) })
-        player = ExoPlayer.Builder(this).setMediaSourceFactory(DefaultMediaSourceFactory(OkHttpDataSource.Factory(App.http)))
+        player = ExoPlayer.Builder(this).setMediaSourceFactory(DefaultMediaSourceFactory(androidx.media3.datasource.DefaultDataSource.Factory(this, OkHttpDataSource.Factory(App.http))))
             .setSeekBackIncrementMs(10_000).setSeekForwardIncrementMs(10_000).build()
         view.player = player
         view.setShowNextButton(false); view.setShowPreviousButton(false)
