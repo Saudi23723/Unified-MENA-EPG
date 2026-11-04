@@ -77,7 +77,7 @@ class MultiviewActivity : BaseActivity() {
             v.setOnFocusChangeListener { view, f ->
                 if (two) view.foreground = if (f) ring else null
                 else view.animate().scaleX(if (f) 1f else 0.97f).scaleY(if (f) 1f else 0.97f).alpha(if (f) 1f else 0.82f).setDuration(160).start()
-                if (f) sound(idx)
+                if (f) { sound(idx); flash(tiles[idx]) }
             }
             if (!two) { v.scaleX = 0.97f; v.scaleY = 0.97f; v.alpha = 0.82f }
             tiles.add(t)
@@ -150,10 +150,20 @@ class MultiviewActivity : BaseActivity() {
         val pick = if (t.src != null) c else if (t.tries % 2 == 0) Api.qualities(c).filter { it.id != c.id }.getOrNull(t.tries / 2 - 1) ?: light(c) else light(c)
         // most subscriptions allow ONE stream at a time: a second screen is refused by the provider. Two tries only,
         // so the other screen is not kicked off again and again.
-        if (t.tries > 2) { t.now.text = if (t.src != null) "⚠ ${t.src?.name}: not available right now" else "⚠ The subscription allows 1 screen — add a 2nd playlist on the admin site"; return }
-        t.now.text = "Reconnecting…"
+        if (t.tries > 2) { t.now.text = if (t.src != null) "⚠ ${t.src?.name}: not available right now" else "⚠ The subscription allows 1 screen — add a 2nd playlist on the admin site"; hide[t]?.let { t.bar.removeCallbacks(it) }; t.bar.alpha = 1f; t.bar.visibility = View.VISIBLE; return }
+        t.now.text = "Reconnecting…"; flash(t)
         t.player.setMediaItem(MediaItem.fromUri(Api.streamUrl(pick)))
         t.player.prepare(); t.player.playWhenReady = true
+    }
+
+    /** the channel name shows for 4 s (new channel, or the screen gets the focus), then fades away: all picture */
+    private val hide = HashMap<Tile, Runnable>()
+    private fun flash(t: Tile) {
+        if (t.channel == null) return
+        hide[t]?.let { t.bar.removeCallbacks(it) }
+        t.bar.animate().cancel(); t.bar.alpha = 1f; t.bar.visibility = View.VISIBLE
+        val r = Runnable { t.bar.animate().alpha(0f).setDuration(400).withEndAction { t.bar.visibility = View.INVISIBLE }.start() }
+        hide[t] = r; t.bar.postDelayed(r, 4000)
     }
 
     private fun sound(i: Int) {
@@ -168,6 +178,7 @@ class MultiviewActivity : BaseActivity() {
         t.channel = c; t.tries = 0; t.still = 0; t.lastPos = -1
         t.empty.visibility = if (c == null) View.VISIBLE else View.GONE
         t.bar.visibility = if (c == null) View.GONE else View.VISIBLE
+        if (c != null) flash(t)
         if (c == null) { t.player.stop(); t.player.clearMediaItems(); sound(tiles.indexOfFirst { it.root.hasFocus() }.coerceAtLeast(0)); return }
         t.name.text = "${c.num}   ${c.name}" + (t.src?.let { "   ·   " + it.name } ?: ""); t.now.text = ""
         t.logo.load(c.logo.ifEmpty { null })
