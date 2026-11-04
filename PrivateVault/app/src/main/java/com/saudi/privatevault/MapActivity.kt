@@ -899,7 +899,7 @@ class MapActivity : BaseActivity(), NeonHost {
             f.backgroundTintList = dark
             f.imageTintList = white
             f.shapeAppearanceModel = shape
-            f.rippleColor = android.content.res.ColorStateList.valueOf(0x44FFFFFF)
+            f.rippleColor = 0x44FFFFFF
             f.compatElevation = dp(6).toFloat()
         }
         b.fabSos.imageTintList = android.content.res.ColorStateList.valueOf(0xFFFF453A.toInt())
