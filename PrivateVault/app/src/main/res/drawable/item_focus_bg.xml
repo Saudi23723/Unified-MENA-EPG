@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A row in focus (the TV remote's) lit with a blue edge; a touch ripples as before. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true">
+        <shape android:shape="rectangle">
+            <solid android:color="#332E9BFF" />
+            <stroke android:width="3dp" android:color="#FF2E9BFF" />
+            <corners android:radius="12dp" />
+        </shape>
+    </item>
+    <item android:drawable="?attr/selectableItemBackground" />
+</selector>

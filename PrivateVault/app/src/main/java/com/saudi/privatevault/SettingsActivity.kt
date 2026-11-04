@@ -151,6 +151,7 @@ class SettingsActivity : BaseActivity() {
     private fun link(parent: LinearLayout, title: String, onClick: () -> Unit) {
         val row = rowTitle(parent, title, null)
         row.addView(EfbUi.text(this, "›", 20f, EfbUi.DIM))
+        row.setBackgroundResource(R.drawable.item_focus_bg)
         row.setOnClickListener { onClick() }
     }
 }

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/selectableItemBackground"
+    android:background="@drawable/item_focus_bg"
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:paddingVertical="8dp"

@@ -179,6 +179,7 @@ class RegsActivity : BaseActivity() {
                     val i = body.lowercase().indexOf(words)
                     if (i >= 0) row.addView(EfbUi.ltr(EfbUi.text(this, "…" + body.substring(maxOf(0, i - 40), minOf(body.length, i + 80)) + "…", 12f, EfbUi.DIM)))
                 }
+                row.setBackgroundResource(R.drawable.item_focus_bg)
                 row.setOnClickListener { section(s, q) }
                 card!!.addView(row)
             }

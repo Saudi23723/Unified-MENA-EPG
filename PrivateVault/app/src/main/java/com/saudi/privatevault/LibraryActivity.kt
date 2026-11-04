@@ -85,6 +85,7 @@ class LibraryActivity : BaseActivity() {
             val sub = EfbUi.ltr(EfbUi.text(this, b.sub + if (b.file != null && held(b) != null) "  ·  ✓ " + getString(R.string.lib_saved) else "", 12.5f, EfbUi.DIM))
             t.addView(sub)
             row.addView(t, LinearLayout.LayoutParams(0, -2, 1f))
+            row.setBackgroundResource(R.drawable.item_focus_bg)
             row.setOnClickListener { open(b, sub) }
             card.addView(row)
         }
@@ -113,6 +114,7 @@ class LibraryActivity : BaseActivity() {
             val row = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL; setPadding(dp(14), dp(12), dp(12), dp(12)) }
             row.addView(EfbUi.text(this, "📒", 20f), LinearLayout.LayoutParams(dp(34), -2))
             row.addView(EfbUi.ltr(EfbUi.text(this, book.name.removeSuffix(".pdf"), 15.5f, EfbUi.TEXT, bold = true)).apply { setPadding(dp(8), 0, 0, 0) }, LinearLayout.LayoutParams(0, -2, 1f))
+            row.setBackgroundResource(R.drawable.item_focus_bg)
             row.setOnClickListener { read(book) }
             card.addView(row)
         }

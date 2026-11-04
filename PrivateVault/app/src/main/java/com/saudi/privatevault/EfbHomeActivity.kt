@@ -194,7 +194,7 @@ class EfbHomeActivity : BaseActivity() {
             texts.addView(EfbUi.text(this, getString(it.sub), 12.5f, EfbUi.DIM).apply { maxLines = 1; ellipsize = android.text.TextUtils.TruncateAt.END })
             row.addView(texts, LinearLayout.LayoutParams(0, -2, 1f))
             row.addView(EfbUi.text(this, "›", 24f, EfbUi.ACCENT).apply { scaleX = if (isRtl()) -1f else 1f })
-            row.setBackgroundResource(android.R.drawable.list_selector_background)
+            row.setBackgroundResource(R.drawable.item_focus_bg)
             val go = it.go
             row.setOnClickListener { go() }
             card.addView(row)

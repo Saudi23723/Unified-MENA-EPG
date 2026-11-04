@@ -103,6 +103,7 @@ class CfrBrowseActivity : BaseActivity() {
                 val row = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; setPadding(dp(14), dp(11), dp(12), dp(11)); layoutDirection = View.LAYOUT_DIRECTION_LTR }
                 row.addView(EfbUi.text(this, "Part ${p.id}", 14.5f, EfbUi.ACCENT, bold = true, mono = true), LinearLayout.LayoutParams(dp(96), -2))
                 row.addView(EfbUi.ltr(EfbUi.text(this, p.name, 14f, EfbUi.TEXT)), LinearLayout.LayoutParams(0, -2, 1f))
+                row.setBackgroundResource(R.drawable.item_focus_bg)
                 row.setOnClickListener { RegsActivity.open(this, cfrTitle, p.id) }
                 card!!.addView(row)
             }

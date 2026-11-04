@@ -99,6 +99,7 @@ class HandbookActivity : BaseActivity() {
             if (sub.text.isNotEmpty()) texts.addView(sub)
             row.addView(texts, LinearLayout.LayoutParams(0, -2, 1f))
             row.addView(EfbUi.text(this, "›", 20f, EfbUi.DIM))
+            row.setBackgroundResource(R.drawable.item_focus_bg)
             row.setOnClickListener { if (l.pdf) pdf(l, sub) else open(this, l.text, l.url) }
             card.addView(row)
         }
