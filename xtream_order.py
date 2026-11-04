@@ -214,7 +214,40 @@ def saved_group_order(playlist: str | None) -> dict:
 PLAYLIST_EXACT = {"strong"}
 
 
+# owner, 4 Nov 2026: in every beIN Sports group, on every playlist, HEVC and RAW first, then 4K, FHD, HD, SD / low
+BEIN_GROUP = re.compile(r"BEIN")
+_BEIN_TIERS = [(re.compile(r"\b(HEVC|H\.?265|RAW)\b"), 0), (re.compile(r"\b(4K|UHD|8K|2160P?|3840P?)\b|ULTRA"), 1),
+               (re.compile(r"\b(FHD|1080P?)\b"), 2), (re.compile(r"\b(SD|LOW|LQ|LITE|480P?|360P?)\b"), 4)]
+
+
+def bein_tier(name: str) -> int:
+    n = " ".join(name.translate(_SMALLCAPS).upper().replace("/", " ").split())
+    for rx, t in _BEIN_TIERS:
+        if rx.search(n):
+            return t
+    return 3
+
+
+def bein_first(chans: list[dict]) -> list[dict]:
+    """inside each beIN group: the quality tiers in that order, the existing order kept within a tier (stable)"""
+    out = list(chans)
+    slots = {}
+    for i, c in enumerate(out):
+        g = c["group"].translate(_SMALLCAPS).upper()
+        if BEIN_GROUP.search(g) and not EVENT_GROUP.search(c["group"]):
+            slots.setdefault(c["group"], []).append(i)
+    for g, idx in slots.items():
+        members = sorted((out[i] for i in idx), key=lambda c: bein_tier(c["name"]))   # sorted() is stable
+        for i, c in zip(idx, members):
+            out[i] = c
+    return out
+
+
 def order(chans: list[dict], playlist: str | None = None) -> list[dict]:
+    return bein_first(_order(chans, playlist))
+
+
+def _order(chans: list[dict], playlist: str | None = None) -> list[dict]:
     if playlist in PLAYLIST_EXACT:
         return list(chans)
     drop = PLAYLIST_DROP.get(playlist or "")
