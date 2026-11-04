@@ -123,7 +123,13 @@ def shown(g: str, playlist: str) -> str:
 
 
 # 1) channel lists -> Xtream answers + what guides are needed
-want = {"u": set(), "o": set(), "a": set(), "r": set(), "l": set(), "e": set()}
+want = {"u": set(), "o": set(), "a": set(), "r": set(), "l": set(), "e": set(), "f": set()}
+# channels that loop series / films around the clock and have no guide anywhere (Shoof Max, OSN, Netflix
+# channels...): "Program 24/7" blocks instead of an empty strip (owner, 3 Nov 2026; same idea as filler_epg.py)
+FILLER_247 = re.compile(r"24\s*/\s*7|SHOOF|NETFLIX|OSN|SHAHID|MOVIE|CINEMA|FILM|SERIES|DRAMA|KIDS|CARTOON|"
+                        r"مسلسل|افلام|أفلام|دراما|اطفال|أطفال|كرتون|رمضان", re.I)
+# never on sports or news (a "24/7" label there would hide that the guide is missing)
+NOT_247 = re.compile(r"SPORT|ꜱᴘᴏʀᴛ|NEWS|ɴᴇᴡꜱ|رياض|أخبار|اخبار|\bTOD\b|BEIN|ALWAN|STARZ", re.I)
 hydra_compat = set()
 maps = {}
 for f in sorted(glob.glob("xtream/*/channel_map.json")):
@@ -154,6 +160,9 @@ for f in sorted(glob.glob("xtream/*/channel_map.json")):
     streams, bycat, mp = [], {}, {}
     for n, c in enumerate(chans, 1):
         sp = split(official_fill.override(c["name"]) or c.get("epg") or official_fill.fill(c["name"], c["group"]))
+        if not sp and not xtream_order.EVENT_GROUP.search(c["group"]) and (FILLER_247.search(c["group"]) or "24/7" in c["name"]) \
+                and not NOT_247.search(c["group"] + " " + c["name"]):
+            sp = ("f", "247")
         cid = catid[c["group"]]
         icon = LOGOS.find(c["name"], c["group"], name, sp[0] if sp else None, sp[1] if sp else None)
         s = {"num": n, "name": c["name"], "stream_type": "live", "stream_id": c["stream_id"], "stream_icon": icon,
@@ -288,9 +297,18 @@ for src_name, ids in sorted(by_src.items()):
 # 3b) "e:" ids (non-Arabic channels such as TSN) wait for an approved public source: this repository's
 #    gate (channel_gate_selftest.py) allows no aggregated dump that is not on its named list.
 
+# 3c) "Program 24/7": three-hour blocks on the hour over the whole guide window
+if want["f"]:
+    _t = int(lo.timestamp()) // 10800 * 10800
+    while _t < int(hi.timestamp()):
+        listings["f"]["247"].append({"id": str(_t), "epg_id": "247", "title": b64("Program 24/7"), "lang": "", "start": fmt(_t),
+                                     "end": fmt(_t + 10800), "description": b64(""), "channel_id": "247",
+                                     "start_timestamp": str(_t), "stop_timestamp": str(_t + 10800), "now_playing": 0, "has_archive": 0})
+        _t += 10800
+
 # 4) write
 shutil.rmtree(OUT, ignore_errors=True)
-for kind in ("u", "o", "a", "r", "l", "e"):
+for kind in ("u", "o", "a", "r", "l", "e", "f"):
     os.makedirs(f"{OUT}/epg/{kind}", exist_ok=True)
     for c, items in listings[kind].items():
         items.sort(key=lambda x: int(x["start_timestamp"]))
@@ -306,7 +324,7 @@ for old in glob.glob("xtream/epg/*.json"):
 for kind, c in hydra_compat:
     json.dump({"epg_listings": listings[kind][c]}, open(f"xtream/epg/{safe(c)}.json", "w", encoding="utf-8"),
               ensure_ascii=True)
-for kind in ("u", "o", "a", "r", "l", "e"):
+for kind in ("u", "o", "a", "r", "l", "e", "f"):
     full = sum(1 for v in listings[kind].values() if v)
     print(f"xtream {kind}: {full}/{len(listings[kind])} guide channels with programmes, "
           f"{sum(map(len, listings[kind].values()))} programmes")
