@@ -52,7 +52,8 @@ open class BaseActivity : AppCompatActivity() {
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-        if (quickTools) QuickTools.attach(this)
+        // No pens or notes on a television.
+        if (quickTools && !Tv.isTv(this)) QuickTools.attach(this)
     }
 
     /** onResume, but only once the vault is open. */

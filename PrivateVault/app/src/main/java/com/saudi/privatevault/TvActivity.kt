@@ -38,7 +38,16 @@ class TvActivity : BaseActivity() {
         })
         val row = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
         col.addView(row)
-        val tiles = listOf(
+        // The book last read, a press away.
+        val last = VaultLock.prefs(this).getString("last_book", null)?.let { VaultStore.item(it) }
+        val tiles = listOfNotNull(
+            last?.let { b ->
+                val page = VaultLock.prefs(this).getInt("pdf_${b.id}", 0) + 1
+                Tile(R.drawable.ic_bookmark_on, 0, 0, intArrayOf(0xFF4CD97B.toInt(), 0xFF1E9E4A.toInt()),
+                    getString(R.string.tv_continue), b.name.removeSuffix(".pdf") + " · " + getString(R.string.tv_page, page)) {
+                    startActivity(Intent(this, PdfViewerActivity::class.java).putExtra(Viewers.EXTRA_ID, b.id))
+                }
+            },
             Tile(R.drawable.ic_laptop, R.string.tv_cloud, R.string.tv_cloud_sub, intArrayOf(0xFF4DB2FF.toInt(), 0xFF0A72E0.toInt())) { startActivity(Intent(this, LaptopActivity::class.java)) },
             Tile(R.drawable.ic_video, R.string.tv_device, R.string.tv_device_sub, intArrayOf(0xFFFF8A65.toInt(), 0xFFD84315.toInt())) { startActivity(Intent(this, MainActivity::class.java)) },
             Tile(R.drawable.ic_contents, R.string.tv_library, R.string.tv_library_sub, intArrayOf(0xFFA98BFF.toInt(), 0xFF6C47E0.toInt())) { startActivity(Intent(this, LibraryActivity::class.java)) },
@@ -57,7 +66,7 @@ class TvActivity : BaseActivity() {
         first?.requestFocus()
     }
 
-    private class Tile(val icon: Int, val title: Int, val sub: Int, val grad: IntArray, val go: () -> Unit)
+    private class Tile(val icon: Int, val title: Int, val sub: Int, val grad: IntArray, val titleText: String? = null, val subText: String? = null, val go: () -> Unit)
 
     /** A tile that lifts and lights its edge when the remote's focus is on it. */
     private fun tile(t: Tile): View = LinearLayout(this).apply {
@@ -74,10 +83,10 @@ class TvActivity : BaseActivity() {
             background = GradientDrawable(GradientDrawable.Orientation.TL_BR, t.grad).apply { shape = GradientDrawable.OVAL }
         }, LinearLayout.LayoutParams(dp(84), dp(84)))
         addView(TextView(context).apply {
-            text = getString(t.title).replace(Regex("^[^\\p{L}]+"), ""); textSize = 22f; setTextColor(0xFFFFFFFF.toInt())
+            text = t.titleText ?: getString(t.title).replace(Regex("^[^\\p{L}]+"), ""); textSize = 22f; setTextColor(0xFFFFFFFF.toInt())
             typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL); gravity = Gravity.CENTER; setPadding(0, dp(16), 0, dp(4))
         })
-        addView(TextView(context).apply { text = getString(t.sub); textSize = 14f; setTextColor(0xB3FFFFFF.toInt()); gravity = Gravity.CENTER })
+        addView(TextView(context).apply { text = t.subText ?: getString(t.sub); textSize = 14f; setTextColor(0xB3FFFFFF.toInt()); gravity = Gravity.CENTER; maxLines = 2; ellipsize = android.text.TextUtils.TruncateAt.END })
         setOnFocusChangeListener { v, has ->
             v.background = if (has) lit else idle
             v.animate().scaleX(if (has) 1.06f else 1f).scaleY(if (has) 1.06f else 1f).translationZ(if (has) dp(12).toFloat() else 0f).setDuration(150).start()

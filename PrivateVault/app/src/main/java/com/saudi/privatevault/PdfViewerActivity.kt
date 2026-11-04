@@ -149,6 +149,9 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
         backToLink.isEnabled = history.isNotEmpty()
         onBackPressedDispatcher.addCallback(this, backToLink)
 
+        // The book last opened, for "Continue reading" on the TV's home.
+        VaultLock.prefs(this).edit().putString("last_book", itemId).apply()
+        if (Tv.isTv(this)) setUpTv()
         b.prev.setOnClickListener { go(pageIndex - 1) }
         b.next.setOnClickListener { go(pageIndex + 1) }
         b.pageNumber.setOnClickListener { askPage() }
@@ -351,6 +354,78 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
             val target = printed?.hit(index, px, py, pageLinks.width) ?: -1
             if (target >= 0) jump(target) else toggleChrome()
         }
+    }
+
+    // ---- reading on a television, with the remote ----
+
+    private var tvHint: TextView? = null
+
+    /**
+     * On a TV the page fills the screen; nothing to write or type. The remote:
+     * right / left turn the page (or move a zoomed one to its edge first),
+     * up zooms in, down zooms out, OK shows or hides the bars.
+     */
+    private fun setUpTv() {
+        for (id in listOf(R.id.v_write, R.id.v_ai, R.id.v_finger, R.id.v_search, R.id.v_open_with)) b.toolbar.menu.findItem(id)?.isVisible = false
+        b.page.fingerDraws = false
+        b.root.post { setChrome(false) }
+        tvHint = TextView(this).apply {
+            textSize = 16f; setTextColor(0xFFFFFFFF.toInt()); typeface = EfbUi.MEDIUM
+            background = GradientDrawable().apply { cornerRadius = dp(18).toFloat(); setColor(0xCC000000.toInt()) }
+            setPadding(dp(18), dp(8), dp(18), dp(8)); alpha = 0f
+        }
+        (b.root as? FrameLayout)?.addView(tvHint, FrameLayout.LayoutParams(-2, -2, Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL).apply { bottomMargin = dp(28) })
+        flashTv(getString(R.string.tv_keys))
+    }
+
+    /** A short note at the bottom of the screen: the page, the zoom. */
+    private fun flashTv(text: String) {
+        val h = tvHint ?: return
+        h.text = text
+        h.animate().cancel()
+        h.alpha = 1f
+        h.animate().alpha(0f).setStartDelay(1800).setDuration(500).start()
+    }
+
+    // With the bars hidden the arrows belong to the page, not to whatever button had the focus.
+    override fun dispatchKeyEvent(event: android.view.KeyEvent): Boolean {
+        if (tvHint != null && !chromeShown && event.action == android.view.KeyEvent.ACTION_DOWN && tvKey(event.keyCode)) return true
+        if (tvHint != null && !chromeShown && event.action == android.view.KeyEvent.ACTION_UP && event.keyCode != android.view.KeyEvent.KEYCODE_BACK) return true
+        return super.dispatchKeyEvent(event)
+    }
+
+    private fun tvKey(keyCode: Int): Boolean {
+        val count = renderer?.pageCount ?: 0
+        val step = resources.displayMetrics.widthPixels * 0.35f
+        when (keyCode) {
+            android.view.KeyEvent.KEYCODE_DPAD_RIGHT, android.view.KeyEvent.KEYCODE_MEDIA_FAST_FORWARD, android.view.KeyEvent.KEYCODE_PAGE_DOWN -> {
+                if (!b.page.pan(-step, 0f)) { turn(1); flashTv("${pageIndex + 1} / $count") }
+            }
+            android.view.KeyEvent.KEYCODE_DPAD_LEFT, android.view.KeyEvent.KEYCODE_MEDIA_REWIND, android.view.KeyEvent.KEYCODE_PAGE_UP -> {
+                if (!b.page.pan(step, 0f)) { turn(-1); flashTv("${pageIndex + 1} / $count") }
+            }
+            android.view.KeyEvent.KEYCODE_DPAD_UP -> { b.page.zoomBy(1.25f); flashTv("🔍 +") }
+            android.view.KeyEvent.KEYCODE_DPAD_DOWN -> {
+                // Zoomed: move down the page first, then zoom out at its foot.
+                if (!b.page.zoomed() || !b.page.pan(0f, -step)) { b.page.zoomBy(0.8f); flashTv("🔍 −") }
+            }
+            android.view.KeyEvent.KEYCODE_DPAD_CENTER, android.view.KeyEvent.KEYCODE_ENTER -> setChrome(!chromeShown)
+            android.view.KeyEvent.KEYCODE_MENU -> { setChrome(true); b.toolbar.showOverflowMenu() }
+            else -> return false
+        }
+        return true
+    }
+
+    /** A page turned with a short slide, the way a book turns. */
+    private fun turn(dir: Int) {
+        val count = renderer?.pageCount ?: return
+        val next = pageIndex + dir
+        if (next < 0 || next >= count) return
+        b.page.animate().translationX(-dir * b.page.width * 0.12f).alpha(0.3f).setDuration(110).withEndAction {
+            go(next)
+            b.page.translationX = dir * b.page.width * 0.12f
+            b.page.animate().translationX(0f).alpha(1f).setDuration(160).start()
+        }.start()
     }
 
     // ---- reading full screen ----

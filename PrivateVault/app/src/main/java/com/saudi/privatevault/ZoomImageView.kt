@@ -132,6 +132,29 @@ open class ZoomImageView @JvmOverloads constructor(
 
     private fun isZoomed() = currentScale() > minScale * 1.02f
 
+    // ---- for a remote control: zoom about the middle, and move a zoomed page ----
+
+    /** Zooms by [f] about the middle of the view, between the whole page and eight times. */
+    fun zoomBy(f: Float) {
+        val cur = currentScale()
+        val target = (cur * f).coerceIn(minScale, minScale * 8f)
+        if (target <= minScale * 1.001f) { fit(); return }
+        m.postScale(target / cur, target / cur, width / 2f, height / 2f)
+        apply()
+    }
+
+    fun zoomed() = isZoomed()
+
+    /** Moves the zoomed page; false when already at that edge (so the page can turn instead). */
+    fun pan(dx: Float, dy: Float): Boolean {
+        if (!isZoomed()) return false
+        val before = FloatArray(9); m.getValues(before)
+        m.postTranslate(dx, dy)
+        apply()
+        val after = FloatArray(9); m.getValues(after)
+        return Math.abs(after[Matrix.MTRANS_X] - before[Matrix.MTRANS_X]) > 0.5f || Math.abs(after[Matrix.MTRANS_Y] - before[Matrix.MTRANS_Y]) > 0.5f
+    }
+
     /** Keep the picture centred while smaller than the view, and its edges on screen when bigger. */
     private fun apply() {
         val d = drawable ?: return
