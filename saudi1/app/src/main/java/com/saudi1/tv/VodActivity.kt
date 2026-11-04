@@ -89,6 +89,13 @@ class VodActivity : BaseActivity() {
         grid.adapter = gridAdapter; grid.itemAnimator = null
         findViewById<TextView>(R.id.vodSort).apply {
             setTextColor(getColorStateList(R.color.on_focus)); setOnClickListener { sortDialog() }; text = "⇅  " + sortNames[sort]
+            // ▼ from the sort button goes straight back to the posters (it stayed up there before)
+            setOnKeyListener { _, k, e ->
+                if (e.action == KeyEvent.ACTION_DOWN && k == KeyEvent.KEYCODE_DPAD_DOWN && items.isNotEmpty()) {
+                    val pos = sortCol.coerceAtMost(items.size - 1)
+                    grid.scrollToPosition(0); grid.post { grid.layoutManager?.findViewByPosition(pos)?.requestFocus() ?: moveTo(pos) }; true
+                } else if (e.action == KeyEvent.ACTION_DOWN && k == KeyEvent.KEYCODE_DPAD_LEFT) { focusCats(); true } else false
+            }
         }
         grid.setItemViewCacheSize(24)
         lifecycleScope.launch {
@@ -104,6 +111,7 @@ class VodActivity : BaseActivity() {
     }
 
     private var lastPos = -1
+    private var sortCol = 0
 
     override fun onResume() {
         super.onResume()
@@ -267,7 +275,8 @@ class VodActivity : BaseActivity() {
                 when (k) {
                     // the last row goes round to the first one (same column), like the lists
                     KeyEvent.KEYCODE_DPAD_DOWN -> { if (p + COLS < items.size) moveTo(p + COLS) else if (p / COLS < (items.size - 1) / COLS) moveTo(items.size - 1) else wrapGrid(p % COLS); true }
-                    KeyEvent.KEYCODE_DPAD_UP -> { if (p - COLS >= 0) moveTo(p - COLS) else findViewById<View>(R.id.vodSort).requestFocus(); true }
+                    // the first row: ▲ goes up to the sort button only on a new press (holding ▲ stops on the posters)
+                    KeyEvent.KEYCODE_DPAD_UP -> { if (p - COLS >= 0) moveTo(p - COLS) else if (e.repeatCount == 0) { sortCol = p % COLS; findViewById<View>(R.id.vodSort).requestFocus() }; true }
                     KeyEvent.KEYCODE_DPAD_RIGHT -> { if (p % COLS < COLS - 1 && p + 1 < items.size) moveTo(p + 1); true }
                     KeyEvent.KEYCODE_DPAD_LEFT -> { if (p % COLS > 0) moveTo(p - 1) else focusCats(); true }
                     KeyEvent.KEYCODE_MENU -> { sortDialog(); true }
