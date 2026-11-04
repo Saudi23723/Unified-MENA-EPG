@@ -84,7 +84,9 @@ def days_the_events_span(now: datetime, events: list[dict],
     falls, and no match is dropped.
     """
     first = now.astimezone(viewer).date()
+    # no events at all (a league between seasons): the same three days as the first clock, so the
+    # "nothing on" guide does not stop tonight (health check, 4 Nov 2026)
     last = max((event["start"].astimezone(viewer).date()
-                for event in events), default=first)
+                for event in events), default=first + timedelta(days=2))
     return [first + timedelta(days=step)
             for step in range((last - first).days + 1)]

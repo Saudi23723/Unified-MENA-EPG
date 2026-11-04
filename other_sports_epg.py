@@ -2127,15 +2127,29 @@ def publish_all(events: list[dict], now: datetime,
     # empty, retain today's empty board so the channel can say that clearly.
     # Do not keep an empty Monday board when Tuesday or Wednesday has the next
     # real game; that made the channel appear stuck on the old day.
-    with_something = [day for day in days if by_day[day]] or [days[0]]
+    # THE WHOLE WINDOW EMPTY (a league between seasons: MLB and the WNBA from November): today's empty
+    # board is drawn once and the guide still reaches the end of the window with it, so the channel says
+    # "nothing on" for every day instead of a guide that stops tonight (the health check read that as a
+    # guide that had run out, 4 Nov 2026).
+    empty_window = not any(by_day[day] for day in days)
+    with_something = list(days) if empty_window else ([day for day in days if by_day[day]] or [days[0]])
     if len(with_something) < len(days):
         log(f"  {len(days) - len(with_something)} day(s) with nothing on "
             f"them, not drawn")
 
     board_no = 0
     per_day: list[int] = []
+    empty_board = None
     for day in with_something:
         today = by_day[day]
+        if empty_window and empty_board is not None:
+            opens, closes = day_bounds(day)
+            rows = add_day_in_blocks(
+                tv, CHANNEL_ID, opens, closes, [],
+                lambda moment, day=day: (day_title(day, [], moment), day_page(day, [], moment)),
+                icon=empty_board)
+            log(f"  {day} -> nothing on (between seasons), {rows} row(s) on today's board")
+            continue
         chunks = [today[at:at + MAX_ON_BOARD]
                   for at in range(0, len(today), MAX_ON_BOARD)] or [[]]
         first_board = None
@@ -2145,6 +2159,7 @@ def publish_all(events: list[dict], now: datetime,
             first_board = first_board or url
             board_no += 1
         per_day.append(len(chunks))
+        empty_board = empty_board or first_board
 
         # IN BLOCKS, not as one row — see add_day_in_blocks. This channel
         # and the two that wear it, the baseball one and the NBA/NFL one,
