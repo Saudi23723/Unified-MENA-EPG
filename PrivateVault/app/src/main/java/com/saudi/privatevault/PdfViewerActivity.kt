@@ -368,13 +368,14 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
     private fun setUpTv() {
         for (id in listOf(R.id.v_write, R.id.v_ai, R.id.v_finger, R.id.v_search, R.id.v_open_with)) b.toolbar.menu.findItem(id)?.isVisible = false
         b.page.fingerDraws = false
-        b.root.post { setChrome(false) }
         tvHint = TextView(this).apply {
             textSize = 16f; setTextColor(0xFFFFFFFF.toInt()); typeface = EfbUi.MEDIUM
             background = GradientDrawable().apply { cornerRadius = dp(18).toFloat(); setColor(0xCC000000.toInt()) }
             setPadding(dp(18), dp(8), dp(18), dp(8)); alpha = 0f
         }
         (b.root as? FrameLayout)?.addView(tvHint, FrameLayout.LayoutParams(-2, -2, Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL).apply { bottomMargin = dp(28) })
+        setChrome(false)
+        b.root.postDelayed({ if (!chromeShown) { setChrome(false); b.page.fit() } }, 400)
         flashTv(getString(R.string.tv_keys))
     }
 
@@ -437,7 +438,9 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
     /** The bars and the phone's own bars come and go together; the page never moves. */
     private fun setChrome(shown: Boolean) {
         chromeShown = shown
-        b.topBar.animate().translationY(if (shown) 0f else -b.topBar.height.toFloat()).setDuration(180).start()
+        // On a TV the bars simply go, whatever their height yet; the page has the whole screen.
+        if (tvHint != null) b.topBar.visibility = if (shown) View.VISIBLE else View.GONE
+        else b.topBar.animate().translationY(if (shown) 0f else -b.topBar.height.toFloat()).setDuration(180).start()
         b.navBar.visibility = if (shown && !writing) View.VISIBLE else View.GONE
         val ctl = WindowCompat.getInsetsController(window, window.decorView)
         ctl.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
