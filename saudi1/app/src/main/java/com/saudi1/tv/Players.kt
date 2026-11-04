@@ -21,8 +21,11 @@ object Players {
             .setMediaSourceFactory(DefaultMediaSourceFactory(DefaultDataSource.Factory(ctx, OkHttpDataSource.Factory(App.http))))
             .setAudioAttributes(AudioAttributes.Builder().setUsage(C.USAGE_MEDIA).setContentType(C.AUDIO_CONTENT_TYPE_MOVIE).build(), audioFocus)
             .setSeekBackIncrementMs(seekMs).setSeekForwardIncrementMs(seekMs)
-        // fast start for live TV: small buffers, play as soon as there is a second of video
-        if (live) b.setLoadControl(DefaultLoadControl.Builder().setBufferDurationsMs(8_000, 30_000, 1_000, 2_000).build())
+        // live TV: starts after 1.5 s of picture, keeps up to 50 s in reserve so short provider hiccups don't show,
+        // and after a hiccup waits for 3 s before playing again (no stop-start-stop). Staying close to live is
+        // done by LiveActivity's catch-up (plays 1.07x while it is behind).
+        if (live) b.setLoadControl(DefaultLoadControl.Builder().setBufferDurationsMs(15_000, 50_000, 1_500, 3_000)
+            .setPrioritizeTimeOverSizeThresholds(true).build())
         return b.build()
     }
 }

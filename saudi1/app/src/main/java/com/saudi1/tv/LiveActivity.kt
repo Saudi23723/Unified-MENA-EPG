@@ -122,6 +122,9 @@ class LiveActivity : BaseActivity() {
                 }
             }
             override fun onPlaybackStateChanged(state: Int) {
+                // every moment spent waiting after the picture started puts the viewer that much behind live
+                if (state == Player.STATE_BUFFERING && player.currentPosition > 0) bufStart = android.os.SystemClock.elapsedRealtime()
+                if (state != Player.STATE_BUFFERING && bufStart > 0) { lag += android.os.SystemClock.elapsedRealtime() - bufStart; bufStart = 0 }
                 if (state == Player.STATE_READY) {
                     // remember which link worked for this channel
                     playing?.let { c -> if (usingHls) Hls.add(c.id) else if (tries > 0) Hls.remove(c.id) }
@@ -146,6 +149,20 @@ class LiveActivity : BaseActivity() {
             while (isActive) { val t = clockF.format(Date()); clock.text = t; bClock.text = t; fullClock.text = t; delay(5_000) }
         }
         lifecycleScope.launch { start() }
+        // always close to live (.ts channels): with picture in reserve it plays 1.07x until it is back, the sound
+        // keeps its pitch; far behind with nothing in reserve (a long hiccup) = the channel again, straight at live
+        lifecycleScope.launch {
+            while (isActive) {
+                delay(1000)
+                if (playing == null || usingHls || player.playbackState != Player.STATE_READY || !player.isPlaying) continue
+                val ahead = player.bufferedPosition - player.currentPosition
+                val fast = player.playbackParameters.speed > 1f
+                if (fast) lag = (lag - 70).coerceAtLeast(0)
+                val want = when { ahead > 9_000 || (lag > 1_500 && ahead > 4_000) -> 1.07f; fast && ahead > 3_500 && (lag > 0 || ahead > 6_000) -> 1.07f; else -> 1f }
+                if (want != player.playbackParameters.speed) player.setPlaybackSpeed(want)
+                if (lag > 12_000 && ahead < 2_500) { lag = 0; playing?.let { start(it) } }
+            }
+        }
         // a picture that stops moving (the provider's stream stalls) starts again by itself
         lifecycleScope.launch {
             var last = -1L; var still = 0
@@ -255,11 +272,18 @@ class LiveActivity : BaseActivity() {
         channelAdapter.items.indexOfFirst { it.id == c.id }.takeIf { it >= 0 }?.let { channelAdapter.notifyItemChanged(it) }
     }
 
+    private var lag = 0L; private var bufStart = 0L
+
     private fun start(c: Channel, hls: Boolean = Hls.has(c.id)) {
         val u = Api.streamUrl(c)
         usingHls = hls && u.endsWith(".ts")
+        // HLS: the player itself stays 6 s from live, a little faster / slower to keep there
+        val liveCfg = MediaItem.LiveConfiguration.Builder().setTargetOffsetMs(6_000).setMinOffsetMs(3_000).setMaxOffsetMs(20_000)
+            .setMinPlaybackSpeed(0.97f).setMaxPlaybackSpeed(1.06f).build()
         player.setMediaItem(if (usingHls) MediaItem.Builder().setUri(u.removeSuffix(".ts") + ".m3u8")
-            .setMimeType(androidx.media3.common.MimeTypes.APPLICATION_M3U8).build() else MediaItem.fromUri(u))
+            .setMimeType(androidx.media3.common.MimeTypes.APPLICATION_M3U8).setLiveConfiguration(liveCfg).build() else MediaItem.fromUri(u))
+        lag = 0; bufStart = 0
+        player.setPlaybackSpeed(1f)
         player.prepare()
         player.playWhenReady = true
     }
