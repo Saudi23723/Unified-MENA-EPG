@@ -368,6 +368,7 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
     private fun setUpTv() {
         for (id in listOf(R.id.v_write, R.id.v_ai, R.id.v_finger, R.id.v_search, R.id.v_open_with)) b.toolbar.menu.findItem(id)?.isVisible = false
         b.page.fingerDraws = false
+        b.page.onFitted = { if (tvZoom > 0 || tvFoot) b.page.post { applyTvZoom() } }
         tvHint = TextView(this).apply {
             textSize = 16f; setTextColor(0xFFFFFFFF.toInt()); typeface = EfbUi.MEDIUM
             background = GradientDrawable().apply { cornerRadius = dp(18).toFloat(); setColor(0xCC000000.toInt()) }
@@ -388,30 +389,98 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
         h.animate().alpha(0f).setStartDelay(1800).setDuration(500).start()
     }
 
+    // The zoom on a TV: an index into the levels (whole page, page width, and closer), kept from page to page.
+    private var tvZoom = 0
+    private var tvFoot = false
+
+    /** The zoom levels of this page, as multiples of the whole page: whole, its width, then 1.5× and 2× the width. */
+    private fun tvLevels(): List<Float> {
+        val w = b.page.widthFactor().coerceAtLeast(1f)
+        val out = arrayListOf(1f)
+        for (f in listOf(w, w * 1.5f, w * 2f, 3f)) if (f > out.last() * 1.15f) out.add(f)
+        return out.take(4)
+    }
+
+    private fun tvZoomLabel(): String {
+        val levels = tvLevels()
+        val i = tvZoom.coerceIn(0, levels.size - 1)
+        val w = b.page.widthFactor()
+        return when {
+            i == 0 -> getString(R.string.tv_zoom_page)
+            Math.abs(levels[i] - w) < 0.02f && w > 1.15f -> getString(R.string.tv_zoom_width)
+            else -> "🔍 %d%%".format(Math.round(levels[i] * 100))
+        }
+    }
+
+    private fun applyTvZoom() {
+        val levels = tvLevels()
+        tvZoom = tvZoom.coerceIn(0, levels.size - 1)
+        b.page.zoomTo(levels[tvZoom], atFoot = tvFoot)
+        tvFoot = false
+    }
+
     // With the bars hidden the arrows belong to the page, not to whatever button had the focus.
     override fun dispatchKeyEvent(event: android.view.KeyEvent): Boolean {
         if (tvHint != null && !chromeShown && event.action == android.view.KeyEvent.ACTION_DOWN && tvKey(event.keyCode)) return true
         if (tvHint != null && !chromeShown && event.action == android.view.KeyEvent.ACTION_UP && event.keyCode != android.view.KeyEvent.KEYCODE_BACK) return true
+        // Bars shown: Back hides them first.
+        if (tvHint != null && chromeShown && event.keyCode == android.view.KeyEvent.KEYCODE_BACK) {
+            if (event.action == android.view.KeyEvent.ACTION_UP) setChrome(false)
+            return true
+        }
         return super.dispatchKeyEvent(event)
     }
 
+    /**
+     * The remote, as a TV reader works it:
+     * OK steps the zoom (whole page → page width → closer → whole page);
+     * whole page: left / right turn the page, up / down too;
+     * zoomed: the arrows move about the page, and past its foot (or top, or side)
+     * the next (or previous) page opens at the same zoom;
+     * Back goes to the whole page first, then out; Menu shows the bars.
+     */
     private fun tvKey(keyCode: Int): Boolean {
         val count = renderer?.pageCount ?: 0
-        val step = resources.displayMetrics.widthPixels * 0.35f
+        val sx = b.page.width * 0.45f
+        val sy = b.page.height * 0.6f
+        val zoomed = b.page.zoomed()
         when (keyCode) {
-            android.view.KeyEvent.KEYCODE_DPAD_RIGHT, android.view.KeyEvent.KEYCODE_MEDIA_FAST_FORWARD, android.view.KeyEvent.KEYCODE_PAGE_DOWN -> {
-                if (!b.page.pan(-step, 0f)) { turn(1); flashTv("${pageIndex + 1} / $count") }
+            android.view.KeyEvent.KEYCODE_DPAD_CENTER, android.view.KeyEvent.KEYCODE_ENTER, android.view.KeyEvent.KEYCODE_NUMPAD_ENTER -> {
+                val levels = tvLevels()
+                tvZoom = (tvZoom + 1) % levels.size
+                when {
+                    tvZoom == 0 -> b.page.fit()
+                    !zoomed -> b.page.zoomTo(levels[tvZoom])
+                    else -> b.page.zoomKeep(levels[tvZoom])
+                }
+                flashTv(tvZoomLabel())
             }
-            android.view.KeyEvent.KEYCODE_DPAD_LEFT, android.view.KeyEvent.KEYCODE_MEDIA_REWIND, android.view.KeyEvent.KEYCODE_PAGE_UP -> {
-                if (!b.page.pan(step, 0f)) { turn(-1); flashTv("${pageIndex + 1} / $count") }
+            android.view.KeyEvent.KEYCODE_DPAD_RIGHT -> when {
+                !zoomed || b.page.atRight() -> if (pageIndex < count - 1) { turn(1); flashTv("${pageIndex + 2} / $count") }
+                else -> b.page.panSmooth(-sx, 0f)
             }
-            android.view.KeyEvent.KEYCODE_DPAD_UP -> { b.page.zoomBy(1.25f); flashTv("🔍 +") }
-            android.view.KeyEvent.KEYCODE_DPAD_DOWN -> {
-                // Zoomed: move down the page first, then zoom out at its foot.
-                if (!b.page.zoomed() || !b.page.pan(0f, -step)) { b.page.zoomBy(0.8f); flashTv("🔍 −") }
+            android.view.KeyEvent.KEYCODE_DPAD_LEFT -> when {
+                !zoomed || b.page.atLeft() -> if (pageIndex > 0) { turn(-1); flashTv("$pageIndex / $count") }
+                else -> b.page.panSmooth(sx, 0f)
             }
-            android.view.KeyEvent.KEYCODE_DPAD_CENTER, android.view.KeyEvent.KEYCODE_ENTER -> setChrome(!chromeShown)
-            android.view.KeyEvent.KEYCODE_MENU -> { setChrome(true); b.toolbar.showOverflowMenu() }
+            android.view.KeyEvent.KEYCODE_DPAD_DOWN -> when {
+                !zoomed -> if (pageIndex < count - 1) { turn(1); flashTv("${pageIndex + 2} / $count") }
+                b.page.atFoot() -> if (pageIndex < count - 1) { turn(1); flashTv("${pageIndex + 2} / $count") }
+                else -> b.page.panSmooth(0f, -sy)
+            }
+            android.view.KeyEvent.KEYCODE_DPAD_UP -> when {
+                !zoomed -> if (pageIndex > 0) { turn(-1); flashTv("$pageIndex / $count") }
+                b.page.atTop() -> if (pageIndex > 0) { tvFoot = true; turn(-1); flashTv("$pageIndex / $count") }
+                else -> b.page.panSmooth(0f, sy)
+            }
+            android.view.KeyEvent.KEYCODE_MEDIA_FAST_FORWARD, android.view.KeyEvent.KEYCODE_PAGE_DOWN, android.view.KeyEvent.KEYCODE_CHANNEL_DOWN,
+            android.view.KeyEvent.KEYCODE_MEDIA_NEXT -> if (pageIndex < count - 1) { turn(1); flashTv("${pageIndex + 2} / $count") }
+            android.view.KeyEvent.KEYCODE_MEDIA_REWIND, android.view.KeyEvent.KEYCODE_PAGE_UP, android.view.KeyEvent.KEYCODE_CHANNEL_UP,
+            android.view.KeyEvent.KEYCODE_MEDIA_PREVIOUS -> if (pageIndex > 0) { turn(-1); flashTv("$pageIndex / $count") }
+            android.view.KeyEvent.KEYCODE_BACK -> {
+                if (zoomed || tvZoom != 0) { tvZoom = 0; b.page.fit(); flashTv(getString(R.string.tv_zoom_page)) } else finish()
+            }
+            android.view.KeyEvent.KEYCODE_MENU, android.view.KeyEvent.KEYCODE_INFO -> { setChrome(true); b.toolbar.showOverflowMenu() }
             else -> return false
         }
         return true

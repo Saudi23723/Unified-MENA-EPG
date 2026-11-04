@@ -46,6 +46,30 @@ class ImageViewerActivity : BaseActivity() {
         outState.putInt("index", index)
     }
 
+    // The remote on a TV: left / right the next photo (or move about a zoomed one),
+    // OK zooms (whole, 2×, 3×), up / down move a zoomed photo, Back shows it whole first.
+    private var zoomStep = 0
+
+    override fun dispatchKeyEvent(event: android.view.KeyEvent): Boolean {
+        if (!Tv.isTv(this)) return super.dispatchKeyEvent(event)
+        if (event.action != android.view.KeyEvent.ACTION_DOWN) return if (event.keyCode == android.view.KeyEvent.KEYCODE_BACK && zoomStep == 0) super.dispatchKeyEvent(event) else true
+        val v = b.image
+        val sx = v.width * 0.45f; val sy = v.height * 0.5f
+        when (event.keyCode) {
+            android.view.KeyEvent.KEYCODE_DPAD_CENTER, android.view.KeyEvent.KEYCODE_ENTER -> {
+                zoomStep = (zoomStep + 1) % 3
+                if (zoomStep == 0) v.fit() else v.zoomKeep(if (zoomStep == 1) 2f else 3f)
+            }
+            android.view.KeyEvent.KEYCODE_DPAD_RIGHT -> if (v.zoomed() && !v.atRight()) v.panSmooth(-sx, 0f) else { zoomStep = 0; go(index + 1) }
+            android.view.KeyEvent.KEYCODE_DPAD_LEFT -> if (v.zoomed() && !v.atLeft()) v.panSmooth(sx, 0f) else { zoomStep = 0; go(index - 1) }
+            android.view.KeyEvent.KEYCODE_DPAD_DOWN -> if (v.zoomed()) v.panSmooth(0f, -sy)
+            android.view.KeyEvent.KEYCODE_DPAD_UP -> if (v.zoomed()) v.panSmooth(0f, sy)
+            android.view.KeyEvent.KEYCODE_BACK -> if (zoomStep != 0 || v.zoomed()) { zoomStep = 0; v.fit() } else return super.dispatchKeyEvent(event)
+            else -> return super.dispatchKeyEvent(event)
+        }
+        return true
+    }
+
     private fun go(i: Int) {
         if (i < 0 || i >= ids.size || i == index) return
         index = i

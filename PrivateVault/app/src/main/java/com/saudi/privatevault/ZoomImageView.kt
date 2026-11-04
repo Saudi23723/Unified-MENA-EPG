@@ -105,6 +105,7 @@ open class ZoomImageView @JvmOverloads constructor(
     override fun setImageBitmap(bm: Bitmap?) {
         super.setImageBitmap(bm)
         fit()
+        onFitted?.invoke()
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -132,27 +133,73 @@ open class ZoomImageView @JvmOverloads constructor(
 
     private fun isZoomed() = currentScale() > minScale * 1.02f
 
-    // ---- for a remote control: zoom about the middle, and move a zoomed page ----
+    // ---- for a remote control: set zoom levels, and a smooth move about a zoomed page ----
 
-    /** Zooms by [f] about the middle of the view, between the whole page and eight times. */
-    fun zoomBy(f: Float) {
+    /** Called each time a new page is shown and fitted (so a reader can keep its zoom). */
+    var onFitted: (() -> Unit)? = null
+
+    fun zoomed() = isZoomed()
+
+    /** The page's scale when it fills the width, as a multiple of the whole page fitted. */
+    fun widthFactor(): Float {
+        val d = drawable ?: return 1f
+        if (d.intrinsicWidth <= 0 || minScale <= 0f) return 1f
+        return (width / d.intrinsicWidth.toFloat()) / minScale
+    }
+
+    /**
+     * Shows the page at [factor] times the whole-page size, its top (or its foot, [atFoot])
+     * at the screen's edge and centred across.
+     */
+    fun zoomTo(factor: Float, atFoot: Boolean = false) {
+        val d = drawable ?: return
+        if (factor <= 1.001f) { fit(); return }
+        val s = minScale * factor
+        m.reset()
+        m.postScale(s, s)
+        val w = d.intrinsicWidth * s
+        val h = d.intrinsicHeight * s
+        m.postTranslate((width - w) / 2f, if (atFoot) height - h else 0f)
+        apply()
+    }
+
+    /** Zoom to [factor], keeping the middle of the screen where it is. */
+    fun zoomKeep(factor: Float) {
+        if (factor <= 1.001f) { fit(); return }
         val cur = currentScale()
-        val target = (cur * f).coerceIn(minScale, minScale * 8f)
-        if (target <= minScale * 1.001f) { fit(); return }
+        val target = minScale * factor
         m.postScale(target / cur, target / cur, width / 2f, height / 2f)
         apply()
     }
 
-    fun zoomed() = isZoomed()
+    private fun edges(): RectF? {
+        val d = drawable ?: return null
+        return RectF(0f, 0f, d.intrinsicWidth.toFloat(), d.intrinsicHeight.toFloat()).also { m.mapRect(it) }
+    }
 
-    /** Moves the zoomed page; false when already at that edge (so the page can turn instead). */
-    fun pan(dx: Float, dy: Float): Boolean {
-        if (!isZoomed()) return false
-        val before = FloatArray(9); m.getValues(before)
-        m.postTranslate(dx, dy)
-        apply()
-        val after = FloatArray(9); m.getValues(after)
-        return Math.abs(after[Matrix.MTRANS_X] - before[Matrix.MTRANS_X]) > 0.5f || Math.abs(after[Matrix.MTRANS_Y] - before[Matrix.MTRANS_Y]) > 0.5f
+    fun atTop() = edges()?.let { it.top >= -1f } ?: true
+    fun atFoot() = edges()?.let { it.bottom <= height + 1f } ?: true
+    fun atLeft() = edges()?.let { it.left >= -1f } ?: true
+    fun atRight() = edges()?.let { it.right <= width + 1f } ?: true
+
+    private var glide: android.animation.ValueAnimator? = null
+
+    /** Moves a zoomed page by (dx, dy) screen pixels, smoothly, stopping at its edges. */
+    fun panSmooth(dx: Float, dy: Float) {
+        glide?.cancel()
+        var done = 0f
+        glide = android.animation.ValueAnimator.ofFloat(0f, 1f).apply {
+            duration = 220
+            interpolator = android.view.animation.DecelerateInterpolator()
+            addUpdateListener { a ->
+                val f = a.animatedValue as Float
+                val step = f - done
+                done = f
+                m.postTranslate(dx * step, dy * step)
+                apply()
+            }
+            start()
+        }
     }
 
     /** Keep the picture centred while smaller than the view, and its edges on screen when bigger. */
