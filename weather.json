@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-05T23:45:40.645Z",
+  "updated_at": "2026-11-05T23:50:46.370Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -10,7 +10,7 @@
       "temperature_c": 13.7,
       "humidity": 65,
       "wind_speed": 1.6,
-      "rain_chance": 3,
+      "rain_chance": 0,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-11-06T02:45",
@@ -22,21 +22,21 @@
           "code": 3,
           "max": 19.8,
           "min": 12.4,
-          "rain": 25
+          "rain": 5
         },
         {
           "date": "2026-11-07",
           "code": 3,
           "max": 16.0,
           "min": 11.8,
-          "rain": 25
+          "rain": 13
         },
         {
           "date": "2026-11-08",
           "code": 2,
           "max": 16.3,
           "min": 10.2,
-          "rain": 13
+          "rain": 3
         },
         {
           "date": "2026-11-09",
@@ -71,7 +71,7 @@
       "today_min": 12.4,
       "sunrise": "06:56",
       "sunset": "17:42",
-      "uv": 5
+      "uv": 4
     },
     {
       "city": "العقبة",
@@ -81,7 +81,7 @@
       "temperature_c": 22.4,
       "humidity": 46,
       "wind_speed": 7.4,
-      "rain_chance": 5,
+      "rain_chance": 0,
       "condition": "غائم جزئياً",
       "weather_code": 2,
       "observed_at": "2026-11-06T02:45",
@@ -93,14 +93,14 @@
           "code": 3,
           "max": 27.6,
           "min": 20.7,
-          "rain": 5
+          "rain": 3
         },
         {
           "date": "2026-11-07",
           "code": 3,
           "max": 25.3,
           "min": 19.9,
-          "rain": 18
+          "rain": 3
         },
         {
           "date": "2026-11-08",
