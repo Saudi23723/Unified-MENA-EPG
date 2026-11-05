@@ -184,10 +184,6 @@
     <display-name lang="en">TR: beIN SPORTS VIP 5</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/bein_vip5.png" />
   </channel>
-  <programme start="20261104213000 +0000" stop="20261104231500 +0000" channel="beINSPORTS1.tr">
-    <title lang="en">SUPER LIG (26-27) 10. HAFTA AMEDSPOR - EYUPSPOR - BANT -</title>
-    <category lang="en">Sports</category>
-  </programme>
   <programme start="20261104231500 +0000" stop="20261105010000 +0000" channel="beINSPORTS1.tr">
     <title lang="en">SUPER LIG (26-27) 10. HAFTA BASAKSEHIR - SAMSUNSPOR - BANT -</title>
     <category lang="en">Sports</category>
@@ -336,14 +332,6 @@
   </programme>
   <programme start="20261107011500 +0000" stop="20261107030000 +0000" channel="beINSPORTS1.tr">
     <title lang="en">SUPER LIG (26-27) 10. HAFTA BASAKSEHIR - SAMSUNSPOR - BANT -</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20261104214500 +0000" stop="20261104220000 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">TFF 1.Lig Haftanın Golleri (26-27) 13.Hafta</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20261104220000 +0000" stop="20261104234500 +0000" channel="beINSPORTS2.tr">
-    <title lang="en">TFF 1.LIG (26-27) 13. HAFTA ESENLER EROKSPOR - KECIORENGUCU - BANT -</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20261104234500 +0000" stop="20261105013000 +0000" channel="beINSPORTS2.tr">
@@ -942,14 +930,6 @@
   </programme>
   <programme start="20261106173000 +0000" stop="20261106190000 +0000" channel="beINSPORTSMAX2.tr">
     <title lang="en">Bein Sports Max 2</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20261104213000 +0000" stop="20261104223000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Süper Lig Maç Özetleri (26-27) 10.Hafta</title>
-    <category lang="en">Sports</category>
-  </programme>
-  <programme start="20261104223000 +0000" stop="20261105000000 +0000" channel="beINSPORTSHABER.tr">
-    <title lang="en">Spor Gecesi / Bant</title>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20261105000000 +0000" stop="20261105010000 +0000" channel="beINSPORTSHABER.tr">
@@ -1590,18 +1570,6 @@
     <title lang="en">Spor Gecesi</title>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261104211500 +0000" stop="20261104213000 +0000" channel="TivibuSpor.tr">
-    <title lang="en">Nesine 2. Lig Haftanın Golleri</title>
-    <category lang="en">Spor</category>
-  </programme>
-  <programme start="20261104213000 +0000" stop="20261104215445 +0000" channel="TivibuSpor.tr">
-    <title lang="en">Spartan Ultra Championship</title>
-    <category lang="en">Spor</category>
-  </programme>
-  <programme start="20261104215445 +0000" stop="20261104220000 +0000" channel="TivibuSpor.tr">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-    <category lang="en">Spor</category>
-  </programme>
   <programme start="20261104220000 +0000" stop="20261104233000 +0000" channel="TivibuSpor.tr">
     <title lang="en">Orta Nokta</title>
     <category lang="en">Spor</category>
@@ -1946,10 +1914,6 @@
     <title lang="en">Orta Nokta</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20261104211345 +0000" stop="20261104215445 +0000" channel="TivibuSpor1.tr">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-    <category lang="en">Spor</category>
-  </programme>
   <programme start="20261104215445 +0000" stop="20261104224500 +0000" channel="TivibuSpor1.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
@@ -2270,10 +2234,6 @@
     <title lang="en">Fethiyespor - Adana 01 Futbol</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20261104211345 +0000" stop="20261104215445 +0000" channel="TivibuSpor2.tr">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-    <category lang="en">Spor</category>
-  </programme>
   <programme start="20261104215445 +0000" stop="20261104235812 +0000" channel="TivibuSpor2.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
@@ -2462,10 +2422,6 @@
     <title lang="en">Tivibu Spor Tanıtım</title>
     <category lang="en">Spor</category>
   </programme>
-  <programme start="20261104211345 +0000" stop="20261104215445 +0000" channel="TivibuSpor3.tr">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
-    <category lang="en">Spor</category>
-  </programme>
   <programme start="20261104215445 +0000" stop="20261104235812 +0000" channel="TivibuSpor3.tr">
     <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
@@ -2648,10 +2604,6 @@
   </programme>
   <programme start="20261108170000 +0000" stop="20261108210000 +0000" channel="TivibuSpor3.tr">
     <title lang="en">Tivibu Spor Tanıtım</title>
-    <category lang="en">Spor</category>
-  </programme>
-  <programme start="20261104211345 +0000" stop="20261104215445 +0000" channel="TivibuSpor4.tr">
-    <title lang="ar">لم يُعلن البث — No listing published</title>
     <category lang="en">Spor</category>
   </programme>
   <programme start="20261104215445 +0000" stop="20261104235812 +0000" channel="TivibuSpor4.tr">
@@ -4998,4 +4950,4 @@
     <desc lang="ar">beIN SPORTS VIP 5 — بث مستمر ٢٤/٧.
 هذه ليست مواعيد برامج: القناة لا تنشر جدولاً، وهذا الحقل موجود ليملأ الشبكة فقط.</desc>
   </programme>
-<programme start="20261106183000 +0000" stop="20261106211500 +0000" channel="beINSPORTS1.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261107030000 +0000" stop="20261107212257 +0000" channel="beINSPORTS1.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261105204500 +0000" stop="20261105210000 +0000" channel="beINSPORTS2.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261106183000 +0000" stop="20261106214500 +0000" channel="beINSPORTS2.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261107030000 +0000" stop="20261107212257 +0000" channel="beINSPORTS2.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261105210000 +0000" stop="20261105210100 +0000" channel="beINSPORTS3.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261106174500 +0000" stop="20261107212257 +0000" channel="beINSPORTS3.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261107143000 +0000" stop="20261107212257 +0000" channel="beINSPORTS4.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261107031500 +0000" stop="20261107212257 +0000" channel="beINSPORTS5.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261106183000 +0000" stop="20261106210000 +0000" channel="beINSPORTSMAX1.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261107030000 +0000" stop="20261107212257 +0000" channel="beINSPORTSMAX1.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261106190000 +0000" stop="20261107212257 +0000" channel="beINSPORTSMAX2.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261105060000 +0000" stop="20261105070000 +0000" channel="beINSPORTSHABER.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261105083000 +0000" stop="20261105090000 +0000" channel="beINSPORTSHABER.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261105203000 +0000" stop="20261105210000 +0000" channel="beINSPORTSHABER.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261107210000 +0000" stop="20261109210000 +0000" channel="beINSPORTSHABER.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261110201500 +0000" stop="20261110210000 +0000" channel="beINSPORTSHABER.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261111201500 +0000" stop="20261111210000 +0000" channel="beINSPORTSHABER.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
+<programme start="20261106183000 +0000" stop="20261106211500 +0000" channel="beINSPORTS1.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261107030000 +0000" stop="20261107224425 +0000" channel="beINSPORTS1.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261105204500 +0000" stop="20261105210000 +0000" channel="beINSPORTS2.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261106183000 +0000" stop="20261106214500 +0000" channel="beINSPORTS2.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261107030000 +0000" stop="20261107224425 +0000" channel="beINSPORTS2.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261105210000 +0000" stop="20261105210100 +0000" channel="beINSPORTS3.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261106174500 +0000" stop="20261107224425 +0000" channel="beINSPORTS3.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261107143000 +0000" stop="20261107224425 +0000" channel="beINSPORTS4.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261107031500 +0000" stop="20261107224425 +0000" channel="beINSPORTS5.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261106183000 +0000" stop="20261106210000 +0000" channel="beINSPORTSMAX1.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261107030000 +0000" stop="20261107224425 +0000" channel="beINSPORTSMAX1.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261106190000 +0000" stop="20261107224425 +0000" channel="beINSPORTSMAX2.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261105060000 +0000" stop="20261105070000 +0000" channel="beINSPORTSHABER.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261105083000 +0000" stop="20261105090000 +0000" channel="beINSPORTSHABER.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261105203000 +0000" stop="20261105210000 +0000" channel="beINSPORTSHABER.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261107210000 +0000" stop="20261109210000 +0000" channel="beINSPORTSHABER.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261110201500 +0000" stop="20261110210000 +0000" channel="beINSPORTSHABER.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme><programme start="20261111201500 +0000" stop="20261111210000 +0000" channel="beINSPORTSHABER.tr"><title lang="ar">لم يُعلن البث — No listing published</title></programme></tv>
