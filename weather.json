@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-05T05:17:10.337Z",
+  "updated_at": "2026-11-05T05:22:05.897Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -291,21 +291,21 @@
       "country": "بريطانيا",
       "latitude": 51.5074,
       "longitude": -0.1278,
-      "temperature_c": 9.7,
-      "humidity": 71,
-      "wind_speed": 12.6,
+      "temperature_c": 9.5,
+      "humidity": 72,
+      "wind_speed": 11.9,
       "rain_chance": 8,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-11-05T05:15",
-      "feels_c": 6.6,
+      "feels_c": 6.5,
       "utc_offset": 0,
       "days": [
         {
           "date": "2026-11-05",
           "code": 3,
           "max": 10.5,
-          "min": 9.3,
+          "min": 9.4,
           "rain": 37
         },
         {
@@ -352,24 +352,24 @@
         }
       ],
       "today_max": 10.5,
-      "today_min": 9.3,
+      "today_min": 9.4,
       "sunrise": "07:01",
       "sunset": "16:26",
-      "uv": 1
+      "uv": 0
     },
     {
       "city": "مانشستر",
       "country": "بريطانيا",
       "latitude": 53.4808,
       "longitude": -2.2426,
-      "temperature_c": 9.7,
+      "temperature_c": 9.6,
       "humidity": 84,
-      "wind_speed": 11.9,
+      "wind_speed": 12.2,
       "rain_chance": 0,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-11-05T05:15",
-      "feels_c": 7.2,
+      "feels_c": 7.1,
       "utc_offset": 0,
       "days": [
         {
@@ -448,14 +448,14 @@
           "code": 61,
           "max": 22.2,
           "min": 14.9,
-          "rain": 49
+          "rain": 43
         },
         {
           "date": "2026-11-06",
           "code": 63,
           "max": 18.4,
           "min": 14.4,
-          "rain": 75
+          "rain": 77
         },
         {
           "date": "2026-11-07",
@@ -597,14 +597,14 @@
           "code": 51,
           "max": 10.6,
           "min": 6.5,
-          "rain": 35
+          "rain": 46
         },
         {
           "date": "2026-11-06",
           "code": 3,
           "max": 8.2,
           "min": 3.8,
-          "rain": 10
+          "rain": 7
         },
         {
           "date": "2026-11-07",
@@ -739,7 +739,7 @@
           "code": 3,
           "max": 26.3,
           "min": 11.8,
-          "rain": 1
+          "rain": 13
         },
         {
           "date": "2026-11-06",
