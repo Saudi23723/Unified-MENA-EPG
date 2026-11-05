@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-05T22:39:42.258Z",
+  "updated_at": "2026-11-05T22:44:55.799Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -22,21 +22,21 @@
           "code": 3,
           "max": 19.8,
           "min": 12.4,
-          "rain": 25
+          "rain": 5
         },
         {
           "date": "2026-11-07",
           "code": 3,
           "max": 16.0,
           "min": 11.8,
-          "rain": 25
+          "rain": 13
         },
         {
           "date": "2026-11-08",
           "code": 2,
           "max": 16.3,
           "min": 10.2,
-          "rain": 13
+          "rain": 3
         },
         {
           "date": "2026-11-09",
@@ -81,7 +81,7 @@
       "temperature_c": 23.2,
       "humidity": 42,
       "wind_speed": 6.2,
-      "rain_chance": 3,
+      "rain_chance": 0,
       "condition": "غائم جزئياً",
       "weather_code": 2,
       "observed_at": "2026-11-06T01:30",
@@ -93,14 +93,14 @@
           "code": 3,
           "max": 27.6,
           "min": 20.7,
-          "rain": 5
+          "rain": 3
         },
         {
           "date": "2026-11-07",
           "code": 3,
           "max": 25.3,
           "min": 19.9,
-          "rain": 18
+          "rain": 3
         },
         {
           "date": "2026-11-08",
