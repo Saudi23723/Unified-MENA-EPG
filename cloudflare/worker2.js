@@ -132,7 +132,7 @@ async function buildPatch(env, user, pass_, ua) {
       // channels landed in Sky Sports)
       if (!ev.has(g)) continue;
       for (const x of xs) {
-        if (ours.has(String(x.stream_id)) || !x.name || SEPARATOR.test(String(x.name))) continue;
+        if (ours.has(String(x.stream_id)) || !x.name || SEPARATOR.test(String(x.name).replace(/[\u24e7\u00a7]/g, "").trim())) continue;
         (add[g] = add[g] || []).push({ stream_id: x.stream_id, name: String(x.name).replace(/[\u24e7\u00a7]/g, "").replace(/\s+/g, " ").trim(),
           stream_icon: x.stream_icon || "", epg_channel_id: null });
       }
@@ -195,7 +195,8 @@ function applyPatch(list, pt, cat) {
       for (const x of extra) (after[x.category_id] = after[x.category_id] || []).push(x);
       list.forEach((x, k) => { out.push(x); if (last[String(x.category_id)] === k && after[String(x.category_id)]) out.push(...after[String(x.category_id)]); });
       for (const g of Object.keys(after)) if (!(g in last)) out.push(...after[g]);
-      list = out;
+      // (a patch built by an older relay may still carry separator rows: never shown)
+      list = out.filter((x) => !SEPARATOR.test(String(x.name || "")));
     }
   }
   const base = (x) => String(x.category_id) + "|" + String(x.name || "").toUpperCase()
