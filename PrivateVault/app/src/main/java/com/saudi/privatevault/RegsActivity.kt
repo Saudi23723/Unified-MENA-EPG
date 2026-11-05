@@ -209,8 +209,8 @@ class RegsActivity : BaseActivity() {
         val tools = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL; setPadding(0, dp(2), 0, dp(4)) }
         val chips = ArrayList<Pair<InkLayer.Tool, TextView>>()
         fun mark() = chips.forEach { (t, v) -> v.background = EfbUi.cardBg(this, if (t == ink.tool) EfbUi.ACCENT else EfbUi.CARD, 10).apply { setStroke(0, 0) }; v.setTextColor(if (t == ink.tool) EfbUi.BG else EfbUi.TEXT) }
-        for ((t, label) in listOf(InkLayer.Tool.NONE to "✋", InkLayer.Tool.PEN to "🖊", InkLayer.Tool.HIGHLIGHT to "🖍", InkLayer.Tool.LASER to "✨ Laser", InkLayer.Tool.ERASER to "🧽")) {
-            val v = EfbUi.text(this, label, 15f, EfbUi.TEXT).apply { gravity = Gravity.CENTER; setPadding(dp(11), dp(7), dp(11), dp(7)); setOnClickListener { if (t == InkLayer.Tool.LASER) NeonLayer.start(this@RegsActivity, fade = true) else { ink.tool = t; mark() } } }
+        for ((t, label) in listOf(InkLayer.Tool.NONE to "✋", InkLayer.Tool.PEN to "🖊", InkLayer.Tool.HIGHLIGHT to "🖍", InkLayer.Tool.LASER to "◉ Laser", InkLayer.Tool.ERASER to "🧽")) {
+            val v = EfbUi.text(this, label, 15f, EfbUi.TEXT).apply { gravity = Gravity.CENTER; setPadding(dp(11), dp(7), dp(11), dp(7)); setOnClickListener { if (t == InkLayer.Tool.LASER) LaserLayer.start(this@RegsActivity) else { ink.tool = t; mark() } } }
             chips.add(t to v)
             tools.addView(v, LinearLayout.LayoutParams(-2, -2).apply { marginEnd = dp(5) })
         }
