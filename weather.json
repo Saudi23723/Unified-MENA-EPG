@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-06T08:33:59.914Z",
+  "updated_at": "2026-11-06T08:39:44.318Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -355,7 +355,7 @@
       "today_min": 8.9,
       "sunrise": "07:02",
       "sunset": "16:24",
-      "uv": 1
+      "uv": 0
     },
     {
       "city": "مانشستر",
@@ -366,8 +366,8 @@
       "humidity": 76,
       "wind_speed": 5.4,
       "rain_chance": 0,
-      "condition": "غائم",
-      "weather_code": 3,
+      "condition": "غائم جزئياً",
+      "weather_code": 2,
       "observed_at": "2026-11-06T08:30",
       "feels_c": 7.7,
       "utc_offset": 0,
@@ -434,7 +434,7 @@
       "latitude": 40.7128,
       "longitude": -74.006,
       "temperature_c": 19.3,
-      "humidity": 94,
+      "humidity": 93,
       "wind_speed": 16.9,
       "rain_chance": 57,
       "condition": "غائم",
@@ -505,13 +505,13 @@
       "latitude": 34.0522,
       "longitude": -118.2437,
       "temperature_c": 15.9,
-      "humidity": 64,
+      "humidity": 60,
       "wind_speed": 7.2,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-11-06T00:30",
-      "feels_c": 14.6,
+      "feels_c": 14.4,
       "utc_offset": -28800,
       "days": [
         {
@@ -576,7 +576,7 @@
       "latitude": 41.8781,
       "longitude": -87.6298,
       "temperature_c": 4.9,
-      "humidity": 83,
+      "humidity": 82,
       "wind_speed": 20.3,
       "rain_chance": 0,
       "condition": "غائم جزئياً",
@@ -789,13 +789,13 @@
       "latitude": 37.7749,
       "longitude": -122.4194,
       "temperature_c": 11.8,
-      "humidity": 77,
+      "humidity": 79,
       "wind_speed": 2.2,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-11-06T00:30",
-      "feels_c": 10.9,
+      "feels_c": 11.0,
       "utc_offset": -28800,
       "days": [
         {
