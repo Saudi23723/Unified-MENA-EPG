@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-06T09:30:09.308Z",
+  "updated_at": "2026-11-06T09:35:30.453Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -10,7 +10,7 @@
       "temperature_c": 20.9,
       "humidity": 41,
       "wind_speed": 10.4,
-      "rain_chance": 0,
+      "rain_chance": 5,
       "condition": "صافٍ غالباً",
       "weather_code": 1,
       "observed_at": "2026-11-06T12:30",
@@ -22,21 +22,21 @@
           "code": 3,
           "max": 21.0,
           "min": 12.5,
-          "rain": 5
+          "rain": 10
         },
         {
           "date": "2026-11-07",
           "code": 61,
           "max": 16.5,
           "min": 11.9,
-          "rain": 13
+          "rain": 23
         },
         {
           "date": "2026-11-08",
           "code": 2,
           "max": 16.3,
           "min": 10.6,
-          "rain": 8
+          "rain": 20
         },
         {
           "date": "2026-11-09",
@@ -93,21 +93,21 @@
           "code": 3,
           "max": 28.2,
           "min": 21.7,
-          "rain": 3
+          "rain": 8
         },
         {
           "date": "2026-11-07",
           "code": 3,
           "max": 25.1,
           "min": 20.6,
-          "rain": 3
+          "rain": 13
         },
         {
           "date": "2026-11-08",
           "code": 3,
           "max": 24.6,
           "min": 17.7,
-          "rain": 0
+          "rain": 3
         },
         {
           "date": "2026-11-09",
@@ -792,8 +792,8 @@
       "humidity": 83,
       "wind_speed": 5.4,
       "rain_chance": 0,
-      "condition": "صافٍ غالباً",
-      "weather_code": 1,
+      "condition": "صافٍ",
+      "weather_code": 0,
       "observed_at": "2026-11-06T01:30",
       "feels_c": 10.0,
       "utc_offset": -28800,
