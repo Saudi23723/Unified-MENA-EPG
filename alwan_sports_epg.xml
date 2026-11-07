@@ -2151,66 +2151,6 @@
     <display-name>الجزيرة</display-name>
     <display-name>AR: Al Jazeera</display-name><display-name>Al Jazeera UHD</display-name><display-name>Al jazeera</display-name><display-name>Al jazeera SD</display-name><display-name>News | Ar: Al Jazeera</display-name><display-name>News | Ar: Al Jazeera 4K</display-name><display-name>News | Ar: Al Jazeera HD</display-name><display-name>News | Ar: Al jazeera</display-name><display-name>News | Ar: Al jazeera SD</display-name><icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/aljazeera_round_v2.png" />
   </channel>
-  <programme start="20261106142500 +0300" stop="20261106153000 +0300" channel="Alwan1_sport">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 1
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20261106142500 +0300" stop="20261106153000 +0300" channel="Alwan1_sports">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 1
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20261106142500 +0300" stop="20261106153000 +0300" channel="Alwan1_sport_hd">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 1
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20261106142500 +0300" stop="20261106153000 +0300" channel="Alwan1_sport_sd">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 1
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20261106142500 +0300" stop="20261106153000 +0300" channel="Alwan1_sport_4k">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 1
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20261106142500 +0300" stop="20261106153000 +0300" channel="Alwan1_sport_raw">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 1
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20261106142500 +0300" stop="20261106153000 +0300" channel="Alwan1_sports_hd">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 1
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20261106142500 +0300" stop="20261106153000 +0300" channel="Alwan1_sports_sd">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 1
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20261106142500 +0300" stop="20261106153000 +0300" channel="Alwan1_sports_4k">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 1
-المصدر: existing XML</desc>
-  </programme>
-  <programme start="20261106142500 +0300" stop="20261106153000 +0300" channel="Alwan1_sports_raw">
-    <title lang="ar">لم يُعلن البث — No listing published ‎🔴 LIVE‎</title>
-    <category lang="en">Sports</category>
-    <desc lang="ar">القناة: Alwan Sport 1
-المصدر: existing XML</desc>
-  </programme>
   <programme start="20261106153000 +0300" stop="20261106165500 +0300" channel="Alwan1_sport">
     <title lang="ar">ليدز - توتنهام ‎🔴 LIVE‎</title>
     <category lang="en">Sports</category>
@@ -28391,14 +28331,6 @@
     <title lang="ar">السنة النبوية</title>
     <desc lang="en">Saudia Sunnah</desc>
   </programme>
-  <programme start="20261106100500 +0000" stop="20261106110000 +0000" channel="AlJazeera.qa">
-    <title lang="ar">من واشنطن</title>
-    <category lang="ar">أخبار</category>
-  </programme>
-  <programme start="20261106110000 +0000" stop="20261106110500 +0000" channel="AlJazeera.qa">
-    <title lang="ar">موجز الأخبار</title>
-    <category lang="ar">أخبار</category>
-  </programme>
   <programme start="20261106110500 +0000" stop="20261106120000 +0000" channel="AlJazeera.qa">
     <title lang="ar">سيناريوهات</title>
     <category lang="ar">أخبار</category>
@@ -28860,6 +28792,126 @@
     <category lang="ar">أخبار</category>
   </programme>
   <programme start="20261109233000 +0000" stop="20261110000000 +0000" channel="AlJazeera.qa">
+    <title lang="ar">ما وراء الخبر</title>
+    <category lang="ar">أخبار</category>
+  </programme>
+  <programme start="20261110000000 +0000" stop="20261110000500 +0000" channel="AlJazeera.qa">
+    <title lang="ar">موجز الأخبار</title>
+    <category lang="ar">أخبار</category>
+  </programme>
+  <programme start="20261110000500 +0000" stop="20261110010000 +0000" channel="AlJazeera.qa">
+    <title lang="ar">الاتجاه المعاكس</title>
+    <category lang="ar">أخبار</category>
+  </programme>
+  <programme start="20261110010000 +0000" stop="20261110020000 +0000" channel="AlJazeera.qa">
+    <title lang="ar">نشرة الأخبار</title>
+    <category lang="ar">أخبار</category>
+  </programme>
+  <programme start="20261110020000 +0000" stop="20261110023000 +0000" channel="AlJazeera.qa">
+    <title lang="ar">نشرة الأخبار</title>
+    <category lang="ar">أخبار</category>
+  </programme>
+  <programme start="20261110023000 +0000" stop="20261110030000 +0000" channel="AlJazeera.qa">
+    <title lang="ar">نشرة الأخبار</title>
+    <category lang="ar">أخبار</category>
+  </programme>
+  <programme start="20261110030000 +0000" stop="20261110040000 +0000" channel="AlJazeera.qa">
+    <title lang="ar">نشرة الأخبار</title>
+    <category lang="ar">أخبار</category>
+  </programme>
+  <programme start="20261110040000 +0000" stop="20261110050000 +0000" channel="AlJazeera.qa">
+    <title lang="ar">نشرة الأخبار</title>
+    <category lang="ar">أخبار</category>
+  </programme>
+  <programme start="20261110050000 +0000" stop="20261110060000 +0000" channel="AlJazeera.qa">
+    <title lang="ar">نشرة الأخبار</title>
+    <category lang="ar">أخبار</category>
+  </programme>
+  <programme start="20261110060000 +0000" stop="20261110070000 +0000" channel="AlJazeera.qa">
+    <title lang="ar">نشرة الأخبار</title>
+    <category lang="ar">أخبار</category>
+  </programme>
+  <programme start="20261110070000 +0000" stop="20261110080000 +0000" channel="AlJazeera.qa">
+    <title lang="ar">نشرة الأخبار</title>
+    <category lang="ar">أخبار</category>
+  </programme>
+  <programme start="20261110080000 +0000" stop="20261110090000 +0000" channel="AlJazeera.qa">
+    <title lang="ar">نشرة الأخبار</title>
+    <category lang="ar">أخبار</category>
+  </programme>
+  <programme start="20261110090000 +0000" stop="20261110100000 +0000" channel="AlJazeera.qa">
+    <title lang="ar">نشرة الأخبار</title>
+    <category lang="ar">أخبار</category>
+  </programme>
+  <programme start="20261110100000 +0000" stop="20261110110000 +0000" channel="AlJazeera.qa">
+    <title lang="ar">نشرة الأخبار</title>
+    <category lang="ar">أخبار</category>
+  </programme>
+  <programme start="20261110110000 +0000" stop="20261110120000 +0000" channel="AlJazeera.qa">
+    <title lang="ar">نشرة الأخبار</title>
+    <category lang="ar">أخبار</category>
+  </programme>
+  <programme start="20261110120000 +0000" stop="20261110130000 +0000" channel="AlJazeera.qa">
+    <title lang="ar">نشرة الأخبار</title>
+    <category lang="ar">أخبار</category>
+  </programme>
+  <programme start="20261110130000 +0000" stop="20261110140000 +0000" channel="AlJazeera.qa">
+    <title lang="ar">نشرة الأخبار</title>
+    <category lang="ar">أخبار</category>
+  </programme>
+  <programme start="20261110140000 +0000" stop="20261110150000 +0000" channel="AlJazeera.qa">
+    <title lang="ar">نشرة الأخبار</title>
+    <category lang="ar">أخبار</category>
+  </programme>
+  <programme start="20261110150000 +0000" stop="20261110160000 +0000" channel="AlJazeera.qa">
+    <title lang="ar">نشرة الأخبار</title>
+    <category lang="ar">أخبار</category>
+  </programme>
+  <programme start="20261110160000 +0000" stop="20261110163000 +0000" channel="AlJazeera.qa">
+    <title lang="ar">نشرة الأخبار</title>
+    <category lang="ar">أخبار</category>
+  </programme>
+  <programme start="20261110163000 +0000" stop="20261110170000 +0000" channel="AlJazeera.qa">
+    <title lang="ar">نشرة الأخبار</title>
+    <category lang="ar">أخبار</category>
+  </programme>
+  <programme start="20261110170000 +0000" stop="20261110173000 +0000" channel="AlJazeera.qa">
+    <title lang="ar">نشرة الأخبار</title>
+    <category lang="ar">أخبار</category>
+  </programme>
+  <programme start="20261110173000 +0000" stop="20261110180000 +0000" channel="AlJazeera.qa">
+    <title lang="ar">ما وراء الخبر</title>
+    <category lang="ar">أخبار</category>
+  </programme>
+  <programme start="20261110180000 +0000" stop="20261110190000 +0000" channel="AlJazeera.qa">
+    <title lang="ar">نشرة الأخبار</title>
+    <category lang="ar">أخبار</category>
+  </programme>
+  <programme start="20261110190000 +0000" stop="20261110190500 +0000" channel="AlJazeera.qa">
+    <title lang="ar">موجز الأخبار</title>
+    <category lang="ar">أخبار</category>
+  </programme>
+  <programme start="20261110190500 +0000" stop="20261110200000 +0000" channel="AlJazeera.qa">
+    <title lang="en">Balance Of Power</title>
+    <category lang="ar">أخبار</category>
+  </programme>
+  <programme start="20261110200000 +0000" stop="20261110210000 +0000" channel="AlJazeera.qa">
+    <title lang="ar">نشرة الأخبار</title>
+    <category lang="ar">أخبار</category>
+  </programme>
+  <programme start="20261110210000 +0000" stop="20261110220000 +0000" channel="AlJazeera.qa">
+    <title lang="ar">نشرة الأخبار</title>
+    <category lang="ar">أخبار</category>
+  </programme>
+  <programme start="20261110220000 +0000" stop="20261110230000 +0000" channel="AlJazeera.qa">
+    <title lang="ar">نشرة الأخبار</title>
+    <category lang="ar">أخبار</category>
+  </programme>
+  <programme start="20261110230000 +0000" stop="20261110233000 +0000" channel="AlJazeera.qa">
+    <title lang="ar">نشرة الأخبار</title>
+    <category lang="ar">أخبار</category>
+  </programme>
+  <programme start="20261110233000 +0000" stop="20261111000000 +0000" channel="AlJazeera.qa">
     <title lang="ar">ما وراء الخبر</title>
     <category lang="ar">أخبار</category>
   </programme>
