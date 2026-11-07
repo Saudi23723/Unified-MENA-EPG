@@ -5,18 +5,6 @@
     <display-name lang="ar">الفورمولا 1</display-name>
     <display-name lang="en">Formula 1</display-name>
   </channel>
-  <programme start="20261106180000 +0000" stop="20261106190000 +0000" channel="Formula1">
-    <title lang="en">🏁 Brazilian Grand Prix</title>
-    <desc lang="ar">Brazilian Grand Prix
-بتوقيتك
-
-FP1 — الجمعة 07:30
-FP2 — الجمعة 11:00
-FP3 — السبت 06:30
-QUALI — السبت 10:00
-RACE — الأحد 09:00</desc>
-    <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/f1_0.png" />
-  </programme>
   <programme start="20261106190000 +0000" stop="20261106200000 +0000" channel="Formula1">
     <title lang="en">🏎️ FP2 · Brazilian Grand Prix</title>
     <desc lang="ar">Brazilian Grand Prix
@@ -66,7 +54,7 @@ RACE — الأحد 09:00</desc>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/f1_0.png" />
   </programme>
   <programme start="20261107180000 +0000" stop="20261107190000 +0000" channel="Formula1">
-    <title lang="en">🏎️ QUALI · Brazilian Grand Prix • Live 🟢</title>
+    <title lang="en">🏎️ QUALI · Brazilian Grand Prix</title>
     <desc lang="ar">Brazilian Grand Prix
 بتوقيتك
 
@@ -75,7 +63,6 @@ FP2 — الجمعة 11:00
 FP3 — السبت 06:30
 QUALI — السبت 10:00
 RACE — الأحد 09:00</desc>
-    <category lang="en">Live</category>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/hls-segments/boards/f1_0.png" />
   </programme>
   <programme start="20261107190000 +0000" stop="20261108170000 +0000" channel="Formula1">
