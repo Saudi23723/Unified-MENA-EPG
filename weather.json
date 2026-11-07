@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-07T06:17:20.505Z",
+  "updated_at": "2026-11-07T06:24:20.496Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -291,14 +291,14 @@
       "country": "بريطانيا",
       "latitude": 51.5074,
       "longitude": -0.1278,
-      "temperature_c": 8.0,
-      "humidity": 87,
-      "wind_speed": 2.5,
+      "temperature_c": 7.8,
+      "humidity": 88,
+      "wind_speed": 2.9,
       "rain_chance": 0,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-11-07T06:15",
-      "feels_c": 6.6,
+      "feels_c": 6.4,
       "utc_offset": 0,
       "days": [
         {
@@ -362,21 +362,21 @@
       "country": "بريطانيا",
       "latitude": 53.4808,
       "longitude": -2.2426,
-      "temperature_c": 8.2,
-      "humidity": 93,
-      "wind_speed": 1.8,
+      "temperature_c": 8.4,
+      "humidity": 95,
+      "wind_speed": 2.9,
       "rain_chance": 0,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-11-07T06:15",
-      "feels_c": 7.2,
+      "feels_c": 7.3,
       "utc_offset": 0,
       "days": [
         {
           "date": "2026-11-07",
           "code": 3,
           "max": 10.6,
-          "min": 8.0,
+          "min": 8.2,
           "rain": 4
         },
         {
@@ -423,10 +423,10 @@
         }
       ],
       "today_max": 10.6,
-      "today_min": 8.0,
+      "today_min": 8.2,
       "sunrise": "07:19",
       "sunset": "16:25",
-      "uv": 1
+      "uv": 0
     },
     {
       "city": "نيويورك",
