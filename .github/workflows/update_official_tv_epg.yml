@@ -1,0 +1,43 @@
+name: Official TV EPG (BBC, Al Arabiya, MBC on Shahid)
+
+# official_tv_epg.py: BBC and MBC channels from their own guides.
+on:
+  schedule:
+    - cron: "17 */3 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: [official_tv_epg.py, .github/workflows/update_official_tv_epg.yml]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: official-tv-epg
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build official_tv_epg.xml
+        run: python official_tv_epg.py
+      - name: Validate XMLTV
+        run: python -c "import xml.etree.ElementTree as E; E.parse('official_tv_epg.xml'); print('VALID')"
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add official_tv_epg.xml
+          git diff --cached --quiet && { echo "No changes."; exit 0; }
+          git commit -m "Update official TV EPG"
+          for attempt in 1 2 3 4 5; do
+            git pull --rebase -X theirs origin main && git push origin main && exit 0
+            sleep $(( (RANDOM % 5) + 2 ))
+          done
+          exit 1

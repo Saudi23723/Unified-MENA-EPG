@@ -1,0 +1,31 @@
+name: Apply screen update
+on:
+  workflow_dispatch:
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Python bits the badge collection needs
+        run: pip install --quiet pillow requests
+      - name: Collect every league badge the boards can need
+        run: |
+          timeout 1800 python fetch_league_logos.py || true
+          timeout 18000 python -u fetch_sportsdb_logos.py || true
+          echo "badges on disk: $(ls logos/teams | wc -l)"
+      - name: Commit
+        run: |
+          git config user.name "epg-bot"
+          git config user.email "epg-bot@users.noreply.github.com"
+          git add -A logos/teams
+          git commit -m "Badges: every club of every football competition on disk" || echo "nothing to commit"
+          for i in 1 2 3 4 5 6 7 8; do
+            git fetch origin main
+            git rebase origin/main || { git rebase --abort; git reset --hard HEAD; }
+            if git push origin HEAD:main; then echo pushed; exit 0; fi
+            sleep 25
+          done
+          echo "could not push"; exit 1

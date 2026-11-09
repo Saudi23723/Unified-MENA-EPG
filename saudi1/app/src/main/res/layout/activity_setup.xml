@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/bg">
+    <LinearLayout android:layout_width="520dp" android:layout_height="wrap_content" android:layout_gravity="center_horizontal"
+        android:orientation="vertical" android:paddingTop="40dp" android:paddingBottom="40dp">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Activate this device"
+            android:textSize="28sp" android:textStyle="bold"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6dp"
+            android:text="Send this code to your provider, then press Reload" android:textColor="@color/text2" android:textSize="16sp"/>
+        <TextView android:id="@+id/code" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="14dp" android:background="@drawable/panel_bg" android:gravity="center" android:padding="18dp"
+            android:textColor="@color/accent" android:textSize="46sp" android:textStyle="bold" android:letterSpacing="0.12"/>
+        <TextView android:id="@+id/codeStatus" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" android:gravity="center" android:textColor="@color/text2" android:textSize="15sp"/>
+        <TextView android:id="@+id/reload" android:layout_width="match_parent" android:layout_height="54dp"
+            android:layout_marginTop="14dp" android:background="@drawable/tile_bg" android:focusable="true" android:clickable="true"
+            android:gravity="center" android:text="⟳  Reload" android:textSize="19sp" android:textStyle="bold"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="34dp"
+            android:text="Or enter an Xtream login" android:textSize="20sp" android:textStyle="bold"/>
+        <TextView style="@style/Label" android:text="Server"/>
+        <EditText android:id="@+id/server" style="@style/Field" android:inputType="textUri"/>
+        <TextView style="@style/Label" android:text="Username"/>
+        <EditText android:id="@+id/user" style="@style/Field" android:inputType="text"/>
+        <TextView style="@style/Label" android:text="Password"/>
+        <EditText android:id="@+id/pass" style="@style/Field" android:inputType="textPassword"/>
+        <TextView android:id="@+id/save" android:layout_width="match_parent" android:layout_height="54dp"
+            android:layout_marginTop="28dp" android:background="@drawable/tile_bg" android:focusable="true" android:clickable="true"
+            android:gravity="center" android:text="Save and load" android:textSize="19sp" android:textStyle="bold"/>
+        <TextView android:id="@+id/msg" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="16dp" android:gravity="center" android:textColor="@color/text2" android:textSize="16sp"/>
+    </LinearLayout>
+</ScrollView>

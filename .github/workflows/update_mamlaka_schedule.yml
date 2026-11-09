@@ -1,0 +1,48 @@
+name: Al Mamlaka weekly schedule
+
+# The channel's own weekly grid, read by a real browser (its site answers
+# a plain request with Cloudflare's check). Every EPG build lays the week
+# from mamlaka_schedule.json; this keeps that week current. See
+# mamlaka_epg.py and tools/fetch_mamlaka_schedule.py.
+
+on:
+  schedule:
+    - cron: "23 4 * * 6"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: [tools/fetch_mamlaka_schedule.py, .github/workflows/update_mamlaka_schedule.yml]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: mamlaka-schedule
+  cancel-in-progress: false
+
+jobs:
+  read:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -q -r requirements.txt playwright && python -m playwright install --with-deps chromium >/dev/null
+      - name: Read the week
+        run: xvfb-run -a python tools/fetch_mamlaka_schedule.py
+      - name: Keep it
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add mamlaka_schedule.json logos/al_mamlaka.png 2>/dev/null || true
+          if git diff --cached --quiet; then echo "nothing new"; exit 0; fi
+          git commit -q -m "Al Mamlaka: the week's schedule from its own page"
+          for attempt in 1 2 3 4 5; do
+            git pull -q --rebase -X theirs origin main && git push -q origin HEAD:main && exit 0
+            sleep $(( (RANDOM % 5) + 2 ))
+          done
+          exit 1

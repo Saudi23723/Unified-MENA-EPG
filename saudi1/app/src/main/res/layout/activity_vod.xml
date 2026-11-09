@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/bg"
+    android:orientation="horizontal" android:padding="18dp">
+    <LinearLayout android:layout_width="280dp" android:layout_height="match_parent" android:orientation="vertical">
+        <TextView android:id="@+id/title" android:layout_width="match_parent" android:layout_height="44dp" android:gravity="center_vertical"
+            android:paddingStart="12dp" android:textSize="22sp" android:textStyle="bold"/>
+        <androidx.recyclerview.widget.RecyclerView android:id="@+id/cats" android:layout_width="match_parent"
+            android:layout_height="match_parent" android:clipToPadding="false" android:paddingBottom="200dp"/>
+    </LinearLayout>
+    <LinearLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
+        android:orientation="vertical" android:layout_marginStart="18dp">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="44dp" android:orientation="horizontal" android:gravity="center_vertical">
+            <TextView android:id="@+id/catName" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp" android:gravity="start" android:textDirection="locale"
+                android:singleLine="true" android:ellipsize="end" android:textSize="19sp" android:textStyle="bold"/>
+            <TextView android:id="@+id/vodCount" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:textColor="@color/text2" android:textSize="16sp"/>
+            <TextView android:id="@+id/vodSort" android:layout_width="wrap_content" android:layout_height="36dp" android:layout_marginStart="14dp"
+                android:gravity="center" android:paddingStart="14dp" android:paddingEnd="14dp" android:background="@drawable/tile_bg"
+                android:focusable="true" android:clickable="true" android:textSize="14sp" android:textStyle="bold"/>
+        </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView android:id="@+id/grid" android:layout_width="match_parent"
+            android:layout_height="match_parent" android:clipToPadding="false" android:paddingBottom="120dp"/>
+    </LinearLayout>
+</LinearLayout>

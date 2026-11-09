@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/bg">
+
+    <!-- browse screen -->
+    <LinearLayout android:id="@+id/browse" android:layout_width="match_parent" android:layout_height="match_parent"
+        android:orientation="horizontal" android:padding="18dp">
+
+        <!-- the groups open over the channel list (nothing else moves: smooth on the TV) -->
+        <FrameLayout android:id="@+id/listBox" android:layout_width="390dp" android:layout_height="match_parent">
+        <LinearLayout android:id="@+id/channelCol" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="44dp" android:orientation="horizontal"
+                android:gravity="center_vertical" android:paddingStart="12dp" android:paddingEnd="12dp">
+                <TextView android:id="@+id/groupName" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                    android:singleLine="true" android:ellipsize="end" android:textSize="19sp" android:textStyle="bold"/>
+                <TextView android:id="@+id/groupCount" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:textColor="@color/text2" android:textSize="16sp"/>
+            </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView android:id="@+id/channels" android:layout_width="match_parent"
+                android:layout_height="match_parent" android:clipToPadding="false" android:paddingBottom="200dp"/>
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/groupsPanel" android:layout_width="match_parent" android:layout_height="match_parent"
+            android:orientation="vertical" android:background="@color/bg" android:elevation="6dp" android:visibility="gone">
+            <TextView android:layout_width="match_parent" android:layout_height="44dp" android:gravity="center_vertical"
+                android:paddingStart="12dp" android:text="Groups" android:textColor="@color/text2" android:textSize="16sp"/>
+            <androidx.recyclerview.widget.RecyclerView android:id="@+id/groups" android:layout_width="match_parent"
+                android:layout_height="match_parent" android:clipToPadding="false" android:paddingBottom="200dp"/>
+        </LinearLayout>
+
+        </FrameLayout>
+
+        <LinearLayout android:id="@+id/rightCol" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
+            android:orientation="vertical" android:layout_marginStart="18dp">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="44dp" android:orientation="horizontal"
+                android:gravity="center_vertical">
+                <TextView android:id="@+id/hint" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                    android:singleLine="true" android:textColor="@color/text2" android:textSize="14sp"
+                    android:text="◀ Groups    OK Play / Full screen    Hold OK ★ Favorite"/>
+                <TextView android:id="@+id/clock" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:textSize="19sp" android:textStyle="bold"/>
+            </LinearLayout>
+            <!-- the player sits on top of this box in browse mode -->
+            <View android:id="@+id/previewBox" android:layout_width="match_parent" android:layout_height="0dp"
+                android:background="#000000"/>
+            <TextView android:id="@+id/chName" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="12dp" android:singleLine="true" android:ellipsize="end" android:textSize="22sp" android:textStyle="bold"/>
+            <TextView android:id="@+id/nowTitle" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="4dp" android:singleLine="true" android:ellipsize="end" android:textSize="17sp"/>
+            <ProgressBar android:id="@+id/nowProgress" style="?android:attr/progressBarStyleHorizontal" android:layout_width="match_parent"
+                android:layout_height="4dp" android:layout_marginTop="6dp" android:max="1000" android:progressDrawable="@drawable/progress"/>
+            <TextView android:id="@+id/nowDesc" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="6dp" android:maxLines="2" android:ellipsize="end" android:textColor="@color/text2" android:textSize="14sp"/>
+            <androidx.recyclerview.widget.RecyclerView android:id="@+id/programs" android:layout_width="match_parent"
+                android:layout_height="match_parent" android:layout_marginTop="8dp" android:focusable="false"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <androidx.media3.ui.PlayerView android:id="@+id/player" android:layout_width="0dp" android:layout_height="0dp"
+        app:use_controller="false" app:resize_mode="fit" app:shutter_background_color="#000000"
+        app:show_buffering="when_playing" app:surface_type="surface_view" android:focusable="false"/>
+
+    <!-- full-screen banner -->
+    <LinearLayout android:id="@+id/banner" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_gravity="bottom" android:background="@drawable/banner_bg" android:orientation="horizontal"
+        android:gravity="center_vertical" android:paddingStart="48dp" android:paddingEnd="48dp" android:paddingTop="60dp"
+        android:paddingBottom="36dp" android:visibility="gone">
+        <TextView android:id="@+id/bNum" android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:textSize="34sp" android:textStyle="bold" android:minWidth="80dp"/>
+        <ImageView android:id="@+id/bLogo" android:layout_width="120dp" android:layout_height="68dp" android:layout_marginEnd="24dp"
+            android:scaleType="fitCenter"/>
+        <LinearLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:orientation="vertical">
+            <TextView android:id="@+id/bName" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:singleLine="true" android:ellipsize="end" android:textSize="26sp" android:textStyle="bold"/>
+            <TextView android:id="@+id/bNow" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="4dp" android:singleLine="true" android:ellipsize="end" android:textSize="18sp"/>
+            <ProgressBar android:id="@+id/bProgress" style="?android:attr/progressBarStyleHorizontal" android:layout_width="match_parent"
+                android:layout_height="4dp" android:layout_marginTop="6dp" android:max="1000" android:progressDrawable="@drawable/progress"/>
+            <TextView android:id="@+id/bNext" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="6dp" android:singleLine="true" android:ellipsize="end" android:textColor="@color/text2" android:textSize="16sp"/>
+        </LinearLayout>
+        <TextView android:id="@+id/bClock" android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_marginStart="24dp" android:textSize="24sp" android:textStyle="bold" android:visibility="gone"/>
+        <View android:layout_width="190dp" android:layout_height="1dp"/>
+    </LinearLayout>
+
+    <!-- full screen: clock (bottom right, like TiviMate) -->
+    <TextView android:id="@+id/fullClock" android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end" android:layout_margin="28dp" android:alpha="0.85"
+        android:shadowColor="#CC000000" android:shadowDx="0" android:shadowDy="2" android:shadowRadius="6"
+        android:textSize="22sp" android:textStyle="bold" android:visibility="gone"/>
+
+    <!-- full screen: the channel's guide for the next days (RIGHT) -->
+    <LinearLayout android:id="@+id/epgPanel" android:layout_width="520dp" android:layout_height="match_parent"
+        android:layout_gravity="end" android:background="@drawable/panel_bg" android:orientation="vertical"
+        android:padding="18dp" android:layout_margin="18dp" android:visibility="gone">
+        <TextView android:id="@+id/epgTitle" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:singleLine="true" android:ellipsize="end" android:textSize="20sp" android:textStyle="bold"/>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="4dp"
+            android:text="OK on a coming program: remind me" android:textColor="@color/text2" android:textSize="14sp"/>
+        <androidx.recyclerview.widget.RecyclerView android:id="@+id/epgList" android:layout_width="match_parent"
+            android:layout_height="match_parent" android:layout_marginTop="10dp" android:clipToPadding="false" android:paddingBottom="120dp"/>
+    </LinearLayout>
+
+    <TextView android:id="@+id/toast" android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_gravity="top|center_horizontal" android:layout_marginTop="28dp" android:background="@drawable/panel_bg"
+        android:paddingStart="22dp" android:paddingEnd="22dp" android:paddingTop="12dp" android:paddingBottom="12dp"
+        android:textSize="17sp" android:visibility="gone"/>
+</FrameLayout>

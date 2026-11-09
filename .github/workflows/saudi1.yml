@@ -1,0 +1,47 @@
+name: SAUDI.TV app
+
+# Builds the SAUDI.1 Android TV / phone app and publishes it as the "saudi1" release:
+#   https://github.com/Saudi23723/Unified-MENA-EPG/releases/download/saudi1/SAUDI1.apk  (the Downloader link)
+on:
+  push:
+    paths: ["saudi1/**", ".github/workflows/saudi1.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: saudi1
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: "17" }
+      - uses: gradle/actions/setup-gradle@v4
+        with: { gradle-version: "8.7" }
+      - name: Find the FFmpeg sound decoder for this Media3 version
+        run: |
+          M=$(grep -o 'media3-exoplayer:[0-9.]*' saudi1/app/build.gradle.kts | head -1 | cut -d: -f2)
+          curl -s https://repo1.maven.org/maven2/org/jellyfin/media3/media3-ffmpeg-decoder/maven-metadata.xml | grep -o '<version>[^<]*' | sed 's/<version>//' | tee /tmp/ff.txt
+          V=$(grep "^$M+" /tmp/ff.txt | tail -1)
+          echo "media3 $M -> ffmpeg decoder '$V'"
+          echo "FFMPEG_VER=$V" >> $GITHUB_ENV
+      - name: Build
+        env:
+          BUILD_NUMBER: ${{ github.run_number }}
+        run: gradle -p saudi1 assembleRelease --no-daemon --console=plain
+      - name: Publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cp saudi1/app/build/outputs/apk/release/app-release.apk SAUDI1.apk
+          ls -la SAUDI1.apk
+          gh release view saudi1 >/dev/null 2>&1 || gh release create saudi1 --title "SAUDI.TV" --notes "SAUDI.TV for Android TV, phones and tablets. Downloader link: https://github.com/${{ github.repository }}/releases/download/saudi1/SAUDI1.apk" --latest=false
+          gh release upload saudi1 SAUDI1.apk --clobber
+          echo "build ${{ github.run_number }}" > version.txt
+          gh release upload saudi1 version.txt --clobber
