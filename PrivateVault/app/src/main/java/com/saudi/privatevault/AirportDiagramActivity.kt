@@ -159,10 +159,10 @@ class AirportDiagramActivity : BaseActivity() {
         pauseChip = cPause
         chips.addView(cPause)
         chips.addView(chip("🛫 Pattern") { choosePattern() })
-        chips.addView(c3d)
+        // (The 3D tilt is gone: the tilted picture and the labels drawn on it did not agree.)
         chips.addView(cTrack)
         chips.addView(cFollow)
-        chips.addView(chip("📄 FAA diagram") { faaDiagram() })
+        chips.addView(chip("📄 FAA diagram") { faaDiagram() }, 0)
         chips.addView(chip("N↑") { turnTo(0f) })
         chips.addView(chip("⟳") { load(refresh = true) })
         top.addView(HorizontalScrollView(this).apply { isHorizontalScrollBarEnabled = false; addView(chips) })

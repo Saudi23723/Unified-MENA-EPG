@@ -369,6 +369,57 @@ class LogbookActivity : BaseActivity() {
         return c
     }
 
+    /** The track on the satellite map: each stretch coloured by its height, framed to the whole flight. */
+    private fun trackMap(pts: List<Tracks.Point>): View {
+        org.osmdroid.config.Configuration.getInstance().apply {
+            userAgentValue = packageName
+            osmdroidBasePath = File(filesDir, "osmdroid")
+            osmdroidTileCache = File(filesDir, "osmdroid/tiles")
+        }
+        val imagery = AviationData.LAYERS.first { it.key == "imagery" }
+        val map = org.osmdroid.views.MapView(this, SmoothTileProvider(applicationContext, imagery.source())).apply {
+            setMultiTouchControls(true)
+            zoomController.setVisibility(org.osmdroid.views.CustomZoomButtonsController.Visibility.NEVER)
+            clipToOutline = true
+            background = EfbUi.cardBg(this@LogbookActivity, 0xFF0B1116.toInt(), 14)
+            // Inside the page's scroll: a finger on the map moves the map.
+            setOnTouchListener { v, ev -> v.parent?.requestDisallowInterceptTouchEvent(ev.actionMasked != android.view.MotionEvent.ACTION_UP); false }
+        }
+        val lo = pts.minOf { it.altFt }; val hi = pts.maxOf { it.altFt }.coerceAtLeast(lo + 1)
+        fun color(f: Double): Int {
+            val stops = intArrayOf(0xFF33D17A.toInt(), 0xFFF6D32D.toInt(), 0xFFFF8A3D.toInt(), 0xFFE040FB.toInt())
+            val x = f.coerceIn(0.0, 1.0) * (stops.size - 1); val i = x.toInt().coerceAtMost(stops.size - 2)
+            return android.animation.ArgbEvaluator().evaluate((x - i).toFloat(), stops[i], stops[i + 1]) as Int
+        }
+        // Stretches of about 20 points each, one colour per stretch.
+        var k = 0
+        while (k < pts.size - 1) {
+            val end = minOf(k + 20, pts.size - 1)
+            val seg = org.osmdroid.views.overlay.Polyline(map).apply {
+                setPoints((k..end).map { org.osmdroid.util.GeoPoint(pts[it].lat, pts[it].lon) })
+                outlinePaint.color = color((pts[(k + end) / 2].altFt - lo) / (hi - lo))
+                outlinePaint.strokeWidth = 7 * resources.displayMetrics.density
+                outlinePaint.strokeCap = android.graphics.Paint.Cap.ROUND
+                setOnClickListener { _, _, _ -> false }
+            }
+            map.overlays.add(seg)
+            k = end
+        }
+        fun dot(p: Tracks.Point, c: Int) = map.overlays.add(object : org.osmdroid.views.overlay.Overlay() {
+            override fun draw(cv: android.graphics.Canvas, mv: org.osmdroid.views.MapView, shadow: Boolean) {
+                if (shadow) return
+                val pt = mv.projection.toPixels(org.osmdroid.util.GeoPoint(p.lat, p.lon), null)
+                val d = resources.displayMetrics.density
+                cv.drawCircle(pt.x.toFloat(), pt.y.toFloat(), 8 * d, android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG).apply { color = 0xFF000000.toInt() })
+                cv.drawCircle(pt.x.toFloat(), pt.y.toFloat(), 6 * d, android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG).apply { color = c })
+            }
+        })
+        dot(pts.first(), 0xFF33D17A.toInt()); dot(pts.last(), 0xFFFFFFFF.toInt())
+        val box = org.osmdroid.util.BoundingBox(pts.maxOf { it.lat }, pts.maxOf { it.lon }, pts.minOf { it.lat }, pts.minOf { it.lon })
+        map.addOnFirstLayoutListener { _, _, _, _, _ -> map.zoomToBoundingBox(box.increaseByScale(1.25f), false) }
+        return map
+    }
+
     private fun newEntry(): LogEntry {
         val last = entries.firstOrNull()
         return LogEntry(aircraft = last?.aircraft ?: "SportStar MAX", tail = last?.tail ?: "", from = prefs.getString("efb_home", "KBVU")!!,
@@ -493,16 +544,27 @@ class LogbookActivity : BaseActivity() {
         val pts = if (e.track.isNotEmpty()) Tracks.read(this, e.track) else emptyList()
         if (pts.size > 1) {
             c.addView(header(getString(R.string.log_track, pts.size)))
-            // The flight as flown: where, how high, how long.
-            c.addView(TrackView(this, pts).apply { clipToOutline = true; background = EfbUi.cardBg(this@LogbookActivity, 0xFF0B1116.toInt(), 14) },
+            // The flight as flown, on the satellite map (coloured by height, green start, white end), then its profile.
+            c.addView(trackMap(pts), LinearLayout.LayoutParams(-1, dp(340)).apply { bottomMargin = dp(6) })
+            c.addView(TrackView(this, pts, profileOnly = true).apply { background = EfbUi.cardBg(this@LogbookActivity, 0xFF0B1116.toInt(), 14) },
                 LinearLayout.LayoutParams(-1, -2).apply { bottomMargin = dp(6) })
             val maxAlt = pts.maxOf { it.altFt }
+            // Ground speed over 10-second spans: one jumpy fix does not make a record.
             var gs = 0.0
+            var j = 0
+            var dist = 0.0
             for (i in 1 until pts.size) {
-                val dt = (pts[i].time - pts[i - 1].time) / 3600000.0
-                if (dt > 0) gs = maxOf(gs, Nav.distanceNm(pts[i - 1].lat, pts[i - 1].lon, pts[i].lat, pts[i].lon) / dt)
+                dist += Nav.distanceNm(pts[i - 1].lat, pts[i - 1].lon, pts[i].lat, pts[i].lon)
+                while (j < i && pts[i].time - pts[j].time > 10000) j++
+                val dt = (pts[i].time - pts[j].time) / 3600000.0
+                if (dt > 6.0 / 3600 && j < i) {
+                    var d = 0.0
+                    for (k in j + 1..i) d += Nav.distanceNm(pts[k - 1].lat, pts[k - 1].lon, pts[k].lat, pts[k].lon)
+                    gs = maxOf(gs, d / dt)
+                }
             }
-            c.addView(EfbUi.ltr(EfbUi.text(this, "Max %,.0f ft MSL · max GS %.0f kt · %.0f NM · %d landing(s)".format(maxAlt, gs.coerceAtMost(250.0), e.distanceNm, e.dayLdg + e.nightLdg), 12.5f, EfbUi.DIM, mono = true)))
+            if (e.distanceNm == 0.0) e.distanceNm = Math.round(dist).toDouble()
+            c.addView(EfbUi.ltr(EfbUi.text(this, "Max %,.0f ft MSL · max GS %.0f kt · %.1f NM flown · %d landing(s)".format(maxAlt, gs.coerceAtMost(250.0), dist, e.dayLdg + e.nightLdg), 12.5f, EfbUi.DIM, mono = true)))
             val row = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
             fun export(ext: String, mime: String, text: String) {
                 val f = File(File(cacheDir, "exports").apply { mkdirs() }, "Flight_${e.date}_${e.from}-${e.to}.$ext")

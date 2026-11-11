@@ -12,7 +12,7 @@ import android.view.View
  * A flight's recorded track, drawn: the ground track from above (coloured by altitude, green at
  * the start, a square where it ended), and under it the altitude profile against time.
  */
-class TrackView(ctx: Context, private val pts: List<Tracks.Point>) : View(ctx) {
+class TrackView(ctx: Context, private val pts: List<Tracks.Point>, private val profileOnly: Boolean = false) : View(ctx) {
     private val d = ctx.resources.displayMetrics.density
     private val line = Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.STROKE; strokeWidth = 3 * d; strokeCap = Paint.Cap.ROUND; strokeJoin = Paint.Join.ROUND }
     private val fill = Paint(Paint.ANTI_ALIAS_FLAG)
@@ -21,7 +21,7 @@ class TrackView(ctx: Context, private val pts: List<Tracks.Point>) : View(ctx) {
 
     override fun onMeasure(w: Int, h: Int) {
         val width = MeasureSpec.getSize(w)
-        setMeasuredDimension(width, (width * 0.95f).toInt())
+        setMeasuredDimension(width, if (profileOnly) (width * 0.36f).toInt() else (width * 0.95f).toInt())
     }
 
     private fun altColor(f: Float): Int {
@@ -35,7 +35,7 @@ class TrackView(ctx: Context, private val pts: List<Tracks.Point>) : View(ctx) {
     override fun onDraw(c: Canvas) {
         if (pts.size < 2) return
         c.drawColor(0xFF0B1116.toInt())
-        val w = width.toFloat(); val mapH = height * 0.68f; val pad = 14 * d
+        val w = width.toFloat(); val mapH = if (profileOnly) 0f else height * 0.68f; val pad = 14 * d
         val minLat = pts.minOf { it.lat }; val maxLat = pts.maxOf { it.lat }
         val minLon = pts.minOf { it.lon }; val maxLon = pts.maxOf { it.lon }
         val k = Math.cos(Math.toRadians((minLat + maxLat) / 2))
@@ -45,21 +45,22 @@ class TrackView(ctx: Context, private val pts: List<Tracks.Point>) : View(ctx) {
         fun x(p: Tracks.Point) = (ox + (p.lon - minLon) * k * sc).toFloat()
         fun y(p: Tracks.Point) = (oy + (maxLat - p.lat) * sc).toFloat()
         val lo = pts.minOf { it.altFt }; val hi = pts.maxOf { it.altFt }.coerceAtLeast(lo + 1)
-        for (i in 1 until pts.size) {
+        if (!profileOnly) for (i in 1 until pts.size) {
             line.color = altColor(((pts[i].altFt - lo) / (hi - lo)).toFloat())
             c.drawLine(x(pts[i - 1]), y(pts[i - 1]), x(pts[i]), y(pts[i]), line)
         }
-        fill.color = 0xFF33D17A.toInt(); c.drawCircle(x(pts.first()), y(pts.first()), 6 * d, fill)
-        fill.color = 0xFFFFFFFF.toInt(); val e = pts.last(); c.drawRect(x(e) - 5 * d, y(e) - 5 * d, x(e) + 5 * d, y(e) + 5 * d, fill)
+        if (!profileOnly) { fill.color = 0xFF33D17A.toInt(); c.drawCircle(x(pts.first()), y(pts.first()), 6 * d, fill)
+        fill.color = 0xFFFFFFFF.toInt(); val e = pts.last(); c.drawRect(x(e) - 5 * d, y(e) - 5 * d, x(e) + 5 * d, y(e) + 5 * d, fill) }
         // Scale bar: one nautical mile.
         val nm = (sc / 60.0).toFloat()
-        if (nm in 8 * d..w / 2) {
+        if (!profileOnly && nm in 8 * d..w / 2) {
             line.color = 0xFFB8C4CE.toInt(); line.strokeWidth = 2 * d
             c.drawLine(pad, mapH - pad, pad + nm, mapH - pad, line); c.drawText("1 NM", pad, mapH - pad - 5 * d, txt)
             line.strokeWidth = 3 * d
         }
         // Altitude profile.
         val top = mapH + 18 * d; val bot = height - 16 * d
+        // Altitude by colour too, low to high, as on the map above.
         val t0 = pts.first().time; val t1 = pts.last().time.coerceAtLeast(t0 + 1)
         for (g in 0..3) { val gy = top + (bot - top) * g / 3; c.drawLine(pad, gy, w - pad, gy, grid) }
         val path = Path(); val area = Path()
