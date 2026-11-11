@@ -1,0 +1,42 @@
+name: Fill missing guides (all playlists)
+
+# Every channel of every playlist checked for a guide (tools/fill_missing_epg.py): twins, this repository's guides,
+# the owner's own TiviMate links, US call signs. The maps it changes are committed, then the Xtream data is rebuilt.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "41 3 * * 1"
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: fill-missing-epg
+  cancel-in-progress: false
+
+jobs:
+  fill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Fill
+        run: python tools/fill_missing_epg.py --write
+      - name: Commit and rebuild the Xtream data
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add xtream/*/channel_map.json fill_missing_report.txt
+          git diff --cached --quiet && { echo "No changes."; exit 0; }
+          git commit -q -m "Guides for channels that had none (fill_missing_epg)"
+          for attempt in 1 2 3 4 5; do
+            git pull -q --rebase origin main && git push -q origin main && break
+            sleep $(( (RANDOM % 5) + 2 ))
+          done
+          gh workflow run update_argon_epg.yml --ref main
