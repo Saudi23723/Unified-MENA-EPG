@@ -20,7 +20,7 @@ import org.json.JSONObject
 
 class Reminder(val channel: Int, val start: Long, val title: String, val channelName: String)
 
-/** Programs the viewer asked to be reminded of (like TiviMate): 10 seconds before the start a countdown shows. */
+/** Programs the viewer asked to be reminded of (like TiviMate): a minute before the start a 10-second countdown shows, then the channel changes. */
 object Reminders {
     fun all(): List<Reminder> = try {
         val a = JSONArray(App.prefs.getString("reminders", "[]"))
@@ -47,27 +47,59 @@ object Reminders {
 
     fun remove(r: Reminder) = save(all().filterNot { it.channel == r.channel && it.start == r.start })
 
-    /** reminders whose countdown should show now (start in 10 s or less, not older than 2 minutes) */
+    /** reminders whose countdown should show now (a minute before the start, not older than 2 minutes) */
     fun due(): Reminder? {
         val t = System.currentTimeMillis() / 1000
         val l = all()
         l.filter { it.start < t - 120 }.forEach { remove(it) }
-        return l.firstOrNull { it.start - t in -120..10 }
+        return l.firstOrNull { it.start - t in -120..60 }
     }
 }
 
 /** Night dimming levels: 0, 20, 40, 60, 80 % */
 object Dim {
-    val levels = intArrayOf(0, 20, 30, 40, 50, 60, 70, 80)
-    var level: Int
+    val levels = intArrayOf(0, 10, 20, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90)
+    /** the level chosen by hand */
+    var manual: Int
         get() = App.prefs.getInt("dim", 0)
         set(v) = App.prefs.edit().putInt("dim", v).apply()
+    /** the level in use now: the night schedule's inside its hours, else the one chosen by hand */
+    var level: Int
+        get() = if (nightNow()) App.prefs.getInt("night_dim", 50) else manual
+        set(v) { if (nightNow()) App.prefs.edit().putInt("night_dim", v).apply() else manual = v }
+
+    // ---- night mode by the clock: between two times every day it turns on by itself, and off after
+    var scheduled: Boolean
+        get() = App.prefs.getBoolean("night_on", false)
+        set(v) = App.prefs.edit().putBoolean("night_on", v).apply()
+    /** minutes after midnight */
+    var from: Int
+        get() = App.prefs.getInt("night_from", 22 * 60)
+        set(v) = App.prefs.edit().putInt("night_from", v).apply()
+    var to: Int
+        get() = App.prefs.getInt("night_to", 6 * 60)
+        set(v) = App.prefs.edit().putInt("night_to", v).apply()
+    fun nightNow(): Boolean {
+        if (!scheduled) return false
+        val c = java.util.Calendar.getInstance(); val m = c.get(java.util.Calendar.HOUR_OF_DAY) * 60 + c.get(java.util.Calendar.MINUTE)
+        val a = from; val b = to
+        return if (a == b) false else if (a < b) m in a until b else m >= a || m < b
+    }
+    fun clock(m: Int): String { val h = m / 60; return "%d:%02d %s".format(if (h % 12 == 0) 12 else h % 12, m % 60, if (h < 12) "AM" else "PM") }
     /** Eye comfort (warm screen, like Samsung's Eye Comfort Shield): 0 off, 1 low, 2 medium, 3 high */
-    val warmNames = arrayOf("Off", "Low", "Medium", "High")
-    val warmAlpha = floatArrayOf(0f, 0.10f, 0.17f, 0.25f)
+    val warmNames = arrayOf("Off", "10 %", "15 %", "20 %", "25 %", "30 %", "35 %", "40 %", "45 %", "50 %", "55 %")
+    val warmAlpha = floatArrayOf(0f, 0.06f, 0.09f, 0.12f, 0.15f, 0.18f, 0.21f, 0.24f, 0.27f, 0.30f, 0.33f)
+    private fun warmManual(): Int {
+        // the old three levels (Low / Medium / High) carried over to the new scale once
+        if (!App.prefs.getBoolean("warm_v2", false)) {
+            val o = App.prefs.getInt("warm", 0)
+            App.prefs.edit().putInt("warm", intArrayOf(0, 2, 5, 7).getOrElse(o) { 0 }).putBoolean("warm_v2", true).apply()
+        }
+        return App.prefs.getInt("warm", 0).coerceIn(0, warmNames.size - 1)
+    }
     var warm: Int
-        get() = App.prefs.getInt("warm", 0)
-        set(v) = App.prefs.edit().putInt("warm", v).apply()
+        get() { val m = warmManual(); return if (nightNow()) App.prefs.getInt("night_warm", 4).coerceIn(0, warmNames.size - 1) else m }
+        set(v) { warmManual(); if (nightNow()) App.prefs.edit().putInt("night_warm", v).apply() else App.prefs.edit().putInt("warm", v).apply() }
 }
 
 /** Parental lock: a 4-digit PIN guards the adult groups (found by name) and any group the owner of the TV locks. */
@@ -133,9 +165,13 @@ open class BaseActivity : AppCompatActivity() {
             }
         }
         applyDim()
+        if (isTouch) fullScreen()
         watch = lifecycleScope.launch {
+            var night = Dim.nightNow()
             while (isActive) {
                 if (box == null) Reminders.due()?.let { show(it) }
+                // the night schedule starts / ends while a screen is open
+                val n = Dim.nightNow(); if (n != night) { night = n; applyDim() }
                 delay(2000)
             }
         }
@@ -143,16 +179,53 @@ open class BaseActivity : AppCompatActivity() {
 
     override fun onPause() { super.onPause(); watch?.cancel() }
 
+    /** phones and tablets: the whole screen (no status bar, no navigation / task bar); a swipe from the edge shows them for a moment */
+    private fun fullScreen() {
+        try {
+            if (android.os.Build.VERSION.SDK_INT >= 28) window.attributes = window.attributes.apply { layoutInDisplayCutoutMode = android.view.WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES }
+            androidx.core.view.WindowCompat.setDecorFitsSystemWindows(window, false)
+            androidx.core.view.WindowInsetsControllerCompat(window, window.decorView).apply {
+                systemBarsBehavior = androidx.core.view.WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+                hide(androidx.core.view.WindowInsetsCompat.Type.systemBars())
+            }
+        } catch (e: Exception) { }
+    }
+    override fun onWindowFocusChanged(hasFocus: Boolean) { super.onWindowFocusChanged(hasFocus); if (hasFocus && isTouch) fullScreen() }
+
     /** night dimming + eye comfort, from any screen */
     fun nightDialog() {
         androidx.appcompat.app.AlertDialog.Builder(this).setTitle("Night mode")
-            .setItems(arrayOf("Dimming: " + (if (Dim.level == 0) "Off" else "${Dim.level} %"), "Eye comfort: " + Dim.warmNames[Dim.warm])) { _, w ->
+            .setItems(arrayOf("Dimming: " + (if (Dim.level == 0) "Off" else "${Dim.level} %"), "Eye comfort: " + Dim.warmNames[Dim.warm],
+                "At a set time: " + if (Dim.scheduled) Dim.clock(Dim.from) + " – " + Dim.clock(Dim.to) else "Off")) { _, w ->
+                if (w == 2) { nightSchedule(); return@setItems }
                 if (w == 0) androidx.appcompat.app.AlertDialog.Builder(this).setTitle("Dimming")
                     .setSingleChoiceItems(Dim.levels.map { if (it == 0) "Off" else "$it %" }.toTypedArray(), Dim.levels.indexOf(Dim.level).coerceAtLeast(0)) { d, k ->
                         Dim.level = Dim.levels[k]; applyDim(); d.dismiss()
                     }.show()
                 else androidx.appcompat.app.AlertDialog.Builder(this).setTitle("Eye comfort (warm screen)")
                     .setSingleChoiceItems(Dim.warmNames, Dim.warm) { d, k -> Dim.warm = k; applyDim(); d.dismiss() }.show()
+            }.show()
+    }
+
+    /** night mode by the clock: on / off, from, until; the dimming and eye comfort chosen during those hours are the night's */
+    fun nightSchedule() {
+        val times = (0 until 48).map { it * 30 }
+        fun pick(title: String, now: Int, done: (Int) -> Unit) = androidx.appcompat.app.AlertDialog.Builder(this).setTitle(title)
+            .setSingleChoiceItems(times.map { Dim.clock(it) }.toTypedArray(), times.indexOf(now).coerceAtLeast(0)) { d, k -> done(times[k]); d.dismiss(); applyDim(); nightSchedule() }.show()
+        androidx.appcompat.app.AlertDialog.Builder(this).setTitle("Night mode at a set time")
+            .setItems(arrayOf(if (Dim.scheduled) "On  (turn off)" else "Off  (turn on)", "From: " + Dim.clock(Dim.from), "Until: " + Dim.clock(Dim.to),
+                "Night dimming: " + App.prefs.getInt("night_dim", 50) + " %", "Night eye comfort: " + Dim.warmNames[App.prefs.getInt("night_warm", 4).coerceIn(0, Dim.warmNames.size - 1)])) { _, w ->
+                when (w) {
+                    0 -> { Dim.scheduled = !Dim.scheduled; applyDim(); nightSchedule() }
+                    1 -> pick("From", Dim.from) { Dim.from = it }
+                    2 -> pick("Until", Dim.to) { Dim.to = it }
+                    3 -> androidx.appcompat.app.AlertDialog.Builder(this).setTitle("Night dimming")
+                        .setSingleChoiceItems(Dim.levels.map { if (it == 0) "Off" else "$it %" }.toTypedArray(), Dim.levels.indexOf(App.prefs.getInt("night_dim", 50)).coerceAtLeast(0)) { d, k ->
+                            App.prefs.edit().putInt("night_dim", Dim.levels[k]).apply(); d.dismiss(); applyDim(); nightSchedule() }.show()
+                    4 -> androidx.appcompat.app.AlertDialog.Builder(this).setTitle("Night eye comfort")
+                        .setSingleChoiceItems(Dim.warmNames, App.prefs.getInt("night_warm", 4).coerceIn(0, Dim.warmNames.size - 1)) { d, k ->
+                            App.prefs.edit().putInt("night_warm", k).apply(); d.dismiss(); applyDim(); nightSchedule() }.show()
+                }
             }.show()
     }
 
@@ -164,7 +237,7 @@ open class BaseActivity : AppCompatActivity() {
             warmView = View(this).apply { isClickable = false; isFocusable = false; setBackgroundColor(0xFFFF8A1E.toInt()) }
             root.addView(warmView, ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
         }
-        warmView!!.alpha = Dim.warmAlpha[Dim.warm.coerceIn(0, 3)]
+        warmView!!.alpha = Dim.warmAlpha[Dim.warm.coerceIn(0, Dim.warmAlpha.size - 1)]
         warmView!!.visibility = if (Dim.warm > 0) View.VISIBLE else View.GONE
         warmView!!.bringToFront()
         if (dimView == null) {
@@ -215,8 +288,9 @@ open class BaseActivity : AppCompatActivity() {
         dimView?.bringToFront()
         watchB.requestFocus()
         counting = lifecycleScope.launch {
-            var left = (r.start - System.currentTimeMillis() / 1000).coerceIn(0, 10)
-            while (left > 0) { count.text = "Starts in $left s — switching automatically"; delay(1000); left-- }
+            // a minute before the start: ten seconds to say no, then the channel changes (the start is not missed)
+            var left = if (r.start > System.currentTimeMillis() / 1000) 10L else 3L
+            while (left > 0) { count.text = "Switching in $left s"; delay(1000); left-- }
             close(); tuneTo(r.channel)
         }
     }

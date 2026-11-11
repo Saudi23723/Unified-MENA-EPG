@@ -74,7 +74,7 @@ class MultiviewActivity : BaseActivity() {
             grid.addView(v, lp)
             val idx = i
             v.setOnClickListener { pick(idx) }
-            v.setOnLongClickListener { holdOk(idx); true }
+            v.setOnLongClickListener { holdOk(idx); true }   // touch; the remote's OK is read in dispatchKeyEvent
             v.setOnFocusChangeListener { view, f ->
                 if (two) view.foreground = if (f) ring else null
                 else view.animate().scaleX(if (f) 1f else 0.97f).scaleY(if (f) 1f else 0.97f).alpha(if (f) 1f else 0.82f).setDuration(160).start()
@@ -128,8 +128,16 @@ class MultiviewActivity : BaseActivity() {
 
     /** hold OK: two screens = this one big / both the same size; four screens = full screen */
     private fun holdOk(i: Int) {
-        if (tiles.size == 2) { setBig(if (big == i) -1 else i); flash(tiles[i]) } else tiles[i].channel?.let { openFull(it) }
+        if (tiles.size != 2) { tiles[i].channel?.let { openFull(it) }; return }
+        // every hold is the next step, in this order: this screen big → the same size → this screen small → big again
+        val next = when (big) { i -> { cameFromBig = true; -1 }; -1 -> if (cameFromBig) 1 - i else i; else -> i }
+        if (next != -1) cameFromBig = false
+        setBig(next); flash(tiles[i])
+        android.widget.Toast.makeText(this, when (next) { i -> "Big"; -1 -> "Same size"; else -> "Small" }, android.widget.Toast.LENGTH_SHORT).show()
     }
+    private var cameFromBig = false
+    private var okHeld = false
+    private var okDown = false
 
     private fun setBig(i: Int) { big = i; App.prefs.edit().putInt("mv_big", i).apply(); relayout() }
 
@@ -267,11 +275,13 @@ class MultiviewActivity : BaseActivity() {
     override fun dispatchKeyEvent(e: KeyEvent): Boolean {
         if (!overlayOpen && e.action == KeyEvent.ACTION_DOWN) {
             val i = tiles.indexOfFirst { it.root.hasFocus() }
-            if ((e.keyCode == KeyEvent.KEYCODE_DPAD_CENTER || e.keyCode == KeyEvent.KEYCODE_ENTER) && e.repeatCount == 1) {
-                if (i >= 0) holdOk(i); return true
+            // OK on a screen is read here and nowhere else (the screen's own long press also fired and switched the size
+            // straight back): a short press = pick a channel (on release), a hold = the next size, once per hold
+            if ((e.keyCode == KeyEvent.KEYCODE_DPAD_CENTER || e.keyCode == KeyEvent.KEYCODE_ENTER) && i >= 0) {
+                if (e.repeatCount == 0) { okHeld = false; okDown = true }
+                else if (!okHeld && e.repeatCount >= 4) { okHeld = true; holdOk(i) }
+                return true
             }
-            // the long press goes on repeating while held: one switch per press
-            if ((e.keyCode == KeyEvent.KEYCODE_DPAD_CENTER || e.keyCode == KeyEvent.KEYCODE_ENTER) && e.repeatCount > 1) return true
             if (e.keyCode == KeyEvent.KEYCODE_MENU && i >= 0) {
                 val items = arrayListOf("Change channel", "Remove channel", "Full screen")
                 if (others.isNotEmpty()) items.add("Change playlist")
@@ -294,6 +304,11 @@ class MultiviewActivity : BaseActivity() {
                     }
                 }.show(); return true
             }
+        }
+        if (!overlayOpen && e.action == KeyEvent.ACTION_UP && (e.keyCode == KeyEvent.KEYCODE_DPAD_CENTER || e.keyCode == KeyEvent.KEYCODE_ENTER)) {
+            val i = tiles.indexOfFirst { it.root.hasFocus() }
+            // only a press that began on the screen (not the end of an OK that closed a list)
+            if (i >= 0 && okDown) { okDown = false; if (!okHeld) pick(i); okHeld = false; return true }
         }
         return super.dispatchKeyEvent(e)
     }

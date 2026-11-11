@@ -416,14 +416,15 @@ class LiveActivity : BaseActivity() {
     /** audio / subtitles / picture size / night dimming (MENU, or hold OK in full screen) */
     private fun options() {
         val recording = Recorder.current != null
-        val items = arrayOf("Quality", "Audio", "Subtitles", "Picture size", "Night mode", "Last channels", "TV Guide",
-            "Multiview", if (recording) "⏹ Stop recording" else "⏺ Record", "Search")
+        // the owner's order (8 Nov 2026): what is used most first
+        val items = arrayOf("Search", "Night mode", "Multiview", if (recording) "⏹ Stop recording" else "⏺ Record", "Last channels", "TV Guide",
+            "Quality", "Audio", "Subtitles", "Picture size")
         AlertDialog.Builder(this).setTitle(playing?.name ?: "Options").setItems(items) { _, w0 ->
-            if (w0 == 0) { quality(); return@setItems }
-            if (w0 == 7) { startActivity(Intent(this, MultiviewActivity::class.java).putExtra("channel", playing?.id ?: -1)); return@setItems }
-            if (w0 == 9) { startActivity(Intent(this, SearchActivity::class.java)); return@setItems }
-            if (w0 == 8) { if (recording) { Recorder.stop(this); toast("Recording stopped") } else record(); return@setItems }
-            when (w0 - 1) {
+            if (w0 == 6) { quality(); return@setItems }
+            if (w0 == 2) { startActivity(Intent(this, MultiviewActivity::class.java).putExtra("channel", playing?.id ?: -1)); return@setItems }
+            if (w0 == 0) { startActivity(Intent(this, SearchActivity::class.java)); return@setItems }
+            if (w0 == 3) { if (recording) { Recorder.stop(this); toast("Recording stopped") } else record(); return@setItems }
+            when (intArrayOf(-1, 3, -1, -1, 4, 5, -1, 0, 1, 2)[w0]) {
                 0 -> tracks(C.TRACK_TYPE_AUDIO)
                 1 -> tracks(C.TRACK_TYPE_TEXT)
                 2 -> {

@@ -35,7 +35,7 @@ class VodActivity : BaseActivity() {
     private val catAdapter = CatAdapter()
     private val gridAdapter = GridAdapter()
 
-    companion object { const val RESUME = "__resume"; const val SEARCH = "__search"; const val FAV = "__fav"; const val DL = "__dl"; const val COLS = 4 }
+    companion object { const val RESUME = "__resume"; const val SEARCH = "__search"; const val FAV = "__fav"; const val DL = "__dl"; const val COLS = 5 }
 
     /** newest added by the provider first (like the provider's "last modified"), or A–Z, or by rating */
     private val sortNames = arrayOf("Latest added", "A – Z", "Top rated")
@@ -60,13 +60,23 @@ class VodActivity : BaseActivity() {
     private fun favs(): List<org.json.JSONObject> = try {
         val a = org.json.JSONArray(App.prefs.getString(favKey(), "[]")); (0 until a.length()).map { a.getJSONObject(it) }
     } catch (e: Exception) { emptyList() }
-    private fun isFav(id: Int) = favs().any { it.optInt("id") == id }
+    // read once, not for every poster drawn (reading the saved lists for each poster made the lists slow)
+    private var favIds = HashSet<Int>()
+    private var resumeOf = HashMap<String, LongArray>()
+    private fun refreshMarks() {
+        favIds = favs().mapTo(HashSet()) { it.optInt("id") }
+        val m = HashMap<String, LongArray>()
+        for (r in Resume.list()) m[r.optString("k")] = longArrayOf(r.optLong("pos"), r.optLong("dur"))
+        resumeOf = m
+    }
+    private fun isFav(id: Int) = id in favIds
     private fun toggleFav(it: VodItem) {
         val l = favs().toMutableList()
         val on = l.none { f -> f.optInt("id") == it.id }
         if (on) l.add(0, org.json.JSONObject().put("id", it.id).put("n", it.name).put("p", it.poster).put("e", it.ext).put("r", it.rating))
         else l.removeAll { f -> f.optInt("id") == it.id }
         App.prefs.edit().putString(favKey(), org.json.JSONArray(l).toString()).apply()
+        refreshMarks()
         android.widget.Toast.makeText(this, if (on) "★ Added to Favorites" else "Removed from Favorites", android.widget.Toast.LENGTH_SHORT).show()
         if (current == FAV) open(cats.first { c -> c.id == FAV }) else gridAdapter.notifyItemChanged(items.indexOf(it))
     }
@@ -98,15 +108,38 @@ class VodActivity : BaseActivity() {
             }
         }
         grid.setItemViewCacheSize(24)
+        refreshMarks()
+        val fixed = listOf(VodCat(SEARCH, "🔍  Search"), VodCat(RESUME, "▶  Continue watching"), VodCat(FAV, "★  Favorites"), VodCat(DL, "⬇  Downloads"))
+        // the screen is there at once: Continue watching first, the groups from the device, the provider asked behind it
+        cats = fixed; catAdapter.notifyDataSetChanged()
+        open(cats[1])
+        catsRv.post { catsRv.findViewHolderForAdapterPosition(1)?.itemView?.requestFocus() }
         lifecycleScope.launch {
             val c = withContext(Dispatchers.IO) { try { Vod.cats(series) } catch (e: Exception) { null } }
             if (c == null) { android.widget.Toast.makeText(this@VodActivity, "Could not load the groups", android.widget.Toast.LENGTH_LONG).show(); return@launch }
-            cats = listOf(VodCat(SEARCH, "🔍  Search"), VodCat(RESUME, "▶  Continue watching"), VodCat(FAV, "★  Favorites"), VodCat(DL, "⬇  Downloads")) + c
-            catAdapter.notifyDataSetChanged()
-            val first = cats.indexOfFirst { it.id == App.prefs.getString("vod_cat_$series", "") }.takeIf { it >= 4 } ?: 4.coerceAtMost(cats.size - 1)
-            open(cats[first])
-            (catsRv.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(first, 120)
-            catsRv.post { catsRv.findViewHolderForAdapterPosition(first)?.itemView?.requestFocus() }
+            cats = fixed + c
+            catAdapter.notifyItemRangeInserted(4, c.size)
+            // nothing to continue: open the group that was open last time
+            if (items.isEmpty() && current == RESUME && c.isNotEmpty()) {
+                val first = cats.indexOfFirst { it.id == App.prefs.getString("vod_cat_$series", "") }.takeIf { it >= 4 } ?: 4
+                open(cats[first])
+                (catsRv.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(first, 120)
+                catsRv.post { catsRv.findViewHolderForAdapterPosition(first)?.itemView?.requestFocus() }
+            }
+            // the groups themselves checked with the provider now and then
+            if (Vod.catsAge(series) > 3 * 3600_000L) {
+                val n = withContext(Dispatchers.IO) { try { Vod.cats(series, true) } catch (e: Exception) { null } }
+                if (n != null && n.isNotEmpty() && (n.size != c.size || n.indices.any { n[it].id != c[it].id || n[it].name != c[it].name })) {
+                    val focused = catsRv.focusedChild?.let { catsRv.getChildAdapterPosition(it) } ?: -1
+                    cats = fixed + n; catAdapter.notifyDataSetChanged()
+                    if (focused >= 0) catsRv.post { catsRv.findViewHolderForAdapterPosition(focused.coerceAtMost(cats.size - 1))?.itemView?.requestFocus() }
+                }
+            }
+            // the whole catalogue read once behind the screen: every group then opens at once, and Favorites know the newest episode
+            if (Vod.needsWarm(series)) {
+                withContext(Dispatchers.IO) { try { Vod.all(series) } catch (e: Exception) { } }
+                if (current == FAV && series && grid.focusedChild == null) open(cats.first { it.id == FAV })
+            }
         }
     }
 
@@ -115,6 +148,7 @@ class VodActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
+        refreshMarks()
         if (current == RESUME || current == DL) open(cats.first { it.id == current })
         else if (lastPos >= 0) {
             // back from a movie: the focus stays on the poster that was opened (not the groups)
@@ -148,15 +182,29 @@ class VodActivity : BaseActivity() {
             show(); return
         }
         if (c.id == FAV) {
-            items = favs().map { VodItem(it.optInt("id"), it.optString("n"), it.optString("p"), it.optString("e"), it.optString("r"), "") }
-            show(); return
+            val f = favs().map { VodItem(it.optInt("id"), it.optString("n"), it.optString("p"), it.optString("e"), it.optString("r"), "") }
+            items = f; show()
+            // series: the one that got a new episode last comes first
+            if (series && f.size > 1) loadJob = lifecycleScope.launch {
+                val st = withContext(Dispatchers.IO) { Vod.stamps(true) }
+                if (current != FAV || st.isEmpty()) return@launch
+                val o = f.sortedByDescending { st[it.id] ?: 0L }
+                if (o.indices.any { o[it].id != f[it].id } && grid.focusedChild == null) { items = o; show() }
+            }
+            return
         }
-        items = emptyList(); show()
         loadJob = lifecycleScope.launch {
-            val l = withContext(Dispatchers.IO) { try { Vod.list(series, c.id) } catch (e: Exception) { null } }
+            // what the device has is shown at once; the provider is asked only when that is old (or there is nothing)
+            val had = withContext(Dispatchers.IO) { Vod.cached(series, c.id)?.let { it.first to sorted(it.second) } }
             if (current != c.id) return@launch
-            items = sorted(l ?: emptyList()); show()
-            if (l == null) android.widget.Toast.makeText(this@VodActivity, "Could not load this group", android.widget.Toast.LENGTH_SHORT).show()
+            if (had != null) { items = had.second; show() } else { items = emptyList(); show() }
+            if (had != null && had.first < 30 * 60_000L) return@launch
+            val l = withContext(Dispatchers.IO) { try { sorted(Vod.list(series, c.id)) } catch (e: Exception) { null } }
+            if (current != c.id) return@launch
+            if (l == null) { if (had == null) android.widget.Toast.makeText(this@VodActivity, "Could not load this group", android.widget.Toast.LENGTH_SHORT).show(); return@launch }
+            val same = had != null && had.second.size == l.size && l.indices.all { l[it].id == had.second[it].id && l[it].name == had.second[it].name }
+            // never under the hand: the new list waits for the next visit when the posters are being browsed
+            if (!same && (had == null || grid.focusedChild == null)) { items = l; show() }
         }
     }
 
@@ -250,7 +298,10 @@ class VodActivity : BaseActivity() {
         override fun getItemCount() = items.size
         override fun onCreateViewHolder(p: ViewGroup, t: Int): H {
             val h = H(LayoutInflater.from(p.context).inflate(R.layout.item_poster, p, false))
-            if (isTouch) (h.poster.parent as View).layoutParams.height = (200 * resources.displayMetrics.density).toInt()  // phones: smaller posters
+            // a real poster shape (2:3) for the width a column has
+            val d = resources.displayMetrics.density
+            val w = (grid.width - grid.paddingLeft - grid.paddingRight) / COLS - (22 * d).toInt()
+            if (w > 0) (h.poster.parent as View).layoutParams.height = w * 3 / 2
             h.itemView.setOnClickListener { lastPos = h.bindingAdapterPosition; items.getOrNull(h.bindingAdapterPosition)?.let { play(it) } }
             // hold OK: add to / remove from Favorites
             h.itemView.setOnLongClickListener {
@@ -292,7 +343,7 @@ class VodActivity : BaseActivity() {
             h.rating.visibility = if (h.rating.text.isEmpty()) View.GONE else View.VISIBLE
             if (it.poster.isEmpty()) h.poster.setImageResource(R.drawable.banner) else h.poster.load(it.poster) { size(240, 360); error(R.drawable.banner) }
             val key = (if (series) "e" else "m") + it.id
-            val pos = Resume.get(key); val dur = Resume.dur(key)
+            val r = resumeOf[key]; val pos = r?.get(0) ?: 0L; val dur = r?.get(1) ?: 0L
             h.progress.visibility = if (pos > 0 && !series || current == RESUME) View.VISIBLE else View.GONE
             h.progress.progress = if (dur > 0) (pos * 1000 / dur).toInt() else 0
         }

@@ -21,71 +21,159 @@ object Vod {
 
     private val catCache = HashMap<String, List<VodCat>>()
     private val listCache = HashMap<String, Pair<Long, List<VodItem>>>()
+    private val allCache = HashMap<Boolean, Pair<Long, List<VodItem>>>()
+    private val stamps = HashMap<Boolean, HashMap<Int, Long>>()
 
-    fun clear() { catCache.clear(); listCache.clear() }
+    fun clear() { catCache.clear(); listCache.clear(); allCache.clear(); stamps.clear() }
 
-    fun cats(series: Boolean): List<VodCat> {
+    // ---- kept on the device, per playlist: a group opens at once from here, and is checked with the provider behind it
+    private fun dir(): java.io.File {
+        val d = java.io.File(App.app.cacheDir, "vod/" + Integer.toHexString((Prefs.server + "|" + Prefs.user).hashCode()))
+        if (!d.isDirectory) d.mkdirs()
+        return d
+    }
+    private fun safe(s: String) = s.replace(Regex("[^A-Za-z0-9_-]"), "_")
+    private fun file(series: Boolean, cat: String) = java.io.File(dir(), (if (series) "s_" else "v_") + safe(cat) + ".tsv")
+    private fun clean(s: String) = s.replace('\t', ' ').replace('\n', ' ').replace('\r', ' ')
+    private fun write(f: java.io.File, l: List<VodItem>) {
+        try {
+            val t = java.io.File(f.path + ".tmp")
+            t.bufferedWriter().use { w ->
+                for (i in l) { w.write("${i.id}\t${clean(i.name)}\t${clean(i.poster)}\t${clean(i.ext)}\t${clean(i.rating)}\t${clean(i.year)}\t${i.added}\n") }
+            }
+            t.renameTo(f)
+        } catch (e: Exception) { }
+    }
+    private fun read(f: java.io.File): List<VodItem>? = try {
+        if (!f.isFile) null else {
+            val out = ArrayList<VodItem>()
+            f.bufferedReader().useLines { ls ->
+                for (ln in ls) { val p = ln.split('\t'); if (p.size >= 7) out.add(VodItem(p[0].toIntOrNull() ?: 0, p[1], p[2], p[3], p[4], p[5], p[6].toLongOrNull() ?: 0)) }
+            }
+            out
+        }
+    } catch (e: Exception) { null }
+
+    /** the groups: from the device at once when they are there (fresh = ask the provider) */
+    fun cats(series: Boolean, fresh: Boolean = false): List<VodCat> {
         val k = if (series) "s" else "v"
-        catCache[k]?.let { return it }
+        val f = java.io.File(dir(), "cats_$k.tsv")
+        if (!fresh) {
+            catCache[k]?.let { return it }
+            try {
+                if (f.isFile) {
+                    val l = f.readLines().mapNotNull { val p = it.split('\t'); if (p.size >= 2) VodCat(p[0], p[1]) else null }
+                    if (l.isNotEmpty()) { catCache[k] = l; return l }
+                }
+            } catch (e: Exception) { }
+        }
         val a = JSONArray(text(api(if (series) "get_series_categories" else "get_vod_categories")))
         val l = (0 until a.length()).map { a.getJSONObject(it) }.map { VodCat(it.optString("category_id"), it.optString("category_name").trim()) }
+        if (l.isNotEmpty()) try { f.writeText(l.joinToString("\n") { it.id + "\t" + clean(it.name) }) } catch (e: Exception) { }
         catCache[k] = l
         return l
     }
+    fun catsAge(series: Boolean): Long = System.currentTimeMillis() - java.io.File(dir(), "cats_" + (if (series) "s" else "v") + ".tsv").lastModified()
 
+    /** what the device already has of a group (null = nothing yet) and how old it is (ms) */
+    fun cached(series: Boolean, cat: String): Pair<Long, List<VodItem>>? {
+        val k = (if (series) "s" else "v") + cat
+        listCache[k]?.let { return (System.currentTimeMillis() - it.first) to it.second }
+        val f = file(series, cat)
+        val l = read(f) ?: return null
+        listCache[k] = f.lastModified() to l
+        return (System.currentTimeMillis() - f.lastModified()) to l
+    }
+
+    /** a group from the provider (and kept on the device) */
     fun list(series: Boolean, cat: String): List<VodItem> {
         val k = (if (series) "s" else "v") + cat
-        listCache[k]?.let { if (System.currentTimeMillis() - it.first < 30 * 60_000) return it.second }
-        val a = JSONArray(text(api(if (series) "get_series" else "get_vod_streams", "&category_id=" + enc(cat))))
-        val l = (0 until a.length()).map { a.getJSONObject(it) }.map {
-            VodItem(
-                if (series) it.optInt("series_id") else it.optInt("stream_id"),
-                it.optString("name").trim(),
-                if (series) it.optString("cover") else it.optString("stream_icon"),
-                it.optString("container_extension", "mp4").ifEmpty { "mp4" },
-                it.optString("rating").takeIf { r -> r.isNotEmpty() && r != "0" && r != "null" } ?: "",
-                (it.optString("releaseDate").ifEmpty { it.optString("year") }).take(4),
-                (if (series) it.optString("last_modified") else it.optString("added")).toLongOrNull() ?: 0,
-            )
+        val l = App.http.newCall(Request.Builder().url(api(if (series) "get_series" else "get_vod_streams", "&category_id=" + enc(cat))).build()).execute().use { r ->
+            if (!r.isSuccessful) throw java.io.IOException("HTTP ${r.code}")
+            parse(r.body!!.charStream(), null)
         }
         listCache[k] = System.currentTimeMillis() to l
+        write(file(series, cat), l)
         return l
     }
 
-    private val allCache = HashMap<Boolean, Pair<Long, List<VodItem>>>()
-
-    /** every movie or series of the playlist in one read (for search), read as a stream: little memory */
-    fun all(series: Boolean): List<VodItem> {
-        allCache[series]?.let { if (System.currentTimeMillis() - it.first < 60 * 60_000) return it.second }
-        val out = ArrayList<VodItem>(20000)
-        App.http.newCall(Request.Builder().url(api(if (series) "get_series" else "get_vod_streams")).build()).execute().use { r ->
-            if (!r.isSuccessful) throw java.io.IOException("HTTP ${r.code}")
-            val j = android.util.JsonReader(r.body!!.charStream())
-            j.beginArray()
+    private fun parse(rd: java.io.Reader, byCat: HashMap<String, ArrayList<VodItem>>?): ArrayList<VodItem> {
+        val out = ArrayList<VodItem>(2000)
+        val j = android.util.JsonReader(rd)
+        j.isLenient = true
+        if (j.peek() != android.util.JsonToken.BEGIN_ARRAY) { j.skipValue(); return out }
+        j.beginArray()
+        while (j.hasNext()) {
+            var id = 0; var name = ""; var poster = ""; var ext = "mp4"; var rating = ""; var added = 0L; var year = ""; var cat = ""
+            j.beginObject()
             while (j.hasNext()) {
-                var id = 0; var name = ""; var poster = ""; var ext = "mp4"; var rating = ""; var added = 0L
-                j.beginObject()
-                while (j.hasNext()) {
-                    val k = j.nextName()
-                    if (j.peek() == android.util.JsonToken.NULL) { j.nextNull(); continue }
-                    if (j.peek() == android.util.JsonToken.BOOLEAN) { j.nextBoolean(); continue }
-                    if (j.peek() == android.util.JsonToken.BEGIN_ARRAY || j.peek() == android.util.JsonToken.BEGIN_OBJECT) { j.skipValue(); continue }
-                    when (k) {
-                        "stream_id", "series_id" -> id = j.nextString().toIntOrNull() ?: 0
-                        "name" -> name = j.nextString().trim()
-                        "stream_icon", "cover" -> poster = j.nextString()
-                        "container_extension" -> ext = j.nextString().ifEmpty { "mp4" }
-                        "rating" -> rating = j.nextString().takeIf { it.isNotEmpty() && it != "0" } ?: ""
-                        "added", "last_modified" -> added = j.nextString().toLongOrNull() ?: 0
-                        else -> j.skipValue()
-                    }
+                val k = j.nextName()
+                val t = j.peek()
+                if (t == android.util.JsonToken.NULL) { j.nextNull(); continue }
+                if (t == android.util.JsonToken.BOOLEAN) { j.nextBoolean(); continue }
+                if (t == android.util.JsonToken.BEGIN_ARRAY || t == android.util.JsonToken.BEGIN_OBJECT) { j.skipValue(); continue }
+                when (k) {
+                    "stream_id", "series_id" -> id = j.nextString().toIntOrNull() ?: 0
+                    "name" -> name = j.nextString().trim()
+                    "stream_icon", "cover" -> poster = j.nextString()
+                    "container_extension" -> ext = j.nextString().ifEmpty { "mp4" }
+                    "rating" -> rating = j.nextString().takeIf { it.isNotEmpty() && it != "0" && it != "null" } ?: ""
+                    "added", "last_modified" -> added = j.nextString().toLongOrNull() ?: 0
+                    "releaseDate", "year" -> { val v = j.nextString().take(4); if (year.isEmpty()) year = v }
+                    "category_id" -> cat = j.nextString()
+                    else -> j.skipValue()
                 }
-                j.endObject()
-                if (id > 0) out.add(VodItem(id, name, poster, ext, rating, "", added))
+            }
+            j.endObject()
+            if (id > 0) {
+                val it = VodItem(id, name, poster, ext, rating, year, added)
+                out.add(it)
+                if (byCat != null && cat.isNotEmpty()) byCat.getOrPut(cat) { ArrayList() }.add(it)
             }
         }
-        allCache[series] = System.currentTimeMillis() to out
         return out
+    }
+
+    /** every movie or series of the playlist in one read (for search), read as a stream: little memory.
+     *  The same read fills every group on the device, so each group then opens at once. */
+    fun all(series: Boolean): List<VodItem> {
+        allCache[series]?.let { if (System.currentTimeMillis() - it.first < 60 * 60_000) return it.second }
+        val byCat = HashMap<String, ArrayList<VodItem>>()
+        val out = App.http.newCall(Request.Builder().url(api(if (series) "get_series" else "get_vod_streams")).build()).execute().use { r ->
+            if (!r.isSuccessful) throw java.io.IOException("HTTP ${r.code}")
+            parse(r.body!!.charStream(), byCat)
+        }
+        allCache[series] = System.currentTimeMillis() to out
+        if (out.isNotEmpty()) {
+            for ((c, l) in byCat) {
+                val f = file(series, c)
+                // a group read on its own (the provider's own answer) in the last 6 hours stays as it is
+                if (!f.isFile || System.currentTimeMillis() - f.lastModified() > 6 * 3600_000L) {
+                    write(f, l); listCache[(if (series) "s" else "v") + c] = System.currentTimeMillis() to l
+                }
+            }
+            val m = HashMap<Int, Long>(out.size * 2); for (i in out) m[i.id] = i.added
+            stamps[series] = m
+            try { java.io.File(dir(), "stamp_" + (if (series) "s" else "v") + ".tsv").bufferedWriter().use { w -> for (i in out) if (i.added > 0) w.write("${i.id}\t${i.added}\n") } } catch (e: Exception) { }
+            App.prefs.edit().putLong(warmKey(series), System.currentTimeMillis()).apply()
+        }
+        return out
+    }
+
+    private fun warmKey(series: Boolean) = "vod_warm_" + (if (series) "s" else "v") + Integer.toHexString((Prefs.server + "|" + Prefs.user).hashCode())
+    /** true when the whole catalogue should be read again in the background (first time, or older than 8 hours) */
+    fun needsWarm(series: Boolean) = System.currentTimeMillis() - App.prefs.getLong(warmKey(series), 0) > 8 * 3600_000L
+
+    /** when each one was last changed by the provider (a new episode moves a series up) */
+    fun stamps(series: Boolean): Map<Int, Long> {
+        stamps[series]?.let { return it }
+        val m = HashMap<Int, Long>()
+        try {
+            val f = java.io.File(dir(), "stamp_" + (if (series) "s" else "v") + ".tsv")
+            if (f.isFile) f.bufferedReader().useLines { ls -> for (ln in ls) { val i = ln.indexOf('\t'); if (i > 0) m[ln.substring(0, i).toIntOrNull() ?: 0] = ln.substring(i + 1).toLongOrNull() ?: 0 } }
+        } catch (e: Exception) { }
+        if (m.isNotEmpty()) stamps[series] = m
+        return m
     }
 
     fun movieInfo(id: Int): JSONObject = JSONObject(text(api("get_vod_info", "&vod_id=$id")))

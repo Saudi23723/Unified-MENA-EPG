@@ -188,7 +188,7 @@ class SportsActivity : BaseActivity() {
                 val m = items.getOrNull(h.bindingAdapterPosition) ?: return@setOnLongClickListener true
                 val c = m.channels.firstOrNull() ?: return@setOnLongClickListener true
                 val on = Reminders.toggle(Reminder(c.id, m.start, m.title, c.name))
-                android.widget.Toast.makeText(this@SportsActivity, if (on) "⏰ I'll remind you 10 s before" else "Reminder removed", android.widget.Toast.LENGTH_SHORT).show()
+                android.widget.Toast.makeText(this@SportsActivity, if (on) "⏰ I'll switch to it a minute before" else "Reminder removed", android.widget.Toast.LENGTH_SHORT).show()
                 notifyItemChanged(h.bindingAdapterPosition); true
             }
             return h

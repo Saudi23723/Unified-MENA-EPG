@@ -57,6 +57,7 @@ class SettingsActivity : BaseActivity() {
         row("Night mode", (if (Dim.level == 0) "Dimming off" else "Dimming ${Dim.level} %") + " · Eye comfort " + Dim.warmNames[Dim.warm]) {
             nightDialog()
         }
+        row("Night mode at a set time", if (Dim.scheduled) "Every day " + Dim.clock(Dim.from) + " – " + Dim.clock(Dim.to) else "Off") { nightSchedule() }
         val clock = App.prefs.getBoolean("clock", true)
         row("Clock on the picture", if (clock) "On" else "Off") { App.prefs.edit().putBoolean("clock", !clock).apply(); build() }
         val openLast = App.prefs.getBoolean("open_last", false)
