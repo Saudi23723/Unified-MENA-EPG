@@ -127,6 +127,8 @@ def shown(g: str, playlist: str) -> str:
 #    Only the channel list at the top of each file is read here; the programmes are read in step 3 as usual.
 LINK_OF = {"it": "italy", "ch": "swiss", "de": "germany", "pt": "portugal", "tr": "turkey", "ro": "romania", "si": "slovenia"}
 OWNER_FILL = {}
+sys.path.insert(0, "tools")
+from epg_country_check import country_of as _e_country, fits as _fits, flag as _g_country, SAME as _SAME
 
 
 def _owner_fill():
@@ -212,6 +214,10 @@ for f in sorted(glob.glob("xtream/*/channel_map.json")):
     for n, c in enumerate(chans, 1):
         sp = split(official_fill.override(c["name"]) or c.get("epg") or official_fill.fill(c["name"], c["group"])
                    or OWNER_FILL.get((name, c["stream_id"])))
+        # never another country's guide (owner, 11 Nov 2026): Italy's Sky Sport F1 is not the UK's
+        if sp and _g_country(c["group"]) and _e_country(f"{sp[0]}:{sp[1]}") and not _fits(_g_country(c["group"]), _e_country(f"{sp[0]}:{sp[1]}")) \
+                and not _SAME.search(c["name"]):
+            sp = None
         if not sp and not xtream_order.EVENT_GROUP.search(c["group"]) and (FILLER_247.search(c["group"]) or "24/7" in c["name"]) \
                 and not NOT_247.search(c["group"] + " " + c["name"]):
             sp = ("f", "247")

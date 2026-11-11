@@ -40,7 +40,13 @@ def main():
             k = norm(c["name"])
             if len(k) < 4 or len(keys.get(k, ())) != 1:
                 continue
-            c["epg"] = next(iter(keys[k])); n += 1
+            pick = next(iter(keys[k]))
+            # never a twin from another country (owner, 11 Nov 2026)
+            from epg_country_check import country_of, fits, flag, SAME
+            g, ec = flag(c.get("group", "")), country_of(pick)
+            if g and ec and not fits(g, ec) and not SAME.search(c["name"]):
+                continue
+            c["epg"] = pick; n += 1
             if len(ex) < 6: ex.append((c["name"], c["epg"]))
         total += n
         print(os.path.basename(os.path.dirname(f)), n, ex)
