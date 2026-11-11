@@ -58,6 +58,20 @@ class ManeuversActivity : BaseActivity() {
         val n = Maneuvers.ALL.size; val k = Maneuvers.ALL.count { done(it.id) }
         col.addView(EfbUi.text(this, getString(R.string.man_intro, n, k), 13f, EfbUi.DIM).apply { setPadding(dp(4), dp(10), dp(4), 0) })
 
+        val book = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL
+            background = EfbUi.cardBg(this@ManeuversActivity, EfbUi.pick(0xFF1C2A3D.toInt(), 0xFFE7F0FF.toInt()), 14)
+            setPadding(dp(16), dp(14), dp(14), dp(14)); layoutDirection = View.LAYOUT_DIRECTION_LTR
+        }
+        book.addView(EfbUi.text(this, "📖", 26f), LinearLayout.LayoutParams(dp(42), -2))
+        val bt = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
+        bt.addView(EfbUi.ltr(EfbUi.text(this, "Jeppesen · Private Pilot Maneuvers", 15.5f, EfbUi.TEXT, bold = true)))
+        bt.addView(EfbUi.ltr(EfbUi.text(this, "Your copy, in the app: 33 maneuvers, swipe to turn, pinch to zoom", 12.5f, EfbUi.DIM)))
+        book.addView(bt, LinearLayout.LayoutParams(0, -2, 1f))
+        book.addView(EfbUi.text(this, "›", 22f, EfbUi.DIM))
+        EfbUi.pressable(book) { ManeuverBook.read(this, ManeuverBook.FIRST) }
+        col.addView(book, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(12) })
+
         for (g in Maneuvers.GROUPS) {
             val items = Maneuvers.ALL.filter { it.group == g }
             if (items.isEmpty()) continue
@@ -69,6 +83,27 @@ class ManeuversActivity : BaseActivity() {
             }
             col.addView(card)
         }
+        // The book's other maneuvers: its own pages.
+        val animated = ManeuverBook.FOR.values.toSet()
+        col.addView(EfbUi.section(this, "More from the Jeppesen book"))
+        val more = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; background = EfbUi.cardBg(this@ManeuversActivity); layoutDirection = View.LAYOUT_DIRECTION_LTR }
+        for ((i, e) in ManeuverBook.ENTRIES.filter { it.no !in animated }.withIndex()) {
+            if (i > 0) more.addView(View(this).apply { setBackgroundColor(EfbUi.CARD_LINE) }, LinearLayout.LayoutParams(-1, 1).apply { marginStart = dp(62) })
+            val r = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL; setPadding(dp(12), dp(11), dp(12), dp(11)) }
+            r.addView(TextView(this).apply {
+                text = "${e.no}"; textSize = 13f; typeface = EfbUi.MEDIUM; gravity = Gravity.CENTER; setTextColor(EfbUi.ACCENT)
+                background = GradientDrawable().apply { shape = GradientDrawable.OVAL; setStroke(dp(1), EfbUi.ACCENT) }
+            }, LinearLayout.LayoutParams(dp(32), dp(32)))
+            val t = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(dp(14), 0, dp(6), 0) }
+            t.addView(EfbUi.ltr(EfbUi.text(this, e.title, 15f, EfbUi.TEXT, bold = true)))
+            t.addView(EfbUi.ltr(EfbUi.text(this, "${e.chapter} · ${e.pages.count()} pages", 12f, EfbUi.DIM)))
+            r.addView(t, LinearLayout.LayoutParams(0, -2, 1f))
+            r.addView(EfbUi.text(this, "›", 22f, EfbUi.DIM))
+            r.setBackgroundResource(R.drawable.item_focus_bg)
+            r.setOnClickListener { ManeuverBook.read(this, e.pages.first, e.pages) }
+            more.addView(r)
+        }
+        col.addView(more)
         col.addView(EfbUi.text(this, getString(R.string.man_note), 11.5f, EfbUi.DIM).apply { setPadding(dp(4), dp(18), dp(4), 0) })
     }
 
@@ -128,6 +163,15 @@ class ManeuversActivity : BaseActivity() {
         tags.addView(tag(m.group.uppercase(), EfbUi.DIM))
         col.addView(tags)
         col.addView(EfbUi.ltr(EfbUi.text(this, m.line, 19f, EfbUi.TEXT, bold = true)).apply { setPadding(dp(2), dp(8), dp(2), 0) })
+
+        ManeuverBook.entry(ManeuverBook.FOR[m.id])?.let { e ->
+            block("📖  Jeppesen · Maneuver ${e.no} · ${e.title}") { c ->
+                c.addView(ManeuverBook.strip(this, e))
+                c.addView(chip("📖  Read these ${e.pages.count()} pages", true) { ManeuverBook.read(this, e.pages.first, e.pages) }.apply {
+                    (layoutParams as LinearLayout.LayoutParams).topMargin = dp(10)
+                })
+            }
+        }
 
         block("Objective") { it.addView(body(m.objective)) }
 
