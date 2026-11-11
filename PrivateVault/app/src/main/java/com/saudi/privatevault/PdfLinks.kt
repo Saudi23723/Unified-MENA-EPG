@@ -196,6 +196,55 @@ class PdfLinks private constructor(private val doc: PDDocument) : Closeable {
         }
     }
 
+    /**
+     * A chart that prints its latitude and longitude along its border (FAA airport diagrams do):
+     * where each coordinate falls on the page, so the aircraft can be drawn on it. As page fractions:
+     * x = ax·lon + bx, y = ay·lat + by. Null when the page has no such scale.
+     */
+    class Geo(val ax: Double, val bx: Double, val ay: Double, val by: Double) {
+        fun at(lat: Double, lon: Double) = floatArrayOf((ax * lon + bx).toFloat(), (ay * lat + by).toFloat())
+    }
+
+    private val COORD = Regex("(\\d{2,3})\\s*[°º˚]\\s*(\\d{1,2}(?:\\.\\d+)?)\\s*['′’]?\\s*([NSEW])")
+
+    fun georef(index: Int): Geo? = try {
+        val page = doc.getPage(index)
+        val w = page.cropBox.width.toDouble(); val h = page.cropBox.height.toDouble()
+        val s = ChunkStripper().apply { startPage = index + 1; endPage = index + 1; sortByPosition = true }
+        s.getText(doc)
+        val lats = ArrayList<Pair<Double, Double>>()   // latitude, y fraction
+        val lons = ArrayList<Pair<Double, Double>>()   // longitude, x fraction
+        for ((text, pos) in s.chunks) {
+            if (pos.isEmpty()) continue
+            for (m in COORD.findAll(text)) {
+                val v = m.groupValues[1].toDouble() + m.groupValues[2].toDouble() / 60.0
+                // The label's middle, from the glyphs that make it up.
+                val glyphs = pos.subList(minOf(m.range.first, pos.size - 1), minOf(m.range.last + 1, pos.size))
+                if (glyphs.isEmpty()) continue
+                val cx = glyphs.map { it.x + it.width / 2.0 }.average() / w
+                val cy = glyphs.map { it.y - it.height / 2.0 }.average() / h
+                when (m.groupValues[3]) {
+                    "N" -> lats.add(v to cy); "S" -> lats.add(-v to cy)
+                    "E" -> lons.add(v to cx); "W" -> lons.add(-v to cx)
+                }
+            }
+        }
+        fun fit(pts: List<Pair<Double, Double>>): Pair<Double, Double>? {
+            if (pts.map { it.first }.distinct().size < 2) return null
+            val mx = pts.map { it.first }.average(); val my = pts.map { it.second }.average()
+            val sxx = pts.sumOf { (it.first - mx) * (it.first - mx) }
+            if (sxx == 0.0) return null
+            val a = pts.sumOf { (it.first - mx) * (it.second - my) } / sxx
+            val b = my - a * mx
+            // Every label must sit on the line: a scale, not stray numbers in the notes.
+            if (pts.any { Math.abs(a * it.first + b - it.second) > 0.04 }) return null
+            return a to b
+        }
+        val x = fit(lons); val y = fit(lats)
+        // North up, east to the right.
+        if (x == null || y == null || x.first <= 0 || y.first >= 0) null else Geo(x.first, x.second, y.first, y.second)
+    } catch (e: Exception) { null }
+
     private var stripper: ChunkStripper? = null
     private val readLabels = ArrayList<String?>()
     private val readToc = ArrayList<Pair<String, String>>()

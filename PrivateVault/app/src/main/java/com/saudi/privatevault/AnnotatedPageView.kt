@@ -88,6 +88,32 @@ class AnnotatedPageView @JvmOverloads constructor(
         invalidate()
     }
 
+    /** The aircraft on a georeferenced chart: x, y as page fractions and the track in degrees; null to hide. */
+    var ownship: FloatArray? = null
+        set(v) { field = v; invalidate() }
+    private val shipFill = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0xFF00E5FF.toInt() }
+    private val shipEdge = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0xFF000000.toInt(); style = Paint.Style.STROKE; strokeJoin = Paint.Join.ROUND }
+
+    private fun drawOwnship(c: Canvas) {
+        val o = ownship ?: return
+        if (o[0] < -0.05f || o[0] > 1.05f || o[1] < -0.05f || o[1] > 1.05f) return
+        val p = floatArrayOf(o[0] * pageW(), o[1] * pageH())
+        imageMatrix.mapPoints(p)
+        val d = resources.displayMetrics.density
+        val s = 13 * d
+        val path = android.graphics.Path().apply {
+            moveTo(0f, -s); lineTo(s * 0.18f, -s * 0.2f); lineTo(s, s * 0.25f); lineTo(s, s * 0.45f); lineTo(s * 0.18f, s * 0.2f)
+            lineTo(s * 0.15f, s * 0.7f); lineTo(s * 0.45f, s); lineTo(-s * 0.45f, s); lineTo(-s * 0.15f, s * 0.7f)
+            lineTo(-s * 0.18f, s * 0.2f); lineTo(-s, s * 0.45f); lineTo(-s, s * 0.25f); lineTo(-s * 0.18f, -s * 0.2f); close()
+        }
+        c.save()
+        c.translate(p[0], p[1])
+        if (o.size > 2 && !o[2].isNaN()) c.rotate(o[2])
+        shipEdge.strokeWidth = 2.5f * d
+        c.drawPath(path, shipEdge); c.drawPath(path, shipFill)
+        c.restore()
+    }
+
     /** 💭 Notes pinned to words on this page: each anchor (x, y as page fractions), numbered from 1. */
     var bubbles: List<FloatArray> = emptyList()
         set(v) { field = v; invalidate() }
@@ -358,6 +384,7 @@ class AnnotatedPageView @JvmOverloads constructor(
         canvas.restore()
         if (bookmarked) drawRibbon(canvas, w)
         if (bubbles.isNotEmpty()) drawBubbles(canvas)
+        drawOwnship(canvas)
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {

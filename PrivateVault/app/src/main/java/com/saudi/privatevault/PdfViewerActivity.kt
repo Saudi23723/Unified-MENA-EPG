@@ -174,7 +174,7 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
                 return@launch
             }
             links = l
-            if (shownIndex == pageIndex) loadLetters(pageIndex)
+            if (shownIndex == pageIndex) { loadLetters(pageIndex); checkGeo(pageIndex) }
             readPrinted(l, file)
         }
     }
@@ -216,6 +216,7 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
     }
 
     override fun onDestroy() {
+        stopGps()
         tts?.shutdown()
         super.onDestroy()
         val r = renderer
@@ -297,6 +298,7 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
                 refreshUndo()
                 refreshBookmark()
                 refreshBubbles()
+                checkGeo(index)
                 // Letters are for selecting words with a finger; a TV has none to spare memory on.
                 if (tvHint == null) loadLetters(index)
                 // On a TV every page opens whole and fitted to the screen, unless a closer zoom was chosen.
@@ -1276,6 +1278,48 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
         marks.touchBookmarks()
         saveMarks()
         refreshBookmark()
+    }
+
+    // ---- the aircraft on a georeferenced chart (FAA airport diagrams print their lat/long scale) ----
+
+    private val geo = HashMap<Int, PdfLinks.Geo?>()
+    private var geoNow: PdfLinks.Geo? = null
+    private var lm: android.location.LocationManager? = null
+    private val gps = android.location.LocationListener { l -> placeShip(l) }
+
+    private fun checkGeo(index: Int) {
+        val l = links ?: run { b.page.ownship = null; return }
+        if (geo.containsKey(index)) { useGeo(geo[index]); return }
+        lifecycleScope.launch {
+            val g = withContext(linkThread) { l.georef(index) }
+            geo[index] = g
+            if (index == pageIndex) useGeo(g)
+        }
+    }
+
+    @android.annotation.SuppressLint("MissingPermission")
+    private fun useGeo(g: PdfLinks.Geo?) {
+        geoNow = g
+        if (g == null) { b.page.ownship = null; stopGps(); return }
+        val ok = androidx.core.content.ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == android.content.pm.PackageManager.PERMISSION_GRANTED
+        if (!ok) return
+        if (lm == null) {
+            lm = getSystemService(android.location.LocationManager::class.java)
+            try { lm?.requestLocationUpdates(android.location.LocationManager.GPS_PROVIDER, 1000L, 0f, gps, mainLooper) } catch (e: Exception) {}
+            try { lm?.getLastKnownLocation(android.location.LocationManager.GPS_PROVIDER)?.let { placeShip(it) } } catch (e: Exception) {}
+            Toast.makeText(this, R.string.geo_on, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun placeShip(l: android.location.Location) {
+        val g = geoNow ?: return
+        val p = g.at(l.latitude, l.longitude)
+        b.page.ownship = floatArrayOf(p[0], p[1], if (l.hasBearing() && l.speed > 1.5f) l.bearing else Float.NaN)
+    }
+
+    private fun stopGps() {
+        try { lm?.removeUpdates(gps) } catch (e: Exception) {}
+        lm = null
     }
 
     // ---- 💭 notes pinned to words: a number on the page, the note behind it (typed, or written and drawn) ----
