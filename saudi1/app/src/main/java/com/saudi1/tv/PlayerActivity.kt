@@ -58,6 +58,8 @@ class PlayerActivity : BaseActivity() {
         view.setShowNextButton(nextUrls.isNotEmpty()); view.setShowPreviousButton(false)
         // the remote: ◀ ▶ always move 10 s (faster when held), OK = pause / play — the bar shows by itself only then
         view.controllerAutoShow = false; view.useController = true; view.controllerShowTimeoutMs = 3500
+        // the ⚙ on the player's bar opens this app's options (picture, audio, subtitles, speed...), not the small built-in menu
+        view.findViewById<View>(androidx.media3.ui.R.id.exo_settings)?.setOnClickListener { options() }
         // movies and series keep their own picture choice (Full screen cuts the black edges of wide films)
         view.resizeMode = App.prefs.getInt("vod_resize", App.prefs.getInt("resize", 0))
         load(url, intent.getLongExtra("from", Resume.get(key)))
@@ -185,8 +187,10 @@ class PlayerActivity : BaseActivity() {
                     }
                     return true
                 }
-                KeyEvent.KEYCODE_DPAD_UP, KeyEvent.KEYCODE_DPAD_DOWN -> { if (down) view.showController(); return true }
-                KeyEvent.KEYCODE_MENU -> { if (down) options(); return true }
+                // ▲ / ▼ show the bar; ▼ again while the bar is up opens the options (remotes with no MENU key, owner 11 Nov 2026)
+                KeyEvent.KEYCODE_DPAD_UP -> { if (down) view.showController(); return true }
+                KeyEvent.KEYCODE_DPAD_DOWN -> { if (down && e.repeatCount == 0) { if (view.isControllerFullyVisible) options() else view.showController() }; return true }
+                KeyEvent.KEYCODE_MENU, KeyEvent.KEYCODE_SETTINGS, KeyEvent.KEYCODE_INFO -> { if (down) options(); return true }
             }
         }
         return super.dispatchKeyEvent(e)

@@ -31,7 +31,7 @@ class VodActivity : BaseActivity() {
     private var current = ""
     private var loadJob: Job? = null
     private lateinit var catsRv: RecyclerView
-    private lateinit var grid: RecyclerView
+    private lateinit var grid: androidx.leanback.widget.VerticalGridView
     private val catAdapter = CatAdapter()
     private val gridAdapter = GridAdapter()
 
@@ -93,9 +93,13 @@ class VodActivity : BaseActivity() {
             override fun calculateExtraLayoutSpace(st: RecyclerView.State, extra: IntArray) { val h = height; extra[0] = h / 2; extra[1] = h / 2 }
         }
         catsRv.adapter = catAdapter; catsRv.itemAnimator = null
-        grid.layoutManager = object : GridLayoutManager(this, COLS) {
-            override fun calculateExtraLayoutSpace(st: RecyclerView.State, extra: IntArray) { val h = height; extra[0] = h / 2; extra[1] = h }
-        }
+        // Google TV's own grid: ▲▼ move the focus one row and the list glides so the focused row stays in view
+        // at the same height; held keys move steadily (no jumps, no stalls)
+        grid.setNumColumns(COLS)
+        grid.windowAlignment = androidx.leanback.widget.BaseGridView.WINDOW_ALIGN_BOTH_EDGE
+        grid.windowAlignmentOffsetPercent = 30f
+        grid.itemAlignmentOffsetPercent = 0f
+        grid.focusScrollStrategy = androidx.leanback.widget.BaseGridView.FOCUS_SCROLL_ALIGNED
         grid.adapter = gridAdapter; grid.itemAnimator = null
         findViewById<TextView>(R.id.vodSort).apply {
             setTextColor(getColorStateList(R.color.on_focus)); setOnClickListener { sortDialog() }; text = "⇅  " + sortNames[sort]
@@ -107,9 +111,9 @@ class VodActivity : BaseActivity() {
                 } else if (e.action == KeyEvent.ACTION_DOWN && k == KeyEvent.KEYCODE_DPAD_LEFT) { focusCats(); true } else false
             }
         }
-        grid.setItemViewCacheSize(24)
+        grid.setItemViewCacheSize(COLS * 4)
         // posters that leave the screen are kept ready (not built again) while the rows move
-        grid.recycledViewPool.setMaxRecycledViews(0, 40); grid.setHasFixedSize(true)
+        grid.recycledViewPool.setMaxRecycledViews(0, COLS * 8); grid.setHasFixedSize(true)
         refreshMarks()
         val fixed = listOf(VodCat(SEARCH, "🔍  Search"), VodCat(RESUME, "▶  Continue watching"), VodCat(FAV, "★  Favorites"), VodCat(DL, "⬇  Downloads"))
         // the screen is there at once: Continue watching first, the groups from the device, the provider asked behind it
@@ -263,34 +267,24 @@ class VodActivity : BaseActivity() {
     private fun posterH(): Int {
         val d = resources.displayMetrics.density
         val gw = if (grid.width > 0) grid.width else resources.displayMetrics.widthPixels - (258 * d).toInt()
-        return (((gw - grid.paddingLeft - grid.paddingRight) / COLS - (16 * d).toInt()) * 3 / 2).coerceAtLeast((90 * d).toInt())
+        return (((gw - grid.paddingLeft - grid.paddingRight) / COLS - (16 * d).toInt()) * 6 / 5).coerceAtLeast((90 * d).toInt())
     }
 
     private var lastStep = 0L
     private val glide = android.view.animation.DecelerateInterpolator(1.4f)
     private fun moveTo(pos: Int) {
-        val lm = grid.layoutManager ?: return
-        val v = lm.findViewByPosition(pos)
-        if (v != null) { v.requestFocus(); return }    // RecyclerView glides to it
-        // the row is not built yet: move the list by one row now and put the focus there in the same frame
-        // (waiting for a scroll to end made the highlight come late)
-        val cur = grid.focusedChild ?: grid.getChildAt(0)
-        val row = (cur?.height ?: 0) + ((cur?.layoutParams as? ViewGroup.MarginLayoutParams)?.let { it.topMargin + it.bottomMargin } ?: 0)
-        val from = cur?.let { grid.getChildAdapterPosition(it) } ?: -1
-        if (row > 0 && from >= 0) grid.scrollBy(0, if (pos > from) row else -row)
-        lm.findViewByPosition(pos)?.let { it.requestFocus(); return }
-        grid.scrollToPosition(pos)
-        grid.post { lm.findViewByPosition(pos)?.requestFocus() }
+        val v = grid.layoutManager?.findViewByPosition(pos)
+        if (v != null) v.requestFocus() else grid.setSelectedPositionSmooth(pos)
     }
 
     /** the end of the list goes round to the first row (same column): the focus is held on the posters
      *  until that row is built, so it never falls to the groups on the left */
     private fun wrapGrid(pos: Int) {
-        (grid.layoutManager as GridLayoutManager).scrollToPositionWithOffset(pos, 0)
+        grid.setSelectedPosition(pos)
         fun tryFocus(n: Int) {
             val v = grid.findViewHolderForAdapterPosition(pos)?.itemView
             if (v != null) { v.requestFocus(); return }
-            if (n < 8) grid.postDelayed({ tryFocus(n + 1) }, 30)
+            if (n < 10) grid.postDelayed({ tryFocus(n + 1) }, 25)
         }
         grid.post { tryFocus(0) }
     }
@@ -338,7 +332,8 @@ class VodActivity : BaseActivity() {
         override fun getItemCount() = items.size
         override fun onCreateViewHolder(p: ViewGroup, t: Int): H {
             val h = H(LayoutInflater.from(p.context).inflate(R.layout.item_poster, p, false))
-            if (isTouch) (h.poster.parent as View).layoutParams.height = (200 * resources.displayMetrics.density).toInt()  // phones: smaller posters
+            // a poster a little taller than wide: two whole rows and the start of the third on the screen
+            (h.poster.parent as View).layoutParams.height = ph
             h.itemView.setOnClickListener { lastPos = h.bindingAdapterPosition; items.getOrNull(h.bindingAdapterPosition)?.let { play(it) } }
             // hold OK: add to / remove from Favorites
             h.itemView.setOnLongClickListener {
@@ -362,11 +357,12 @@ class VodActivity : BaseActivity() {
                 val p = h.bindingAdapterPosition; if (p < 0) return@setOnKeyListener false
                 when (k) {
                     // the last row goes round to the first one (same column), like the lists
-                    KeyEvent.KEYCODE_DPAD_DOWN -> { if (p + COLS < items.size) moveTo(p + COLS) else if (p / COLS < (items.size - 1) / COLS) moveTo(items.size - 1) else wrapGrid(p % COLS); true }
+                    // ▼: the next row is the grid's own move; the last row goes round to the first row (same column)
+                    KeyEvent.KEYCODE_DPAD_DOWN -> { if (p + COLS < items.size) false else if (p / COLS < (items.size - 1) / COLS) { moveTo(items.size - 1); true } else { wrapGrid(p % COLS); true } }
                     // the first row: ▲ goes up to the sort button only on a new press (holding ▲ stops on the posters)
-                    KeyEvent.KEYCODE_DPAD_UP -> { if (p - COLS >= 0) moveTo(p - COLS) else if (e.repeatCount == 0) { sortCol = p % COLS; findViewById<View>(R.id.vodSort).requestFocus() }; true }
-                    KeyEvent.KEYCODE_DPAD_RIGHT -> { if (p % COLS < COLS - 1 && p + 1 < items.size) moveTo(p + 1); true }
-                    KeyEvent.KEYCODE_DPAD_LEFT -> { if (p % COLS > 0) moveTo(p - 1) else focusCats(); true }
+                    KeyEvent.KEYCODE_DPAD_UP -> { if (p - COLS >= 0) false else { if (e.repeatCount == 0) { sortCol = p % COLS; findViewById<View>(R.id.vodSort).requestFocus() }; true } }
+                    KeyEvent.KEYCODE_DPAD_RIGHT -> { if (p % COLS < COLS - 1 && p + 1 < items.size) false else true }
+                    KeyEvent.KEYCODE_DPAD_LEFT -> { if (p % COLS > 0) false else { focusCats(); true } }
                     KeyEvent.KEYCODE_MENU -> { sortDialog(); true }
                     else -> false
                 }
@@ -378,7 +374,7 @@ class VodActivity : BaseActivity() {
             h.name.text = (if (isFav(it.id)) "★ " else "") + Vod.shown(it.name)
             h.rating.text = ratingText(it.rating)
             h.rating.visibility = if (h.rating.text.isEmpty()) View.GONE else View.VISIBLE
-            if (it.poster.isEmpty()) h.poster.setImageResource(R.drawable.banner) else h.poster.load(it.poster) { size(240, 360); error(R.drawable.banner) }
+            if (it.poster.isEmpty()) h.poster.setImageResource(R.drawable.banner) else h.poster.load(it.poster) { size(pw, ph); error(R.drawable.banner) }
             val key = (if (series) "e" else "m") + it.id
             val r = resumeOf[key]; val pos = r?.get(0) ?: 0L; val dur = r?.get(1) ?: 0L
             h.progress.visibility = if (pos > 0 && !series || current == RESUME) View.VISIBLE else View.GONE
