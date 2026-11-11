@@ -482,7 +482,7 @@ class ManeuverAnimationView(ctx: Context) : View(ctx) {
             } else {
                 line.color = 0x557FBF6A; line.strokeWidth = dp(1f)
                 var xx = X(r[0]); var k = 0
-                while (xx < X(r[1])) { c.drawLine(xx, ground, xx + dp(1.5f), ground - dp(2f + (k % 3))); xx += dp(4f); k++ }
+                while (xx < X(r[1])) { c.drawLine(xx, ground, xx + dp(1.5f), ground - dp(2f + (k % 3)), line); xx += dp(4f); k++ }
             }
         }
         s.aimX?.let { ax ->
