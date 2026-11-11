@@ -39,16 +39,20 @@ say "machine"
 [ -f ~/.ssh/saudi_vpn ] || ssh-keygen -t rsa -b 3072 -m PEM -N "" -f ~/.ssh/saudi_vpn -q
 I=$(q oci compute instance list -c "$C" --display-name saudi-vpn --lifecycle-state RUNNING --query 'data[0].id')
 if [ -z "$I" ] || [ "$I" = "null" ]; then
-  SHAPE=VM.Standard.E2.1.Micro
-  IMG=$(oci compute image list -c "$C" --operating-system "Canonical Ubuntu" --operating-system-version "22.04" --shape $SHAPE \
-        --sort-by TIMECREATED --query 'data[0].id' --raw-output)
   printf '#!/bin/bash\ncurl -fsSL https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/tools/vpn_server.sh | bash -s -- %s > /root/vpn.txt 2>&1\n' "$N" > /tmp/saudi_ud.sh
-  for AD in $(oci iam availability-domain list -c "$C" --query 'data[].name' --raw-output | tr -d '[]",'); do
-    echo "trying $AD"
-    I=$(oci compute instance launch -c "$C" --availability-domain "$AD" --shape $SHAPE --image-id "$IMG" --subnet-id "$SUB" \
-        --assign-public-ip true --display-name saudi-vpn --ssh-authorized-keys-file ~/.ssh/saudi_vpn.pub \
-        --user-data-file /tmp/saudi_ud.sh --wait-for-state RUNNING --query data.id --raw-output 2>/tmp/saudi_err) && break
-    I=""; grep -o '"message": "[^"]*"' /tmp/saudi_err | head -1
+  ADS=$(oci iam availability-domain list -c "$C" --query 'data[].name' --raw-output | tr -d '[]",')
+  # both are Always Free: the small AMD machine first, then the Arm one (1 core, 6 GB) when the AMD one is full
+  for SHAPE in VM.Standard.E2.1.Micro VM.Standard.A1.Flex; do
+    IMG=$(oci compute image list -c "$C" --operating-system "Canonical Ubuntu" --operating-system-version "22.04" --shape $SHAPE \
+          --sort-by TIMECREATED --query 'data[0].id' --raw-output)
+    EXTRA=(); [ "$SHAPE" = VM.Standard.A1.Flex ] && EXTRA=(--shape-config '{"ocpus":1,"memoryInGBs":6}')
+    for AD in $ADS; do
+      echo "trying $SHAPE in $AD"
+      I=$(oci compute instance launch -c "$C" --availability-domain "$AD" --shape $SHAPE "${EXTRA[@]}" --image-id "$IMG" --subnet-id "$SUB" \
+          --assign-public-ip true --display-name saudi-vpn --ssh-authorized-keys-file ~/.ssh/saudi_vpn.pub \
+          --user-data-file /tmp/saudi_ud.sh --wait-for-state RUNNING --query data.id --raw-output 2>/tmp/saudi_err) && break 2
+      I=""; grep -o '"message": "[^"]*"' /tmp/saudi_err | head -1
+    done
   done
   [ -n "$I" ] || { echo "Oracle has no free machine right now in any zone — run the same line again later."; exit 1; }
 fi
