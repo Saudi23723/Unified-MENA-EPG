@@ -168,6 +168,8 @@ open class BaseActivity : AppCompatActivity() {
             }
         }
         applyDim()
+        // the TV's own screensaver (Ambient) never comes on over the app while it is open (owner, 11 Nov 2026)
+        window.addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         if (isTouch) fullScreen()
         watch = lifecycleScope.launch {
             var night = Dim.nightNow()
