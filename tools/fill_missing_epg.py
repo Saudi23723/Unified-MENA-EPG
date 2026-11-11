@@ -183,7 +183,13 @@ def main():
             if not hit and cc == "US":
                 cs = callsign(c["name"])
                 if cs:
-                    hit = pick(calls.get(cs, ()))
+                    refs = calls.get(cs, set())
+                    # a station's main channel, not one of its sub-channels (Decades, MeTV, Comet...): the network
+                    # in the channel's name must be in the guide's id
+                    net = re.search(r"\b(ABC|CBS|NBC|FOX|CW|PBS|MNT|MYNETWORK|TELEMUNDO|UNIVISION|ION)\b", c["name"].upper())
+                    if net:
+                        refs = {r for r in refs if net.group(1) in r.upper()}
+                    hit = pick(refs)
             if hit and not same_country(hit, cc):
                 hit = None
             if hit:
