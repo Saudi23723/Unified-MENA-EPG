@@ -16,6 +16,8 @@ android {
         val build = System.getenv("GITHUB_RUN_NUMBER")?.toIntOrNull() ?: 0
         versionCode = 100 + build
         versionName = "1.$build"
+        // Phones, tablets and the Chromecast are ARM: the speech and translation engines ship for ARM only.
+        ndk { abiFilters += listOf("armeabi-v7a", "arm64-v8a") }
     }
 
     // Builds are signed with the key from the VAULT_KEYSTORE* environment
