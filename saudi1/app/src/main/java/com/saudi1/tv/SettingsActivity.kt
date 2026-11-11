@@ -96,7 +96,7 @@ class SettingsActivity : BaseActivity() {
         }
 
         section("Arrange")
-        row("Arrange groups and channels", if (Arrange.any) "Your own order · ${Arrange.hiddenGroups.size} groups and ${Arrange.hiddenChannels.size} channels hidden" else "Move groups, hide groups or channels") { arrange() }
+        row("Arrange groups and channels", if (Arrange.any) "Your own order · ${Arrange.hiddenGroups.size} groups and ${Arrange.hiddenChannels.size} channels hidden" else "Live TV, Movies and Series: move or hide groups, hide channels") { startActivity(android.content.Intent(this, ArrangeActivity::class.java)) }
 
         section("Parental lock")
         row("PIN lock", if (Parental.on) "On · adult groups are locked" else "Off") { pinDialog() }

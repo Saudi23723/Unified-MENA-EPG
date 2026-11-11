@@ -35,7 +35,7 @@ class VodActivity : BaseActivity() {
     private val catAdapter = CatAdapter()
     private val gridAdapter = GridAdapter()
 
-    companion object { const val RESUME = "__resume"; const val SEARCH = "__search"; const val FAV = "__fav"; const val DL = "__dl"; const val COLS = 5 }
+    companion object { const val RESUME = "__resume"; const val SEARCH = "__search"; const val FAV = "__fav"; const val DL = "__dl"; const val COLS = 4 }
 
     /** newest added by the provider first (like the provider's "last modified"), or A–Z, or by rating */
     private val sortNames = arrayOf("Latest added", "A – Z", "Top rated")
@@ -94,18 +94,7 @@ class VodActivity : BaseActivity() {
         }
         catsRv.adapter = catAdapter; catsRv.itemAnimator = null
         grid.layoutManager = object : GridLayoutManager(this, COLS) {
-            override fun calculateExtraLayoutSpace(st: RecyclerView.State, extra: IntArray) { val h = height; extra[0] = h; extra[1] = h }
-            // the focused row glides to the middle of the screen at one even speed (the TiviMate feel):
-            // every ▲▼ moves the list by exactly one row, a held key keeps it moving without stops and jumps
-            override fun requestChildRectangleOnScreen(parent: RecyclerView, child: View, rect: android.graphics.Rect, immediate: Boolean, focusedChildVisible: Boolean): Boolean {
-                val row = child.height + ((child.layoutParams as? ViewGroup.MarginLayoutParams)?.let { it.topMargin + it.bottomMargin } ?: 0)
-                val want = parent.paddingTop + ((parent.height - parent.paddingTop - parent.paddingBottom - row) / 2).coerceAtLeast(0)
-                val dy = child.top - want
-                if (dy == 0) return false
-                val held = android.os.SystemClock.uptimeMillis() - lastStep < 300
-                if (immediate) parent.scrollBy(0, dy) else parent.smoothScrollBy(0, dy, glide, if (held) 130 else 190)
-                return true
-            }
+            override fun calculateExtraLayoutSpace(st: RecyclerView.State, extra: IntArray) { val h = height; extra[0] = h / 2; extra[1] = h }
         }
         grid.adapter = gridAdapter; grid.itemAnimator = null
         findViewById<TextView>(R.id.vodSort).apply {
@@ -130,8 +119,8 @@ class VodActivity : BaseActivity() {
         lifecycleScope.launch {
             val c = withContext(Dispatchers.IO) { try { Vod.cats(series) } catch (e: Exception) { null } }
             if (c == null) { android.widget.Toast.makeText(this@VodActivity, "Could not load the groups", android.widget.Toast.LENGTH_LONG).show(); return@launch }
-            cats = fixed + c
-            catAdapter.notifyItemRangeInserted(4, c.size)
+            cats = fixed + Arrange.vod(series, c)
+            catAdapter.notifyItemRangeInserted(4, cats.size - 4)
             // nothing to continue: open the group that was open last time
             if (items.isEmpty() && current == RESUME && c.isNotEmpty()) {
                 val first = cats.indexOfFirst { it.id == App.prefs.getString("vod_cat_$series", "") }.takeIf { it >= 4 } ?: 4
@@ -144,7 +133,7 @@ class VodActivity : BaseActivity() {
                 val n = withContext(Dispatchers.IO) { try { Vod.cats(series, true) } catch (e: Exception) { null } }
                 if (n != null && n.isNotEmpty() && (n.size != c.size || n.indices.any { n[it].id != c[it].id || n[it].name != c[it].name })) {
                     val focused = catsRv.focusedChild?.let { catsRv.getChildAdapterPosition(it) } ?: -1
-                    cats = fixed + n; catAdapter.notifyDataSetChanged()
+                    cats = fixed + Arrange.vod(series, n); catAdapter.notifyDataSetChanged()
                     if (focused >= 0) catsRv.post { catsRv.findViewHolderForAdapterPosition(focused.coerceAtMost(cats.size - 1))?.itemView?.requestFocus() }
                 }
             }
@@ -288,15 +277,22 @@ class VodActivity : BaseActivity() {
         val cur = grid.focusedChild ?: grid.getChildAt(0)
         val row = (cur?.height ?: 0) + ((cur?.layoutParams as? ViewGroup.MarginLayoutParams)?.let { it.topMargin + it.bottomMargin } ?: 0)
         val from = cur?.let { grid.getChildAdapterPosition(it) } ?: -1
-        if (row > 0 && from >= 0) grid.smoothScrollBy(0, if (pos > from) row else -row, glide, 130)
+        if (row > 0 && from >= 0) grid.scrollBy(0, if (pos > from) row else -row)
         lm.findViewByPosition(pos)?.let { it.requestFocus(); return }
         grid.scrollToPosition(pos)
         grid.post { lm.findViewByPosition(pos)?.requestFocus() }
     }
 
+    /** the end of the list goes round to the first row (same column): the focus is held on the posters
+     *  until that row is built, so it never falls to the groups on the left */
     private fun wrapGrid(pos: Int) {
         (grid.layoutManager as GridLayoutManager).scrollToPositionWithOffset(pos, 0)
-        grid.post { grid.findViewHolderForAdapterPosition(pos)?.itemView?.requestFocus() }
+        fun tryFocus(n: Int) {
+            val v = grid.findViewHolderForAdapterPosition(pos)?.itemView
+            if (v != null) { v.requestFocus(); return }
+            if (n < 8) grid.postDelayed({ tryFocus(n + 1) }, 30)
+        }
+        grid.post { tryFocus(0) }
     }
 
     private fun wrapCats(pos: Int) {
@@ -342,8 +338,7 @@ class VodActivity : BaseActivity() {
         override fun getItemCount() = items.size
         override fun onCreateViewHolder(p: ViewGroup, t: Int): H {
             val h = H(LayoutInflater.from(p.context).inflate(R.layout.item_poster, p, false))
-            // a real poster shape (2:3) for the width a column has
-            (h.poster.parent as View).layoutParams.height = ph
+            if (isTouch) (h.poster.parent as View).layoutParams.height = (200 * resources.displayMetrics.density).toInt()  // phones: smaller posters
             h.itemView.setOnClickListener { lastPos = h.bindingAdapterPosition; items.getOrNull(h.bindingAdapterPosition)?.let { play(it) } }
             // hold OK: add to / remove from Favorites
             h.itemView.setOnLongClickListener {
@@ -365,11 +360,6 @@ class VodActivity : BaseActivity() {
             h.itemView.setOnKeyListener { _, k, e ->
                 if (e.action != KeyEvent.ACTION_DOWN) return@setOnKeyListener false
                 val p = h.bindingAdapterPosition; if (p < 0) return@setOnKeyListener false
-                if (e.repeatCount > 0 && (k == KeyEvent.KEYCODE_DPAD_DOWN || k == KeyEvent.KEYCODE_DPAD_UP)) {
-                    val t = android.os.SystemClock.uptimeMillis()
-                    if (t - lastStep < 120) return@setOnKeyListener true
-                    lastStep = t
-                }
                 when (k) {
                     // the last row goes round to the first one (same column), like the lists
                     KeyEvent.KEYCODE_DPAD_DOWN -> { if (p + COLS < items.size) moveTo(p + COLS) else if (p / COLS < (items.size - 1) / COLS) moveTo(items.size - 1) else wrapGrid(p % COLS); true }
@@ -385,12 +375,10 @@ class VodActivity : BaseActivity() {
         }
         override fun onBindViewHolder(h: H, i: Int) {
             val it = items[i]
-            (h.poster.parent as View).let { f -> if (f.layoutParams.height != ph) { f.layoutParams.height = ph; f.requestLayout() } }
             h.name.text = (if (isFav(it.id)) "★ " else "") + Vod.shown(it.name)
             h.rating.text = ratingText(it.rating)
             h.rating.visibility = if (h.rating.text.isEmpty()) View.GONE else View.VISIBLE
-            if (it.poster.isEmpty()) h.poster.setImageResource(R.drawable.banner) else h.poster.load(it.poster) { size(pw, ph); error(R.drawable.banner) }
-            prefetch(i)
+            if (it.poster.isEmpty()) h.poster.setImageResource(R.drawable.banner) else h.poster.load(it.poster) { size(240, 360); error(R.drawable.banner) }
             val key = (if (series) "e" else "m") + it.id
             val r = resumeOf[key]; val pos = r?.get(0) ?: 0L; val dur = r?.get(1) ?: 0L
             h.progress.visibility = if (pos > 0 && !series || current == RESUME) View.VISIBLE else View.GONE

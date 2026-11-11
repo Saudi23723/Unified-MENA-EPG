@@ -16,7 +16,26 @@ object Arrange {
         get() = try { val a = JSONArray(App.prefs.getString("go_" + pl(), "[]")); (0 until a.length()).map { a.getString(it) } } catch (e: Exception) { emptyList() }
         set(v) = App.prefs.edit().putString("go_" + pl(), JSONArray(v).toString()).apply()
     val any get() = hiddenGroups.isNotEmpty() || hiddenChannels.isNotEmpty() || order.isNotEmpty()
-    fun reset() { App.prefs.edit().remove("gh_" + pl()).remove("ch_" + pl()).remove("go_" + pl()).apply() }
+
+    // Movies and Series groups (owner, 11 Nov 2026): hidden and moved the same way, per playlist
+    private fun vk(series: Boolean) = (if (series) "s_" else "v_") + pl()
+    fun vodHidden(series: Boolean): Set<String> = App.prefs.getStringSet("vh_" + vk(series), emptySet()) ?: emptySet()
+    fun setVodHidden(series: Boolean, v: Set<String>) = App.prefs.edit().putStringSet("vh_" + vk(series), HashSet(v)).apply()
+    fun vodOrder(series: Boolean): List<String> = try { val a = JSONArray(App.prefs.getString("vo_" + vk(series), "[]")); (0 until a.length()).map { a.getString(it) } } catch (e: Exception) { emptyList() }
+    fun setVodOrder(series: Boolean, v: List<String>) = App.prefs.edit().putString("vo_" + vk(series), JSONArray(v).toString()).apply()
+    fun vod(series: Boolean, cats: List<VodCat>, all: Boolean = false): List<VodCat> {
+        val o = vodOrder(series); val pos = HashMap<String, Int>(); o.forEachIndexed { i, id -> pos[id] = i }
+        val sorted = if (o.isEmpty()) cats else {
+            val known = cats.filter { it.id in pos }.sortedBy { pos[it.id] }
+            val out = ArrayList<VodCat>(); var k = 0
+            for (c in cats) { if (c.id in pos) out.add(known[k++]) else out.add(c) }
+            out
+        }
+        if (all) return sorted
+        val h = vodHidden(series); return if (h.isEmpty()) sorted else sorted.filter { it.id !in h }
+    }
+    fun reset() { App.prefs.edit().remove("gh_" + pl()).remove("ch_" + pl()).remove("go_" + pl())
+        .remove("vh_" + vk(true)).remove("vh_" + vk(false)).remove("vo_" + vk(true)).remove("vo_" + vk(false)).apply() }
 
     /** the playlist's groups in the viewer's order (hidden ones left in when all = true, for the arranging screen) */
     fun apply(groups: List<Group>, all: Boolean = false): List<Group> {

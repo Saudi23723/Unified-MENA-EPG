@@ -1,0 +1,183 @@
+package com.saudi1.tv
+
+import android.graphics.Typeface
+import android.os.Bundle
+import android.view.Gravity
+import android.view.KeyEvent
+import android.view.View
+import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+
+/** Arrange like TiviMate (owner, 11 Nov 2026): Live TV / Movies / Series on top; the groups on the left
+ *  (every group, the hidden ones too, marked ✕); the channels of the group on the right, each one shown or hidden.
+ *  OK on a group: its channels. Hold OK (or MENU) on a group: move it, hide or show it. OK on a channel: hide / show. */
+class ArrangeActivity : BaseActivity() {
+    private val d by lazy { resources.displayMetrics.density }
+    private var tab = 0                       // 0 Live TV, 1 Movies, 2 Series
+    private var groups: List<Pair<String, String>> = emptyList()   // id, name
+    private var chans: List<Channel> = emptyList()
+    private var open = -1
+    private lateinit var gRv: RecyclerView
+    private lateinit var cRv: RecyclerView
+    private lateinit var cTitle: TextView
+    private val tabs = ArrayList<TextView>()
+    private val gAd = GroupAdapter()
+    private val cAd = ChanAdapter()
+
+    override fun onCreate(b: Bundle?) {
+        super.onCreate(b)
+        val root = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL; setBackgroundColor(getColor(R.color.bg))
+            setPadding(px(24), px(16), px(24), px(8))
+        }
+        root.addView(TextView(this).apply { text = "Arrange"; textSize = 24f; setTypeface(typeface, Typeface.BOLD); setTextColor(0xFFFFFFFF.toInt()) })
+        val tabRow = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; setPadding(0, px(8), 0, px(10)) }
+        listOf("📺  Live TV", "🎬  Movies", "🎞  Series").forEachIndexed { i, t ->
+            val v = TextView(this).apply {
+                text = t; textSize = 17f; isFocusable = true; setBackgroundResource(R.drawable.item_bg)
+                setTextColor(getColorStateList(R.color.on_focus)); setPadding(px(18), px(8), px(18), px(8))
+                setOnClickListener { pick(i) }
+                setOnFocusChangeListener { _, f -> if (f && tab != i) pick(i) }
+            }
+            tabs.add(v)
+            tabRow.addView(v, LinearLayout.LayoutParams(-2, -2).apply { marginEnd = px(10) })
+        }
+        root.addView(tabRow)
+        root.addView(TextView(this).apply {
+            text = "OK on a group: its channels  ·  Hold OK or MENU: move / hide the group  ·  OK on a channel: hide / show"
+            textSize = 13f; setTextColor(0xFF9AA3AF.toInt()); setPadding(0, 0, 0, px(8))
+        })
+        val cols = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
+        gRv = RecyclerView(this).apply { layoutManager = LinearLayoutManager(context); adapter = gAd; itemAnimator = null; clipToPadding = false; setPadding(0, 0, 0, px(120)) }
+        val right = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(px(16), 0, 0, 0) }
+        cTitle = TextView(this).apply { textSize = 16f; setTextColor(getColor(R.color.accent)); setTypeface(typeface, Typeface.BOLD); setPadding(px(6), 0, 0, px(6)) }
+        cRv = RecyclerView(this).apply { layoutManager = LinearLayoutManager(context); adapter = cAd; itemAnimator = null; clipToPadding = false; setPadding(0, 0, 0, px(120)) }
+        right.addView(cTitle); right.addView(cRv, LinearLayout.LayoutParams(-1, -1))
+        cols.addView(gRv, LinearLayout.LayoutParams(0, -1, 1f))
+        cols.addView(right, LinearLayout.LayoutParams(0, -1, 1.2f))
+        root.addView(cols, LinearLayout.LayoutParams(-1, 0, 1f))
+        setContentView(root)
+        pick(0)
+        tabs[0].requestFocus()
+    }
+
+    private fun px(v: Int) = (v * d).toInt()
+
+    private fun pick(t: Int) {
+        tab = t; open = -1; chans = emptyList(); cAd.notifyDataSetChanged()
+        tabs.forEachIndexed { i, v -> v.isSelected = i == t; v.alpha = if (i == t) 1f else 0.6f }
+        cTitle.text = if (t == 0) "Pick a group to see its channels" else "Movies and series: groups can be moved or hidden"
+        lifecycleScope.launch {
+            groups = withContext(Dispatchers.IO) {
+                try {
+                    if (t == 0) {
+                        if (Api.rawGroups.isEmpty()) Api.load(true)
+                        Arrange.apply(Api.rawGroups, all = true).map { it.id to it.name }
+                    } else Arrange.vod(t == 2, Vod.cats(t == 2), all = true).map { it.id to it.name }
+                } catch (e: Exception) { emptyList() }
+            }
+            if (tab != t) return@launch
+            gAd.notifyDataSetChanged()
+            if (groups.isEmpty()) cTitle.text = if (t == 0) "Open Live TV once first" else "Open ${if (t == 1) "Movies" else "Series"} once first"
+        }
+    }
+
+    private fun hiddenG(): Set<String> = if (tab == 0) Arrange.hiddenGroups else Arrange.vodHidden(tab == 2)
+    private fun changed() { if (tab == 0) Api.groups = emptyList() }
+
+    private fun showChannels(i: Int) {
+        if (tab != 0) { groupMenu(i); return }
+        open = i
+        val g = Api.rawGroups.firstOrNull { it.id == groups[i].first }
+        chans = g?.channels ?: emptyList()
+        cTitle.text = groups[i].second + "  ·  " + chans.size + " channels"
+        cAd.notifyDataSetChanged(); cRv.scrollToPosition(0)
+        cRv.post { cRv.findViewHolderForAdapterPosition(0)?.itemView?.requestFocus() }
+        gAd.notifyItemChanged(i)
+    }
+
+    private fun groupMenu(i: Int) {
+        val (id, name) = groups[i]; val hidden = id in hiddenG()
+        AlertDialog.Builder(this).setTitle(name).setItems(arrayOf("▲  Move up", "▼  Move down", "⤒  Move to the top", "⤓  Move to the end",
+            if (hidden) "👁  Show this group" else "✕  Hide this group")) { _, a ->
+            when (a) {
+                0 -> move(i, i - 1); 1 -> move(i, i + 1); 2 -> move(i, 0); 3 -> move(i, groups.size - 1)
+                4 -> {
+                    val h = hiddenG(); val n = if (hidden) h - id else h + id
+                    if (tab == 0) Arrange.hiddenGroups = n else Arrange.setVodHidden(tab == 2, n)
+                    changed(); gAd.notifyItemChanged(i)
+                }
+            }
+        }.show()
+    }
+
+    private fun move(from: Int, to0: Int) {
+        val to = to0.coerceIn(0, groups.size - 1); if (to == from) return
+        val l = groups.toMutableList(); val g = l.removeAt(from); l.add(to, g); groups = l
+        val ids = l.map { it.first }
+        if (tab == 0) Arrange.order = ids else Arrange.setVodOrder(tab == 2, ids)
+        changed(); gAd.notifyDataSetChanged()
+        gRv.scrollToPosition(to); gRv.post { gRv.findViewHolderForAdapterPosition(to)?.itemView?.requestFocus() }
+    }
+
+    private fun row(p: ViewGroup) = TextView(p.context).apply {
+        textSize = 17f; isFocusable = true; isClickable = true; setBackgroundResource(R.drawable.item_bg)
+        setTextColor(getColorStateList(R.color.on_focus)); setPadding(px(14), px(10), px(14), px(10)); gravity = Gravity.CENTER_VERTICAL
+        layoutParams = RecyclerView.LayoutParams(-1, -2).apply { setMargins(0, px(2), 0, px(2)) }
+    }
+
+    inner class GroupAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+        override fun getItemCount() = groups.size
+        override fun onCreateViewHolder(p: ViewGroup, t: Int): RecyclerView.ViewHolder {
+            val v = row(p); val h = object : RecyclerView.ViewHolder(v) {}
+            v.setOnClickListener { val i = h.bindingAdapterPosition; if (i >= 0) showChannels(i) }
+            v.setOnLongClickListener { val i = h.bindingAdapterPosition; if (i >= 0) groupMenu(i); true }
+            v.setOnKeyListener { _, k, e ->
+                val i = h.bindingAdapterPosition
+                if (e.action == KeyEvent.ACTION_DOWN && k == KeyEvent.KEYCODE_MENU && i >= 0) { groupMenu(i); true }
+                else if (e.action == KeyEvent.ACTION_DOWN && k == KeyEvent.KEYCODE_DPAD_RIGHT && tab == 0 && i >= 0) { showChannels(i); true }
+                else if (e.action == KeyEvent.ACTION_DOWN && k == KeyEvent.KEYCODE_DPAD_UP && i == 0) { tabs[tab].requestFocus(); true }
+                else false
+            }
+            return h
+        }
+        override fun onBindViewHolder(h: RecyclerView.ViewHolder, i: Int) {
+            val (id, name) = groups[i]; val hidden = id in hiddenG()
+            val hc = if (tab == 0) Api.rawGroups.firstOrNull { it.id == id }?.channels?.count { it.id.toString() in Arrange.hiddenChannels } ?: 0 else 0
+            (h.itemView as TextView).text = (if (hidden) "✕   " else "👁   ") + name + (if (hc > 0) "   ($hc hidden)" else "") + (if (i == open) "   ▸" else "")
+            h.itemView.alpha = if (hidden) 0.5f else 1f
+        }
+    }
+
+    inner class ChanAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+        override fun getItemCount() = chans.size
+        override fun onCreateViewHolder(p: ViewGroup, t: Int): RecyclerView.ViewHolder {
+            val v = row(p); val h = object : RecyclerView.ViewHolder(v) {}
+            v.setOnClickListener {
+                val i = h.bindingAdapterPosition; if (i < 0) return@setOnClickListener
+                val id = chans[i].id.toString(); val hc = Arrange.hiddenChannels
+                Arrange.hiddenChannels = if (id in hc) hc - id else hc + id
+                Api.groups = emptyList(); notifyItemChanged(i); if (open >= 0) gAd.notifyItemChanged(open)
+            }
+            v.setOnKeyListener { _, k, e ->
+                if (e.action == KeyEvent.ACTION_DOWN && k == KeyEvent.KEYCODE_DPAD_LEFT && open >= 0) {
+                    gRv.findViewHolderForAdapterPosition(open)?.itemView?.requestFocus(); true
+                } else false
+            }
+            return h
+        }
+        override fun onBindViewHolder(h: RecyclerView.ViewHolder, i: Int) {
+            val c = chans[i]; val hidden = c.id.toString() in Arrange.hiddenChannels
+            (h.itemView as TextView).text = (if (hidden) "✕   " else "✓   ") + c.name
+            h.itemView.alpha = if (hidden) 0.5f else 1f
+        }
+    }
+}

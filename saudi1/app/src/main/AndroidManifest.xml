@@ -44,6 +44,7 @@
         <activity android:name=".SportsActivity" android:exported="false" android:screenOrientation="sensorLandscape" />
         <activity android:name=".SearchActivity" android:exported="false" android:screenOrientation="sensorLandscape" android:windowSoftInputMode="stateVisible|adjustPan" />
         <activity android:name=".MultiviewActivity" android:exported="false" android:screenOrientation="sensorLandscape" />
+        <activity android:name=".ArrangeActivity" android:exported="false" android:screenOrientation="sensorLandscape" />
         <activity android:name=".VodActivity" android:exported="false" android:screenOrientation="sensorLandscape" />
         <activity android:name=".VodDetailActivity" android:exported="false" android:screenOrientation="sensorLandscape" />
         <activity android:name=".PlayerActivity" android:exported="false" android:screenOrientation="sensorLandscape"
