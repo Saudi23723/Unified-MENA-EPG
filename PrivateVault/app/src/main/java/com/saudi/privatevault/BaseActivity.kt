@@ -55,6 +55,8 @@ open class BaseActivity : AppCompatActivity() {
         super.onPostCreate(savedInstanceState)
         // No pens or notes on a television.
         if (quickTools && !Tv.isTv(this)) QuickTools.attach(this)
+        // The flight bag's tab bar, as ForeFlight's, along the bottom.
+        ForeTabs.attach(this)
     }
 
     /** onResume, but only once the vault is open. */

@@ -202,21 +202,21 @@ object Logbook {
      * takes the paper's times, landings and remarks, and a flight missing here is added. Twins of
      * one flight are folded into one. Runs once; the pilot's later edits are theirs.
      */
-    private class Paper(val date: String, val total: Double, val sim: Double, val ldg: Int, val rem: String)
+    private class Paper(val date: String, val total: Double, val sim: Double, val ldg: Int, val rem: String, val tail: String = "N79EV")
     private val PAPER = listOf(
         Paper("2026-10-27", 0.8, 0.0, 0, "Standard ops, turns, climbs, descents"),
         Paper("2026-10-30", 1.1, 0.0, 0, "Pattern introduction"),
         Paper("2026-10-31", 1.5, 0.0, 0, "Power on stalls, steep turns, pattern"),
         Paper("2026-11-05", 1.6, 0.0, 9, "Slow flight, power off stalls, turns around a point, pattern, X-wind landings"),
         Paper("2026-11-07", 1.6, 0.5, 3, "Sim inst, unusual attitudes, programming, fwd slip to land, pattern"),
-        Paper("2026-11-08", 1.7, 0.0, 5, "Pattern, steep turns, radio calls"),
+        Paper("2026-11-08", 1.7, 0.0, 5, "Pattern, steep turns, radio calls", "N19EV"),
         Paper("2026-11-09", 1.2, 0.0, 6, "Pattern"),
         Paper("2026-11-10", 2.4, 0.7, 5, "Slow flight, power off stall, steep turns, sim inst, timed turns, compass turns, pattern, sim emergency landing, fwd slip to land"),
     )
 
     fun reconcilePaper(ctx: Context) = synchronized(LOCK) {
         val p = VaultLock.prefs(ctx)
-        if (p.getBoolean("paper_2026_v2", false)) return@synchronized
+        if (p.getBoolean("paper_2026_v3", false)) return@synchronized
         val list = all(ctx)
         // An empty logbook here (a new phone) waits for the vault's copy first: never a second set.
         if (list.isEmpty()) return@synchronized
@@ -239,6 +239,9 @@ object Logbook {
             taken.add(e.id)
             // The paper's day, when the one here was typed a day or two off.
             e.date = row.date
+            // The aircraft flown, as the school's records (Flight Circle) show it.
+            e.tail = row.tail
+            if (e.aircraft.isBlank() || e.aircraft.equals("EVSS", true)) e.aircraft = "SportStar MAX"
             e.total = row.total; e.dual = row.total
             if (e.solo == row.total) e.solo = 0.0
             if (e.pic == row.total) e.pic = 0.0
@@ -256,7 +259,7 @@ object Logbook {
             e.updated = System.currentTimeMillis()
         }
         save(ctx, list.sortedWith(compareByDescending<LogEntry> { it.date }.thenByDescending { it.timeOut }))
-        p.edit().putBoolean("paper_2026_v2", true).apply()
+        p.edit().putBoolean("paper_2026_v3", true).apply()
     }
 
     fun endorsements(ctx: Context): MutableList<Endorsement> = try {

@@ -163,7 +163,6 @@ class EfbHomeActivity : BaseActivity() {
             Item("🛡", 0xFF34C759.toInt(), R.string.efbc_title, R.string.sub_efbc) { open(EfbCheckActivity::class.java) },
         ))
         col.addView(EfbUi.text(this, getString(R.string.map_disclaimer), 11f, EfbUi.DIM).apply { setPadding(dp(4), dp(18), dp(4), 0) })
-        tabBar()
         EfbUi.stagger(col)
     }
 

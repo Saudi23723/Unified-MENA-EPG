@@ -23,28 +23,28 @@ object EfbUi {
     // A modern EFB's palette, night (the default, kind to the eyes in the cockpit) or day.
     @JvmStatic var light = false
     // Graphite and one clear blue, as the avionics apps look: calm surfaces, strong type.
-    val BG get() = if (light) 0xFFEEF0F3.toInt() else 0xFF15171B.toInt()
-    val CARD get() = if (light) 0xFFFFFFFF.toInt() else 0xFF20242A.toInt()
-    val CARD_LINE get() = if (light) 0xFFDCE0E5.toInt() else 0xFF30353C.toInt()
-    val ACCENT get() = if (light) 0xFF0A72E0.toInt() else 0xFF2E9BFF.toInt()
-    val TEXT get() = if (light) 0xFF14171C.toInt() else 0xFFF3F4F6.toInt()
-    val DIM get() = if (light) 0xFF646C77.toInt() else 0xFF98A1AC.toInt()
-    /** The title bar and section bands: a step lighter than the ground. */
-    val BAR get() = if (light) 0xFFFFFFFF.toInt() else 0xFF1C1F24.toInt()
-    val BAND get() = if (light) 0xFFE2E5EA.toInt() else 0xFF2A2E35.toInt()
+    // ForeFlight's night look: near-black ground, graphite grouped lists, one clear blue.
+    val BG get() = if (light) 0xFFF2F2F7.toInt() else 0xFF0F0F11.toInt()
+    val CARD get() = if (light) 0xFFFFFFFF.toInt() else 0xFF1E1F23.toInt()
+    val CARD_LINE get() = if (light) 0xFFD8D8DE.toInt() else 0xFF323439.toInt()
+    val ACCENT get() = if (light) 0xFF0A6CFF.toInt() else 0xFF2D8CFF.toInt()
+    val TEXT get() = if (light) 0xFF111114.toInt() else 0xFFF2F3F5.toInt()
+    val DIM get() = if (light) 0xFF6C6C72.toInt() else 0xFF9A9CA3.toInt()
+    /** The title bar and the tab bar: graphite, a step above the ground. */
+    val BAR get() = if (light) 0xFFF9F9FB.toInt() else 0xFF1B1C1F.toInt()
+    val BAND get() = if (light) 0xFFE5E5EA.toInt() else 0xFF26282C.toInt()
 
     val MEDIUM: Typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
 
-    /** A section header, as a band across the page: its name in capitals. */
+    /** A section header as ForeFlight's grouped lists have it: small grey capitals over the group. */
     fun section(ctx: Context, title: String) = TextView(ctx).apply {
         text = title.uppercase()
-        textSize = 12.5f
-        letterSpacing = 0.06f
+        textSize = 12f
+        letterSpacing = 0.08f
         typeface = MEDIUM
-        setTextColor(if (light) 0xFF3D444D.toInt() else 0xFFC9CED6.toInt())
-        background = GradientDrawable().apply { cornerRadius = dp(ctx, 8).toFloat(); setColor(BAND) }
-        setPadding(dp(ctx, 14), dp(ctx, 8), dp(ctx, 14), dp(ctx, 8))
-        layoutParams = LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(ctx, 20); bottomMargin = dp(ctx, 6) }
+        setTextColor(DIM)
+        setPadding(dp(ctx, 16), dp(ctx, 4), dp(ctx, 16), dp(ctx, 6))
+        layoutParams = LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(ctx, 22) }
     }
     val GOOD get() = if (light) 0xFF1E9E4A.toInt() else 0xFF34C759.toInt()
     val WARN get() = if (light) 0xFFB86E00.toInt() else 0xFFFFB020.toInt()
@@ -99,7 +99,9 @@ object EfbUi {
         val bar = MaterialToolbar(act).apply {
             this.title = title
             setTitleTextColor(TEXT)
-            setTitleTextAppearance(act, com.google.android.material.R.style.TextAppearance_Material3_TitleLarge)
+            setTitleTextAppearance(act, com.google.android.material.R.style.TextAppearance_Material3_TitleMedium)
+            // Centred, as ForeFlight's screens are titled.
+            isTitleCentered = true
             setBackgroundColor(BAR)
             elevation = 0f
             setNavigationIcon(R.drawable.ic_back)
@@ -122,7 +124,9 @@ object EfbUi {
         // Below the status bar and above the gesture bar.
         androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(root) { v, insets ->
             val bars = insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.systemBars() or androidx.core.view.WindowInsetsCompat.Type.ime())
-            v.setPadding(0, bars.top, 0, bars.bottom)
+            // Under the tab bar the gesture area is the bar's; only the keyboard lifts the page.
+            val bottom = if (ForeTabs.wants(act)) insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.ime()).bottom else bars.bottom
+            v.setPadding(0, bars.top, 0, bottom)
             insets
         }
         return col

@@ -59,6 +59,7 @@ class FrequenciesActivity : AppCompatActivity() {
             }
         }
         radio()
+        liveAtc()
         lifecycleScope.launch {
             airports = withContext(Dispatchers.IO) { AviationData.airports(this@FrequenciesActivity) }
             build()
@@ -96,6 +97,30 @@ class FrequenciesActivity : AppCompatActivity() {
         }
         col.addView(card)
         showRadio()
+    }
+
+    /**
+     * The real radio, live: LiveATC's receivers near the field (tower, approach, CTAF where a
+     * volunteer feeds it), played inside the app. A phone has no VHF receiver of its own.
+     */
+    private fun liveAtc() {
+        val card = EfbUi.card(this)
+        card.addView(EfbUi.text(this, getString(R.string.atc_title), 16f, EfbUi.TEXT, bold = true))
+        card.addView(EfbUi.text(this, getString(R.string.atc_sub), 12f, EfbUi.DIM).apply { setPadding(0, dp(2), 0, dp(8)) })
+        val home = prefs.getString("efb_home", "KBVU") ?: "KBVU"
+        val chips = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; layoutDirection = View.LAYOUT_DIRECTION_LTR }
+        for (id in (listOf(home, intent.getStringExtra(EXTRA_IDENT)).filterNotNull() + listOf("KLAS", "KHND", "KVGT")).distinct()) {
+            chips.addView(EfbUi.text(this, "🎧 $id", 14f, EfbUi.TEXT, bold = true).apply {
+                background = EfbUi.cardBg(this@FrequenciesActivity, EfbUi.BAND, 16)
+                setPadding(dp(12), dp(8), dp(12), dp(8))
+                setOnClickListener {
+                    startActivity(android.content.Intent(this@FrequenciesActivity, WebActivity::class.java)
+                        .putExtra("title", "LiveATC · $id").putExtra("url", "https://www.liveatc.net/search/?icao=$id"))
+                }
+            }, LinearLayout.LayoutParams(-2, -2).apply { marginEnd = dp(8) })
+        }
+        card.addView(android.widget.HorizontalScrollView(this).apply { isHorizontalScrollBarEnabled = false; addView(chips) })
+        col.addView(card, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(10) })
     }
 
     private fun showRadio() {

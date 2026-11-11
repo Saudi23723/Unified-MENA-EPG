@@ -192,7 +192,8 @@ class MapActivity : BaseActivity(), NeonHost {
         traffic = TrafficOverlay(map) { ownship.fix?.takeIf { it.hasAltitude() && gotGps }?.altitude?.times(3.28084) }.apply {
             near = { t -> trafficClose(t) != null }
         }
-        if (prefs.getBoolean("wx_traffic", false)) { map.overlays.add(traffic); Traffic.startReceiver() }
+        // Traffic on from the start, as ForeFlight shows it: online ADS-B near you, and a Stratux / Sentry when connected.
+        if (prefs.getBoolean("wx_traffic", true)) { map.overlays.add(traffic); Traffic.startReceiver() }
 
         marks = DocumentMarks.forItem(this, "flight-map")
         draw.marks.addAll(marks.on(0))
@@ -306,6 +307,14 @@ class MapActivity : BaseActivity(), NeonHost {
         map.invalidate()
         showCurrency()
         Toast.makeText(this, if (on) R.string.pilotage_on else R.string.pilotage_off, Toast.LENGTH_LONG).show()
+    }
+
+    /** Brought back by a tab: the map as it was, plus what the tab asked for. */
+    override fun onNewIntent(intent: android.content.Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        if (intent.getBooleanExtra(EXTRA_NAVLOG, false)) b.root.post { navLog() }
+        if (intent.getBooleanExtra(EXTRA_NRST, false)) b.root.post { nearest() }
     }
 
     override fun onResume() {
@@ -2097,7 +2106,8 @@ class MapActivity : BaseActivity(), NeonHost {
             val bars = insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.systemBars())
             b.topBar.setPadding(0, bars.top, 0, 0)
             b.topBar.setBackgroundColor(EfbUi.BG)
-            (b.fabs.parent as View).setPadding(0, 0, 0, bars.bottom)
+            // With the tab bar below, the bar takes the gesture area itself.
+            (b.fabs.parent as View).setPadding(0, 0, 0, if (ForeTabs.wants(this)) 0 else bars.bottom)
             insets
         }
     }
