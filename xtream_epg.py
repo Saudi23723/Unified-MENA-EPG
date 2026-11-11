@@ -169,6 +169,7 @@ for f in sorted(glob.glob("xtream/*/channel_map.json")):
         else:
             catid[g] = str(i + 1)
     streams, bycat, mp = [], {}, {}
+    loop_ids = set()
     for n, c in enumerate(chans, 1):
         sp = split(official_fill.override(c["name"]) or c.get("epg") or official_fill.fill(c["name"], c["group"]))
         _g = c["group"].translate(_SMALLCAPS)
@@ -179,6 +180,8 @@ for f in sorted(glob.glob("xtream/*/channel_map.json")):
             FILLER_TITLES[_fid] = _t
             sp = ("f", _fid)
         cid = catid[c["group"]]
+        if sp and sp[0] == "f":
+            loop_ids.add(c["stream_id"])
         icon = LOGOS.find(c["name"], c["group"], name, sp[0] if sp else None, sp[1] if sp else None)
         s = {"num": n, "name": c["name"], "stream_type": "live", "stream_id": c["stream_id"], "stream_icon": icon,
              "epg_channel_id": sp[1] if sp else None, "added": "0", "category_id": cid, "custom_sid": "",
@@ -191,6 +194,11 @@ for f in sorted(glob.glob("xtream/*/channel_map.json")):
                 hydra_compat.add((sp[0], sp[1]))
     LOGOS.fill_playlist(streams, {catid[g]: g for g in cats}, name)
     LOGOS.share_from(streams, {catid[g]: g for g in cats}, name)
+    # a looping channel (series, Quran, replays) keeps the logo found here: the provider's own logos for these are
+    # other channels' ("مرايا 8" showed C8, "مرايا 10" Ten) or broken (owner, 11 Nov 2026)
+    for s_ in streams:
+        if s_["stream_id"] in loop_ids and str(s_.get("stream_icon", "")).endswith("#weak"):
+            s_["stream_icon"] = s_["stream_icon"][:-5]
     dump = lambda o, p: json.dump(o, open(p, "w", encoding="utf-8"), ensure_ascii=True, separators=(",", ":"))
     dump([{"category_id": catid[g], "category_name": shown(g, name), "parent_id": 0} for g in cats],
          f"{play}/live_categories.json")
