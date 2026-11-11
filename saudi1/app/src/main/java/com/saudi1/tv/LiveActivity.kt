@@ -107,6 +107,8 @@ class LiveActivity : BaseActivity() {
         // fast start for live TV: small buffers, play as soon as there is a second of video
         player = Players.make(this, live = true)
         playerView.player = player
+        // changing channel: the last picture stays until the new channel's first picture, no black flash (like TiviMate)
+        playerView.setKeepContentOnPlayerReset(true)
         playerView.resizeMode = App.prefs.getInt("resize", AspectRatioFrameLayout.RESIZE_MODE_FIT)
         player.addListener(object : Player.Listener {
             override fun onPlayerError(error: PlaybackException) {
