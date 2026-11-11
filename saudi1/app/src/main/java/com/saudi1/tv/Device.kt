@@ -33,6 +33,11 @@ object Device {
         get() = App.prefs.getString("customer", "") ?: ""
         private set(v) = App.prefs.edit().putString("customer", v).apply()
 
+    /** the name on the welcome screen, typed by the owner for this device on the admin site (owner, 11 Nov 2026) */
+    var welcome: String
+        get() = App.prefs.getString("welcome_name", "") ?: ""
+        private set(v) = App.prefs.edit().putString("welcome_name", v).apply()
+
     var expires: Long
         get() = App.prefs.getLong("expires", 0)
         private set(v) = App.prefs.edit().putLong("expires", v).apply()
@@ -114,7 +119,7 @@ object Device {
                 val changed = Prefs.server != pick.optString("server") || Prefs.user != pick.optString("user") || Prefs.pass != pick.optString("pass")
                 Prefs.server = pick.optString("server"); Prefs.user = pick.optString("user"); Prefs.pass = pick.optString("pass")
                 active = pick.optString("name")
-                name = o.optString("name"); expires = o.optLong("expires")
+                name = o.optString("name"); welcome = o.optString("welcome"); expires = o.optLong("expires")
                 // the time zone of the place the device is in now (a Chromecast on Wi-Fi does not find it by itself):
                 // the guide, the matches, the clock in the app follow it (owner, 11 Nov 2026: a pilot's TV)
                 // not while our VPN is on: the internet then comes out in Phoenix and the clock would jump an hour (owner, 11 Nov 2026)
