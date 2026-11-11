@@ -161,7 +161,7 @@ class GuideActivity : BaseActivity() {
             val w = ((e - s) * pxPerSec).toInt().coerceAtLeast((8 * d).toInt())
             val cell = TextView(this).apply {
                 tag = "cell"
-                text = (if (Reminders.has(c.id, p.start)) "⏰ " else "") + p.title
+                text = Reminders.mark(c.id, p.start) + p.title
                 textSize = 15f; maxLines = 2; ellipsize = TextUtils.TruncateAt.END; gravity = Gravity.CENTER_VERTICAL
                 setPadding((10 * d).toInt(), 0, (8 * d).toInt(), 0)
                 isFocusable = true; isClickable = true
@@ -173,9 +173,7 @@ class GuideActivity : BaseActivity() {
                         Prefs.lastGroup = group?.id ?: Prefs.lastGroup
                         startActivity(Intent(this@GuideActivity, LiveActivity::class.java).putExtra("channel", c.id))
                     } else if (p.start > System.currentTimeMillis() / 1000) {
-                        val on = Reminders.toggle(Reminder(c.id, p.start, p.title, c.name))
-                        text = (if (on) "⏰ " else "") + p.title
-                        android.widget.Toast.makeText(this@GuideActivity, if (on) "Reminder set" else "Reminder removed", android.widget.Toast.LENGTH_SHORT).show()
+                        planDialog(c, p.start, p.stop, p.title) { text = Reminders.mark(c.id, p.start) + p.title }
                     }
                 }
             }

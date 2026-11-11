@@ -191,7 +191,7 @@ object Vod {
      *  every 8 hours from the whole catalogue). Each: label to item. */
     fun showcase(series: Boolean): List<Pair<String, VodItem>> {
         val f = java.io.File(dir(), "show_" + (if (series) "s" else "v") + ".tsv")
-        if (f.isFile && System.currentTimeMillis() - f.lastModified() < 8 * 3600_000L) {
+        if (f.isFile && System.currentTimeMillis() - f.lastModified() < 3 * 3600_000L) {
             val l = try { f.readLines().mapNotNull { ln -> val p = ln.split('\t'); if (p.size >= 8) p[0] to VodItem(p[1].toIntOrNull() ?: 0, p[2], p[3], p[4], p[5], p[6], p[7].toLongOrNull() ?: 0) else null } } catch (e: Exception) { emptyList() }
             if (l.isNotEmpty()) return l
         }

@@ -18,24 +18,27 @@ import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONObject
 
-class Reminder(val channel: Int, val start: Long, val title: String, val channelName: String)
+/** rec = 0: a reminder (the TV changes to the channel); rec > 0: record it by itself until that time (seconds) */
+class Reminder(val channel: Int, val start: Long, val title: String, val channelName: String, val rec: Long = 0)
 
 /** Programs the viewer asked to be reminded of (like TiviMate): a minute before the start a 10-second countdown shows, then the channel changes. */
 object Reminders {
     fun all(): List<Reminder> = try {
         val a = JSONArray(App.prefs.getString("reminders", "[]"))
         (0 until a.length()).map { a.getJSONObject(it) }.map {
-            Reminder(it.getInt("c"), it.getLong("s"), it.optString("t"), it.optString("n"))
+            Reminder(it.getInt("c"), it.getLong("s"), it.optString("t"), it.optString("n"), it.optLong("r"))
         }
     } catch (e: Exception) { emptyList() }
 
     private fun save(l: List<Reminder>) {
         val a = JSONArray()
-        l.forEach { a.put(JSONObject().put("c", it.channel).put("s", it.start).put("t", it.title).put("n", it.channelName)) }
+        l.forEach { a.put(JSONObject().put("c", it.channel).put("s", it.start).put("t", it.title).put("n", it.channelName).put("r", it.rec)) }
         App.prefs.edit().putString("reminders", a.toString()).apply()
     }
 
     fun has(c: Int, start: Long) = all().any { it.channel == c && it.start == start }
+    /** "⏰ " for a reminder, "⏺ " for a planned recording, "" for none */
+    fun mark(c: Int, start: Long) = all().firstOrNull { it.channel == c && it.start == start }?.let { if (it.rec > 0) "⏺ " else "⏰ " } ?: ""
 
     /** true = now set, false = removed */
     fun toggle(r: Reminder): Boolean {
@@ -169,7 +172,17 @@ open class BaseActivity : AppCompatActivity() {
         watch = lifecycleScope.launch {
             var night = Dim.nightNow()
             while (isActive) {
-                if (box == null) Reminders.due()?.let { show(it) }
+                if (box == null) Reminders.due()?.let { r ->
+                    if (r.rec <= 0) show(r)
+                    else {
+                        // a planned recording: it starts by itself, the viewer keeps watching what is on
+                        Reminders.remove(r)
+                        val c = Api.byId[r.channel]
+                        val t = when { c == null -> "Could not record ${r.title}: the channel is not in this playlist"; Recorder.current != null -> "Could not record ${r.title}: another recording is running"
+                            else -> { Recorder.start(this@BaseActivity, c, r.rec * 1000 + 120_000); "⏺ Recording ${r.title}" } }
+                        android.widget.Toast.makeText(this@BaseActivity, t, android.widget.Toast.LENGTH_LONG).show()
+                    }
+                }
                 // the night schedule starts / ends while a screen is open
                 val n = Dim.nightNow(); if (n != night) { night = n; applyDim() }
                 delay(2000)
@@ -247,6 +260,22 @@ open class BaseActivity : AppCompatActivity() {
         dimView!!.alpha = Dim.level / 100f
         dimView!!.visibility = if (Dim.level > 0) View.VISIBLE else View.GONE
         dimView!!.bringToFront()
+    }
+
+    /** a coming programme: remind me / record it by itself / take the plan off */
+    fun planDialog(c: Channel, start: Long, stop: Long, title: String, after: () -> Unit) {
+        val had = Reminders.all().firstOrNull { it.channel == c.id && it.start == start }
+        val f = java.text.SimpleDateFormat("h:mm a", java.util.Locale.ENGLISH)
+        val items = if (had != null) arrayOf(if (had.rec > 0) "✕  Do not record it" else "✕  Remove the reminder")
+            else arrayOf("⏰  Remind me (the TV changes to it a minute before)", "⏺  Record it by itself (${f.format(java.util.Date(start * 1000))} – ${f.format(java.util.Date(stop * 1000))})")
+        androidx.appcompat.app.AlertDialog.Builder(this).setTitle(title + "   ·   " + c.name).setItems(items) { _, w ->
+            if (had != null) { Reminders.remove(had); android.widget.Toast.makeText(this, "Removed", android.widget.Toast.LENGTH_SHORT).show() }
+            else {
+                Reminders.toggle(Reminder(c.id, start, title, c.name, if (w == 1) stop else 0))
+                android.widget.Toast.makeText(this, if (w == 1) "⏺ It will be recorded — keep SAUDI.TV open (Settings › Recordings)" else "⏰ Reminder set", android.widget.Toast.LENGTH_LONG).show()
+            }
+            after()
+        }.show()
     }
 
     /** the reminder was accepted: the screen that shows TV tunes to the channel */

@@ -815,7 +815,7 @@ class LiveActivity : BaseActivity() {
         override fun onBindViewHolder(h: H, i: Int) {
             val p = items[i]
             h.time.text = time.format(Date(p.start * 1000)) + " – " + time.format(Date(p.stop * 1000))
-            h.title.text = (if (Reminders.has(currentChannelForPrograms(), p.start)) "⏰ " else "") + p.title
+            h.title.text = Reminders.mark(currentChannelForPrograms(), p.start) + p.title
             h.title.setTextColor(getColor(if (p.now()) R.color.accent else R.color.text))
         }
     }
@@ -838,9 +838,8 @@ class LiveActivity : BaseActivity() {
                 val pr = items.getOrNull(h.bindingAdapterPosition) ?: return@setOnClickListener
                 val c = channel ?: return@setOnClickListener
                 if (pr.now()) { epgPanel.visibility = View.GONE; return@setOnClickListener }
-                val on = Reminders.toggle(Reminder(c.id, pr.start, pr.title, c.name))
-                toast(if (on) "⏰ Reminder set: ${time.format(Date(pr.start * 1000))} ${pr.title}" else "Reminder removed")
-                notifyItemChanged(h.bindingAdapterPosition)
+                val pos = h.bindingAdapterPosition
+                planDialog(c, pr.start, pr.stop, pr.title) { notifyItemChanged(pos) }
             }
             return h
         }
