@@ -68,6 +68,8 @@ dependencies {
     implementation("androidx.biometric:biometric:1.1.0")
     implementation("androidx.media3:media3-exoplayer:1.4.1")
     implementation("androidx.media3:media3-ui:1.4.1")
+    implementation("androidx.media3:media3-transformer:1.4.1")
+    implementation("androidx.media3:media3-effect:1.4.1")
     implementation("com.tom-roush:pdfbox-android:2.0.27.0")
     implementation("org.osmdroid:osmdroid-android:6.1.20")
 }

@@ -720,7 +720,7 @@
     <string name="route_settings">TAS %1$d kt · ريح %2$03d°/%3$d kt · %4$.1f gph</string>
     <string name="route_edit">✎ تعديل</string>
     <string name="route_navlog">📋 Nav log</string>
-    <string name="tv_keys">◀ ▶ الصفحات · OK تكبير · بالتكبير: الأسهم بتحرّك، وبالطرف كبسة كمان بتقلب · OK طويلة: القائمة · Back: الصفحة كاملة</string>
+    <string name="tv_keys">◀ ▶ الصفحات · OK تكبير · OK مرتين: ليزر · بالتكبير: الأسهم بتحرّك، وبالطرف كبسة كمان بتقلب · OK طويلة: القائمة · Back: الصفحة كاملة</string>
     <string name="tv_video_keys">OK: تشغيل/إيقاف · ◀ 15 ث · ▶ 30 ث · ▼ حجم الصورة · ▲ التحكم</string>
     <string name="tv_continue">كمّل القراءة</string>
     <string name="tv_page">صفحة %1$d</string>
@@ -778,6 +778,10 @@
     <string name="cc_color">لون الكتابة</string>
     <string name="cc_bg">عتمة الخلفية</string>
     <string name="cc_size">حجم الخط</string>
+    <string name="pen_straighten">📏 خطوط مستقيمة تلقائياً (Straighten lines)</string>
+    <string name="pen_opacity">شفافية الهايلايتر</string>
+    <string name="tv_laser_on">🔴 الليزر: الأسهم بتحركه · OK أو رجوع لإخفائه</string>
+    <string name="send_compressing">🎞 تصغير الفيديو لـ 720p قبل الرفع (%1$d من %2$d)…</string>
     <string name="map_circle">دائرة</string>
     <string name="map_ruler">مسطرة</string>
     <string name="pen_write">كتابة وتظليل</string>

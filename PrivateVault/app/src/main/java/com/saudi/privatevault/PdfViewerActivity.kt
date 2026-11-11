@@ -298,6 +298,8 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
                 refreshBookmark()
                 // Letters are for selecting words with a finger; a TV has none to spare memory on.
                 if (tvHint == null) loadLetters(index)
+                // On a TV every page opens whole and fitted to the screen, unless a closer zoom was chosen.
+                else if (tvZoom == 0) b.page.post { b.page.fit() }
             }
         }
     }
@@ -478,11 +480,27 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
         }
         if (tvHint != null && !chromeShown) {
             val ok = event.keyCode == android.view.KeyEvent.KEYCODE_DPAD_CENTER || event.keyCode == android.view.KeyEvent.KEYCODE_ENTER
+            // The laser takes the arrows while it is out: they move the dot; OK or Back puts it away.
+            tvLaser?.let { las ->
+                if (event.action == android.view.KeyEvent.ACTION_DOWN) when (event.keyCode) {
+                    android.view.KeyEvent.KEYCODE_DPAD_LEFT -> las.move(-1, 0, event.repeatCount)
+                    android.view.KeyEvent.KEYCODE_DPAD_RIGHT -> las.move(1, 0, event.repeatCount)
+                    android.view.KeyEvent.KEYCODE_DPAD_UP -> las.move(0, -1, event.repeatCount)
+                    android.view.KeyEvent.KEYCODE_DPAD_DOWN -> las.move(0, 1, event.repeatCount)
+                    android.view.KeyEvent.KEYCODE_DPAD_CENTER, android.view.KeyEvent.KEYCODE_ENTER, android.view.KeyEvent.KEYCODE_BACK -> laserTv(false)
+                    else -> return super.dispatchKeyEvent(event)
+                }
+                return true
+            }
             if (ok) {
-                // OK: a press steps the zoom; a long press opens the menu.
+                // OK: one press steps the zoom, two quick presses bring out the laser, a long press opens the menu.
                 if (event.action == android.view.KeyEvent.ACTION_DOWN && event.repeatCount == 0) okLong = false
-                if (event.action == android.view.KeyEvent.ACTION_DOWN && event.repeatCount >= 2 && !okLong) { okLong = true; setChrome(true); b.toolbar.showOverflowMenu() }
-                if (event.action == android.view.KeyEvent.ACTION_UP && !okLong) stepZoom()
+                if (event.action == android.view.KeyEvent.ACTION_DOWN && event.repeatCount >= 2 && !okLong) { okLong = true; b.root.removeCallbacks(okSingle); setChrome(true); b.toolbar.showOverflowMenu() }
+                if (event.action == android.view.KeyEvent.ACTION_UP && !okLong) {
+                    val now = android.os.SystemClock.uptimeMillis()
+                    if (now - okUpAt < 380) { b.root.removeCallbacks(okSingle); okUpAt = 0L; laserTv(true) }
+                    else { okUpAt = now; b.root.removeCallbacks(okSingle); b.root.postDelayed(okSingle, 380) }
+                }
                 return true
             }
             if (event.action == android.view.KeyEvent.ACTION_DOWN && tvKey(event.keyCode)) return true
@@ -494,6 +512,54 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
             return true
         }
         return super.dispatchKeyEvent(event)
+    }
+
+    private var okUpAt = 0L
+    private val okSingle = Runnable { stepZoom() }
+
+    // ---- the laser pointer, with the remote ----
+
+    private inner class TvLaser(ctx: android.content.Context) : View(ctx) {
+        var x = -1f; var y = -1f
+        private val trail = ArrayList<Triple<Float, Float, Long>>()
+        private val glow = android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG)
+        private val core = android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG).apply { color = 0xFFFFFFFF.toInt() }
+        private val line = android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG).apply { style = android.graphics.Paint.Style.STROKE; strokeCap = android.graphics.Paint.Cap.ROUND; color = 0xFFFF2D2D.toInt() }
+        fun move(dx: Int, dy: Int, repeat: Int) {
+            if (x < 0) { x = width / 2f; y = height / 2f }
+            // Faster the longer the arrow is held.
+            val step = dp(18) * (1f + minOf(repeat, 12) * 0.35f)
+            x = (x + dx * step).coerceIn(0f, width.toFloat()); y = (y + dy * step).coerceIn(0f, height.toFloat())
+            trail.add(Triple(x, y, android.os.SystemClock.uptimeMillis()))
+            postInvalidateOnAnimation()
+        }
+        override fun onDraw(c: android.graphics.Canvas) {
+            if (x < 0) { x = width / 2f; y = height / 2f }
+            val now = android.os.SystemClock.uptimeMillis()
+            trail.removeAll { now - it.third > 600 }
+            for (i in 1 until trail.size) {
+                val f = 1f - (now - trail[i].third) / 600f
+                line.alpha = (200 * f).toInt().coerceIn(0, 255); line.strokeWidth = dp(3) + dp(6) * f
+                c.drawLine(trail[i - 1].first, trail[i - 1].second, trail[i].first, trail[i].second, line)
+            }
+            val r = dp(30).toFloat()
+            glow.shader = android.graphics.RadialGradient(x, y, r, intArrayOf(0xFFFF2D2D.toInt(), 0x00FF2D2D), floatArrayOf(0.15f, 1f), android.graphics.Shader.TileMode.CLAMP)
+            c.drawCircle(x, y, r, glow)
+            c.drawCircle(x, y, dp(6).toFloat(), core)
+            if (trail.isNotEmpty()) postInvalidateOnAnimation()
+        }
+    }
+
+    private var tvLaser: TvLaser? = null
+
+    private fun laserTv(on: Boolean) {
+        val root = b.root as? FrameLayout ?: return
+        tvLaser?.let { v -> root.post { root.removeView(v) } }
+        tvLaser = null
+        if (on) {
+            tvLaser = TvLaser(this).also { root.addView(it, FrameLayout.LayoutParams(-1, -1)); it.elevation = dp(20).toFloat() }
+            flashTv(getString(R.string.tv_laser_on))
+        }
     }
 
     private fun stepZoom() {
@@ -665,6 +731,7 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
         for ((tool, icon, label) in tools) toolButtons[tool] = button(icon, label) { pick(tool) }
         // A long press on the highlighter: straight or free hand, square or rounded ends.
         p.straightMarker = VaultLock.prefs(this).getBoolean("straight_marker", true)
+        p.straighten = VaultLock.prefs(this).getBoolean("pen_straighten", false)
         p.roundMarker = VaultLock.prefs(this).getBoolean("round_marker", false)
         // The pen: a long press, or a tap when it is already in hand, picks the kind of pen.
         p.penStyle = VaultLock.prefs(this).getInt("pen_style", 0)
@@ -819,6 +886,23 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
                 addView(preview)
             }, LinearLayout.LayoutParams(-1, dp(70)))
             addView(slider)
+            // Straight lines without holding: a stroke drawn roughly straight lands straight.
+            addView(com.google.android.material.materialswitch.MaterialSwitch(this@PdfViewerActivity).apply {
+                text = getString(R.string.pen_straighten); isChecked = p.straighten
+                setOnCheckedChangeListener { _, on -> p.straighten = on; VaultLock.prefs(this@PdfViewerActivity).edit().putBoolean("pen_straighten", on).apply() }
+            })
+            if (tool == Tool.HIGHLIGHT) {
+                addView(TextView(this@PdfViewerActivity).apply { text = getString(R.string.pen_opacity); textSize = 13f; setPadding(0, dp(10), 0, 0) })
+                addView(com.google.android.material.slider.Slider(this@PdfViewerActivity).apply {
+                    valueFrom = 15f; valueTo = 90f; stepSize = 5f
+                    value = (((markerColor ushr 24) and 0xFF) * 100f / 255f).let { Math.round(it / 5f) * 5f }.coerceIn(15f, 90f)
+                    setLabelFormatter { "${it.toInt()}%" }
+                    addOnChangeListener { _, v, _ ->
+                        val c = ((v / 100f * 255).toInt() shl 24) or (markerColor and 0xFFFFFF)
+                        applyColor(c, true, picked)
+                    }
+                })
+            }
         }
         show(start)
         (preview.layoutParams as LinearLayout.LayoutParams).let { lp ->
@@ -896,30 +980,68 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
         }
     }
 
-    /** Any colour: hue, saturation and brightness, with a preview. */
+    /** Any colour: the spectrum, fine sliders for hue, saturation and brightness, and the hex code. */
     private fun customColor(marker: Boolean, picked: Mark?, start: Int) {
         val hsv = FloatArray(3)
         android.graphics.Color.colorToHSV(start, hsv)
         val preview = View(this)
-        fun paint() = preview.setBackgroundColor(android.graphics.Color.HSVToColor(hsv))
-        fun slider(max: Float, value: Float, onChange: (Float) -> Unit) = com.google.android.material.slider.Slider(this).apply {
-            valueFrom = 0f
-            valueTo = max
-            this.value = value.coerceIn(0f, max)
-            addOnChangeListener { _, v, _ -> onChange(v); paint() }
+        val hex = EditText(this).apply {
+            setSingleLine(); textSize = 15f; typeface = android.graphics.Typeface.MONOSPACE
+            layoutDirection = View.LAYOUT_DIRECTION_LTR; textDirection = View.TEXT_DIRECTION_LTR
+            filters = arrayOf(android.text.InputFilter.LengthFilter(7))
         }
+        val sliders = ArrayList<com.google.android.material.slider.Slider>()
+        var quiet = false
+        fun paint(fromHex: Boolean = false) {
+            val c = android.graphics.Color.HSVToColor(hsv)
+            preview.background = GradientDrawable().apply { setColor(c); cornerRadius = dp(12).toFloat() }
+            if (!fromHex) { quiet = true; hex.setText("#%06X".format(c and 0xFFFFFF)); quiet = false }
+        }
+        fun syncSliders() {
+            quiet = true
+            sliders.getOrNull(0)?.value = hsv[0].coerceIn(0f, 359f)
+            sliders.getOrNull(1)?.value = (hsv[1] * 100).coerceIn(0f, 100f)
+            sliders.getOrNull(2)?.value = (hsv[2] * 100).coerceIn(0f, 100f)
+            quiet = false
+        }
+        fun slider(label: String, max: Float, value: Float, onChange: (Float) -> Unit) = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL
+            addView(TextView(this@PdfViewerActivity).apply { text = label; textSize = 12f; minWidth = dp(22) })
+            val sl = com.google.android.material.slider.Slider(this@PdfViewerActivity).apply {
+                valueFrom = 0f; valueTo = max; this.value = value.coerceIn(0f, max)
+                addOnChangeListener { _, v, fromUser -> if (fromUser && !quiet) { onChange(v); paint() } }
+            }
+            sliders.add(sl)
+            addView(sl, LinearLayout.LayoutParams(0, -2, 1f))
+        }
+        val spectrum = SpectrumView(this).apply {
+            onPick = { c -> android.graphics.Color.colorToHSV(c, hsv); syncSliders(); paint() }
+        }
+        val top = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
+        top.addView(preview, LinearLayout.LayoutParams(dp(56), dp(40)).apply { marginEnd = dp(12) })
+        top.addView(hex, LinearLayout.LayoutParams(0, -2, 1f))
         val box = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             setPadding(dp(20), dp(12), dp(20), 0)
-            addView(preview, LinearLayout.LayoutParams(-1, dp(56)))
-            addView(slider(359f, hsv[0]) { hsv[0] = it })
-            addView(slider(100f, hsv[1] * 100) { hsv[1] = it / 100f })
-            addView(slider(100f, hsv[2] * 100) { hsv[2] = it / 100f })
+            addView(spectrum, LinearLayout.LayoutParams(-1, -2).apply { bottomMargin = dp(10) })
+            addView(top)
+            addView(slider("H", 359f, hsv[0]) { hsv[0] = it })
+            addView(slider("S", 100f, hsv[1] * 100) { hsv[1] = it / 100f })
+            addView(slider("B", 100f, hsv[2] * 100) { hsv[2] = it / 100f })
         }
+        hex.addTextChangedListener(object : android.text.TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) {}
+            override fun onTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) {}
+            override fun afterTextChanged(e: android.text.Editable?) {
+                if (quiet) return
+                val t = e.toString().trim().removePrefix("#")
+                if (t.length == 6) t.toIntOrNull(16)?.let { android.graphics.Color.colorToHSV(0xFF000000.toInt() or it, hsv); syncSliders(); paint(fromHex = true) }
+            }
+        })
         paint()
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.pen_custom_color)
-            .setView(box)
+            .setView(android.widget.ScrollView(this).apply { addView(box) })
             .setPositiveButton(R.string.ok) { _, _ ->
                 val c = android.graphics.Color.HSVToColor(hsv)
                 rememberColor(c)
@@ -1466,61 +1588,120 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
         AiChatActivity.open(this, jpeg, selected, b.toolbar.title?.toString().orEmpty().removeSuffix(".pdf"), pageIndex + 1, start)
     }
 
-    /** Bookmarks, pages with notes, then the book's contents, in one list. */
+    /**
+     * The contents as a reader expects: a sheet with the book's chapters (sections fold under their
+     * chapter, the one being read lit and in view), a search over the titles, then bookmarks and
+     * pages with notes. A long press on a bookmark renames or removes it.
+     */
     private fun showContents() {
-        val chapters = links?.chapters.orEmpty().filter { it.page >= 0 }
+        val total = renderer?.pageCount ?: 0
+        val chapters = (links?.chapters.orEmpty().filter { it.page in 0 until maxOf(total, 1) })
             .ifEmpty { printed?.chapters.orEmpty() }
-        val labels = ArrayList<CharSequence>()
-        val actions = ArrayList<(() -> Unit)?>()
-        fun header(text: String) {
-            labels.add(android.text.SpannableString(text).apply {
-                setSpan(android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, text.length, 0)
-            })
-            actions.add(null)
-        }
-        if (bookmarks.isNotEmpty()) {
-            header(getString(R.string.bm_header))
-            for (bm in bookmarks.sortedBy { it.page }) {
-                labels.add(android.text.SpannableString("🔖  " + getString(R.string.pdf_page_short, bm.page + 1) +
-                    "  ·  " + bm.group + if (bm.title.isNotEmpty()) "  ·  ${bm.title}" else ""))
-                actions.add { jump(bm.page) }
-            }
-        }
         val noted = marks.pages.filterValues { it.isNotEmpty() }.keys.sorted()
-        if (noted.isNotEmpty()) {
-            header(getString(R.string.notes_header))
-            for (pg in noted) {
-                labels.add("✏️  " + getString(R.string.pdf_page_short, pg + 1) + "  ·  " + getString(R.string.notes_count, marks.on(pg).size))
-                actions.add { jump(pg) }
-            }
-        }
-        if (chapters.isNotEmpty()) {
-            header(getString(R.string.pdf_contents))
-            for (c in chapters) {
-                labels.add("\u2003".repeat(c.level) + c.title + "  ·  " + getString(R.string.pdf_page_short, c.page + 1))
-                actions.add { jump(c.page) }
-            }
-        }
-        if (labels.isEmpty()) {
+        if (chapters.isEmpty() && bookmarks.isEmpty() && noted.isEmpty()) {
             val msg = if (printed == null && links != null) R.string.pdf_preparing_wait else R.string.contents_empty
             Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
             return
         }
-        val dialog = MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.contents_title)
-            .setItems(labels.toTypedArray()) { _, which -> actions[which]?.invoke() }
-            .setNegativeButton(R.string.cancel, null)
-            .show()
-        // A long press on a bookmark renames or removes it.
-        val sorted = bookmarks.sortedBy { it.page }
-        dialog.listView?.setOnItemLongClickListener { _, _, position, _ ->
-            val bm = sorted.getOrNull(position - 1)
-            if (bookmarks.isNotEmpty() && position in 1..sorted.size && bm != null) {
-                dialog.dismiss()
-                editBookmark(bm)
-                true
-            } else false
+        val sheet = com.google.android.material.bottomsheet.BottomSheetDialog(this)
+        val root = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(dp(12), dp(8), dp(12), dp(8)); setBackgroundColor(EfbUi.BG) }
+        val tabs = com.google.android.material.tabs.TabLayout(this).apply {
+            setBackgroundColor(EfbUi.BG); setTabTextColors(EfbUi.DIM, EfbUi.ACCENT); setSelectedTabIndicatorColor(EfbUi.ACCENT)
+            tabMode = com.google.android.material.tabs.TabLayout.MODE_SCROLLABLE
         }
+        val names = listOf(getString(R.string.pdf_contents) + " · ${chapters.size}", getString(R.string.bm_header) + " · ${bookmarks.size}", getString(R.string.notes_header) + " · ${noted.size}")
+        for (n in names) tabs.addTab(tabs.newTab().setText(n))
+        root.addView(tabs)
+        val search = EditText(this).apply { hint = getString(R.string.find_hint); setSingleLine(); textSize = 15f }
+        root.addView(search)
+        val list = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
+        val scroll = android.widget.ScrollView(this).apply { addView(list) }
+        root.addView(scroll, LinearLayout.LayoutParams(-1, (resources.displayMetrics.heightPixels * 0.72).toInt()))
+        // The chapter being read: the last one starting at or before this page.
+        val here = chapters.indices.lastOrNull { chapters[it].page <= pageIndex } ?: -1
+        val open = HashSet<Int>()   // top-level chapters unfolded
+        chapters.indices.lastOrNull { it <= here && chapters[it].level == 0 }?.let { open.add(it) }
+        fun row(title: CharSequence, page: Int, level: Int, lit: Boolean, fold: String?, onFold: (() -> Unit)?, onLong: (() -> Unit)? = null): View {
+            val r = LinearLayout(this).apply {
+                orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL
+                setPadding(dp(8 + level * 16), dp(11), dp(8), dp(11))
+                background = if (lit) EfbUi.cardBg(this@PdfViewerActivity, EfbUi.pick(0xFF1E3358.toInt(), 0xFFDCE9FF.toInt()), 10) else null
+                setOnClickListener { sheet.dismiss(); jump(page) }
+                onLong?.let { f -> setOnLongClickListener { sheet.dismiss(); f(); true } }
+            }
+            r.addView(TextView(this).apply {
+                text = fold ?: ""; textSize = 14f; setTextColor(EfbUi.DIM); gravity = Gravity.CENTER
+                if (onFold != null) setOnClickListener { onFold() }
+            }, LinearLayout.LayoutParams(dp(26), -2))
+            r.addView(TextView(this).apply {
+                text = title; textSize = if (level == 0) 15.5f else 14.5f; setTextColor(if (lit) EfbUi.ACCENT else EfbUi.TEXT)
+                if (level == 0) typeface = EfbUi.MEDIUM
+                maxLines = 3
+            }, LinearLayout.LayoutParams(0, -2, 1f))
+            r.addView(TextView(this).apply {
+                text = (printed?.labels?.getOrNull(page) ?: (page + 1).toString()); textSize = 13f; setTextColor(EfbUi.DIM)
+                typeface = android.graphics.Typeface.MONOSPACE; setPadding(dp(10), 0, 0, 0)
+            })
+            return r
+        }
+        var litView: View? = null
+        fun fill() {
+            list.removeAllViews(); litView = null
+            val q = search.text.toString().trim()
+            when (tabs.selectedTabPosition) {
+                0 -> {
+                    if (chapters.isEmpty()) list.addView(EfbUi.text(this, getString(R.string.contents_empty), 14f, EfbUi.DIM))
+                    var i = 0
+                    while (i < chapters.size) {
+                        val c = chapters[i]
+                        // Its sections: everything after it with a deeper level.
+                        var end = i + 1
+                        while (end < chapters.size && chapters[end].level > c.level) end++
+                        val hasKids = end > i + 1 && c.level == 0
+                        if (q.isNotEmpty()) {
+                            if (c.title.contains(q, true)) list.addView(row(c.title, c.page, c.level, i == here, null, null))
+                            i++; continue
+                        }
+                        val unfolded = !hasKids || i in open
+                        val idx = i
+                        val v = row(c.title, c.page, c.level, i == here, if (hasKids) (if (unfolded) "▾" else "▸") else null,
+                            if (hasKids) ({ if (!open.add(idx)) open.remove(idx); fill() }) else null)
+                        list.addView(v)
+                        if (i == here) litView = v
+                        if (c.level == 0 && hasKids && !unfolded) { i = end; continue }
+                        i++
+                    }
+                }
+                1 -> {
+                    if (bookmarks.isEmpty()) list.addView(EfbUi.text(this, getString(R.string.bm_none), 14f, EfbUi.DIM))
+                    for (bm in bookmarks.sortedBy { it.page }) {
+                        val t = "🔖  " + bm.group + if (bm.title.isNotEmpty()) "  ·  ${bm.title}" else ""
+                        if (q.isEmpty() || t.contains(q, true)) list.addView(row(t, bm.page, 0, bm.page == pageIndex, null, null) { editBookmark(bm) })
+                    }
+                }
+                else -> {
+                    if (noted.isEmpty()) list.addView(EfbUi.text(this, getString(R.string.contents_empty), 14f, EfbUi.DIM))
+                    for (pg in noted) list.addView(row("✏️  " + getString(R.string.notes_count, marks.on(pg).size), pg, 0, pg == pageIndex, null, null))
+                }
+            }
+            litView?.let { v -> scroll.post { scroll.scrollTo(0, (v.top - dp(80)).coerceAtLeast(0)) } }
+        }
+        tabs.addOnTabSelectedListener(object : com.google.android.material.tabs.TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(t: com.google.android.material.tabs.TabLayout.Tab) = fill()
+            override fun onTabUnselected(t: com.google.android.material.tabs.TabLayout.Tab) {}
+            override fun onTabReselected(t: com.google.android.material.tabs.TabLayout.Tab) {}
+        })
+        search.addTextChangedListener(object : android.text.TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) {}
+            override fun onTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) {}
+            override fun afterTextChanged(e: android.text.Editable?) = fill()
+        })
+        if (chapters.isEmpty()) tabs.getTabAt(if (bookmarks.isNotEmpty()) 1 else 2)?.select()
+        fill()
+        sheet.setContentView(root)
+        sheet.behavior.state = com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
+        sheet.behavior.skipCollapsed = true
+        sheet.show()
     }
 
     private fun askPage() {

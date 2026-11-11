@@ -42,19 +42,26 @@ class PdfLinks private constructor(private val doc: PDDocument) : Closeable {
         } catch (e: Exception) {
             // A broken outline just means no contents list.
         }
-        out
+        // A heading with no page of its own (a part title) opens where its first section does.
+        for (i in out.indices) if (out[i].page < 0) {
+            val next = (i + 1 until out.size).firstOrNull { out[it].page >= 0 && out[it].level > out[i].level }
+            if (next != null) out[i] = Chapter(out[i].title, out[i].level, out[next].page)
+        }
+        // The same line twice (some books repeat the outline) shown once; empty titles dropped.
+        val seen = HashSet<String>()
+        out.filter { it.title.isNotBlank() && seen.add("${it.level}|${it.title}|${it.page}") }
     }
 
     private fun walk(node: PDOutlineNode, level: Int, out: MutableList<Chapter>) {
         var item = node.firstChild
         var guard = 0
         while (item != null && guard++ < 10_000) {
-            val page = try {
-                item.findDestinationPage(doc)?.let { doc.pages.indexOf(it) } ?: -1
-            } catch (e: Exception) {
-                -1
-            }
-            out.add(Chapter(item.title?.trim().orEmpty(), level, page))
+            // The page: a direct destination, a named one, or a "go to" action; whichever the book used.
+            var page = try { item.findDestinationPage(doc)?.let { doc.pages.indexOf(it) } ?: -1 } catch (e: Exception) { -1 }
+            if (page < 0) page = try { pageOf(item.destination ?: (item.action as? PDActionGoTo)?.destination) } catch (e: Exception) { -1 }
+            if (page >= doc.numberOfPages) page = -1
+            val title = (item.title ?: "").replace(Regex("\\s+"), " ").trim()
+            out.add(Chapter(title, level, page))
             if (level < 6) walk(item, level + 1, out)
             item = item.nextSibling
         }
@@ -94,7 +101,10 @@ class PdfLinks private constructor(private val doc: PDDocument) : Closeable {
     private fun pageOf(dest: PDDestination?): Int {
         var d = dest
         if (d is PDNamedDestination) d = doc.documentCatalog.findNamedDestinationPage(d)
-        return if (d is PDPageDestination) d.retrievePageNumber() else -1
+        if (d !is PDPageDestination) return -1
+        // A destination given as a page object, or (in some books) as a bare page number.
+        val n = d.retrievePageNumber()
+        return if (n >= 0) n else d.pageNumber.takeIf { it in 0 until doc.numberOfPages } ?: -1
     }
 
     // ---- printed contents ----

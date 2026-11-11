@@ -246,7 +246,70 @@ class Vault:
                 item["folder"] = None
             self.items.append(item)
             self.save()
+        # Any video that reaches the vault is kept at 720p (H.264): the same picture on a phone or a TV,
+        # a fraction of the room. Done in the background; the original stays until the copy is ready.
+        try:
+            if is_video(item):
+                threading.Thread(target=self._shrink_later, args=(iid,), daemon=True).start()
+        except Exception:
+            pass
         return item
+
+    def _shrink_later(self, iid):
+        import shutil as _sh, subprocess as _sp
+        ff = os.environ.get("KHAZANTI_FFMPEG") or _sh.which("ffmpeg")
+        if not ff:
+            return
+        with self.lock:
+            item = next((i for i in self.items if i.get("id") == iid), None)
+        if not item or item.get("shrunk"):
+            return
+        src = os.path.join(self.files_dir, item["file"])
+        base = os.path.splitext(item["file"])[0]
+        dst = os.path.join(self.files_dir, base + ".720.mp4.part")
+        try:
+            probe = _sp.run([ff, "-hide_banner", "-i", src], capture_output=True, text=True, timeout=60).stderr
+            m = re.search(r"Video:.*?(\d{2,5})x(\d{2,5})", probe)
+            if m and int(m.group(2)) <= 720 and item.get("size", 0) < 400 * 1024 * 1024:
+                with self.lock:
+                    item["shrunk"] = True
+                    self.save()
+                return
+            def make(subs):
+                return ([ff, "-y", "-hide_banner", "-loglevel", "error", "-i", src, "-map", "0:v:0", "-map", "0:a:0?"]
+                        + (["-map", "0:s?", "-c:s", "mov_text"] if subs else [])
+                        + ["-vf", "scale=-2:'min(720,ih)'", "-c:v", "libx264", "-preset", "veryfast", "-crf", "26",
+                           "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "96k", "-movflags", "+faststart", "-f", "mp4", dst])
+            # With its captions when the mp4 can carry them, else without.
+            ok = _sp.run(make(True), capture_output=True, timeout=6 * 3600, creationflags=NO_WINDOW).returncode == 0
+            if not ok:
+                ok = _sp.run(make(False), capture_output=True, timeout=6 * 3600, creationflags=NO_WINDOW).returncode == 0
+            if not ok or not os.path.exists(dst) or os.path.getsize(dst) <= 0 or os.path.getsize(dst) >= os.path.getsize(src):
+                with self.lock:
+                    item["shrunk"] = True
+                    self.save()
+                return
+            final = os.path.join(self.files_dir, base + ".mp4")
+            os.replace(dst, final)
+            if os.path.abspath(final) != os.path.abspath(src):
+                try:
+                    os.remove(src)
+                except OSError:
+                    pass
+            with self.lock:
+                item["file"] = base + ".mp4"
+                item["size"] = os.path.getsize(final)
+                item["mime"] = "video/mp4"
+                n = item["name"]
+                if not n.lower().endswith(".mp4"):
+                    item["name"] = os.path.splitext(n)[0] + ".mp4"
+                item["shrunk"] = True
+                self.save()
+        except Exception:
+            try:
+                os.remove(dst)
+            except OSError:
+                pass
 
     def total_bytes(self) -> int:
         with self.lock:

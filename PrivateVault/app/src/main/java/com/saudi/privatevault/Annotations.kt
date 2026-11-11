@@ -232,7 +232,8 @@ object MarkPainter {
             Tool.HIGHLIGHT -> {
                 // A highlighter is a broad, see-through, flat-ended band.
                 stroke.strokeCap = if (m.tool == Tool.HIGHLIGHT && !m.round) Paint.Cap.SQUARE else Paint.Cap.ROUND
-                if (m.tool == Tool.HIGHLIGHT) stroke.alpha = 0x70
+                // The pen's own opacity when one was chosen (the slider), else the soft default.
+                if (m.tool == Tool.HIGHLIGHT) stroke.alpha = (m.color ushr 24).let { if (it == 0xFF) 0x70 else it }
                 path.reset()
                 path.moveTo(p[0] * w, p[1] * h)
                 if (p.size == 2) {

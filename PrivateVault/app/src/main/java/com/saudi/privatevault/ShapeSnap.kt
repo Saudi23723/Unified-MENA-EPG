@@ -18,6 +18,19 @@ import kotlin.math.sqrt
 object ShapeSnap {
 
     /** The shape for [pts] (x, y fractions), or null when it is just writing. */
+    /** Only the line: a stroke straight enough becomes one, anything else stays as drawn. */
+    fun straightLine(pts: FloatArray, w: Float, h: Float, base: Mark, highlight: Boolean): Mark? {
+        if (pts.size < 8 || w <= 0f || h <= 0f) return null
+        val n = pts.size / 2
+        val xs = FloatArray(n) { pts[it * 2] * w }
+        val ys = FloatArray(n) { pts[it * 2 + 1] * h }
+        var len = 0f
+        for (i in 1 until n) len += hypot(xs[i] - xs[i - 1], ys[i] - ys[i - 1])
+        if (len < w * 0.03f || !straight(xs, ys, 0, n - 1, len)) return null
+        val p = floatArrayOf(xs[0] / w, ys[0] / h, xs[n - 1] / w, ys[n - 1] / h)
+        return Mark(if (highlight) Tool.HIGHLIGHT else Tool.LINE, base.color, base.width, p, round = base.round)
+    }
+
     fun recognize(pts: FloatArray, w: Float, h: Float, base: Mark, highlight: Boolean): Mark? {
         if (pts.size < 8 || w <= 0f || h <= 0f) return null
         val n = pts.size / 2

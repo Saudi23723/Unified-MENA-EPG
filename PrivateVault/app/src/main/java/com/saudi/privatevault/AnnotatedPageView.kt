@@ -163,6 +163,9 @@ class AnnotatedPageView @JvmOverloads constructor(
 
     private var current: Mark? = null
 
+    /** Every roughly straight stroke lands as a straight line, without holding at the end. */
+    var straighten = false
+
     /** Neon that fades: what is written is not kept, and is gone four and a half seconds after the pen lifts. */
     var laser = false
     private val fading = ArrayList<Pair<Mark, Long>>()
@@ -383,6 +386,9 @@ class AnnotatedPageView @JvmOverloads constructor(
                     if (toPage(event.x, event.y)) onTextAt?.invoke(pt[0], pt[1])
                 } else {
                     removeCallbacks(snap)
+                    if (straighten && !snapped && freehand()) current?.let { cm ->
+                        ShapeSnap.straightLine(currentPoints.toFloatArray(), pageW(), pageH(), cm, tool == Tool.HIGHLIGHT)?.let { current = it }
+                    }
                     val m = current
                     current = null
                     if (m != null && laser) {

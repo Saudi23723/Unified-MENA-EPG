@@ -441,11 +441,18 @@ class LaptopActivity : BaseActivity() {
         lifecycleScope.launch {
             var failed = 0
             for ((i, item) in pending.withIndex()) {
-                val size = item.size.coerceAtLeast(1)
                 val ok = withContext(Dispatchers.IO) {
+                    var small: java.io.File? = null
                     try {
+                        // A video goes up at 720p: made on the phone first, the copy deleted after.
+                        if (item.kind == Kind.VIDEO) {
+                            runOnUiThread { dialog.setMessage(getString(R.string.send_compressing, i + 1, pending.size)) }
+                            small = try { Compress.to720(this@LaptopActivity, VaultStore.fileOf(item)) } catch (e: Exception) { null }
+                        }
+                        val f = small ?: VaultStore.fileOf(item)
+                        val size = f.length().coerceAtLeast(1)
                         var last = -1
-                        LaptopClient.upload(this@LaptopActivity, VaultStore.fileOf(item), laptopPath(item), "phone:" + item.id) { done ->
+                        LaptopClient.upload(this@LaptopActivity, f, laptopPath(item), "phone:" + item.id) { done ->
                             val pct = (done * 100 / size).toInt()
                             if (pct != last) {
                                 last = pct
@@ -455,6 +462,8 @@ class LaptopActivity : BaseActivity() {
                         true
                     } catch (e: IOException) {
                         false
+                    } finally {
+                        small?.delete()
                     }
                 }
                 if (!ok) failed++
