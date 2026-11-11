@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-11T20:46:19.962Z",
+  "updated_at": "2026-11-11T20:52:07.509Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -434,13 +434,13 @@
       "latitude": 40.7128,
       "longitude": -74.006,
       "temperature_c": 17.3,
-      "humidity": 34,
+      "humidity": 31,
       "wind_speed": 9.0,
       "rain_chance": 0,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-11-11T15:45",
-      "feels_c": 14.1,
+      "feels_c": 13.9,
       "utc_offset": -18000,
       "days": [
         {
@@ -505,18 +505,18 @@
       "latitude": 34.0522,
       "longitude": -118.2437,
       "temperature_c": 30.5,
-      "humidity": 13,
+      "humidity": 14,
       "wind_speed": 6.9,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-11-11T12:45",
-      "feels_c": 27.6,
+      "feels_c": 27.8,
       "utc_offset": -28800,
       "days": [
         {
           "date": "2026-11-11",
-          "code": 0,
+          "code": 1,
           "max": 31.0,
           "min": 14.4,
           "rain": 0
@@ -576,13 +576,13 @@
       "latitude": 41.8781,
       "longitude": -87.6298,
       "temperature_c": 11.5,
-      "humidity": 86,
+      "humidity": 88,
       "wind_speed": 13.9,
       "rain_chance": 56,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-11-11T14:45",
-      "feels_c": 9.3,
+      "feels_c": 9.4,
       "utc_offset": -21600,
       "days": [
         {
@@ -736,7 +736,7 @@
         },
         {
           "date": "2026-11-12",
-          "code": 1,
+          "code": 0,
           "max": 25.4,
           "min": 11.1,
           "rain": 0
@@ -789,13 +789,13 @@
       "latitude": 37.7749,
       "longitude": -122.4194,
       "temperature_c": 20.3,
-      "humidity": 56,
+      "humidity": 54,
       "wind_speed": 4.9,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-11-11T12:45",
-      "feels_c": 20.0,
+      "feels_c": 19.8,
       "utc_offset": -28800,
       "days": [
         {
