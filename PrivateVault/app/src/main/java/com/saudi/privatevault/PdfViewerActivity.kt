@@ -296,6 +296,7 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
                 b.page.setImageBitmap(bmp)
                 refreshUndo()
                 refreshBookmark()
+                refreshBubbles()
                 // Letters are for selecting words with a finger; a TV has none to spare memory on.
                 if (tvHint == null) loadLetters(index)
                 // On a TV every page opens whole and fitted to the screen, unless a closer zoom was chosen.
@@ -1277,6 +1278,70 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
         refreshBookmark()
     }
 
+    // ---- 💭 notes pinned to words: a number on the page, the note behind it (typed, or written and drawn) ----
+
+    private fun bubbleFile() = java.io.File(java.io.File(filesDir, "bubbles").apply { mkdirs() }, itemId.replace(Regex("[^A-Za-z0-9_-]"), "_") + ".json")
+
+    private fun bubbleList(): org.json.JSONArray = try { org.json.JSONArray(bubbleFile().readText()) } catch (e: Exception) { org.json.JSONArray() }
+
+    private fun saveBubbles(a: org.json.JSONArray) { bubbleFile().writeText(a.toString()); refreshBubbles() }
+
+    /** This page's bubbles, in reading order, on the page view. */
+    private fun pageBubbles(): List<Pair<Int, org.json.JSONObject>> {
+        val a = bubbleList()
+        return (0 until a.length()).map { it to a.getJSONObject(it) }.filter { it.second.optInt("p") == pageIndex }
+            .sortedWith(compareBy({ it.second.optDouble("y") }, { it.second.optDouble("x") }))
+    }
+
+    private fun refreshBubbles() {
+        val list = pageBubbles()
+        b.page.bubbles = list.map { floatArrayOf(it.second.optDouble("x").toFloat(), it.second.optDouble("y").toFloat()) }
+        b.page.onBubble = { i -> list.getOrNull(i)?.let { editBubble(it.first) } }
+    }
+
+    private fun addBubble(x: Float, y: Float, words: String) {
+        val a = bubbleList()
+        a.put(org.json.JSONObject().put("p", pageIndex).put("x", x.toDouble()).put("y", y.toDouble()).put("w", words.take(200)).put("t", "").put("n", ""))
+        saveBubbles(a)
+        editBubble(a.length() - 1)
+    }
+
+    private fun editBubble(index: Int) {
+        val a = bubbleList()
+        val o = a.optJSONObject(index) ?: return
+        val num = pageBubbles().indexOfFirst { it.first == index } + 1
+        val input = EditText(this).apply {
+            setText(o.optString("t")); minLines = 4; gravity = Gravity.TOP or Gravity.START
+            hint = getString(R.string.bubble_hint); textDirection = View.TEXT_DIRECTION_FIRST_STRONG
+        }
+        val col = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(dp(20), dp(4), dp(20), 0) }
+        col.addView(TextView(this).apply { text = "“" + o.optString("w").replace('\n', ' ').take(140) + "”"; textSize = 13f; setTextColor(EfbUi.DIM); setPadding(0, 0, 0, dp(8)) })
+        col.addView(input)
+        lateinit var dlg: androidx.appcompat.app.AlertDialog
+        col.addView(com.google.android.material.button.MaterialButton(this, null, com.google.android.material.R.attr.materialButtonOutlinedStyle).apply {
+            text = getString(if (o.optString("n").isEmpty()) R.string.bubble_draw else R.string.bubble_draw_open); isAllCaps = false
+            setOnClickListener {
+                o.put("t", input.text.toString()); saveBubbles(a)
+                val book = o.optString("n").takeIf { it.isNotEmpty() }?.let { NoteBook.load(java.io.File(it)) }
+                    ?: NoteBook.create(this@PdfViewerActivity, NoteBook.Style.BLANK, "💭 " + (b.toolbar.title ?: "") + " p." + (pageIndex + 1) + " #" + num).also {
+                        o.put("n", it.file.path); saveBubbles(a)
+                    }
+                dlg.dismiss()
+                NotePad.show(this@PdfViewerActivity, book, false)
+            }
+        })
+        dlg = MaterialAlertDialogBuilder(this)
+            .setTitle("💭 $num")
+            .setView(android.widget.ScrollView(this).apply { addView(col) })
+            .setPositiveButton(R.string.ok) { _, _ -> o.put("t", input.text.toString()); saveBubbles(a) }
+            .setNeutralButton(R.string.delete) { _, _ ->
+                val keep = org.json.JSONArray(); for (k in 0 until a.length()) if (k != index) keep.put(a.get(k))
+                saveBubbles(keep)
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
     private fun refreshBookmark() {
         val here = bookmarks.firstOrNull { it.page == pageIndex }
         b.page.bookmarked = here != null
@@ -1402,11 +1467,15 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
 
     private fun onTextSelected(text: String) {
         val items = arrayOf(getString(R.string.sel_highlight), getString(R.string.sel_copy),
-            getString(R.string.ai_explain_sel), getString(R.string.ai_ask_sel), getString(R.string.sel_speak), getString(R.string.sel_later), getString(R.string.sel_translate))
+            getString(R.string.ai_explain_sel), getString(R.string.ai_ask_sel), getString(R.string.sel_speak), getString(R.string.sel_later), getString(R.string.sel_translate), getString(R.string.sel_bubble))
         MaterialAlertDialogBuilder(this)
             .setTitle(text.replace('\n', ' ').take(80) + if (text.length > 80) "…" else "")
             .setItems(items) { _, which ->
-                if (which == 6) {
+                if (which == 7) {
+                    val at = b.page.selectionAnchor()
+                    b.page.clearSelection()
+                    if (at != null) addBubble(at[0], at[1], text)
+                } else if (which == 6) {
                     b.page.clearSelection()
                     Translate.show(this, text)
                 } else if (which == 5) {

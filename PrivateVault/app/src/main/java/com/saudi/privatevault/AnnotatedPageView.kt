@@ -88,6 +88,51 @@ class AnnotatedPageView @JvmOverloads constructor(
         invalidate()
     }
 
+    /** 💭 Notes pinned to words on this page: each anchor (x, y as page fractions), numbered from 1. */
+    var bubbles: List<FloatArray> = emptyList()
+        set(v) { field = v; invalidate() }
+    /** A tap on a 💭 bubble: its index. */
+    var onBubble: ((Int) -> Unit)? = null
+    private var bubbleHit = -1
+    private val bubbleFill = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0xFF2E9BFF.toInt() }
+    private val bubbleRim = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0xFFFFFFFF.toInt(); style = Paint.Style.STROKE }
+    private val bubbleText = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0xFFFFFFFF.toInt(); textAlign = Paint.Align.CENTER; isFakeBoldText = true }
+
+    private fun bubbleAt(i: Int): FloatArray? {
+        val b = bubbles.getOrNull(i) ?: return null
+        val p = floatArrayOf(b[0] * pageW(), b[1] * pageH())
+        imageMatrix.mapPoints(p)
+        val d = resources.displayMetrics.density
+        // Just above the end of the words, like a speech bubble.
+        return floatArrayOf(p[0] + 4 * d, p[1] - 14 * d)
+    }
+
+    private fun drawBubbles(c: Canvas) {
+        val d = resources.displayMetrics.density
+        bubbleRim.strokeWidth = 2 * d; bubbleText.textSize = 12 * d
+        for (i in bubbles.indices) {
+            val p = bubbleAt(i) ?: continue
+            val r = 11 * d
+            val tail = android.graphics.Path().apply { moveTo(p[0] - 5 * d, p[1] + r * 0.6f); lineTo(p[0] - 9 * d, p[1] + r + 6 * d); lineTo(p[0] + 2 * d, p[1] + r * 0.8f); close() }
+            c.drawPath(tail, bubbleFill)
+            c.drawCircle(p[0], p[1], r, bubbleFill)
+            c.drawCircle(p[0], p[1], r, bubbleRim)
+            c.drawText((i + 1).toString(), p[0], p[1] + 4.3f * d, bubbleText)
+        }
+    }
+
+    private fun bubbleUnder(x: Float, y: Float): Int {
+        val r = 20 * resources.displayMetrics.density
+        return bubbles.indices.firstOrNull { i -> bubbleAt(i)?.let { Math.hypot((it[0] - x).toDouble(), (it[1] - y).toDouble()) < r } == true } ?: -1
+    }
+
+    /** Where a note on the selected words is pinned: the end of their last line. */
+    fun selectionAnchor(): FloatArray? {
+        val b = selectionBands()
+        if (b.size < 4) return null
+        return floatArrayOf(b[b.size - 2], b[b.size - 3])
+    }
+
     /** The top of the words now selected (a fraction of the page), for a read-later mark. */
     fun selectionTop(): Float = letters?.getOrNull(selFrom)?.top ?: 0f
 
@@ -312,9 +357,17 @@ class AnnotatedPageView @JvmOverloads constructor(
         }
         canvas.restore()
         if (bookmarked) drawRibbon(canvas, w)
+        if (bubbles.isNotEmpty()) drawBubbles(canvas)
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
+        // A 💭 bubble takes its own tap.
+        if (bubbles.isNotEmpty()) when (event.actionMasked) {
+            MotionEvent.ACTION_DOWN -> { bubbleHit = bubbleUnder(event.x, event.y); if (bubbleHit >= 0) return true }
+            MotionEvent.ACTION_MOVE -> if (bubbleHit >= 0) return true
+            MotionEvent.ACTION_UP -> if (bubbleHit >= 0) { val i = bubbleHit; bubbleHit = -1; onBubble?.invoke(i); return true }
+            MotionEvent.ACTION_CANCEL -> bubbleHit = -1
+        }
         if (selecting) return extendSelection(event)
         val type = event.getToolType(0)
         val stylus = type == MotionEvent.TOOL_TYPE_STYLUS || type == MotionEvent.TOOL_TYPE_ERASER
