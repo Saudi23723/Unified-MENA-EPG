@@ -127,10 +127,21 @@ want = {"u": set(), "o": set(), "a": set(), "r": set(), "l": set(), "e": set(), 
 # channels that loop series / films around the clock and have no guide anywhere (Shoof Max, OSN, Netflix
 # channels...): "Program 24/7" blocks instead of an empty strip (owner, 3 Nov 2026; same idea as filler_epg.py)
 FILLER_247 = re.compile(r"24\s*/\s*7|SHOOF|NETFLIX|OSN|SHAHID|MOVIE|CINEMA|FILM|SERIES|DRAMA|KIDS|CARTOON|"
-                        r"مسلسل|افلام|أفلام|دراما|اطفال|أطفال|كرتون|رمضان", re.I)
+                        r"ISLAM|QURAN|REPLAY|ONBOARD|NOOR PLAY|DIZI|MUSIC|MUZIK|RADIO|"
+                        r"مسلسل|افلام|أفلام|دراما|اطفال|أطفال|كرتون|رمضان|إسلام|اسلام|قرآن|القرآن", re.I)
+_SMALLCAPS = str.maketrans("ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴘǫʀꜱᴛᴜᴠᴡʏᴢѕ", "ABCDEFGHIJKLMNOPQRSTUVWYZS")
+
+
+def loop_title(name):
+    """the guide line of a channel that loops around the clock: its own name, tidied (owner, 11 Nov 2026:
+    every channel checked; a series / Quran / replay channel shows what it is instead of "No guide")"""
+    n = re.sub(r"^\s*(\|?[A-Z]{2,4}\|?\s*[:|]\s*)+", "", str(name))
+    n = re.sub(r"\b(UHD|FHD|HD|SD|HEVC|4K|8K|RAW|H265|60FPS|50FPS)\b|[ᴬ-ᵛ⁰-⁹]+", " ", n, flags=re.I)
+    return " ".join(n.split()) or "Program 24/7"
 # never on sports or news (a "24/7" label there would hide that the guide is missing)
 NOT_247 = re.compile(r"SPORT|ꜱᴘᴏʀᴛ|NEWS|ɴᴇᴡꜱ|رياض|أخبار|اخبار|\bTOD\b|BEIN|ALWAN|STARZ", re.I)
 hydra_compat = set()
+FILLER_TITLES = {"247": "Program 24/7"}
 maps = {}
 for f in sorted(glob.glob("xtream/*/channel_map.json")):
     play = os.path.dirname(f); name = os.path.basename(play)
@@ -160,9 +171,13 @@ for f in sorted(glob.glob("xtream/*/channel_map.json")):
     streams, bycat, mp = [], {}, {}
     for n, c in enumerate(chans, 1):
         sp = split(official_fill.override(c["name"]) or c.get("epg") or official_fill.fill(c["name"], c["group"]))
-        if not sp and not xtream_order.EVENT_GROUP.search(c["group"]) and (FILLER_247.search(c["group"]) or "24/7" in c["name"]) \
-                and not NOT_247.search(c["group"] + " " + c["name"]):
-            sp = ("f", "247")
+        _g = c["group"].translate(_SMALLCAPS)
+        if not sp and not xtream_order.EVENT_GROUP.search(c["group"]) and (FILLER_247.search(_g) or "24/7" in c["name"]) \
+                and not NOT_247.search(_g + " " + c["name"]):
+            _t = loop_title(c["name"])
+            _fid = "247" if _t == "Program 24/7" else "247-%08x" % zlib.crc32(_t.encode("utf-8"))
+            FILLER_TITLES[_fid] = _t
+            sp = ("f", _fid)
         cid = catid[c["group"]]
         icon = LOGOS.find(c["name"], c["group"], name, sp[0] if sp else None, sp[1] if sp else None)
         s = {"num": n, "name": c["name"], "stream_type": "live", "stream_id": c["stream_id"], "stream_icon": icon,
@@ -260,6 +275,13 @@ for f in sorted(glob.glob("xtream/*/channel_map.json")):
                 if cid not in {x["category_id"] for x in hcats}:
                     hcats.append({"category_id": cid, "category_name": g, "parent_id": 0})
             sp = split(official_fill.override(c["name"]) or c.get("epg") or official_fill.fill(c["name"], g))
+            _g = g.translate(_SMALLCAPS)
+            if not sp and not xtream_order.EVENT_GROUP.search(g) and (FILLER_247.search(_g) or "24/7" in c["name"]) \
+                    and not NOT_247.search(_g + " " + c["name"]):
+                _t = loop_title(c["name"])
+                _fid = "247" if _t == "Program 24/7" else "247-%08x" % zlib.crc32(_t.encode("utf-8"))
+                FILLER_TITLES[_fid] = _t
+                sp = ("f", _fid)
             icon = LOGOS.find(c["name"], g, name, sp[0] if sp else None, sp[1] if sp else None) or c.get("icon") or ""
             hstreams.append({"num": len(streams) + len(hstreams) + 1, "name": c["name"], "stream_type": "live", "stream_id": c["stream_id"],
                              "stream_icon": icon, "epg_channel_id": sp[1] if sp else None, "category_id": cid})
@@ -381,12 +403,14 @@ for src_name, ids in sorted(by_src.items()):
 # 3b) "e:" ids (non-Arabic channels such as TSN) wait for an approved public source: this repository's
 #    gate (channel_gate_selftest.py) allows no aggregated dump that is not on its named list.
 
-# 3c) "Program 24/7": three-hour blocks on the hour over the whole guide window
-if want["f"]:
+# 3c) "Program 24/7": three-hour blocks on the hour over the whole guide window; a looping channel's own name
+#     as the title when it has one ("مسلسل الهيبة", "Quran - Al Afasy", "NBA Replay 3")
+for _fid in sorted(want["f"]):
     _t = int(lo.timestamp()) // 10800 * 10800
+    _title = FILLER_TITLES.get(_fid, "Program 24/7")
     while _t < int(hi.timestamp()):
-        listings["f"]["247"].append({"id": str(_t), "epg_id": "247", "title": b64("Program 24/7"), "lang": "", "start": fmt(_t),
-                                     "end": fmt(_t + 10800), "description": b64(""), "channel_id": "247",
+        listings["f"].setdefault(_fid, []).append({"id": str(_t), "epg_id": _fid, "title": b64(_title), "lang": "", "start": fmt(_t),
+                                     "end": fmt(_t + 10800), "description": b64("24/7"), "channel_id": _fid,
                                      "start_timestamp": str(_t), "stop_timestamp": str(_t + 10800), "now_playing": 0, "has_archive": 0})
         _t += 10800
 

@@ -109,9 +109,16 @@ def main():
     def has(c):
         return official_fill.override(c["name"]) or c.get("epg") or official_fill.fill(c["name"], c.get("group", ""))
 
+    # the looping channels xtream_epg.py gives their own "24/7" line (series, Quran, replays...): not missing
+    src = open("xtream_epg.py", encoding="utf-8").read()
+    loop = {"re": re}
+    exec(src[src.index("FILLER_247 = "):src.index("hydra_compat = set()")], loop)  # noqa: S102 - this repository's own code
+
     def skip(c):
-        g = c.get("group", "")
-        return bool(xtream_order.EVENT_GROUP.search(g) or SRC247.search(g + " " + c["name"]))
+        g = c.get("group", ""); gs = g.translate(loop["_SMALLCAPS"])
+        if xtream_order.EVENT_GROUP.search(g) or SRC247.search(g + " " + c["name"]):
+            return True
+        return bool(loop["FILLER_247"].search(gs) and not loop["NOT_247"].search(gs + " " + c["name"]))
 
     # 1) twins: (country family, key) -> guides
     twins = collections.defaultdict(collections.Counter)
