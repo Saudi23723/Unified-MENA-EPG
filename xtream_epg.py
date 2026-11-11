@@ -122,59 +122,6 @@ def shown(g: str, playlist: str) -> str:
     return g.rstrip() + MARK.get(playlist, "")
 
 
-# 0) channels still without a guide take one from the owner's own TiviMate links (OWNER_LINKS) when the group's
-#    country is one of those links and the name is listed there (owner, 11 Nov 2026: "my TiviMate has them all").
-#    Only the channel list at the top of each file is read here; the programmes are read in step 3 as usual.
-LINK_OF = {"it": "italy", "ch": "swiss", "de": "germany", "pt": "portugal", "tr": "turkey", "ro": "romania", "si": "slovenia"}
-OWNER_FILL = {}
-sys.path.insert(0, "tools")
-from epg_country_check import country_of as _e_country, fits as _fits, flag as _g_country, SAME as _SAME
-
-
-def _owner_fill():
-    sys.path.insert(0, "tools")
-    from fill_epg_by_name import EVENT, norm
-    from fill_epg_from_att import flag
-    need = {}
-    for f in sorted(glob.glob("xtream/*/channel_map.json")):
-        pl = os.path.basename(os.path.dirname(f))
-        for c in json.load(open(f, encoding="utf-8")):
-            if c.get("epg") or EVENT.search(c["name"]):
-                continue
-            src = LINK_OF.get(flag(c.get("group", "")))
-            if src:
-                need.setdefault(src, []).append((pl, c["stream_id"], norm(c["name"])))
-    for src, chans in sorted(need.items()):
-        names = {}
-        try:
-            req = urllib.request.Request(OWNER_LINKS[src], headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/126.0"})
-            with urllib.request.urlopen(req, timeout=300) as r:
-                first = r.read(2)
-                unzip = zlib.decompressobj(16 + zlib.MAX_WBITS) if first == b"\x1f\x8b" else None
-                buf = ""; chunk = first
-                while chunk and "<programme" not in buf:
-                    buf += (unzip.decompress(chunk) if unzip else chunk).decode("utf-8", "replace")
-                    chunk = r.read(1 << 18)
-            for cid, body in re.findall(r'<channel id="([^"]+)"[^>]*>(.*?)</channel>', buf.split("<programme", 1)[0], re.S):
-                for dn in re.findall(r"<display-name[^>]*>(.*?)</display-name>", body) + [cid.rsplit(".", 1)[0]]:
-                    k = norm(html.unescape(dn))
-                    if len(k) >= 3:
-                        names.setdefault(k, set()).add(html.unescape(cid))
-        except Exception as exc:  # noqa: BLE001
-            print(f"owner link {src}: channel list not read ({exc})", file=sys.stderr); continue
-        n = 0
-        for pl, sid, k in chans:
-            ids = names.get(k)
-            if ids and len(ids) == 1:
-                OWNER_FILL[(pl, sid)] = f"l:{src}/{next(iter(ids))}"; n += 1
-        print(f"owner link {src}: {n} of {len(chans)} channels without a guide matched by name")
-
-
-try:
-    _owner_fill()
-except Exception as exc:  # noqa: BLE001 - never stops the build
-    print(f"owner links fill skipped: {exc}", file=sys.stderr)
-
 # 1) channel lists -> Xtream answers + what guides are needed
 want = {"u": set(), "o": set(), "a": set(), "r": set(), "l": set(), "e": set(), "f": set()}
 # channels that loop series / films around the clock and have no guide anywhere (Shoof Max, OSN, Netflix
@@ -212,12 +159,7 @@ for f in sorted(glob.glob("xtream/*/channel_map.json")):
             catid[g] = str(i + 1)
     streams, bycat, mp = [], {}, {}
     for n, c in enumerate(chans, 1):
-        sp = split(official_fill.override(c["name"]) or c.get("epg") or official_fill.fill(c["name"], c["group"])
-                   or OWNER_FILL.get((name, c["stream_id"])))
-        # never another country's guide (owner, 11 Nov 2026): Italy's Sky Sport F1 is not the UK's
-        if sp and _g_country(c["group"]) and _e_country(f"{sp[0]}:{sp[1]}") and not _fits(_g_country(c["group"]), _e_country(f"{sp[0]}:{sp[1]}")) \
-                and not _SAME.search(c["name"]):
-            sp = None
+        sp = split(official_fill.override(c["name"]) or c.get("epg") or official_fill.fill(c["name"], c["group"]))
         if not sp and not xtream_order.EVENT_GROUP.search(c["group"]) and (FILLER_247.search(c["group"]) or "24/7" in c["name"]) \
                 and not NOT_247.search(c["group"] + " " + c["name"]):
             sp = ("f", "247")

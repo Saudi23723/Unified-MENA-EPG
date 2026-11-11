@@ -94,7 +94,18 @@ class VodActivity : BaseActivity() {
         }
         catsRv.adapter = catAdapter; catsRv.itemAnimator = null
         grid.layoutManager = object : GridLayoutManager(this, COLS) {
-            override fun calculateExtraLayoutSpace(st: RecyclerView.State, extra: IntArray) { val h = height; extra[0] = h / 2; extra[1] = h }
+            override fun calculateExtraLayoutSpace(st: RecyclerView.State, extra: IntArray) { val h = height; extra[0] = h; extra[1] = h }
+            // the focused row glides to the middle of the screen at one even speed (the TiviMate feel):
+            // every ▲▼ moves the list by exactly one row, a held key keeps it moving without stops and jumps
+            override fun requestChildRectangleOnScreen(parent: RecyclerView, child: View, rect: android.graphics.Rect, immediate: Boolean, focusedChildVisible: Boolean): Boolean {
+                val row = child.height + ((child.layoutParams as? ViewGroup.MarginLayoutParams)?.let { it.topMargin + it.bottomMargin } ?: 0)
+                val want = parent.paddingTop + ((parent.height - parent.paddingTop - parent.paddingBottom - row) / 2).coerceAtLeast(0)
+                val dy = child.top - want
+                if (dy == 0) return false
+                val held = android.os.SystemClock.uptimeMillis() - lastStep < 300
+                if (immediate) parent.scrollBy(0, dy) else parent.smoothScrollBy(0, dy, glide, if (held) 130 else 190)
+                return true
+            }
         }
         grid.adapter = gridAdapter; grid.itemAnimator = null
         findViewById<TextView>(R.id.vodSort).apply {
@@ -267,6 +278,7 @@ class VodActivity : BaseActivity() {
     }
 
     private var lastStep = 0L
+    private val glide = android.view.animation.DecelerateInterpolator(1.4f)
     private fun moveTo(pos: Int) {
         val lm = grid.layoutManager ?: return
         val v = lm.findViewByPosition(pos)
@@ -276,7 +288,7 @@ class VodActivity : BaseActivity() {
         val cur = grid.focusedChild ?: grid.getChildAt(0)
         val row = (cur?.height ?: 0) + ((cur?.layoutParams as? ViewGroup.MarginLayoutParams)?.let { it.topMargin + it.bottomMargin } ?: 0)
         val from = cur?.let { grid.getChildAdapterPosition(it) } ?: -1
-        if (row > 0 && from >= 0) grid.scrollBy(0, if (pos > from) row else -row)
+        if (row > 0 && from >= 0) grid.smoothScrollBy(0, if (pos > from) row else -row, glide, 130)
         lm.findViewByPosition(pos)?.let { it.requestFocus(); return }
         grid.scrollToPosition(pos)
         grid.post { lm.findViewByPosition(pos)?.requestFocus() }
@@ -355,7 +367,7 @@ class VodActivity : BaseActivity() {
                 val p = h.bindingAdapterPosition; if (p < 0) return@setOnKeyListener false
                 if (e.repeatCount > 0 && (k == KeyEvent.KEYCODE_DPAD_DOWN || k == KeyEvent.KEYCODE_DPAD_UP)) {
                     val t = android.os.SystemClock.uptimeMillis()
-                    if (t - lastStep < 140 || grid.scrollState != RecyclerView.SCROLL_STATE_IDLE && t - lastStep < 220) return@setOnKeyListener true
+                    if (t - lastStep < 120) return@setOnKeyListener true
                     lastStep = t
                 }
                 when (k) {
