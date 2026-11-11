@@ -47,6 +47,11 @@ CC = {"us": "US", "uk": "UK", "gb": "UK", "ie": "UK", "ca": "CA", "tr": "TR", "i
 
 # (group regex or None, name regex, logo). "" = leave it to the provider. Checked before everything else.
 FIRST = [
+    # owner, 10 Nov 2026: the MLS group showed the provider's NBA picture, Al Arabiya a Shahid one
+    (r"\bMLS\b", r".", TVLOGOS + "countries/united-states/mls-logo-us.png"),
+    (r"🏀.*NCAA", r".", "REPO:ncaa_basketball.png"),
+    (r"🏈.*NCAA", r".", "REPO:ncaa_football.png"),
+    (None, r"^((AR|[A-Z0-9]{1,4})\s*[:|]\s*)?(AL[\s-]*)?ARABIYA(\s+(TV|4K|UHD|FHD|HD|SD|HEVC|RAW|ᴴᴰ|ᴿᴬᵂ))*\s*$", TVLOGOS + "countries/united-arab-emirates/al-arabiya-ae.png"),
     # ESPN groups (owner, 4 Nov 2026: "each channel its own original logo"): ESPN+, and the ESPN World channels
     # (New Zealand, Netherlands, Chile, Australia) by their number, not another country's logo found by name
     (r"ESPN", r"ESPN\+\s*\d", TVLOGOS + "countries/united-states/espn-plus-us.png"),
