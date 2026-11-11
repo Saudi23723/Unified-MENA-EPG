@@ -37,9 +37,13 @@ class FlightPlan {
     /** The waypoint being flown to, along the route. */
     var active = 1
 
-    fun legs(): List<Leg> = (1 until points.size).map { i -> leg(points[i - 1], points[i]) }
+    /** The forecast wind of each leg (from, kt, temperature °C), by leg number; the single wind is used where none. */
+    val legWinds = HashMap<Int, Triple<Int, Int, Int?>>()
 
-    fun leg(a: Waypoint, b: Waypoint): Leg {
+    fun legs(): List<Leg> = (1 until points.size).map { i -> leg(points[i - 1], points[i], i - 1) }
+
+    fun leg(a: Waypoint, b: Waypoint, index: Int = -1): Leg {
+        val (windDir, windKt) = legWinds[index]?.let { it.first to it.second } ?: (this.windDir to this.windKt)
         val tc = Nav.bearingTrue(a.lat, a.lon, b.lat, b.lon)
         val dist = Nav.distanceNm(a.lat, a.lon, b.lat, b.lon)
         // The wind triangle: the heading that holds the course, and the speed over the ground.
@@ -106,6 +110,7 @@ class FlightPlan {
     fun toJson(): JSONObject = JSONObject()
         .put("pts", JSONArray().apply { for (p in points) put(JSONArray().put(p.id).put(p.lat).put(p.lon)) })
         .put("alt", altitude).put("tas", tas).put("gph", gph).put("wd", windDir).put("ws", windKt).put("fob", fuelOnBoard)
+        .put("lw", JSONObject().apply { for ((k, v) in legWinds) put(k.toString(), JSONArray().put(v.first).put(v.second).put(v.third ?: JSONObject.NULL)) })
 
     fun save(ctx: Context) = VaultLock.prefs(ctx).edit().putString("flight_plan", toJson().toString()).apply()
 
@@ -126,6 +131,41 @@ class FlightPlan {
             windDir = o.optInt("wd", 0)
             windKt = o.optInt("ws", 0)
             fuelOnBoard = o.optDouble("fob", 24.0)
+            o.optJSONObject("lw")?.let { w ->
+                for (k in w.keys()) w.optJSONArray(k)?.let { a -> legWinds[k.toInt()] = Triple(a.optInt(0), a.optInt(1), if (a.isNull(2)) null else a.optInt(2)) }
+            }
+        }
+
+        /** The navigation log as a printable page: the plan, each leg with its wind, the totals and the fuel. */
+        fun html(p: FlightPlan, title: String): String {
+            val legs = p.legs()
+            fun e(s: String) = s.replace("&", "&amp;").replace("<", "&lt;")
+            val rows = StringBuilder()
+            var dist = 0.0; var min = 0.0; var fuel = 0.0
+            legs.forEachIndexed { i, l ->
+                dist += l.dist; min += l.minutes; fuel += l.fuel
+                val w = p.legWinds[i]?.let { "%03d/%d".format(it.first, it.second) + (it.third?.let { t -> " %+d°".format(t) } ?: "") } ?: "%03d/%d".format(p.windDir, p.windKt)
+                rows.append("<tr><td><b>${e(l.from.id)}</b> → <b>${e(l.to.id)}</b></td><td>${"%,d".format(p.altitude)}</td><td>$w</td>" +
+                    "<td>${Nav.deg(l.tc)}</td><td>${"%+d".format(Math.round(l.wca).toInt())}</td><td>${Nav.deg(l.th)}</td><td><b>${Nav.deg(l.mh)}</b></td>" +
+                    "<td>${"%.1f".format(l.dist)}</td><td>${Math.round(l.gs)}</td><td>${hm(l.minutes)}</td><td></td><td></td><td>${"%.1f".format(l.fuel)}</td></tr>")
+            }
+            val left = p.fuelOnBoard - fuel
+            return """<html><head><meta charset="utf-8"><style>
+                body{font-family:sans-serif;margin:18px;color:#111} h1{font-size:20px;margin:0} .sub{color:#555;margin:4px 0 14px}
+                table{border-collapse:collapse;width:100%;font-size:12px} th,td{border:1px solid #999;padding:5px;text-align:center}
+                th{background:#1b2a3a;color:#fff} td:first-child{text-align:left} .tot td{font-weight:bold;background:#eef}
+                .box{display:inline-block;border:1px solid #999;padding:6px 10px;margin:10px 8px 0 0;min-width:130px}
+            </style></head><body>
+            <h1>NAVLOG · ${e(title)}</h1>
+            <div class="sub">${e(p.points.joinToString(" ") { it.id })} · ALT ${"%,d".format(p.altitude)} ft · TAS ${p.tas} kt · ${"%.1f".format(p.gph)} gph · fuel on board ${"%.1f".format(p.fuelOnBoard)} gal</div>
+            <table><tr><th>Leg</th><th>Alt</th><th>Wind</th><th>TC</th><th>WCA</th><th>TH</th><th>MH</th><th>Dist nm</th><th>GS</th><th>ETE</th><th>ATE</th><th>ATA</th><th>Fuel gal</th></tr>
+            $rows
+            <tr class="tot"><td>TOTAL</td><td colspan="6"></td><td>${"%.1f".format(dist)}</td><td></td><td>${hm(min)}</td><td></td><td></td><td>${"%.1f".format(fuel)}</td></tr></table>
+            <div class="box">Fuel after landing<br><b>${"%.1f".format(left)} gal (${hm(left / p.gph * 60)})</b></div>
+            <div class="box">VFR day reserve 30 min<br><b>${"%.1f".format(p.gph * 0.5)} gal · ${if (left >= p.gph * 0.5) "kept ✓" else "NOT kept ⚠"}</b></div>
+            <div class="box">ATIS<br><br></div><div class="box">Altimeter<br><br></div><div class="box">Clearance / squawk<br><br></div>
+            <p style="color:#777;font-size:10px;margin-top:16px">Winds from the NWS winds-aloft forecast where fetched. For planning; verify with an official briefing.</p>
+            </body></html>"""
         }
     }
 }

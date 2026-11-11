@@ -775,6 +775,42 @@ class MapActivity : BaseActivity(), NeonHost {
     }
 
     /** The nav log of the route, and the flight's settings. */
+    /** Each leg its own forecast wind and temperature at the planned altitude, from the nearest winds-aloft station. */
+    private fun windsPerLeg() {
+        if (plan.points.size < 2) { Toast.makeText(this, R.string.plan_empty, Toast.LENGTH_LONG).show(); return }
+        Toast.makeText(this, R.string.plan_winds_fetching, Toast.LENGTH_SHORT).show()
+        lifecycleScope.launch {
+            val text = withContext(Dispatchers.IO) { AviationData.windsAloft(6) }
+            if (text.isBlank()) { Toast.makeText(this@MapActivity, R.string.plan_winds_none, Toast.LENGTH_LONG).show(); return@launch }
+            plan.legWinds.clear()
+            for (i in 1 until plan.points.size) {
+                val a = plan.points[i - 1]; val b = plan.points[i]
+                AviationData.windAt(text, (a.lat + b.lat) / 2, (a.lon + b.lon) / 2, plan.altitude)?.let { plan.legWinds[i - 1] = it }
+            }
+            plan.save(this@MapActivity)
+            updateNav(); routePanel?.refresh()
+            navLog()
+        }
+    }
+
+    /** The navigation log printed, or saved as PDF, from the system's print screen. */
+    private fun printNavLog() {
+        if (plan.points.size < 2) { Toast.makeText(this, R.string.plan_empty, Toast.LENGTH_LONG).show(); return }
+        val web = android.webkit.WebView(this)
+        val title = plan.points.first().id + " → " + plan.points.last().id
+        web.webViewClient = object : android.webkit.WebViewClient() {
+            override fun onPageFinished(v: android.webkit.WebView, url: String) {
+                val pm = getSystemService(android.print.PrintManager::class.java)
+                pm.print("NavLog $title", v.createPrintDocumentAdapter("NavLog $title"), android.print.PrintAttributes.Builder()
+                    .setMediaSize(android.print.PrintAttributes.MediaSize.NA_LETTER.asLandscape()).build())
+            }
+        }
+        web.loadDataWithBaseURL(null, FlightPlan.html(plan, title), "text/html", "utf-8", null)
+        printWeb = web
+    }
+
+    private var printWeb: android.webkit.WebView? = null
+
     private fun navLog() {
         val text = android.widget.TextView(this).apply {
             typeface = android.graphics.Typeface.MONOSPACE
@@ -795,11 +831,14 @@ class MapActivity : BaseActivity(), NeonHost {
             .setPositiveButton(R.string.plan_edit) { _, _ -> editPlan() }
             .setNeutralButton(R.string.plan_more) { _, _ ->
                 val opts = arrayOf(getString(R.string.plan_reverse), getString(R.string.plan_clear), getString(R.string.plan_share),
-                    getString(R.string.plan_cancel_direct), getString(R.string.wb_title), getString(R.string.map_profile))
+                    getString(R.string.plan_cancel_direct), getString(R.string.wb_title), getString(R.string.map_profile),
+                    getString(R.string.plan_winds_legs), getString(R.string.plan_print))
                 MaterialAlertDialogBuilder(this).setItems(opts) { _, i ->
                     when (i) {
-                        0 -> { plan.points.reverse(); plan.active = 1 }
-                        1 -> { plan.points.clear(); plan.direct = null; plan.active = 1 }
+                        0 -> { plan.points.reverse(); plan.active = 1; plan.legWinds.clear() }
+                        1 -> { plan.points.clear(); plan.direct = null; plan.active = 1; plan.legWinds.clear() }
+                        6 -> windsPerLeg()
+                        7 -> printNavLog()
                         2 -> startActivity(android.content.Intent.createChooser(android.content.Intent(android.content.Intent.ACTION_SEND).apply {
                             type = "text/plain"
                             putExtra(android.content.Intent.EXTRA_TEXT, plan.points.joinToString(" ") { it.id } + "\n\n" + plan.navLog())
@@ -1233,6 +1272,7 @@ class MapActivity : BaseActivity(), NeonHost {
         if (!gotGps) b.hudGps.text = "GPS…"
         fillStrip(l, kt)
         autoDiagram(l, kt)
+        if (gotGps) svt?.update(l)
         if (gotGps) AvionicsPanel.feed(kt, if (l.hasAltitude()) l.altitude * 3.28084 else Double.NaN, if (lastAlt.isNaN()) Double.NaN else vs,
             if (l.hasBearing() && kt > 5) Nav.magnetic(l.bearing.toDouble(), l.latitude, l.longitude) else Double.NaN)
         // The flight is noticed and timed from the GPS, then offered to the logbook.
@@ -1401,6 +1441,38 @@ class MapActivity : BaseActivity(), NeonHost {
                 .setItems(rows.toTypedArray()) { _, i -> list.getOrNull(i)?.first?.let { t -> if (following) follow(); map.controller.animateTo(GeoPoint(t.lat, t.lon)) } }
                 .setNegativeButton(R.string.cancel, null).show()
         }
+    }
+
+    private var svt: SvtView? = null
+
+    /**
+     * Synthetic vision beside the chart, as ForeFlight splits its map: the terrain ahead with speed,
+     * altitude and heading on one side (left in landscape, top in portrait), the map on the other.
+     */
+    private fun svtSplit() {
+        val holder = b.mapHolder
+        svt?.let { v ->
+            (v.parent as? android.view.ViewGroup)?.removeView(v); svt = null
+            (holder.layoutParams as android.widget.FrameLayout.LayoutParams).apply { leftMargin = 0; topMargin = 0 }.also { holder.layoutParams = it }
+            prefs.edit().putBoolean("svt_split", false).apply()
+            return
+        }
+        Terrain.init(this)
+        val v = SvtView(this).apply { airports = this@MapActivity.airports }
+        ownship.fix?.let { v.update(it) }
+        val land = resources.displayMetrics.widthPixels > resources.displayMetrics.heightPixels
+        val w = resources.displayMetrics.widthPixels; val h = resources.displayMetrics.heightPixels
+        if (land) {
+            b.root.addView(v, 0, android.widget.FrameLayout.LayoutParams((w * 0.45).toInt(), -1, android.view.Gravity.START))
+            (holder.layoutParams as android.widget.FrameLayout.LayoutParams).apply { leftMargin = (w * 0.45).toInt() }.also { holder.layoutParams = it }
+        } else {
+            val top = b.topBar.height
+            b.root.addView(v, 0, android.widget.FrameLayout.LayoutParams(-1, (h * 0.38).toInt(), android.view.Gravity.TOP).apply { topMargin = top })
+            (holder.layoutParams as android.widget.FrameLayout.LayoutParams).apply { topMargin = top + (h * 0.38).toInt() }.also { holder.layoutParams = it }
+        }
+        svt = v
+        Terrain.onTile = { map.postInvalidate(); v.postInvalidate() }
+        prefs.edit().putBoolean("svt_split", true).apply()
     }
 
     private var plateOverlay: org.osmdroid.views.overlay.GroundOverlay? = null
@@ -2099,6 +2171,7 @@ class MapActivity : BaseActivity(), NeonHost {
         menu.add(0, 40, 0, R.string.av_menu).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
         menu.add(0, 42, 0, R.string.traffic_list)
         menu.add(0, 44, 0, R.string.plate_on_map)
+        menu.add(0, 45, 0, R.string.svt_split)
         menu.add(0, 41, 0, R.string.map_view_menu)
         menu.add(0, 38, 0, R.string.clear_lines).setIcon(R.drawable.ic_delete).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
         menu.findItem(38)?.icon?.setTint(EfbUi.TEXT)
@@ -2164,6 +2237,7 @@ class MapActivity : BaseActivity(), NeonHost {
             40 -> AvionicsPanel.toggle(this)
             42 -> trafficList()
             44 -> plateOnMap()
+            45 -> svtSplit()
             43 -> RadioPlayer.choose(this)
             41 -> MaterialAlertDialogBuilder(this).setTitle(R.string.map_view_menu).setMessage(R.string.map_view_help).setPositiveButton(android.R.string.ok, null).show()
             37 -> askGlide()
