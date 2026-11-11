@@ -117,27 +117,68 @@ class VideoPlayerActivity : BaseActivity() {
         }
     }
 
-    /** The current video with its app-made captions: attached if ready, else made in the background. */
+    // ---- closed captions made on this device (no cloud AI), drawn over the picture ----
+
+    private var cc: OfflineCaptions? = null
+    private var ccView: android.widget.TextView? = null
+    private var ccFor = ""
+
     private fun ensureCaptions(p: ExoPlayer) {
         val item = p.currentMediaItem ?: return
-        val id = item.mediaId
         val prefs = VaultLock.prefs(this)
         if (!prefs.getBoolean("cc_on", true)) return
-        if (item.localConfiguration?.subtitleConfigurations?.isNotEmpty() == true) return
-        Captions.ready(this, id)?.let { attach(p, it); return }
-        if (!prefs.getBoolean("cc_auto", true) || (!Gemini.hasKey(this) && !LaptopClient.isLinked(this))) {
-            if (!Gemini.hasKey(this)) flash(getString(R.string.cc_nokey))
-            return
-        }
         val uri = item.localConfiguration?.uri ?: return
-        Thread {
-            val ok = Captions.make(applicationContext, id, uri) { st -> runOnUiThread { flash(st) } }
-            runOnUiThread {
-                val f = Captions.ready(this, id)
-                if (ok && f != null && player === p && p.currentMediaItem?.mediaId == id) { attach(p, f); flash("CC ✓") }
-                else if (!ok) flash(getString(when (Captions.problem) { "nokey" -> R.string.cc_nokey; "audio" -> R.string.cc_noaudio; else -> R.string.cc_failed }))
+        if (ccFor == item.mediaId) return
+        ccFor = item.mediaId
+        OfflineCaptions.prepareArabic(this)
+        cc?.close()
+        cc = OfflineCaptions(applicationContext, item.mediaId, uri).also { it.position = p.currentPosition; it.from(p.currentPosition) }
+        val v = ccView ?: android.widget.TextView(this).apply {
+            val d = resources.displayMetrics.density
+            gravity = android.view.Gravity.CENTER
+            textAlignment = android.view.View.TEXT_ALIGNMENT_CENTER
+            setPadding((14 * d).toInt(), (6 * d).toInt(), (14 * d).toInt(), (8 * d).toInt())
+            setShadowLayer(4f, 0f, 1f, 0xFF000000.toInt())
+            typeface = EfbUi.MEDIUM
+            (b.player.overlayFrameLayout ?: b.player).addView(this, android.widget.FrameLayout.LayoutParams(-2, -2,
+                android.view.Gravity.BOTTOM or android.view.Gravity.CENTER_HORIZONTAL).apply { bottomMargin = ((if (tv) 56 else 72) * d).toInt(); leftMargin = (24 * d).toInt(); rightMargin = (24 * d).toInt() })
+        }.also { ccView = it }
+        // The pilot's caption style: colour, background, size.
+        val fg = prefs.getInt("cc_fg", 0xFFFFFFFF.toInt())
+        val alpha = prefs.getInt("cc_bg_alpha", 60).coerceIn(0, 100) * 255 / 100
+        v.setTextColor(fg)
+        v.background = android.graphics.drawable.GradientDrawable().apply { cornerRadius = 10 * resources.displayMetrics.density; setColor((alpha shl 24) or 0x000000) }
+        v.textSize = (if (tv) 24f else 17f) * prefs.getFloat("cc_size", 1.15f)
+        v.visibility = android.view.View.GONE
+        b.player.removeCallbacks(ccTick)
+        b.player.post(ccTick)
+    }
+
+    private var lastPos = 0L
+
+    private val ccTick: Runnable = object : Runnable {
+        override fun run() {
+            val p = player ?: return
+            val c = cc ?: return
+            val pos = p.currentPosition
+            c.position = pos
+            // Jumped ahead or back: write down from there.
+            if (Math.abs(pos - lastPos) > 5000) c.from(pos)
+            lastPos = pos
+            val cue = c.at(pos)
+            val lang = VaultLock.prefs(this@VideoPlayerActivity).getString("cc_lang", "both") ?: "both"
+            val text = when {
+                cue == null -> if (c.status.startsWith("⬇") || c.status.startsWith("⚠")) c.status else ""
+                lang == "en" -> cue.en
+                lang == "ar" -> cue.ar.ifEmpty { cue.en }
+                else -> if (cue.ar.isEmpty()) cue.en else cue.en + "\n" + cue.ar
             }
-        }.start()
+            ccView?.let { v ->
+                if (v.text.toString() != text) v.text = text
+                v.visibility = if (text.isEmpty()) android.view.View.GONE else android.view.View.VISIBLE
+            }
+            b.player.postDelayed(this, 150)
+        }
     }
 
     private fun attach(p: ExoPlayer, srt: java.io.File) {
@@ -251,6 +292,8 @@ class VideoPlayerActivity : BaseActivity() {
     }
 
     override fun onDestroy() {
+        b.player.removeCallbacks(ccTick)
+        cc?.close(); cc = null
         super.onDestroy()
         player?.release()
         player = null

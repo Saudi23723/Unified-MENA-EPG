@@ -72,4 +72,8 @@ dependencies {
     implementation("androidx.media3:media3-effect:1.4.1")
     implementation("com.tom-roush:pdfbox-android:2.0.27.0")
     implementation("org.osmdroid:osmdroid-android:6.1.20")
+    // Captions on the device, no cloud AI: speech to text (Vosk, offline) and English to Arabic (ML Kit, on device).
+    implementation("com.alphacephei:vosk-android:0.3.47@aar")
+    implementation("net.java.dev.jna:jna:5.13.0@aar")
+    implementation("com.google.mlkit:translate:17.0.3")
 }

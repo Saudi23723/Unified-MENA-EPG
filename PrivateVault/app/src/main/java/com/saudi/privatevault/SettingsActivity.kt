@@ -57,7 +57,6 @@ class SettingsActivity : BaseActivity() {
         section(R.string.cc_title)
         val cc = card()
         toggle(cc, getString(R.string.cc_on), getString(R.string.cc_on_sub), prefs.getBoolean("cc_on", true)) { prefs.edit().putBoolean("cc_on", it).apply() }
-        toggle(cc, getString(R.string.cc_auto), getString(R.string.cc_auto_sub), prefs.getBoolean("cc_auto", true)) { prefs.edit().putBoolean("cc_auto", it).apply() }
         segmented(cc, getString(R.string.cc_lang), null, listOf("both" to "EN + ع", "ar" to "عربي", "en" to "EN"), prefs.getString("cc_lang", "both") ?: "both") {
             prefs.edit().putString("cc_lang", it).apply()
         }
