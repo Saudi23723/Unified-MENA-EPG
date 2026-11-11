@@ -36,7 +36,7 @@ class ImageryActivity : BaseActivity() {
             Product("☁️", "Graphical forecasts (GFA)", "Clouds, weather, ceilings and visibility, by hour", "https://aviationweather.gov/gfa/", page = true),
             Product("⚠️", "SIGMETs · G-AIRMETs (West)", "Turbulence, icing, IFR, mountain obscuration — now", "data:sigmet"),
             Product("🌬", "Winds and temperatures aloft", "FB forecast, San Francisco and Salt Lake areas", "data:winds"),
-            Product("✈️", "PIREPs near you", "What pilots reported in the last 3 hours, 150 nm", "data:pireps"),
+            Product("✈️", "PIREPs near you", "What pilots reported in the last 6 hours, about 180 nm", "data:pireps"),
         ))
         col.addView(EfbUi.text(this, getString(R.string.imagery_note), 11.5f, EfbUi.DIM).apply { setPadding(EfbUi.dp(this@ImageryActivity, 6), EfbUi.dp(this@ImageryActivity, 16), 0, 0) })
     }
@@ -51,18 +51,37 @@ class ImageryActivity : BaseActivity() {
             .setView(android.widget.ScrollView(this).apply { addView(tv) }).setPositiveButton(android.R.string.ok, null).show()
         val home = VaultLock.prefs(this).getString("efb_home", "KBVU") ?: "KBVU"
         Thread {
-            val text = try {
-                when (p.url) {
-                    "data:winds" -> AviationData.windsAloft()
-                    "data:sigmet" -> AviationData.airspaceWeather().joinToString("\n\n————\n\n") { it.text }.ifEmpty { "No SIGMETs or G-AIRMETs over the West right now." }
-                    else -> {
-                        val apt = AviationData.airports(this).firstOrNull { it.icao == home || it.ident == home }
-                        val la = apt?.lat ?: 35.95; val lo = apt?.lon ?: -114.86
-                        AviationData.pireps(la - 2.5, lo - 3.0, la + 2.5, lo + 3.0).joinToString("\n\n") { (if (it.urgent) "⚠ UUA  " else "") + it.raw }
-                            .ifEmpty { "No PIREPs within about 150 nm in the last 3 hours." }
+            // Straight from the AWC data service, as text; a failure says what failed instead of a blank.
+            fun fetch(url: String): String = try {
+                val c = java.net.URL(url).openConnection() as java.net.HttpURLConnection
+                c.connectTimeout = 15000; c.readTimeout = 20000
+                c.setRequestProperty("User-Agent", "PilotCompanion/1.0 (EFB)")
+                try {
+                    when (c.responseCode) {
+                        200 -> c.inputStream.bufferedReader().readText().trim()
+                        204 -> ""
+                        else -> "⚠ AWC answered HTTP ${c.responseCode}"
                     }
+                } finally { c.disconnect() }
+            } catch (e: Exception) { "⚠ " + (e.message ?: e.javaClass.simpleName) }
+            val apt = try { AviationData.airports(this).firstOrNull { it.icao == home || it.ident == home } } catch (e: Exception) { null }
+            val la = apt?.lat ?: 35.95; val lo = apt?.lon ?: -114.86
+            val text = when (p.url) {
+                "data:winds" -> listOf("06", "12", "24").joinToString("\n\n") { h ->
+                    "— FORECAST +${h}h · San Francisco area (incl. LAS) —\n" + fetch("https://aviationweather.gov/api/data/windtemp?region=sfo&level=low&fcst=$h").ifEmpty { "(none)" }
+                } + "\n\n— +06h · Salt Lake area —\n" + fetch("https://aviationweather.gov/api/data/windtemp?region=slc&level=low&fcst=06").ifEmpty { "(none)" }
+                "data:sigmet" -> {
+                    val sig = fetch("https://aviationweather.gov/api/data/airsigmet?format=raw")
+                    val near = AviationData.airspaceWeather().filter { it.kind != "SIGMET" }.joinToString("\n\n") { it.text }
+                    "— SIGMETs / CONVECTIVE SIGMETs (US) —\n" + sig.ifEmpty { "None in force." } +
+                        "\n\n— G-AIRMETs over the West, now —\n" + near.ifEmpty { "None over the West right now (or not readable)." }
                 }
-            } catch (e: Exception) { "Not available right now: " + (e.message ?: "") }
+                else -> {
+                    val box = "%.2f,%.2f,%.2f,%.2f".format(java.util.Locale.US, la - 3.0, lo - 3.5, la + 3.0, lo + 3.5)
+                    fetch("https://aviationweather.gov/api/data/pirep?bbox=$box&age=6&format=raw")
+                        .ifEmpty { "No PIREPs within about 180 nm in the last 6 hours." }
+                }
+            }
             runOnUiThread { if (dlg.isShowing) tv.text = text }
         }.start()
     }

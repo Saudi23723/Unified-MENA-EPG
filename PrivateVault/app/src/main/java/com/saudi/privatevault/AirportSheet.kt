@@ -94,6 +94,10 @@ class AirportSheet(
         setPadding(0, dp(4), 0, dp(4))
     }
 
+    /** In a page of its own (the Airports tab) instead of a sheet over the map. */
+    fun showIn(into: LinearLayout) { target = into; show() }
+    private var target: LinearLayout? = null
+
     fun show() {
         val title = "${a.icao.ifEmpty { a.ident }}${if (a.icao.isNotEmpty() && a.icao != a.ident) " (${a.ident})" else ""}"
         body.setBackgroundColor(EfbUi.BG)
@@ -177,9 +181,17 @@ class AirportSheet(
         body.addView(tabs)
         for ((_, v) in pages) body.addView(v)
         select(act.getSharedPreferences("apt_sheet", 0).getInt("tab", 2).coerceIn(0, pages.size - 1))
-        dialog.setContentView(android.widget.ScrollView(act).apply { addView(body) })
-        dialog.behavior.peekHeight = (act.resources.displayMetrics.heightPixels * 0.55).toInt()
-        dialog.show()
+        val into = target
+        if (into != null) {
+            body.setBackgroundColor(0)
+            body.setPadding(dp(4), dp(4), dp(4), dp(28))
+            body.getChildAt(0)?.visibility = View.GONE   // no sheet handle on a page
+            into.addView(body)
+        } else {
+            dialog.setContentView(android.widget.ScrollView(act).apply { addView(body) })
+            dialog.behavior.peekHeight = (act.resources.displayMetrics.heightPixels * 0.55).toInt()
+            dialog.show()
+        }
         load()
     }
 

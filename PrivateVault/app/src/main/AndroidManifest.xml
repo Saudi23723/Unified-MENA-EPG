@@ -97,6 +97,9 @@
             android:name=".PlatesActivity"
             android:exported="false" />
         <activity
+            android:name=".AirportsActivity"
+            android:exported="false" />
+        <activity
             android:name=".SvtActivity"
             android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden"
             android:exported="false"
