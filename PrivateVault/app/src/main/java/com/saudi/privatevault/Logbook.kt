@@ -204,18 +204,19 @@ object Logbook {
      */
     private class Paper(val date: String, val total: Double, val sim: Double, val ldg: Int, val rem: String)
     private val PAPER = listOf(
-        Paper("2026-10-25", 0.8, 0.0, 0, "Standard ops, turns, climbs, descents"),
+        Paper("2026-10-27", 0.8, 0.0, 0, "Standard ops, turns, climbs, descents"),
         Paper("2026-10-30", 1.1, 0.0, 0, "Pattern introduction"),
         Paper("2026-10-31", 1.5, 0.0, 0, "Power on stalls, steep turns, pattern"),
         Paper("2026-11-05", 1.6, 0.0, 9, "Slow flight, power off stalls, turns around a point, pattern, X-wind landings"),
         Paper("2026-11-07", 1.6, 0.5, 3, "Sim inst, unusual attitudes, programming, fwd slip to land, pattern"),
         Paper("2026-11-08", 1.7, 0.0, 5, "Pattern, steep turns, radio calls"),
         Paper("2026-11-09", 1.2, 0.0, 6, "Pattern"),
+        Paper("2026-11-10", 2.4, 0.7, 5, "Slow flight, power off stall, steep turns, sim inst, timed turns, compass turns, pattern, sim emergency landing, fwd slip to land"),
     )
 
     fun reconcilePaper(ctx: Context) = synchronized(LOCK) {
         val p = VaultLock.prefs(ctx)
-        if (p.getBoolean("paper_2026_v1", false)) return@synchronized
+        if (p.getBoolean("paper_2026_v2", false)) return@synchronized
         val list = all(ctx)
         // An empty logbook here (a new phone) waits for the vault's copy first: never a second set.
         if (list.isEmpty()) return@synchronized
@@ -231,11 +232,13 @@ object Logbook {
         val ref = list.firstOrNull { it.tail.isNotEmpty() }
         for (row in PAPER) {
             val t = day(row.date)
-            val e = list.filter { it.id !in taken && Math.abs(day(it.date) - t) <= 3 * 86400000L }
+            val e = list.filter { it.id !in taken && Math.abs(day(it.date) - t) <= 2 * 86400000L }
                 .minByOrNull { Math.abs(day(it.date) - t) * 10 + (Math.abs(it.total - row.total) * 1000).toLong() }
                 ?: LogEntry(date = row.date, aircraft = ref?.aircraft ?: "EVSS", tail = ref?.tail ?: "N79EV", from = "KBVU", to = "KBVU",
                     remarks = "", instructor = ref?.instructor ?: "", instructorCert = ref?.instructorCert ?: "", instructorExp = ref?.instructorExp ?: "").also { list.add(it) }
             taken.add(e.id)
+            // The paper's day, when the one here was typed a day or two off.
+            e.date = row.date
             e.total = row.total; e.dual = row.total
             if (e.solo == row.total) e.solo = 0.0
             if (e.pic == row.total) e.pic = 0.0
@@ -253,7 +256,7 @@ object Logbook {
             e.updated = System.currentTimeMillis()
         }
         save(ctx, list.sortedWith(compareByDescending<LogEntry> { it.date }.thenByDescending { it.timeOut }))
-        p.edit().putBoolean("paper_2026_v1", true).apply()
+        p.edit().putBoolean("paper_2026_v2", true).apply()
     }
 
     fun endorsements(ctx: Context): MutableList<Endorsement> = try {

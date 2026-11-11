@@ -103,8 +103,9 @@ class LogbookActivity : BaseActivity() {
         col.addView(tabs)
         body = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
         col.addView(body)
-        Logbook.reconcilePaper(this)
+        // Twins folded first, then the paper logbook laid over what is left.
         if (Logbook.foldRecorded(this)) Toast.makeText(this, R.string.log_folded, Toast.LENGTH_LONG).show()
+        Logbook.reconcilePaper(this)
         entries = Logbook.all(this)
         endorsements = Logbook.endorsements(this)
         tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
