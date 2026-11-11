@@ -121,6 +121,11 @@ class LiveActivity : BaseActivity() {
                     else -> toast("This channel is not available right now")
                 }
             }
+            override fun onVideoSizeChanged(videoSize: androidx.media3.common.VideoSize) {
+                // the banner opened before the picture: its line gets the real quality as soon as it is known
+                val c = playing ?: return
+                if (banner.visibility == View.VISIBLE) findViewById<TextView>(R.id.bName).text = c.name + qualityTag()
+            }
             override fun onPlaybackStateChanged(state: Int) {
                 // every moment spent waiting after the picture started puts the viewer that much behind live
                 if (state == Player.STATE_BUFFERING && player.currentPosition > 0) bufStart = android.os.SystemClock.elapsedRealtime()
@@ -401,10 +406,21 @@ class LiveActivity : BaseActivity() {
         d.show()
     }
 
+    /** what the channel really sends (like TiviMate): "  ·  1080p50 HEVC" — empty until the picture is there */
+    private fun qualityTag(): String {
+        val f = player.videoFormat ?: return ""
+        if (f.height <= 0) return ""
+        val res = when { f.height >= 2000 -> "4K"; f.height >= 1000 -> "1080p"; f.height >= 700 -> "720p"; else -> "${f.height}p SD" }
+        val fps = if (f.frameRate > 1) f.frameRate.toInt().toString() else ""
+        val m = f.sampleMimeType ?: ""
+        val co = when { m.contains("hevc") -> " HEVC"; m.contains("avc") -> " H.264"; else -> "" }
+        return "   ·   $res$fps$co"
+    }
+
     private fun showBanner() {
         val c = playing ?: return
         findViewById<TextView>(R.id.bNum).text = c.num.toString()
-        findViewById<TextView>(R.id.bName).text = c.name
+        findViewById<TextView>(R.id.bName).text = c.name + qualityTag()
         findViewById<ImageView>(R.id.bLogo).load(c.logo.ifEmpty { null })
         banner.visibility = View.VISIBLE
         banner.bringToFront(); fullClock.bringToFront()

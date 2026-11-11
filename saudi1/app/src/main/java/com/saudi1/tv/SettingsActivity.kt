@@ -128,6 +128,7 @@ class SettingsActivity : BaseActivity() {
 
         section("App")
         row("Version", BuildConfig.VERSION_NAME + "   ·   Check for update") { update() }
+        row("How to use", "The welcome and a short tour of the remote") { Intro.show(this) }
         row("Download link", "saudi1.1saifsaudi.workers.dev/apk", null)
     }
 

@@ -32,6 +32,8 @@ class HomeActivity : BaseActivity() {
         findViewById<TextView>(R.id.footer).text = "Version " + BuildConfig.VERSION_NAME
 
         buildCards()
+        // the first opening on this device: the welcome and a short tour (again from Settings → How to use)
+        if (!Intro.seen && Prefs.ready) Intro.show(this)
         lifecycleScope.launch {
             val clock = findViewById<TextView>(R.id.clock); val date = findViewById<TextView>(R.id.date); val hello = findViewById<TextView>(R.id.hello)
             val tf = SimpleDateFormat("h:mm a", Locale.ENGLISH); val df = SimpleDateFormat("EEEE d MMMM", Locale.ENGLISH)

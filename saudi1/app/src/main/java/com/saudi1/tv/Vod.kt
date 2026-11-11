@@ -62,17 +62,23 @@ object Vod {
             catCache[k]?.let { return it }
             try {
                 if (f.isFile) {
-                    val l = f.readLines().mapNotNull { val p = it.split('\t'); if (p.size >= 2) VodCat(p[0], p[1]) else null }
+                    val l = f.readLines().mapNotNull { val p = it.split('\t'); if (p.size >= 2) VodCat(p[0], tidyName(p[1])) else null }
                     if (l.isNotEmpty()) { catCache[k] = l; return l }
                 }
             } catch (e: Exception) { }
         }
         val a = JSONArray(text(api(if (series) "get_series_categories" else "get_vod_categories")))
-        val l = (0 until a.length()).map { a.getJSONObject(it) }.map { VodCat(it.optString("category_id"), it.optString("category_name").trim()) }
+        val l = (0 until a.length()).map { a.getJSONObject(it) }.map { VodCat(it.optString("category_id"), tidyName(it.optString("category_name"))) }
         if (l.isNotEmpty()) try { f.writeText(l.joinToString("\n") { it.id + "\t" + clean(it.name) }) } catch (e: Exception) { }
         catCache[k] = l
         return l
     }
+    /** group names some providers send glued together ("أفلامأجنبية2025/2026"): words and years apart */
+    fun tidyName(n: String): String = n.trim()
+        .replace(Regex("(أفلام|افلام|مسلسلات|برامج)(?=[\\u0621-\\u064A])"), "$1 ")
+        .replace(Regex("([\\u0621-\\u064A])(?=\\d)"), "$1 ").replace(Regex("(\\d)(?=[\\u0621-\\u064A])"), "$1 ")
+        .replace(Regex("\\s{2,}"), " ")
+
     fun catsAge(series: Boolean): Long = System.currentTimeMillis() - java.io.File(dir(), "cats_" + (if (series) "s" else "v") + ".tsv").lastModified()
 
     /** what the device already has of a group (null = nothing yet) and how old it is (ms) */

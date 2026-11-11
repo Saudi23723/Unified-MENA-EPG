@@ -58,7 +58,8 @@ class PlayerActivity : BaseActivity() {
         view.setShowNextButton(nextUrls.isNotEmpty()); view.setShowPreviousButton(false)
         // the remote: ◀ ▶ always move 10 s (faster when held), OK = pause / play — the bar shows by itself only then
         view.controllerAutoShow = false; view.useController = true; view.controllerShowTimeoutMs = 3500
-        view.resizeMode = App.prefs.getInt("resize", 0)
+        // movies and series keep their own picture choice (Full screen cuts the black edges of wide films)
+        view.resizeMode = App.prefs.getInt("vod_resize", App.prefs.getInt("resize", 0))
         load(url, intent.getLongExtra("from", Resume.get(key)))
         player.addListener(object : Player.Listener {
             override fun onPlayerError(error: PlaybackException) {
@@ -192,20 +193,51 @@ class PlayerActivity : BaseActivity() {
     }
 
     private fun options() {
-        val items = arrayListOf("Audio", "Subtitles", "Picture size", "Night mode")
-        if (nextUrls.isNotEmpty()) items.add("Next episode")
-        AlertDialog.Builder(this).setTitle(title).setItems(items.toTypedArray()) { _, w ->
-            when (w) {
-                0 -> tracks(C.TRACK_TYPE_AUDIO)
-                1 -> tracks(C.TRACK_TYPE_TEXT)
-                2 -> {
-                    val modes = intArrayOf(0, 3, 4)
-                    AlertDialog.Builder(this).setItems(arrayOf("Fit", "Stretch", "Zoom")) { _, m -> view.resizeMode = modes[m] }.show()
+        val modes = intArrayOf(0, 4, 3); val modeNames = arrayOf("Whole picture (with bars)", "Full screen (no black edges)", "Stretch")
+        val speeds = floatArrayOf(0.5f, 0.75f, 1f, 1.25f, 1.5f, 2f)
+        val sp = player.playbackParameters.speed
+        val acts = ArrayList<Pair<String, () -> Unit>>()
+        acts.add("Picture: " + modeNames[modes.indexOf(view.resizeMode).coerceAtLeast(0)] to {
+            // remembered: the next movie opens the same way
+            AlertDialog.Builder(this).setTitle("Picture").setSingleChoiceItems(modeNames, modes.indexOf(view.resizeMode).coerceAtLeast(0)) { dlg, m ->
+                view.resizeMode = modes[m]; App.prefs.edit().putInt("vod_resize", modes[m]).apply(); dlg.dismiss() }.show(); Unit
+        })
+        acts.add("Audio" to { tracks(C.TRACK_TYPE_AUDIO) })
+        acts.add("Subtitles" to { tracks(C.TRACK_TYPE_TEXT) })
+        if (nextUrls.isNotEmpty()) acts.add("Next episode" to { playNext() })
+        acts.add("Play from the beginning" to { player.seekTo(0); player.play() })
+        acts.add("Speed: " + (if (sp == 1f) "Normal" else "${sp}x") to {
+            AlertDialog.Builder(this).setTitle("Speed").setSingleChoiceItems(speeds.map { if (it == 1f) "Normal" else "${it}x" }.toTypedArray(), speeds.indexOfFirst { it == sp }.coerceAtLeast(0)) { dlg, k ->
+                player.setPlaybackSpeed(speeds[k]); dlg.dismiss() }.show(); Unit
+        })
+        acts.add("Sleep timer: " + (if (sleepAt > 0) "${((sleepAt - System.currentTimeMillis()) / 60000 + 1)} min left" else "Off") to {
+            val mins = intArrayOf(0, 15, 30, 45, 60, 90, 120)
+            AlertDialog.Builder(this).setTitle("Stop playing after").setItems(mins.map { if (it == 0) "Off" else "$it minutes" }.toTypedArray()) { _, k ->
+                sleepJob?.cancel(); sleepAt = 0
+                if (mins[k] > 0) {
+                    sleepAt = System.currentTimeMillis() + mins[k] * 60_000L
+                    sleepJob = lifecycleScope.launch { delay(mins[k] * 60_000L); save(); finish() }
                 }
-                3 -> nightDialog()
-                4 -> playNext()
-            }
-        }.show()
+            }.show(); Unit
+        })
+        acts.add("Night mode" to { nightDialog() })
+        acts.add("About this video" to {
+            val v = player.videoFormat; val a = player.audioFormat
+            val lines = listOfNotNull(
+                v?.let { "Picture: ${it.width}×${it.height}" + (if (it.frameRate > 0) "  ·  ${it.frameRate.toInt()} fps" else "") + "  ·  " + codec(it.sampleMimeType) },
+                a?.let { "Sound: " + codec(it.sampleMimeType) + (if (it.channelCount > 0) "  ·  ${it.channelCount} ch" else "") + (it.language?.let { l -> "  ·  " + Locale(l).displayLanguage } ?: "") },
+                if (player.duration > 0) "Length: ${player.duration / 60000} min" else null)
+            AlertDialog.Builder(this).setTitle(title).setMessage(lines.joinToString("\n").ifEmpty { "No details yet" }).setPositiveButton("OK", null).show(); Unit
+        })
+        AlertDialog.Builder(this).setTitle(title).setItems(acts.map { it.first }.toTypedArray()) { _, w -> acts[w].second() }.show()
+    }
+
+    private var sleepAt = 0L
+    private var sleepJob: Job? = null
+    private fun codec(m: String?) = when {
+        m == null -> "?"; m.contains("hevc") -> "HEVC"; m.contains("avc") -> "H.264"; m.contains("av01") -> "AV1"; m.contains("vp9") -> "VP9"
+        m.contains("eac3") -> "Dolby Digital+"; m.contains("ac3") -> "Dolby Digital"; m.contains("mp4a") || m.contains("aac") -> "AAC"
+        m.contains("dts") -> "DTS"; m.contains("mpeg") -> "MPEG"; else -> m.substringAfter('/')
     }
 
     private fun tracks(type: Int) {
