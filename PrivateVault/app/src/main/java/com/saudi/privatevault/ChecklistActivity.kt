@@ -76,6 +76,38 @@ class ChecklistActivity : BaseActivity() {
         }
     }
 
+    // ---- Speak mode: the next item read aloud, ticked with a tap anywhere on it, the next one read ----
+
+    private var tts: android.speech.tts.TextToSpeech? = null
+    private var speaking = false
+    private var speakRows: List<Triple<String, View, String>> = emptyList()
+
+    private fun say(text: String) {
+        val t = tts ?: android.speech.tts.TextToSpeech(this) { st ->
+            if (st == android.speech.tts.TextToSpeech.SUCCESS) { tts?.language = java.util.Locale.US; tts?.setSpeechRate(0.95f); say(text) }
+        }.also { tts = it; return }
+        t.speak(text, android.speech.tts.TextToSpeech.QUEUE_FLUSH, null, "ck")
+    }
+
+    /** The first open item, spoken as a checklist is read: "Fuel selector, ON". */
+    private fun speakNext() {
+        if (!speaking) return
+        val next = speakRows.firstOrNull { it.first !in done && !it.third.contains("EMERGENCY", true) }
+        if (next == null) { say("Checklist complete."); return }
+        val line = next.first.substringAfter('|')
+        say(line.replace(Regex("\\s*(\\.{2,}|—|-{2,}|\\|)\\s*"), ", "))
+        (col.parent as? android.widget.ScrollView)?.let { sc ->
+            var top = next.second.top; var p = next.second.parent as? View
+            while (p != null && p !== col) { top += p.top; p = p.parent as? View }
+            sc.smoothScrollTo(0, (top - dp(140)).coerceAtLeast(0))
+        }
+    }
+
+    override fun onDestroy() {
+        tts?.shutdown()
+        super.onDestroy()
+    }
+
     // Ticks stay until the pilot resets them: leaving the screen or the app keeps the place.
     private fun load() {
         done.clear()
@@ -130,6 +162,17 @@ class ChecklistActivity : BaseActivity() {
             setPadding(dp(16), dp(8), dp(16), dp(8))
             EfbUi.pressable(this) { emergency?.let { v -> (col.parent as? android.widget.ScrollView)?.smoothScrollTo(0, v.top) } }
         })
+        chips.addView(EfbUi.text(this, if (speaking) "🔊 Speak ON" else "🔈 Speak", 15f, if (speaking) 0xFFFFFFFF.toInt() else EfbUi.TEXT, bold = true).apply {
+            background = EfbUi.cardBg(this@ChecklistActivity, if (speaking) EfbUi.ACCENT else EfbUi.CARD, 20)
+            setPadding(dp(16), dp(8), dp(16), dp(8))
+            EfbUi.pressable(this) {
+                speaking = !speaking
+                text = if (speaking) "🔊 Speak ON" else "🔈 Speak"
+                setTextColor(if (speaking) 0xFFFFFFFF.toInt() else EfbUi.TEXT)
+                background = EfbUi.cardBg(this@ChecklistActivity, if (speaking) EfbUi.ACCENT else EfbUi.CARD, 20)
+                if (speaking) speakNext() else tts?.stop()
+            }
+        }, LinearLayout.LayoutParams(-2, -2).apply { marginStart = dp(8) })
         chips.addView(EfbUi.text(this, getString(R.string.ck_reset), 15f, EfbUi.TEXT, bold = true).apply {
             background = EfbUi.cardBg(this@ChecklistActivity, EfbUi.CARD, 20)
             setPadding(dp(16), dp(8), dp(16), dp(8))
@@ -208,12 +251,14 @@ class ChecklistActivity : BaseActivity() {
                 keep()
                 paint(rows, p, sec)
                 firstOpen = rows.firstOrNull { it.first !in done && !it.third.contains("EMERGENCY", true) }?.second
+                if (speaking && key in done) speakNext()
                 row.animate().scaleX(0.97f).scaleY(0.97f).setDuration(70).withEndAction { row.animate().scaleX(1f).scaleY(1f).setDuration(120).start() }.start()
             }
             row.tag = mark
         }
         for (s in rows.map { it.third }.distinct()) paint(rows, counters[s], s)
         firstOpen = rows.firstOrNull { it.first !in done && !it.third.contains("EMERGENCY", true) }?.second
+        speakRows = rows
         EfbUi.stagger(col)
         tabs()
     }

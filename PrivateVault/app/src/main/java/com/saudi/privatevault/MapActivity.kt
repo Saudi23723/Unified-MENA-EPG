@@ -1403,6 +1403,53 @@ class MapActivity : BaseActivity(), NeonHost {
         }
     }
 
+    private var plateOverlay: org.osmdroid.views.overlay.GroundOverlay? = null
+
+    /**
+     * Plates on maps: the official FAA airport diagram of the field nearest the centre, laid on the
+     * chart where it really lies (from the latitude and longitude printed on its border); again to remove.
+     */
+    private fun plateOnMap() {
+        plateOverlay?.let { map.overlays.remove(it); plateOverlay = null; map.invalidate(); return }
+        val c = map.mapCenter
+        val apt = airports.minByOrNull { Nav.distanceNm(c.latitude, c.longitude, it.lat, it.lon) } ?: return
+        Toast.makeText(this, getString(R.string.apt_plates_loading), Toast.LENGTH_SHORT).show()
+        lifecycleScope.launch {
+            val made = withContext(Dispatchers.IO) {
+                try {
+                    val res = AviationData.plates(this@MapActivity, apt.ident) ?: return@withContext null
+                    val apd = res.second.firstOrNull { it.code == "APD" } ?: return@withContext null
+                    val f = AviationData.platePdf(this@MapActivity, res.first, apd.pdf) ?: return@withContext null
+                    val geo = PdfLinks.open(this@MapActivity, f)?.use { it.georef(0) } ?: return@withContext null
+                    val pfd = android.os.ParcelFileDescriptor.open(f, android.os.ParcelFileDescriptor.MODE_READ_ONLY)
+                    val bmp = android.graphics.pdf.PdfRenderer(pfd).use { r ->
+                        r.openPage(0).use { pg ->
+                            val w = 1600; val h = (w.toFloat() * pg.height / pg.width).toInt()
+                            android.graphics.Bitmap.createBitmap(w, h, android.graphics.Bitmap.Config.ARGB_8888).also {
+                                it.eraseColor(android.graphics.Color.WHITE)
+                                pg.render(it, null, null, android.graphics.pdf.PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY)
+                            }
+                        }
+                    }
+                    // The page's corners on the ground, from its printed scale.
+                    val west = (0.0 - geo.bx) / geo.ax; val east = (1.0 - geo.bx) / geo.ax
+                    val north = (0.0 - geo.by) / geo.ay; val south = (1.0 - geo.by) / geo.ay
+                    Triple(bmp, GeoPoint(north, west), GeoPoint(south, east))
+                } catch (e: Exception) { null }
+            }
+            if (made == null) { Toast.makeText(this@MapActivity, R.string.plate_on_map_none, Toast.LENGTH_LONG).show(); return@launch }
+            val o = org.osmdroid.views.overlay.GroundOverlay().apply {
+                image = made.first
+                setPosition(made.second, made.third)
+                transparency = 0.12f
+            }
+            // Under the aircraft, the route and traffic.
+            map.overlays.add(1.coerceAtMost(map.overlays.size), o)
+            plateOverlay = o
+            map.controller.animateTo(GeoPoint(apt.lat, apt.lon), maxOf(map.zoomLevelDouble, 14.5), 800L)
+        }
+    }
+
     private var tankReminded = 0
 
     /** Fuel left from the fuel on board and the burn, and a reminder every 30 minutes to check fuel and switch tanks. */
@@ -2051,6 +2098,7 @@ class MapActivity : BaseActivity(), NeonHost {
         menu.add(0, 43, 0, "🎧").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
         menu.add(0, 40, 0, R.string.av_menu).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
         menu.add(0, 42, 0, R.string.traffic_list)
+        menu.add(0, 44, 0, R.string.plate_on_map)
         menu.add(0, 41, 0, R.string.map_view_menu)
         menu.add(0, 38, 0, R.string.clear_lines).setIcon(R.drawable.ic_delete).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
         menu.findItem(38)?.icon?.setTint(EfbUi.TEXT)
@@ -2115,6 +2163,7 @@ class MapActivity : BaseActivity(), NeonHost {
             38 -> clearLines()
             40 -> AvionicsPanel.toggle(this)
             42 -> trafficList()
+            44 -> plateOnMap()
             43 -> RadioPlayer.choose(this)
             41 -> MaterialAlertDialogBuilder(this).setTitle(R.string.map_view_menu).setMessage(R.string.map_view_help).setPositiveButton(android.R.string.ok, null).show()
             37 -> askGlide()

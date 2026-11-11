@@ -231,6 +231,9 @@ class AirportSheet(
             }
             info.text = runways(apt, metar)
             pattern.text = patternText(apt, metar)
+            // D-ATIS, where the field has one (towered airports): the current information, word for word.
+            val atis = withContext(Dispatchers.IO) { datis(a.icao.ifEmpty { "K" + a.ident }) }
+            if (atis != null) wx.text = atis + "\n\n" + wx.text
             metar?.category?.takeIf { it.isNotEmpty() }?.let {
                 wx.setTextColor(AviationData.categoryColor(it))
                 badge.text = it
@@ -239,6 +242,18 @@ class AirportSheet(
             }
         }
     }
+
+    /** The digital ATIS of a towered field (clowd.io's free D-ATIS feed); null where there is none. */
+    private fun datis(icao: String): String? = try {
+        val a = org.json.JSONArray(AviationData.get("https://datis.clowd.io/api/" + icao.uppercase(), 10000))
+        val parts = (0 until a.length()).mapNotNull { i ->
+            val o = a.optJSONObject(i) ?: return@mapNotNull null
+            val t = o.optString("datis").trim().ifEmpty { return@mapNotNull null }
+            val kind = when (o.optString("type")) { "arr" -> "ARRIVAL "; "dep" -> "DEPARTURE "; else -> "" }
+            "📻 ${kind}D-ATIS ${o.optString("code")}\n$t"
+        }
+        parts.joinToString("\n\n").ifEmpty { null }
+    } catch (e: Exception) { null }
 
     /** The weather against the pilot's personal minimums (Settings): what is outside them. */
     private fun belowMinimums(m: AviationData.Metar?): String? {
