@@ -1275,6 +1275,77 @@ class ChartMirror:
             time.sleep(12 * 3600)
 
 
+class SignRequests:
+    """A flight sent to the instructor to sign from their own phone: a private link, a page to sign, the signature kept."""
+
+    def __init__(self, home):
+        self.path = os.path.join(home, "sign_requests.json")
+        self.lock = threading.Lock()
+        try:
+            with open(self.path, encoding="utf-8") as f:
+                self.all = json.load(f)
+        except (OSError, ValueError):
+            self.all = {}
+
+    def _save(self):
+        tmp = self.path + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(self.all, f)
+        os.replace(tmp, self.path)
+
+    def new(self, entry: dict) -> str:
+        token = secrets.token_urlsafe(18)
+        with self.lock:
+            now = time.time()
+            # Old requests (30 days) go.
+            self.all = {k: v for k, v in self.all.items() if now - v.get("created", now) < 30 * 86400}
+            self.all[token] = {"entry": entry, "created": now, "done": False}
+            self._save()
+        return token
+
+    def get(self, token):
+        with self.lock:
+            return self.all.get(token)
+
+    def sign(self, token, name, cert, exp, png_b64) -> bool:
+        with self.lock:
+            r = self.all.get(token)
+            if not r or r.get("done"):
+                return False
+            r.update({"done": True, "name": name[:80], "cert": cert[:40], "exp": exp[:20], "png": png_b64[:600_000], "signed": time.time()})
+            self._save()
+            return True
+
+
+SIGN_PAGE = """<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Logbook signature</title><style>
+body{font-family:system-ui,sans-serif;background:#0d1117;color:#e6edf3;margin:0;padding:16px;max-width:640px;margin:auto}
+h1{font-size:20px}.card{background:#161b22;border:1px solid #30363d;border-radius:14px;padding:14px;margin:12px 0}
+td{padding:3px 8px 3px 0;vertical-align:top}td:first-child{color:#8b949e}input{width:100%;box-sizing:border-box;padding:10px;margin:4px 0 10px;
+border-radius:10px;border:1px solid #30363d;background:#0d1117;color:#e6edf3;font-size:16px}canvas{width:100%;height:180px;background:#fff;border-radius:10px;touch-action:none}
+button{font-size:17px;padding:12px 18px;border-radius:12px;border:0;margin-top:10px}#go{background:#2f81f7;color:#fff;width:100%}#clr{background:#30363d;color:#e6edf3}
+</style></head><body><h1>✈ Logbook entry to sign</h1><div class="card"><table id="t"></table></div>
+<div class="card" id="f"><label>Instructor name</label><input id="n"><label>CFI certificate #</label><input id="c"><label>Expiration</label><input id="e" placeholder="MM/YYYY">
+<label>Signature</label><canvas id="s"></canvas><button id="clr">Clear</button><button id="go">I certify this entry — sign</button></div>
+<p id="done" style="display:none;font-size:18px">✓ Signed. Thank you — it is now in the student's logbook.</p>
+<script>
+const R=__REQ__;const T=document.getElementById('t');
+const rows=[["Date",R.date],["Aircraft",(R.ac||"")+" "+(R.tail||"")],["Route",(R.from||"")+" → "+(R.to||"")+(R.route?" ("+R.route+")":"")],["Total",R.total],
+["Dual received",R.dual],["PIC",R.pic],["Solo",R.solo],["Cross-country",R.xc],["Night",R.night],["Sim. instrument",R.inst],["Day / night landings",(R.dl||0)+" / "+(R.nl||0)],["Remarks",R.rem]];
+for(const [k,v] of rows){if(v===undefined||v===""||v===0||v==="0")continue;const tr=document.createElement('tr');tr.innerHTML="<td>"+k+"</td><td></td>";tr.lastChild.textContent=v;T.appendChild(tr)}
+document.getElementById('n').value=R.cfi||"";document.getElementById('c').value=R.cfin||"";document.getElementById('e').value=R.cfie||"";
+if(R.done){document.getElementById('f').style.display='none';document.getElementById('done').style.display='block'}
+const cv=document.getElementById('s');const x=cv.getContext('2d');function fit(){const r=cv.getBoundingClientRect();cv.width=r.width*2;cv.height=r.height*2;x.scale(2,2);x.lineWidth=2.4;x.lineCap='round';x.strokeStyle='#0b2a6b'}fit();
+let d=false,any=false;function p(e){const r=cv.getBoundingClientRect();return[e.clientX-r.left,e.clientY-r.top]}
+cv.onpointerdown=e=>{d=true;any=true;x.beginPath();x.moveTo(...p(e))};cv.onpointermove=e=>{if(!d)return;x.lineTo(...p(e));x.stroke()};onpointerup=()=>d=false;
+document.getElementById('clr').onclick=()=>{x.clearRect(0,0,cv.width,cv.height);any=false};
+document.getElementById('go').onclick=async()=>{if(!any){alert('Please sign');return}
+const b={name:document.getElementById('n').value,cert:document.getElementById('c').value,exp:document.getElementById('e').value,png:cv.toDataURL('image/png').split(',')[1]};
+const r=await fetch(location.pathname,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)});
+if(r.ok){document.getElementById('f').style.display='none';document.getElementById('done').style.display='block'}else alert('Could not sign: '+r.status)};
+</script></body></html>"""
+
+
 class App:
     def __init__(self, home: str, port: int):
         os.makedirs(home, exist_ok=True)
@@ -1285,6 +1356,7 @@ class App:
         self.cloud = CloudSync(self)
         self.converter = Converter(home)
         self.notes = Notes(home)
+        self.signs = SignRequests(home)
         self.assistant = Assistant(self.auth, self.cloud)
         self.charts = ChartMirror(home)
 
@@ -1384,6 +1456,13 @@ class Handler(BaseHTTPRequestHandler):
         if path in ("/", "/index.html"):
             with open(resource("index.html"), "rb") as f:
                 return self._send(200, f.read(), "text/html; charset=utf-8")
+        if path.startswith("/sign/"):
+            r = self.app.signs.get(path[6:])
+            if not r:
+                return self._send(404, b"This link is not valid or has expired.", "text/plain; charset=utf-8")
+            req = dict(r["entry"]); req["done"] = bool(r.get("done"))
+            page = SIGN_PAGE.replace("__REQ__", json.dumps(req).replace("</", "<\\/"))
+            return self._send(200, page.encode("utf-8"), "text/html; charset=utf-8")
         if path == "/api/status":
             return self._json({
                 "app": "khazanti", "version": VERSION, "build": current_build(), "name": socket.gethostname(),
@@ -1391,6 +1470,10 @@ class Handler(BaseHTTPRequestHandler):
             })
         if not self._authed():
             return self._error(401, "login required")
+        if path == "/api/signreq":
+            tok = (urllib.parse.parse_qs(url.query or "").get("token") or [""])[0]
+            r = self.app.signs.get(tok)
+            return self._json(r if r else {"error": "not found"}, 200 if r else 404)
         if path == "/api/update":
             latest = latest_release()
             mine = current_build()
@@ -1459,6 +1542,10 @@ class Handler(BaseHTTPRequestHandler):
         path = urllib.parse.urlsplit(self.path).path
         auth = self.app.auth
         vault = self.app.vault
+        if path.startswith("/sign/"):
+            b = self._body(limit=2_000_000)
+            ok = self.app.signs.sign(path[6:], str(b.get("name", "")), str(b.get("cert", "")), str(b.get("exp", "")), str(b.get("png", "")))
+            return self._json({"ok": ok}, 200 if ok else 409)
         if path in ("/api/setup", "/api/login"):
             body = self._body()
             pw = str(body.get("password", ""))
@@ -1492,6 +1579,8 @@ class Handler(BaseHTTPRequestHandler):
                 return self._error(404, "not found")
             return self._json(self.app.notes.put(item["id"], self._body(limit=20_000_000)))
         body = self._body()
+        if path == "/api/signreq":
+            return self._json({"token": self.app.signs.new(body.get("entry") or {})})
         if path == "/api/logout":
             auth.revoke(auth.device_id(self._token()))
             return self._json({"ok": True}, headers={"Set-Cookie": "kt=; Path=/; Max-Age=0"})

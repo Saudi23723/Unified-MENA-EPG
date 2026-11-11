@@ -520,21 +520,21 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
     // ---- the laser pointer, with the remote ----
 
     private inner class TvLaser(ctx: android.content.Context) : View(ctx) {
-        var x = -1f; var y = -1f
+        var lx = -1f; var ly = -1f
         private val trail = ArrayList<Triple<Float, Float, Long>>()
         private val glow = android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG)
         private val core = android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG).apply { color = 0xFFFFFFFF.toInt() }
         private val line = android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG).apply { style = android.graphics.Paint.Style.STROKE; strokeCap = android.graphics.Paint.Cap.ROUND; color = 0xFFFF2D2D.toInt() }
         fun move(dx: Int, dy: Int, repeat: Int) {
-            if (x < 0) { x = width / 2f; y = height / 2f }
+            if (lx < 0) { lx = width / 2f; ly = height / 2f }
             // Faster the longer the arrow is held.
             val step = dp(18) * (1f + minOf(repeat, 12) * 0.35f)
-            x = (x + dx * step).coerceIn(0f, width.toFloat()); y = (y + dy * step).coerceIn(0f, height.toFloat())
-            trail.add(Triple(x, y, android.os.SystemClock.uptimeMillis()))
+            lx = (lx + dx * step).coerceIn(0f, width.toFloat()); ly = (ly + dy * step).coerceIn(0f, height.toFloat())
+            trail.add(Triple(lx, ly, android.os.SystemClock.uptimeMillis()))
             postInvalidateOnAnimation()
         }
         override fun onDraw(c: android.graphics.Canvas) {
-            if (x < 0) { x = width / 2f; y = height / 2f }
+            if (lx < 0) { lx = width / 2f; ly = height / 2f }
             val now = android.os.SystemClock.uptimeMillis()
             trail.removeAll { now - it.third > 600 }
             for (i in 1 until trail.size) {
@@ -543,9 +543,9 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
                 c.drawLine(trail[i - 1].first, trail[i - 1].second, trail[i].first, trail[i].second, line)
             }
             val r = dp(30).toFloat()
-            glow.shader = android.graphics.RadialGradient(x, y, r, intArrayOf(0xFFFF2D2D.toInt(), 0x00FF2D2D), floatArrayOf(0.15f, 1f), android.graphics.Shader.TileMode.CLAMP)
-            c.drawCircle(x, y, r, glow)
-            c.drawCircle(x, y, dp(6).toFloat(), core)
+            glow.shader = android.graphics.RadialGradient(lx, ly, r, intArrayOf(0xFFFF2D2D.toInt(), 0x00FF2D2D), floatArrayOf(0.15f, 1f), android.graphics.Shader.TileMode.CLAMP)
+            c.drawCircle(lx, ly, r, glow)
+            c.drawCircle(lx, ly, dp(6).toFloat(), core)
             if (trail.isNotEmpty()) postInvalidateOnAnimation()
         }
     }

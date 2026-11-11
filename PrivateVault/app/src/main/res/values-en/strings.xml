@@ -768,6 +768,15 @@ or tap an airport → Add to route, or long-press anywhere on the chart.</string
     <string name="pen_opacity">Highlighter opacity</string>
     <string name="tv_laser_on">🔴 Laser: arrows move it · OK or Back puts it away</string>
     <string name="send_compressing">🎞 Compressing the video to 720p before upload (%1$d of %2$d)…</string>
+    <string name="log_sign_remote">✉ Ask the CFI to sign remotely</string>
+    <string name="log_sign_waiting">⏳ Waiting for the CFI to sign from the link — it arrives by itself.</string>
+    <string name="log_sign_subject">Logbook entry to sign — %s</string>
+    <string name="log_sign_msg">Hi, could you please review and sign my logbook entry?\n%1$s · %2$s → %3$s · %4$s h\n\nSign here (opens on any phone): %5$s\n\nThank you!</string>
+    <string name="log_sign_got">✍ The CFI signed %d flight(s)</string>
+    <string name="log_import">📥 Import (ForeFlight · MyFlightbook · LogTen · CSV)</string>
+    <string name="log_import_q">%1$d flights (%2$s h) ready to add. %3$d already here will be skipped.</string>
+    <string name="log_import_none">No flights found. Export the logbook as CSV (from Excel: Save As CSV).</string>
+    <string name="log_import_dup">All %d flights are already in the logbook.</string>
     <string name="map_circle">Circle</string>
     <string name="map_ruler">Ruler</string>
     <string name="pen_write">Write and highlight</string>

@@ -782,6 +782,15 @@
     <string name="pen_opacity">شفافية الهايلايتر</string>
     <string name="tv_laser_on">🔴 الليزر: الأسهم بتحركه · OK أو رجوع لإخفائه</string>
     <string name="send_compressing">🎞 تصغير الفيديو لـ 720p قبل الرفع (%1$d من %2$d)…</string>
+    <string name="log_sign_remote">✉ طلب توقيع المدرّب عن بُعد</string>
+    <string name="log_sign_waiting">⏳ بانتظار توقيع المدرّب من رابطه — بيوصل لحاله.</string>
+    <string name="log_sign_subject">توقيع رحلة بالـ logbook — %s</string>
+    <string name="log_sign_msg">Hi, could you please review and sign my logbook entry?\n%1$s · %2$s → %3$s · %4$s h\n\nSign here (opens on any phone): %5$s\n\nThank you!</string>
+    <string name="log_sign_got">✍ وصل توقيع المدرّب على %d رحلة</string>
+    <string name="log_import">📥 استيراد (ForeFlight · MyFlightbook · LogTen · CSV)</string>
+    <string name="log_import_q">%1$d رحلة (%2$s ساعة) جاهزة للإضافة. %3$d موجودة أصلاً ورح تنتجاهل.</string>
+    <string name="log_import_none">ما لقيت رحلات بالملف. صدّر الـ logbook كـ CSV (من Excel: حفظ باسم CSV).</string>
+    <string name="log_import_dup">كل الرحلات (%d) موجودة أصلاً.</string>
     <string name="map_circle">دائرة</string>
     <string name="map_ruler">مسطرة</string>
     <string name="pen_write">كتابة وتظليل</string>

@@ -46,6 +46,26 @@ class LogbookActivity : BaseActivity() {
     private val prefs get() = VaultLock.prefs(this)
     private fun dp(v: Int) = EfbUi.dp(this, v)
 
+    // Another app's logbook (ForeFlight, MyFlightbook, LogTen, CrewLounge…), as CSV.
+    private val importPicker = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+        uri ?: return@registerForActivityResult
+        try {
+            val text = contentResolver.openInputStream(uri)!!.bufferedReader().readText()
+            val (got, dup) = LogImport.parse(text, entries)
+            if (got.isEmpty()) { Toast.makeText(this, if (dup > 0) getString(R.string.log_import_dup, dup) else getString(R.string.log_import_none), Toast.LENGTH_LONG).show(); return@registerForActivityResult }
+            MaterialAlertDialogBuilder(this).setTitle(R.string.log_import)
+                .setMessage(getString(R.string.log_import_q, got.size, "%.1f".format(got.sumOf { it.total }), dup))
+                .setPositiveButton(R.string.log_import) { _, _ ->
+                    entries.addAll(got)
+                    entries.sortWith(compareByDescending<LogEntry> { it.date }.thenByDescending { it.timeOut })
+                    Logbook.save(this, entries)
+                    show(0)
+                }.setNegativeButton(R.string.cancel, null).show()
+        } catch (e: Exception) {
+            Toast.makeText(this, getString(R.string.log_import_none), Toast.LENGTH_LONG).show()
+        }
+    }
+
     private val restorePicker = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
         uri ?: return@registerForActivityResult
         try {
@@ -68,6 +88,7 @@ class LogbookActivity : BaseActivity() {
             bar.menu.add(R.string.log_export).setOnMenuItemClickListener { exportCsv(); true }
             bar.menu.add(R.string.log_backup).setOnMenuItemClickListener { backup(); true }
             bar.menu.add(R.string.log_restore).setOnMenuItemClickListener { restorePicker.launch(arrayOf("*/*")); true }
+            bar.menu.add(R.string.log_import).setOnMenuItemClickListener { importPicker.launch(arrayOf("text/*", "text/csv", "application/vnd.ms-excel", "*/*")); true }
         }
         tabs = TabLayout(this).apply {
             setBackgroundColor(EfbUi.BG)
@@ -96,8 +117,53 @@ class LogbookActivity : BaseActivity() {
         if (start == 0) show(0) else tabs.getTabAt(ORDER.indexOf(start).coerceAtLeast(0))?.select()
     }
 
+    /** The entry as the instructor sees it: no ids, files or signature. */
+    private fun askRemoteSign(e: LogEntry) {
+        if (!LaptopClient.isLinked(this)) { Toast.makeText(this, R.string.log_sync_unlinked, Toast.LENGTH_LONG).show(); return }
+        val j = e.toJson().apply { remove("id"); remove("sig"); remove("trk"); remove("upd") }
+        lifecycleScope.launch {
+            val link = withContext(Dispatchers.IO) { try { LaptopClient.signRequest(this@LogbookActivity, j) } catch (x: Exception) { null } }
+            if (link == null) { Toast.makeText(this@LogbookActivity, getString(R.string.log_sync_failed, "vault"), Toast.LENGTH_LONG).show(); return@launch }
+            prefs.edit().putString("sigreq_${e.id}", link.substringAfterLast('/')).apply()
+            val text = getString(R.string.log_sign_msg, e.date, e.from, e.to, EfbUi.num(e.total), link)
+            startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).apply {
+                type = "text/plain"; putExtra(Intent.EXTRA_SUBJECT, getString(R.string.log_sign_subject, e.date)); putExtra(Intent.EXTRA_TEXT, text)
+            }, getString(R.string.log_sign_remote)))
+        }
+    }
+
+    /** Signatures the instructor gave from their phone: put on their flights. */
+    private fun collectRemoteSigns() {
+        val pending = prefs.all.keys.filter { it.startsWith("sigreq_") }
+        if (pending.isEmpty() || !LaptopClient.isLinked(this)) return
+        lifecycleScope.launch {
+            var got = 0
+            for (k in pending) {
+                val id = k.removePrefix("sigreq_")
+                val tok = prefs.getString(k, null) ?: continue
+                val r = withContext(Dispatchers.IO) { try { LaptopClient.signResult(this@LogbookActivity, tok) } catch (x: Exception) { null } } ?: continue
+                val e = entries.firstOrNull { it.id == id } ?: run { prefs.edit().remove(k).apply(); null } ?: continue
+                val name = "remote_${id.take(8)}_${System.currentTimeMillis()}.png"
+                withContext(Dispatchers.IO) { File(Logbook.signatures(this@LogbookActivity), name).writeBytes(android.util.Base64.decode(r.optString("png"), android.util.Base64.DEFAULT)) }
+                e.signature = name
+                r.optString("name").takeIf { it.isNotBlank() }?.let { e.instructor = it }
+                r.optString("cert").takeIf { it.isNotBlank() }?.let { e.instructorCert = it }
+                r.optString("exp").takeIf { it.isNotBlank() }?.let { e.instructorExp = it }
+                e.updated = System.currentTimeMillis()
+                prefs.edit().remove(k).apply()
+                got++
+            }
+            if (got > 0) {
+                Logbook.save(this@LogbookActivity, entries)
+                Toast.makeText(this@LogbookActivity, getString(R.string.log_sign_got, got), Toast.LENGTH_LONG).show()
+                if (!editing) show(ORDER[tabs.selectedTabPosition.coerceAtLeast(0)])
+            }
+        }
+    }
+
     override fun onResume() {
         super.onResume()
+        if (::tabs.isInitialized) collectRemoteSigns()
         // The same logbook on every device linked to the vault.
         if (::tabs.isInitialized) syncNow(loud = false)
     }
@@ -410,6 +476,9 @@ class LogbookActivity : BaseActivity() {
                 showSig()
             }
         })
+        // Signed from the instructor's own phone: a private link by email, SMS or WhatsApp.
+        if (!isNew) c.addView(button(getString(R.string.log_sign_remote), outlined = true) { askRemoteSign(e) })
+        prefs.getString("sigreq_${e.id}", null)?.let { c.addView(EfbUi.text(this, getString(R.string.log_sign_waiting), 12.5f, EfbUi.WARN).apply { setPadding(0, dp(4), 0, 0) }) }
         val rem = f("Remarks", e.remarks, false)
         // The flight's GPS track: to replay in 3D in Google Earth, or to any flight app.
         val pts = if (e.track.isNotEmpty()) Tracks.read(this, e.track) else emptyList()

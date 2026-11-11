@@ -319,6 +319,17 @@ object LaptopClient {
     }
 
     /** Shared state with no file behind it (the flight map's drawings), merged like notes. */
+    /** Sends a flight for the instructor to sign: the private link, or null. Off the main thread. */
+    fun signRequest(ctx: Context, entry: JSONObject): String? {
+        val r = syncAt(ctx, "signreq", JSONObject().put("entry", entry).toString()) ?: return null
+        val t = r.optString("token").takeIf { it.isNotEmpty() } ?: return null
+        return url(ctx)?.trimEnd('/') + "/sign/" + t
+    }
+
+    /** What became of a request: null while unanswered or unreachable. */
+    fun signResult(ctx: Context, token: String): JSONObject? =
+        syncAt(ctx, "signreq?token=" + Uri.encode(token), null)?.takeIf { it.optBoolean("done") }
+
     fun syncKv(ctx: Context, name: String, body: String?): JSONObject? = syncAt(ctx, "kv?name=" + Uri.encode(name), body)
 
     private fun syncAt(ctx: Context, pathAndQuery: String, body: String?): JSONObject? {
