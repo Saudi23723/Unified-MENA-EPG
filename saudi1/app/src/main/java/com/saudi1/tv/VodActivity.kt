@@ -108,6 +108,8 @@ class VodActivity : BaseActivity() {
             }
         }
         grid.setItemViewCacheSize(24)
+        // posters that leave the screen are kept ready (not built again) while the rows move
+        grid.recycledViewPool.setMaxRecycledViews(0, 40); grid.setHasFixedSize(true)
         refreshMarks()
         val fixed = listOf(VodCat(SEARCH, "🔍  Search"), VodCat(RESUME, "▶  Continue watching"), VodCat(FAV, "★  Favorites"), VodCat(DL, "⬇  Downloads"))
         // the screen is there at once: Continue watching first, the groups from the device, the provider asked behind it
@@ -235,6 +237,13 @@ class VodActivity : BaseActivity() {
             .putExtra("name", it.name).putExtra("poster", it.poster).putExtra("ext", it.ext))
     }
 
+    /** a real poster shape (2:3) for the width a column has (known before the first layout too) */
+    private fun posterH(): Int {
+        val d = resources.displayMetrics.density
+        val gw = if (grid.width > 0) grid.width else resources.displayMetrics.widthPixels - (334 * d).toInt()
+        return (((gw - grid.paddingLeft - grid.paddingRight) / COLS - (22 * d).toInt()) * 3 / 2).coerceAtLeast((90 * d).toInt())
+    }
+
     private fun moveTo(pos: Int) {
         val lm = grid.layoutManager ?: return
         val v = lm.findViewByPosition(pos)
@@ -299,9 +308,7 @@ class VodActivity : BaseActivity() {
         override fun onCreateViewHolder(p: ViewGroup, t: Int): H {
             val h = H(LayoutInflater.from(p.context).inflate(R.layout.item_poster, p, false))
             // a real poster shape (2:3) for the width a column has
-            val d = resources.displayMetrics.density
-            val w = (grid.width - grid.paddingLeft - grid.paddingRight) / COLS - (22 * d).toInt()
-            if (w > 0) (h.poster.parent as View).layoutParams.height = w * 3 / 2
+            (h.poster.parent as View).layoutParams.height = posterH()
             h.itemView.setOnClickListener { lastPos = h.bindingAdapterPosition; items.getOrNull(h.bindingAdapterPosition)?.let { play(it) } }
             // hold OK: add to / remove from Favorites
             h.itemView.setOnLongClickListener {
@@ -338,6 +345,7 @@ class VodActivity : BaseActivity() {
         }
         override fun onBindViewHolder(h: H, i: Int) {
             val it = items[i]
+            (h.poster.parent as View).let { f -> val ph = posterH(); if (f.layoutParams.height != ph) { f.layoutParams.height = ph; f.requestLayout() } }
             h.name.text = (if (isFav(it.id)) "★ " else "") + it.name
             h.rating.text = it.rating.toDoubleOrNull()?.let { r -> "★ " + "%.1f".format(r) } ?: ""
             h.rating.visibility = if (h.rating.text.isEmpty()) View.GONE else View.VISIBLE
