@@ -44,8 +44,15 @@ object RadioPlayer {
         }
         val app = liveAtc(act)
         if (app != null) {
-            app.addFlags(Intent.FLAG_ACTIVITY_LAUNCH_ADJACENT or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
-            try { act.startActivity(app) } catch (e: Exception) { app.flags = Intent.FLAG_ACTIVITY_NEW_TASK; act.startActivity(app) }
+            val flags = Intent.FLAG_ACTIVITY_LAUNCH_ADJACENT or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_MULTIPLE_TASK
+            // First the field itself, handed to the LiveATC app as a link it may open on that airport's feeds.
+            val pkg = app.component?.packageName ?: app.`package`
+            val deep = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.liveatc.net/search/?icao=" + icao.lowercase())).setPackage(pkg).addFlags(flags)
+            val opened = pkg != null && deep.resolveActivity(act.packageManager) != null && try { act.startActivity(deep); true } catch (e: Exception) { false }
+            if (!opened) {
+                app.addFlags(flags)
+                try { act.startActivity(app) } catch (e: Exception) { app.flags = Intent.FLAG_ACTIVITY_NEW_TASK; act.startActivity(app) }
+            }
             android.widget.Toast.makeText(act, act.getString(R.string.atc_split, icao), android.widget.Toast.LENGTH_LONG).show()
         } else {
             MaterialAlertDialogBuilder(act).setTitle(R.string.atc_title).setMessage(R.string.atc_install)
