@@ -63,7 +63,7 @@ GROUP_LEADS = [
     (r"^(AR\s*\|\s*)?(ARABIC\s+)?NEWS\b(?!.*NETWORK)|^الأخبار|^اخبار|قنوات الأخبار", [r"JAZEERA(?!.*(ENGLISH|\bEN\b|DOCUMENT|MUBASH|BALKAN|إنجليزي|\b2\b|360))|^الجزيرة$",
                                                        r"MASHHAD|المشهد",  # owner: Al Mashhad right under Al Jazeera
                                                        r"^(AL\s*)?ARABIYA(?!.*BUSINESS)|^العربية", r"^(AL\s*)?ARAB(Y|I)\b(?!.*BUSINESS)|^العربي"]),
-    (r"^USA?\b.*NEWS|NEWS NETWORK|^🇺🇲 \| USA$", [r"FOX NEWS", r"\bCNN\b(?!.*(INTERNATIONAL|BRASIL|TURK|ESPAÑOL))", r"LIVE\s?NOW", r"^NBC(\s+NEWS\b.*)?" + _Q, r"^ABC(\s+NEWS\b.*)?" + _Q, r"WEATHER", r"BBC WORLD"]),
+    (r"^USA?\b.*NEWS|NEWS NETWORK|^🇺🇲 \| USA$", [r"LIVE\s?NOW", r"BBC WORLD", r"FOX NEWS", r"\bCNN\b(?!.*(INTERNATIONAL|BRASIL|TURK|ESPAÑOL))", r"^NBC(\s+NEWS\b.*)?" + _Q, r"^ABC(\s+NEWS\b.*)?" + _Q, r"WEATHER"]),  # owner, 11 Nov 2026: LiveNOW from Fox first, BBC World News second
     (r"SAUDI ARABIA|السعودية|\bKSA\b", [r"QURAN|القرآن|القران", r"AL\s*AAN|ALAAN|الآن|الان", r"SUNNA|السنة",
                                           r"SAUDI\s*1\b|SAUDI\s*TV\s*1|السعودية\s*(1|الأولى)"]),  # owner, 28 Oct
     # owner, 28 Oct 2026: Egypt starts with these, in this order
