@@ -32,16 +32,39 @@ class ImageryActivity : BaseActivity() {
             Product("🗺", "12-hour prog", "Fronts, pressure and weather in 12 h", "https://www.wpc.ncep.noaa.gov/basicwx/92fwbg.gif"),
             Product("🗺", "24-hour prog", "In 24 h", "https://www.wpc.ncep.noaa.gov/basicwx/94fwbg.gif"),
         ))
-        group(col, "Aviation forecasts (AWC)", listOf(
+        group(col, "Aviation weather (AWC)", listOf(
             Product("☁️", "Graphical forecasts (GFA)", "Clouds, weather, ceilings and visibility, by hour", "https://aviationweather.gov/gfa/", page = true),
-            Product("⚠️", "SIGMETs · G-AIRMETs", "Turbulence, icing, IFR, mountain obscuration", "https://aviationweather.gov/gairmet/", page = true),
-            Product("🌬", "Winds and temperatures aloft", "Forecast winds by altitude", "https://aviationweather.gov/windtemp/", page = true),
-            Product("🧊", "Icing", "Current and forecast icing", "https://aviationweather.gov/icing/", page = true),
-            Product("〰️", "Turbulence", "Graphical turbulence guidance", "https://aviationweather.gov/gtg/", page = true),
-            Product("☁️", "Ceiling and visibility", "Analysis by station", "https://aviationweather.gov/cva/", page = true),
-            Product("✈️", "PIREPs", "What pilots are reporting", "https://aviationweather.gov/pireps/", page = true),
+            Product("⚠️", "SIGMETs · G-AIRMETs (West)", "Turbulence, icing, IFR, mountain obscuration — now", "data:sigmet"),
+            Product("🌬", "Winds and temperatures aloft", "FB forecast, San Francisco and Salt Lake areas", "data:winds"),
+            Product("✈️", "PIREPs near you", "What pilots reported in the last 3 hours, 150 nm", "data:pireps"),
         ))
         col.addView(EfbUi.text(this, getString(R.string.imagery_note), 11.5f, EfbUi.DIM).apply { setPadding(EfbUi.dp(this@ImageryActivity, 6), EfbUi.dp(this@ImageryActivity, 16), 0, 0) })
+    }
+
+    /** The text products, read here: no website in between. */
+    private fun showData(p: Product) {
+        val tv = EfbUi.text(this, "…", 13f, EfbUi.TEXT, mono = true).apply {
+            setTextIsSelectable(true); textDirection = View.TEXT_DIRECTION_LTR
+            setPadding(EfbUi.dp(this@ImageryActivity, 18), EfbUi.dp(this@ImageryActivity, 8), EfbUi.dp(this@ImageryActivity, 18), 0)
+        }
+        val dlg = com.google.android.material.dialog.MaterialAlertDialogBuilder(this).setTitle(p.name)
+            .setView(android.widget.ScrollView(this).apply { addView(tv) }).setPositiveButton(android.R.string.ok, null).show()
+        val home = VaultLock.prefs(this).getString("efb_home", "KBVU") ?: "KBVU"
+        Thread {
+            val text = try {
+                when (p.url) {
+                    "data:winds" -> AviationData.windsAloft()
+                    "data:sigmet" -> AviationData.airspaceWeather().joinToString("\n\n————\n\n") { it.text }.ifEmpty { "No SIGMETs or G-AIRMETs over the West right now." }
+                    else -> {
+                        val apt = AviationData.airports(this).firstOrNull { it.icao == home || it.ident == home }
+                        val la = apt?.lat ?: 35.95; val lo = apt?.lon ?: -114.86
+                        AviationData.pireps(la - 2.5, lo - 3.0, la + 2.5, lo + 3.0).joinToString("\n\n") { (if (it.urgent) "⚠ UUA  " else "") + it.raw }
+                            .ifEmpty { "No PIREPs within about 150 nm in the last 3 hours." }
+                    }
+                }
+            } catch (e: Exception) { "Not available right now: " + (e.message ?: "") }
+            runOnUiThread { if (dlg.isShowing) tv.text = text }
+        }.start()
     }
 
     private fun group(col: LinearLayout, title: String, items: List<Product>) {
@@ -58,6 +81,7 @@ class ImageryActivity : BaseActivity() {
             row.addView(t, LinearLayout.LayoutParams(0, -2, 1f))
             row.addView(EfbUi.text(this, "›", 22f, EfbUi.DIM))
             row.setOnClickListener {
+                if (p.url.startsWith("data:")) { showData(p); return@setOnClickListener }
                 val i2 = Intent(this, WebActivity::class.java).putExtra("title", p.name)
                 if (p.page) i2.putExtra("url", p.url) else i2.putExtra("image", p.url)
                 startActivity(i2)

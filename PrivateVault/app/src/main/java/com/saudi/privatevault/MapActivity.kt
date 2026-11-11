@@ -2050,7 +2050,7 @@ class MapActivity : BaseActivity(), NeonHost {
             38 -> clearLines()
             40 -> AvionicsPanel.toggle(this)
             42 -> trafficList()
-            43 -> startActivity(android.content.Intent(this, FrequenciesActivity::class.java).addFlags(android.content.Intent.FLAG_ACTIVITY_REORDER_TO_FRONT))
+            43 -> RadioPlayer.choose(this)
             41 -> MaterialAlertDialogBuilder(this).setTitle(R.string.map_view_menu).setMessage(R.string.map_view_help).setPositiveButton(android.R.string.ok, null).show()
             37 -> askGlide()
             30 -> {

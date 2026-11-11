@@ -793,12 +793,15 @@ or tap an airport → Add to route, or long-press anywhere on the chart.</string
     <string name="ff_logbook">Logbook</string>
     <string name="ff_more">More</string>
     <string name="atc_title">🎧 The real radio — LiveATC</string>
-    <string name="atc_sub">Live audio from LiveATC receivers nearby (tower, approach, CTAF where a volunteer feeds it). A phone has no VHF receiver, so it comes over the internet.</string>
+    <string name="atc_sub">Pick a field, then a frequency: it plays at once inside the app and keeps playing on the map. (Over the internet — a phone has no VHF receiver.)</string>
     <string name="traffic_list">✈ Traffic around me</string>
     <string name="traffic_none">No aircraft around you right now (or no internet).</string>
     <string name="log_sign_update">The cloud has not yet updated to the version with remote signing. It updates by itself every night (4:17 am server time) — try again tomorrow; after that every update reaches it on its own.</string>
     <string name="log_sign_fail">Could not reach the cloud (%s). Make sure the app is linked to the cloud in Settings and online.</string>
     <string name="imagery_note">Straight from the NWS, NOAA and the Aviation Weather Center, updated every few minutes. For planning; the official briefing is 1800wxbrief.</string>
+    <string name="atc_stop">Stop</string>
+    <string name="atc_none">There is no public live feed for %s right now (LiveATC has none). Try KHND or KLAS.</string>
+    <string name="atc_fail">That feed is down right now — try another.</string>
     <string name="map_circle">Circle</string>
     <string name="map_ruler">Ruler</string>
     <string name="pen_write">Write and highlight</string>

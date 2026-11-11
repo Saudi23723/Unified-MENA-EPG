@@ -807,12 +807,15 @@
     <string name="ff_logbook">Logbook</string>
     <string name="ff_more">المزيد</string>
     <string name="atc_title">🎧 الراديو الحقيقي — LiveATC</string>
-    <string name="atc_sub">بث مباشر من مستقبلات LiveATC قريبة (برج، Approach، CTAF إذا في متطوع بيبثه). التلفون ما فيه جهاز VHF، فالبث عن طريق الإنترنت.</string>
+    <string name="atc_sub">اختار مطار ثم التردد، بيشتغل فوراً جوا التطبيق ويضل شغال وانت على الخريطة. (عن طريق الإنترنت — التلفون ما فيه جهاز VHF)</string>
     <string name="traffic_list">✈ مين حواليّ (Traffic)</string>
     <string name="traffic_none">ما في طيارات ظاهرة حواليك هلق (أو ما في إنترنت).</string>
     <string name="log_sign_update">السحابة لسا ما تحدّثت لنسخة فيها التوقيع عن بُعد. بتتحدّث لحالها كل ليلة (4:17 الصبح بتوقيت السيرفر) — جرّب بكرا، وبعدها كل التحديثات بتنزل عليها لحالها.</string>
     <string name="log_sign_fail">ما قدرت أوصل للسحابة (%s). تأكد إنك مربوط بالسحابة من الإعدادات وفي إنترنت.</string>
     <string name="imagery_note">الصور مباشرة من NWS و NOAA و Aviation Weather Center، بتتحدّث كل كم دقيقة. للمساعدة بالتخطيط — الـ briefing الرسمي من 1800wxbrief.</string>
+    <string name="atc_stop">إيقاف</string>
+    <string name="atc_none">ما في بث مباشر عام لـ %s حالياً (ولا حتى على LiveATC). جرّب KHND أو KLAS.</string>
+    <string name="atc_fail">البث مش شغال هلق — جرّب تردد تاني.</string>
     <string name="map_circle">دائرة</string>
     <string name="map_ruler">مسطرة</string>
     <string name="pen_write">كتابة وتظليل</string>
