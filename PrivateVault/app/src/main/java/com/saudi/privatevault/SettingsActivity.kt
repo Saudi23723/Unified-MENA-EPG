@@ -57,6 +57,10 @@ class SettingsActivity : BaseActivity() {
         section(R.string.cc_title)
         val cc = card()
         toggle(cc, getString(R.string.cc_on), getString(R.string.cc_on_sub), prefs.getBoolean("cc_on", true)) { prefs.edit().putBoolean("cc_on", it).apply() }
+        toggle(cc, getString(R.string.cc_auto), getString(R.string.cc_auto_sub), prefs.getBoolean("cc_auto", true)) { prefs.edit().putBoolean("cc_auto", it).apply() }
+        segmented(cc, getString(R.string.cc_lang), null, listOf("both" to "EN + ع", "ar" to "عربي", "en" to "EN"), prefs.getString("cc_lang", "both") ?: "both") {
+            prefs.edit().putString("cc_lang", it).apply()
+        }
         segmented(cc, getString(R.string.cc_color), null, listOf("FFFFFFFF" to "⬜", "FFFFEB3B" to "🟨", "FF39FF14" to "🟩", "FF4FC3F7" to "🟦"),
             Integer.toHexString(prefs.getInt("cc_fg", 0xFFFFFFFF.toInt())).uppercase()) { prefs.edit().putInt("cc_fg", java.lang.Long.parseLong(it, 16).toInt()).apply() }
         segmented(cc, getString(R.string.cc_bg), null, listOf("0" to "0%", "35" to "35%", "60" to "60%", "85" to "85%"), prefs.getInt("cc_bg_alpha", 60).toString()) {

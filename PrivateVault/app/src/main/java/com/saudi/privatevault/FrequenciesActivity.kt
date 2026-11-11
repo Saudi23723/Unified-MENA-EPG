@@ -108,44 +108,17 @@ class FrequenciesActivity : AppCompatActivity() {
         val card = EfbUi.card(this)
         card.addView(EfbUi.text(this, getString(R.string.atc_title), 16f, EfbUi.TEXT, bold = true))
         card.addView(EfbUi.text(this, getString(R.string.atc_sub), 12f, EfbUi.DIM).apply { setPadding(0, dp(2), 0, dp(8)) })
-        val now = EfbUi.text(this, "", 15f, EfbUi.GOOD, bold = true).apply { setPadding(0, 0, 0, dp(8)) }
-        val stop = com.google.android.material.button.MaterialButton(this).apply { text = "■ " + getString(R.string.atc_stop); setOnClickListener { RadioPlayer.stop() } }
-        fun paint() {
-            val f = RadioPlayer.playing
-            now.text = if (f != null) "▶  " + f.name else ""
-            now.visibility = if (f != null) View.VISIBLE else View.GONE
-            stop.visibility = now.visibility
-        }
-        RadioPlayer.onChange = { runOnUiThread { paint() } }
-        card.addView(now); card.addView(stop)
-        paint()
         val home = prefs.getString("efb_home", "KBVU") ?: "KBVU"
         val chips = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; layoutDirection = View.LAYOUT_DIRECTION_LTR }
         for (id in (listOf(home, intent.getStringExtra(EXTRA_IDENT)).filterNotNull() + listOf("KLAS", "KHND", "KVGT")).distinct()) {
             chips.addView(EfbUi.text(this, "🎧 $id", 14f, EfbUi.TEXT, bold = true).apply {
                 background = EfbUi.cardBg(this@FrequenciesActivity, EfbUi.BAND, 16)
                 setPadding(dp(12), dp(8), dp(12), dp(8))
-                setOnClickListener { pickFeed(id) }
+                setOnClickListener { RadioPlayer.open(this@FrequenciesActivity, id) }
             }, LinearLayout.LayoutParams(-2, -2).apply { marginEnd = dp(8) })
         }
         card.addView(android.widget.HorizontalScrollView(this).apply { isHorizontalScrollBarEnabled = false; addView(chips) })
         col.addView(card, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(10) })
-    }
-
-    private fun pickFeed(icao: String) {
-        Toast.makeText(this, "🎧 $icao…", Toast.LENGTH_SHORT).show()
-        lifecycleScope.launch {
-            val feeds = withContext(Dispatchers.IO) { RadioPlayer.feeds(icao) }
-            if (feeds.isEmpty()) {
-                MaterialAlertDialogBuilder(this@FrequenciesActivity).setTitle("🎧 $icao")
-                    .setMessage(getString(R.string.atc_none, icao)).setPositiveButton(android.R.string.ok, null).show()
-                return@launch
-            }
-            MaterialAlertDialogBuilder(this@FrequenciesActivity).setTitle("🎧 $icao")
-                .setItems(feeds.map { it.name }.toTypedArray()) { _, i ->
-                    RadioPlayer.play(this@FrequenciesActivity, feeds[i]) { ok -> if (!ok) Toast.makeText(this@FrequenciesActivity, R.string.atc_fail, Toast.LENGTH_LONG).show() }
-                }.setNegativeButton(R.string.cancel, null).show()
-        }
     }
 
     private fun showRadio() {

@@ -35,11 +35,13 @@ class VaultAdapter(
     /** Watched, part watched (and where), or not started: from what the player kept. */
     private fun progress(ctx: android.content.Context, id: String): Pair<Int, String> {
         val p = VaultLock.prefs(ctx)
-        val pos = p.getLong("pos_$id", 0L); val dur = p.getLong("dur_$id", 0L)
+        // A video streamed from the cloud is kept by the player as "laptop:<id>"; one on the phone by its id.
+        val key = if (p.contains("pos_laptop:$id") || p.contains("done_laptop:$id") || p.contains("dur_laptop:$id")) "laptop:$id" else id
+        val pos = p.getLong("pos_$key", 0L); val dur = p.getLong("dur_$key", 0L)
         fun t(ms: Long) = (ms / 1000).let { if (it >= 3600) "%d:%02d:%02d".format(it / 3600, it / 60 % 60, it % 60) else "%d:%02d".format(it / 60, it % 60) }
         return when {
             pos > 5000 -> 1 to ("▶ " + t(pos) + (if (dur > 0) " / " + t(dur) + " · ${(pos * 100 / dur)}%" else ""))
-            p.getBoolean("done_$id", false) -> 2 to ctx.getString(R.string.video_watched)
+            p.getBoolean("done_$key", false) -> 2 to ctx.getString(R.string.video_watched)
             else -> 0 to ""
         }
     }
@@ -48,6 +50,9 @@ class VaultAdapter(
     private val cache = object : LruCache<String, Bitmap>(16 * 1024 * 1024) {
         override fun sizeOf(key: String, value: Bitmap) = value.byteCount
     }
+
+    /** Back from the player: the watched marks drawn again. */
+    fun refreshMarks() = notifyDataSetChanged()
 
     fun submit(list: List<Entry>) {
         entries = list

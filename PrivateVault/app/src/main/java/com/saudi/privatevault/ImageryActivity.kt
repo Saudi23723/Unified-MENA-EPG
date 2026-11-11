@@ -67,27 +67,50 @@ class ImageryActivity : BaseActivity() {
         }.start()
     }
 
+    /** A group as ForeFlight lays imagery out: a grid of live thumbnails, each titled, a tap opens it full screen. */
     private fun group(col: LinearLayout, title: String, items: List<Product>) {
         col.addView(EfbUi.section(this, title))
-        val card = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; background = EfbUi.cardBg(this@ImageryActivity, EfbUi.CARD, 12) }
         fun dp(v: Int) = EfbUi.dp(this, v)
-        for ((i, p) in items.withIndex()) {
-            if (i > 0) card.addView(View(this).apply { setBackgroundColor(EfbUi.CARD_LINE) }, LinearLayout.LayoutParams(-1, 1).apply { marginStart = dp(56) })
-            val row = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL; setPadding(dp(14), dp(12), dp(12), dp(12)) }
-            row.addView(EfbUi.text(this, p.icon, 20f).apply { gravity = Gravity.CENTER }, LinearLayout.LayoutParams(dp(30), -2))
-            val t = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(dp(12), 0, dp(8), 0) }
-            t.addView(EfbUi.text(this, p.name, 15.5f, EfbUi.TEXT).apply { typeface = EfbUi.MEDIUM })
-            t.addView(EfbUi.text(this, p.sub, 12.5f, EfbUi.DIM))
-            row.addView(t, LinearLayout.LayoutParams(0, -2, 1f))
-            row.addView(EfbUi.text(this, "›", 22f, EfbUi.DIM))
-            row.setOnClickListener {
+        val wide = resources.displayMetrics.widthPixels / resources.displayMetrics.density > 600
+        val grid = android.widget.GridLayout(this).apply { columnCount = if (wide) 3 else 2 }
+        val cellW = (resources.displayMetrics.widthPixels - dp(28)) / grid.columnCount - dp(8)
+        for (p in items) {
+            val card = LinearLayout(this).apply {
+                orientation = LinearLayout.VERTICAL
+                background = EfbUi.cardBg(this@ImageryActivity, EfbUi.CARD, 12)
+                clipToOutline = true
+            }
+            val img = android.widget.ImageView(this).apply {
+                scaleType = android.widget.ImageView.ScaleType.CENTER_CROP
+                setBackgroundColor(0xFF0A0B0D.toInt())
+            }
+            val thumbH = (cellW * 0.72f).toInt()
+            if (p.url.startsWith("http") && !p.page) {
+                card.addView(img, LinearLayout.LayoutParams(-1, thumbH))
+                Thread {
+                    val bmp = try {
+                        val bytes = java.net.URL(p.url).openStream().use { it.readBytes() }
+                        val o = android.graphics.BitmapFactory.Options().apply { inJustDecodeBounds = true }
+                        android.graphics.BitmapFactory.decodeByteArray(bytes, 0, bytes.size, o)
+                        var s = 1; while (o.outWidth / (s * 2) >= cellW) s *= 2
+                        android.graphics.BitmapFactory.decodeByteArray(bytes, 0, bytes.size, android.graphics.BitmapFactory.Options().apply { inSampleSize = s })
+                    } catch (e: Exception) { null }
+                    runOnUiThread { if (bmp != null) img.setImageBitmap(bmp) else img.setImageDrawable(null) }
+                }.start()
+            } else {
+                // Text products and pages: a large symbol instead of a picture.
+                card.addView(EfbUi.text(this, p.icon, 40f).apply { gravity = Gravity.CENTER; setBackgroundColor(EfbUi.BAND) }, LinearLayout.LayoutParams(-1, thumbH))
+            }
+            card.addView(EfbUi.text(this, p.name, 14f, EfbUi.TEXT).apply { typeface = EfbUi.MEDIUM; maxLines = 2; setPadding(dp(10), dp(8), dp(10), 0) })
+            card.addView(EfbUi.text(this, p.sub, 11.5f, EfbUi.DIM).apply { maxLines = 2; setPadding(dp(10), dp(2), dp(10), dp(10)) })
+            card.setOnClickListener {
                 if (p.url.startsWith("data:")) { showData(p); return@setOnClickListener }
                 val i2 = Intent(this, WebActivity::class.java).putExtra("title", p.name)
                 if (p.page) i2.putExtra("url", p.url) else i2.putExtra("image", p.url)
                 startActivity(i2)
             }
-            card.addView(row)
+            grid.addView(card, android.widget.GridLayout.LayoutParams().apply { width = cellW; setMargins(dp(4), dp(4), dp(4), dp(4)) })
         }
-        col.addView(card)
+        col.addView(grid)
     }
 }

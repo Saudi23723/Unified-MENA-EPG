@@ -65,6 +65,7 @@ class VideoPlayerActivity : BaseActivity() {
                 mediaItem?.mediaMetadata?.title?.let {
                     Toast.makeText(this@VideoPlayerActivity, it, Toast.LENGTH_SHORT).show()
                 }
+                b.player.post { ensureCaptions(p) }
             }
 
             // The screen stays on while a video plays, so it does not dim and lock mid-lesson.
@@ -88,6 +89,8 @@ class VideoPlayerActivity : BaseActivity() {
         captions(p)
         p.prepare()
         p.playWhenReady = true
+        // Captions the app makes itself, shown as soon as they are ready.
+        b.player.post { ensureCaptions(p) }
         if (tv) {
             b.player.resizeMode = sizes[VaultLock.prefs(this).getInt("tv_video_size", 0).coerceIn(0, 2)]
             window.addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
@@ -112,6 +115,39 @@ class VideoPlayerActivity : BaseActivity() {
             setFractionalTextSize(androidx.media3.ui.SubtitleView.DEFAULT_TEXT_SIZE_FRACTION * prefs.getFloat("cc_size", 1.15f))
             setApplyEmbeddedStyles(false)
         }
+    }
+
+    /** The current video with its app-made captions: attached if ready, else made in the background. */
+    private fun ensureCaptions(p: ExoPlayer) {
+        val item = p.currentMediaItem ?: return
+        val id = item.mediaId
+        val prefs = VaultLock.prefs(this)
+        if (!prefs.getBoolean("cc_on", true)) return
+        if (item.localConfiguration?.subtitleConfigurations?.isNotEmpty() == true) return
+        Captions.ready(this, id)?.let { attach(p, it); return }
+        if (!prefs.getBoolean("cc_auto", true) || !Gemini.hasKey(this)) return
+        val uri = item.localConfiguration?.uri ?: return
+        Thread {
+            val ok = Captions.make(applicationContext, id, uri) { st -> runOnUiThread { flash(st) } }
+            runOnUiThread {
+                val f = Captions.ready(this, id)
+                if (ok && f != null && player === p && p.currentMediaItem?.mediaId == id) { attach(p, f); flash("CC ✓") }
+                else if (!ok) flash(getString(R.string.cc_failed))
+            }
+        }.start()
+    }
+
+    private fun attach(p: ExoPlayer, srt: java.io.File) {
+        val i = p.currentMediaItemIndex
+        val cur = p.currentMediaItem ?: return
+        val pos = p.currentPosition
+        val sub = MediaItem.SubtitleConfiguration.Builder(Uri.fromFile(srt))
+            .setMimeType(androidx.media3.common.MimeTypes.APPLICATION_SUBRIP)
+            .setLanguage(VaultLock.prefs(this).getString("cc_lang", "both")?.let { if (it == "en") "en" else "ar" })
+            .setSelectionFlags(androidx.media3.common.C.SELECTION_FLAG_DEFAULT or androidx.media3.common.C.SELECTION_FLAG_FORCED)
+            .build()
+        p.replaceMediaItem(i, cur.buildUpon().setSubtitleConfigurations(listOf(sub)).build())
+        if (Math.abs(p.currentPosition - pos) > 2000) p.seekTo(i, pos)
     }
 
     private fun mediaItem(id: String, name: String, uri: Uri): MediaItem =

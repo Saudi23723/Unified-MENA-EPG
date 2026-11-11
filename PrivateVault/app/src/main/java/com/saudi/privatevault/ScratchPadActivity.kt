@@ -72,6 +72,8 @@ class ScratchPadActivity : BaseActivity() {
     private var kind = 0 // 0 pen, 1 marker, 2 highlighter, 3 eraser
     private var widthIdx = 0
     private var color = 0xFF8FD3FF.toInt()
+    /** The pen button: its ring shows the colour in use. */
+    private var penButton: View? = null
     private var light = false
     private lateinit var pad: Pad
     private lateinit var tabRow: LinearLayout
@@ -129,6 +131,8 @@ class ScratchPadActivity : BaseActivity() {
             elevation = dp(8).toFloat()
             setOnClickListener { togglePanel() }
         }
+        penButton = fab
+        (fab.background as GradientDrawable).setStroke(dp(4), color)
         root.addView(fab, FrameLayout.LayoutParams(dp(60), dp(60), Gravity.BOTTOM or Gravity.END).apply { setMargins(0, 0, dp(22), dp(28)) })
         setContentView(root)
     }
@@ -170,6 +174,16 @@ class ScratchPadActivity : BaseActivity() {
         box.addView(View(this).apply { setBackgroundColor(0x33FFFFFF) }, LinearLayout.LayoutParams(dp(1), -1).apply { setMargins(dp(8), 0, dp(8), 0) })
         val right = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; gravity = Gravity.CENTER_HORIZONTAL }
         right.addView(Wheel(this), LinearLayout.LayoutParams(dp(130), dp(130)))
+        // The usual inks a tap away, as ForeFlight's pad has them; the chosen one ringed.
+        val sw = android.widget.GridLayout(this).apply { columnCount = 4; layoutDirection = View.LAYOUT_DIRECTION_LTR }
+        for (cl in intArrayOf(if (light) Color.BLACK else Color.WHITE, 0xFF8FD3FF.toInt(), 0xFF2D8CFF.toInt(), 0xFF34C759.toInt(),
+                0xFFFFD60A.toInt(), 0xFFFF9F0A.toInt(), 0xFFFF453A.toInt(), 0xFFBF5AF2.toInt())) {
+            sw.addView(View(this).apply {
+                background = GradientDrawable().apply { shape = GradientDrawable.OVAL; setColor(cl); setStroke(dp(if (cl == color) 3 else 1), if (cl == color) blue else 0x55FFFFFF) }
+                setOnClickListener { pickColor(cl) }
+            }, android.widget.GridLayout.LayoutParams().apply { width = dp(26); height = dp(26); setMargins(dp(3), dp(3), dp(3), dp(3)) })
+        }
+        right.addView(sw)
         right.addView(TextView(this).apply {
             text = "CLEAR"; textSize = 14f; setTextColor(blue); setTypeface(typeface, android.graphics.Typeface.BOLD); setPadding(dp(8), dp(10), dp(8), dp(4))
             setOnClickListener { pages[tab]?.let { if (it.isNotEmpty()) { record(false, ArrayList(it)); it.clear() } }; save(); pad.invalidate() }
@@ -200,16 +214,28 @@ class ScratchPadActivity : BaseActivity() {
             val dx = e.x - width / 2f; val dy = e.y - height / 2f
             val dist = Math.hypot(dx.toDouble(), dy.toDouble())
             val r = minOf(width, height) / 2f - dp(10)
-            color = if (dist < r * 0.5) (if (light) Color.BLACK else Color.WHITE) else {
+            val picked = if (dist < r * 0.5) (if (light) Color.BLACK else Color.WHITE) else {
                 // The sweep runs clockwise from 3 o'clock: red, magenta, blue, cyan, green, yellow.
                 var deg = Math.toDegrees(Math.atan2(dy.toDouble(), dx.toDouble())).toFloat()
                 if (deg < 0) deg += 360f
                 Color.HSVToColor(floatArrayOf((360f - deg) % 360f, 0.75f, 1f))
             }
+            color = picked
+            parent?.requestDisallowInterceptTouchEvent(true)
             invalidate()
-            if (e.actionMasked == MotionEvent.ACTION_UP) { panel?.let { root.removeView(it); panel = null } }
+            if (e.actionMasked == MotionEvent.ACTION_UP) pickColor(picked)
             return true
         }
+    }
+
+    /** A colour chosen: kept, shown on the pen button, the panel closed; the next stroke is in it. */
+    private fun pickColor(c: Int) {
+        color = c
+        if (kind == 3) kind = 0
+        save()
+        panel?.let { root.removeView(it); panel = null }
+        (penButton?.background as? GradientDrawable)?.setStroke(dp(4), c)
+        pad.invalidate()
     }
 
     private val widthsPx = floatArrayOf(2.4f, 4.5f, 8f)

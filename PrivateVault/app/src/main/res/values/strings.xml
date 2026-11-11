@@ -807,7 +807,7 @@
     <string name="ff_logbook">Logbook</string>
     <string name="ff_more">المزيد</string>
     <string name="atc_title">🎧 الراديو الحقيقي — LiveATC</string>
-    <string name="atc_sub">اختار مطار ثم التردد، بيشتغل فوراً جوا التطبيق ويضل شغال وانت على الخريطة. (عن طريق الإنترنت — التلفون ما فيه جهاز VHF)</string>
+    <string name="atc_sub">بيفتح تطبيق LiveATC الرسمي على المطار مباشرة. (التلفون ما فيه جهاز VHF — البث عن طريق الإنترنت)</string>
     <string name="traffic_list">✈ مين حواليّ (Traffic)</string>
     <string name="traffic_none">ما في طيارات ظاهرة حواليك هلق (أو ما في إنترنت).</string>
     <string name="log_sign_update">السحابة لسا ما تحدّثت لنسخة فيها التوقيع عن بُعد. بتتحدّث لحالها كل ليلة (4:17 الصبح بتوقيت السيرفر) — جرّب بكرا، وبعدها كل التحديثات بتنزل عليها لحالها.</string>
@@ -816,6 +816,13 @@
     <string name="atc_stop">إيقاف</string>
     <string name="atc_none">ما في بث مباشر عام لـ %s حالياً (ولا حتى على LiveATC). جرّب KHND أو KLAS.</string>
     <string name="atc_fail">البث مش شغال هلق — جرّب تردد تاني.</string>
+    <string name="atc_how">الراديو المباشر بيشتغل من تطبيق LiveATC الرسمي (شروطهم ما بتسمح لتطبيقات تانية تشغّل البث). اختار المطار وبيفتح عليه مباشرة.</string>
+    <string name="atc_install">لازم تنزّل تطبيق LiveATC مرة وحدة من Play Store، وبعدها هالزر بيفتحه على المطار فوراً.</string>
+    <string name="atc_install_go">تنزيل من Play Store</string>
+    <string name="cc_auto">ترجمة من التطبيق نفسه (Gemini)</string>
+    <string name="cc_auto_sub">أي فيديو بدون ترجمة: التطبيق بيكتب كلامه وبيترجمه للعربي، مرة وحدة وبتنحفظ</string>
+    <string name="cc_lang">لغة الترجمة</string>
+    <string name="cc_failed">ما قدرت أعمل الترجمة هلق (الإنترنت أو مفتاح Gemini)</string>
     <string name="map_circle">دائرة</string>
     <string name="map_ruler">مسطرة</string>
     <string name="pen_write">كتابة وتظليل</string>

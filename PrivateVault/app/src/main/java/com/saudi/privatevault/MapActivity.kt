@@ -1102,6 +1102,22 @@ class MapActivity : BaseActivity(), NeonHost {
         }
     }
 
+    private var diagramFor = ""
+
+    /**
+     * Taxiing at a field (moving on the ground, 2–30 kt, within a mile): its airport diagram opens by
+     * itself with the aircraft on it, as ForeFlight does, once per field until flying again.
+     */
+    private fun autoDiagram(l: Location, kt: Double) {
+        if (!gotGps || !prefs.getBoolean("auto_diagram", true)) return
+        if (kt > 45) { diagramFor = ""; return }
+        if (kt < 2 || kt > 30) return
+        val apt = airports.minByOrNull { Nav.distanceNm(l.latitude, l.longitude, it.lat, it.lon) } ?: return
+        if (Nav.distanceNm(l.latitude, l.longitude, apt.lat, apt.lon) > 1.0 || apt.ident == diagramFor) return
+        diagramFor = apt.ident
+        AirportDiagramActivity.open(this, apt)
+    }
+
     /** Every box of the instrument strip, from this fix and the route. */
     private fun fillStrip(l: Location, kt: Double) {
         if (!::strip.isInitialized) return
@@ -1170,6 +1186,7 @@ class MapActivity : BaseActivity(), NeonHost {
         }
         if (!gotGps) b.hudGps.text = "GPS…"
         fillStrip(l, kt)
+        autoDiagram(l, kt)
         if (gotGps) AvionicsPanel.feed(kt, if (l.hasAltitude()) l.altitude * 3.28084 else Double.NaN, if (lastAlt.isNaN()) Double.NaN else vs,
             if (l.hasBearing() && kt > 5) Nav.magnetic(l.bearing.toDouble(), l.latitude, l.longitude) else Double.NaN)
         // The flight is noticed and timed from the GPS, then offered to the logbook.

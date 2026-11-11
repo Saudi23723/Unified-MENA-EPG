@@ -793,7 +793,7 @@ or tap an airport → Add to route, or long-press anywhere on the chart.</string
     <string name="ff_logbook">Logbook</string>
     <string name="ff_more">More</string>
     <string name="atc_title">🎧 The real radio — LiveATC</string>
-    <string name="atc_sub">Pick a field, then a frequency: it plays at once inside the app and keeps playing on the map. (Over the internet — a phone has no VHF receiver.)</string>
+    <string name="atc_sub">Opens the official LiveATC app on the field. (A phone has no VHF receiver; the audio comes over the internet.)</string>
     <string name="traffic_list">✈ Traffic around me</string>
     <string name="traffic_none">No aircraft around you right now (or no internet).</string>
     <string name="log_sign_update">The cloud has not yet updated to the version with remote signing. It updates by itself every night (4:17 am server time) — try again tomorrow; after that every update reaches it on its own.</string>
@@ -802,6 +802,13 @@ or tap an airport → Add to route, or long-press anywhere on the chart.</string
     <string name="atc_stop">Stop</string>
     <string name="atc_none">There is no public live feed for %s right now (LiveATC has none). Try KHND or KLAS.</string>
     <string name="atc_fail">That feed is down right now — try another.</string>
+    <string name="atc_how">Live radio plays in the official LiveATC app (its terms do not let other apps play its streams). Pick a field and it opens there.</string>
+    <string name="atc_install">Install the LiveATC app once from the Play Store; after that this button opens it on the field straight away.</string>
+    <string name="atc_install_go">Open Play Store</string>
+    <string name="cc_auto">Captions made by the app (Gemini)</string>
+    <string name="cc_auto_sub">Any video without captions: the app writes down what is said and translates it to Arabic, once, then kept</string>
+    <string name="cc_lang">Caption language</string>
+    <string name="cc_failed">Could not make the captions now (internet or Gemini key)</string>
     <string name="map_circle">Circle</string>
     <string name="map_ruler">Ruler</string>
     <string name="pen_write">Write and highlight</string>

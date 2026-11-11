@@ -467,10 +467,17 @@ class AirportDiagramActivity : BaseActivity() {
 
     private var lastSurface = ""
 
+    private var autoFollowed = false
+
     private fun onFix(l: Location) {
         ownship.update(l)
         val kt = if (l.hasSpeed()) l.speed * 1.943844 else 0.0
         val near = Nav.distanceNm(l.latitude, l.longitude, lat0, lon0)
+        // At the field: the diagram follows the aircraft by itself, once, the first time it is found on it.
+        if (!autoFollowed && near < 1.5) {
+            autoFollowed = true
+            if (!following) { following = true; map.controller.animateTo(org.osmdroid.util.GeoPoint(l.latitude, l.longitude), maxOf(map.zoomLevelDouble, 16.5), 700L) }
+        }
         val trk = if (l.hasBearing() && kt > 2) "  ·  TRK " + Nav.deg(Nav.magnetic(l.bearing.toDouble(), l.latitude, l.longitude)) + "M" else ""
         gpsLine.text = "GS %d kt%s".format(Math.round(kt), trk) + if (near > 3) "  ·  %.1f nm".format(near) else ""
         val on = if (near < 3) labels.surfaceAt(l.latitude, l.longitude) else null

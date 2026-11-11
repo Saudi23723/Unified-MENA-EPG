@@ -13,6 +13,11 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
+    <!-- The LiveATC app, opened by the 🎧 when installed. -->
+    <queries>
+        <package android:name="net.liveatc.android" />
+    </queries>
+
     <application
         android:name=".VaultApp"
         android:allowBackup="false"
