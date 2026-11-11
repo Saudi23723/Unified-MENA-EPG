@@ -1314,7 +1314,7 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
     private fun placeShip(l: android.location.Location) {
         val g = geoNow ?: return
         val p = g.at(l.latitude, l.longitude)
-        b.page.ownship = floatArrayOf(p[0], p[1], if (l.hasBearing() && l.speed > 1.5f) l.bearing else Float.NaN)
+        b.page.ownship = floatArrayOf(p[0], p[1], if (l.hasBearing() && l.speed > 1.5f) l.bearing + g.turn else Float.NaN)
     }
 
     private fun stopGps() {

@@ -1484,30 +1484,40 @@ class MapActivity : BaseActivity(), NeonHost {
     private fun plateOnMap() {
         plateOverlay?.let { map.overlays.remove(it); plateOverlay = null; map.invalidate(); return }
         val c = map.mapCenter
-        val apt = airports.minByOrNull { Nav.distanceNm(c.latitude, c.longitude, it.lat, it.lon) } ?: return
+        // The nearest fields first; a heliport or a private strip has no diagram, so try the next.
+        val near = airports.sortedBy { Nav.distanceNm(c.latitude, c.longitude, it.lat, it.lon) }.take(8)
         Toast.makeText(this, getString(R.string.apt_plates_loading), Toast.LENGTH_SHORT).show()
         lifecycleScope.launch {
+            var apt = near.firstOrNull() ?: return@launch
             val made = withContext(Dispatchers.IO) {
-                try {
-                    val res = AviationData.plates(this@MapActivity, apt.ident) ?: return@withContext null
-                    val apd = res.second.firstOrNull { it.code == "APD" } ?: return@withContext null
-                    val f = AviationData.platePdf(this@MapActivity, res.first, apd.pdf) ?: return@withContext null
-                    val geo = PdfLinks.open(this@MapActivity, f)?.use { it.georef(0) } ?: return@withContext null
-                    val pfd = android.os.ParcelFileDescriptor.open(f, android.os.ParcelFileDescriptor.MODE_READ_ONLY)
-                    val bmp = android.graphics.pdf.PdfRenderer(pfd).use { r ->
-                        r.openPage(0).use { pg ->
-                            val w = 1600; val h = (w.toFloat() * pg.height / pg.width).toInt()
-                            android.graphics.Bitmap.createBitmap(w, h, android.graphics.Bitmap.Config.ARGB_8888).also {
-                                it.eraseColor(android.graphics.Color.WHITE)
-                                pg.render(it, null, null, android.graphics.pdf.PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY)
+                for (cand in near) {
+                    try {
+                        val res = AviationData.plates(this@MapActivity, cand.ident) ?: continue
+                        val apd = res.second.firstOrNull { it.code == "APD" } ?: continue
+                        val f = AviationData.platePdf(this@MapActivity, res.first, apd.pdf) ?: continue
+                        val geo = PdfLinks.open(this@MapActivity, f)?.use { it.georef(0) } ?: continue
+                        val pfd = android.os.ParcelFileDescriptor.open(f, android.os.ParcelFileDescriptor.MODE_READ_ONLY)
+                        var bmp = android.graphics.pdf.PdfRenderer(pfd).use { r ->
+                            r.openPage(0).use { pg ->
+                                val w = 1600; val h = (w.toFloat() * pg.height / pg.width).toInt()
+                                android.graphics.Bitmap.createBitmap(w, h, android.graphics.Bitmap.Config.ARGB_8888).also {
+                                    it.eraseColor(android.graphics.Color.WHITE)
+                                    pg.render(it, null, null, android.graphics.pdf.PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY)
+                                }
                             }
                         }
-                    }
-                    // The page's corners on the ground, from its printed scale.
-                    val west = (0.0 - geo.bx) / geo.ax; val east = (1.0 - geo.bx) / geo.ax
-                    val north = (0.0 - geo.by) / geo.ay; val south = (1.0 - geo.by) / geo.ay
-                    Triple(bmp, GeoPoint(north, west), GeoPoint(south, east))
-                } catch (e: Exception) { null }
+                        // The page's corners on the ground; a chart printed turned is turned back, north up.
+                        val corners = listOf(geo.ground(0.0, 0.0), geo.ground(1.0, 0.0), geo.ground(1.0, 1.0), geo.ground(0.0, 1.0))
+                        val north = corners.maxOf { it[0] }; val south = corners.minOf { it[0] }
+                        val west = corners.minOf { it[1] }; val east = corners.maxOf { it[1] }
+                        val turn = -geo.turn
+                        if (turn != 0f) bmp = android.graphics.Bitmap.createBitmap(bmp, 0, 0, bmp.width, bmp.height,
+                            android.graphics.Matrix().apply { postRotate(turn) }, true)
+                        apt = cand
+                        return@withContext Triple(bmp, GeoPoint(north, west), GeoPoint(south, east))
+                    } catch (e: Exception) { continue }
+                }
+                null
             }
             if (made == null) { Toast.makeText(this@MapActivity, R.string.plate_on_map_none, Toast.LENGTH_LONG).show(); return@launch }
             val o = org.osmdroid.views.overlay.GroundOverlay().apply {

@@ -201,8 +201,24 @@ class PdfLinks private constructor(private val doc: PDDocument) : Closeable {
      * where each coordinate falls on the page, so the aircraft can be drawn on it. As page fractions:
      * x = ax·lon + bx, y = ay·lat + by. Null when the page has no such scale.
      */
-    class Geo(val ax: Double, val bx: Double, val ay: Double, val by: Double) {
-        fun at(lat: Double, lon: Double) = floatArrayOf((ax * lon + bx).toFloat(), (ay * lat + by).toFloat())
+    class Geo(val ax: Double, val bx: Double, val ay: Double, val by: Double, val cx: Double = 0.0, val cy: Double = 0.0) {
+        // x = ax·lon + cx·lat + bx ; y = ay·lat + cy·lon + by (a chart may be printed turned, north to a side).
+        fun at(lat: Double, lon: Double) = floatArrayOf((ax * lon + cx * lat + bx).toFloat(), (ay * lat + cy * lon + by).toFloat())
+
+        /** The ground under a point of the page (fractions): latitude, longitude. */
+        fun ground(x: Double, y: Double): DoubleArray {
+            // [ax cx; cy ay]·[lon; lat] = [x-bx; y-by]
+            val det = ax * ay - cx * cy
+            val u = x - bx; val v = y - by
+            return doubleArrayOf((ax * v - cy * u) / det, (ay * u - cx * v) / det)
+        }
+
+        /** Degrees to add to a true heading to draw it on the page: 0 north up, −90 north to the left. */
+        val turn: Float get() = when {
+            Math.abs(ay) >= Math.abs(cx) -> if (ay < 0) 0f else 180f
+            cx < 0 -> -90f
+            else -> 90f
+        }
     }
 
     private val COORD = Regex("(\\d{2,3})\\s*[°º˚]\\s*(\\d{1,2}(?:\\.\\d+)?)\\s*['′’]?\\s*([NSEW])")
@@ -214,6 +230,8 @@ class PdfLinks private constructor(private val doc: PDDocument) : Closeable {
         s.getText(doc)
         val lats = ArrayList<Pair<Double, Double>>()   // latitude, y fraction
         val lons = ArrayList<Pair<Double, Double>>()   // longitude, x fraction
+        val latsXY = ArrayList<DoubleArray>()           // latitude, x, y
+        val lonsXY = ArrayList<DoubleArray>()
         for ((text, pos) in s.chunks) {
             if (pos.isEmpty()) continue
             for (m in COORD.findAll(text)) {
@@ -226,6 +244,10 @@ class PdfLinks private constructor(private val doc: PDDocument) : Closeable {
                 when (m.groupValues[3]) {
                     "N" -> lats.add(v to cy); "S" -> lats.add(-v to cy)
                     "E" -> lons.add(v to cx); "W" -> lons.add(-v to cx)
+                }
+                when (m.groupValues[3]) {
+                    "N" -> latsXY.add(doubleArrayOf(v, cx, cy)); "S" -> latsXY.add(doubleArrayOf(-v, cx, cy))
+                    "E" -> lonsXY.add(doubleArrayOf(v, cx, cy)); "W" -> lonsXY.add(doubleArrayOf(-v, cx, cy))
                 }
             }
         }
@@ -242,95 +264,29 @@ class PdfLinks private constructor(private val doc: PDDocument) : Closeable {
         }
         val x = fit(lons); val y = fit(lats)
         // North up, east to the right.
-        if (x == null || y == null || x.first <= 0 || y.first >= 0) byFixes(index, s.chunks, w, h) else Geo(x.first, x.second, y.first, y.second)
+        if (x != null && y != null && x.first > 0 && y.first < 0) Geo(x.first, x.second, y.first, y.second)
+        else turned(latsXY, lonsXY)
     } catch (e: Exception) { null }
 
-    private val NOT_FIX = setOf("RWY", "MAP", "MDA", "TDZE", "APP", "CRS", "ILS", "LOC", "GPS", "RNAV", "VOR", "DME", "NDB", "MSA",
-        "ATIS", "TWR", "GND", "CLNC", "DEL", "UNICOM", "CTAF", "ASOS", "AWOS", "NOTE", "ELEV", "FAF", "IAF", "IF", "MAP", "HAT", "HAA",
-        "TCH", "GS", "VGSI", "PAPI", "VASI", "REIL", "MIRL", "HIRL", "MALSR", "ODALS", "LNAV", "VNAV", "LPV", "MIN", "MAX", "NM", "FT",
-        "AND", "THE", "FOR", "NOT", "ALL", "CAT", "NA", "AIRPORT", "CIRCLING", "STRAIGHT", "TERPS", "WAAS", "CHAN", "APCH", "SEE",
-        "LIMITS", "ALTERNATE", "TAKEOFF", "AMDT", "ORIG", "PROC", "FAA", "SW", "NE", "NW", "SE", "MSL", "AGL", "KIAS", "KNOTS", "CLIMB",
-        "DIRECT", "HOLD", "LEFT", "RIGHT", "TURN", "THEN", "VIA", "FROM", "TO", "MISSED", "APPROACH", "CONTINUE", "INOP", "DIST", "SIM")
-
     /**
-     * An approach chart has no latitude and longitude printed, but its plan view names its fixes
-     * and navaids where they are. Their real positions (aviationweather.gov) against where their
-     * names sit on the page give the chart's scale; pairs of fixes vote (a RANSAC fit) so a name
-     * met in the notes or the profile cannot spoil it. Labels sit beside their symbols, so it is
-     * good to a fraction of a mile — enough to see the airplane on the plan view, not to navigate.
+     * A diagram printed turned a quarter (Boulder City's is): the latitude labels run along
+     * the page's width and the longitudes down its height.
      */
-    private fun byFixes(index: Int, chunks: List<Pair<String, List<TextPosition>>>, w: Double, h: Double): Geo? {
-        // Only an instrument approach chart: its briefing strip says so.
-        val all = chunks.joinToString(" ") { it.first }
-        if (!("TDZE" in all || "APP CRS" in all || "MISSED APCH" in all || "MISSED APPROACH" in all)) return null
-        val word = Regex("\\b[A-Z]{3,5}\\b")
-        val found = HashMap<String, MutableList<DoubleArray>>()
-        for ((text, pos) in chunks) {
-            if (pos.isEmpty()) continue
-            for (m in word.findAll(text)) {
-                val id = m.value
-                if (id in NOT_FIX) continue
-                val glyphs = pos.subList(minOf(m.range.first, pos.size - 1), minOf(m.range.last + 1, pos.size))
-                if (glyphs.isEmpty()) continue
-                val cx = glyphs.map { it.x + it.width / 2.0 }.average() / w
-                val cy = glyphs.map { it.y - it.height / 2.0 }.average() / h
-                // The plan view: between the briefing strip and the profile.
-                if (cy < 0.14 || cy > 0.68) continue
-                found.getOrPut(id) { ArrayList() }.add(doubleArrayOf(cx, cy))
-            }
+    private fun turned(lats: List<DoubleArray>, lons: List<DoubleArray>): Geo? {
+        fun fit(pts: List<Pair<Double, Double>>): Pair<Double, Double>? {
+            if (pts.map { it.first }.distinct().size < 2) return null
+            val mx = pts.map { it.first }.average(); val my = pts.map { it.second }.average()
+            val sxx = pts.sumOf { (it.first - mx) * (it.first - mx) }
+            if (sxx == 0.0) return null
+            val a = pts.sumOf { (it.first - mx) * (it.second - my) } / sxx
+            val b = my - a * mx
+            if (pts.any { Math.abs(a * it.first + b - it.second) > 0.04 }) return null
+            return a to b
         }
-        if (found.size < 3) return null
-        val ids = found.keys.take(45)
-        val where = HashMap<String, DoubleArray>()
-        fun fetch(kind: String, list: List<String>) {
-            if (list.isEmpty()) return
-            try {
-                val arr = org.json.JSONArray(AviationData.get("https://aviationweather.gov/api/data/$kind?ids=${list.joinToString(",")}&format=json", 12000))
-                for (i in 0 until arr.length()) {
-                    val o = arr.optJSONObject(i) ?: continue
-                    val id = (o.optString("id").ifEmpty { o.optString("ident") }).uppercase()
-                    val lat = o.optDouble("lat", o.optDouble("latitude", Double.NaN))
-                    val lon = o.optDouble("lon", o.optDouble("longitude", Double.NaN))
-                    if (id.isNotEmpty() && !lat.isNaN() && !lon.isNaN() && id !in where) where[id] = doubleArrayOf(lat, lon)
-                }
-            } catch (e: Exception) { }
-        }
-        fetch("fix", ids.filter { it.length == 5 })
-        fetch("navaid", ids.filter { it.length <= 4 })
-        // Keep what lies together: a three-letter name can belong to a navaid on another continent.
-        if (where.size < 3) return null
-        val mLat = where.values.map { it[0] }.sorted()[where.size / 2]
-        val mLon = where.values.map { it[1] }.sorted()[where.size / 2]
-        class P(val lat: Double, val lon: Double, val x: Double, val y: Double)
-        val pts = ArrayList<P>()
-        for ((id, ll) in where) {
-            if (Math.abs(ll[0] - mLat) > 1.0 || Math.abs(ll[1] - mLon) > 1.3) continue
-            for (xy in found[id] ?: continue) pts += P(ll[0], ll[1], xy[0], xy[1])
-        }
-        if (pts.size < 3) return null
-        val cosLat = Math.cos(Math.toRadians(mLat))
-        var best: List<P> = emptyList()
-        for (i in pts.indices) for (j in i + 1 until pts.size) {
-            val a = pts[i]; val b = pts[j]
-            if (Math.abs(a.lon - b.lon) < 0.02 || Math.abs(a.lat - b.lat) < 0.02) continue
-            val ax = (a.x - b.x) / (a.lon - b.lon); val ay = (a.y - b.y) / (a.lat - b.lat)
-            if (ax <= 0 || ay >= 0) continue
-            // One scale both ways on the page (points per nautical mile).
-            val sx = ax * w / (60 * cosLat); val sy = -ay * h / 60
-            if (sx / sy !in 0.8..1.25) continue
-            val bx = a.x - ax * a.lon; val by = a.y - ay * a.lat
-            val inl = pts.filter { Math.abs(ax * it.lon + bx - it.x) < 0.02 && Math.abs(ay * it.lat + by - it.y) < 0.02 }
-            if (inl.size > best.size) best = inl
-        }
-        if (best.map { "${it.lat},${it.lon}" }.distinct().size < 3) return null
-        fun ls(u: List<Double>, v: List<Double>): Pair<Double, Double> {
-            val mu = u.average(); val mv = v.average()
-            val a = u.indices.sumOf { (u[it] - mu) * (v[it] - mv) } / u.indices.sumOf { (u[it] - mu) * (u[it] - mu) }
-            return a to (mv - a * mu)
-        }
-        val (ax, bx) = ls(best.map { it.lon }, best.map { it.x })
-        val (ay, by) = ls(best.map { it.lat }, best.map { it.y })
-        return if (ax > 0 && ay < 0) Geo(ax, bx, ay, by) else null
+        val latX = fit(lats.map { it[0] to it[1] }) ?: return null   // x from latitude
+        val lonY = fit(lons.map { it[0] to it[2] }) ?: return null   // y from longitude
+        // x = cx·lat + bx ; y = cy·lon + by
+        return Geo(0.0, latX.second, 0.0, lonY.second, latX.first, lonY.first)
     }
 
     private var stripper: ChunkStripper? = null
