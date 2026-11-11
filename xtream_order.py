@@ -58,6 +58,11 @@ PLAYLIST_CHANNEL_FIRST = {"hydra": r"^(SPORTSNET|TSN)\b"}
 # channels, BBC World News; UK news: BBC World News; UK channels: Sky Sports, TNT Sports, MUTV.
 _Q = r"(\s+(UHD|FHD|HD|SD|4K|8K|HEVC|RAW|TV))*\s*$"
 GROUP_LEADS = [
+    # Shoof comedy (owner, 11 Nov 2026): Mudeer Aam first, then Ayla 5 and 6 Nojoom, Al Kherba, Al Fusoul Al Arbaa,
+    # Dayaa Dayaa, then Maraya, then the rest
+    (r"SHOOF", [r"مدير\s*عام|MUDE?E?R|MODEER|MUDIR", r"عيل[ةه]\s*(5|٥|خمس)|AYL?[AE]H?\s*5", r"عيل[ةه]\s*(6|٦|ست)|AYL?[AE]H?\s*6",
+                r"الخرب[ةه]|KH[AE]RBA", r"الفصول\s*ال[اأإ]ربع[ةه]|FUSOUL|FOSOUL", r"ضيع[ةه]\s*ضايع[ةه]|DAYAA|DAYA3A",
+                r"مرايا|MARAYA"]),
     (r"JORDAN|ROYA|الأردن|رؤيا", [r"^(JORDAN|الأردن|التلفزيون الأردني)" + _Q, r"MAMLAKA|المملكة", r"^(ROYA|رؤيا)" + _Q]),
     (r"LEBANON|لبنان", [r"JADEED|الجديد", r"MAYADEEN|MAYDEEN|الميادين", r"MANAR|المنار"]),
     (r"^(AR\s*\|\s*)?(ARABIC\s+)?NEWS\b(?!.*NETWORK)|^الأخبار|^اخبار|قنوات الأخبار", [r"JAZEERA(?!.*(ENGLISH|\bEN\b|DOCUMENT|MUBASH|BALKAN|إنجليزي|\b2\b|360))|^الجزيرة$",
