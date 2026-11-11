@@ -1310,6 +1310,34 @@ class MapActivity : BaseActivity(), NeonHost {
         }
     }
 
+    /**
+     * Who is around: my position from the GPS, theirs from the ADS-B networks; each aircraft by
+     * distance, clock position from my track, and height above or below me. A tap shows it on the map.
+     */
+    private fun trafficList() {
+        if (!map.overlays.contains(traffic)) { map.overlays.add(traffic); Traffic.startReceiver(); prefs.edit().putBoolean("wx_traffic", true).apply() }
+        val me = ownship.fix
+        val here = ownship.position() ?: map.mapCenter as GeoPoint
+        val myAlt = me?.takeIf { it.hasAltitude() && gotGps }?.altitude?.times(3.28084)
+        val myTrk = me?.takeIf { it.hasBearing() && ownship.speedKt() > 5 }?.bearing?.toDouble() ?: 0.0
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) { Traffic.prune(); Traffic.fetch(here.latitude, here.longitude) }
+            val list = Traffic.targets.values.map { t -> t to Nav.distanceNm(here.latitude, here.longitude, t.lat, t.lon) }.sortedBy { it.second }.take(40)
+            if (list.isEmpty()) { Toast.makeText(this@MapActivity, R.string.traffic_none, Toast.LENGTH_LONG).show(); return@launch }
+            val rows = list.map { (t, d) ->
+                val brg = Nav.bearingTrue(here.latitude, here.longitude, t.lat, t.lon)
+                val clock = (((brg - myTrk + 360) % 360) / 30.0).let { Math.round(it).toInt() }.let { if (it == 0) 12 else it }
+                val rel = if (t.altFt != null && myAlt != null) "%+,d ft".format(((t.altFt!! - myAlt) / 100).toInt() * 100) else (t.altFt?.let { "%,d ft".format(it) } ?: "—")
+                val name = t.call.ifEmpty { t.id.uppercase() } + if (t.type.isNotEmpty()) " · ${t.type}" else ""
+                "%.1f nm  ·  %d o'clock  ·  %s  ·  %d kt\n%s".format(d, clock, rel, t.gsKt, name)
+            }
+            MaterialAlertDialogBuilder(this@MapActivity)
+                .setTitle(getString(R.string.traffic_list) + "  (" + Traffic.source.ifEmpty { "ADS-B" } + ")")
+                .setItems(rows.toTypedArray()) { _, i -> list.getOrNull(i)?.first?.let { t -> if (following) follow(); map.controller.animateTo(GeoPoint(t.lat, t.lon)) } }
+                .setNegativeButton(R.string.cancel, null).show()
+        }
+    }
+
     private var tankReminded = 0
 
     /** Fuel left from the fuel on board and the burn, and a reminder every 30 minutes to check fuel and switch tanks. */
@@ -1956,6 +1984,7 @@ class MapActivity : BaseActivity(), NeonHost {
         }
         menu.add(0, 20, 0, "NRST").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
         menu.add(0, 40, 0, R.string.av_menu).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+        menu.add(0, 42, 0, R.string.traffic_list)
         menu.add(0, 41, 0, R.string.map_view_menu)
         menu.add(0, 38, 0, R.string.clear_lines).setIcon(R.drawable.ic_delete).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
         menu.findItem(38)?.icon?.setTint(EfbUi.TEXT)
@@ -2019,6 +2048,7 @@ class MapActivity : BaseActivity(), NeonHost {
             36 -> positionReport()
             38 -> clearLines()
             40 -> AvionicsPanel.toggle(this)
+            42 -> trafficList()
             41 -> MaterialAlertDialogBuilder(this).setTitle(R.string.map_view_menu).setMessage(R.string.map_view_help).setPositiveButton(android.R.string.ok, null).show()
             37 -> askGlide()
             30 -> {
