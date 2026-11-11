@@ -27,6 +27,26 @@
         <item name="android:statusBarColor">#FFEEF0F3</item>
         <item name="android:navigationBarColor">#FFEEF0F3</item>
         <item name="android:windowLightStatusBar">true</item>
+        <item name="materialButtonStyle">@style/FfButton</item>
+        <item name="materialButtonOutlinedStyle">@style/FfButton.Outlined</item>
+        <item name="shapeAppearanceCornerExtraLarge">@style/FfCorner</item>
+        <item name="shapeAppearanceCornerLarge">@style/FfCorner</item>
+    </style>
+
+    <!-- ForeFlight's controls: rounded rectangles with medium weight type, not Material pills. -->
+    <style name="FfButton" parent="Widget.Material3.Button">
+        <item name="cornerRadius">10dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+    <style name="FfButton.Outlined" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="cornerRadius">10dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+    <style name="FfCorner" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">14dp</item>
     </style>
 
     <style name="HudCell">

@@ -2,30 +2,34 @@
 <resources>
     <!-- One dark, modern look for every screen, matching the flight bag (EfbUi). -->
     <style name="Theme.Vault" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">#FF2E9BFF</item>
-        <item name="colorOnPrimary">#FF06121F</item>
-        <item name="colorPrimaryContainer">#FF1C3557</item>
+        <item name="colorPrimary">#FF2D8CFF</item>
+        <item name="colorOnPrimary">#FFFFFFFF</item>
+        <item name="colorPrimaryContainer">#FF17345C</item>
         <item name="colorOnPrimaryContainer">#FFD6E8FF</item>
-        <item name="colorSecondary">#FF2E9BFF</item>
-        <item name="colorOnSecondary">#FF06121F</item>
-        <item name="colorSecondaryContainer">#FF233247</item>
+        <item name="colorSecondary">#FF2D8CFF</item>
+        <item name="colorOnSecondary">#FFFFFFFF</item>
+        <item name="colorSecondaryContainer">#FF26282C</item>
         <item name="colorOnSecondaryContainer">#FFDCE6F4</item>
         <item name="colorTertiary">#FF34C759</item>
         <item name="colorError">#FFFF453A</item>
-        <item name="android:colorBackground">#FF15171B</item>
-        <item name="colorSurface">#FF15171B</item>
-        <item name="colorOnSurface">#FFF1F4F8</item>
-        <item name="colorOnSurfaceVariant">#FF8D97A8</item>
-        <item name="colorSurfaceVariant">#FF20242A</item>
-        <item name="colorSurfaceContainerLowest">#FF0B0E12</item>
-        <item name="colorSurfaceContainerLow">#FF141920</item>
-        <item name="colorSurfaceContainer">#FF20242A</item>
-        <item name="colorSurfaceContainerHigh">#FF262A31</item>
-        <item name="colorSurfaceContainerHighest">#FF262E3B</item>
-        <item name="colorOutline">#FF3A4250</item>
-        <item name="colorOutlineVariant">#FF29313D</item>
-        <item name="android:statusBarColor">#FF15171B</item>
-        <item name="android:navigationBarColor">#FF15171B</item>
+        <item name="android:colorBackground">#FF0F0F11</item>
+        <item name="colorSurface">#FF0F0F11</item>
+        <item name="colorOnSurface">#FFF2F3F5</item>
+        <item name="colorOnSurfaceVariant">#FF9A9CA3</item>
+        <item name="colorSurfaceVariant">#FF1E1F23</item>
+        <item name="colorSurfaceContainerLowest">#FF0A0A0C</item>
+        <item name="colorSurfaceContainerLow">#FF161719</item>
+        <item name="colorSurfaceContainer">#FF1E1F23</item>
+        <item name="colorSurfaceContainerHigh">#FF242529</item>
+        <item name="colorSurfaceContainerHighest">#FF2B2D31</item>
+        <item name="colorOutline">#FF3A3C42</item>
+        <item name="colorOutlineVariant">#FF2C2E33</item>
+        <item name="android:statusBarColor">#FF1B1C1F</item>
+        <item name="android:navigationBarColor">#FF1B1C1F</item>
         <item name="android:windowLightStatusBar">false</item>
+        <item name="materialButtonStyle">@style/FfButton</item>
+        <item name="materialButtonOutlinedStyle">@style/FfButton.Outlined</item>
+        <item name="shapeAppearanceCornerExtraLarge">@style/FfCorner</item>
+        <item name="shapeAppearanceCornerLarge">@style/FfCorner</item>
     </style>
 </resources>

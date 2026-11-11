@@ -104,7 +104,8 @@ object ForeTabs {
             bar.setPadding(0, 0, 0, navInset)
             bar.post {
                 (screen.layoutParams as? FrameLayout.LayoutParams)?.let { lp ->
-                    val want = bar.height - navInset
+                    // The screen ends where the bar starts: its whole height, the gesture strip included.
+                    val want = bar.height
                     if (lp.bottomMargin != want) { lp.bottomMargin = want; screen.layoutParams = lp }
                 }
             }
