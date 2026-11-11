@@ -125,14 +125,17 @@ class VideoPlayerActivity : BaseActivity() {
         if (!prefs.getBoolean("cc_on", true)) return
         if (item.localConfiguration?.subtitleConfigurations?.isNotEmpty() == true) return
         Captions.ready(this, id)?.let { attach(p, it); return }
-        if (!prefs.getBoolean("cc_auto", true) || !Gemini.hasKey(this)) return
+        if (!prefs.getBoolean("cc_auto", true) || (!Gemini.hasKey(this) && !LaptopClient.isLinked(this))) {
+            if (!Gemini.hasKey(this)) flash(getString(R.string.cc_nokey))
+            return
+        }
         val uri = item.localConfiguration?.uri ?: return
         Thread {
             val ok = Captions.make(applicationContext, id, uri) { st -> runOnUiThread { flash(st) } }
             runOnUiThread {
                 val f = Captions.ready(this, id)
                 if (ok && f != null && player === p && p.currentMediaItem?.mediaId == id) { attach(p, f); flash("CC ✓") }
-                else if (!ok) flash(getString(R.string.cc_failed))
+                else if (!ok) flash(getString(when (Captions.problem) { "nokey" -> R.string.cc_nokey; "audio" -> R.string.cc_noaudio; else -> R.string.cc_failed }))
             }
         }.start()
     }

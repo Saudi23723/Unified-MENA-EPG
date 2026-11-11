@@ -44,19 +44,48 @@ object Captions {
         return null
     }
 
-    /** Makes the captions (off the main thread); [status] reports each step. True when ready. */
+    /** Why the last attempt gave nothing: "nokey", "net", or "". */
+    @Volatile var problem = ""
+
+    // Made once on any device, kept in the vault: the TV shows the captions the phone made.
+    private fun kv(id: String) = "cc-" + safe(id)
+
+    private fun fromCloud(ctx: Context, id: String): Boolean = try {
+        val o = LaptopClient.syncKv(ctx, kv(id), null)?.optJSONObject("pages")
+        val en = o?.optJSONArray("en")?.optString(0).orEmpty()
+        val ar = o?.optJSONArray("ar")?.optString(0).orEmpty()
+        if (en.contains("-->")) file(ctx, id, "en").writeText(en)
+        if (ar.contains("-->")) file(ctx, id, "ar").writeText(ar)
+        en.contains("-->") && ar.contains("-->")
+    } catch (e: Exception) { false }
+
+    private fun toCloud(ctx: Context, id: String) {
+        try {
+            val now = System.currentTimeMillis()
+            val pages = JSONObject(); val t = JSONObject()
+            for (l in listOf("en", "ar")) file(ctx, id, l).takeIf { it.exists() }?.let { pages.put(l, JSONArray().put(it.readText())); t.put(l, now) }
+            LaptopClient.syncKv(ctx, kv(id), JSONObject().put("v", 2).put("pages", pages).put("t", t).toString())
+        } catch (e: Exception) {}
+    }
+
+    /** Makes the captions, or takes them from the vault if another device made them (off the main thread). True when ready. */
     @OptIn(UnstableApi::class)
     fun make(ctx: Context, id: String, source: Uri, status: (String) -> Unit): Boolean {
         synchronized(busy) { if (!busy.add(id)) return false }
+        problem = ""
         try {
+            if (LaptopClient.isLinked(ctx) && (!file(ctx, id, "en").exists() || !file(ctx, id, "ar").exists())) {
+                status("☁ CC…")
+                if (fromCloud(ctx, id)) return ready(ctx, id) != null
+            }
             val key = Gemini.key(ctx)
-            if (key.isEmpty()) return false
+            if (key.isEmpty()) { problem = "nokey"; return false }
             if (!file(ctx, id, "en").exists()) {
                 status("🎧 CC · 1/3")
-                val audio = audioOf(ctx, source) ?: return false
+                val audio = audioOf(ctx, source) ?: run { problem = "audio"; return false }
                 try {
                     status("☁ CC · 2/3")
-                    val uri = upload(key, audio) ?: return false
+                    val uri = upload(key, audio) ?: run { problem = "net"; return false }
                     status("✍ CC · 3/3")
                     val srt = ask(key, listOf(JSONObject().put("file_data", JSONObject().put("mime_type", "audio/mp4").put("file_uri", uri)),
                         JSONObject().put("text", TRANSCRIBE))) ?: return false
@@ -68,8 +97,10 @@ object Captions {
                 val ar = ask(key, listOf(JSONObject().put("text", TRANSLATE + "\n\n" + file(ctx, id, "en").readText()))) ?: return false
                 file(ctx, id, "ar").writeText(clean(ar))
             }
+            if (LaptopClient.isLinked(ctx)) toCloud(ctx, id)
             return ready(ctx, id) != null
         } catch (e: Exception) {
+            problem = "net"
             return false
         } finally { synchronized(busy) { busy.remove(id) } }
     }
