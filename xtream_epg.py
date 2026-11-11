@@ -218,14 +218,15 @@ for f in sorted(glob.glob("xtream/*/channel_map.json")):
             provider = json.load(open(f"{play}/channels.json", encoding="utf-8"))
     if provider and name in ("strong", "dream4k", "family4k"):
         shown_ids = {c["stream_id"] for c in chans}
-        def hname(g):
+        def hname(g, legacy=False):
             # the look of the shown groups (owner, 11 Nov 2026: "flags, and names tidied as if they were not hidden"):
             # "🇯🇴 | JORDAN ⁴ᴷ", "🇶🇦 | beIN ꜱᴘᴏʀᴛꜱ ⁸ᴷ", "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
             g = re.sub(r"\s+", " ", g).strip()
             m = re.match(r"^\s*\|?([A-Z0-9]{2,4})\s*\|\s*✪?\s*(.*)$", g)
             code, rest = (m.group(1), m.group(2).strip(" |")) if m and m.group(2) else ("", g)
             # the provider's spelling mistakes (owner, 11 Nov 2026: "DREAM 4K MOVIS")
-            rest = re.sub(r"\bMOVIS\b", "MOVIES", re.sub(r"\bMOIVES\b|\bMOVIEES\b", "MOVIES", rest))
+            if not legacy:
+                rest = re.sub(r"\bMOVIS\b", "MOVIES", re.sub(r"\bMOIVES\b|\bMOVIEES\b", "MOVIES", rest))
             if re.match(r"^[\U0001F1E6-\U0001F1FF]{2}\s*\|", g) or re.match(r"^\W{1,3}\s*\|", g):   # already "🇬🇧 | ..."
                 flag, rest = g.split("|", 1)[0].strip(), g.split("|", 1)[1].strip()
             else:
@@ -242,7 +243,7 @@ for f in sorted(glob.glob("xtream/*/channel_map.json")):
                 country = code and code not in ("AR", "4K", "8K") and re.fullmatch(r"[A-Z]{2,3}", code)
                 flag = None if country else next((f for r_, f in hint if re.search(r_, up)), None)
                 # the streaming brands keep their own mark whatever the country (owner: "the logo like the ones before it")
-                if re.search(r"OSN|NETFLIX|SHOOF|DISNEY|PRIME|DREAM|HBO|APPLE TV|STARZPLAY", up):
+                if not legacy and re.search(r"OSN|NETFLIX|SHOOF|DISNEY|PRIME|DREAM|HBO|APPLE TV|STARZPLAY", up):
                     flag = "🔘"
                 if not flag:
                     iso = {"UK": "GB", "EN": "GB", "USA": "US"}.get(code, code)
@@ -270,7 +271,9 @@ for f in sorted(glob.glob("xtream/*/channel_map.json")):
                 continue
             hseen.add(c["stream_id"])
             g = hname(c.get("group") or "Other")
-            cid = str(800000 + zlib.crc32(g.encode("utf-8")) % 100000)
+            # the group's number stays the one it had before its name was tidied (owner, 11 Nov 2026: a group he had
+            # shown again, "DREAM 4K MOVIS", went hidden when its name was corrected: the app keeps shown groups by number)
+            cid = str(800000 + zlib.crc32(hname(c.get("group") or "Other", legacy=True).encode("utf-8")) % 100000)
             if not hcats or all(x["category_id"] != cid for x in hcats[-3:]):
                 if cid not in {x["category_id"] for x in hcats}:
                     hcats.append({"category_id": cid, "category_name": g, "parent_id": 0})
