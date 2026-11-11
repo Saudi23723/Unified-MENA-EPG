@@ -105,8 +105,9 @@ object Api {
         try {
             val pl = Prefs.playlist
             if (pl.isNotEmpty()) get("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/xtream/$pl/hidden_live.json").use { r ->
-                if (r.isSuccessful) r.body?.bytes()?.takeIf { it.size > 20 }?.let { cache("hidden_live_" + Prefs.playlist + ".json").writeBytes(it) }
-                else if (r.code == 404) cache("hidden_live_" + Prefs.playlist + ".json").delete()
+                val b = r.body?.bytes()
+                if (b != null && b.size > 20) cache("hidden_live_" + Prefs.playlist + ".json").writeBytes(b)
+                Unit
             }
         } catch (e: Exception) { }
         build(c.inputStream(), tmp.inputStream())
