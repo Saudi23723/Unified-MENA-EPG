@@ -1447,7 +1447,8 @@
  {
   "stream_id": 585144,
   "name": "VIP Dubai One",
-  "group": "🇸🇦 | STC ᴇxᴄʟᴜѕɪᴠᴇ"
+  "group": "🇸🇦 | STC ᴇxᴄʟᴜѕɪᴠᴇ",
+  "epg": "l:combined/DubaiOne.sa"
  },
  {
   "stream_id": 585145,
@@ -1704,7 +1705,8 @@
  {
   "stream_id": 585190,
   "name": "VIP Rotana + HD",
-  "group": "🇸🇦 | STC ᴇxᴄʟᴜѕɪᴠᴇ"
+  "group": "🇸🇦 | STC ᴇxᴄʟᴜѕɪᴠᴇ",
+  "epg": "l:combined/Rotana+.sa"
  },
  {
   "stream_id": 585191,
@@ -2380,7 +2382,8 @@
  {
   "stream_id": 585319,
   "name": "VIP Sky News Arabia - Live",
-  "group": "🇦🇪 | STARZPLAY ꜱᴘᴏʀᴛꜱ"
+  "group": "🇦🇪 | STARZPLAY ꜱᴘᴏʀᴛꜱ",
+  "epg": "a:Playlist.AE1SkyNewsArabiaHDae"
  },
  {
   "stream_id": 585320,
@@ -2475,7 +2478,8 @@
  {
   "stream_id": 585338,
   "name": "VIP Zee Aflam - Live",
-  "group": "🇦🇪 | STARZPLAY ꜱᴘᴏʀᴛꜱ"
+  "group": "🇦🇪 | STARZPLAY ꜱᴘᴏʀᴛꜱ",
+  "epg": "u:ZeeAflam.ae"
  },
  {
   "stream_id": 585339,
@@ -3136,7 +3140,8 @@
  {
   "stream_id": 361242,
   "name": "AD SPORT Premium 1 4K",
-  "group": "🌍 | ARABIC ꜱᴘᴏʀᴛꜱ"
+  "group": "🌍 | ARABIC ꜱᴘᴏʀᴛꜱ",
+  "epg": "Starz_admnadsports1"
  },
  {
   "stream_id": 420777,
@@ -3151,7 +3156,8 @@
  {
   "stream_id": 258437,
   "name": "AD SPORT Premium 2 4K",
-  "group": "🌍 | ARABIC ꜱᴘᴏʀᴛꜱ"
+  "group": "🌍 | ARABIC ꜱᴘᴏʀᴛꜱ",
+  "epg": "Starz_admnadsports2"
  },
  {
   "stream_id": 420779,
@@ -6827,7 +6833,8 @@
  {
   "stream_id": 81618,
   "name": "Islam- Saudia Quran HD",
-  "group": "🕌 | ISLAMIC ▶ إسلامي"
+  "group": "🕌 | ISLAMIC ▶ إسلامي",
+  "epg": "Playlist.Always.3e6fdd77f5"
  },
  {
   "stream_id": 81620,
@@ -7961,7 +7968,8 @@
  {
   "stream_id": 4555,
   "name": "Dubai One",
-  "group": "🇦🇪 | UAE ▶ الإمارات"
+  "group": "🇦🇪 | UAE ▶ الإمارات",
+  "epg": "l:combined/DubaiOne.sa"
  },
  {
   "stream_id": 4556,
@@ -10733,7 +10741,8 @@
  {
   "stream_id": 437963,
   "name": "TF1 +1 HEVC",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/TF1+1.fr"
  },
  {
   "stream_id": 437964,
@@ -10803,7 +10812,8 @@
  {
   "stream_id": 437975,
   "name": "CANAL+ FORMULA1 HEVC",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "a:Playlist.Logo.CanalPlusFormula1.fr"
  },
  {
   "stream_id": 437976,
@@ -10826,7 +10836,8 @@
  {
   "stream_id": 437979,
   "name": "CANAL+ MOTOGP HEVC",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/CANAL+MOTOGP.fr"
  },
  {
   "stream_id": 437980,
@@ -10855,7 +10866,8 @@
  {
   "stream_id": 437984,
   "name": "CANAL+ TOP14 HEVC",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/CANAL+TOP14.fr"
  },
  {
   "stream_id": 437985,
@@ -10866,7 +10878,8 @@
  {
   "stream_id": 437986,
   "name": "CINE+ CLUB HEVC",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/Cine+Club.fr"
  },
  {
   "stream_id": 437987,
@@ -10889,12 +10902,14 @@
  {
   "stream_id": 437990,
   "name": "OCS CHOC HEVC",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/OCSChoc.fr"
  },
  {
   "stream_id": 437991,
   "name": "OCS CITY HEVC",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/OCSCity.fr"
  },
  {
   "stream_id": 437992,
@@ -10922,7 +10937,8 @@
  {
   "stream_id": 437996,
   "name": "ALTICE STUDIO HEVC",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/AlticeStudio.fr"
  },
  {
   "stream_id": 437997,
@@ -10962,7 +10978,8 @@
  {
   "stream_id": 438003,
   "name": "NRJ12 HEVC",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/NRJ12.fr"
  },
  {
   "stream_id": 438004,
@@ -10989,7 +11006,8 @@
  {
   "stream_id": 438008,
   "name": "TMC +1 HEVC",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/TMC+1.fr"
  },
  {
   "stream_id": 438009,
@@ -11049,7 +11067,8 @@
  {
   "stream_id": 438020,
   "name": "RMC SPORT 2 HEVC",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/RMCSport2.fr"
  },
  {
   "stream_id": 438021,
@@ -11071,27 +11090,32 @@
  {
   "stream_id": 438024,
   "name": "EUROSPORT 360 1 HEVC",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/Eurosport360_1.fr"
  },
  {
   "stream_id": 438025,
   "name": "EUROSPORT 360 2 HEVC",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/Eurosport360_2.fr"
  },
  {
   "stream_id": 438026,
   "name": "MULTISPORTS 1 HEVC",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/MULTISPORTS1.fr"
  },
  {
   "stream_id": 438027,
   "name": "MULTISPORTS 2 HEVC",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/MULTISPORTS2.fr"
  },
  {
   "stream_id": 438028,
   "name": "MULTISPORTS 3 HEVC",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/MULTISPORTS3.fr"
  },
  {
   "stream_id": 438029,
@@ -11101,7 +11125,8 @@
  {
   "stream_id": 438030,
   "name": "EQUIDIA LIVE HEVC",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/Equidia.fr"
  },
  {
   "stream_id": 438031,
@@ -11293,7 +11318,8 @@
  {
   "stream_id": 438063,
   "name": "GAME ONE HD",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/GameOne.fr"
  },
  {
   "stream_id": 438064,
@@ -11334,27 +11360,32 @@
  {
   "stream_id": 438070,
   "name": "NRJ 12 HD",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/NRJ12.fr"
  },
  {
   "stream_id": 438071,
   "name": "OCS PULP HD",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/OCSPulp.fr"
  },
  {
   "stream_id": 438072,
   "name": "OCS CITY HD",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/OCSCity.fr"
  },
  {
   "stream_id": 438073,
   "name": "OCS GEANTS HD",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/OCSGeants.fr"
  },
  {
   "stream_id": 438074,
   "name": "OCS MAX HD",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/OCSMax.fr"
  },
  {
   "stream_id": 438075,
@@ -11376,7 +11407,8 @@
  {
   "stream_id": 438078,
   "name": "PLANETE+ A&E HD",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/PLANETE+AandE.fr"
  },
  {
   "stream_id": 438079,
@@ -11405,7 +11437,8 @@
  {
   "stream_id": 438083,
   "name": "EQUIDIA LIVE HD",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/Equidia.fr"
  },
  {
   "stream_id": 438084,
@@ -11680,12 +11713,14 @@
  {
   "stream_id": 438131,
   "name": "CINE+ CLUB 4K",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/Cine+Club.fr"
  },
  {
   "stream_id": 438132,
   "name": "CINE+ CLUB HD",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/Cine+Club.fr"
  },
  {
   "stream_id": 438133,
@@ -11893,32 +11928,38 @@
  {
   "stream_id": 438169,
   "name": "MULTISPORTS 1 HD",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/MULTISPORTS1.fr"
  },
  {
   "stream_id": 438170,
   "name": "MULTISPORTS 2 HD",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/MULTISPORTS2.fr"
  },
  {
   "stream_id": 438171,
   "name": "MULTISPORTS 3 HD",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/MULTISPORTS3.fr"
  },
  {
   "stream_id": 438172,
   "name": "MULTISPORTS 4 HD",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/MULTISPORTS4.fr"
  },
  {
   "stream_id": 438173,
   "name": "MULTISPORTS 5 HD",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/MULTISPORTS5.fr"
  },
  {
   "stream_id": 438174,
   "name": "MULTISPORTS 6 HD",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/MULTISPORTS6.fr"
  },
  {
   "stream_id": 438175,
@@ -12058,17 +12099,20 @@
  {
   "stream_id": 438200,
   "name": "BEIN SPORTS MAX 7 4K",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "a:Playlist.FR1beINSPORTSMAX7fr"
  },
  {
   "stream_id": 438201,
   "name": "BEIN SPORTS MAX 7 HD",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "a:Playlist.FR1beINSPORTSMAX7fr"
  },
  {
   "stream_id": 438202,
   "name": "BEIN SPORTS MAX 7 SD",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "a:Playlist.FR1beINSPORTSMAX7fr"
  },
  {
   "stream_id": 438203,
@@ -12091,17 +12135,20 @@
  {
   "stream_id": 438206,
   "name": "BEIN SPORTS MAX 9 4K",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "a:Playlist.FR1beINSPORTSMAX9fr"
  },
  {
   "stream_id": 438207,
   "name": "BEIN SPORTS MAX 9 HD",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "a:Playlist.FR1beINSPORTSMAX9fr"
  },
  {
   "stream_id": 438208,
   "name": "BEIN SPORTS MAX 9 SD",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "a:Playlist.FR1beINSPORTSMAX9fr"
  },
  {
   "stream_id": 438209,
@@ -12182,7 +12229,8 @@
  {
   "stream_id": 438224,
   "name": "RMC SPORT LIVE 1 HD",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "a:Playlist.FR1RMCSport1fr"
  },
  {
   "stream_id": 438225,
@@ -12210,7 +12258,8 @@
  {
   "stream_id": 438229,
   "name": "RMC SPORT 2 4K",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/RMCSport2.fr"
  },
  {
   "stream_id": 438230,
@@ -12226,17 +12275,20 @@
  {
   "stream_id": 438232,
   "name": "RMC SPORT 2 HD",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/RMCSport2.fr"
  },
  {
   "stream_id": 438233,
   "name": "RMC SPORT 2 SD",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/RMCSport2.fr"
  },
  {
   "stream_id": 438234,
   "name": "RMC SPORT 2 FHD",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/RMCSport2.fr"
  },
  {
   "stream_id": 438235,
@@ -12431,7 +12483,8 @@
  {
   "stream_id": 438280,
   "name": "VIP FR: DAZN 1 HD",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/DAZN1.fr"
  },
  {
   "stream_id": 438281,
@@ -12565,7 +12618,8 @@
  {
   "stream_id": 424496,
   "name": "Nickjr HEVC",
-  "group": "🇮🇹 | ITALY"
+  "group": "🇮🇹 | ITALY",
+  "epg": "a:nickjr.it"
  },
  {
   "stream_id": 424497,
@@ -12589,7 +12643,7 @@
   "stream_id": 424500,
   "name": "Sky Sport Golf HEVC",
   "group": "🇮🇹 | ITALY",
-  "epg": ""
+  "epg": "l:italy/SkySportsGolfHD(SSPGITHD).it"
  },
  {
   "stream_id": 424501,
@@ -13194,7 +13248,8 @@
  {
   "stream_id": 424612,
   "name": "MEDIASET ITALIA 2 4K",
-  "group": "🇮🇹 | ITALY"
+  "group": "🇮🇹 | ITALY",
+  "epg": "l:italy/MediasetItalia2HD(MEDIT2).it"
  },
  {
   "stream_id": 424613,
@@ -13234,7 +13289,8 @@
  {
   "stream_id": 424619,
   "name": "TG COM 24",
-  "group": "🇮🇹 | ITALY"
+  "group": "🇮🇹 | ITALY",
+  "epg": "l:italy/TGCOM24HD(TGCO24H).it"
  },
  {
   "stream_id": 424620,
@@ -13272,7 +13328,8 @@
  {
   "stream_id": 424626,
   "name": "RSI LA 1 HD",
-  "group": "🇮🇹 | ITALY"
+  "group": "🇮🇹 | ITALY",
+  "epg": "l:italy/RSILa1(RSILA1).it"
  },
  {
   "stream_id": 424627,
@@ -13358,7 +13415,8 @@
  {
   "stream_id": 424641,
   "name": "DEA KIDS 4K",
-  "group": "🇮🇹 | ITALY"
+  "group": "🇮🇹 | ITALY",
+  "epg": "l:italy/DeAKids(DEAKIDS).it"
  },
  {
   "stream_id": 424642,
@@ -14193,19 +14251,19 @@
   "stream_id": 424801,
   "name": "SKY SPORT Golf 4K",
   "group": "🇮🇹 | ITALY",
-  "epg": ""
+  "epg": "l:italy/SkySportsGolfHD(SSPGITHD).it"
  },
  {
   "stream_id": 424802,
   "name": "SKY SPORT GOLF HD",
   "group": "🇮🇹 | ITALY",
-  "epg": ""
+  "epg": "l:italy/SkySportsGolfHD(SSPGITHD).it"
  },
  {
   "stream_id": 424803,
   "name": "SKY SPORT Golf SD",
   "group": "🇮🇹 | ITALY",
-  "epg": ""
+  "epg": "l:italy/SkySportsGolfHD(SSPGITHD).it"
  },
  {
   "stream_id": 424804,
@@ -14216,7 +14274,8 @@
  {
   "stream_id": 424805,
   "name": "SKY SPORT MOTO GP 4K",
-  "group": "🇮🇹 | ITALY"
+  "group": "🇮🇹 | ITALY",
+  "epg": "l:italy/SkySportMotoGP(SKMTGP).it"
  },
  {
   "stream_id": 424806,
@@ -14227,12 +14286,14 @@
  {
   "stream_id": 424807,
   "name": "SKY SPORT MOTO GP HD",
-  "group": "🇮🇹 | ITALY"
+  "group": "🇮🇹 | ITALY",
+  "epg": "l:italy/SkySportMotoGP(SKMTGP).it"
  },
  {
   "stream_id": 424808,
   "name": "SKY SPORT MOTO GP SD",
-  "group": "🇮🇹 | ITALY"
+  "group": "🇮🇹 | ITALY",
+  "epg": "l:italy/SkySportMotoGP(SKMTGP).it"
  },
  {
   "stream_id": 424809,
@@ -15086,7 +15147,7 @@
   "stream_id": 282933,
   "name": "A&E",
   "group": "🇨🇦 | CANADA",
-  "epg": ""
+  "epg": "l:combined/AandE.ca"
  },
  {
   "stream_id": 282934,
@@ -15124,7 +15185,8 @@
  {
   "stream_id": 282940,
   "name": "CARTOON NETWORK",
-  "group": "🇨🇦 | CANADA"
+  "group": "🇨🇦 | CANADA",
+  "epg": "l:combined/CartoonNetwork.ca"
  },
  {
   "stream_id": 282941,
@@ -15274,7 +15336,8 @@
  {
   "stream_id": 282968,
   "name": "CTV NEWS",
-  "group": "🇨🇦 | CANADA"
+  "group": "🇨🇦 | CANADA",
+  "epg": "a:Playlist.CA2CTVNewsChannelHDca2"
  },
  {
   "stream_id": 282969,
@@ -15290,7 +15353,8 @@
  {
   "stream_id": 282971,
   "name": "DEJAVIEW",
-  "group": "🇨🇦 | CANADA"
+  "group": "🇨🇦 | CANADA",
+  "epg": "l:combined/DejaView.ca"
  },
  {
   "stream_id": 282972,
@@ -15563,7 +15627,8 @@
  {
   "stream_id": 283022,
   "name": "WEATHER NETWORK",
-  "group": "🇨🇦 | CANADA"
+  "group": "🇨🇦 | CANADA",
+  "epg": "l:combined/WeatherNetwork.ca"
  },
  {
   "stream_id": 283023,
@@ -15578,7 +15643,8 @@
  {
   "stream_id": 283025,
   "name": "[CA-FR] ZESTE",
-  "group": "🇨🇦 | CANADA"
+  "group": "🇨🇦 | CANADA",
+  "epg": "l:combined/Zeste.ca"
  },
  {
   "stream_id": 283026,
@@ -15588,12 +15654,14 @@
  {
   "stream_id": 283027,
   "name": "[CA-FR] HISTORY CHANNEL",
-  "group": "🇨🇦 | CANADA"
+  "group": "🇨🇦 | CANADA",
+  "epg": "a:Playlist.CA2Historyca2"
  },
  {
   "stream_id": 283028,
   "name": "[CA-FR] PRISE 2",
-  "group": "🇨🇦 | CANADA"
+  "group": "🇨🇦 | CANADA",
+  "epg": "l:combined/Prise2.ca"
  },
  {
   "stream_id": 283029,
@@ -15608,7 +15676,8 @@
  {
   "stream_id": 283031,
   "name": "[CA-FR] CANAL D",
-  "group": "🇨🇦 | CANADA"
+  "group": "🇨🇦 | CANADA",
+  "epg": "l:combined/CanalD.ca"
  },
  {
   "stream_id": 283032,
@@ -15618,7 +15687,8 @@
  {
   "stream_id": 283033,
   "name": "[CA-FR] ICI MONTREAL",
-  "group": "🇨🇦 | CANADA"
+  "group": "🇨🇦 | CANADA",
+  "epg": "l:combined/ICIMontreal.ca"
  },
  {
   "stream_id": 283034,
@@ -15663,7 +15733,8 @@
  {
   "stream_id": 283042,
   "name": "[CA-FR] SERIES+",
-  "group": "🇨🇦 | CANADA"
+  "group": "🇨🇦 | CANADA",
+  "epg": "l:combined/SeriesPlus.ca"
  },
  {
   "stream_id": 283043,
@@ -15673,17 +15744,20 @@
  {
   "stream_id": 283044,
   "name": "[CA-FR] SUPER ECRAN 2",
-  "group": "🇨🇦 | CANADA"
+  "group": "🇨🇦 | CANADA",
+  "epg": "l:combined/SuperEcran2.ca"
  },
  {
   "stream_id": 283045,
   "name": "[CA-FR] SUPER ECRAN 3",
-  "group": "🇨🇦 | CANADA"
+  "group": "🇨🇦 | CANADA",
+  "epg": "l:combined/SuperEcran3.ca"
  },
  {
   "stream_id": 283046,
   "name": "[CA-FR] SUPER ECRAN 4",
-  "group": "🇨🇦 | CANADA"
+  "group": "🇨🇦 | CANADA",
+  "epg": "l:combined/SuperEcran4.ca"
  },
  {
   "stream_id": 283047,
@@ -15724,7 +15798,7 @@
   "stream_id": 283054,
   "name": "A&E HD",
   "group": "🇨🇦 | CANADA",
-  "epg": ""
+  "epg": "l:combined/AandE.ca"
  },
  {
   "stream_id": 283055,
@@ -15749,7 +15823,8 @@
  {
   "stream_id": 283059,
   "name": "CARTOON NETWORK HD",
-  "group": "🇨🇦 | CANADA"
+  "group": "🇨🇦 | CANADA",
+  "epg": "l:combined/CartoonNetwork.ca"
  },
  {
   "stream_id": 283060,
@@ -15787,7 +15862,8 @@
  {
   "stream_id": 283066,
   "name": "CTV NEWS SD",
-  "group": "🇨🇦 | CANADA"
+  "group": "🇨🇦 | CANADA",
+  "epg": "a:Playlist.CA2CTVNewsChannelHDca2"
  },
  {
   "stream_id": 283067,
@@ -15809,7 +15885,8 @@
  {
   "stream_id": 283070,
   "name": "DEJAVIEW SD",
-  "group": "🇨🇦 | CANADA"
+  "group": "🇨🇦 | CANADA",
+  "epg": "l:combined/DejaView.ca"
  },
  {
   "stream_id": 283071,
@@ -15901,7 +15978,8 @@
  {
   "stream_id": 283087,
   "name": "BOOMERANG HD",
-  "group": "🇨🇦 | CANADA"
+  "group": "🇨🇦 | CANADA",
+  "epg": "l:combined/Boomerang.ca"
  },
  {
   "stream_id": 283088,
@@ -16007,7 +16085,8 @@
  {
   "stream_id": 283106,
   "name": "WEATHER NETWORK SD",
-  "group": "🇨🇦 | CANADA"
+  "group": "🇨🇦 | CANADA",
+  "epg": "l:combined/WeatherNetwork.ca"
  },
  {
   "stream_id": 283107,
@@ -16220,7 +16299,8 @@
  {
   "stream_id": 283145,
   "name": "[CA-FR] ICI RDI",
-  "group": "🇨🇦 | CANADA"
+  "group": "🇨🇦 | CANADA",
+  "epg": "a:Playlist.CA2ICIRDIHDca2"
  },
  {
   "stream_id": 283146,
@@ -16368,12 +16448,14 @@
  {
   "stream_id": 581198,
   "name": "Pop +1",
-  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ"
+  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ",
+  "epg": "l:combined/Pop+1.uk"
  },
  {
   "stream_id": 581199,
   "name": "POP Max +1",
-  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ"
+  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ",
+  "epg": "l:combined/PopMax+1.uk"
  },
  {
   "stream_id": 581200,
@@ -16383,7 +16465,8 @@
  {
   "stream_id": 581201,
   "name": "Sky Cinema Animation",
-  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ"
+  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ",
+  "epg": "l:combined/SkyCinemaAnimation.uk"
  },
  {
   "stream_id": 581202,
@@ -16400,7 +16483,8 @@
  {
   "stream_id": 581204,
   "name": "Tiny Pop +1",
-  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ"
+  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ",
+  "epg": "l:combined/TinyPop+1.uk"
  },
  {
   "stream_id": 581205,
@@ -16503,7 +16587,8 @@
  {
   "stream_id": 581223,
   "name": "Horse & Country TV",
-  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ"
+  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ",
+  "epg": "l:combined/HorseAndCountry.uk"
  },
  {
   "stream_id": 581224,
@@ -16736,7 +16821,8 @@
  {
   "stream_id": 581265,
   "name": "MTV Music",
-  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ"
+  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ",
+  "epg": "l:combined/MTVMusic.uk"
  },
  {
   "stream_id": 581266,
@@ -16786,7 +16872,8 @@
  {
   "stream_id": 581274,
   "name": "Aljazeera English",
-  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ"
+  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ",
+  "epg": "l:combined/AlJazeeraEnglish.uk"
  },
  {
   "stream_id": 581275,
@@ -16952,7 +17039,8 @@
  {
   "stream_id": 581304,
   "name": "Comedy Central Extra",
-  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ"
+  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ",
+  "epg": "l:combined/ComedyCentralExtra.uk"
  },
  {
   "stream_id": 581305,
@@ -17281,7 +17369,8 @@
  {
   "stream_id": 581362,
   "name": "BBC One East Yorkshire",
-  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ"
+  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ",
+  "epg": "o:BBCOneEastYorkshire.uk"
  },
  {
   "stream_id": 581363,
@@ -17453,7 +17542,8 @@
  {
   "stream_id": 581392,
   "name": "HGTV +1",
-  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ"
+  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ",
+  "epg": "l:combined/HGTV+1.uk"
  },
  {
   "stream_id": 581393,
@@ -17564,7 +17654,8 @@
  {
   "stream_id": 581411,
   "name": "Paramount Network",
-  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ"
+  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ",
+  "epg": "a:Playlist.Logo.5Action.uk"
  },
  {
   "stream_id": 581412,
@@ -17678,7 +17769,8 @@
  {
   "stream_id": 581431,
   "name": "U&W (Watch)",
-  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ"
+  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ",
+  "epg": "l:combined/UandW.uk"
  },
  {
   "stream_id": 581432,
@@ -17710,7 +17802,8 @@
  {
   "stream_id": 581437,
   "name": "Animal Planet +1",
-  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ"
+  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ",
+  "epg": "l:combined/AnimalPlanet+1.uk"
  },
  {
   "stream_id": 581438,
@@ -17773,12 +17866,13 @@
   "stream_id": 581448,
   "name": "Crime+ Investigation",
   "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ",
-  "epg": ""
+  "epg": "l:combined/Crime+Investigation.uk"
  },
  {
   "stream_id": 581449,
   "name": "Discovery Channel",
-  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ"
+  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ",
+  "epg": "a:Playlist.UK1DiscoveryHDuk"
  },
  {
   "stream_id": 581450,
@@ -17881,7 +17975,8 @@
  {
   "stream_id": 581467,
   "name": "Smithsonian Channel",
-  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ"
+  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ",
+  "epg": "a:Playlist.Logo.SmithsonianChannel.uk"
  },
  {
   "stream_id": 581468,
@@ -18359,7 +18454,8 @@
  {
   "stream_id": 400589,
   "name": "Channel 10 BOLD",
-  "group": "🇭🇲 | ᴀᴜꜱᴛʀᴀʟɪᴀ ᴄʜᴀɴɴᴇʟꜱ"
+  "group": "🇭🇲 | ᴀᴜꜱᴛʀᴀʟɪᴀ ᴄʜᴀɴɴᴇʟꜱ",
+  "epg": "a:10Bold.au"
  },
  {
   "stream_id": 400590,
@@ -18899,7 +18995,8 @@
  {
   "stream_id": 342122,
   "name": "TVE Internacional",
-  "group": "🇵🇹 | PORTUGAL"
+  "group": "🇵🇹 | PORTUGAL",
+  "epg": "l:portugal/TVEInternacional.pt"
  },
  {
   "stream_id": 342123,
@@ -19121,12 +19218,14 @@
  {
   "stream_id": 342162,
   "name": "Nat Geo HD",
-  "group": "🇵🇹 | PORTUGAL"
+  "group": "🇵🇹 | PORTUGAL",
+  "epg": "l:portugal/NatGeo.pt"
  },
  {
   "stream_id": 342163,
   "name": "Nat Geo 4K",
-  "group": "🇵🇹 | PORTUGAL"
+  "group": "🇵🇹 | PORTUGAL",
+  "epg": "l:portugal/NatGeo.pt"
  },
  {
   "stream_id": 342164,
@@ -19143,12 +19242,14 @@
  {
   "stream_id": 342166,
   "name": "Discovery Channel HD",
-  "group": "🇵🇹 | PORTUGAL"
+  "group": "🇵🇹 | PORTUGAL",
+  "epg": "a:Playlist.Logo.DiscoveryChannel.pt"
  },
  {
   "stream_id": 342167,
   "name": "Discovery Channel 4K",
-  "group": "🇵🇹 | PORTUGAL"
+  "group": "🇵🇹 | PORTUGAL",
+  "epg": "a:Playlist.Logo.DiscoveryChannel.pt"
  },
  {
   "stream_id": 342168,
@@ -19293,7 +19394,8 @@
  {
   "stream_id": 342192,
   "name": "TPA INTERNACIONAL",
-  "group": "🇵🇹 | PORTUGAL"
+  "group": "🇵🇹 | PORTUGAL",
+  "epg": "l:portugal/TPAInternacional.pt"
  },
  {
   "stream_id": 342193,
@@ -19345,7 +19447,8 @@
  {
   "stream_id": 342201,
   "name": "Biggs",
-  "group": "🇵🇹 | PORTUGAL"
+  "group": "🇵🇹 | PORTUGAL",
+  "epg": "l:portugal/BIGGS.pt"
  },
  {
   "stream_id": 342202,
@@ -19737,12 +19840,14 @@
  {
   "stream_id": 342271,
   "name": "Toros TV",
-  "group": "🇵🇹 | PORTUGAL"
+  "group": "🇵🇹 | PORTUGAL",
+  "epg": "l:portugal/TOROS.pt"
  },
  {
   "stream_id": 342272,
   "name": "Toros FHD",
-  "group": "🇵🇹 | PORTUGAL"
+  "group": "🇵🇹 | PORTUGAL",
+  "epg": "l:portugal/TOROS.pt"
  },
  {
   "stream_id": 342273,
@@ -19808,7 +19913,8 @@
  {
   "stream_id": 342284,
   "name": "MEO Destaques",
-  "group": "🇵🇹 | PORTUGAL"
+  "group": "🇵🇹 | PORTUGAL",
+  "epg": "l:portugal/MEODESTAQUES.pt"
  },
  {
   "stream_id": 342285,
@@ -19834,7 +19940,8 @@
  {
   "stream_id": 540738,
   "name": "Aljazeera English HD",
-  "group": "🇺🇲 | USA"
+  "group": "🇺🇲 | USA",
+  "epg": "a:Playlist.fertequealjazeeraenglishus"
  },
  {
   "stream_id": 540739,
@@ -19976,12 +20083,14 @@
  {
   "stream_id": 540767,
   "name": "Weather Nation HD",
-  "group": "🇺🇲 | USA"
+  "group": "🇺🇲 | USA",
+  "epg": "a:Playlist.Logo.WeatherNation.us"
  },
  {
   "stream_id": 540768,
   "name": "WGN America HD",
-  "group": "🇺🇲 | USA"
+  "group": "🇺🇲 | USA",
+  "epg": "l:combined/WGNWGN9.us"
  },
  {
   "stream_id": 573532,
@@ -20002,7 +20111,8 @@
  {
   "stream_id": 573535,
   "name": "AFN Prime Pacific HD",
-  "group": "🇺🇲 | US ꜱᴘᴏʀᴛꜱ"
+  "group": "🇺🇲 | US ꜱᴘᴏʀᴛꜱ",
+  "epg": "l:combined/AFNPrimePacific.us"
  },
  {
   "stream_id": 573536,
@@ -20136,7 +20246,8 @@
  {
   "stream_id": 573561,
   "name": "ESPN 3 HD",
-  "group": "🇺🇲 | US ꜱᴘᴏʀᴛꜱ"
+  "group": "🇺🇲 | US ꜱᴘᴏʀᴛꜱ",
+  "epg": "l:combined/ESPN3.us"
  },
  {
   "stream_id": 573562,
@@ -20151,7 +20262,8 @@
  {
   "stream_id": 573564,
   "name": "SEC Network (ESPN)",
-  "group": "🇺🇲 | US ꜱᴘᴏʀᴛꜱ"
+  "group": "🇺🇲 | US ꜱᴘᴏʀᴛꜱ",
+  "epg": "a:Playlist.US2SECNetworkHDus2"
  },
  {
   "stream_id": 573565,
@@ -20229,7 +20341,8 @@
  {
   "stream_id": 573578,
   "name": "NBC Chicago HD",
-  "group": "🇺🇲 | US ꜱᴘᴏʀᴛꜱ"
+  "group": "🇺🇲 | US ꜱᴘᴏʀᴛꜱ",
+  "epg": "a:Playlist.iptvepgNBCWMAQus"
  },
  {
   "stream_id": 573579,
@@ -20625,7 +20738,8 @@
  {
   "stream_id": 568310,
   "name": "EDGE SPORTS",
-  "group": "🇺🇲 | US ꜱᴘᴏʀᴛꜱ"
+  "group": "🇺🇲 | US ꜱᴘᴏʀᴛꜱ",
+  "epg": "l:combined/EdgeSport.us"
  },
  {
   "stream_id": 568311,
@@ -20785,7 +20899,8 @@
  {
   "stream_id": 568339,
   "name": "GAME+",
-  "group": "🇺🇲 | US ꜱᴘᴏʀᴛꜱ"
+  "group": "🇺🇲 | US ꜱᴘᴏʀᴛꜱ",
+  "epg": "l:combined/GamePlus.us"
  },
  {
   "stream_id": 568340,
@@ -21150,12 +21265,14 @@
  {
   "stream_id": 568408,
   "name": "SPECTRUM SPORTSNET (NEW YORK)",
-  "group": "🇺🇲 | US ꜱᴘᴏʀᴛꜱ"
+  "group": "🇺🇲 | US ꜱᴘᴏʀᴛꜱ",
+  "epg": "a:Playlist.US2SpectrumSportsNetLakersHDus2"
  },
  {
   "stream_id": 568409,
   "name": "SPECTRUM SPORTSNET HD",
-  "group": "🇺🇲 | US ꜱᴘᴏʀᴛꜱ"
+  "group": "🇺🇲 | US ꜱᴘᴏʀᴛꜱ",
+  "epg": "a:Playlist.US2SpectrumSportsNetLakersHDus2"
  },
  {
   "stream_id": 568410,
@@ -21314,42 +21431,50 @@
  {
   "stream_id": 541050,
   "name": "FOX FL JACKSONVILLE WFOX",
-  "group": "🇺🇸 | US REGIONAL"
+  "group": "🇺🇸 | US REGIONAL",
+  "epg": "l:combined/FOXWFOX.us"
  },
  {
   "stream_id": 541051,
   "name": "ABC ORLANDO WFTV",
-  "group": "🇺🇸 | US REGIONAL"
+  "group": "🇺🇸 | US REGIONAL",
+  "epg": "l:combined/ABCWFTV.us"
  },
  {
   "stream_id": 541052,
   "name": "CBS FL JACKSONVILLE WJAX",
-  "group": "🇺🇸 | US REGIONAL"
+  "group": "🇺🇸 | US REGIONAL",
+  "epg": "l:combined/CBSWJAX.us"
  },
  {
   "stream_id": 541053,
   "name": "CBS FL ORLANDO WKMG",
-  "group": "🇺🇸 | US REGIONAL"
+  "group": "🇺🇸 | US REGIONAL",
+  "epg": "l:combined/CBSWKMG.us"
  },
  {
   "stream_id": 541054,
   "name": "CBS Los Angeles, CA KCBS",
-  "group": "🇺🇸 | US REGIONAL"
+  "group": "🇺🇸 | US REGIONAL",
+  "epg": "l:combined/CBSKCBS.us"
  },
  {
   "stream_id": 541055,
   "name": "FOX FL ORLANDO WOFL",
-  "group": "🇺🇸 | US REGIONAL"
+  "group": "🇺🇸 | US REGIONAL",
+  "epg": "l:combined/FOXWOFL.us"
  },
  {
   "stream_id": 541056,
   "name": "FOX MI DETROIT WJBK",
-  "group": "🇺🇸 | US REGIONAL"
+  "group": "🇺🇸 | US REGIONAL",
+  "epg": "l:combined/FOXWJBK.us"
  },
  {
   "stream_id": 541057,
   "name": "NBC FL JACKSONVILLE WTLV",
-  "group": "🇺🇸 | US REGIONAL"
+  "group": "🇺🇸 | US REGIONAL",
+  "epg": "l:combined/NBCWTLV.us"
  },
  {
   "stream_id": 541058,
@@ -21359,7 +21484,8 @@
  {
   "stream_id": 541059,
   "name": "NBC TX JACKSONVILLE KETK",
-  "group": "🇺🇸 | US REGIONAL"
+  "group": "🇺🇸 | US REGIONAL",
+  "epg": "l:combined/NBCKETK.us"
  },
  {
   "stream_id": 541060,
@@ -21370,7 +21496,8 @@
  {
   "stream_id": 541061,
   "name": "ABC (wls) Chicago HD",
-  "group": "🇺🇸 | US REGIONAL"
+  "group": "🇺🇸 | US REGIONAL",
+  "epg": "l:combined/ABCWLS.us"
  },
  {
   "stream_id": 541062,
@@ -21402,7 +21529,8 @@
  {
   "stream_id": 541067,
   "name": "ABC Baltimore MD WMAR HD",
-  "group": "🇺🇸 | US REGIONAL"
+  "group": "🇺🇸 | US REGIONAL",
+  "epg": "l:combined/ABCWMAR.us"
  },
  {
   "stream_id": 541068,
@@ -21417,7 +21545,8 @@
  {
   "stream_id": 541070,
   "name": "ABC Detroit MI WXYZ HD",
-  "group": "🇺🇸 | US REGIONAL"
+  "group": "🇺🇸 | US REGIONAL",
+  "epg": "l:combined/ABCWXYZ.us"
  },
  {
   "stream_id": 541071,
@@ -21469,12 +21598,14 @@
  {
   "stream_id": 541080,
   "name": "ABC Wten",
-  "group": "🇺🇸 | US REGIONAL"
+  "group": "🇺🇸 | US REGIONAL",
+  "epg": "l:combined/ABCWTEN.us"
  },
  {
   "stream_id": 541081,
   "name": "Atlanta NBC WXIA HD",
-  "group": "🇺🇸 | US REGIONAL"
+  "group": "🇺🇸 | US REGIONAL",
+  "epg": "l:combined/NBCWXIA.us"
  },
  {
   "stream_id": 541082,
@@ -21489,7 +21620,8 @@
  {
   "stream_id": 541084,
   "name": "CBS 2 New York",
-  "group": "🇺🇸 | US REGIONAL"
+  "group": "🇺🇸 | US REGIONAL",
+  "epg": "a:Playlist.fertequewcbsus"
  },
  {
   "stream_id": 541085,
@@ -21500,7 +21632,8 @@
  {
   "stream_id": 541086,
   "name": "CBS Boston HD",
-  "group": "🇺🇸 | US REGIONAL"
+  "group": "🇺🇸 | US REGIONAL",
+  "epg": "a:Playlist.fertequewsbkus"
  },
  {
   "stream_id": 541087,
@@ -21510,7 +21643,8 @@
  {
   "stream_id": 541088,
   "name": "CBS Columbus OH WBNS HD",
-  "group": "🇺🇸 | US REGIONAL"
+  "group": "🇺🇸 | US REGIONAL",
+  "epg": "l:combined/CBSWBNS.us"
  },
  {
   "stream_id": 541089,
@@ -21520,7 +21654,8 @@
  {
   "stream_id": 541090,
   "name": "CBS Detroit, MI WWJ HD",
-  "group": "🇺🇸 | US REGIONAL"
+  "group": "🇺🇸 | US REGIONAL",
+  "epg": "l:combined/CBSWWJ.us"
  },
  {
   "stream_id": 541091,
@@ -21708,7 +21843,8 @@
  {
   "stream_id": 541124,
   "name": "FOX Nashville HD",
-  "group": "🇺🇸 | US REGIONAL"
+  "group": "🇺🇸 | US REGIONAL",
+  "epg": "a:Playlist.fertequewztvus"
  },
  {
   "stream_id": 541125,
@@ -21728,7 +21864,8 @@
  {
   "stream_id": 541128,
   "name": "FOX Philadelphia PA WTXF HD",
-  "group": "🇺🇸 | US REGIONAL"
+  "group": "🇺🇸 | US REGIONAL",
+  "epg": "l:combined/FOXWTXF.us"
  },
  {
   "stream_id": 541129,
@@ -21810,7 +21947,8 @@
  {
   "stream_id": 541144,
   "name": "FOX Washington, DC WTTG",
-  "group": "🇺🇸 | US REGIONAL"
+  "group": "🇺🇸 | US REGIONAL",
+  "epg": "l:combined/FOXWTTG.us"
  },
  {
   "stream_id": 541145,
@@ -21820,7 +21958,8 @@
  {
   "stream_id": 541146,
   "name": "NBC 4 NEW YORK HD",
-  "group": "🇺🇸 | US REGIONAL"
+  "group": "🇺🇸 | US REGIONAL",
+  "epg": "a:Playlist.fertequewnbcus"
  },
  {
   "stream_id": 541147,
@@ -21836,7 +21975,8 @@
  {
   "stream_id": 541149,
   "name": "NBC Atlanta TV FHD",
-  "group": "🇺🇸 | US REGIONAL"
+  "group": "🇺🇸 | US REGIONAL",
+  "epg": "a:Playlist.fertequewxiaus"
  },
  {
   "stream_id": 541150,
@@ -21856,7 +21996,8 @@
  {
   "stream_id": 541153,
   "name": "NBC Charlotte HD",
-  "group": "🇺🇸 | US REGIONAL"
+  "group": "🇺🇸 | US REGIONAL",
+  "epg": "a:Playlist.fertequewcncus"
  },
  {
   "stream_id": 541154,
@@ -21909,7 +22050,8 @@
  {
   "stream_id": 541163,
   "name": "NBC Raleigh, NC WRAL HD",
-  "group": "🇺🇸 | US REGIONAL"
+  "group": "🇺🇸 | US REGIONAL",
+  "epg": "l:combined/NBCWRAL.us"
  },
  {
   "stream_id": 541164,
@@ -21953,17 +22095,20 @@
  {
   "stream_id": 541171,
   "name": "NBC Tampa BAY WFLA HD",
-  "group": "🇺🇸 | US REGIONAL"
+  "group": "🇺🇸 | US REGIONAL",
+  "epg": "l:combined/NBCWFLA.us"
  },
  {
   "stream_id": 541172,
   "name": "NBC Washington HD",
-  "group": "🇺🇸 | US REGIONAL"
+  "group": "🇺🇸 | US REGIONAL",
+  "epg": "a:Playlist.fertequewitnus"
  },
  {
   "stream_id": 541173,
   "name": "NBC Washington, DC WRC",
-  "group": "🇺🇸 | US REGIONAL"
+  "group": "🇺🇸 | US REGIONAL",
+  "epg": "l:combined/NBCWRC.us"
  },
  {
   "stream_id": 541174,
@@ -22033,7 +22178,8 @@
  {
   "stream_id": 541186,
   "name": "Orlando NBC WESH HD",
-  "group": "🇺🇸 | US REGIONAL"
+  "group": "🇺🇸 | US REGIONAL",
+  "epg": "l:combined/NBCWESH.us"
  },
  {
   "stream_id": 541187,
@@ -22136,7 +22282,8 @@
  {
   "stream_id": 541205,
   "name": "Univision Raleigh, NC WUVC HD",
-  "group": "🇺🇸 | US REGIONAL"
+  "group": "🇺🇸 | US REGIONAL",
+  "epg": "l:combined/UnivisionWUVC.us"
  },
  {
   "stream_id": 541206,
@@ -22146,7 +22293,8 @@
  {
   "stream_id": 541207,
   "name": "WPIX 11 NEW YORK HD",
-  "group": "🇺🇸 | US REGIONAL"
+  "group": "🇺🇸 | US REGIONAL",
+  "epg": "l:combined/CWWPIX.us"
  },
  {
   "stream_id": 541208,
@@ -22156,17 +22304,20 @@
  {
   "stream_id": 541209,
   "name": "CBS Little Rock Arkansas KTHV TV",
-  "group": "🇺🇸 | US REGIONAL"
+  "group": "🇺🇸 | US REGIONAL",
+  "epg": "l:combined/CBSKTHV.us"
  },
  {
   "stream_id": 541210,
   "name": "NBC Little Rock Arkansas KARK TV",
-  "group": "🇺🇸 | US REGIONAL"
+  "group": "🇺🇸 | US REGIONAL",
+  "epg": "l:combined/NBCKARK.us"
  },
  {
   "stream_id": 574018,
   "name": "ABC Columbus, GA WTVM",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/ABCWTVM.us"
  },
  {
   "stream_id": 574019,
@@ -22376,7 +22527,8 @@
  {
   "stream_id": 574060,
   "name": "ABC Fort Smith, AR KETV(KHOG)â§",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/ABCKETV.us"
  },
  {
   "stream_id": 574061,
@@ -22762,72 +22914,86 @@
  {
   "stream_id": 574137,
   "name": "ABC Lawton, OK KSWO",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/ABCKSWO.us"
  },
  {
   "stream_id": 541321,
   "name": "CBS Altoona, PA WTAJ HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSWTAJ.us"
  },
  {
   "stream_id": 541322,
   "name": "CBS Augusta, GA WRDW HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSWRDW.us"
  },
  {
   "stream_id": 541323,
   "name": "CBS Bakersfield, CA KBAK HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSKBAK.us"
  },
  {
   "stream_id": 541324,
   "name": "CBS Baton Rouge, LA WAFB HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSWAFB.us"
  },
  {
   "stream_id": 541325,
   "name": "CBS Binghamton, NY WBNG HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSWBNG.us"
  },
  {
   "stream_id": 541326,
   "name": "CBS Birmingham, AL WIAT HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CWIAT.us"
  },
  {
   "stream_id": 541327,
   "name": "CBS Boise, ID KBOI HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSKBOI.us"
  },
  {
   "stream_id": 541328,
   "name": "CBS Boston, MA WBZ HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSWBZ.us"
  },
  {
   "stream_id": 541329,
   "name": "CBS Buffalo, NY WIVB HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSWIVB.us"
  },
  {
   "stream_id": 541330,
   "name": "CBS Burlington, VT WCAX HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSWCAX.us"
  },
  {
   "stream_id": 541331,
   "name": "CBS Cadillac, MI WWTV HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSWWTV.us"
  },
  {
   "stream_id": 541332,
   "name": "CBS Charlotte, NC WBTV HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSWBTV.us"
  },
  {
   "stream_id": 541333,
   "name": "CBS Chattanooga, TN WDEF HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSWDEF.us"
  },
  {
   "stream_id": 541334,
@@ -22837,17 +23003,20 @@
  {
   "stream_id": 541335,
   "name": "CBS Colorado Springs, CO KKTV HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSKKTV.us"
  },
  {
   "stream_id": 541336,
   "name": "CBS Corpus Christi, TX KZTV HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSKZTV.us"
  },
  {
   "stream_id": 541337,
   "name": "CBS Denver, CO KCNC HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSKCNC.us"
  },
  {
   "stream_id": 541338,
@@ -22857,7 +23026,8 @@
  {
   "stream_id": 541339,
   "name": "CBS EL Paso, TX KDBC HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSKDBC.us"
  },
  {
   "stream_id": 541340,
@@ -22867,17 +23037,20 @@
  {
   "stream_id": 541341,
   "name": "CBS Flint, MI WNEM HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSWNEM.us"
  },
  {
   "stream_id": 541342,
   "name": "CBS Fresno, CA KGPE HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSKGPE.us"
  },
  {
   "stream_id": 541343,
   "name": "CBS Greenville, NC WNCT HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSWNCT.us"
  },
  {
   "stream_id": 541344,
@@ -22892,22 +23065,26 @@
  {
   "stream_id": 541346,
   "name": "CBS Huntington, WV WOWK HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSWOWK.us"
  },
  {
   "stream_id": 541347,
   "name": "CBS Jackson, MS WJTV HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CWWJTV.us"
  },
  {
   "stream_id": 541348,
   "name": "CBS Kansas City, MO KCTV HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSKCTV.us"
  },
  {
   "stream_id": 541349,
   "name": "CBS Knoxville, TN WVLT HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSWVLT.us"
  },
  {
   "stream_id": 541350,
@@ -22917,12 +23094,14 @@
  {
   "stream_id": 541351,
   "name": "CBS Lafayette, LA KLFY HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSKLFY.us"
  },
  {
   "stream_id": 541352,
   "name": "CBS Lansing, MI WLNS HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSWLNS.us"
  },
  {
   "stream_id": 541353,
@@ -22932,27 +23111,32 @@
  {
   "stream_id": 541354,
   "name": "CBS Lincoln, NE KOLN HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSKOLN.us"
  },
  {
   "stream_id": 541355,
   "name": "CBS Little Rock, AR KTHV HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSKTHV.us"
  },
  {
   "stream_id": 541356,
   "name": "CBS LOS Angeles, CA KCAL HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/NewsKCAL.us"
  },
  {
   "stream_id": 541357,
   "name": "CBS LOS Angeles, CA KCBS HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSKCBS.us"
  },
  {
   "stream_id": 541358,
   "name": "CBS Louisville, KY WLKY HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSWLKY.us"
  },
  {
   "stream_id": 541359,
@@ -22962,12 +23146,14 @@
  {
   "stream_id": 541360,
   "name": "CBS Miami, FL WFOR HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSWFOR.us"
  },
  {
   "stream_id": 541361,
   "name": "CBS Mobile, AL WKRG HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSWKRG.us"
  },
  {
   "stream_id": 541362,
@@ -22982,27 +23168,32 @@
  {
   "stream_id": 541364,
   "name": "CBS Oklahoma City, OK KWTV HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSKWTV.us"
  },
  {
   "stream_id": 541365,
   "name": "CBS Orlando, FL WKMG HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSWKMG.us"
  },
  {
   "stream_id": 541366,
   "name": "CBS PALM Springs, CA KPSP HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSKPSPCD2.us"
  },
  {
   "stream_id": 541367,
   "name": "CBS Philadelphia, PA KYW HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSKYW.us"
  },
  {
   "stream_id": 541368,
   "name": "CBS Phoenix, AZ KPHO HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSKPHO.us"
  },
  {
   "stream_id": 541369,
@@ -23012,22 +23203,26 @@
  {
   "stream_id": 541370,
   "name": "CBS Roanoke, VA WDBJ HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSWDBJ.us"
  },
  {
   "stream_id": 541371,
   "name": "CBS SALT LAKE City, UT KUTV HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSKUTV.us"
  },
  {
   "stream_id": 541372,
   "name": "CBS SAN Antonio, TX KENS HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSKENS.us"
  },
  {
   "stream_id": 541373,
   "name": "CBS SAN Diego, CA KFMB HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSKFMB.us"
  },
  {
   "stream_id": 541374,
@@ -23042,17 +23237,20 @@
  {
   "stream_id": 541376,
   "name": "CBS Savannah, GA WTOC HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSWTOC.us"
  },
  {
   "stream_id": 541377,
   "name": "CBS Scranton. PA WYOU HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSWYOU.us"
  },
  {
   "stream_id": 541378,
   "name": "CBS Seattle, WA KIRO HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSKIRO.us"
  },
  {
   "stream_id": 541379,
@@ -23062,17 +23260,20 @@
  {
   "stream_id": 541380,
   "name": "CBS Spartanburg, SC WSPA HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CWWSPA.us"
  },
  {
   "stream_id": 541381,
   "name": "CBS Spokane, WA KREM HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSKREM.us"
  },
  {
   "stream_id": 541382,
   "name": "CBS Springfield, MO KOLR HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSKOLR.us"
  },
  {
   "stream_id": 541383,
@@ -23082,27 +23283,32 @@
  {
   "stream_id": 541384,
   "name": "CBS Tallahassee, FL WCTV HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSWCTV.us"
  },
  {
   "stream_id": 541385,
   "name": "CBS Tampa, FL WTSP HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSWTSP.us"
  },
  {
   "stream_id": 541386,
   "name": "CBS Toledo, OH WTOL HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSWTOL.us"
  },
  {
   "stream_id": 541387,
   "name": "CBS Tulsa, OK KOTV HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSKOTV.us"
  },
  {
   "stream_id": 541388,
   "name": "CBS Tyler, TX KYTX HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSKYTX.us"
  },
  {
   "stream_id": 541389,
@@ -23127,7 +23333,8 @@
  {
   "stream_id": 541393,
   "name": "CBS Youngstown, OH WKBN HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSWKBN.us"
  },
  {
   "stream_id": 541394,
@@ -23472,7 +23679,8 @@
  {
   "stream_id": 541462,
   "name": "FOX Richmond, VA WRLH",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/FOXWRLH.us"
  },
  {
   "stream_id": 541463,
@@ -23627,7 +23835,8 @@
  {
   "stream_id": 541493,
   "name": "NBC Beaumont, TX KBMT-DT2â§",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/ABCKBMT.us"
  },
  {
   "stream_id": 541494,

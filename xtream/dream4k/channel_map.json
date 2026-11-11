@@ -3042,7 +3042,8 @@
  {
   "stream_id": 113375,
   "name": "ONTIME SPORTS",
-  "group": "🌍 | ARABIC ꜱᴘᴏʀᴛꜱ"
+  "group": "🌍 | ARABIC ꜱᴘᴏʀᴛꜱ",
+  "epg": "ONSport1"
  },
  {
   "stream_id": 113376,
@@ -3551,7 +3552,8 @@
  {
   "stream_id": 89078,
   "name": "BBC World News HD",
-  "group": "📰 | قنوات الأخبار "
+  "group": "📰 | قنوات الأخبار ",
+  "epg": "a:Playlist.AE1BBCWorldNewsae"
  },
  {
   "stream_id": 161,
@@ -4015,7 +4017,8 @@
  {
   "stream_id": 50223,
   "name": "SAUDI CHANNEL QURAN UHD",
-  "group": "🇸🇦 | SAUDI ARABIA"
+  "group": "🇸🇦 | SAUDI ARABIA",
+  "epg": "a:SaudiQuran.sa"
  },
  {
   "stream_id": 50230,
@@ -4351,7 +4354,8 @@
  {
   "stream_id": 1268878,
   "name": "Sky Replay SD",
-  "group": "🇬🇧 | SKY ᴄɪɴᴇᴍᴀ"
+  "group": "🇬🇧 | SKY ᴄɪɴᴇᴍᴀ",
+  "epg": "l:combined/SkyReplay.uk"
  },
  {
   "stream_id": 13016,
@@ -4383,7 +4387,8 @@
  {
   "stream_id": 1932410,
   "name": "UK 5ACTION",
-  "group": "🇬🇧 | SKY ᴄɪɴᴇᴍᴀ"
+  "group": "🇬🇧 | SKY ᴄɪɴᴇᴍᴀ",
+  "epg": "l:combined/5Action.uk"
  },
  {
   "stream_id": 10560,
@@ -4509,7 +4514,8 @@
  {
   "stream_id": 1148828,
   "name": "Sky Sports F1 ULTRA UHD (DOLBY ATMOS)",
-  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ"
+  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ",
+  "epg": "o:SkySportsF1.uk"
  },
  {
   "stream_id": 10525,
@@ -4835,12 +4841,14 @@
  {
   "stream_id": 1095189,
   "name": "UK Sky Sports 2 ULTRA UHD (ACC)",
-  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ"
+  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ",
+  "epg": "l:combined/SkySportsUltraHD2.uk"
  },
  {
   "stream_id": 1148827,
   "name": "UK Sky Sports 2 ULTRA UHD (DOLBY ATMOS)",
-  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ"
+  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ",
+  "epg": "l:combined/SkySportsUltraHD2.uk"
  },
  {
   "stream_id": 1148292,
@@ -4997,12 +5005,14 @@
  {
   "stream_id": 309460,
   "name": "LA LIGATV UHD",
-  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ"
+  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ",
+  "epg": "l:combined/LaLigaTV.uk"
  },
  {
   "stream_id": 511024,
   "name": "LA LIGATV HD",
-  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ"
+  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ",
+  "epg": "l:combined/LaLigaTV.uk"
  },
  {
   "stream_id": 91624,
@@ -5187,7 +5197,8 @@
  {
   "stream_id": 1244692,
   "name": "ITV 1 Granada",
-  "group": "🇬🇧 | UK ᴇɴᴛᴇʀᴛᴀɪɴᴍᴇɴᴛ "
+  "group": "🇬🇧 | UK ᴇɴᴛᴇʀᴛᴀɪɴᴍᴇɴᴛ ",
+  "epg": "l:combined/ITV1Granada.uk"
  },
  {
   "stream_id": 1244691,
@@ -5421,7 +5432,8 @@
  {
   "stream_id": 12970,
   "name": "LONDON LIVE TV",
-  "group": "🇬🇧 | UK ᴇɴᴛᴇʀᴛᴀɪɴᴍᴇɴᴛ "
+  "group": "🇬🇧 | UK ᴇɴᴛᴇʀᴛᴀɪɴᴍᴇɴᴛ ",
+  "epg": "a:Playlist.Logo.LondonLive.uk"
  },
  {
   "stream_id": 1287016,
@@ -5653,7 +5665,8 @@
  {
   "stream_id": 309472,
   "name": "DISCOVERY CHANNEL HD",
-  "group": "🇬🇧 | SKY ᴍɪx ᴅᴏᴄꜱ"
+  "group": "🇬🇧 | SKY ᴍɪx ᴅᴏᴄꜱ",
+  "epg": "a:Playlist.UK1DiscoveryHDuk"
  },
  {
   "stream_id": 10547,
@@ -5966,7 +5979,8 @@
  {
   "stream_id": 77420,
   "name": "POP MAX",
-  "group": "🇬🇧 | UK ᴇɴᴛᴇʀᴛᴀɪɴᴍᴇɴᴛ "
+  "group": "🇬🇧 | UK ᴇɴᴛᴇʀᴛᴀɪɴᴍᴇɴᴛ ",
+  "epg": "l:combined/PopMax.uk"
  },
  {
   "stream_id": 77392,
@@ -8917,7 +8931,8 @@
  {
   "stream_id": 1285511,
   "name": "MYNETWORKTV 20 (WMYD) DETROIT",
-  "group": "🇺🇲 | USA"
+  "group": "🇺🇲 | USA",
+  "epg": "l:combined/TV20WMYD.us"
  },
  {
   "stream_id": 1396058,
@@ -8933,7 +8948,8 @@
  {
   "stream_id": 1258242,
   "name": "KY Lexington NBC 18 WLEX",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/NBCWLEX.us"
  },
  {
   "stream_id": 1264381,
@@ -8950,7 +8966,8 @@
  {
   "stream_id": 1258241,
   "name": "NY Elmira NBC 18 WETM",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/NBCWETM.us"
  },
  {
   "stream_id": 279326,
@@ -8971,7 +8988,8 @@
  {
   "stream_id": 279307,
   "name": "ACCU WEATHER HD",
-  "group": "🇺🇲 | USA"
+  "group": "🇺🇲 | USA",
+  "epg": "a:accuweather.us"
  },
  {
   "stream_id": 279310,
@@ -9101,7 +9119,8 @@
  {
   "stream_id": 7412,
   "name": "FOX BUSINESS NETWORK HD",
-  "group": "🇺🇲 | USA"
+  "group": "🇺🇲 | USA",
+  "epg": "a:Playlist.US2FoxBusinessHDus2"
  },
  {
   "stream_id": 54232,
@@ -9281,7 +9300,8 @@
  {
   "stream_id": 306941,
   "name": "SPECTRUM NEWS 1 - (KENTUCKY) LOUISVILLE",
-  "group": "🇺🇲 | USA"
+  "group": "🇺🇲 | USA",
+  "epg": "l:combined/SpectrumNews1Louisville.us"
  },
  {
   "stream_id": 306940,
@@ -9291,7 +9311,8 @@
  {
   "stream_id": 306939,
   "name": "SPECTRUM NEWS 1 - (MA) WORCESTER",
-  "group": "🇺🇲 | USA"
+  "group": "🇺🇲 | USA",
+  "epg": "l:combined/SpectrumNews1Worcester.us"
  },
  {
   "stream_id": 306938,
@@ -9426,7 +9447,8 @@
  {
   "stream_id": 306924,
   "name": "SPECTRUM NEWS 1 WISCONSIN",
-  "group": "🇺🇲 | USA"
+  "group": "🇺🇲 | USA",
+  "epg": "l:combined/SpectrumNews1Wisconsin.us"
  },
  {
   "stream_id": 306925,
@@ -9489,7 +9511,8 @@
  {
   "stream_id": 279308,
   "name": "WEATHER NATION HD",
-  "group": "🇺🇲 | USA"
+  "group": "🇺🇲 | USA",
+  "epg": "a:Playlist.Logo.WeatherNation.us"
  },
  {
   "stream_id": 246832,
@@ -9499,7 +9522,8 @@
  {
   "stream_id": 1268430,
   "name": "GA Columbus ABC 9 WTVM",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/ABCWTVM.us"
  },
  {
   "stream_id": 76908,
@@ -9526,7 +9550,8 @@
  {
   "stream_id": 99455,
   "name": "ABC (KABC)",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/ABCKABC.us"
  },
  {
   "stream_id": 99456,
@@ -9536,12 +9561,14 @@
  {
   "stream_id": 99457,
   "name": "ABC (KGO) San Francisco California",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekgous"
  },
  {
   "stream_id": 99458,
   "name": "ABC (KMGH)",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/ABCKMGH.us"
  },
  {
   "stream_id": 99459,
@@ -9551,27 +9578,32 @@
  {
   "stream_id": 99460,
   "name": "ABC (KOAT) Albuquerque New Mexico",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekoatus"
  },
  {
   "stream_id": 99461,
   "name": "ABC (KOCO)",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/ABCKOCO.us"
  },
  {
   "stream_id": 99462,
   "name": "ABC (KOMO)",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/ABCKOMO.us"
  },
  {
   "stream_id": 99463,
   "name": "ABC (KSTP)",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/ABCKSTP.us"
  },
  {
   "stream_id": 99464,
   "name": "ABC (KTNV)",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/ABCKTNV.us"
  },
  {
   "stream_id": 99465,
@@ -9586,7 +9618,8 @@
  {
   "stream_id": 99467,
   "name": "ABC (WCPO)",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/ABCWCPO.us"
  },
  {
   "stream_id": 99468,
@@ -9601,77 +9634,92 @@
  {
   "stream_id": 99470,
   "name": "ABC (WJLA)",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/ABCWJLA.us"
  },
  {
   "stream_id": 99471,
   "name": "ABC (WLS)",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/ABCWLS.us"
  },
  {
   "stream_id": 99472,
   "name": "ABC (WMAR)",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/ABCWMAR.us"
  },
  {
   "stream_id": 99473,
   "name": "ABC (WMTW) Portland Maine",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewmtwus"
  },
  {
   "stream_id": 99474,
   "name": "ABC (WMUR)",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/ABCWMUR.us"
  },
  {
   "stream_id": 99475,
   "name": "ABC (WPLG)",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/Local10WPLG.us"
  },
  {
   "stream_id": 99476,
   "name": "ABC (WPVI)",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/ABCWPVI.us"
  },
  {
   "stream_id": 99477,
   "name": "ABC (WSB)",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/ABCWSB.us"
  },
  {
   "stream_id": 99478,
   "name": "ABC (WSOC)",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/ABCWSOC.us"
  },
  {
   "stream_id": 99479,
   "name": "ABC (WTAE)",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/ABCWTAE.us"
  },
  {
   "stream_id": 99480,
   "name": "ABC (WTVD) Durham North Carolina",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewtvdus"
  },
  {
   "stream_id": 99481,
   "name": "ABC (WXYZ)",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/ABCWXYZ.us"
  },
  {
   "stream_id": 99482,
   "name": "ABC (WZVN) Fort Myers Florida",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewzvnus"
  },
  {
   "stream_id": 76886,
   "name": "ABC 2 (KATU) Portland (A) HD",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekatuus"
  },
  {
   "stream_id": 76887,
   "name": "ABC 2 (WKRN) Nashville HD",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewkrnus"
  },
  {
   "stream_id": 278519,
@@ -9706,17 +9754,20 @@
  {
   "stream_id": 76890,
   "name": "ABC 4 (KOMO) Seattle HD",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekomous"
  },
  {
   "stream_id": 76891,
   "name": "ABC 4 (KTVX) Salt Lake City HD",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequektvxus"
  },
  {
   "stream_id": 76892,
   "name": "ABC 4 (WTAE) Pittsburgh HD",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewtaeus"
  },
  {
   "stream_id": 278523,
@@ -9733,12 +9784,14 @@
  {
   "stream_id": 76893,
   "name": "ABC 5 (WCVB) Boston HD",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewcvbus"
  },
  {
   "stream_id": 76894,
   "name": "ABC 5 (WEWS) Cleveland HD",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewewsus"
  },
  {
   "stream_id": 278525,
@@ -9755,12 +9808,14 @@
  {
   "stream_id": 76895,
   "name": "ABC 6 (WPVI) Philadelphia HD",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewpvius"
  },
  {
   "stream_id": 76896,
   "name": "ABC 6 (WRTV) Indianapolis HD",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewrtvus"
  },
  {
   "stream_id": 278527,
@@ -9771,32 +9826,38 @@
  {
   "stream_id": 76897,
   "name": "ABC 7 (KABC) Los Angeles HD",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekabcus"
  },
  {
   "stream_id": 76898,
   "name": "ABC 7 (KGO) San Francisco HD",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekgous"
  },
  {
   "stream_id": 76899,
   "name": "ABC 7 (KMGH) Denver HD",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekmghus"
  },
  {
   "stream_id": 76900,
   "name": "ABC 7 (WJLA) Washington HD",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewjlaus"
  },
  {
   "stream_id": 76901,
   "name": "ABC 7 (WLS) Chicago HD",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewlsus"
  },
  {
   "stream_id": 76902,
   "name": "ABC 7 (WXYZ) Detroit HD",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewxyzus"
  },
  {
   "stream_id": 278529,
@@ -9831,12 +9892,14 @@
  {
   "stream_id": 76903,
   "name": "ABC 8 (WFAA) Dallas HD",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewfaaus"
  },
  {
   "stream_id": 76904,
   "name": "ABC 8 (WTNH) New Haven HD",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewtnhdtus"
  },
  {
   "stream_id": 278533,
@@ -9851,17 +9914,20 @@
  {
   "stream_id": 1836579,
   "name": "ABC 9 (KCRG) Cedar Rapids/Waterloo",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/ABCKCRG.us"
  },
  {
   "stream_id": 76905,
   "name": "ABC 9 (KMBC) Kansas city HD",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekmbcus"
  },
  {
   "stream_id": 76906,
   "name": "ABC 9 (WFTV) Orlando HD",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewftvus"
  },
  {
   "stream_id": 278536,
@@ -9890,17 +9956,20 @@
  {
   "stream_id": 76878,
   "name": "ABC 10 (KGTV) San diego HD",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekgtvus"
  },
  {
   "stream_id": 76879,
   "name": "ABC 10 (KXTV) Sacramento HD",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekxtvus"
  },
  {
   "stream_id": 76880,
   "name": "ABC 10 (WPLG) Miami HD",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewplgus"
  },
  {
   "stream_id": 278538,
@@ -9910,7 +9979,8 @@
  {
   "stream_id": 76881,
   "name": "ABC 11 (WTVD) Durham HD",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/ABCWTVD.us"
  },
  {
   "stream_id": 278539,
@@ -9921,17 +9991,20 @@
  {
   "stream_id": 76882,
   "name": "ABC 12 (KSAT) San Antonio HD",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequeksatus"
  },
  {
   "stream_id": 76883,
   "name": "ABC 12 (WISN) Milwaukee HD",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewisnus"
  },
  {
   "stream_id": 76884,
   "name": "ABC 13 (KTRK) Houston HD",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequektrkus"
  },
  {
   "stream_id": 278540,
@@ -9953,12 +10026,14 @@
  {
   "stream_id": 76885,
   "name": "ABC 15 (KNXV) Phoenix HD",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequeknxvus"
  },
  {
   "stream_id": 278543,
   "name": "ABC 16 (WNEP)",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewnepus"
  },
  {
   "stream_id": 278544,
@@ -9969,12 +10044,14 @@
  {
   "stream_id": 278545,
   "name": "ABC 20 HD [SAN FRANCISCO]",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewcjbus"
  },
  {
   "stream_id": 1904125,
   "name": "ABC 24 (KVUE) Austin",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.iptvepgABCKVUEus"
  },
  {
   "stream_id": 278546,
@@ -10007,12 +10084,14 @@
  {
   "stream_id": 76888,
   "name": "ABC 30 (KDNL) St. louis HD",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekdnlus"
  },
  {
   "stream_id": 76889,
   "name": "ABC 30 (KFSN) Fresno HD",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekfsnus"
  },
  {
   "stream_id": 278551,
@@ -10046,7 +10125,8 @@
  {
   "stream_id": 99550,
   "name": "NBC (KARE)",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/NBCKARE.us"
  },
  {
   "stream_id": 99551,
@@ -10056,27 +10136,32 @@
  {
   "stream_id": 99552,
   "name": "NBC (KNBC)",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/NBCKNBC.us"
  },
  {
   "stream_id": 76555,
   "name": "NBC (KNPG) St. Joseph HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/NBCKNPG.us"
  },
  {
   "stream_id": 99553,
   "name": "NBC (KNTV) San Jose California",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/NBCKNTV.us"
  },
  {
   "stream_id": 99554,
   "name": "NBC (KOB) Albuquerque New Mexico",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/NBCKOB.us"
  },
  {
   "stream_id": 99555,
   "name": "NBC (KPNX)",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/NBCKPNX.us"
  },
  {
   "stream_id": 99556,
@@ -10086,7 +10171,8 @@
  {
   "stream_id": 99557,
   "name": "NBC (KsDK)",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/NBCKSDK.us"
  },
  {
   "stream_id": 99558,
@@ -10096,27 +10182,32 @@
  {
   "stream_id": 99559,
   "name": "NBC (KUSA)",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/NBCKUSA.us"
  },
  {
   "stream_id": 99560,
   "name": "NBC (KXAS)",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/NBCKXAS.us"
  },
  {
   "stream_id": 99561,
   "name": "NBC (WBAL)",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/NBCWBAL.us"
  },
  {
   "stream_id": 99562,
   "name": "NBC (WBBH) Fort Myers Florida",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/NBCWBBH.us"
  },
  {
   "stream_id": 99563,
   "name": "NBC (WBTS)",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/NBCWBTS.us"
  },
  {
   "stream_id": 99564,
@@ -10126,7 +10217,8 @@
  {
   "stream_id": 99565,
   "name": "NBC (WCSH) Portland Maine",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/NBCWCSH.us"
  },
  {
   "stream_id": 99566,
@@ -10136,17 +10228,20 @@
  {
   "stream_id": 99567,
   "name": "NBC (WDSU)",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/NBCWDSU.us"
  },
  {
   "stream_id": 99568,
   "name": "NBC (WLWT)",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/NBCWLWT.us"
  },
  {
   "stream_id": 99569,
   "name": "NBC (WMAQ)",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/NBCWMAQ.us"
  },
  {
   "stream_id": 99570,
@@ -10161,62 +10256,74 @@
  {
   "stream_id": 99572,
   "name": "NBC (WRAL) Raleigh North Carolina",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/NBCWRAL.us"
  },
  {
   "stream_id": 99573,
   "name": "NBC (WRC)",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/NBCWRC.us"
  },
  {
   "stream_id": 99574,
   "name": "NBC (WSMV)",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/NBCWSMV.us"
  },
  {
   "stream_id": 76556,
   "name": "NBC (WSVW/WHSV) Harrisonburg HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/NBCWSVW.us"
  },
  {
   "stream_id": 99575,
   "name": "NBC (WTVJ)",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/NBCWTVJ.us"
  },
  {
   "stream_id": 76557,
   "name": "NBC (WWPI) Presque Isle HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/NBCWWPI.us"
  },
  {
   "stream_id": 99576,
   "name": "NBC (WXIA)",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/NBCWXIA.us"
  },
  {
   "stream_id": 76588,
   "name": "NBC 2 (KJRH) Tulsa HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekjrhus"
  },
  {
   "stream_id": 76589,
   "name": "NBC 2 (KPRC) Houston HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekprcus"
  },
  {
   "stream_id": 76590,
   "name": "NBC 2 (WDTN) Dayton HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewdtnus"
  },
  {
   "stream_id": 76591,
   "name": "NBC 2 (WESH) Daytona Beach HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequeweshus"
  },
  {
   "stream_id": 76592,
   "name": "NBC 2 (WGRZ) Buffalo HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/NBCWGRZ.us"
  },
  {
   "stream_id": 278787,
@@ -10252,37 +10359,44 @@
  {
   "stream_id": 76603,
   "name": "NBC 3 (KCRA) Sacramento HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekcraus"
  },
  {
   "stream_id": 76604,
   "name": "NBC 3 (KYTV) Springfield HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekytvdtus"
  },
  {
   "stream_id": 76605,
   "name": "NBC 3 (WAVE) Louisville HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewaveus"
  },
  {
   "stream_id": 76606,
   "name": "NBC 3 (WKYC) Cleveland HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewkycus"
  },
  {
   "stream_id": 76607,
   "name": "NBC 3 (WLBT) Jackson HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewlbtus"
  },
  {
   "stream_id": 76608,
   "name": "NBC 3 (WSAV) Savannah HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewsavus"
  },
  {
   "stream_id": 76609,
   "name": "NBC 3 (WSAZ) Huntington HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewsazus"
  },
  {
   "stream_id": 278793,
@@ -10313,62 +10427,74 @@
  {
   "stream_id": 76616,
   "name": "NBC 4 (KARK) Little Rock HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.iptvepgNBCKARKus"
  },
  {
   "stream_id": 76617,
   "name": "NBC 4 (KNBC) Los Angeles HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequeknbcus"
  },
  {
   "stream_id": 76618,
   "name": "NBC 4 (KOB) Albuquerque HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekobus"
  },
  {
   "stream_id": 76619,
   "name": "NBC 4 (KSNB) Superior HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/NBCKSNB.us"
  },
  {
   "stream_id": 76620,
   "name": "NBC 4 (KTIV) Sioux City HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequektivus"
  },
  {
   "stream_id": 76621,
   "name": "NBC 4 (KVOA) Tucson HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekvoaus"
  },
  {
   "stream_id": 76622,
   "name": "NBC 4 (WCMH) ColumbHD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/NBCWCMH.us"
  },
  {
   "stream_id": 76623,
   "name": "NBC 4 (WDIV) Detroit HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewdivus"
  },
  {
   "stream_id": 76624,
   "name": "NBC 4 (WNBC) New York HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewnbcus"
  },
  {
   "stream_id": 76625,
   "name": "NBC 4 (WRC) Washington HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewrcus"
  },
  {
   "stream_id": 76626,
   "name": "NBC 4 (WSMV) Nashville HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewsmvus"
  },
  {
   "stream_id": 76627,
   "name": "NBC 4 (WTMJ) Milwaukee HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewtmjus"
  },
  {
   "stream_id": 76628,
@@ -10400,57 +10526,68 @@
  {
   "stream_id": 76634,
   "name": "NBC 5 (KING) Seattle HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekingus"
  },
  {
   "stream_id": 76635,
   "name": "NBC 5 (KOAA) Pueblo HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekoaaus"
  },
  {
   "stream_id": 76636,
   "name": "NBC 5 (KsDK) St. Louis HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequeksdkus"
  },
  {
   "stream_id": 76637,
   "name": "NBC 5 (KSL) Salt Lake City HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekslus"
  },
  {
   "stream_id": 76638,
   "name": "NBC 5 (KXAS) Fort Worth HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.iptvepgNBCKXASus"
  },
  {
   "stream_id": 76639,
   "name": "NBC 5 (WLWT) Cincinnati HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewlwtus"
  },
  {
   "stream_id": 76640,
   "name": "NBC 5 (WMAQ) Chicago HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.iptvepgNBCWMAQus"
  },
  {
   "stream_id": 76641,
   "name": "NBC 5 (WMC) Memphis HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewmcus"
  },
  {
   "stream_id": 76642,
   "name": "NBC 5 (WPTV) West Palm Beach HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewptvus"
  },
  {
   "stream_id": 76643,
   "name": "NBC 5 (WPTZ) Plattsburgh HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewptzus"
  },
  {
   "stream_id": 76644,
   "name": "NBC 5 (WRAL) Raleigh HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/NBCWRAL.us"
  },
  {
   "stream_id": 278801,
@@ -10486,67 +10623,80 @@
  {
   "stream_id": 76646,
   "name": "NBC 6 (KCEN) Temple HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekcenus"
  },
  {
   "stream_id": 76647,
   "name": "NBC 6 (KHQ) Spokane HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekhqus"
  },
  {
   "stream_id": 76648,
   "name": "NBC 6 (KRIS) CorpChristi HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/NBCKRIS.us"
  },
  {
   "stream_id": 76649,
   "name": "NBC 6 (KSBY) San Luis Obispo HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequeksbyus"
  },
  {
   "stream_id": 76650,
   "name": "NBC 6 (KTAL) Texarkana HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/NBCKTAL.us"
  },
  {
   "stream_id": 76651,
   "name": "NBC 6 (KWQC) Davenport HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekwqcus"
  },
  {
   "stream_id": 76652,
   "name": "NBC 6 (WCSH) Portland HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewcshus"
  },
  {
   "stream_id": 76653,
   "name": "NBC 6 (WDSU) New Orleans HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewdsuus"
  },
  {
   "stream_id": 76654,
   "name": "NBC 6 (WECT) Wilmington HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewectus"
  },
  {
   "stream_id": 76655,
   "name": "NBC 6 (WOWT) Omaha HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewowtus"
  },
  {
   "stream_id": 76656,
   "name": "NBC 6 (WPsD) Paducah HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewpsdus"
  },
  {
   "stream_id": 76657,
   "name": "NBC 6 (WTVJ) Miami HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewtvjus"
  },
  {
   "stream_id": 76658,
   "name": "NBC 6 (WVVA) Bluefield HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewvvaus"
  },
  {
   "stream_id": 278807,
@@ -10577,22 +10727,26 @@
  {
   "stream_id": 76659,
   "name": "NBC 7 (KTVB) Boise HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequektvbus"
  },
  {
   "stream_id": 76660,
   "name": "NBC 7 (KWWL) Waterloo HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekwwlus"
  },
  {
   "stream_id": 76661,
   "name": "NBC 7 (WITN) Washington HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/NBCWITN.us"
  },
  {
   "stream_id": 76662,
   "name": "NBC 7 (WJHG) Panama City HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.iptvepgNBCWJHGus"
  },
  {
   "stream_id": 278812,
@@ -10633,27 +10787,32 @@
  {
   "stream_id": 76663,
   "name": "NBC 8 (KGW) Portland HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekgwus"
  },
  {
   "stream_id": 76664,
   "name": "NBC 8 (KSBW) Salinas HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequeksbwus"
  },
  {
   "stream_id": 76665,
   "name": "NBC 8 (WFLA) Tampa HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewflaus"
  },
  {
   "stream_id": 76666,
   "name": "NBC 8 (WGAL) Lancaster HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewgalus"
  },
  {
   "stream_id": 76667,
   "name": "NBC 8 (WOOD) Grand Rapids HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewoodus"
  },
  {
   "stream_id": 278819,
@@ -10683,12 +10842,14 @@
  {
   "stream_id": 76668,
   "name": "NBC 9 (KTSM) El Paso HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequektsmus"
  },
  {
   "stream_id": 76669,
   "name": "NBC 9 (KUSA) Denver HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekusaus"
  },
  {
   "stream_id": 278824,
@@ -10718,12 +10879,14 @@
  {
   "stream_id": 76558,
   "name": "NBC 10 (WAVY) Portsmouth HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/NBCWAVY.us"
  },
  {
   "stream_id": 76559,
   "name": "NBC 10 (WBIR) Knoxville HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewbirus"
  },
  {
   "stream_id": 76560,
@@ -10733,22 +10896,26 @@
  {
   "stream_id": 76561,
   "name": "NBC 10 (WHEC) Rochester HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/NBCWHEC.us"
  },
  {
   "stream_id": 76562,
   "name": "NBC 10 (WILX) Onondaga HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewilxus"
  },
  {
   "stream_id": 76563,
   "name": "NBC 10 (WIS) Columbia HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewisus"
  },
  {
   "stream_id": 76564,
   "name": "NBC 10 (WSLS) Roanoke HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewslsus"
  },
  {
   "stream_id": 278830,
@@ -10795,47 +10962,56 @@
  {
   "stream_id": 76565,
   "name": "NBC 11 (KARE) Minneapolis HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekareus"
  },
  {
   "stream_id": 76566,
   "name": "NBC 11 (KNTV) San Jose HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/NBCKNTV.us"
  },
  {
   "stream_id": 76567,
   "name": "NBC 11 (KVLY) Fargo HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekvlyus"
  },
  {
   "stream_id": 76568,
   "name": "NBC 11 (WBAL) Baltimore HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewbalus"
  },
  {
   "stream_id": 76569,
   "name": "NBC 11 (WPXI) Pittsburgh HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewpxius"
  },
  {
   "stream_id": 76570,
   "name": "NBC 11 (WXIA) Atlanta HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewxiaus"
  },
  {
   "stream_id": 278837,
   "name": "NBC 11 HD [BALTIMORE]",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekntvus"
  },
  {
   "stream_id": 278838,
   "name": "NBC 11 HD [FAIRBANKS]",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekntvus"
  },
  {
   "stream_id": 278839,
   "name": "NBC 11 HD [LUBBOCK]",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekntvus"
  },
  {
   "stream_id": 278840,
@@ -10846,27 +11022,32 @@
  {
   "stream_id": 76571,
   "name": "NBC 12 (KPNX) Mesa HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/NBCKPNX.us"
  },
  {
   "stream_id": 76572,
   "name": "NBC 12 (WSFA) Montgomery HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewsfaus"
  },
  {
   "stream_id": 76573,
   "name": "NBC 12 (WTLV) Jacksonville HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewtlvus"
  },
  {
   "stream_id": 76574,
   "name": "NBC 12 (WWBT) Richmond HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewwbtus"
  },
  {
   "stream_id": 76575,
   "name": "NBC 12 (WXII) Winston-Salem HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/NBCWXII.us"
  },
  {
   "stream_id": 278842,
@@ -10908,27 +11089,32 @@
  {
   "stream_id": 76576,
   "name": "NBC 13 (KHNL) Honolulu HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekhnlus"
  },
  {
   "stream_id": 76577,
   "name": "NBC 13 (WEAU) Eau Claire HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequeweauus"
  },
  {
   "stream_id": 76578,
   "name": "NBC 13 (WNYT) Albany HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewnytus"
  },
  {
   "stream_id": 76579,
   "name": "NBC 13 (WTHR) Indianapolis HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewthrus"
  },
  {
   "stream_id": 76580,
   "name": "NBC 13 (WVTM) Birmingham HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewvtmus"
  },
  {
   "stream_id": 278848,
@@ -10939,42 +11125,50 @@
  {
   "stream_id": 278849,
   "name": "NBC 13 HD [CASPER]",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewnytus"
  },
  {
   "stream_id": 278850,
   "name": "NBC 13 HD [DES MOINES]",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewnytus"
  },
  {
   "stream_id": 278851,
   "name": "NBC 13 HD [DOTHAN]",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewnytus"
  },
  {
   "stream_id": 278852,
   "name": "NBC 13 HD [MISSOULA]",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewnytus"
  },
  {
   "stream_id": 278853,
   "name": "NBC 13 HD [MONTANA]",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewnytus"
  },
  {
   "stream_id": 278854,
   "name": "NBC 13 HD [ROCKFORD]",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewnytus"
  },
  {
   "stream_id": 278855,
   "name": "NBC 13 HD [YUMA]",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewnytus"
  },
  {
   "stream_id": 76581,
   "name": "NBC 14 (WFIE) Evansville HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewfieus"
  },
  {
   "stream_id": 278856,
@@ -10994,7 +11188,8 @@
  {
   "stream_id": 76582,
   "name": "NBC 15 (WMTV) Madison HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewmtvus"
  },
  {
   "stream_id": 278859,
@@ -11009,12 +11204,14 @@
  {
   "stream_id": 76583,
   "name": "NBC 16 (WAGT) Augusta HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.iptvepgNBCWAGTus"
  },
  {
   "stream_id": 76584,
   "name": "NBC 16 (WNDU) South Bend HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.iptvepgNBCWNDUus"
  },
  {
   "stream_id": 278861,
@@ -11034,12 +11231,14 @@
  {
   "stream_id": 76585,
   "name": "NBC 17 (KGET) Bakersfield HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekgetus"
  },
  {
   "stream_id": 76586,
   "name": "NBC 17 (WAND) Decatur HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewandus"
  },
  {
   "stream_id": 278864,
@@ -11054,7 +11253,8 @@
  {
   "stream_id": 76587,
   "name": "NBC 18 (WLEX) Lexington HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.iptvepgNBCWLEXus"
  },
  {
   "stream_id": 278866,
@@ -11074,7 +11274,8 @@
  {
   "stream_id": 76593,
   "name": "NBC 20 (WBBH) Fort Myers HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewbbhus"
  },
  {
   "stream_id": 278869,
@@ -11084,17 +11285,20 @@
  {
   "stream_id": 76594,
   "name": "NBC 21 (WFMJ) Youngstown HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewfmjus"
  },
  {
   "stream_id": 76595,
   "name": "NBC 21 (WPTA) Fort Wayne HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewptaus"
  },
  {
   "stream_id": 278870,
   "name": "NBC 21 HD [BEND]",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequeknbnus"
  },
  {
   "stream_id": 278871,
@@ -11105,22 +11309,26 @@
  {
   "stream_id": 278872,
   "name": "NBC 21 HD [SIOUX FALLS]",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequeknbnus"
  },
  {
   "stream_id": 278873,
   "name": "NBC 21 HD [ST. JOSEPH]",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequeknbnus"
  },
  {
   "stream_id": 76596,
   "name": "NBC 22 (WWLP) Springfield HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewwlpus"
  },
  {
   "stream_id": 76597,
   "name": "NBC 23 (KNDO) Yakima HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekndous"
  },
  {
   "stream_id": 76598,
@@ -11135,7 +11343,8 @@
  {
   "stream_id": 76599,
   "name": "NBC 24 (KSEE) Fresno HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/NBCKSEE.us"
  },
  {
   "stream_id": 278875,
@@ -11150,7 +11359,8 @@
  {
   "stream_id": 76600,
   "name": "NBC 25 (WEEK) Peoria HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequeweekus"
  },
  {
   "stream_id": 278877,
@@ -11170,7 +11380,8 @@
  {
   "stream_id": 76601,
   "name": "NBC 26 (WGBA) Green Bay HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewgbaus"
  },
  {
   "stream_id": 278880,
@@ -11180,7 +11391,8 @@
  {
   "stream_id": 76602,
   "name": "NBC 28 (WBRE) Wilkes-Barre HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewbreus"
  },
  {
   "stream_id": 278881,
@@ -11190,7 +11402,8 @@
  {
   "stream_id": 76610,
   "name": "NBC 30 (WVIT) New Britain HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewvitdtus"
  },
  {
   "stream_id": 278882,
@@ -11200,7 +11413,8 @@
  {
   "stream_id": 76611,
   "name": "NBC 32 (WMBF) Myrtle Beach HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewmbfdtus"
  },
  {
   "stream_id": 278883,
@@ -11220,12 +11434,14 @@
  {
   "stream_id": 76612,
   "name": "NBC 36 (KXAN) Austin HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekxanus"
  },
  {
   "stream_id": 76613,
   "name": "NBC 36 (WCNC) Charlotte HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewcncus"
  },
  {
   "stream_id": 76614,
@@ -11235,7 +11451,8 @@
  {
   "stream_id": 76615,
   "name": "NBC 39 (KNsD) San Diego HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequeknsdus"
  },
  {
   "stream_id": 278886,
@@ -11245,12 +11462,14 @@
  {
   "stream_id": 76629,
   "name": "NBC 40 (WTWC) Tallahassee HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewtwcus"
  },
  {
   "stream_id": 76630,
   "name": "NBC 40 (WTWC) Tallahassee HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewtwcus"
  },
  {
   "stream_id": 278887,
@@ -11260,7 +11479,8 @@
  {
   "stream_id": 76631,
   "name": "NBC 41 (KSHB) Kansas City HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekshbus"
  },
  {
   "stream_id": 278888,
@@ -11275,7 +11495,8 @@
  {
   "stream_id": 76632,
   "name": "NBC 46 (KDLT) Sioux Falls HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekdltus"
  },
  {
   "stream_id": 278890,
@@ -11285,7 +11506,8 @@
  {
   "stream_id": 76633,
   "name": "NBC 48 (WAFF) Huntsville HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewaffus"
  },
  {
   "stream_id": 278891,
@@ -11295,7 +11517,8 @@
  {
   "stream_id": 76645,
   "name": "NBC 56 (KETK) Jacksonville HD",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequeketkus"
  },
  {
   "stream_id": 278785,
@@ -11305,27 +11528,32 @@
  {
   "stream_id": 76403,
   "name": "FOX (KABB) San Antonio HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekabbus"
  },
  {
   "stream_id": 76404,
   "name": "FOX (KBFX) Bakersfield HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.iptvepgFOXKBFXus"
  },
  {
   "stream_id": 76405,
   "name": "FOX (KBSI) Paducah HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekbsius"
  },
  {
   "stream_id": 76406,
   "name": "FOX (KDSM) Des Moines HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekdsmus"
  },
  {
   "stream_id": 76407,
   "name": "FOX (KFOX) El Paso HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekfoxus"
  },
  {
   "stream_id": 76408,
@@ -11335,77 +11563,92 @@
  {
   "stream_id": 76409,
   "name": "FOX (KFXL) Lincoln HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekfxlus"
  },
  {
   "stream_id": 76410,
   "name": "FOX (KKFX) Lompoc HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.iptvepgFOXKKFXus"
  },
  {
   "stream_id": 76411,
   "name": "FOX (KMPH) Fresno HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekmphus"
  },
  {
   "stream_id": 76412,
   "name": "FOX (KOKH) Oklahoma City HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekokhus"
  },
  {
   "stream_id": 76413,
   "name": "FOX (KPTM) Omaha HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekptmus"
  },
  {
   "stream_id": 76414,
   "name": "FOX (KPTM) Omaha HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekptmus"
  },
  {
   "stream_id": 76415,
   "name": "FOX (KRQE) Albuquerque HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekrqeus"
  },
  {
   "stream_id": 76416,
   "name": "FOX (KRXI) Reno HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekrxius"
  },
  {
   "stream_id": 76417,
   "name": "FOX (KSAS) Wichita HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequeksasus"
  },
  {
   "stream_id": 76418,
   "name": "FOX (KSCC) CorpChristi HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequeksccus"
  },
  {
   "stream_id": 76419,
   "name": "FOX (WACH) Columbia HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewachus"
  },
  {
   "stream_id": 76420,
   "name": "FOX (WBFF) Baltimore HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewbffus"
  },
  {
   "stream_id": 76421,
   "name": "FOX (WDKY) Lexington HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewdkyus"
  },
  {
   "stream_id": 76422,
   "name": "FOX (WEMT) Tri-Cities HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.iptvepgFOXWEMTus"
  },
  {
   "stream_id": 76423,
   "name": "FOX (WEVV) Evansville HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewevvus"
  },
  {
   "stream_id": 76424,
@@ -11420,47 +11663,56 @@
  {
   "stream_id": 76426,
   "name": "FOX (WGXA) Macon HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewgxaus"
  },
  {
   "stream_id": 76427,
   "name": "FOX (WLUK) Green Bay HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewlukus"
  },
  {
   "stream_id": 99546,
   "name": "FOX (WTXF)",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/FOXWTXF.us"
  },
  {
   "stream_id": 76428,
   "name": "FOX (WVAH) Charleston HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/DecadesWVAH.us"
  },
  {
   "stream_id": 76429,
   "name": "FOX (WZTV) Nashville HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewztvus"
  },
  {
   "stream_id": 76455,
   "name": "FOX 2 (KHON) Honolulu HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekhonus"
  },
  {
   "stream_id": 76456,
   "name": "FOX 2 (KTVI) St. Louis HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequektvius"
  },
  {
   "stream_id": 76457,
   "name": "FOX 2 (KTVU) Oakland HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/FOXKTVU.us"
  },
  {
   "stream_id": 76458,
   "name": "FOX 2 (WJBK) Detroit HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewjbkus"
  },
  {
   "stream_id": 278486,
@@ -11471,27 +11723,32 @@
  {
   "stream_id": 76496,
   "name": "FOX 4 (KDFW) Dallas HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekdfwus"
  },
  {
   "stream_id": 76497,
   "name": "FOX 4 (WDAF) Kansas City HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewdafus"
  },
  {
   "stream_id": 76518,
   "name": "FOX 5 (WAGA) Atlanta HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewagaus"
  },
  {
   "stream_id": 76519,
   "name": "FOX 5 (WNYW) New York HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewnywus"
  },
  {
   "stream_id": 76520,
   "name": "FOX 5 (WTTG) Washington HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewttgus"
  },
  {
   "stream_id": 278489,
@@ -11519,27 +11776,32 @@
  {
   "stream_id": 76535,
   "name": "FOX 6 (WBRC) Birmingham HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewbrcus"
  },
  {
   "stream_id": 76536,
   "name": "FOX 6 (WBRC) Birmingham HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewbrcus"
  },
  {
   "stream_id": 76537,
   "name": "FOX 6 (WITI) Milwaukee HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewitius"
  },
  {
   "stream_id": 76547,
   "name": "FOX 7 (KTBC) Atin HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequektbcus"
  },
  {
   "stream_id": 76548,
   "name": "FOX 7 (WSVN) Miami HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewsvnus"
  },
  {
   "stream_id": 278491,
@@ -11550,17 +11812,20 @@
  {
   "stream_id": 76549,
   "name": "FOX 8 (WGHP) High Point HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewghpus"
  },
  {
   "stream_id": 76550,
   "name": "FOX 8 (WJW) Cleveland HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewjwdtus"
  },
  {
   "stream_id": 76551,
   "name": "FOX 8 (WVUE) New Orleans HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewvueus"
  },
  {
   "stream_id": 278492,
@@ -11571,17 +11836,20 @@
  {
   "stream_id": 76552,
   "name": "FOX 9 (KMSP) Minneapolis HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekmspus"
  },
  {
   "stream_id": 76553,
   "name": "FOX 9 (KNIN) Caldwell HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekninus"
  },
  {
   "stream_id": 76554,
   "name": "FOX 9 (KNIN) Caldwell HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekninus"
  },
  {
   "stream_id": 278493,
@@ -11592,7 +11860,8 @@
  {
   "stream_id": 76430,
   "name": "FOX 10 (KSAZ) Phoenix HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequeksazus"
  },
  {
   "stream_id": 278494,
@@ -11615,67 +11884,80 @@
  {
   "stream_id": 76431,
   "name": "FOX 11 (KMSB) Tucson HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekmsbus"
  },
  {
   "stream_id": 76432,
   "name": "FOX 11 (KRXI) Reno HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekrxius"
  },
  {
   "stream_id": 76433,
   "name": "FOX 11 (KRXI) Reno HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekrxius"
  },
  {
   "stream_id": 76434,
   "name": "FOX 11 (KTTV) Los Angeles HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekttvus"
  },
  {
   "stream_id": 76435,
   "name": "FOX 11 (WLUK) Green bay HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewlukus"
  },
  {
   "stream_id": 76436,
   "name": "FOX 11 (WVAH) Charleston HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/DecadesWVAH.us"
  },
  {
   "stream_id": 76437,
   "name": "FOX 12 (KPTV) Portland HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekptvus"
  },
  {
   "stream_id": 76438,
   "name": "FOX 12 (KPTV) Portland HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekptvus"
  },
  {
   "stream_id": 76439,
   "name": "FOX 13 (KCPQ) Tacoma HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekcpqus"
  },
  {
   "stream_id": 76440,
   "name": "FOX 13 (KSTU) Salt lake City HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekstuus"
  },
  {
   "stream_id": 76441,
   "name": "FOX 13 (WHBQ) Memphis HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewhbqus"
  },
  {
   "stream_id": 76442,
   "name": "FOX 13 (WTVT) Tampa HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewtvtus"
  },
  {
   "stream_id": 278497,
   "name": "FOX 13 HD [ALBUQUERQUE]",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekcpqus"
  },
  {
   "stream_id": 278498,
@@ -11686,12 +11968,14 @@
  {
   "stream_id": 76443,
   "name": "FOX 14 (KFOX) El Paso HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekfoxus"
  },
  {
   "stream_id": 76444,
   "name": "FOX 14 (KFOX) El Paso HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekfoxus"
  },
  {
   "stream_id": 278499,
@@ -11701,27 +11985,32 @@
  {
   "stream_id": 76445,
   "name": "FOX 15 (KADN) Lafayette HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekadnus"
  },
  {
   "stream_id": 76446,
   "name": "FOX 15 (KADN) Lafayette HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekadnus"
  },
  {
   "stream_id": 76447,
   "name": "FOX 15 (KVRR) Fargo HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekvrrus"
  },
  {
   "stream_id": 76448,
   "name": "FOX 16 (KLRT) Little Rock HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequeklrtus"
  },
  {
   "stream_id": 76449,
   "name": "FOX 17 (KDSM) Des Moines HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekdsmus"
  },
  {
   "stream_id": 76450,
@@ -11731,22 +12020,26 @@
  {
   "stream_id": 76451,
   "name": "FOX 17 (WXMI) Grand Rapids HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewxmius"
  },
  {
   "stream_id": 76452,
   "name": "FOX 17 (WZTV) Nashville HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewztvus"
  },
  {
   "stream_id": 76453,
   "name": "FOX 18 (KLJB) Davenport HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekljbus"
  },
  {
   "stream_id": 76454,
   "name": "FOX 19 (WXIX) Newport HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewxixus"
  },
  {
   "stream_id": 278500,
@@ -11757,7 +12050,8 @@
  {
   "stream_id": 76459,
   "name": "FOX 21 (KXRM) Colorado Springs HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekxrmus"
  },
  {
   "stream_id": 278501,
@@ -11774,12 +12068,14 @@
  {
   "stream_id": 76460,
   "name": "FOX 22 (WSBT) South Bend HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewsbtdtus"
  },
  {
   "stream_id": 76461,
   "name": "FOX 23 (KBSI) Cape Girardeau HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekbsius"
  },
  {
   "stream_id": 76462,
@@ -11794,22 +12090,26 @@
  {
   "stream_id": 76464,
   "name": "FOX 23 (WXXA) Albany HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewxxaus"
  },
  {
   "stream_id": 76465,
   "name": "FOX 24 (KSAS) Wichita HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequeksasus"
  },
  {
   "stream_id": 76466,
   "name": "FOX 24 (WGXA) Macon HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewgxaus"
  },
  {
   "stream_id": 76467,
   "name": "FOX 24 (WTAT) Charleston HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewtatus"
  },
  {
   "stream_id": 278503,
@@ -11820,52 +12120,62 @@
  {
   "stream_id": 76468,
   "name": "FOX 25 (KOKH) Oklahoma City HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekokhus"
  },
  {
   "stream_id": 76469,
   "name": "FOX 25 (WFXT) Boston HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewfxtus"
  },
  {
   "stream_id": 76470,
   "name": "FOX 25 (WLAX) Eau Claire HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewlaxus"
  },
  {
   "stream_id": 76471,
   "name": "FOX 25 (WLAX) Eau Claire HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewlaxus"
  },
  {
   "stream_id": 76472,
   "name": "FOX 26 (KMPH) Fresno HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekmphus"
  },
  {
   "stream_id": 76473,
   "name": "FOX 26 (KRIV) Houston HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekrivus"
  },
  {
   "stream_id": 76474,
   "name": "FOX 27 (WFXR) Roanoke HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewfxrus"
  },
  {
   "stream_id": 76475,
   "name": "FOX 28 (KAYU) Spokane HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekayuus"
  },
  {
   "stream_id": 76476,
   "name": "FOX 28 (KAYU) Spokane HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekayuus"
  },
  {
   "stream_id": 76477,
   "name": "FOX 28 (WTGS) Hardeeville HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewtgsus"
  },
  {
   "stream_id": 76478,
@@ -11875,22 +12185,26 @@
  {
   "stream_id": 76479,
   "name": "FOX 29 (KABB) San Antonio HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekabbus"
  },
  {
   "stream_id": 76480,
   "name": "FOX 29 (WFLX) West Palm Beach HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewflxus"
  },
  {
   "stream_id": 76481,
   "name": "FOX 29 (WFLX) West Palm Beach HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewflxus"
  },
  {
   "stream_id": 76482,
   "name": "FOX 29 (WTXF) Philadelphia HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewtxfus"
  },
  {
   "stream_id": 278504,
@@ -11907,7 +12221,8 @@
  {
   "stream_id": 76483,
   "name": "FOX 30 (WFOX) Jacksonville HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewfoxus"
  },
  {
   "stream_id": 278506,
@@ -11917,37 +12232,44 @@
  {
   "stream_id": 76484,
   "name": "FOX 31 (KDVR) Denver HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekdvrus"
  },
  {
   "stream_id": 76485,
   "name": "FOX 31 (WUHF) Rochester HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewuhfus"
  },
  {
   "stream_id": 76486,
   "name": "FOX 32 (WFLD) Chicago HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewfldus"
  },
  {
   "stream_id": 76487,
   "name": "FOX 33 (KMSS) Shreveport HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekmssus"
  },
  {
   "stream_id": 76488,
   "name": "FOX 35 (KCBA) Salinas HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekcbaus"
  },
  {
   "stream_id": 76489,
   "name": "FOX 35 (WOFL) Orlando HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewoflus"
  },
  {
   "stream_id": 76490,
   "name": "FOX 35 (WRLH) Richmond HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewrlhus"
  },
  {
   "stream_id": 278507,
@@ -11958,47 +12280,56 @@
  {
   "stream_id": 76491,
   "name": "FOX 36 (WFTX) Cape Coral HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewftxus"
  },
  {
   "stream_id": 76492,
   "name": "FOX 36 (WUPW) Toledo HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewupwus"
  },
  {
   "stream_id": 76493,
   "name": "FOX 36 (WUPW) Toledo HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewupwus"
  },
  {
   "stream_id": 76494,
   "name": "FOX 38 (KSCC) CorpChristi HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequeksccus"
  },
  {
   "stream_id": 76495,
   "name": "FOX 38 (KSCC) CorpChristi HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequeksccus"
  },
  {
   "stream_id": 76498,
   "name": "FOX 40 (KTXL) Sacramento HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequektxlus"
  },
  {
   "stream_id": 76499,
   "name": "FOX 40 (WDBD) Jackson HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewdbdus"
  },
  {
   "stream_id": 76500,
   "name": "FOX 40 (WDBD) Jackson HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewdbdus"
  },
  {
   "stream_id": 76501,
   "name": "FOX 41 (WDRB) Louisville HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewdrbus"
  },
  {
   "stream_id": 278508,
@@ -12008,32 +12339,38 @@
  {
   "stream_id": 76502,
   "name": "FOX 43 (WFXB) Myrtle Beach HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewfxbus"
  },
  {
   "stream_id": 76503,
   "name": "FOX 43 (WPMT) York HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewpmtus"
  },
  {
   "stream_id": 76504,
   "name": "FOX 43 (WTNZ) Knoxville HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewtnzus"
  },
  {
   "stream_id": 76505,
   "name": "FOX 43 (WVBT) Virginia Beach HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewvbtus"
  },
  {
   "stream_id": 76506,
   "name": "FOX 43 (WYZZ) Bloomington HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewyzzus"
  },
  {
   "stream_id": 76507,
   "name": "FOX 43 (WYZZ) Bloomington HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewyzzus"
  },
  {
   "stream_id": 278509,
@@ -12044,17 +12381,20 @@
  {
   "stream_id": 76508,
   "name": "FOX 44 (KWKT) Waco HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekwktus"
  },
  {
   "stream_id": 76509,
   "name": "FOX 44 (WFFF) Burlington HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewfffus"
  },
  {
   "stream_id": 76510,
   "name": "FOX 44 (WGMB) Baton Rouge HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewgmbus"
  },
  {
   "stream_id": 278510,
@@ -12065,7 +12405,8 @@
  {
   "stream_id": 76511,
   "name": "FOX 45 (WBFF) Baltimore HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewbffus"
  },
  {
   "stream_id": 76512,
@@ -12075,7 +12416,8 @@
  {
   "stream_id": 76513,
   "name": "FOX 46 (WJZY) Belmont HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewjzyus"
  },
  {
   "stream_id": 278511,
@@ -12086,27 +12428,32 @@
  {
   "stream_id": 76514,
   "name": "FOX 47 (WMSN) Madison HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewmsnus"
  },
  {
   "stream_id": 76515,
   "name": "FOX 47 (WSYM) Lansing HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewsymus"
  },
  {
   "stream_id": 76516,
   "name": "FOX 47 (WSYM) Lansing HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewsymus"
  },
  {
   "stream_id": 76517,
   "name": "FOX 49 (KRBK) Osage Beach HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekrbkus"
  },
  {
   "stream_id": 76521,
   "name": "FOX 50 (WRAZ) Raleigh HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewrazus"
  },
  {
   "stream_id": 278512,
@@ -12116,17 +12463,20 @@
  {
   "stream_id": 76522,
   "name": "FOX 51 (KFXK) Longview HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekfxkus"
  },
  {
   "stream_id": 76523,
   "name": "FOX 51 (KFXL) Lincoln HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekfxlus"
  },
  {
   "stream_id": 76524,
   "name": "FOX 51 (WOGX) Ocala HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewogxus"
  },
  {
   "stream_id": 278513,
@@ -12137,57 +12487,68 @@
  {
   "stream_id": 76525,
   "name": "FOX 53 (WPGH) Pittsburgh HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewpghus"
  },
  {
   "stream_id": 76526,
   "name": "FOX 54 (WFXG) Augta HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewfxgus"
  },
  {
   "stream_id": 76527,
   "name": "FOX 54 (WFXG) Augta HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewfxgus"
  },
  {
   "stream_id": 76528,
   "name": "FOX 54 (WZDX) Huntsville HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewzdxus"
  },
  {
   "stream_id": 76529,
   "name": "FOX 55 (WFFT) Fort Wayne HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewfftus"
  },
  {
   "stream_id": 76530,
   "name": "FOX 55 (WRSP) Springfield HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewrspus"
  },
  {
   "stream_id": 76531,
   "name": "FOX 56 (WDKY) Danville HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewdkyus"
  },
  {
   "stream_id": 76532,
   "name": "FOX 56 (WOLF) Hazleton HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/FOXWOLF.us"
  },
  {
   "stream_id": 76533,
   "name": "FOX 57 (WACH) Columbia HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewachus"
  },
  {
   "stream_id": 76534,
   "name": "FOX 59 (WXIN) Indianapolis HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewxinus"
  },
  {
   "stream_id": 76538,
   "name": "FOX 61 (WTIC) Hartford HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewticdtus"
  },
  {
   "stream_id": 278514,
@@ -12198,12 +12559,14 @@
  {
   "stream_id": 76539,
   "name": "FOX 62 (WYFX) Youngstown HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.iptvepgFOXWYFXus"
  },
  {
   "stream_id": 76540,
   "name": "FOX 62 (WYFX) Youngstown HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.iptvepgFOXWYFXus"
  },
  {
   "stream_id": 278515,
@@ -12214,7 +12577,8 @@
  {
   "stream_id": 76541,
   "name": "FOX 64 (WNAC) Providence HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewnacus"
  },
  {
   "stream_id": 278516,
@@ -12225,27 +12589,32 @@
  {
   "stream_id": 76542,
   "name": "FOX 66 (WSMH) Flint HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewsmhus"
  },
  {
   "stream_id": 76544,
   "name": "FOX 67 (KFXV) Texas HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekfxvus"
  },
  {
   "stream_id": 76543,
   "name": "FOX 67 (KFXV) Texas HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekfxvus"
  },
  {
   "stream_id": 76545,
   "name": "FOX 68 (WSYT) Syrace HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewsytus"
  },
  {
   "stream_id": 76546,
   "name": "FOX 68 (WSYT) Syrace HD",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewsytus"
  },
  {
   "stream_id": 76868,
@@ -12274,67 +12643,80 @@
  {
   "stream_id": 76870,
   "name": "CBS_WCTV HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSWCTV.us"
  },
  {
   "stream_id": 99490,
   "name": "CBS (KPHO)",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSKPHO.us"
  },
  {
   "stream_id": 99491,
   "name": "CBS (KPIX) San Francisco California",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekpixus"
  },
  {
   "stream_id": 76681,
   "name": "CBS (KRQE) Albuquerque-Santa HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/FOXKRQE.us"
  },
  {
   "stream_id": 99492,
   "name": "CBS (KRQE) Albuquerque New Mexico",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekrqeus"
  },
  {
   "stream_id": 99493,
   "name": "CBS (KTVT)",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSKTVT.us"
  },
  {
   "stream_id": 99494,
   "name": "CBS (KTXA)",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/IndependentKTXA.us"
  },
  {
   "stream_id": 99495,
   "name": "CBS (KWTV)",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSKWTV.us"
  },
  {
   "stream_id": 99496,
   "name": "CBS (KYW)",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSKYW.us"
  },
  {
   "stream_id": 76682,
   "name": "CBS (WAFB) Baton Rouge HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewafbus"
  },
  {
   "stream_id": 99497,
   "name": "CBS (WBBM)",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSWBBM.us"
  },
  {
   "stream_id": 99498,
   "name": "CBS (WBTV)",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSWBTV.us"
  },
  {
   "stream_id": 99499,
   "name": "CBS (WBZ)",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSWBZ.us"
  },
  {
   "stream_id": 99500,
@@ -12344,12 +12726,14 @@
  {
   "stream_id": 99501,
   "name": "CBS (WCCO)",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSWCCO.us"
  },
  {
   "stream_id": 99502,
   "name": "CBS (WFOR)",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSWFOR.us"
  },
  {
   "stream_id": 99503,
@@ -12364,12 +12748,14 @@
  {
   "stream_id": 99505,
   "name": "CBS (WINK) Fort Myers Florida",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewinkus"
  },
  {
   "stream_id": 99506,
   "name": "CBS (WJZ)",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSWJZ.us"
  },
  {
   "stream_id": 99507,
@@ -12379,182 +12765,218 @@
  {
   "stream_id": 99508,
   "name": "CBS (WLNY)",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/WLNYWLNY.us"
  },
  {
   "stream_id": 99509,
   "name": "CBS (WNCN) Goldsboro North Carolina",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSWNCN.us"
  },
  {
   "stream_id": 76683,
   "name": "CBS (WSBK) Boston HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewsbkus"
  },
  {
   "stream_id": 99510,
   "name": "CBS (WTVF)",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSWTVF.us"
  },
  {
   "stream_id": 99511,
   "name": "CBS (WUSA)",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSWUSA.us"
  },
  {
   "stream_id": 99512,
   "name": "CBS (WWJ)",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSWWJ.us"
  },
  {
   "stream_id": 99513,
   "name": "CBS (WWL)",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSWWL.us"
  },
  {
   "stream_id": 76744,
   "name": "CBS 2 (KBOI) Boise HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekboius"
  },
  {
   "stream_id": 76745,
   "name": "CBS 2 (KCBS) Los angeles HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekcbsdtus"
  },
  {
   "stream_id": 76746,
   "name": "CBS 2 (KDKA) Pittsburgh HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekdkaus"
  },
  {
   "stream_id": 76747,
   "name": "CBS 2 (KGAN) Cedar rapids HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekganus"
  },
  {
   "stream_id": 76748,
   "name": "CBS 2 (KPSP) Palm Springs HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSKPSPCD2.us"
  },
  {
   "stream_id": 76749,
   "name": "CBS 2 (KREM) Spokane HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekremdtus"
  },
  {
   "stream_id": 76750,
   "name": "CBS 2 (KTVN) Reno HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequektvnus"
  },
  {
   "stream_id": 76751,
   "name": "CBS 2 (KTVQ) Billings HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequektvqus"
  },
  {
   "stream_id": 76752,
   "name": "CBS 2 (KUTV) Salt lake city HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekutvus"
  },
  {
   "stream_id": 76753,
   "name": "CBS 2 (WBBM) Chicago HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewbbmus"
  },
  {
   "stream_id": 76754,
   "name": "CBS 2 (WCBS) New York HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewcbsus"
  },
  {
   "stream_id": 76755,
   "name": "CBS 2 (WFMY) Greensboro HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewfmyus"
  },
  {
   "stream_id": 76767,
   "name": "CBS 3 (KIMT) Rochester HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekimtus"
  },
  {
   "stream_id": 76768,
   "name": "CBS 3 (KMTV) Omaha HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekmtvus"
  },
  {
   "stream_id": 76769,
   "name": "CBS 3 (KRTV) Great Falls HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekrtvus"
  },
  {
   "stream_id": 76770,
   "name": "CBS 3 (KYW) Philadelphia HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekywus"
  },
  {
   "stream_id": 76771,
   "name": "CBS 3 (WBTV) Charlotte HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewbtvus"
  },
  {
   "stream_id": 76772,
   "name": "CBS 3 (WCAX) Burlington HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewcaxus"
  },
  {
   "stream_id": 76773,
   "name": "CBS 3 (WCIA) Champaign HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewciaus"
  },
  {
   "stream_id": 76774,
   "name": "CBS 3 (WFSB) Hartford HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewfsbdtus"
  },
  {
   "stream_id": 76775,
   "name": "CBS 3 (WISC) Madison HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewiscus"
  },
  {
   "stream_id": 76776,
   "name": "CBS 3 (WRBL) ColumbHD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSWRBL.us"
  },
  {
   "stream_id": 76777,
   "name": "CBS 3 (WREG) Memphis HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewregus"
  },
  {
   "stream_id": 76778,
   "name": "CBS 3 (WSHM) Springfield (P) HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.iptvepgCBSWSHMus"
  },
  {
   "stream_id": 76779,
   "name": "CBS 3 (WSHM) Springfield HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.iptvepgCBSWSHMus"
  },
  {
   "stream_id": 76780,
   "name": "CBS 3 (WTKR) Hampton Roads HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewtkrus"
  },
  {
   "stream_id": 76781,
   "name": "CBS 3 (WWAY) Wilmington HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewwayus"
  },
  {
   "stream_id": 76782,
   "name": "CBS 3 (WWAY-DT2) Wilmington HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewwayus"
  },
  {
   "stream_id": 76783,
   "name": "CBS 3 (WWMT) Kalamazoo HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewwmtus"
  },
  {
   "stream_id": 76792,
@@ -12564,32 +12986,38 @@
  {
   "stream_id": 76793,
   "name": "CBS 4 (KCNC) Denver HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekcncus"
  },
  {
   "stream_id": 76794,
   "name": "CBS 4 (KDBC) El paso HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekdbcus"
  },
  {
   "stream_id": 76795,
   "name": "CBS 4 (KGBT) Harlingen HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekgbtus"
  },
  {
   "stream_id": 76796,
   "name": "CBS 4 (KMOV) St. Louis HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekmovus"
  },
  {
   "stream_id": 76797,
   "name": "CBS 4 (KXLF) Butte HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekxlfus"
  },
  {
   "stream_id": 76798,
   "name": "CBS 4 (WBZ) Boston HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewbzus"
  },
  {
   "stream_id": 76799,
@@ -12599,102 +13027,122 @@
  {
   "stream_id": 76800,
   "name": "CBS 4 (WCCO) Minneapolis HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewccous"
  },
  {
   "stream_id": 76801,
   "name": "CBS 4 (WFOR) Miami HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewforus"
  },
  {
   "stream_id": 76802,
   "name": "CBS 4 (WHBF) Rock island HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewhbfus"
  },
  {
   "stream_id": 76803,
   "name": "CBS 4 (WTTV) Indianapolis HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewttvus"
  },
  {
   "stream_id": 76804,
   "name": "CBS 4 (WTVY) Dothan HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewtvyus"
  },
  {
   "stream_id": 76805,
   "name": "CBS 4 (WWL) New orleans HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSWWL.us"
  },
  {
   "stream_id": 76814,
   "name": "CBS 5 (KALB-DT2) Alexandria HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekalbus"
  },
  {
   "stream_id": 76815,
   "name": "CBS 5 (KCTV) Kansas city HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekctvus"
  },
  {
   "stream_id": 76816,
   "name": "CBS 5 (KENS) San Antonio HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSKENS.us"
  },
  {
   "stream_id": 76817,
   "name": "CBS 5 (KFSM) Fort Smith HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekfsmus"
  },
  {
   "stream_id": 76818,
   "name": "CBS 5 (KGMB) Honolulu HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekgmbus"
  },
  {
   "stream_id": 76819,
   "name": "CBS 5 (KGWN) Cheyenne HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekgwnus"
  },
  {
   "stream_id": 76820,
   "name": "CBS 5 (KPHO) Phoenix HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekphous"
  },
  {
   "stream_id": 76821,
   "name": "CBS 5 (KPIX) San francisco HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekpixus"
  },
  {
   "stream_id": 76822,
   "name": "CBS 5 (KREX) Grand Junction HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekrexus"
  },
  {
   "stream_id": 76823,
   "name": "CBS 5 (WCSC) Charleston HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewcscus"
  },
  {
   "stream_id": 76824,
   "name": "CBS 5 (WFRV) Green bay HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewfrvus"
  },
  {
   "stream_id": 76825,
   "name": "CBS 5 (WKRG) Mobile HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewkrgus"
  },
  {
   "stream_id": 76826,
   "name": "CBS 5 (WNEM) Bay city HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewnemus"
  },
  {
   "stream_id": 76827,
   "name": "CBS 5 (WTVF) Nashville HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewtvfus"
  },
  {
   "stream_id": 76828,
@@ -12704,282 +13152,338 @@
  {
   "stream_id": 76831,
   "name": "CBS 6 (KAUZ) Wichita Falls HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekauzus"
  },
  {
   "stream_id": 76832,
   "name": "CBS 6 (KFDM) Port Arthur HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekfdmus"
  },
  {
   "stream_id": 76833,
   "name": "CBS 6 (KOIN) Portland HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekoinus"
  },
  {
   "stream_id": 76834,
   "name": "CBS 6 (KOTV) Tulsa HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekotvus"
  },
  {
   "stream_id": 76835,
   "name": "CBS 6 (WCTV) Tallahassee HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewctvus"
  },
  {
   "stream_id": 76836,
   "name": "CBS 6 (WKMG) Orlando HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewkmgus"
  },
  {
   "stream_id": 76837,
   "name": "CBS 6 (WLNS) Lansing HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewlnsus"
  },
  {
   "stream_id": 76838,
   "name": "CBS 6 (WRGB) Albany HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewrgbus"
  },
  {
   "stream_id": 76839,
   "name": "CBS 6 (WTVR) Richmond HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewtvrus"
  },
  {
   "stream_id": 76841,
   "name": "CBS 7 (KBNZ-LD) Bend HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.iptvepgCBSKBNZus"
  },
  {
   "stream_id": 76842,
   "name": "CBS 7 (KHQA-DT) Quincy HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekhqadtus"
  },
  {
   "stream_id": 76843,
   "name": "CBS 7 (KIRO) Seattle HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekirous"
  },
  {
   "stream_id": 76844,
   "name": "CBS 7 (KOAM) Joplin HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekoamus"
  },
  {
   "stream_id": 76845,
   "name": "CBS 7 (KOSA) Midland HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekosaus"
  },
  {
   "stream_id": 76846,
   "name": "CBS 7 (WBBJ-DT3) Jackson HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.iptvepgABCWBBJus"
  },
  {
   "stream_id": 76847,
   "name": "CBS 7 (WDBJ) Roanoke HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewdbjus"
  },
  {
   "stream_id": 76848,
   "name": "CBS 7 (WHIO) Dayton HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.iptvepgCBSWHIOus"
  },
  {
   "stream_id": 76849,
   "name": "CBS 7 (WSAW) Wausau HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewsawus"
  },
  {
   "stream_id": 76850,
   "name": "CBS 7 (WSPA) Spartanburg HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewspaus"
  },
  {
   "stream_id": 76851,
   "name": "CBS 8 (KCCI) Des moines HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekccius"
  },
  {
   "stream_id": 76852,
   "name": "CBS 8 (KFMB) San diego HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekfmbus"
  },
  {
   "stream_id": 76853,
   "name": "CBS 8 (KLAS) Las vegas HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequeklasus"
  },
  {
   "stream_id": 76854,
   "name": "CBS 8 (KLST) San Angelo HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequeklstus"
  },
  {
   "stream_id": 76855,
   "name": "CBS 8 (KNOE) Monroeâ€“El Dorado HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequeknoeus"
  },
  {
   "stream_id": 76856,
   "name": "CBS 8 (WAKA) Selma HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewakaus"
  },
  {
   "stream_id": 76857,
   "name": "CBS 8 (WKBT) La Crosse HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewkbtus"
  },
  {
   "stream_id": 76858,
   "name": "CBS 8 (WROC) Rochester HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewrocus"
  },
  {
   "stream_id": 76859,
   "name": "CBS 8 (WVLT) Knoxville HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewvltus"
  },
  {
   "stream_id": 76860,
   "name": "CBS 9 (KCAL) Los Angeles HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekcalus"
  },
  {
   "stream_id": 76861,
   "name": "CBS 9 (KCAL) Los Angeles HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekcalus"
  },
  {
   "stream_id": 76862,
   "name": "CBS 9 (KWTV) Oklahoma City HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekwtvus"
  },
  {
   "stream_id": 76863,
   "name": "CBS 9 (WNCT) Greenville HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewnctus"
  },
  {
   "stream_id": 76864,
   "name": "CBS 9 (WUSA) Washington HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewusaus"
  },
  {
   "stream_id": 76865,
   "name": "CBS 9 (WWTV) Cadillac HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewwtvus"
  },
  {
   "stream_id": 76684,
   "name": "CBS 10 (KFDA) Amarillo HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekfdaus"
  },
  {
   "stream_id": 76685,
   "name": "CBS 10 (KLFY) Lafayette HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequeklfyus"
  },
  {
   "stream_id": 76686,
   "name": "CBS 10 (KOLN) Lincoln HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekolnus"
  },
  {
   "stream_id": 76687,
   "name": "CBS 10 (KOLR) Springfield HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekolrus"
  },
  {
   "stream_id": 76688,
   "name": "CBS 10 (KTVL) Medford HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequektvlus"
  },
  {
   "stream_id": 76689,
   "name": "CBS 10 (KWTX) Waco HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekwtxus"
  },
  {
   "stream_id": 76690,
   "name": "CBS 10 (KZTV) Corpchristi HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekztvus"
  },
  {
   "stream_id": 76691,
   "name": "CBS 10 (WBNS) ColumbHD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSWBNS.us"
  },
  {
   "stream_id": 76692,
   "name": "CBS 10 (WTAJ) Altoona HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewtajus"
  },
  {
   "stream_id": 76693,
   "name": "CBS 10 (WTHI) Terre Haute HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewthius"
  },
  {
   "stream_id": 76694,
   "name": "CBS 10 (WTSP) St. petersburg HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewtspus"
  },
  {
   "stream_id": 76695,
   "name": "CBS 11 (KCLO) Rapid City HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekclous"
  },
  {
   "stream_id": 76696,
   "name": "CBS 11 (KELO) Sioux falls HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekelous"
  },
  {
   "stream_id": 76697,
   "name": "CBS 11 (KHOU) Houston HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekhouus"
  },
  {
   "stream_id": 76698,
   "name": "CBS 11 (KKTV) Colorado springs HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekktvus"
  },
  {
   "stream_id": 76699,
   "name": "CBS 11 (KMVT) Twin Falls HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekmvtus"
  },
  {
   "stream_id": 76700,
   "name": "CBS 11 (KTHV) Little rock HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekthvus"
  },
  {
   "stream_id": 76701,
   "name": "CBS 11 (KTVT) Fort worth HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequektvtus"
  },
  {
   "stream_id": 76702,
   "name": "CBS 11 (WINK) Fort Myers HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewinkus"
  },
  {
   "stream_id": 76703,
   "name": "CBS 11 (WJHL) Johnson city HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewjhlus"
  },
  {
   "stream_id": 76704,
   "name": "CBS 11 (WTOC) Savannah HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewtocus"
  },
  {
   "stream_id": 76705,
   "name": "CBS 11 (WTOL) Toledo HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewtoldtus"
  },
  {
   "stream_id": 76706,
@@ -12989,127 +13493,152 @@
  {
   "stream_id": 76707,
   "name": "CBS 12 (KFVS) Cape girardeau HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekfvsus"
  },
  {
   "stream_id": 76708,
   "name": "CBS 12 (KSLA) Shreveport HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekslaus"
  },
  {
   "stream_id": 76709,
   "name": "CBS 12 (KWCH) Hutchinson HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekwchus"
  },
  {
   "stream_id": 76710,
   "name": "CBS 12 (KXII) Sherman HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekxiius"
  },
  {
   "stream_id": 76711,
   "name": "CBS 12 (WBNG) Binghamton HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewbngus"
  },
  {
   "stream_id": 76712,
   "name": "CBS 12 (WDEF) Chattanooga HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewdefus"
  },
  {
   "stream_id": 76713,
   "name": "CBS 12 (WJTV) Jackson HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewjtvus"
  },
  {
   "stream_id": 76714,
   "name": "CBS 12 (WKRC) Cincinnati HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewkrcus"
  },
  {
   "stream_id": 76715,
   "name": "CBS 12 (WPEC) West palm beach HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewpecus"
  },
  {
   "stream_id": 76716,
   "name": "CBS 12 (WPRI) Providence HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewprius"
  },
  {
   "stream_id": 76717,
   "name": "CBS 12 (WRDW) Augusta HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewrdwus"
  },
  {
   "stream_id": 76718,
   "name": "CBS 13 (KOLD) Tucson HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekoldus"
  },
  {
   "stream_id": 76719,
   "name": "CBS 13 (KOVR) Stockton HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekovrus"
  },
  {
   "stream_id": 76720,
   "name": "CBS 13 (KRQE) Albuquerque HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekrqeus"
  },
  {
   "stream_id": 76721,
   "name": "CBS 13 (KVAL) Eugene HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekvalus"
  },
  {
   "stream_id": 76722,
   "name": "CBS 13 (KXMC) Minot HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekxmcus"
  },
  {
   "stream_id": 76723,
   "name": "CBS 13 (WBTW) Florence HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewbtwus"
  },
  {
   "stream_id": 76724,
   "name": "CBS 13 (WGME) Portland HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewgmeus"
  },
  {
   "stream_id": 76725,
   "name": "CBS 13 (WIBW) Topeka HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewibwus"
  },
  {
   "stream_id": 76726,
   "name": "CBS 13 (WJZ) Baltimore HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewjzus"
  },
  {
   "stream_id": 76727,
   "name": "CBS 13 (WLOX-DT2) Gulfport HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.iptvepgABCWLOXus"
  },
  {
   "stream_id": 76728,
   "name": "CBS 13 (WMAZ) Georgia (P) HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewmazus"
  },
  {
   "stream_id": 76729,
   "name": "CBS 13 (WMAZ) Macon HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewmazus"
  },
  {
   "stream_id": 76730,
   "name": "CBS 13 (WOWK) Huntington HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewowkus"
  },
  {
   "stream_id": 76731,
   "name": "CBS 13 (WSVF-CD2) Harrisonburg HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.iptvepgFOXWSVFus"
  },
  {
   "stream_id": 76732,
@@ -13119,177 +13648,212 @@
  {
   "stream_id": 76733,
   "name": "CBS 15 (WANE) Fort wayne HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewanedtus"
  },
  {
   "stream_id": 76734,
   "name": "CBS 17 (KSWL-LD) Lake Charles HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.iptvepgCBSKSWLus"
  },
  {
   "stream_id": 76735,
   "name": "CBS 17 (WNCN) Goldsboro HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewncnus"
  },
  {
   "stream_id": 76736,
   "name": "CBS 18 (WECP-LD) Panama City HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.iptvepgCBSWECPus"
  },
  {
   "stream_id": 76737,
   "name": "CBS 18 (WLFI-DT) Lafayette HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewlfidtus"
  },
  {
   "stream_id": 76738,
   "name": "CBS 19 (KYTX) Longview HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekytxus"
  },
  {
   "stream_id": 76739,
   "name": "CBS 19 (KYTX) Tyler (P) HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekytxus"
  },
  {
   "stream_id": 76740,
   "name": "CBS 19 (WCAV) Charlottesville HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewcavus"
  },
  {
   "stream_id": 76741,
   "name": "CBS 19 (WHNT) Huntsville HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewhntus"
  },
  {
   "stream_id": 76742,
   "name": "CBS 19 (WLTX) Columbia HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewltxus"
  },
  {
   "stream_id": 76743,
   "name": "CBS 19 (WOIO) Shaker heights HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewoious"
  },
  {
   "stream_id": 76756,
   "name": "CBS 21 (WHP) Harrisburg HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewhpus"
  },
  {
   "stream_id": 76757,
   "name": "CBS 22 (WHLT) Hattiesburg HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewhltus"
  },
  {
   "stream_id": 76758,
   "name": "CBS 22 (WSBT) South Bend HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewsbtdtus"
  },
  {
   "stream_id": 76759,
   "name": "CBS 22 (WYOU) Scranton HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewyouus"
  },
  {
   "stream_id": 76760,
   "name": "CBS 23 (WIFR-LD) Rockford HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.iptvepgCBSWIFRus"
  },
  {
   "stream_id": 76761,
   "name": "CBS 24 (WMDN) Meridian HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewmdnus"
  },
  {
   "stream_id": 76762,
   "name": "CBS 27 (WKBN) Youngstown HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewkbnus"
  },
  {
   "stream_id": 76763,
   "name": "CBS 27 (WKBN) Youngstown HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewkbnus"
  },
  {
   "stream_id": 76764,
   "name": "CBS 27 (WKYT) Lexington HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewkytus"
  },
  {
   "stream_id": 76765,
   "name": "CBS 29 (KBAK) Bakersfield HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekbakus"
  },
  {
   "stream_id": 76766,
   "name": "CBS 29 (KIMA) Yakima HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekimaus"
  },
  {
   "stream_id": 76784,
   "name": "CBS 30 (KXJB) Fargo (P) HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.iptvepgCBSKXJBus"
  },
  {
   "stream_id": 76785,
   "name": "CBS 30 (KXJB) Fargo HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.iptvepgCBSKXJBus"
  },
  {
   "stream_id": 76786,
   "name": "CBS 31 (WMBD) Peoria HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewmbdus"
  },
  {
   "stream_id": 76787,
   "name": "CBS 32 (KTAB) Abilene HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequektabdtus"
  },
  {
   "stream_id": 76788,
   "name": "CBS 32 (WLKY) Louisville HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewlkyus"
  },
  {
   "stream_id": 76789,
   "name": "CBS 35 (WOHL-CD2) Lima HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.iptvepgABCWOHLus"
  },
  {
   "stream_id": 76790,
   "name": "CBS 35 (WSEE) Erie HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewseeus"
  },
  {
   "stream_id": 76791,
   "name": "CBS 39 (KJNB-LD2) Jonesboro HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.iptvepgFOXKJNBus"
  },
  {
   "stream_id": 76806,
   "name": "CBS 40 (WNKY-DT2) Bowling Green HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewnkyus"
  },
  {
   "stream_id": 76807,
   "name": "CBS 42 (KEYE) Austin HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekeyeus"
  },
  {
   "stream_id": 76808,
   "name": "CBS 42 (WIAT) Birmingham HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewiatus"
  },
  {
   "stream_id": 76809,
   "name": "CBS 44 (WEVV) Evansville HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewevvus"
  },
  {
   "stream_id": 76810,
   "name": "CBS 46 (KION) Monterey HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekionus"
  },
  {
   "stream_id": 76811,
@@ -13299,27 +13863,32 @@
  {
   "stream_id": 76812,
   "name": "CBS 47 (KGPE) Fresno HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekgpeus"
  },
  {
   "stream_id": 76813,
   "name": "CBS 47 (WJAX) Jacksonville HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewjaxus"
  },
  {
   "stream_id": 76829,
   "name": "CBS 57 (WYMT-DT) Hazard HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewymtdtus"
  },
  {
   "stream_id": 76830,
   "name": "CBS 58 (WDJT) Milwaukee HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewdjtus"
  },
  {
   "stream_id": 76840,
   "name": "CBS 62 (WWJ) Detroit HD",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewwjus"
  },
  {
   "stream_id": 1195164,
@@ -21314,27 +21883,32 @@
  {
   "stream_id": 1556229,
   "name": "ABC 09 (WTVC-DT) CHATTANOOGA",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/ABCWTVC.us"
  },
  {
   "stream_id": 1890145,
   "name": "ABC -OK - LAWTON (KSWO)",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/ABCKSWO.us"
  },
  {
   "stream_id": 1890143,
   "name": "CBS Lawton OK (KAUZ)",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/CBSKAUZ.us"
  },
  {
   "stream_id": 1890146,
   "name": "FOX Lawton OK (KJTL)",
-  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | FOX ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/FOXKJTL.us"
  },
  {
   "stream_id": 1890141,
   "name": "NBC - TX - WICHITA FALLS (KFDX)",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "l:combined/NBCKFDX.us"
  },
  {
   "stream_id": 1932969,
@@ -21354,7 +21928,8 @@
  {
   "stream_id": 613714,
   "name": "CA - ONE SOCCER",
-  "group": "🇨🇦 | ᴄᴀɴᴀᴅᴀ - ᴛꜱɴ - ꜱɴ 🍁"
+  "group": "🇨🇦 | ᴄᴀɴᴀᴅᴀ - ᴛꜱɴ - ꜱɴ 🍁",
+  "epg": "l:combined/OneSoccer.ca"
  },
  {
   "stream_id": 1615595,
@@ -21610,7 +22185,8 @@
  {
   "stream_id": 197101,
   "name": "7 Flix Brisbane",
-  "group": "🇭🇲 | ᴀᴜꜱᴛʀᴀʟɪᴀ ᴄʜᴀɴɴᴇʟꜱ"
+  "group": "🇭🇲 | ᴀᴜꜱᴛʀᴀʟɪᴀ ᴄʜᴀɴɴᴇʟꜱ",
+  "epg": "a:7flixbrisbane.au"
  },
  {
   "stream_id": 197102,
@@ -21620,12 +22196,14 @@
  {
   "stream_id": 197103,
   "name": "7 Flix Perth",
-  "group": "🇭🇲 | ᴀᴜꜱᴛʀᴀʟɪᴀ ᴄʜᴀɴɴᴇʟꜱ"
+  "group": "🇭🇲 | ᴀᴜꜱᴛʀᴀʟɪᴀ ᴄʜᴀɴɴᴇʟꜱ",
+  "epg": "a:7flixperth.au"
  },
  {
   "stream_id": 197104,
   "name": "7 Flix Sydney",
-  "group": "🇭🇲 | ᴀᴜꜱᴛʀᴀʟɪᴀ ᴄʜᴀɴɴᴇʟꜱ"
+  "group": "🇭🇲 | ᴀᴜꜱᴛʀᴀʟɪᴀ ᴄʜᴀɴɴᴇʟꜱ",
+  "epg": "a:7flixsydney.au"
  },
  {
   "stream_id": 197105,
@@ -21773,7 +22351,8 @@
  {
   "stream_id": 197179,
   "name": "Channel 9 Brisbane",
-  "group": "🇭🇲 | ᴀᴜꜱᴛʀᴀʟɪᴀ ᴄʜᴀɴɴᴇʟꜱ"
+  "group": "🇭🇲 | ᴀᴜꜱᴛʀᴀʟɪᴀ ᴄʜᴀɴɴᴇʟꜱ",
+  "epg": "a:9brisbane.au"
  },
  {
   "stream_id": 197180,
@@ -22494,7 +23073,8 @@
  {
   "stream_id": 140,
   "name": "Rotana Cinema EGY",
-  "group": "🇸🇦 | MBC MIX"
+  "group": "🇸🇦 | MBC MIX",
+  "epg": "l:combined/RotanaCinemaEGY.sa"
  },
  {
   "stream_id": 2481,
@@ -22546,7 +23126,8 @@
  {
   "stream_id": 78972,
   "name": "Rotana HD +",
-  "group": "🇸🇦 | MBC MIX"
+  "group": "🇸🇦 | MBC MIX",
+  "epg": "l:combined/Rotana+.sa"
  },
  {
   "stream_id": 2478,

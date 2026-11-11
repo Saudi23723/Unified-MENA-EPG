@@ -917,12 +917,14 @@
  {
   "stream_id": 219825,
   "name": "Nexstar WGN HD",
-  "group": "🇺🇲 | USA"
+  "group": "🇺🇲 | USA",
+  "epg": "l:combined/WGNWGN9.us"
  },
  {
   "stream_id": 87450,
   "name": "NHK World Live",
-  "group": "🇺🇲 | USA"
+  "group": "🇺🇲 | USA",
+  "epg": "l:combined/NHKWorld.us"
  },
  {
   "stream_id": 219827,
@@ -991,7 +993,8 @@
  {
   "stream_id": 314145,
   "name": "CW 11 WPIX NY",
-  "group": "🇺🇲 | USA"
+  "group": "🇺🇲 | USA",
+  "epg": "l:combined/CWWPIX.us"
  },
  {
   "stream_id": 937229,
@@ -3930,7 +3933,8 @@
  {
   "stream_id": 10028,
   "name": "Dubai One",
-  "group": "🇦🇪 | UAE ▶ الإمارات"
+  "group": "🇦🇪 | UAE ▶ الإمارات",
+  "epg": "l:combined/DubaiOne.sa"
  },
  {
   "stream_id": 10026,
@@ -6345,7 +6349,8 @@
  {
   "stream_id": 70547,
   "name": "NBC Golf Channel",
-  "group": "🇺🇸 | US ʟᴏᴄᴀʟ NBC"
+  "group": "🇺🇸 | US ʟᴏᴄᴀʟ NBC",
+  "epg": "a:Playlist.US2GolfChannelHDus2"
  },
  {
   "stream_id": 173694,
@@ -6414,7 +6419,8 @@
  {
   "stream_id": 313476,
   "name": "NBCSN (North West) HD",
-  "group": "🇺🇸 | US ʟᴏᴄᴀʟ"
+  "group": "🇺🇸 | US ʟᴏᴄᴀʟ",
+  "epg": "a:Playlist.iptvepgNBCSNus"
  },
  {
   "stream_id": 313478,
@@ -7201,7 +7207,8 @@
  {
   "stream_id": 68601,
   "name": "BBC ONE Chanel Islands",
-  "group": "🇬🇧 | ᴜᴋ ᴠᴀʀɪᴇᴛʏ ᴄʜᴀɴɴᴇʟꜱ "
+  "group": "🇬🇧 | ᴜᴋ ᴠᴀʀɪᴇᴛʏ ᴄʜᴀɴɴᴇʟꜱ ",
+  "epg": "o:BBCOneChannelIslands.uk"
  },
  {
   "stream_id": 68602,
@@ -7224,7 +7231,8 @@
  {
   "stream_id": 68607,
   "name": "BBC ONE North East",
-  "group": "🇬🇧 | ᴜᴋ ᴠᴀʀɪᴇᴛʏ ᴄʜᴀɴɴᴇʟꜱ "
+  "group": "🇬🇧 | ᴜᴋ ᴠᴀʀɪᴇᴛʏ ᴄʜᴀɴɴᴇʟꜱ ",
+  "epg": "o:BBCOneNorthEast.uk"
  },
  {
   "stream_id": 68608,
@@ -7713,7 +7721,8 @@
  {
   "stream_id": 1041734,
   "name": "Chicago Sports Network (CHSN)",
-  "group": "🇺🇲 | US ꜱᴘᴏʀᴛꜱ"
+  "group": "🇺🇲 | US ꜱᴘᴏʀᴛꜱ",
+  "epg": "a:Playlist.fertequechicagosportsnetworkus"
  },
  {
   "stream_id": 884901,
@@ -7736,13 +7745,13 @@
   "stream_id": 70425,
   "name": "BeIN Sports 4 HD",
   "group": "🇺🇲 | US ꜱᴘᴏʀᴛꜱ",
-  "epg": ""
+  "epg": "a:beinsports4.us"
  },
  {
   "stream_id": 70424,
   "name": "BeIN Sports 5 HD",
   "group": "🇺🇲 | US ꜱᴘᴏʀᴛꜱ",
-  "epg": ""
+  "epg": "a:beinsports5.us"
  },
  {
   "stream_id": 70423,
@@ -7766,7 +7775,7 @@
   "stream_id": 70427,
   "name": "BeIN Sports HD",
   "group": "🇺🇲 | US ꜱᴘᴏʀᴛꜱ",
-  "epg": ""
+  "epg": "a:Playlist.fertequebeINSportsus"
  },
  {
   "stream_id": 70426,
@@ -9560,12 +9569,14 @@
  {
   "stream_id": 116077,
   "name": "Sky Sport Bundesliga 1 HD",
-  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ"
+  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ",
+  "epg": "l:iptvx/sky-sport-bl1"
  },
  {
   "stream_id": 116078,
   "name": "Sky Sport Bundesliga 2 HD [ Match Time ]",
-  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ"
+  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ",
+  "epg": "l:iptvx/sky-sport-bl2"
  },
  {
   "stream_id": 116079,
@@ -9899,12 +9910,14 @@
  {
   "stream_id": 116118,
   "name": "Tring Sport 1",
-  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ"
+  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ",
+  "epg": "l:iptvx/tring-sport-1-al"
  },
  {
   "stream_id": 116120,
   "name": "Tring Sport 3",
-  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ"
+  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ",
+  "epg": "l:iptvx/tring-sport-3-al"
  },
  {
   "stream_id": 116121,
@@ -9938,7 +9951,8 @@
  {
   "stream_id": 930236,
   "name": "TVP Sport HD",
-  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ"
+  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ",
+  "epg": "l:iptvx/tvp-sport"
  },
  {
   "stream_id": 930225,
@@ -9954,17 +9968,20 @@
  {
   "stream_id": 930237,
   "name": "Yes Sport 1 FHD",
-  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ"
+  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ",
+  "epg": "l:iptvx/yes-sport-1"
  },
  {
   "stream_id": 930238,
   "name": "Yes Sport 2 FHD",
-  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ"
+  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ",
+  "epg": "l:iptvx/yes-sport-2"
  },
  {
   "stream_id": 930239,
   "name": "Yes Sport 3 FHD",
-  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ"
+  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ",
+  "epg": "l:iptvx/yes-sport-3"
  },
  {
   "stream_id": 930240,
@@ -10005,12 +10022,14 @@
  {
   "stream_id": 930232,
   "name": "Cbc Sport HD",
-  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ"
+  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ",
+  "epg": "l:iptvx/cbc-sport"
  },
  {
   "stream_id": 930227,
   "name": "IDMAN",
-  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ"
+  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ",
+  "epg": "l:iptvx/idman"
  },
  {
   "stream_id": 1039890,
@@ -10059,7 +10078,8 @@
  {
   "stream_id": 216120,
   "name": "MLB StrikeZone",
-  "group": "🏈 | NBA - NFL - NHL - MLB"
+  "group": "🏈 | NBA - NFL - NHL - MLB",
+  "epg": "l:combined/MLBStrikeZone.us"
  },
  {
   "stream_id": 68503,
@@ -10088,7 +10108,8 @@
  {
   "stream_id": 589921,
   "name": "Sky Showcase FHD",
-  "group": "🇬🇧 | SKY ᴄɪɴᴇᴍᴀ"
+  "group": "🇬🇧 | SKY ᴄɪɴᴇᴍᴀ",
+  "epg": "l:combined/SkyShowcase.uk"
  },
  {
   "stream_id": 68551,
@@ -10851,7 +10872,8 @@
  {
   "stream_id": 70528,
   "name": "Smithsonian",
-  "group": "🇺🇲 | US ᴅᴏᴄᴜᴍᴇɴᴛᴀʀʏ"
+  "group": "🇺🇲 | US ᴅᴏᴄᴜᴍᴇɴᴛᴀʀʏ",
+  "epg": "a:smithsonianhdnetwork.us"
  },
  {
   "stream_id": 179194,
@@ -10942,7 +10964,8 @@
  {
   "stream_id": 179569,
   "name": "Outdoor HD",
-  "group": "🇺🇲 | US ᴅᴏᴄᴜᴍᴇɴᴛᴀʀʏ"
+  "group": "🇺🇲 | US ᴅᴏᴄᴜᴍᴇɴᴛᴀʀʏ",
+  "epg": "a:Playlist.US2OutdoorChannelHDus2"
  },
  {
   "stream_id": 90155,
@@ -10970,7 +10993,7 @@
   "stream_id": 90137,
   "name": "Food Network HD",
   "group": "🇺🇲 | US ᴅᴏᴄᴜᴍᴇɴᴛᴀʀʏ",
-  "epg": ""
+  "epg": "l:combined/FoodNetwork.us"
  },
  {
   "stream_id": 70359,
@@ -13049,7 +13072,8 @@
  {
   "stream_id": 245196,
   "name": "TF1 +1",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/TF1+1.fr"
  },
  {
   "stream_id": 300619,
@@ -13250,7 +13274,8 @@
  {
   "stream_id": 70721,
   "name": "Discovery Family HD",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/DiscoveryFamily.fr"
  },
  {
   "stream_id": 70723,
@@ -13381,12 +13406,14 @@
  {
   "stream_id": 70627,
   "name": "NRJ 12 HD",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/NRJ12.fr"
  },
  {
   "stream_id": 300632,
   "name": "NRJ 12 FHD",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/NRJ12.fr"
  },
  {
   "stream_id": 70565,
@@ -13634,7 +13661,8 @@
  {
   "stream_id": 654072,
   "name": "Equidia Live FHD",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/Equidia.fr"
  },
  {
   "stream_id": 936135,
@@ -13866,7 +13894,8 @@
  {
   "stream_id": 922085,
   "name": "Canal Alpha Ne",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "l:combined/CANALALPHANE.fr"
  },
  {
   "stream_id": 922108,
@@ -13982,47 +14011,56 @@
  {
   "stream_id": 1058912,
   "name": "Ligue 1+ 2",
-  "group": "🇫🇷 | FRANCE ꜱᴘᴏʀᴛ"
+  "group": "🇫🇷 | FRANCE ꜱᴘᴏʀᴛ",
+  "epg": "l:combined/Ligue1+2.fr"
  },
  {
   "stream_id": 1058913,
   "name": "Ligue 1+ 3",
-  "group": "🇫🇷 | FRANCE ꜱᴘᴏʀᴛ"
+  "group": "🇫🇷 | FRANCE ꜱᴘᴏʀᴛ",
+  "epg": "l:combined/Ligue1+3.fr"
  },
  {
   "stream_id": 1058914,
   "name": "Ligue 1+ 4",
-  "group": "🇫🇷 | FRANCE ꜱᴘᴏʀᴛ"
+  "group": "🇫🇷 | FRANCE ꜱᴘᴏʀᴛ",
+  "epg": "l:combined/Ligue1+4.fr"
  },
  {
   "stream_id": 1058915,
   "name": "Ligue 1+ 5",
-  "group": "🇫🇷 | FRANCE ꜱᴘᴏʀᴛ"
+  "group": "🇫🇷 | FRANCE ꜱᴘᴏʀᴛ",
+  "epg": "l:combined/Ligue1+5.fr"
  },
  {
   "stream_id": 1058916,
   "name": "Ligue 1+ 6",
-  "group": "🇫🇷 | FRANCE ꜱᴘᴏʀᴛ"
+  "group": "🇫🇷 | FRANCE ꜱᴘᴏʀᴛ",
+  "epg": "l:combined/Ligue1+6.fr"
  },
  {
   "stream_id": 1058917,
   "name": "Ligue 1+ 7",
-  "group": "🇫🇷 | FRANCE ꜱᴘᴏʀᴛ"
+  "group": "🇫🇷 | FRANCE ꜱᴘᴏʀᴛ",
+  "epg": "l:combined/Ligue1+7.fr"
  },
  {
   "stream_id": 1058918,
   "name": "Ligue 1+ 8",
-  "group": "🇫🇷 | FRANCE ꜱᴘᴏʀᴛ"
+  "group": "🇫🇷 | FRANCE ꜱᴘᴏʀᴛ",
+  "epg": "l:combined/Ligue1+8.fr"
  },
  {
   "stream_id": 1058920,
   "name": "Ligue 1+ 9",
-  "group": "🇫🇷 | FRANCE ꜱᴘᴏʀᴛ"
+  "group": "🇫🇷 | FRANCE ꜱᴘᴏʀᴛ",
+  "epg": "l:combined/Ligue1+9.fr"
  },
  {
   "stream_id": 1058919,
   "name": "Ligue 1+ 10",
-  "group": "🇫🇷 | FRANCE ꜱᴘᴏʀᴛ"
+  "group": "🇫🇷 | FRANCE ꜱᴘᴏʀᴛ",
+  "epg": "l:combined/Ligue1+10.fr"
  },
  {
   "stream_id": 70708,
@@ -14253,7 +14291,8 @@
  {
   "stream_id": 70709,
   "name": "Equidia Live HD",
-  "group": "🇫🇷 | FRANCE ꜱᴘᴏʀᴛ"
+  "group": "🇫🇷 | FRANCE ꜱᴘᴏʀᴛ",
+  "epg": "l:combined/Equidia.fr"
  },
  {
   "stream_id": 293169,
@@ -14397,22 +14436,26 @@
  {
   "stream_id": 70606,
   "name": "OCS Max HD",
-  "group": "🇫🇷 | FRANCE ᴄɪɴᴇᴍᴀ"
+  "group": "🇫🇷 | FRANCE ᴄɪɴᴇᴍᴀ",
+  "epg": "l:combined/OCSMax.fr"
  },
  {
   "stream_id": 70607,
   "name": "OCS City HD",
-  "group": "🇫🇷 | FRANCE ᴄɪɴᴇᴍᴀ"
+  "group": "🇫🇷 | FRANCE ᴄɪɴᴇᴍᴀ",
+  "epg": "l:combined/OCSCity.fr"
  },
  {
   "stream_id": 70608,
   "name": "OCS Geants HD",
-  "group": "🇫🇷 | FRANCE ᴄɪɴᴇᴍᴀ"
+  "group": "🇫🇷 | FRANCE ᴄɪɴᴇᴍᴀ",
+  "epg": "l:combined/OCSGeants.fr"
  },
  {
   "stream_id": 70609,
   "name": "OCS Choc HD",
-  "group": "🇫🇷 | FRANCE ᴄɪɴᴇᴍᴀ"
+  "group": "🇫🇷 | FRANCE ᴄɪɴᴇᴍᴀ",
+  "epg": "l:combined/OCSChoc.fr"
  },
  {
   "stream_id": 70611,
@@ -14573,7 +14616,8 @@
  {
   "stream_id": 70635,
   "name": "Game One HD",
-  "group": "🇫🇷 | FRANCE ᴋɪᴅꜱ"
+  "group": "🇫🇷 | FRANCE ᴋɪᴅꜱ",
+  "epg": "l:combined/GameOne.fr"
  },
  {
   "stream_id": 245212,
@@ -14928,7 +14972,8 @@
  {
   "stream_id": 70832,
   "name": "TVE Internacional",
-  "group": "🇵🇹 | PORTUGAL"
+  "group": "🇵🇹 | PORTUGAL",
+  "epg": "l:portugal/TVEInternacional.pt"
  },
  {
   "stream_id": 70827,
@@ -14979,7 +15024,8 @@
  {
   "stream_id": 138023,
   "name": "TPA INTERNACIONAL",
-  "group": "🇵🇹 | PORTUGAL"
+  "group": "🇵🇹 | PORTUGAL",
+  "epg": "l:portugal/TPAInternacional.pt"
  },
  {
   "stream_id": 71948,
@@ -15194,12 +15240,14 @@
  {
   "stream_id": 70863,
   "name": "Nat Geo HD",
-  "group": "🇵🇹 | PORTUGAL"
+  "group": "🇵🇹 | PORTUGAL",
+  "epg": "l:portugal/NatGeo.pt"
  },
  {
   "stream_id": 72004,
   "name": "Nat Geo 4K",
-  "group": "🇵🇹 | PORTUGAL"
+  "group": "🇵🇹 | PORTUGAL",
+  "epg": "l:portugal/NatGeo.pt"
  },
  {
   "stream_id": 70864,
@@ -15292,7 +15340,8 @@
  {
   "stream_id": 822279,
   "name": "DOCU BOX HD",
-  "group": "🇵🇹 | PORTUGAL"
+  "group": "🇵🇹 | PORTUGAL",
+  "epg": "l:portugal/Docubox.pt"
  },
  {
   "stream_id": 70880,
@@ -15331,7 +15380,8 @@
  {
   "stream_id": 70875,
   "name": "Biggs",
-  "group": "🇵🇹 | PORTUGAL"
+  "group": "🇵🇹 | PORTUGAL",
+  "epg": "l:portugal/BIGGS.pt"
  },
  {
   "stream_id": 70874,
@@ -15618,7 +15668,8 @@
  {
   "stream_id": 822281,
   "name": "MTV 00S",
-  "group": "🇵🇹 | PORTUGAL"
+  "group": "🇵🇹 | PORTUGAL",
+  "epg": "l:portugal/MTV00s.pt"
  },
  {
   "stream_id": 70916,
@@ -15680,7 +15731,8 @@
  {
   "stream_id": 873636,
   "name": "GameToon",
-  "group": "🇵🇹 | PORTUGAL"
+  "group": "🇵🇹 | PORTUGAL",
+  "epg": "l:portugal/Gametoon.pt"
  },
  {
   "stream_id": 70841,
@@ -15967,12 +16019,14 @@
  {
   "stream_id": 71943,
   "name": "Toros TV",
-  "group": "🇵🇹 | PORTUGAL ꜱᴘᴏʀᴛ"
+  "group": "🇵🇹 | PORTUGAL ꜱᴘᴏʀᴛ",
+  "epg": "l:portugal/TOROS.pt"
  },
  {
   "stream_id": 298603,
   "name": "Toros FHD",
-  "group": "🇵🇹 | PORTUGAL ꜱᴘᴏʀᴛ"
+  "group": "🇵🇹 | PORTUGAL ꜱᴘᴏʀᴛ",
+  "epg": "l:portugal/TOROS.pt"
  },
  {
   "stream_id": 873629,

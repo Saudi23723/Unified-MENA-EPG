@@ -806,7 +806,8 @@
  {
   "stream_id": 17512,
   "name": "Euro Star",
-  "group": "TR | ULUSAL"
+  "group": "TR | ULUSAL",
+  "epg": "a:Playlist.Logo.EuroStar.tr"
  },
  {
   "stream_id": 17513,
@@ -1109,7 +1110,8 @@
   "stream_id": 168863,
   "name": "ShowMax FHD",
   "group": "TR | ULUSAL",
-  "sort": 22
+  "sort": 22,
+  "epg": "a:Playlist.Logo.ShowMax.tr"
  },
  {
   "stream_id": 168864,
@@ -3416,7 +3418,8 @@
  {
   "stream_id": 181657,
   "name": "ITV1 Granada FHD",
-  "group": "UK | GENERAL"
+  "group": "UK | GENERAL",
+  "epg": "l:combined/ITV1Granada.uk"
  },
  {
   "stream_id": 181653,
@@ -4490,22 +4493,26 @@
  {
   "stream_id": 181408,
   "name": "Sky Showcase FHD",
-  "group": "UK | ENTERTAINMENT"
+  "group": "UK | ENTERTAINMENT",
+  "epg": "l:combined/SkyShowcase.uk"
  },
  {
   "stream_id": 181529,
   "name": "Sky Showcase HD",
-  "group": "UK | ENTERTAINMENT"
+  "group": "UK | ENTERTAINMENT",
+  "epg": "l:combined/SkyShowcase.uk"
  },
  {
   "stream_id": 181737,
   "name": "Sky Showcase SD",
-  "group": "UK | ENTERTAINMENT"
+  "group": "UK | ENTERTAINMENT",
+  "epg": "l:combined/SkyShowcase.uk"
  },
  {
   "stream_id": 221282,
   "name": "Sky Showcase +1 SD",
-  "group": "UK | ENTERTAINMENT"
+  "group": "UK | ENTERTAINMENT",
+  "epg": "l:combined/SkyShowcase+1.uk"
  },
  {
   "stream_id": 181412,
@@ -4903,7 +4910,8 @@
  {
   "stream_id": 180488,
   "name": "Discovery Science +1 SD",
-  "group": "UK | DOCUMENTARY"
+  "group": "UK | DOCUMENTARY",
+  "epg": "l:combined/DiscoveryScience+1.uk"
  },
  {
   "stream_id": 181619,
@@ -5333,7 +5341,8 @@
  {
   "stream_id": 361618,
   "name": "Now 90s & 00s SD",
-  "group": "UK | MUSIC"
+  "group": "UK | MUSIC",
+  "epg": "l:combined/NOW90sAnd00s.uk"
  },
  {
   "stream_id": 181699,
