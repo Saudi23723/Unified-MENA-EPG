@@ -30,6 +30,7 @@ class LibraryActivity : BaseActivity() {
     private class Book(val icon: String, val title: String, val sub: String, val file: String?, val page: String, val pattern: String?, val asset: String? = null)
 
     private val books = listOf(
+        Book("🛩", "Private Pilot Maneuvers", "Every maneuver animated · SportStar speeds · ACS standards", null, "man:", null),
         Book("📄", "AC 91-78A · Use of Electronic Flight Bags", "FAA, 23 Feb 2024 · in the app", "AC 91-78A · Use of Electronic Flight Bags.pdf", "", null, "library/AC_91-78A_EFB.pdf"),
         Book("📨", "AC 00-46F · Aviation Safety Reporting Program", "NASA ASRS · FAA, 2 Apr 2021 · in the app", "AC 00-46F · Aviation Safety Reporting Program.pdf", "", null, "library/AC_00-46F_ASRS.pdf"),
         Book("🧑‍✈️", "Conducting an Effective Flight Review", "FAA guide for 61.56 · in the app", "Conducting an Effective Flight Review.pdf", "", null, "library/Effective_Flight_Review.pdf"),
@@ -133,6 +134,7 @@ class LibraryActivity : BaseActivity() {
     private fun read(item: VaultItem) = startActivity(Intent(this, PdfViewerActivity::class.java).putExtra(Viewers.EXTRA_ID, item.id))
 
     private fun open(b: Book, sub: TextView) {
+        if (b.page == "man:") { ManeuversActivity.open(this); return }
         if (b.page.startsWith("cfr:")) { CfrBrowseActivity.open(this, b.page.removePrefix("cfr:").toInt()); return }
         if (b.page.startsWith("hb:")) { HandbookActivity.open(this, b.title, b.page.removePrefix("hb:")); return }
         if (b.file == null) {

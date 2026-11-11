@@ -156,6 +156,7 @@ class EfbHomeActivity : BaseActivity() {
             Item("⏱", 0xFF00A6A6.toInt(), R.string.log_currency, R.string.sub_currency) { startActivity(Intent(this, LogbookActivity::class.java).putExtra(LogbookActivity.EXTRA_TAB, 3)) },
         ))
         group(R.string.home_study, listOf(
+            Item("🛩", 0xFFFF2D9B.toInt(), R.string.man_title, R.string.man_sub) { open(ManeuversActivity::class.java) },
             Item("🎧", 0xFF5E5CE6.toInt(), R.string.tr_title, R.string.sub_trainer) { open(TrainerActivity::class.java) },
             Item("📚", 0xFF2D7FF9.toInt(), R.string.lib_title, R.string.sub_library) { open(LibraryActivity::class.java) },
         ))

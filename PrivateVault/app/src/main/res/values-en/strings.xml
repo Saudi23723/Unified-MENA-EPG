@@ -826,6 +826,11 @@ or tap an airport → Add to route, or long-press anywhere on the chart.</string
     <string name="perf_calc">Calculate</string>
     <string name="perf_no_rwy">No runway data for this airport.</string>
     <string name="perf_note">Figures from the SportStar MAX POH (SSM2008AOIUS) 5.2.3–5.2.4: 1268 lbs, sea level ISA, with the POH corrections for tailwind and slope. The POH has no altitude data; the DA estimate is a rule of thumb (+10% takeoff, +5% landing per 1,000 ft), not POH. Headwind is not credited (conservative). Always verify with the POH.</string>
+    <string name="man_title">🛩 Maneuvers</string>
+    <string name="man_sub">Every maneuver animated, SportStar speeds, ACS standards</string>
+    <string name="man_intro">%1$d maneuvers · an animation for each · SportStar MAX speeds from the POH · Private Pilot ACS standards. %2$d practiced.</string>
+    <string name="man_hint">Tap the clip to pause; drag across it to scrub.</string>
+    <string name="man_note">Training material written for this app from the FAA Airplane Flying Handbook and the Private Pilot ACS, with speeds from the SportStar MAX POH. Your instructor’s, your school’s and the POH’s procedures come first.</string>
     <string name="map_circle">Circle</string>
     <string name="map_ruler">Ruler</string>
     <string name="pen_write">Write and highlight</string>
