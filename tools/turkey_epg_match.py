@@ -20,7 +20,7 @@ LINK = "https://iptv-epg.org/files/epg-tr.xml"
 UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/126.0"}
 
 FOLD = str.maketrans({"ı": "i", "İ": "i", "ş": "s", "Ş": "s", "ğ": "g", "Ğ": "g", "ü": "u", "Ü": "u", "ö": "o", "Ö": "o", "ç": "c", "Ç": "c"})
-NOISE = re.compile(r"\b(uhd|fhd|hd|sd|4k|8k|hevc|h265|raw|50fps|60fps|1080p?|720p?|backup|yedek|vip|tr|turk(iye|ey)?|eu|avrupa|europe)\b")
+NOISE = re.compile(r"\b(uhd|fhd|hd|sd|4k|8k|hevc|h265|raw|50fps|60fps|1080p?|720p?|backup|yedek|vip|tr|turk(iye|ey)?|int)\b")
 
 
 def key(name: str) -> str:
@@ -40,6 +40,15 @@ def turkish(c) -> bool:
     return bool(re.search(r"(^|\W)(TR|ULUSAL|TÜRK|TURK|🇹🇷)(\W|$)", g, re.I) or re.match(r"(?i)\s*(TR\s*[:|]|TRT\b)", n))
 
 
+def alts(k: str):
+    """the same name with and without "tv" (\"24 HD\" = \"24 TV\", \"TV 8\" = \"TV8\")"""
+    out = [k]
+    b = re.sub(r"^tv|tv$", "", k)
+    if b and b != k: out.append(b)
+    if not k.endswith("tv"): out.append(k + "tv")
+    return out
+
+
 def channels(raw: bytes) -> dict:
     if raw[:2] == b"\x1f\x8b":
         raw = gzip.decompress(raw)
@@ -48,9 +57,9 @@ def channels(raw: bytes) -> dict:
     for m in re.finditer(r'<channel\b[^>]*\bid="([^"]*)"[^>]*>(.*?)</channel>', t, re.S):
         cid = html.unescape(m.group(1))
         for dn in re.findall(r"<display-name\b[^>]*>(.*?)</display-name>", m.group(2), re.S):
-            k = key(html.unescape(dn))
-            if k:
-                out.setdefault(k, cid)
+            for k in alts(key(html.unescape(dn))):
+                if len(k) >= 2:
+                    out.setdefault(k, cid)
         k = key(re.sub(r"\.[a-z]{2}$", "", cid))
         if k:
             out.setdefault(k, cid)
@@ -80,8 +89,11 @@ def main():
             k = key(c["name"])
             hit = None
             for prefix, ix in index:
-                if k and k in ix:
-                    hit = prefix + ix[k]; break
+                for a in (alts(k) if k else []):
+                    if a in ix:
+                        hit = prefix + ix[a]; break
+                if hit:
+                    break
             if hit:
                 c["epg"] = hit; got += 1; report.append(f"{pl}\t{c['group']}\t{c['name']}\t{hit}")
             else:
