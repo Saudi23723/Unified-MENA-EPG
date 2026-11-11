@@ -408,11 +408,6 @@
   <channel id="STC: STAR ACTION  [1080p]"><display-name>STC: STAR ACTION  [1080p]</display-name></channel>
   <channel id="STC: STAR MOVIES  [1080p]"><display-name>STC: STAR MOVIES  [1080p]</display-name></channel>
   <channel id="STC: STAR WORLD  [1080p]"><display-name>STC: STAR WORLD  [1080p]</display-name></channel>
-<programme start="20261111205000 +0000" stop="20261111205500 +0000" channel="ARA: 2M MONDE [1080p]">
-    <title lang="ar">النشرة الجوية</title>
-    <title lang="en">Al Nashrah Al Jawweyyah</title>
-    <desc lang="ar">‫‫يعرض المضيف تفاصيل النشرة الجوية ومعدل درجات الحرارة المتوقعة للأسبوع المقبل لمناطق مختلفة من حول الدولة.‬‬</desc>
-  </programme>
 <programme start="20261111205500 +0000" stop="20261111220000 +0000" channel="ARA: 2M MONDE [1080p]">
     <title lang="ar">ملاحظون</title>
     <title lang="en">Molahedhoon</title>
@@ -877,6 +872,11 @@
     <title lang="ar">المختفي</title>
     <title lang="en">Al Mokhtafe</title>
     <desc lang="ar">‫‫تقرر أربع صديقات تنظيم حدث لجمع التبرعات لمساعدة المحتاجين، ولكن تأخذ الأمور منحى آخر عندما يختفي زوج إحدى الصديقات بشكل غامض.‬‬</desc>
+  </programme>
+<programme start="20261113235500 +0000" stop="20261114004000 +0000" channel="ARA: 2M MONDE [1080p]">
+    <title lang="ar">عائلتي</title>
+    <title lang="en">Aelati</title>
+    <desc lang="ar">‫‫تبذل لولا، المرأة القوية والزوجة والأم لأربعة أطفال، قصارى جهدها للحفاظ على تضافر عائلتها، بينما تواجه العديد من الصعوبات الاجتماعية والمالية.‬‬</desc>
   </programme>
 <programme start="20261111200000 +0000" stop="20261111210000 +0000" channel="ARA: ABU DHABI TV [720p]">
     <title lang="en">Sleepy Hollow (S1)</title>
@@ -15589,10 +15589,6 @@
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
 <programme start="20261113233848 +0000" stop="20261113234218 +0000" channel="USA: ANIMAL PLANET [720p]"><title lang="ar">لم يُعلن البث — No listing published</title></programme>
-<programme start="20261111202500 +0000" stop="20261111205500 +0000" channel="OSN: COMDEY [1080p]">
-    <title lang="en">Lucky Louie</title>
-    <desc lang="en">The events revolves around a working-class family and their peculiar friends through Louie a part-time mechanic at a muffler shop owned by his best friend Mike, and Louie's wife, Kim, a full-time nurse and their young daughter Lucy.</desc>
-  </programme>
 <programme start="20261111205500 +0000" stop="20261111213000 +0000" channel="OSN: COMDEY [1080p]">
     <title lang="en">Californication S5</title>
     <desc lang="en">As Hank accepts Charlie's invitation to go back to Los Angeles and write a new movie, the two of them go on a trip with Sam, while Karen's anxiety causes her to make rash decisions.</desc>
@@ -15857,10 +15853,6 @@
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
 <programme start="20261113233848 +0000" stop="20261113234218 +0000" channel="OSN: COMDEY [1080p]"><title lang="ar">لم يُعلن البث — No listing published</title></programme>
-<programme start="20261111202500 +0000" stop="20261111205500 +0000" channel="UK: COMEDY [24/7 O-D] [720p]">
-    <title lang="en">Lucky Louie</title>
-    <desc lang="en">The events revolves around a working-class family and their peculiar friends through Louie a part-time mechanic at a muffler shop owned by his best friend Mike, and Louie's wife, Kim, a full-time nurse and their young daughter Lucy.</desc>
-  </programme>
 <programme start="20261111205500 +0000" stop="20261111213000 +0000" channel="UK: COMEDY [24/7 O-D] [720p]">
     <title lang="en">Californication S5</title>
     <desc lang="en">As Hank accepts Charlie's invitation to go back to Los Angeles and write a new movie, the two of them go on a trip with Sam, while Karen's anxiety causes her to make rash decisions.</desc>
@@ -16125,10 +16117,6 @@
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
 <programme start="20261113233848 +0000" stop="20261113234218 +0000" channel="UK: COMEDY [24/7 O-D] [720p]"><title lang="ar">لم يُعلن البث — No listing published</title></programme>
-<programme start="20261111202500 +0000" stop="20261111205500 +0000" channel="USA: COMEDY TV [720p]">
-    <title lang="en">Lucky Louie</title>
-    <desc lang="en">The events revolves around a working-class family and their peculiar friends through Louie a part-time mechanic at a muffler shop owned by his best friend Mike, and Louie's wife, Kim, a full-time nurse and their young daughter Lucy.</desc>
-  </programme>
 <programme start="20261111205500 +0000" stop="20261111213000 +0000" channel="USA: COMEDY TV [720p]">
     <title lang="en">Californication S5</title>
     <desc lang="en">As Hank accepts Charlie's invitation to go back to Los Angeles and write a new movie, the two of them go on a trip with Sam, while Karen's anxiety causes her to make rash decisions.</desc>
@@ -23213,6 +23201,10 @@
 <programme start="20261113233723 +0000" stop="20261113235506 +0000" channel="ARA: ROYA KITCHEN [1080p]">
     <title lang="ar">مطبخ رؤيا - المطبخ الأوروبي</title>
     <desc lang="ar">أكبر تشكيلة من وصفات الطبخ والأكلات الجديدة من المطبخ الأوروبى ضمن مطبخ رؤيا.</desc>
+  </programme>
+<programme start="20261113235506 +0000" stop="20261114002401 +0000" channel="ARA: ROYA KITCHEN [1080p]">
+    <title lang="ar">مطبخ رؤيا - حرف يدوية</title>
+    <desc lang="ar">طرق ابداعية لتقديم الطعام وتزيين السفرة خلال مطبخ رؤيا</desc>
   </programme>
 <programme start="20261112205614 +0000" stop="20261112210000 +0000" channel="ARA: ROYA KITCHEN [1080p]">
     <title lang="ar">لم يُعلن البث — No listing published</title>
@@ -35497,10 +35489,6 @@ Arsenal are the defending Champions.</desc>
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
 <programme start="20261113233656 +0000" stop="20261113234218 +0000" channel="STC: CN ARABIC  [1080p]"><title lang="ar">لم يُعلن البث — No listing published</title></programme>
-<programme start="20261111204000 +0000" stop="20261111205500 +0000" channel="IT: CARTOONITO [1080p]">
-    <title lang="ar">مستر بين أنيماتيد</title>
-    <category lang="ar">ترفيه</category>
-  </programme>
 <programme start="20261111205500 +0000" stop="20261111210500 +0000" channel="IT: CARTOONITO [1080p]">
     <title lang="ar">مستر بين أنيماتيد</title>
     <category lang="ar">ترفيه</category>
@@ -36097,10 +36085,6 @@ Arsenal are the defending Champions.</desc>
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
 <programme start="20261113233656 +0000" stop="20261113234218 +0000" channel="IT: CARTOONITO [1080p]"><title lang="ar">لم يُعلن البث — No listing published</title></programme>
-<programme start="20261111204000 +0000" stop="20261111205500 +0000" channel="STC: CARTOONITO  [1080p]">
-    <title lang="ar">مستر بين أنيماتيد</title>
-    <category lang="ar">ترفيه</category>
-  </programme>
 <programme start="20261111205500 +0000" stop="20261111210500 +0000" channel="STC: CARTOONITO  [1080p]">
     <title lang="ar">مستر بين أنيماتيد</title>
     <category lang="ar">ترفيه</category>
@@ -37397,10 +37381,6 @@ Arsenal are the defending Champions.</desc>
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
 <programme start="20261113233656 +0000" stop="20261113234218 +0000" channel="USA: DISCOVERY [720p]"><title lang="ar">لم يُعلن البث — No listing published</title></programme>
-<programme start="20261111203000 +0000" stop="20261111205500 +0000" channel="OSN: DISNEY CHANNEL [1080p]">
-    <title lang="ar">عائلة جرين بالمدينة</title>
-    <category lang="ar">ترفيه</category>
-  </programme>
 <programme start="20261111205500 +0000" stop="20261111212000 +0000" channel="OSN: DISNEY CHANNEL [1080p]">
     <title lang="ar">فينس وفيرب</title>
     <category lang="ar">ترفيه</category>
@@ -37701,10 +37681,6 @@ Arsenal are the defending Champions.</desc>
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
 <programme start="20261113233656 +0000" stop="20261113234218 +0000" channel="OSN: DISNEY CHANNEL [1080p]"><title lang="ar">لم يُعلن البث — No listing published</title></programme>
-<programme start="20261111203000 +0000" stop="20261111205500 +0000" channel="STC: DISNEY CHANNEL  [1080p]">
-    <title lang="ar">عائلة جرين بالمدينة</title>
-    <category lang="ar">ترفيه</category>
-  </programme>
 <programme start="20261111205500 +0000" stop="20261111212000 +0000" channel="STC: DISNEY CHANNEL  [1080p]">
     <title lang="ar">فينس وفيرب</title>
     <category lang="ar">ترفيه</category>
@@ -38005,10 +37981,6 @@ Arsenal are the defending Champions.</desc>
     <title lang="ar">لم يُعلن البث — No listing published</title>
   </programme>
 <programme start="20261113233656 +0000" stop="20261113234218 +0000" channel="STC: DISNEY CHANNEL  [1080p]"><title lang="ar">لم يُعلن البث — No listing published</title></programme>
-<programme start="20261111203000 +0000" stop="20261111205500 +0000" channel="SW: DISNEY CHANNEL [1080p]">
-    <title lang="ar">عائلة جرين بالمدينة</title>
-    <category lang="ar">ترفيه</category>
-  </programme>
 <programme start="20261111205500 +0000" stop="20261111212000 +0000" channel="SW: DISNEY CHANNEL [1080p]">
     <title lang="ar">فينس وفيرب</title>
     <category lang="ar">ترفيه</category>
