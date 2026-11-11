@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 /** What Home turns into when nobody touches the remote: the playlist's newest and best rated movies and series,
- *  one at a time. OK opens the one on screen; any other key goes back to Home. */
+ *  one at a time. A display only: any key goes back to Home. */
 class ShowcaseActivity : BaseActivity() {
     private var items: List<Triple<String, VodItem, Boolean>> = emptyList()
     private var i = 0
@@ -42,12 +42,10 @@ class ShowcaseActivity : BaseActivity() {
         val label = TextView(this).apply { textSize = 17f; letterSpacing = 0.18f; setTextColor(0xFF10B981.toInt()); setTypeface(typeface, Typeface.BOLD) }
         val title = TextView(this).apply { textSize = 44f; setTextColor(0xFFFFFFFF.toInt()); setTypeface(typeface, Typeface.BOLD); maxLines = 3 }
         val meta = TextView(this).apply { textSize = 22f; setTextColor(0xFFFFC83D.toInt()) }
-        val hint = TextView(this).apply { textSize = 16f; setTextColor(0x99FFFFFF.toInt()); text = "OK  ·  open        ◀ ▶  ·  previous / next        any other key  ·  Home" }
         val brand = TextView(this).apply { text = "SAUDI.TV"; textSize = 15f; letterSpacing = 0.3f; setTextColor(0x80FFFFFF.toInt()); setTypeface(typeface, Typeface.BOLD) }
         col.addView(brand); col.addView(label, LinearLayout.LayoutParams(-2, -2).apply { topMargin = dp(26) })
         col.addView(title, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(8) })
         col.addView(meta, LinearLayout.LayoutParams(-2, -2).apply { topMargin = dp(14) })
-        col.addView(hint, LinearLayout.LayoutParams(-2, -2).apply { topMargin = dp(40) })
         row.addView(col, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
         root.addView(row)
         setContentView(root)
@@ -85,16 +83,8 @@ class ShowcaseActivity : BaseActivity() {
     override fun dispatchKeyEvent(e: KeyEvent): Boolean {
         if (overlayOpen) return super.dispatchKeyEvent(e)
         if (e.action != KeyEvent.ACTION_DOWN) return true
-        when (e.keyCode) {
-            KeyEvent.KEYCODE_DPAD_CENTER, KeyEvent.KEYCODE_ENTER -> items.getOrNull(i)?.let { (_, it, series) ->
-                startActivity(Intent(this, VodDetailActivity::class.java).putExtra("series", series).putExtra("id", it.id)
-                    .putExtra("name", it.name).putExtra("poster", it.poster).putExtra("ext", it.ext))
-                finish()
-            }
-            KeyEvent.KEYCODE_DPAD_RIGHT -> if (items.isNotEmpty()) { i = (i + 1) % items.size; show() }
-            KeyEvent.KEYCODE_DPAD_LEFT -> if (items.isNotEmpty()) { i = (i - 1 + items.size) % items.size; show() }
-            else -> finish()
-        }
+        // a display only (owner, 10 Nov 2026): nothing opens from here — any key goes back to Home
+        finish()
         return true
     }
 }

@@ -164,6 +164,7 @@ class LiveActivity : BaseActivity() {
         lifecycleScope.launch {
             while (isActive) {
                 delay(1000)
+                maybeBackUp()
                 if (playing == null || usingHls || player.playbackState != Player.STATE_READY || !player.isPlaying) continue
                 val ahead = player.bufferedPosition - player.currentPosition
                 val fast = player.playbackParameters.speed > 1f
@@ -289,7 +290,7 @@ class LiveActivity : BaseActivity() {
         if (old != null && old.id != c.id) previous = old
         if (c.id > 0) { History.add(c.id); Prefs.lastChannel = c.id }
         playing = c
-        tries = 0; stalls.clear()
+        tries = 0; if (c.id != loweredFor) stalls.clear()
         start(c)
         channelAdapter.items.indexOfFirst { it.id == old?.id }.takeIf { it >= 0 }?.let { channelAdapter.notifyItemChanged(it) }
         channelAdapter.items.indexOfFirst { it.id == c.id }.takeIf { it >= 0 }?.let { channelAdapter.notifyItemChanged(it) }
@@ -300,21 +301,38 @@ class LiveActivity : BaseActivity() {
     // ---- the connection cannot carry this quality: after 3 waits in 2 minutes the channel goes to its next lighter
     // copy by itself (4K → FHD → HD → SD), once per channel; MENU › Quality goes back (Settings can turn this off)
     private val stalls = ArrayList<Long>()
+    private var backTo: Channel? = null
+    private var lowAt = 0L
+    private val wentBack = HashSet<Int>()
+    /** the better copy again, when the lighter one has played 5 minutes without a single wait */
+    private fun maybeBackUp() {
+        val up = backTo ?: return
+        val c = playing ?: return
+        if (c.id != loweredFor) { backTo = null; return }                       // the viewer moved on
+        val now = android.os.SystemClock.elapsedRealtime()
+        if (stalls.isNotEmpty()) { lowAt = now; stalls.clear(); return }           // a wait: the 5 minutes start again
+        if (now - lowAt < 300_000) return
+        backTo = null; wentBack.add(up.id); loweredFor = -1
+        toast("Connection is better — back on ${up.name}")
+        jump(up)
+    }
     private var loweredFor = -1
     private fun tier(n: String): Int { val u = n.uppercase(); return when {
         Regex("\\b(8K|4K|UHD|2160P?|3840P?|RAW)\\b").containsMatchIn(u) -> 4; Regex("\\b(FHD|1080P?)\\b").containsMatchIn(u) -> 3
         Regex("\\b(SD|LQ|LOW|LITE|480P?|576P?)\\b").containsMatchIn(u) -> 1; else -> 2 } }
     private fun slowLine() {
         val c = playing ?: return
-        if (!App.prefs.getBoolean("auto_quality", true) || c.id <= 0 || loweredFor == c.id) return
         val now = android.os.SystemClock.elapsedRealtime()
         stalls.add(now); stalls.removeAll { now - it > 120_000 }
+        if (!App.prefs.getBoolean("auto_quality", true) || c.id <= 0 || loweredFor == c.id) return
         if (stalls.size < 3) return
         stalls.clear()
         val mine = tier(c.name)
         val lower = Api.qualities(c).filter { it.id != c.id && tier(it.name) < mine }.maxByOrNull { tier(it.name) } ?: return
         loweredFor = lower.id
-        toast("Slow connection — now on ${lower.name}   ·   MENU › Quality to change")
+        // it goes back up by itself after 5 clean minutes — once; if that does not hold, it stays on the lighter copy
+        backTo = if (c.id in wentBack) null else c; lowAt = now
+        toast("Slow connection — now on ${lower.name}")
         jump(lower)
     }
 

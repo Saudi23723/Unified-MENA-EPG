@@ -118,7 +118,6 @@ class HomeActivity : BaseActivity() {
         // Live TV: the big card on the left — the channel that was on, what is on it and how far along
         val live = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; isFocusable = true; isClickable = true; setPadding(dp(28f), dp(24f), dp(28f), dp(24f)) }
         val top = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = android.view.Gravity.CENTER_VERTICAL }
-        top.addView(badge("📺", 0xFF10B981.toInt(), 54f))
         top.addView(View(this), LinearLayout.LayoutParams(0, 1, 1f))
         top.addView(tv("●  LIVE", 13f, 0xFFFFFFFF.toInt(), true).apply { background = solid(0xFFEF4444.toInt(), 12f); setPadding(dp(12f), dp(5f), dp(12f), dp(5f)) })
         live.addView(top)

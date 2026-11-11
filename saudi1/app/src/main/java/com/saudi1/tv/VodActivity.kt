@@ -110,15 +110,6 @@ class VodActivity : BaseActivity() {
         grid.setItemViewCacheSize(24)
         // posters that leave the screen are kept ready (not built again) while the rows move
         grid.recycledViewPool.setMaxRecycledViews(0, 40); grid.setHasFixedSize(true)
-        // the posters take the whole screen while the remote is on them (bigger pictures); the groups come back with ◀
-        window.decorView.viewTreeObserver.addOnGlobalFocusChangeListener { _, now ->
-            if (now == null || isTouch) return@addOnGlobalFocusChangeListener
-            val onPosters = now.parent === grid || now.id == R.id.vodSort
-            val left = catsRv.parent as View
-            if (onPosters == (left.visibility == View.GONE)) return@addOnGlobalFocusChangeListener
-            left.visibility = if (onPosters) View.GONE else View.VISIBLE
-            grid.post { gridAdapter.notifyItemRangeChanged(0, items.size) }
-        }
         refreshMarks()
         val fixed = listOf(VodCat(SEARCH, "🔍  Search"), VodCat(RESUME, "▶  Continue watching"), VodCat(FAV, "★  Favorites"), VodCat(DL, "⬇  Downloads"))
         // the screen is there at once: Continue watching first, the groups from the device, the provider asked behind it
@@ -249,8 +240,8 @@ class VodActivity : BaseActivity() {
     /** a real poster shape (2:3) for the width a column has (known before the first layout too) */
     private fun posterH(): Int {
         val d = resources.displayMetrics.density
-        val gw = if (grid.width > 0) grid.width else resources.displayMetrics.widthPixels - (334 * d).toInt()
-        return (((gw - grid.paddingLeft - grid.paddingRight) / COLS - (22 * d).toInt()) * 3 / 2).coerceAtLeast((90 * d).toInt())
+        val gw = if (grid.width > 0) grid.width else resources.displayMetrics.widthPixels - (258 * d).toInt()
+        return (((gw - grid.paddingLeft - grid.paddingRight) / COLS - (16 * d).toInt()) * 3 / 2).coerceAtLeast((90 * d).toInt())
     }
 
     private fun moveTo(pos: Int) {
@@ -280,14 +271,6 @@ class VodActivity : BaseActivity() {
 
     private fun focusCats() {
         val i = cats.indexOfFirst { it.id == current }.coerceAtLeast(0)
-        val left = catsRv.parent as View
-        if (left.visibility != View.VISIBLE) {
-            // the groups were away while the posters had the screen: back first, then the focus goes to them
-            left.visibility = View.VISIBLE
-            (catsRv.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i, 120)
-            catsRv.post { catsRv.layoutManager?.findViewByPosition(i)?.requestFocus(); grid.post { gridAdapter.notifyItemRangeChanged(0, items.size) } }
-            return
-        }
         catsRv.layoutManager?.findViewByPosition(i)?.requestFocus() ?: run {
             catsRv.scrollToPosition(i); catsRv.post { catsRv.layoutManager?.findViewByPosition(i)?.requestFocus() }
         }
