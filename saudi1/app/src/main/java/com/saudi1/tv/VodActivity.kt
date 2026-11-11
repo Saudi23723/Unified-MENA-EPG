@@ -56,7 +56,7 @@ class VodActivity : BaseActivity() {
         }.show()
     }
 
-    private fun favKey() = if (series) "vfav_s" else "vfav_m"
+    private fun favKey() = VodFav.key(series)
     private fun favs(): List<org.json.JSONObject> = try {
         val a = org.json.JSONArray(App.prefs.getString(favKey(), "[]")); (0 until a.length()).map { a.getJSONObject(it) }
     } catch (e: Exception) { emptyList() }

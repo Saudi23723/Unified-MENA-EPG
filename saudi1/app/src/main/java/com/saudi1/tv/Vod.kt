@@ -257,35 +257,48 @@ object Vod {
     }
 }
 
-/** where each movie / episode was left (continue watching) */
+/** where each movie / episode was left (continue watching), kept for each playlist on its own (owner, 11 Nov 2026:
+ *  "all the playlists"): the same number is another title on another provider. What was kept before, for every
+ *  playlist together, goes to the first playlist that opens. */
 object Resume {
-    fun get(key: String): Long = App.prefs.getLong("pos_$key", 0)
-    fun done(key: String): Boolean = App.prefs.getBoolean("done_$key", false)
+    fun pl() = Prefs.playlist.ifEmpty { Integer.toHexString(Prefs.server.hashCode()) }
+    private fun lk() = "resume_" + pl()
+    private fun pk(key: String) = "pos_" + pl() + "_" + key
+    private fun dk(key: String) = "done_" + pl() + "_" + key
+    fun get(key: String): Long = App.prefs.getLong(pk(key), App.prefs.getLong("pos_$key", 0))
+    fun done(key: String): Boolean = App.prefs.getBoolean(dk(key), App.prefs.getBoolean("done_$key", false))
     fun dur(key: String): Long = list().firstOrNull { it.optString("k") == key }?.optLong("dur") ?: 0
     fun set(key: String, pos: Long, dur: Long, title: String, poster: String, url: String) {
         val e = App.prefs.edit()
-        if (dur > 0 && pos > dur - 90_000) { e.remove("pos_$key").putBoolean("done_$key", true); drop(key) }  // finished
+        if (dur > 0 && pos > dur - 90_000) { e.remove(pk(key)).remove("pos_$key").putBoolean(dk(key), true); e.apply(); drop(key); return }  // finished
         else if (pos > 60_000) {
-            e.putLong("pos_$key", pos)
+            e.putLong(pk(key), pos)
             val a = list().filterNot { it.optString("k") == key }.toMutableList()
             a.add(0, JSONObject().put("k", key).put("t", title).put("p", poster).put("u", url).put("pos", pos).put("dur", dur))
-            e.putString("resume", JSONArray(a.take(30)).toString())
+            e.putString(lk(), JSONArray(a.take(30)).toString())
         }
         e.apply()
     }
     fun list(): List<JSONObject> = try {
-        val a = JSONArray(App.prefs.getString("resume", "[]")); (0 until a.length()).map { a.getJSONObject(it) }
+        if (!App.prefs.contains(lk()) && App.prefs.contains("resume"))
+            App.prefs.edit().putString(lk(), App.prefs.getString("resume", "[]")).remove("resume").apply()
+        val a = JSONArray(App.prefs.getString(lk(), "[]")); (0 until a.length()).map { a.getJSONObject(it) }
     } catch (e: Exception) { emptyList() }
     /** take it off Continue watching (and forget where it was left) */
-    fun remove(key: String) { App.prefs.edit().remove("pos_$key").apply(); drop(key) }
+    fun remove(key: String) { App.prefs.edit().remove(pk(key)).remove("pos_$key").apply(); drop(key) }
     private fun drop(key: String) {
-        App.prefs.edit().putString("resume", JSONArray(list().filterNot { it.optString("k") == key }).toString()).apply()
+        App.prefs.edit().putString(lk(), JSONArray(list().filterNot { it.optString("k") == key }).toString()).apply()
     }
 }
 
 /** ★ Favorites of movies / series (the same list the Favorites group shows) */
 object VodFav {
-    private fun key(series: Boolean) = if (series) "vfav_s" else "vfav_m"
+    /** each playlist its own Favorites (what was kept before for all together goes to the first playlist that opens) */
+    fun key(series: Boolean): String {
+        val k = (if (series) "vfav_s_" else "vfav_m_") + Resume.pl(); val old = if (series) "vfav_s" else "vfav_m"
+        if (!App.prefs.contains(k) && App.prefs.contains(old)) App.prefs.edit().putString(k, App.prefs.getString(old, "[]")).remove(old).apply()
+        return k
+    }
     fun list(series: Boolean): List<JSONObject> = try {
         val a = JSONArray(App.prefs.getString(key(series), "[]")); (0 until a.length()).map { a.getJSONObject(it) }
     } catch (e: Exception) { emptyList() }
