@@ -336,6 +336,7 @@ class AirportSheet(
         val sb = StringBuilder("TPA %,d ft MSL (field + 1,000, AC 90-66)\n".format(PatternOverlay.tpa(a.elevation)))
         for (e in ends) sb.append("RWY %-4s %s traffic\n".format(e, if (PatternOverlay.isRight(act, a.ident, e)) "RIGHT" else "left"))
         PatternOverlay.favored(a.ident, ends, m?.json, a.lat, a.lon)?.let { sb.append("\n➜ RWY $it now (" + (if ((m?.json?.opt("wspd")?.toString()?.toDoubleOrNull() ?: 0.0) >= 3) "into the wind" else "calm-wind runway") + ")") }
+        PatternOverlay.remarks(a.ident).takeIf { it.isNotEmpty() }?.let { r -> sb.append("\n\nRemarks\n" + r.joinToString("\n") { "• $it" }) }
         sb.append("\n\n" + act.getString(R.string.tp_verify))
         return sb.toString()
     }

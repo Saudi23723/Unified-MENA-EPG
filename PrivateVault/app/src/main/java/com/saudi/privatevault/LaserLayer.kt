@@ -35,11 +35,6 @@ class LaserLayer(ctx: Context) : View(ctx) {
     private val glow = Paint(Paint.ANTI_ALIAS_FLAG)
     private val core = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0xFFFFFFFF.toInt() }
 
-    private companion object {
-        const val TAIL_MS = 450L
-        const val FADE_MS = 600L
-    }
-
     override fun onTouchEvent(e: MotionEvent): Boolean {
         val now = SystemClock.uptimeMillis()
         when (e.actionMasked) {
@@ -79,8 +74,10 @@ class LaserLayer(ctx: Context) : View(ctx) {
         if (down || trail.isNotEmpty() || dotA > 0f) postInvalidateOnAnimation()
     }
 
-    companion object Launcher {
+    companion object {
         private const val TAG = "laser_layer"
+        private const val TAIL_MS = 450L
+        private const val FADE_MS = 600L
 
         /** Over the whole screen, with a small bar: the colour, and ✓ to put it away. */
         fun start(act: Activity) {

@@ -26,13 +26,20 @@ object Gemini {
         JSONObject().put("thinkingBudget", -1),
     )
 
-    private const val BASE = "You are a patient flight instructor helping a student pilot (PPL, Evektor SportStar MAX, " +
-        "Boulder City KBVU) study aviation books. Be accurate, clear and concise, use short bullet points and bold " +
-        "for key terms. Start with the answer itself: no greeting, no filler, no closing question. " +
+    private const val BASE = "You are a patient, precise flight instructor (CFI) helping a student pilot (PPL, Evektor SportStar " +
+        "EVSS, light-sport, Boulder City KBVU) study. Think the question through before you write, check every number, unit " +
+        "and regulation reference, and never guess an aircraft figure: if it depends on the POH, say so. " +
+        "Start with the direct answer in one or two sentences, then the why, then what it means in the cockpit. " +
+        "Use short bullet points, bold for key terms, and a small example with real numbers when it helps. " +
+        "Cite the source when there is one (14 CFR 91.155, AIM 4-3-3, PHAK ch. 4). No greeting, no filler, no closing question. " +
+        "FORMULAS: never use LaTeX, dollar signs or backslashes. Write each formula on its own line in plain text with Unicode, " +
+        "e.g. L = ½ · ρ · V² · S · C_L, then one bullet per symbol saying what it is and its unit. " +
         "If the page does not hold the answer, say so and answer from general aviation knowledge, clearly marked."
 
     fun system(ctx: Context) = BASE + if (english(ctx)) " Always answer in English."
-        else " Answer in Arabic (Levantine-friendly Modern Standard Arabic), keeping technical terms in English in brackets, e.g. قوة الرفع (Lift)."
+        else " Answer in clear Arabic (Levantine-friendly Modern Standard Arabic). Start every line and bullet with an Arabic word, " +
+            "never with an English term or a symbol; give each technical term in English once in brackets, e.g. قوة الرفع (Lift). " +
+            "Keep formulas, numbers and units in English on their own lines."
 
     fun english(ctx: Context) = VaultLock.prefs(ctx).getString("ai_lang", "ar") == "en"
     fun setEnglish(ctx: Context, on: Boolean) = VaultLock.prefs(ctx).edit().putString("ai_lang", if (on) "en" else "ar").apply()

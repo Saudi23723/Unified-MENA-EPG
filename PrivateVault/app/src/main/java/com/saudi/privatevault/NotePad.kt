@@ -579,7 +579,13 @@ object NotePad {
         // Closing the note elsewhere takes the bubble too.
         frame.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
             override fun onViewAttachedToWindow(v: View) {}
-            override fun onViewDetachedFromWindow(v: View) { content.removeView(bubble) }
+            override fun onViewDetachedFromWindow(v: View) {
+                // Never take a view out while the window is tearing itself down: that is the
+                // null child in dispatchDetachedFromWindow. Only after, and only if still there.
+                v.removeOnAttachStateChangeListener(this)
+                if (act.isFinishing || act.isDestroyed) return
+                content.post { if (bubble.parent === content) content.removeView(bubble) }
+            }
         })
     }
 

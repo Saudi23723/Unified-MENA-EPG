@@ -110,6 +110,8 @@ class Endorsement(
 }
 
 object Logbook {
+    /** One writer at a time: a save from the screen and a merge from the vault never cross. */
+    val LOCK = Any()
     private fun file(ctx: Context) = File(ctx.filesDir, "logbook.json")
     private fun endorsementsFile(ctx: Context) = File(ctx.filesDir, "endorsements.json")
     fun signatures(ctx: Context) = File(ctx.filesDir, "signatures").apply { mkdirs() }
@@ -121,15 +123,111 @@ object Logbook {
         mutableListOf()
     }
 
-    fun save(ctx: Context, list: List<LogEntry>, stamp: Boolean = true) {
+    fun save(ctx: Context, list: List<LogEntry>, stamp: Boolean = true) = synchronized(LOCK) {
         val before = if (stamp) all(ctx).associate { it.id to it.toJson().toString() } else emptyMap()
         val tmp = File(file(ctx).path + ".tmp")
         tmp.writeText(JSONArray().apply { for (e in list) put(e.toJson()) }.toString())
-        tmp.renameTo(file(ctx))
+        if (!tmp.renameTo(file(ctx))) { file(ctx).writeText(tmp.readText()); tmp.delete() }
         if (stamp) {
             LogbookSync.noteChange(ctx, "f", before, list.associate { it.id to it.toJson().toString() })
             LogbookSync.soon(ctx)
         }
+    }
+
+    /** A flight the GPS recorded: kept at once, joined to a flight already typed for that day and field. */
+    fun keepRecorded(ctx: Context, rec: LogEntry) = synchronized(LOCK) {
+        val list = all(ctx)
+        if (list.any { it.id == rec.id }) return@synchronized
+        val same = list.firstOrNull { it.date == rec.date && it.track.isEmpty() && (it.from.isEmpty() || it.from == rec.from) }
+        if (same != null) {
+            same.track = rec.track
+            if (same.route.isEmpty()) same.route = rec.route
+            if (same.distanceNm == 0.0) same.distanceNm = rec.distanceNm
+            if (same.farthestNm == 0.0) same.farthestNm = rec.farthestNm
+            if (same.timeOut.isEmpty()) same.timeOut = rec.timeOut
+            if (same.timeIn.isEmpty()) same.timeIn = rec.timeIn
+            same.updated = System.currentTimeMillis()
+            rec.id = same.id
+        } else {
+            val last = list.firstOrNull()
+            if (rec.aircraft.isEmpty()) rec.aircraft = last?.aircraft ?: ""
+            if (rec.tail.isEmpty()) rec.tail = last?.tail ?: ""
+            // Still training with an instructor: the time is dual, theirs to correct.
+            if (last != null && last.dual > 0 && last.solo == 0.0) {
+                rec.dual = rec.total; rec.instructor = last.instructor; rec.instructorCert = last.instructorCert; rec.instructorExp = last.instructorExp
+            }
+            list.add(rec)
+        }
+        save(ctx, list.sortedWith(compareByDescending<LogEntry> { it.date }.thenByDescending { it.timeOut }))
+    }
+
+    /** A track file recorded but never joined to a flight: by the day it started. */
+    private fun looseTracks(ctx: Context, list: List<LogEntry>): Map<String, String> {
+        val used = list.map { it.track }.toSet()
+        val dir = File(ctx.filesDir, "tracks")
+        return dir.listFiles()?.filter { it.name.endsWith(".csv") && "tracks/${it.name}" !in used }
+            ?.mapNotNull { f -> f.name.removeSuffix(".csv").toLongOrNull()?.let { LogEntry.FMT.format(Date(it)) to "tracks/${f.name}" } }
+            ?.toMap().orEmpty()
+    }
+
+    /**
+     * The pilot's paper logbook (Sporty's, 2026), line by line, as the record to follow: each line
+     * finds its flight here (the same day, or within three when the day was typed differently),
+     * takes the paper's times, landings and remarks, and a flight missing here is added. Twins of
+     * one flight are folded into one. Runs once; the pilot's later edits are theirs.
+     */
+    private class Paper(val date: String, val total: Double, val sim: Double, val ldg: Int, val rem: String)
+    private val PAPER = listOf(
+        Paper("2026-10-25", 0.8, 0.0, 0, "Standard ops, turns, climbs, descents"),
+        Paper("2026-10-30", 1.1, 0.0, 0, "Pattern introduction"),
+        Paper("2026-10-31", 1.5, 0.0, 0, "Power on stalls, steep turns, pattern"),
+        Paper("2026-11-05", 1.6, 0.0, 9, "Slow flight, power off stalls, turns around a point, pattern, X-wind landings"),
+        Paper("2026-11-07", 1.6, 0.5, 3, "Sim inst, unusual attitudes, programming, fwd slip to land, pattern"),
+        Paper("2026-11-08", 1.7, 0.0, 5, "Pattern, steep turns, radio calls"),
+        Paper("2026-11-09", 1.2, 0.0, 6, "Pattern"),
+    )
+
+    fun reconcilePaper(ctx: Context) = synchronized(LOCK) {
+        val p = VaultLock.prefs(ctx)
+        if (p.getBoolean("paper_2026_v1", false)) return@synchronized
+        val list = all(ctx)
+        // An empty logbook here (a new phone) waits for the vault's copy first: never a second set.
+        if (list.isEmpty()) return@synchronized
+        // Twins: the same day and time, one kept (the one with a track or a signature).
+        val twins = list.groupBy { it.date + "|" + EfbUi.num(it.total) }.values.filter { it.size > 1 }
+        for (g in twins) {
+            val keep = g.maxByOrNull { (if (it.track.isNotEmpty()) 2 else 0) + (if (it.signed) 1 else 0) }!!
+            for (x in g) if (x !== keep) { if (keep.track.isEmpty()) keep.track = x.track; list.remove(x) }
+        }
+        val loose = looseTracks(ctx, list)
+        val taken = HashSet<String>()
+        fun day(d: String) = try { LogEntry.FMT.parse(d)?.time ?: 0L } catch (e: Exception) { 0L }
+        val ref = list.firstOrNull { it.tail.isNotEmpty() }
+        for (row in PAPER) {
+            val t = day(row.date)
+            val e = list.filter { it.id !in taken && Math.abs(day(it.date) - t) <= 3 * 86400000L }
+                .minByOrNull { Math.abs(day(it.date) - t) * 10 + (Math.abs(it.total - row.total) * 1000).toLong() }
+                ?: LogEntry(date = row.date, aircraft = ref?.aircraft ?: "EVSS", tail = ref?.tail ?: "N79EV", from = "KBVU", to = "KBVU",
+                    remarks = "", instructor = ref?.instructor ?: "", instructorCert = ref?.instructorCert ?: "", instructorExp = ref?.instructorExp ?: "").also { list.add(it) }
+            taken.add(e.id)
+            e.total = row.total; e.dual = row.total
+            if (e.solo == row.total) e.solo = 0.0
+            if (e.pic == row.total) e.pic = 0.0
+            e.instrument = row.sim
+            if (row.ldg > 0) e.dayLdg = row.ldg
+            if (e.from.isEmpty()) e.from = "KBVU"
+            if (e.to.isEmpty()) e.to = "KBVU"
+            // The paper's words first; what the app had (e.g. "Recorded by GPS") kept after them.
+            val old = e.remarks.trim()
+            e.remarks = if (old.isEmpty() || old.equals(row.rem, true)) row.rem else if (old.contains(row.rem, true)) old else row.rem + " · " + old
+            if (e.instructorCert.isEmpty()) e.instructorCert = "4682480"
+            if (e.instructorExp.isEmpty()) e.instructorExp = "06/2027"
+            if (e.instructor.isEmpty()) e.instructor = "Bryan"
+            if (e.track.isEmpty()) loose[e.date]?.let { e.track = it }
+            e.updated = System.currentTimeMillis()
+        }
+        save(ctx, list.sortedWith(compareByDescending<LogEntry> { it.date }.thenByDescending { it.timeOut }))
+        p.edit().putBoolean("paper_2026_v1", true).apply()
     }
 
     fun endorsements(ctx: Context): MutableList<Endorsement> = try {
@@ -139,7 +237,7 @@ object Logbook {
         mutableListOf()
     }
 
-    fun saveEndorsements(ctx: Context, list: List<Endorsement>, stamp: Boolean = true) {
+    fun saveEndorsements(ctx: Context, list: List<Endorsement>, stamp: Boolean = true) = synchronized(LOCK) {
         val before = if (stamp) endorsements(ctx).associate { it.id to it.toJson().toString() } else emptyMap()
         endorsementsFile(ctx).writeText(JSONArray().apply { for (e in list) put(e.toJson()) }.toString())
         if (stamp) {
@@ -157,7 +255,7 @@ object Logbook {
         mutableListOf()
     }
 
-    fun saveGround(ctx: Context, list: List<GroundLesson>, stamp: Boolean = true) {
+    fun saveGround(ctx: Context, list: List<GroundLesson>, stamp: Boolean = true) = synchronized(LOCK) {
         val before = if (stamp) ground(ctx).associate { it.id to it.toJson().toString() } else emptyMap()
         groundFile(ctx).writeText(JSONArray().apply { for (e in list) put(e.toJson()) }.toString())
         if (stamp) {
@@ -282,6 +380,11 @@ object FlightRecorder {
         val kt = l.speed * 1.943844
         val now = System.currentTimeMillis()
         var changed = false
+        // A flight left open (the app closed on the ramp): it ends where it landed, never joined to the next day's.
+        if (!st.airborne && st.started > 0) {
+            if (st.landedAt > 0 && now - st.landedAt > 30 * 60000) { val e = finish(st); s = State(); store(ctx, s!!); return e }
+            if (st.landedAt == 0L && now - st.started > 6 * 3600000L) { s = State(); store(ctx, s!!); return null }
+        }
         if (!st.airborne) {
             st.fast = if (kt > 45) st.fast + 1 else 0
             if (st.fast >= 3) {

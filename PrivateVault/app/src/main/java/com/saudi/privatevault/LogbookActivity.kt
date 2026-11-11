@@ -82,6 +82,7 @@ class LogbookActivity : BaseActivity() {
         col.addView(tabs)
         body = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
         col.addView(body)
+        Logbook.reconcilePaper(this)
         entries = Logbook.all(this)
         endorsements = Logbook.endorsements(this)
         tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -90,6 +91,7 @@ class LogbookActivity : BaseActivity() {
             override fun onTabReselected(t: TabLayout.Tab) = show(ORDER[t.position])
         })
         intent.getStringExtra(EXTRA_NEW)?.let { edit(LogEntry.fromJson(JSONObject(it)), isNew = true); return }
+        intent.getStringExtra(EXTRA_EDIT)?.let { id -> entries.firstOrNull { it.id == id }?.let { edit(it, isNew = false); return } }
         val start = intent.getIntExtra(EXTRA_TAB, 0)
         if (start == 0) show(0) else tabs.getTabAt(ORDER.indexOf(start).coerceAtLeast(0))?.select()
     }
@@ -111,7 +113,8 @@ class LogbookActivity : BaseActivity() {
             if (n > 0) {
                 entries = Logbook.all(this@LogbookActivity)
                 endorsements = Logbook.endorsements(this@LogbookActivity)
-                show(ORDER[tabs.selectedTabPosition.coerceAtLeast(0)])
+                // Never pull the page out from under a flight being edited.
+                if (!editing) show(ORDER[tabs.selectedTabPosition.coerceAtLeast(0)])
             }
             when {
                 n > 0 -> Toast.makeText(this@LogbookActivity, getString(R.string.log_synced, n), Toast.LENGTH_SHORT).show()
@@ -121,7 +124,11 @@ class LogbookActivity : BaseActivity() {
         }
     }
 
+    /** True while a form is open: a sync then waits for it instead of redrawing. */
+    private var editing = false
+
     private fun show(tab: Int) {
+        editing = false
         body.removeAllViews()
         when (tab) {
             0 -> flights()
@@ -151,7 +158,7 @@ class LogbookActivity : BaseActivity() {
             val rec = EfbUi.card(this).apply { background = EfbUi.cardBg(this@LogbookActivity, 0xFF0D3B2E.toInt()) }
             rec.addView(EfbUi.text(this, "● " + getString(R.string.log_recording), 15f, EfbUi.GOOD, bold = true))
             rec.addView(EfbUi.ltr(EfbUi.text(this, FlightRecorder.summary(this), 13f, EfbUi.TEXT, mono = true)))
-            rec.addView(button(getString(R.string.log_finish)) { FlightRecorder.finishNow(this)?.let { edit(it, isNew = true) } })
+            rec.addView(button(getString(R.string.log_finish)) { FlightRecorder.finishNow(this)?.let { Logbook.keepRecorded(this, it); entries = Logbook.all(this); edit(entries.firstOrNull { x -> x.id == it.id } ?: it, isNew = false) } })
             body.addView(rec)
         }
         val top = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL; setPadding(0, dp(10), 0, 0) }
@@ -295,6 +302,8 @@ class LogbookActivity : BaseActivity() {
 
     private fun edit(e: LogEntry, isNew: Boolean) {
         body.removeAllViews()
+        editing = true
+        val was = e.total
         val c = EfbUi.card(this)
         body.addView(c)
         c.addView(EfbUi.text(this, getString(if (isNew) R.string.log_add else R.string.log_edit), 18f, EfbUi.ACCENT, bold = true))
@@ -339,8 +348,15 @@ class LogbookActivity : BaseActivity() {
         val act = f("Actual instrument", e.actual)
         val inst = f("Simulated instrument (hood)", e.instrument)
         val gt = f("Ground trainer / sim", e.groundTrainer)
-        // The total follows the Hobbs, or the block times.
+        // The total follows the Hobbs, or the block times, until the pilot types it.
+        var typedTotal = false
+        total.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) {}
+            override fun onTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) { if (total.hasFocus()) typedTotal = true }
+            override fun afterTextChanged(s: Editable?) {}
+        })
         fun auto() {
+            if (typedTotal) return
             val a = ho.text.toString().toDoubleOrNull(); val b = hi.text.toString().toDoubleOrNull()
             if (a != null && b != null && b > a) { total.setText(EfbUi.num(Math.round((b - a) * 10) / 10.0)); return }
             val t0 = out.text.toString().split(':').mapNotNull { it.trim().toIntOrNull() }
@@ -399,6 +415,16 @@ class LogbookActivity : BaseActivity() {
         val pts = if (e.track.isNotEmpty()) Tracks.read(this, e.track) else emptyList()
         if (pts.size > 1) {
             c.addView(header(getString(R.string.log_track, pts.size)))
+            // The flight as flown: where, how high, how long.
+            c.addView(TrackView(this, pts).apply { clipToOutline = true; background = EfbUi.cardBg(this@LogbookActivity, 0xFF0B1116.toInt(), 14) },
+                LinearLayout.LayoutParams(-1, -2).apply { bottomMargin = dp(6) })
+            val maxAlt = pts.maxOf { it.altFt }
+            var gs = 0.0
+            for (i in 1 until pts.size) {
+                val dt = (pts[i].time - pts[i - 1].time) / 3600000.0
+                if (dt > 0) gs = maxOf(gs, Nav.distanceNm(pts[i - 1].lat, pts[i - 1].lon, pts[i].lat, pts[i].lon) / dt)
+            }
+            c.addView(EfbUi.ltr(EfbUi.text(this, "Max %,.0f ft MSL · max GS %.0f kt · %.0f NM · %d landing(s)".format(maxAlt, gs.coerceAtMost(250.0), e.distanceNm, e.dayLdg + e.nightLdg), 12.5f, EfbUi.DIM, mono = true)))
             val row = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
             fun export(ext: String, mime: String, text: String) {
                 val f = File(File(cacheDir, "exports").apply { mkdirs() }, "Flight_${e.date}_${e.from}-${e.to}.$ext")
@@ -427,8 +453,8 @@ class LogbookActivity : BaseActivity() {
             setOnClickListener { show(0) }
         })
         buttons.addView(button(getString(R.string.log_save)) {
-            auto()
-            fun d(x: EditText) = x.text.toString().toDoubleOrNull() ?: 0.0
+            currentFocus?.clearFocus()
+            fun d(x: EditText) = x.text.toString().replace(',', '.').trim().toDoubleOrNull() ?: 0.0
             fun i(x: EditText) = x.text.toString().toIntOrNull() ?: 0
             e.date = date.text.toString().trim().ifEmpty { LogEntry.today() }
             e.aircraft = ac.text.toString().trim(); e.tail = tail.text.toString().trim().uppercase()
@@ -437,6 +463,13 @@ class LogbookActivity : BaseActivity() {
             e.timeOut = out.text.toString().trim(); e.timeIn = inn.text.toString().trim()
             e.hobbsOut = d(ho); e.hobbsIn = d(hi)
             e.total = d(total); e.pic = d(pic); e.dual = d(dual); e.solo = d(solo); e.xc = d(xc); e.night = d(night)
+            // The total changed: the columns that were the whole flight follow it (dual 1.5 → 1.6 with the total).
+            if (!isNew && e.total != was && was > 0) {
+                if (Math.abs(e.dual - was) < 0.05) e.dual = e.total
+                if (Math.abs(e.pic - was) < 0.05) e.pic = e.total
+                if (Math.abs(e.solo - was) < 0.05) e.solo = e.total
+                if (Math.abs(e.xc - was) < 0.05) e.xc = e.total
+            }
             e.actual = d(act); e.instrument = d(inst); e.groundTrainer = d(gt)
             e.dayLdg = i(dl); e.nightLdg = i(nl); e.toweredLdg = i(tl); e.approaches = i(app); e.approachTypes = appt.text.toString().trim(); e.holds = i(holds)
             e.farthestNm = d(far); e.distanceNm = d(dist)
@@ -447,7 +480,12 @@ class LogbookActivity : BaseActivity() {
             entries.removeAll { it.id == e.id }
             entries.add(e)
             entries.sortWith(compareByDescending<LogEntry> { it.date }.thenByDescending { it.timeOut })
-            Logbook.save(this, entries)
+            try {
+                Logbook.save(this, entries)
+                Toast.makeText(this, "✓ " + getString(R.string.log_save) + " · " + EfbUi.num(e.total) + " h", Toast.LENGTH_SHORT).show()
+            } catch (x: Exception) {
+                Toast.makeText(this, "⚠ " + (x.message ?: "?"), Toast.LENGTH_LONG).show(); return@button
+            }
             if (e.instructor.isNotEmpty()) prefs.edit().putString("last_cfi", e.instructor).putString("last_cfin", e.instructorCert).putString("last_cfie", e.instructorExp).apply()
             show(0)
         })
@@ -1012,5 +1050,6 @@ class LogbookActivity : BaseActivity() {
         /** The tabs in the order shown: flights, ground school, totals, checkride, currency, endorsements, documents. */
         val ORDER = intArrayOf(0, 5, 1, 2, 3, 4, 6)
         const val EXTRA_NEW = "new"
+        const val EXTRA_EDIT = "edit_id"
     }
 }

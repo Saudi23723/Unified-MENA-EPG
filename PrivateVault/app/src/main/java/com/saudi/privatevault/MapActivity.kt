@@ -1581,13 +1581,15 @@ class MapActivity : BaseActivity(), NeonHost {
     }
 
     private fun offerLog(e: LogEntry) {
+        // Into the logbook at once: a flight is never lost to a closed dialog or a killed app.
+        Logbook.keepRecorded(this, e)
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.log_flight_done)
-            .setMessage("${e.from} → ${e.to}\n%.1f h · ${e.dayLdg} ldg · %.0f nm".format(e.total, e.distanceNm))
-            .setPositiveButton(R.string.log_save) { _, _ ->
-                startActivity(android.content.Intent(this, LogbookActivity::class.java).putExtra(LogbookActivity.EXTRA_NEW, e.toJson().toString()))
+            .setMessage("${e.from} → ${e.to}\n%.1f h · ${e.dayLdg} ldg · %.0f nm\n\n✓ ".format(e.total, e.distanceNm) + getString(R.string.log_saved_auto))
+            .setPositiveButton(R.string.log_edit) { _, _ ->
+                startActivity(android.content.Intent(this, LogbookActivity::class.java).putExtra(LogbookActivity.EXTRA_EDIT, e.id))
             }
-            .setNegativeButton(R.string.cancel, null)
+            .setNegativeButton(android.R.string.ok, null)
             .show()
     }
 

@@ -279,7 +279,9 @@ class AiChatActivity : BaseActivity() {
         list.addView(TextView(this).apply { this.text = "✦"; textSize = 20f; setTextColor(accent); setPadding(0, dp(16), 0, dp(2)) })
         val reply = TextView(this).apply {
             this.text = md(text); textSize = 16f; setTextColor(ink); setLineSpacing(0f, 1.3f)
-            setTextIsSelectable(true); textDirection = View.TEXT_DIRECTION_FIRST_STRONG
+            setTextIsSelectable(true)
+            // An Arabic answer reads right to left on every line, even one that opens with an English term.
+            textDirection = if (Gemini.english(this@AiChatActivity)) View.TEXT_DIRECTION_FIRST_STRONG else View.TEXT_DIRECTION_ANY_RTL
         }
         list.addView(reply)
         if (done) copyButton(text)
@@ -391,7 +393,7 @@ class AiChatActivity : BaseActivity() {
     /** Gemini's markdown, enough of it: headings, bold, and bullets. */
     private fun md(src: String): CharSequence {
         val out = SpannableStringBuilder()
-        for ((n, raw) in src.lines().withIndex()) {
+        for ((n, raw) in MathText.clean(src).lines().withIndex()) {
             if (n > 0) out.append('\n')
             var line = raw
             var heading = false
@@ -409,6 +411,18 @@ class AiChatActivity : BaseActivity() {
                 out.append(line.substring(b + 2, e))
                 out.setSpan(StyleSpan(Typeface.BOLD), s, out.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
                 i = e + 2
+            }
+            // C_L, V_so: the index small and low, as printed.
+            var k = out.indexOf('_', start)
+            while (k in start until out.length - 1) {
+                var e = k + 1
+                while (e < out.length && out[e].isLetterOrDigit() && e - k <= 3) e++
+                if (e > k + 1) {
+                    out.delete(k, k + 1)
+                    out.setSpan(android.text.style.SubscriptSpan(), k, e - 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    out.setSpan(RelativeSizeSpan(0.75f), k, e - 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                }
+                k = out.indexOf('_', k + 1)
             }
             if (heading) {
                 out.setSpan(StyleSpan(Typeface.BOLD), start, out.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)

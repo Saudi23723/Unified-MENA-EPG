@@ -200,17 +200,43 @@ class PatternOverlay(private val map: MapView) : Overlay() {
 
         fun tpa(elevFt: Int) = ((elevFt + 1000 + 50) / 100) * 100
 
-        /** Right traffic is set per runway; the school's board gives KBVU 09 right and 27 left. */
-        private val KNOWN = mapOf("BVU|09" to true, "BVU|27" to false)
+        /**
+         * Right traffic per runway, from the FAA airport record (5010 / Chart Supplement, as on
+         * AirNav): KBVU — RWY 9 right, RWY 27 left, RWY 15 right, RWY 33 left.
+         */
+        private val KNOWN = mapOf("BVU|9" to true, "BVU|27" to false, "BVU|15" to true, "BVU|33" to false)
         private val CALM = mapOf("BVU" to "27")
+        /** Field remarks worth having in front of you in the pattern (Chart Supplement). */
+        private val REMARKS = mapOf("BVU" to listOf(
+            "RWY 27 preferred in calm or light wind.",
+            "RWY 33 has a steep gradient.",
+            "Heavy tour aircraft traffic; helicopters cross the runways.",
+        ))
 
         fun key(ident: String) = ident.removePrefix("K").let { if (it.length == 3) it else ident }
+        /** "09", "9" and "09L" all name the same end for the lookup. */
+        private fun end(rwy: String) = rwy.trim().uppercase().trimStart('0').ifEmpty { "0" }
 
-        fun isRight(ctx: Context, ident: String, rwy: String): Boolean =
-            VaultLock.prefs(ctx).getString("tp_${key(ident)}_$rwy", null)?.let { it == "R" } ?: (KNOWN["${key(ident)}|$rwy"] ?: false)
+        /** Sides the app once had wrong; a choice saved before this fix is dropped once. */
+        private const val FIX = "tp_fix_2"
+        private fun migrate(ctx: Context) {
+            val p = VaultLock.prefs(ctx)
+            if (p.getBoolean(FIX, false)) return
+            val e = p.edit()
+            for (k in p.all.keys) if (k.startsWith("tp_BVU_")) e.remove(k)
+            e.putBoolean(FIX, true).apply()
+        }
+
+        fun isRight(ctx: Context, ident: String, rwy: String): Boolean {
+            migrate(ctx)
+            return VaultLock.prefs(ctx).getString("tp_${key(ident)}_${end(rwy)}", null)?.let { it == "R" }
+                ?: (KNOWN["${key(ident)}|${end(rwy)}"] ?: false)
+        }
 
         fun setRight(ctx: Context, ident: String, rwy: String, right: Boolean) =
-            VaultLock.prefs(ctx).edit().putString("tp_${key(ident)}_$rwy", if (right) "R" else "L").apply()
+            VaultLock.prefs(ctx).edit().putString("tp_${key(ident)}_${end(rwy)}", if (right) "R" else "L").apply()
+
+        fun remarks(ident: String): List<String> = REMARKS[key(ident)].orEmpty()
 
         fun calmRunway(ident: String) = CALM[key(ident)]
     }

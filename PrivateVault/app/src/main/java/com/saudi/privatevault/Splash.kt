@@ -53,7 +53,7 @@ object Splash {
         col.alpha = 0f; col.translationY = 24 * d
         col.animate().alpha(1f).translationY(0f).setDuration(450).start()
         sky.postDelayed({
-            sky.animate().alpha(0f).setDuration(380).withEndAction { content.removeView(sky) }.start()
+            sky.animate().alpha(0f).setDuration(380).withEndAction { if (sky.parent === content && sky.isAttachedToWindow) content.removeView(sky) }.start()
         }, 1400)
     }
 }

@@ -29,12 +29,41 @@ class ChecklistActivity : BaseActivity() {
         if (!prefs.getBoolean("ck_athene_shown", false)) prefs.edit().putBoolean("ck_athene_shown", true).putString("ck_aircraft", ATHENE).apply()
         aircraft = prefs.getString("ck_aircraft", ATHENE)!!.let { if (it == "SportStar") "SportStar MAX" else it }
         col = EfbUi.screen(this, getString(R.string.ck_title)) { bar ->
-            bar.menu.add(R.string.ck_reset).setOnMenuItemClickListener { done.clear(); build(); true }
+            bar.menu.add(R.string.ck_reset).setOnMenuItemClickListener { askReset(); true }
             bar.menu.add(R.string.ck_edit).setOnMenuItemClickListener { edit(); true }
-            bar.menu.add(R.string.ck_restore).setOnMenuItemClickListener { prefs.edit().remove("ck_$aircraft").apply(); done.clear(); build(); true }
+            bar.menu.add(R.string.ck_restore).setOnMenuItemClickListener { prefs.edit().remove("ck_$aircraft").apply(); done.clear(); keep(); build(); true }
         }
+        load()
         build()
         if (intent.getBooleanExtra("emergency", false)) col.postDelayed({ emergency?.let { v -> (col.parent as? android.widget.ScrollView)?.scrollTo(0, v.top) } }, 600)
+        else resume()
+    }
+
+    // Ticks stay until the pilot resets them: leaving the screen or the app keeps the place.
+    private fun load() {
+        done.clear()
+        try { val a = org.json.JSONArray(prefs.getString("ck_done_$aircraft", "[]")); for (i in 0 until a.length()) done.add(a.getString(i)) } catch (e: Exception) {}
+    }
+
+    private fun keep() = prefs.edit().putString("ck_done_$aircraft", org.json.JSONArray(done.toList()).toString()).apply()
+
+    private fun askReset() {
+        com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.ck_reset).setMessage(R.string.ck_reset_q)
+            .setPositiveButton(R.string.ck_reset) { _, _ -> done.clear(); keep(); build(); (col.parent as? android.widget.ScrollView)?.smoothScrollTo(0, 0) }
+            .setNegativeButton(R.string.cancel, null).show()
+    }
+
+    /** Back where the pilot stopped: the first item not yet ticked, in view. */
+    private var firstOpen: View? = null
+    private fun resume() {
+        if (done.isEmpty()) return
+        col.postDelayed({
+            val v = firstOpen ?: return@postDelayed
+            var top = v.top; var p = v.parent as? View
+            while (p != null && p !== col) { top += p.top; p = p.parent as? View }
+            (col.parent as? android.widget.ScrollView)?.smoothScrollTo(0, (top - dp(120)).coerceAtLeast(0))
+        }, 450)
     }
 
     private fun text(): String = prefs.getString("ck_$aircraft", null) ?: when (aircraft) {
@@ -53,8 +82,9 @@ class ChecklistActivity : BaseActivity() {
                 EfbUi.pressable(this) {
                     aircraft = a
                     prefs.edit().putString("ck_aircraft", a).apply()
-                    done.clear()
+                    load()
                     build()
+                    resume()
                 }
             }, LinearLayout.LayoutParams(-2, -2).apply { marginEnd = dp(8) })
         }
@@ -63,6 +93,11 @@ class ChecklistActivity : BaseActivity() {
             setPadding(dp(16), dp(8), dp(16), dp(8))
             EfbUi.pressable(this) { emergency?.let { v -> (col.parent as? android.widget.ScrollView)?.smoothScrollTo(0, v.top) } }
         })
+        chips.addView(EfbUi.text(this, getString(R.string.ck_reset), 15f, EfbUi.TEXT, bold = true).apply {
+            background = EfbUi.cardBg(this@ChecklistActivity, EfbUi.CARD, 20)
+            setPadding(dp(16), dp(8), dp(16), dp(8))
+            EfbUi.pressable(this) { askReset() }
+        }, LinearLayout.LayoutParams(-2, -2).apply { marginStart = dp(8) })
         col.addView(android.widget.HorizontalScrollView(this).apply { isHorizontalScrollBarEnabled = false; addView(chips) })
         col.addView(EfbUi.text(this, getString(R.string.ck_note), 11f, EfbUi.DIM).apply { setPadding(dp(2), dp(4), dp(2), dp(4)) })
         var card: LinearLayout? = null
@@ -131,12 +166,15 @@ class ChecklistActivity : BaseActivity() {
             rows.add(Triple(key, row, sec))
             row.setOnClickListener {
                 if (!done.add(key)) done.remove(key)
+                keep()
                 paint(rows, p, sec)
+                firstOpen = rows.firstOrNull { it.first !in done && !it.third.contains("EMERGENCY", true) }?.second
                 row.animate().scaleX(0.97f).scaleY(0.97f).setDuration(70).withEndAction { row.animate().scaleX(1f).scaleY(1f).setDuration(120).start() }.start()
             }
             row.tag = mark
         }
         for (s in rows.map { it.third }.distinct()) paint(rows, counters[s], s)
+        firstOpen = rows.firstOrNull { it.first !in done && !it.third.contains("EMERGENCY", true) }?.second
         EfbUi.stagger(col)
     }
 
@@ -177,7 +215,7 @@ class ChecklistActivity : BaseActivity() {
             text = getString(R.string.log_save)
             setOnClickListener {
                 prefs.edit().putString("ck_$aircraft", e.text.toString()).apply()
-                done.clear()
+                done.clear(); keep()
                 build()
             }
         })
