@@ -30,6 +30,7 @@ class LibraryActivity : BaseActivity() {
     private class Book(val icon: String, val title: String, val sub: String, val file: String?, val page: String, val pattern: String?, val asset: String? = null)
 
     private val books = listOf(
+        Book("🎓", "Checkride & Knowledge Test Prep", "Everything to know, by ACS area, with flash cards", null, "cr:", null),
         Book("📘", "Jeppesen · Private Pilot Maneuvers", "Your copy as an app book: 33 maneuvers, figures, search", null, "jepp:", null),
         Book("🛩", "Private Pilot Maneuvers", "Every maneuver animated · SportStar speeds · ACS standards", null, "man:", null),
         Book("📄", "AC 91-78A · Use of Electronic Flight Bags", "FAA, 23 Feb 2024 · in the app", "AC 91-78A · Use of Electronic Flight Bags.pdf", "", null, "library/AC_91-78A_EFB.pdf"),
@@ -61,8 +62,8 @@ class LibraryActivity : BaseActivity() {
             "https://www.faa.gov/regulations_policies/handbooks_manuals/aviation/phak", "faa-h-8083-25[a-z]?\\.pdf"),
         Book("📙", "Airplane Flying Handbook", "FAA-H-8083-3", "Airplane Flying Handbook FAA-H-8083-3.pdf",
             "https://www.faa.gov/regulations_policies/handbooks_manuals/aviation/airplane_handbook", "faa-h-8083-3[a-z]?\\.pdf"),
-        Book("📝", "Airman Knowledge Testing Supplement", "FAA-CT-8080-2: the figures of the written test", null,
-            "hb:https://www.faa.gov/training_testing/testing/supplements", null),
+        Book("📝", "Airman Knowledge Testing Supplement", "Private Pilot written test figures (FAA, 176 MB, downloaded once)", "Airman Knowledge Testing Supplement Private.pdf",
+            "https://www.faa.gov/sites/faa.gov/files/training_testing/testing/supplements/sport_rec_private_akts.pdf", null),
         Book("🗺", "Aeronautical Chart User's Guide", "Every symbol on the sectional and the TAC", null,
             "hb:https://www.faa.gov/air_traffic/flight_info/aeronav/digital_products/aero_guide/", null),
         Book("📚", "All FAA handbooks & manuals", "Risk Management, Weight & Balance, Instructor's… chapter by chapter", null,
@@ -135,6 +136,7 @@ class LibraryActivity : BaseActivity() {
     private fun read(item: VaultItem) = startActivity(Intent(this, PdfViewerActivity::class.java).putExtra(Viewers.EXTRA_ID, item.id))
 
     private fun open(b: Book, sub: TextView) {
+        if (b.page == "cr:") { startActivity(Intent(this, CheckrideActivity::class.java)); return }
         if (b.page == "jepp:") { JeppBookActivity.open(this); return }
         if (b.page == "man:") { ManeuversActivity.open(this); return }
         if (b.page.startsWith("cfr:")) { CfrBrowseActivity.open(this, b.page.removePrefix("cfr:").toInt()); return }
@@ -185,13 +187,16 @@ class LibraryActivity : BaseActivity() {
             else {
                 // The FAA moved it: its page's PDFs, listed and read here in the app.
                 sub.text = b.sub
-                HandbookActivity.open(this@LibraryActivity, b.title, b.page)
+                HandbookActivity.open(this@LibraryActivity, b.title,
+                    if (b.page.lowercase().endsWith(".pdf")) b.page.substringBefore("/sites/").let { "$it/training_testing/testing/supplements" } else b.page)
             }
         }
     }
 
     /** The book's PDF link on its FAA page today. */
     private fun find(b: Book): String? {
+        // A direct link to the PDF itself.
+        if (b.page.lowercase().endsWith(".pdf")) return b.page
         val c = URL(b.page).openConnection() as HttpURLConnection
         c.connectTimeout = 20000; c.readTimeout = 30000
         c.setRequestProperty("User-Agent", UA)
