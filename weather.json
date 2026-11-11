@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-11T13:47:28.488Z",
+  "updated_at": "2026-11-11T13:52:46.234Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -149,41 +149,41 @@
       "country": "الإمارات",
       "latitude": 24.4539,
       "longitude": 54.3773,
-      "temperature_c": 28.3,
-      "humidity": 58,
-      "wind_speed": 25.8,
+      "temperature_c": 28.0,
+      "humidity": 60,
+      "wind_speed": 23.4,
       "rain_chance": 28,
-      "condition": "صافٍ غالباً",
-      "weather_code": 1,
+      "condition": "غائم",
+      "weather_code": 3,
       "observed_at": "2026-11-11T17:45",
-      "feels_c": 27.9,
+      "feels_c": 28.1,
       "utc_offset": 14400,
       "days": [
         {
           "date": "2026-11-11",
-          "code": 95,
-          "max": 31.1,
-          "min": 27.0,
+          "code": 53,
+          "max": 30.9,
+          "min": 27.2,
           "rain": 44
         },
         {
           "date": "2026-11-12",
           "code": 51,
-          "max": 28.2,
-          "min": 25.7,
+          "max": 28.6,
+          "min": 26.0,
           "rain": 30
         },
         {
           "date": "2026-11-13",
           "code": 3,
-          "max": 28.2,
-          "min": 25.4,
+          "max": 27.9,
+          "min": 25.6,
           "rain": 0
         },
         {
           "date": "2026-11-14",
           "code": 2,
-          "max": 27.9,
+          "max": 27.7,
           "min": 25.1,
           "rain": 0
         },
@@ -191,26 +191,26 @@
           "date": "2026-11-15",
           "code": 2,
           "max": 28.0,
-          "min": 25.3,
+          "min": 25.2,
           "rain": 0
         },
         {
           "date": "2026-11-16",
-          "code": 2,
+          "code": 51,
           "max": 28.0,
-          "min": 24.9,
+          "min": 25.1,
           "rain": 10
         },
         {
           "date": "2026-11-17",
-          "code": 51,
+          "code": 3,
           "max": 28.5,
-          "min": 23.7,
+          "min": 23.8,
           "rain": 16
         }
       ],
-      "today_max": 31.1,
-      "today_min": 27.0,
+      "today_max": 30.9,
+      "today_min": 27.2,
       "sunrise": "06:35",
       "sunset": "17:37",
       "uv": 5
