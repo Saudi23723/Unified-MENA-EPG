@@ -80,12 +80,11 @@
     <string name="laptop_empty">Nothing here.
 Drag files onto the Khazanti window on the laptop.</string>
     <string name="laptop_relink">The link expired, enter the password again</string>
-    <string name="laptop_link_title">Link the laptop</string>
-    <string name="laptop_link_help">Laptop: run Khazanti on it and tap Find, or type the address shown in its Phone window.
-Cloud: type its address (like khazanti-me.duckdns.org).
-Then that vault\'s password.</string>
+    <string name="laptop_link_title">Connect to the cloud</string>
+    <string name="laptop_link_help">Cloud (no laptop needed): its address is already filled in; type the vault password and tap Link.
+A laptop at home instead: tap Find.</string>
     <string name="laptop_address">Address (192.168.1.5 or khazanti-me.duckdns.org)</string>
-    <string name="laptop_password">Laptop vault password</string>
+    <string name="laptop_password">Vault password</string>
     <string name="laptop_connect">Link</string>
     <string name="laptop_find">Find</string>
     <string name="laptop_searching">Looking for the laptop…</string>
