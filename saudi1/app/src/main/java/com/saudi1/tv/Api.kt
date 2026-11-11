@@ -105,8 +105,8 @@ object Api {
         try {
             val pl = Prefs.playlist
             if (pl.isNotEmpty()) get("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/xtream/$pl/hidden_live.json").use { r ->
-                if (r.isSuccessful) r.body?.bytes()?.takeIf { it.size > 20 }?.let { cache("hidden_live.json").writeBytes(it) }
-                else if (r.code == 404) cache("hidden_live.json").delete()
+                if (r.isSuccessful) r.body?.bytes()?.takeIf { it.size > 20 }?.let { cache("hidden_live_" + Prefs.playlist + ".json").writeBytes(it) }
+                else if (r.code == 404) cache("hidden_live_" + Prefs.playlist + ".json").delete()
             }
         } catch (e: Exception) { }
         build(c.inputStream(), tmp.inputStream())
@@ -164,21 +164,29 @@ object Api {
         // the hidden-by-default groups at the end (only when this list belongs to the playlist they were built for)
         val dh = HashSet<String>()
         try {
-            val hf = cache("hidden_live.json")
-            if (hf.isFile && Prefs.playlist.isNotEmpty()) {
-                val o = org.json.JSONObject(hf.readText())
-                val hc = o.getJSONArray("cats"); val hs = o.getJSONArray("streams")
-                for (i in 0 until hc.length()) {
-                    val c = hc.getJSONObject(i); val id = c.optString("category_id")
-                    if (id.isNotEmpty() && id !in map) { val g = Group(id, c.optString("category_name").trim()); map[id] = g; order.add(g); dh.add(id) }
+            val hf = cache("hidden_live_" + Prefs.playlist + ".json")
+            if (hf.isFile && Prefs.playlist.isNotEmpty()) JsonReader(InputStreamReader(hf.inputStream(), Charsets.UTF_8)).use { j ->
+                // streamed like the main lists (a big file read without building it all in memory)
+                j.beginObject()
+                while (j.hasNext()) when (j.nextName()) {
+                    "cats" -> { j.beginArray(); while (j.hasNext()) {
+                        var id = ""; var name = ""
+                        j.beginObject(); while (j.hasNext()) when (j.nextName()) { "category_id" -> id = str(j); "category_name" -> name = str(j); else -> j.skipValue() }; j.endObject()
+                        if (id.isNotEmpty() && id !in map) { val g = Group(id, name.trim()); map[id] = g; order.add(g); dh.add(id) }
+                    }; j.endArray() }
+                    "streams" -> { j.beginArray(); while (j.hasNext()) {
+                        var id = 0; var name = ""; var logo = ""; var epg = ""; var cat = ""
+                        j.beginObject(); while (j.hasNext()) when (j.nextName()) {
+                            "stream_id" -> id = str(j).toIntOrNull() ?: 0; "name" -> name = str(j); "stream_icon" -> logo = str(j)
+                            "epg_channel_id" -> epg = str(j); "category_id" -> cat = str(j); else -> j.skipValue()
+                        }; j.endObject()
+                        if (id == 0 || ids.containsKey(id)) continue
+                        val g = map[cat] ?: continue
+                        val ch = Channel(id, all.size + 1, name.trim(), logo, epg, g.id); ids[id] = ch; g.channels.add(ch)
+                    }; j.endArray() }
+                    else -> j.skipValue()
                 }
-                for (i in 0 until hs.length()) {
-                    val x = hs.getJSONObject(i); val id = x.optInt("stream_id")
-                    if (id == 0 || ids.containsKey(id)) continue
-                    val g = map[x.optString("category_id")] ?: continue
-                    val ch = Channel(id, all.size + 1, x.optString("name").trim(), x.optString("stream_icon"), x.optString("epg_channel_id").takeIf { it != "null" } ?: "", g.id)
-                    ids[id] = ch; g.channels.add(ch)
-                }
+                j.endObject()
             }
         } catch (e: Exception) { }
         Arrange.defaultHidden = dh
