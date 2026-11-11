@@ -1983,6 +1983,7 @@ class MapActivity : BaseActivity(), NeonHost {
             it.icon?.setTint(EfbUi.TEXT)
         }
         menu.add(0, 20, 0, "NRST").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+        menu.add(0, 43, 0, "🎧").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
         menu.add(0, 40, 0, R.string.av_menu).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
         menu.add(0, 42, 0, R.string.traffic_list)
         menu.add(0, 41, 0, R.string.map_view_menu)
@@ -2049,6 +2050,7 @@ class MapActivity : BaseActivity(), NeonHost {
             38 -> clearLines()
             40 -> AvionicsPanel.toggle(this)
             42 -> trafficList()
+            43 -> startActivity(android.content.Intent(this, FrequenciesActivity::class.java).addFlags(android.content.Intent.FLAG_ACTIVITY_REORDER_TO_FRONT))
             41 -> MaterialAlertDialogBuilder(this).setTitle(R.string.map_view_menu).setMessage(R.string.map_view_help).setPositiveButton(android.R.string.ok, null).show()
             37 -> askGlide()
             30 -> {

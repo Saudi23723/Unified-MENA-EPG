@@ -125,8 +125,14 @@ class LogbookActivity : BaseActivity() {
         val j = e.toJson().apply { remove("id"); remove("sig"); remove("trk"); remove("upd") }
         lifecycleScope.launch {
             val link = withContext(Dispatchers.IO) { try { LaptopClient.signRequest(this@LogbookActivity, j) } catch (x: Exception) { null } }
-            if (link == null) { Toast.makeText(this@LogbookActivity, getString(R.string.log_sync_failed, "vault"), Toast.LENGTH_LONG).show(); return@launch }
-            prefs.edit().putString("sigreq_${e.id}", link.substringAfterLast('/')).apply()
+            if (link == null) {
+                val why = LaptopClient.signProblem
+                MaterialAlertDialogBuilder(this@LogbookActivity).setTitle(R.string.log_sign_remote)
+                    .setMessage(if (why == "update") getString(R.string.log_sign_update) else getString(R.string.log_sign_fail, why))
+                    .setPositiveButton(android.R.string.ok, null).show()
+                return@launch
+            }
+            prefs.edit().putString("sigreq_${e.id}", link).apply()
             val text = getString(R.string.log_sign_msg, e.date, e.from, e.to, EfbUi.num(e.total), link)
             startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).apply {
                 type = "text/plain"; putExtra(Intent.EXTRA_SUBJECT, getString(R.string.log_sign_subject, e.date)); putExtra(Intent.EXTRA_TEXT, text)
@@ -142,8 +148,9 @@ class LogbookActivity : BaseActivity() {
             var got = 0
             for (k in pending) {
                 val id = k.removePrefix("sigreq_")
-                val tok = prefs.getString(k, null) ?: continue
-                val r = withContext(Dispatchers.IO) { try { LaptopClient.signResult(this@LogbookActivity, tok) } catch (x: Exception) { null } } ?: continue
+                val link = prefs.getString(k, null) ?: continue
+                if (!link.contains("/sign/")) { prefs.edit().remove(k).apply(); continue }
+                val r = withContext(Dispatchers.IO) { try { LaptopClient.signResult(this@LogbookActivity, link) } catch (x: Exception) { null } } ?: continue
                 val e = entries.firstOrNull { it.id == id } ?: run { prefs.edit().remove(k).apply(); null } ?: continue
                 val name = "remote_${id.take(8)}_${System.currentTimeMillis()}.png"
                 withContext(Dispatchers.IO) { File(Logbook.signatures(this@LogbookActivity), name).writeBytes(android.util.Base64.decode(r.optString("png"), android.util.Base64.DEFAULT)) }

@@ -319,16 +319,63 @@ object LaptopClient {
     }
 
     /** Shared state with no file behind it (the flight map's drawings), merged like notes. */
-    /** Sends a flight for the instructor to sign: the private link, or null. Off the main thread. */
+    /** Why the last request for a signature failed, for the pilot. */
+    @Volatile var signProblem = ""
+
+    /**
+     * Sends a flight for the instructor to sign, through the cloud first (the instructor's phone can
+     * reach it; a laptop at home it cannot): the private link, or null with [signProblem]. Off the main thread.
+     */
     fun signRequest(ctx: Context, entry: JSONObject): String? {
-        val r = syncAt(ctx, "signreq", JSONObject().put("entry", entry).toString()) ?: return null
-        val t = r.optString("token").takeIf { it.isNotEmpty() } ?: return null
-        return url(ctx)?.trimEnd('/') + "/sign/" + t
+        signProblem = "no vault linked"
+        val l = links(ctx)
+        for (base in known(ctx)) {
+            val tok = l.optString(base).ifEmpty { if (base == url(ctx)) token(ctx) ?: "" else "" }
+            val conn = open("$base/api/signreq", tok.ifEmpty { null })
+            try {
+                conn.requestMethod = "POST"; conn.doOutput = true
+                conn.setRequestProperty("Content-Type", "application/json")
+                conn.outputStream.use { it.write(JSONObject().put("entry", entry).toString().toByteArray()) }
+                when (conn.responseCode) {
+                    200 -> {
+                        val t = JSONObject(conn.inputStream.bufferedReader().readText()).optString("token")
+                        if (t.isNotEmpty()) return base.trimEnd('/') + "/sign/" + t
+                    }
+                    404 -> signProblem = "update"
+                    401 -> signProblem = "sign in again"
+                    else -> signProblem = "HTTP ${conn.responseCode}"
+                }
+            } catch (e: Exception) {
+                if (signProblem.isEmpty() || signProblem == "no vault linked") signProblem = "unreachable"
+            } finally { conn.disconnect() }
+        }
+        return null
     }
 
-    /** What became of a request: null while unanswered or unreachable. */
-    fun signResult(ctx: Context, token: String): JSONObject? =
-        syncAt(ctx, "signreq?token=" + Uri.encode(token), null)?.takeIf { it.optBoolean("done") }
+    /** What became of a request (by its link): null while unanswered or unreachable. */
+    fun signResult(ctx: Context, link: String): JSONObject? {
+        val base = link.substringBefore("/sign/")
+        val tokenOfLink = link.substringAfter("/sign/")
+        val tok = links(ctx).optString(base).ifEmpty { token(ctx) ?: "" }
+        val conn = open("$base/api/signreq?token=" + Uri.encode(tokenOfLink), tok.ifEmpty { null })
+        return try {
+            if (conn.responseCode != 200) null else JSONObject(conn.inputStream.bufferedReader().readText()).takeIf { it.optBoolean("done") }
+        } catch (e: Exception) { null } finally { conn.disconnect() }
+    }
+
+    /** Asks the cloud to fetch its newest program now instead of at night; true when it started. */
+    fun updateCloud(ctx: Context): Boolean {
+        val l = links(ctx)
+        for (base in known(ctx).filter { it.startsWith("https") }) {
+            val conn = open("$base/api/cloud/selfupdate", l.optString(base).ifEmpty { null })
+            try {
+                conn.requestMethod = "POST"; conn.doOutput = true
+                conn.outputStream.use { it.write("{}".toByteArray()) }
+                if (conn.responseCode == 200) return true
+            } catch (e: Exception) {} finally { conn.disconnect() }
+        }
+        return false
+    }
 
     fun syncKv(ctx: Context, name: String, body: String?): JSONObject? = syncAt(ctx, "kv?name=" + Uri.encode(name), body)
 

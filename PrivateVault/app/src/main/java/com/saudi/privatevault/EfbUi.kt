@@ -166,12 +166,18 @@ object EfbUi {
             gravity = Gravity.CENTER_VERTICAL
             layoutDirection = View.LAYOUT_DIRECTION_LTR
         }
-        row.addView(text(ctx, label, 14f, DIM), LinearLayout.LayoutParams(0, -2, 1f))
+        // A ForeFlight form row: the label left, the value right in blue, no underline, a hairline below.
+        row.setPadding(0, dp(ctx, 4), 0, dp(ctx, 4))
+        row.addView(text(ctx, label, 15f, TEXT), LinearLayout.LayoutParams(0, -2, 1f))
         val e = EditText(ctx).apply {
+            background = null
+            setPadding(dp(ctx, 8), dp(ctx, 10), 0, dp(ctx, 10))
+            hint = "—"
+            typeface = MEDIUM
             inputType = if (number) InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_NUMBER_FLAG_SIGNED
                 else InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS
             setText(value)
-            setTextColor(TEXT)
+            setTextColor(ACCENT)
             setHintTextColor(DIM)
             gravity = Gravity.END
             textSize = 16f
@@ -181,8 +187,9 @@ object EfbUi {
                 override fun afterTextChanged(s: Editable?) = onChange(s.toString())
             })
         }
-        row.addView(e, LinearLayout.LayoutParams(dp(ctx, 140), -2))
+        row.addView(e, LinearLayout.LayoutParams(dp(ctx, 160), -2))
         parent.addView(row)
+        parent.addView(View(ctx).apply { setBackgroundColor(CARD_LINE) }, LinearLayout.LayoutParams(-1, 1))
         return e
     }
 

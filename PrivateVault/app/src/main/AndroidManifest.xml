@@ -81,6 +81,9 @@
             android:name=".WebActivity"
             android:exported="false" />
         <activity
+            android:name=".ImageryActivity"
+            android:exported="false" />
+        <activity
             android:name=".SvtActivity"
             android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden"
             android:exported="false"

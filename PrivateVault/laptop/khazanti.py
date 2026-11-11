@@ -1581,6 +1581,14 @@ class Handler(BaseHTTPRequestHandler):
         body = self._body()
         if path == "/api/signreq":
             return self._json({"token": self.app.signs.new(body.get("entry") or {})})
+        if path == "/api/cloud/selfupdate":
+            # A cloud server fetches its newest program now (the same script its nightly timer runs).
+            script = "/usr/local/bin/khazanti-update"
+            if getattr(sys, "frozen", False) or not os.path.exists(script):
+                return self._error(404, "not a cloud server")
+            import subprocess as _sp
+            _sp.Popen([script], stdout=_sp.DEVNULL, stderr=_sp.DEVNULL, start_new_session=True)
+            return self._json({"ok": True})
         if path == "/api/logout":
             auth.revoke(auth.device_id(self._token()))
             return self._json({"ok": True}, headers={"Set-Cookie": "kt=; Path=/; Max-Age=0"})

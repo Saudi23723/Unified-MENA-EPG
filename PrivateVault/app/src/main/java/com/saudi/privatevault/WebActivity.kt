@@ -50,7 +50,18 @@ class WebActivity : BaseActivity() {
                     if (js != null) v.postDelayed({ v.evaluateJavascript(js, null) }, 1500)
                 }
             }
-            web.loadUrl(intent.getStringExtra("url") ?: "about:blank")
+            // A weather picture: full width on black, pinch to zoom, a loop keeps moving.
+            val img = intent.getStringExtra("image")
+            if (img != null) {
+                web.settings.useWideViewPort = true
+                web.settings.loadWithOverviewMode = true
+                web.setBackgroundColor(0xFF000000.toInt())
+                web.loadDataWithBaseURL(img, "<html><head><meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=8'></head>" +
+                    "<body style='margin:0;background:#000;display:flex;align-items:center;justify-content:center;min-height:100vh'>" +
+                    "<img src='" + img + "?t=" + System.currentTimeMillis() / 300000 + "' style='width:100%;height:auto' " +
+                    "onerror=\"document.body.innerHTML='<p style=color:#aaa;font-family:sans-serif;padding:20px>Not available right now — try again in a minute.</p>'\"></body></html>",
+                    "text/html", "utf-8", null)
+            } else web.loadUrl(intent.getStringExtra("url") ?: "about:blank")
         }
     }
 
