@@ -15,6 +15,16 @@ class App : Application(), ImageLoaderFactory {
         super.onCreate()
         app = this
         prefs = getSharedPreferences("saudi1", Context.MODE_PRIVATE)
+        // when the app stops by an error, what happened is kept (Settings › App › Last error) so it can be fixed
+        val before = Thread.getDefaultUncaughtExceptionHandler()
+        Thread.setDefaultUncaughtExceptionHandler { t, e ->
+            try {
+                val sw = java.io.StringWriter(); e.printStackTrace(java.io.PrintWriter(sw))
+                java.io.File(filesDir, "last_error.txt").writeText(java.text.SimpleDateFormat("d MMM HH:mm", java.util.Locale.ENGLISH).format(java.util.Date()) +
+                    "  ·  " + BuildConfig.VERSION_NAME + "\n" + sw.toString().take(6000))
+            } catch (x: Throwable) { }
+            before?.uncaughtException(t, e)
+        }
         tidy()
         Backup.auto()
     }

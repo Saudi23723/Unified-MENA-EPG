@@ -135,6 +135,11 @@ class SettingsActivity : BaseActivity() {
 
         section("App")
         row("Version", BuildConfig.VERSION_NAME + "   ·   Check for update") { update() }
+        val err = try { java.io.File(filesDir, "last_error.txt").takeIf { it.isFile }?.readText() } catch (e: Exception) { null }
+        if (err != null) row("Last error", err.lineSequence().take(2).joinToString("  ·  ").take(90)) {
+            AlertDialog.Builder(this).setTitle("Last error").setMessage(err.take(2500)).setPositiveButton("OK", null)
+                .setNegativeButton("Clear") { _, _ -> java.io.File(filesDir, "last_error.txt").delete(); build() }.show()
+        }
         row("How to use", "The welcome and a short tour of the remote") { Intro.show(this) }
         row("Download link", "saudi1.1saifsaudi.workers.dev/apk", null)
     }
