@@ -166,8 +166,19 @@ class HomeActivity : BaseActivity() {
         }
     }
 
+    // nobody touches the remote on Home for a minute and a half: the showcase of new and top rated titles
+    private var idleJob: kotlinx.coroutines.Job? = null
+    private fun armIdle() {
+        idleJob?.cancel()
+        if (!App.prefs.getBoolean("showcase", true) || !Prefs.ready || isTouch) return
+        idleJob = lifecycleScope.launch { delay(90_000); if (!overlayOpen && hasWindowFocus()) startActivity(Intent(this@HomeActivity, ShowcaseActivity::class.java)) }
+    }
+    override fun dispatchKeyEvent(event: android.view.KeyEvent): Boolean { armIdle(); return super.dispatchKeyEvent(event) }
+    override fun onPause() { super.onPause(); idleJob?.cancel() }
+
     override fun onResume() {
         super.onResume()
+        armIdle()
         // only when "Start on the last channel" is on: straight to the channel that was on
         val fresh = !resumedOnce; resumedOnce = true
         if (fresh || BaseActivity.cameBack) {

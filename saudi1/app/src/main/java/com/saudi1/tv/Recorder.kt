@@ -36,6 +36,9 @@ class RecordService : Service() {
         if (Build.VERSION.SDK_INT >= 29) startForeground(7, n, ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC) else startForeground(7, n)
         val f = File(Recordings.dir(this), SimpleDateFormat("yyyy-MM-dd HH.mm", Locale.ENGLISH).format(Date()) + " · " + title.replace(Regex("[\\\\/:*?\"<>|]"), " ") + ".ts")
         Recorder.current = f.name
+        // the recording goes on with the screen off / the TV in standby: the device and its Wi-Fi are kept awake
+        val wake = try { (getSystemService(Context.POWER_SERVICE) as android.os.PowerManager).newWakeLock(android.os.PowerManager.PARTIAL_WAKE_LOCK, "saudi1:rec").apply { acquire(until - System.currentTimeMillis() + 60_000) } } catch (e: Exception) { null }
+        val wifi = try { (applicationContext.getSystemService(Context.WIFI_SERVICE) as android.net.wifi.WifiManager).createWifiLock(android.net.wifi.WifiManager.WIFI_MODE_FULL_HIGH_PERF, "saudi1:rec").apply { acquire() } } catch (e: Exception) { null }
         thread = Thread {
             try {
                 val c = App.http.newBuilder().readTimeout(30, java.util.concurrent.TimeUnit.SECONDS).build().newCall(Request.Builder().url(url).build())
@@ -51,6 +54,8 @@ class RecordService : Service() {
                     }
                 }
             } catch (_: Exception) { } finally {
+                try { if (wake?.isHeld == true) wake.release() } catch (_: Exception) { }
+                try { if (wifi?.isHeld == true) wifi.release() } catch (_: Exception) { }
                 Recorder.current = null
                 stopSelf()
             }

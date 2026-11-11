@@ -102,7 +102,14 @@ class MultiviewActivity : BaseActivity() {
         if (first != null) set(0, first)
         // the device has more than one playlist (admin site): the viewer picks the playlist of the other screen(s)
         others = Device.playlists().filter { it.optString("name") != Device.active && it.optString("user").isNotEmpty() }.map { OtherList(it) }
-        if (others.isEmpty()) fillOthers(null) else choosePlaylist { fillOthers(it) }
+        // the other screen never opens on the playlist that is already playing (its provider would cut one of the two):
+        // one other playlist = that one at once; more = the viewer picks among the others (owner, 10 Nov 2026)
+        when (others.size) {
+            0 -> fillOthers(null)
+            1 -> fillOthers(others[0])
+            else -> AlertDialog.Builder(this).setTitle("Other screen · which playlist?").setItems(others.map { it.name }.toTypedArray()) { _, w -> fillOthers(others[w]) }
+                .setOnCancelListener { fillOthers(others[0]) }.show()
+        }
         tiles[0].root.post { tiles[0].root.requestFocus() }
         if (big >= 0) grid.post { relayout() }
     }

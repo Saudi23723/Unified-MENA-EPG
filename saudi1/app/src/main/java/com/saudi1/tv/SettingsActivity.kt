@@ -58,6 +58,8 @@ class SettingsActivity : BaseActivity() {
             nightDialog()
         }
         row("Night mode at a set time", if (Dim.scheduled) "Every day " + Dim.clock(Dim.from) + " – " + Dim.clock(Dim.to) else "Off") { nightSchedule() }
+        val sc = App.prefs.getBoolean("showcase", true)
+        row("Showcase on Home", if (sc) "On · new and top rated titles when the remote rests" else "Off") { App.prefs.edit().putBoolean("showcase", !sc).apply(); build() }
         val clock = App.prefs.getBoolean("clock", true)
         row("Clock on the picture", if (clock) "On" else "Off") { App.prefs.edit().putBoolean("clock", !clock).apply(); build() }
         val openLast = App.prefs.getBoolean("open_last", false)

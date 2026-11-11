@@ -182,6 +182,26 @@ object Vod {
         return m
     }
 
+    /** the Home showcase: the newest and the best rated of the playlist (a small list kept on the device, made new
+     *  every 8 hours from the whole catalogue). Each: label to item. */
+    fun showcase(series: Boolean): List<Pair<String, VodItem>> {
+        val f = java.io.File(dir(), "show_" + (if (series) "s" else "v") + ".tsv")
+        if (f.isFile && System.currentTimeMillis() - f.lastModified() < 8 * 3600_000L) {
+            val l = try { f.readLines().mapNotNull { ln -> val p = ln.split('\t'); if (p.size >= 8) p[0] to VodItem(p[1].toIntOrNull() ?: 0, p[2], p[3], p[4], p[5], p[6], p[7].toLongOrNull() ?: 0) else null } } catch (e: Exception) { emptyList() }
+            if (l.isNotEmpty()) return l
+        }
+        val all = all(series).filter { it.poster.startsWith("http") }
+        val kind = if (series) "series" else "movies"
+        val newest = all.sortedByDescending { it.added }.take(600)
+        val out = ArrayList<Pair<String, VodItem>>()
+        newest.take(14).forEach { out.add("New in $kind" to it) }
+        // the best rated among what came lately (not the same old classics every day)
+        newest.filter { (it.rating.toDoubleOrNull() ?: 0.0) >= 7.5 }.sortedByDescending { it.rating.toDoubleOrNull() ?: 0.0 }.filter { x -> out.none { it.second.id == x.id } }.take(10)
+            .forEach { out.add("Top rated $kind" to it) }
+        try { f.writeText(out.joinToString("\n") { (l, i) -> "$l\t${i.id}\t${clean(i.name)}\t${clean(i.poster)}\t${clean(i.ext)}\t${clean(i.rating)}\t${clean(i.year)}\t${i.added}" }) } catch (e: Exception) { }
+        return out
+    }
+
     fun movieInfo(id: Int): JSONObject = JSONObject(text(api("get_vod_info", "&vod_id=$id")))
     fun seriesInfo(id: Int): JSONObject = JSONObject(text(api("get_series_info", "&series_id=$id")))
 

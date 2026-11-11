@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-feature android:name="android.software.leanback" android:required="false" />
     <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
 
@@ -39,6 +40,7 @@
         </provider>
         <service android:name=".DownloadService" android:exported="false" android:foregroundServiceType="dataSync" />
         <service android:name=".RecordService" android:exported="false" android:foregroundServiceType="dataSync" />
+        <activity android:name=".ShowcaseActivity" android:exported="false" android:screenOrientation="sensorLandscape" />
         <activity android:name=".SportsActivity" android:exported="false" android:screenOrientation="sensorLandscape" />
         <activity android:name=".SearchActivity" android:exported="false" android:screenOrientation="sensorLandscape" android:windowSoftInputMode="stateVisible|adjustPan" />
         <activity android:name=".MultiviewActivity" android:exported="false" android:screenOrientation="sensorLandscape" />
