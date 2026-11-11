@@ -23,7 +23,7 @@ import kotlinx.coroutines.withContext
  *  Rounded tiles with a gap, the channel logo and what is on now; the focused tile glows and has the sound.
  *  OK = choose its channel · hold OK = that channel full screen · MENU = remove the channel. */
 class MultiviewActivity : BaseActivity() {
-    private class Tile(val root: View, val pv: PlayerView, val player: ExoPlayer, val bar: View, val logo: ImageView,
+    private class Tile(val root: View, val pv: PlayerView, var player: ExoPlayer, val bar: View, val logo: ImageView,
                        val name: TextView, val now: TextView, val sound: TextView, val empty: View) {
         var channel: Channel? = null
         var src: OtherList? = null     // null = the device's playlist in use; else one of its other playlists
@@ -45,10 +45,13 @@ class MultiviewActivity : BaseActivity() {
             // two screens: each as big as half the TV allows, 16:9, in the middle (no tall empty tiles)
             if (n == 2) { useDefaultMargins = false; alignmentMode = GridLayout.ALIGN_BOUNDS }
         }
-        setContentView(android.widget.FrameLayout(this).apply {
+        // two screens sit straight on the screen (not in the grid), so one can be the whole TV and the other a small
+        // picture on top of it: no empty space at all (owner, 10 Nov 2026)
+        val stage = android.widget.FrameLayout(this).apply {
             setBackgroundResource(R.drawable.multi_screen_bg)
-            addView(grid, android.widget.FrameLayout.LayoutParams(-1, if (n == 2) -2 else -1, android.view.Gravity.CENTER))
-        })
+            if (!two) addView(grid, android.widget.FrameLayout.LayoutParams(-1, -1, android.view.Gravity.CENTER))
+        }
+        setContentView(stage)
         val sw = resources.displayMetrics.widthPixels
         val tileW = if (two) sw / 2 else (sw - gap * 2) / 2 - gap * 2
         fill = App.prefs.getBoolean("mv_fill", false)
@@ -68,10 +71,12 @@ class MultiviewActivity : BaseActivity() {
             pv.player = p
             val t = Tile(v, pv, p, v.findViewById(R.id.bar), v.findViewById(R.id.logo), v.findViewById(R.id.name),
                 v.findViewById(R.id.now), v.findViewById(R.id.sound), v.findViewById(R.id.empty))
-            val lp = (if (n == 2) GridLayout.LayoutParams(GridLayout.spec(0), GridLayout.spec(i)).apply { width = tileW; height = tileH() }
-                else GridLayout.LayoutParams(GridLayout.spec(i / 2, 1f), GridLayout.spec(i % 2, 1f)).apply { width = 0; height = 0 })
-                .apply { setMargins(gap, gap, gap, gap) }
-            grid.addView(v, lp)
+            if (two) {
+                // the second screen's picture is the one that can lie on top of the first
+                if (i == 1) (pv.videoSurfaceView as? android.view.SurfaceView)?.setZOrderMediaOverlay(true)
+                v.id = View.generateViewId()
+                stage.addView(v, android.widget.FrameLayout.LayoutParams(tileW, tileH(), (if (i == 0) android.view.Gravity.START else android.view.Gravity.END) or android.view.Gravity.CENTER_VERTICAL))
+            } else grid.addView(v, GridLayout.LayoutParams(GridLayout.spec(i / 2, 1f), GridLayout.spec(i % 2, 1f)).apply { width = 0; height = 0; setMargins(gap, gap, gap, gap) })
             val idx = i
             v.setOnClickListener { pick(idx) }
             v.setOnLongClickListener { holdOk(idx); true }   // touch; the remote's OK is read in dispatchKeyEvent
@@ -84,7 +89,8 @@ class MultiviewActivity : BaseActivity() {
             tiles.add(t)
             // a screen that fails or stops moving starts again by itself (then its other quality)
             p.addListener(object : androidx.media3.common.Player.Listener {
-                override fun onPlayerError(error: androidx.media3.common.PlaybackException) { recover(t) }
+                // by player, not by screen: the two screens can change places
+                override fun onPlayerError(error: androidx.media3.common.PlaybackException) { tiles.firstOrNull { it.player === p }?.let { recover(it) } }
             })
         }
         lifecycleScope.launch {
@@ -111,7 +117,13 @@ class MultiviewActivity : BaseActivity() {
                 .setOnCancelListener { fillOthers(others[0]) }.show()
         }
         tiles[0].root.post { tiles[0].root.requestFocus() }
-        if (big >= 0) grid.post { relayout() }
+        if (two) {
+            // ◀ ▶ ▲ ▼ always go to the other screen (the small one lies inside the big one)
+            val a = tiles[0].root; val b = tiles[1].root
+            a.nextFocusRightId = b.id; a.nextFocusLeftId = b.id; a.nextFocusUpId = b.id; a.nextFocusDownId = b.id
+            b.nextFocusRightId = a.id; b.nextFocusLeftId = a.id; b.nextFocusUpId = a.id; b.nextFocusDownId = a.id
+            if (big >= 0) { big = 0; relayout() }
+        }
     }
 
     private var first: Channel? = null
@@ -124,23 +136,61 @@ class MultiviewActivity : BaseActivity() {
     private fun relayout() {
         if (tiles.size != 2) return
         val sw = resources.displayMetrics.widthPixels; val sh = resources.displayMetrics.heightPixels
+        val G = android.view.Gravity.CENTER_VERTICAL
         tiles.forEachIndexed { k, t ->
-            val w = when (big) { -1 -> sw / 2; k -> sw * 2 / 3; else -> sw - sw * 2 / 3 }
-            val lp = t.root.layoutParams as GridLayout.LayoutParams
-            lp.width = w; lp.height = if (fill) sh else w * 9 / 16
-            lp.setGravity(android.view.Gravity.CENTER_VERTICAL)
+            val lp = t.root.layoutParams as android.widget.FrameLayout.LayoutParams
+            if (big < 0) {
+                // the same size: side by side
+                lp.width = sw / 2; lp.height = if (fill) sh else sw / 2 * 9 / 16
+                lp.gravity = (if (k == 0) android.view.Gravity.START else android.view.Gravity.END) or G; lp.setMargins(0, 0, 0, 0)
+                t.pv.resizeMode = if (fill) androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_ZOOM else androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_FIT
+            } else if (k == 0) {
+                // big = the whole TV
+                lp.width = sw; lp.height = sh; lp.gravity = android.view.Gravity.CENTER; lp.setMargins(0, 0, 0, 0)
+                t.pv.resizeMode = androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_FIT
+            } else {
+                // small = a picture in the corner, on top of the big one
+                val w = sw * 30 / 100; val m = sw * 2 / 100
+                lp.width = w; lp.height = w * 9 / 16; lp.gravity = android.view.Gravity.BOTTOM or android.view.Gravity.END; lp.setMargins(m, m, m, m)
+                t.pv.resizeMode = androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_FIT
+            }
             t.root.layoutParams = lp
+        }
+        tiles[1].root.bringToFront()
+    }
+
+    /** the two screens change places without connecting again: the players swap their pictures */
+    private fun swap() {
+        val a = tiles[0]; val b = tiles[1]
+        val pa = a.player; val pb = b.player
+        a.pv.player = null; b.pv.player = null
+        a.player = pb; b.player = pa
+        a.pv.player = pb; b.pv.player = pa
+        val c = a.channel; a.channel = b.channel; b.channel = c
+        val sr = a.src; a.src = b.src; b.src = sr
+        a.tries = 0; b.tries = 0; a.still = 0; b.still = 0; a.lastPos = -1; b.lastPos = -1
+        for (t in tiles) {
+            val ch = t.channel
+            t.empty.visibility = if (ch == null) View.VISIBLE else View.GONE
+            t.bar.visibility = if (ch == null) View.GONE else View.VISIBLE
+            if (ch != null) { t.name.text = "${ch.num}   ${ch.name}" + (t.src?.let { "   ·   " + it.name } ?: ""); t.now.text = ""; t.logo.load(ch.logo.ifEmpty { null }) }
         }
     }
 
-    /** hold OK: two screens = this one big / both the same size; four screens = full screen */
+    /** hold OK: two screens = this one big (the whole TV, the other a small picture on it) → the same size → small;
+     *  four screens = full screen */
     private fun holdOk(i: Int) {
         if (tiles.size != 2) { tiles[i].channel?.let { openFull(it) }; return }
-        // every hold is the next step, in this order: this screen big → the same size → this screen small → big again
-        val next = when (big) { i -> { cameFromBig = true; -1 }; -1 -> if (cameFromBig) 1 - i else i; else -> i }
-        if (next != -1) cameFromBig = false
-        setBig(next); flash(tiles[i])
-        android.widget.Toast.makeText(this, when (next) { i -> "Big"; -1 -> "Same size"; else -> "Small" }, android.widget.Toast.LENGTH_SHORT).show()
+        val say: String
+        if (big < 0) {
+            // from the same size: big first, small after a big
+            if (cameFromBig) { if (i == 0) swap(); setBig(0); tiles[1].root.requestFocus(); say = "Small" }
+            else { if (i == 1) swap(); setBig(0); tiles[0].root.requestFocus(); say = "Big" }
+            cameFromBig = false
+        } else if (i == 0) { cameFromBig = true; setBig(-1); say = "Same size" }
+        else { swap(); relayout(); tiles[0].root.requestFocus(); say = "Big" }
+        tiles.indexOfFirst { it.root.hasFocus() }.takeIf { it >= 0 }?.let { sound(it); flash(tiles[it]) }
+        android.widget.Toast.makeText(this, say, android.widget.Toast.LENGTH_SHORT).show()
     }
     private var cameFromBig = false
     private var okHeld = false
@@ -151,9 +201,6 @@ class MultiviewActivity : BaseActivity() {
     /** two screens: whole picture (16:9, black above / below) or fill the TV (the sides of each picture are cut) */
     private fun setFill(on: Boolean) {
         fill = on; App.prefs.edit().putBoolean("mv_fill", on).apply()
-        tiles.forEach { t ->
-            t.pv.resizeMode = if (on) androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_ZOOM else androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_FIT
-        }
         relayout()
     }
     private var others: List<OtherList> = emptyList()
@@ -294,13 +341,13 @@ class MultiviewActivity : BaseActivity() {
                 if (others.isNotEmpty()) items.add("Change playlist")
                 val fillItem = if (tiles.size == 2) (if (fill) "Show the whole picture" else "Fill the screen (crop the sides)") else null
                 fillItem?.let { items.add(it) }
-                val bigItem = if (tiles.size == 2) (if (big == i) "Same size" else "Make this screen big") else null
+                val bigItem = if (tiles.size == 2) (if (big >= 0 && i == 0) "Same size" else "Make this screen big (whole TV)") else null
                 bigItem?.let { items.add(it) }
                 AlertDialog.Builder(this).setItems(items.toTypedArray()) { _, w ->
                     when (w) {
                         0 -> pick(i); 1 -> set(i, null); 2 -> tiles[i].channel?.let { openFull(it) }
                         items.indexOf(fillItem ?: "\u0000") -> setFill(!fill)
-                        items.indexOf(bigItem ?: "\u0000") -> setBig(if (big == i) -1 else i)
+                        items.indexOf(bigItem ?: "\u0000") -> if (big >= 0 && i == 0) setBig(-1) else { if (i == 1) swap(); setBig(0); tiles[0].root.requestFocus(); sound(0) }
                         3 -> choosePlaylist("This screen", tiles[i].src) { src -> val c = tiles[i].channel; tiles[i].src = src; set(i, null)
                             if (src == null) c?.let { ch -> (Api.byId[ch.id] ?: Api.byId.values.firstOrNull { Api.baseName(it.name) == Api.baseName(ch.name) } ?: first)?.let { set(i, it) } }
                             else lifecycleScope.launch {
