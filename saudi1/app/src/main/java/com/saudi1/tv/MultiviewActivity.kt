@@ -279,7 +279,7 @@ class MultiviewActivity : BaseActivity() {
             // straight back): a short press = pick a channel (on release), a hold = the next size, once per hold
             if ((e.keyCode == KeyEvent.KEYCODE_DPAD_CENTER || e.keyCode == KeyEvent.KEYCODE_ENTER) && i >= 0) {
                 if (e.repeatCount == 0) { okHeld = false; okDown = true }
-                else if (!okHeld && e.repeatCount >= 4) { okHeld = true; holdOk(i) }
+                else if (!okHeld && e.repeatCount >= 1) { okHeld = true; holdOk(i) }
                 return true
             }
             if (e.keyCode == KeyEvent.KEYCODE_MENU && i >= 0) {
