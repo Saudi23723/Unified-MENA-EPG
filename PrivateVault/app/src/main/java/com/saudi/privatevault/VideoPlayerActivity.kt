@@ -85,12 +85,32 @@ class VideoPlayerActivity : BaseActivity() {
                 }
             }
         })
+        captions(p)
         p.prepare()
         p.playWhenReady = true
         if (tv) {
             b.player.resizeMode = sizes[VaultLock.prefs(this).getInt("tv_video_size", 0).coerceIn(0, 2)]
             window.addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
             b.player.post { flash(getString(R.string.tv_video_keys)) }
+        }
+    }
+
+    /** Captions on whenever the video carries them, in the pilot's chosen colours (Settings → Captions). */
+    private fun captions(p: ExoPlayer) {
+        val prefs = VaultLock.prefs(this)
+        p.trackSelectionParameters = p.trackSelectionParameters.buildUpon()
+            .setPreferredTextLanguages("ar", "en")
+            .setSelectUndeterminedTextLanguage(true)
+            .setIgnoredTextSelectionFlags(0)
+            .setTrackTypeDisabled(androidx.media3.common.C.TRACK_TYPE_TEXT, !prefs.getBoolean("cc_on", true))
+            .build()
+        val fg = prefs.getInt("cc_fg", 0xFFFFFFFF.toInt())
+        val alpha = prefs.getInt("cc_bg_alpha", 60).coerceIn(0, 100) * 255 / 100
+        val bg = (alpha shl 24) or (prefs.getInt("cc_bg", 0xFF000000.toInt()) and 0xFFFFFF)
+        b.player.subtitleView?.apply {
+            setStyle(androidx.media3.ui.CaptionStyleCompat(fg, bg, 0, androidx.media3.ui.CaptionStyleCompat.EDGE_TYPE_DROP_SHADOW, 0xFF000000.toInt(), null))
+            setFractionalTextSize(androidx.media3.ui.SubtitleView.DEFAULT_TEXT_SIZE_FRACTION * prefs.getFloat("cc_size", 1.15f))
+            setApplyEmbeddedStyles(false)
         }
     }
 
@@ -132,8 +152,22 @@ class VideoPlayerActivity : BaseActivity() {
      * forward 30 s, up shows the controls, down changes the picture size
      * (fit, zoom, stretch). With them shown, the remote moves through them as usual.
      */
+    private var backAt = 0L
+
     override fun dispatchKeyEvent(event: android.view.KeyEvent): Boolean {
         val p = player
+        // Back: once hides the controls; with them hidden, twice (within 2 s) leaves the video.
+        if (event.keyCode == android.view.KeyEvent.KEYCODE_BACK) {
+            if (event.action == android.view.KeyEvent.ACTION_UP) {
+                val now = android.os.SystemClock.elapsedRealtime()
+                when {
+                    b.player.isControllerFullyVisible -> b.player.hideController()
+                    now - backAt < 2000 -> finish()
+                    else -> { backAt = now; flash("↩ " + getString(R.string.video_back_again)) }
+                }
+            }
+            return true
+        }
         if (!tv || p == null || b.player.isControllerFullyVisible) return super.dispatchKeyEvent(event)
         if (event.action != android.view.KeyEvent.ACTION_DOWN) {
             return if (event.keyCode == android.view.KeyEvent.KEYCODE_BACK) super.dispatchKeyEvent(event) else true
@@ -158,8 +192,9 @@ class VideoPlayerActivity : BaseActivity() {
         return true
     }
 
+    /** Played to the end: next time from the start, and marked watched in its folder. */
     private fun forget(id: String) {
-        VaultLock.prefs(this).edit().remove("pos_$id").apply()
+        VaultLock.prefs(this).edit().remove("pos_$id").putBoolean("done_$id", true).apply()
     }
 
     override fun onPause() {
@@ -168,7 +203,11 @@ class VideoPlayerActivity : BaseActivity() {
         p.pause()
         val current = p.currentMediaItem ?: return
         if (p.playbackState != Player.STATE_ENDED) {
-            VaultLock.prefs(this).edit().putLong("pos_${current.mediaId}", p.currentPosition).apply()
+            val e = VaultLock.prefs(this).edit().putLong("pos_${current.mediaId}", p.currentPosition)
+            if (p.duration > 0) e.putLong("dur_${current.mediaId}", p.duration)
+            // Nearly all of it seen counts as watched.
+            if (p.duration > 0 && p.currentPosition > p.duration * 0.95) e.putBoolean("done_${current.mediaId}", true).remove("pos_${current.mediaId}")
+            e.apply()
         }
     }
 

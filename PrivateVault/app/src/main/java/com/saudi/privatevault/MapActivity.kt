@@ -75,7 +75,10 @@ class MapActivity : BaseActivity(), NeonHost {
     private var airports: List<AviationData.Airport> = emptyList()
     private var layer = AviationData.LAYERS[0]
     private var following = false
+    private lateinit var strip: InstrumentStrip
     private var trackUp = false
+    /** Track up with the aircraft low on the screen, the chart ahead of it (ForeFlight's "Track Up Forward"). */
+    private var ahead = false
     private val prefs get() = VaultLock.prefs(this)
 
     // The drawings, stored like a document's notes on page 0, and their undo.
@@ -201,10 +204,14 @@ class MapActivity : BaseActivity(), NeonHost {
             override fun onZoom(event: ZoomEvent?): Boolean = idle()
         }, 900))
 
+        // The instrument strip in place of the four plain readouts.
+        for (i in 0 until b.hud.childCount) b.hud.getChildAt(i).visibility = View.GONE
+        strip = InstrumentStrip(this)
+        b.hud.addView(strip, LinearLayout.LayoutParams(-1, -2))
         b.fabLayers.setOnClickListener { chooseLayer() }
         b.fabDraw.setOnClickListener { toggleDrawing() }
         styleControls()
-        b.fabLocate.setOnClickListener { follow() }
+        b.fabLocate.setOnClickListener { cycleView() }
         b.fabSos.setOnClickListener { emergency() }
         b.zoomIn.setOnClickListener {
             if (map.zoomLevelDouble >= map.maxZoomLevel - 0.05) Toast.makeText(this, R.string.map_max_zoom, Toast.LENGTH_SHORT).show()
@@ -213,7 +220,7 @@ class MapActivity : BaseActivity(), NeonHost {
         // Two fingers turn the chart; a long press on the position button puts north back up.
         map.overlays.add(org.osmdroid.views.overlay.gestures.RotationGestureOverlay(map).apply { isEnabled = true })
         b.fabLocate.setOnLongClickListener {
-            trackUp = false
+            trackUp = false; ahead = false
             map.mapOrientation = 0f
             Toast.makeText(this, "N↑", Toast.LENGTH_SHORT).show()
             true
@@ -258,6 +265,12 @@ class MapActivity : BaseActivity(), NeonHost {
                 .show()
         }
         askGps()
+        // Back to the chart as it was flown: following, track up, ahead.
+        if (prefs.getBoolean("view_follow", false)) b.root.postDelayed({
+            trackUp = prefs.getBoolean("view_track", false); ahead = prefs.getBoolean("view_ahead", false)
+            if (!following) follow(quiet = true)
+            b.fabLocate.setImageResource(viewIcon())
+        }, 400)
         if (intent.getBooleanExtra(EXTRA_NAVLOG, false)) b.root.post { navLog() }
         b.root.post { showRoutePanel() }
         if (intent.getBooleanExtra(EXTRA_PROFILE, false)) b.root.post { profile() }
@@ -320,6 +333,7 @@ class MapActivity : BaseActivity(), NeonHost {
     }
 
     override fun onDestroy() {
+        AvionicsPanel.close(this)
         super.onDestroy()
         stopGps()
         Traffic.stopReceiver()
@@ -588,9 +602,17 @@ class MapActivity : BaseActivity(), NeonHost {
             gravity = android.view.Gravity.CENTER_VERTICAL
             background = EfbUi.cardBg(this@MapActivity, 0xEE0F1318.toInt(), 14).apply { setStroke(dp(1), 0xFF29313D.toInt()) }
             setPadding(dp(6), dp(4), dp(6), dp(4))
-            b.root.addView(this, android.widget.FrameLayout.LayoutParams(-2, -2, android.view.Gravity.BOTTOM or android.view.Gravity.START).apply {
-                setMargins(dp(8), 0, dp(90), dp(38))
+            // Up at the top, under the instruments and clear of the zoom column: the buttons at the bottom stay free.
+            // (top right: the route card keeps the top left)
+            b.root.addView(this, android.widget.FrameLayout.LayoutParams(-2, -2, android.view.Gravity.TOP or android.view.Gravity.END).apply {
+                setMargins(dp(90), b.topBar.height + dp(6), dp(8), 0)
             })
+            b.topBar.addOnLayoutChangeListener { _, _, top, _, bottom, _, _, _, _ ->
+                (layoutParams as? android.widget.FrameLayout.LayoutParams)?.let { lp ->
+                    val want = (bottom - top) + dp(6)
+                    if (lp.topMargin != want) { lp.topMargin = want; layoutParams = lp }
+                }
+            }
             patternBox = this
         }
         if (fields.isEmpty() || !prefs.getBoolean("tp_on", true) || map.zoomLevelDouble < 11) { box.visibility = View.GONE; return }
@@ -1071,6 +1093,46 @@ class MapActivity : BaseActivity(), NeonHost {
         }
     }
 
+    /** Every box of the instrument strip, from this fix and the route. */
+    private fun fillStrip(l: Location, kt: Double) {
+        if (!::strip.isInitialized) return
+        val good = gotGps
+        fun m(t: Double) = Nav.deg(Nav.magnetic(t, l.latitude, l.longitude))
+        strip.set("GS", if (good) "%d".format(Math.round(kt)) else "---")
+        strip.set("ALT", if (good && l.hasAltitude()) "%,d".format(Math.round(l.altitude * 3.28084)) else "---")
+        strip.set("TRK", if (l.hasBearing() && kt > 5) m(l.bearing.toDouble()) else "---")
+        strip.set("VS", if (good && !lastAlt.isNaN()) "%+d".format((Math.round(vs / 50) * 50).toInt()) else "---")
+        strip.set("ACC", if (l.hasAccuracy()) "±%d ft".format(Math.round(l.accuracy * 3.28084)) else "---")
+        fun dm(v: Double, p: Char, n: Char): String { val a = Math.abs(v); val dd = a.toInt(); return "%c%d°%04.1f'".format(if (v >= 0) p else n, dd, (a - dd) * 60) }
+        strip.set("POS", dm(l.latitude, 'N', 'S') + " " + dm(l.longitude, 'E', 'W'))
+        val t = plan.target()
+        if (t == null) { for (k in listOf("DTK", "BRG", "MH", "DIS", "ETE", "DEST", "ETED", "ETA", "XTK")) strip.set(k, "---"); return }
+        val dist = Nav.distanceNm(l.latitude, l.longitude, t.lat, t.lon)
+        strip.set("BRG", m(Nav.bearingTrue(l.latitude, l.longitude, t.lat, t.lon)))
+        strip.set("DIS", if (dist < 10) "%.1f".format(dist) else "%.0f".format(dist))
+        val from = if (plan.direct != null) null else plan.points.getOrNull(plan.active - 1)
+        if (from != null) {
+            val leg = plan.leg(from, t)
+            strip.set("DTK", m(leg.tc))
+            strip.set("MH", Nav.deg(leg.mh))
+            // Cross track: the distance off the line from the leg's start, right (R) or left (L).
+            val d13 = Nav.distanceNm(from.lat, from.lon, l.latitude, l.longitude) / 3440.065
+            val b13 = Math.toRadians(Nav.bearingTrue(from.lat, from.lon, l.latitude, l.longitude))
+            val b12 = Math.toRadians(leg.tc)
+            val xt = Math.asin(Math.sin(d13) * Math.sin(b13 - b12)) * 3440.065
+            strip.set("XTK", "%.1f%s".format(Math.abs(xt), if (xt >= 0) "R" else "L"))
+        } else { strip.set("DTK", m(Nav.bearingTrue(l.latitude, l.longitude, t.lat, t.lon))); strip.set("MH", "---"); strip.set("XTK", "---") }
+        // Along the route to its last point.
+        var rest = dist
+        if (plan.direct == null) for (i in plan.active + 1 until plan.points.size) rest += Nav.distanceNm(plan.points[i - 1].lat, plan.points[i - 1].lon, plan.points[i].lat, plan.points[i].lon)
+        strip.set("DEST", if (rest < 10) "%.1f".format(rest) else "%.0f".format(rest))
+        if (kt > 20) {
+            strip.set("ETE", FlightPlan.hm(dist / kt * 60))
+            strip.set("ETED", FlightPlan.hm(rest / kt * 60))
+            strip.set("ETA", java.text.SimpleDateFormat("HH:mm", java.util.Locale.US).format(java.util.Date(System.currentTimeMillis() + (rest / kt * 3600000).toLong())))
+        } else for (k in listOf("ETE", "ETED", "ETA")) strip.set(k, "--:--")
+    }
+
     /** Ground speed in knots, track in degrees magnetic, altitude in feet MSL, vertical speed in feet per minute. */
     private fun onFix(l: Location, quiet: Boolean = false) {
         if (l.provider == LocationManager.GPS_PROVIDER && !quiet) {
@@ -1098,6 +1160,9 @@ class MapActivity : BaseActivity(), NeonHost {
             b.hudVs.text = "VS"
         }
         if (!gotGps) b.hudGps.text = "GPS…"
+        fillStrip(l, kt)
+        if (gotGps) AvionicsPanel.feed(kt, if (l.hasAltitude()) l.altitude * 3.28084 else Double.NaN, if (lastAlt.isNaN()) Double.NaN else vs,
+            if (l.hasBearing() && kt > 5) Nav.magnetic(l.bearing.toDouble(), l.latitude, l.longitude) else Double.NaN)
         // The flight is noticed and timed from the GPS, then offered to the logbook.
         if (gotGps && !quiet) FlightRecorder.onFix(this, l, airports)?.let { e -> offerLog(e) }
         if (gotGps && !quiet) checkAirspace(l)
@@ -1154,7 +1219,16 @@ class MapActivity : BaseActivity(), NeonHost {
             val moving = ownship.speedKt() > 3
             if (fix != null) {
                 if (following) {
-                    ownship.position()?.let { map.controller.setCenter(it) }
+                    ownship.position()?.let { p ->
+                        if (ahead && trackUp && fix.hasBearing() && moving && map.height > 0) {
+                            // The aircraft a third of the way up from the bottom: the chart's centre lies ahead on the track.
+                            val pr = map.projection
+                            val a = pr.fromPixels(0, 0); val bb = pr.fromPixels(0, 200)
+                            val nmPerPx = Nav.distanceNm(a.latitude, a.longitude, bb.latitude, bb.longitude) / 200.0
+                            val c = Nav.destination(p.latitude, p.longitude, (if (heading.isNaN()) fix.bearing else heading).toDouble(), nmPerPx * map.height * 0.28)
+                            map.controller.setCenter(c)
+                        } else map.controller.setCenter(p)
+                    }
                     if (trackUp && fix.hasBearing() && moving) {
                         // Turn the chart gently towards the track instead of snapping.
                         val want = fix.bearing
@@ -1593,13 +1667,40 @@ class MapActivity : BaseActivity(), NeonHost {
             .show()
     }
 
-    private fun follow() {
+    /**
+     * The position button, one tap at a time, as on ForeFlight:
+     * free chart → follow, north up → track up, centred → track up, ahead (the aircraft low, the way ahead in view) → free.
+     */
+    private fun cycleView() {
+        val mode = when { !following -> 0; !trackUp -> 1; !ahead -> 2; else -> 3 }
+        when ((mode + 1) % 4) {
+            0 -> { trackUp = false; ahead = false; if (following) follow(); map.mapOrientation = 0f; viewToast("✋ " + getString(R.string.map_view_free)) }
+            1 -> { trackUp = false; ahead = false; map.mapOrientation = 0f; if (!following) follow(quiet = true); viewToast("📍 " + getString(R.string.map_view_north)) }
+            2 -> { trackUp = true; ahead = false; if (!following) follow(quiet = true); viewToast("🧭 " + getString(R.string.map_view_track)) }
+            3 -> { trackUp = true; ahead = true; if (!following) follow(quiet = true); viewToast("✈︎ " + getString(R.string.map_view_ahead)) }
+        }
+        b.fabLocate.setImageResource(viewIcon())
+        keepView()
+    }
+
+    private fun viewIcon() = when { ahead && trackUp -> R.drawable.ic_track_ahead; trackUp -> R.drawable.ic_compass; else -> R.drawable.ic_my_location }
+
+    private var viewToastShown: Toast? = null
+    private fun viewToast(t: String) { viewToastShown?.cancel(); viewToastShown = Toast.makeText(this, t, Toast.LENGTH_SHORT).also { it.show() } }
+
+    /** The way the chart was being flown, kept: back from notes, the radio or traffic, it is the same. */
+    private fun keepView() = prefs.edit().putBoolean("view_follow", following).putBoolean("view_track", trackUp).putBoolean("view_ahead", ahead).apply()
+
+    private fun follow(quiet: Boolean = false) {
         following = !following
         ownship.position()?.let { if (following) map.controller.animateTo(it) }
         if (following && map.zoomLevelDouble < 9) map.controller.setZoom(10.0)
         if (!following) map.mapOrientation = 0f
         b.fabLocate.alpha = if (following) 1f else 0.6f
-        Toast.makeText(this, if (following) "📍 ${getString(R.string.map_follow)}" else "✋", Toast.LENGTH_SHORT).show()
+        if (!following) { trackUp = false; ahead = false }
+        b.fabLocate.setImageResource(viewIcon())
+        keepView()
+        if (!quiet) Toast.makeText(this, if (following) "📍 ${getString(R.string.map_follow)}" else "✋", Toast.LENGTH_SHORT).show()
     }
 
     /** A simple airplane seen from above, pointing up. */
@@ -1844,6 +1945,8 @@ class MapActivity : BaseActivity(), NeonHost {
             it.icon?.setTint(EfbUi.TEXT)
         }
         menu.add(0, 20, 0, "NRST").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+        menu.add(0, 40, 0, R.string.av_menu).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+        menu.add(0, 41, 0, R.string.map_view_menu)
         menu.add(0, 38, 0, R.string.clear_lines).setIcon(R.drawable.ic_delete).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
         menu.findItem(38)?.icon?.setTint(EfbUi.TEXT)
         menu.add(0, 36, 0, R.string.pos_report)
@@ -1892,7 +1995,9 @@ class MapActivity : BaseActivity(), NeonHost {
             3 -> {
                 trackUp = !item.isChecked
                 item.isChecked = trackUp
-                if (!trackUp) map.mapOrientation = 0f
+                if (!trackUp) { map.mapOrientation = 0f; ahead = false }
+                else if (!following) follow(quiet = true)
+                keepView()
             }
             4 -> downloadArea()
             10 -> navLog()
@@ -1903,6 +2008,8 @@ class MapActivity : BaseActivity(), NeonHost {
             31 -> if (NotePad.isOpen()) NotePad.close(this) else Notebooks.choose(this, null)
             36 -> positionReport()
             38 -> clearLines()
+            40 -> AvionicsPanel.toggle(this)
+            41 -> MaterialAlertDialogBuilder(this).setTitle(R.string.map_view_menu).setMessage(R.string.map_view_help).setPositiveButton(android.R.string.ok, null).show()
             37 -> askGlide()
             30 -> {
                 val here = ownship.position() ?: map.mapCenter as GeoPoint

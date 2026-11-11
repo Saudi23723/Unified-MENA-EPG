@@ -28,6 +28,21 @@ class VaultAdapter(
     class Holder(val b: ItemEntryBinding) : RecyclerView.ViewHolder(b.root)
 
     private var entries: List<Entry> = emptyList()
+
+    /** The videos inside a folder (with its subfolders), for its watched count; the vault's own by default. */
+    var videosIn: (String) -> List<VaultItem> = { id -> VaultStore.itemsIn(id).filter { it.kind == Kind.VIDEO } }
+
+    /** Watched, part watched (and where), or not started: from what the player kept. */
+    private fun progress(ctx: android.content.Context, id: String): Pair<Int, String> {
+        val p = VaultLock.prefs(ctx)
+        val pos = p.getLong("pos_$id", 0L); val dur = p.getLong("dur_$id", 0L)
+        fun t(ms: Long) = (ms / 1000).let { if (it >= 3600) "%d:%02d:%02d".format(it / 3600, it / 60 % 60, it % 60) else "%d:%02d".format(it / 60, it % 60) }
+        return when {
+            pos > 5000 -> 1 to ("▶ " + t(pos) + (if (dur > 0) " / " + t(dur) + " · ${(pos * 100 / dur)}%" else ""))
+            p.getBoolean("done_$id", false) -> 2 to ctx.getString(R.string.video_watched)
+            else -> 0 to ""
+        }
+    }
     private val loader = Executors.newFixedThreadPool(2)
     private val main = Handler(Looper.getMainLooper())
     private val cache = object : LruCache<String, Bitmap>(16 * 1024 * 1024) {
@@ -55,7 +70,14 @@ class VaultAdapter(
             is Entry.FolderEntry -> {
                 h.b.icon.setImageResource(R.drawable.ic_folder)
                 h.b.name.text = e.folder.name
-                val count = ctx.getString(R.string.items_count, e.count)
+                h.b.info.setTextColor(EfbUi.DIM)
+                var count = ctx.getString(R.string.items_count, e.count)
+                // A course folder: how much of it is watched.
+                val vids = try { videosIn(e.folder.id) } catch (x: Exception) { emptyList() }
+                if (vids.isNotEmpty()) {
+                    val st = vids.map { progress(ctx, it.id).first }
+                    count += " · " + ctx.getString(R.string.video_folder_progress, st.count { it == 2 }, vids.size, st.count { it == 1 })
+                }
                 h.b.info.text = if (e.path.isNullOrEmpty()) count else "${e.path} · $count"
             }
             is Entry.FileEntry -> {
@@ -66,7 +88,14 @@ class VaultAdapter(
                 val what = if (it.isLink) ctx.getString(R.string.link_label) else Formatter.formatShortFileSize(ctx, it.size)
                 val line = "$what · $date"
                 h.b.info.text = if (e.path != null) "${e.path.ifEmpty { ctx.getString(R.string.root) }} · $line" else line
-                if (it.kind == Kind.VIDEO) h.b.play.visibility = View.VISIBLE
+                if (it.kind == Kind.VIDEO) {
+                    h.b.play.visibility = View.VISIBLE
+                    val (state, label) = progress(ctx, it.id)
+                    if (state > 0) {
+                        h.b.info.text = label + "  ·  " + h.b.info.text
+                        h.b.info.setTextColor(if (state == 2) 0xFF43A047.toInt() else 0xFF2E9BFF.toInt())
+                    } else h.b.info.setTextColor(EfbUi.DIM)
+                } else h.b.info.setTextColor(EfbUi.DIM)
                 loadThumb(h, it)
             }
         }

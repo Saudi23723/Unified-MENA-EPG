@@ -68,6 +68,7 @@ class LaptopActivity : BaseActivity() {
         folderId = savedInstanceState?.getString("folder")
 
         adapter = VaultAdapter(::open, ::showMenu)
+        adapter.videosIn = { id -> items.filter { it.folderId == id && it.kind == Kind.VIDEO } }
         b.list.layoutManager = LinearLayoutManager(this)
         b.list.adapter = adapter
         b.filters.setOnCheckedStateChangeListener { _, _ -> render() }

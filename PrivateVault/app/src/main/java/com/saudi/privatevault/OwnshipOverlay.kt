@@ -27,7 +27,9 @@ class OwnshipOverlay(map: MapView, private val plane: Bitmap) : Overlay() {
     /** A finger moved the map: the map stops following the aircraft. */
     var onUserPan: (() -> Unit)? = null
 
-    private val trail = ArrayList<GeoPoint>()
+    // The flight's trail outlives the screen: going to notes, the radio or traffic and back keeps it.
+    private val trail get() = TRAIL
+    companion object { private val TRAIL = ArrayList<GeoPoint>() }
     /** How far the aircraft could glide, in nm; drawn as a ring when above zero. */
     var glideNm = 0.0
     private val glide = Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -47,12 +49,15 @@ class OwnshipOverlay(map: MapView, private val plane: Bitmap) : Overlay() {
         strokeWidth = 6 * d
         style = Paint.Style.STROKE
     }
+    // Where the aircraft has already been: green, as flown.
     private val crumbs = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = 0xCC1565C0.toInt()
-        strokeWidth = 2.5f * d
+        color = 0xFF2BD96B.toInt()
+        strokeWidth = 4f * d
         style = Paint.Style.STROKE
-        pathEffect = DashPathEffect(floatArrayOf(6 * d, 4 * d), 0f)
+        strokeCap = Paint.Cap.ROUND
+        strokeJoin = Paint.Join.ROUND
     }
+    private val crumbsHalo = Paint(crumbs).apply { color = 0xAA06210F.toInt(); strokeWidth = 7f * d }
     private val bmpPaint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG)
     private val accuracy = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0x221E88E5 }
     private val pt = Point()
@@ -94,6 +99,7 @@ class OwnshipOverlay(map: MapView, private val plane: Bitmap) : Overlay() {
                 if (i == 0) path.moveTo(pt.x.toFloat(), pt.y.toFloat()) else path.lineTo(pt.x.toFloat(), pt.y.toFloat())
             }
             position()?.let { pr.toPixels(it, pt); path.lineTo(pt.x.toFloat(), pt.y.toFloat()) }
+            c.drawPath(path, crumbsHalo)
             c.drawPath(path, crumbs)
         }
         val here = position() ?: return

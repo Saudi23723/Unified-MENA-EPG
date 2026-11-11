@@ -115,6 +115,9 @@ class AirportDiagramActivity : BaseActivity() {
             if (elev >= 0) tpaFt = ((elev + 1000 + 50) / 100) * 100
         }
         map.overlays.add(pattern)
+        // The flight plan, the same magenta line (green where flown) as on the chart.
+        val plan = FlightPlan.load(this)
+        if (plan.points.size > 1 || plan.direct != null) map.overlays.add(RouteOverlay(map, { plan }, { ownship.position() }))
         ownship = OwnshipOverlay(map, airplane()).apply { onUserPan = { stopFollowing() } }
         map.overlays.add(ownship)
         map.setOnTouchListener { _, e -> if (e.actionMasked == MotionEvent.ACTION_MOVE) stopFollowing(); false }

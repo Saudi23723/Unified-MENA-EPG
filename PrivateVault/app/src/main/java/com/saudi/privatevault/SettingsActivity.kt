@@ -53,6 +53,19 @@ class SettingsActivity : BaseActivity() {
             prefs.edit().putBoolean("voice_on", it).apply()
         }
 
+        // Video captions: always on, in the colours chosen here.
+        section(R.string.cc_title)
+        val cc = card()
+        toggle(cc, getString(R.string.cc_on), getString(R.string.cc_on_sub), prefs.getBoolean("cc_on", true)) { prefs.edit().putBoolean("cc_on", it).apply() }
+        segmented(cc, getString(R.string.cc_color), null, listOf("FFFFFFFF" to "⬜", "FFFFEB3B" to "🟨", "FF39FF14" to "🟩", "FF4FC3F7" to "🟦"),
+            Integer.toHexString(prefs.getInt("cc_fg", 0xFFFFFFFF.toInt())).uppercase()) { prefs.edit().putInt("cc_fg", java.lang.Long.parseLong(it, 16).toInt()).apply() }
+        segmented(cc, getString(R.string.cc_bg), null, listOf("0" to "0%", "35" to "35%", "60" to "60%", "85" to "85%"), prefs.getInt("cc_bg_alpha", 60).toString()) {
+            prefs.edit().putInt("cc_bg_alpha", it.toInt()).apply()
+        }
+        segmented(cc, getString(R.string.cc_size), null, listOf("0.9" to "S", "1.15" to "M", "1.4" to "L", "1.75" to "XL"), prefs.getFloat("cc_size", 1.15f).toString()) {
+            prefs.edit().putFloat("cc_size", it.toFloat()).apply()
+        }
+
         section(R.string.set_pilot)
         val p = card()
         field(p, getString(R.string.log_pilot_name), "pilot_name", false)

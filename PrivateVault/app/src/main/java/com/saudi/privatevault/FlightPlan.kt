@@ -141,7 +141,8 @@ class RouteOverlay(map: MapView, private val plan: () -> FlightPlan, private val
         strokeCap = Paint.Cap.ROUND
         strokeJoin = Paint.Join.ROUND
     }
-    private val past = Paint(line).apply { color = 0x99E040FB.toInt(); strokeWidth = 3.5f * d }
+    // Legs already flown: green, like the trail; the rest magenta.
+    private val past = Paint(line).apply { color = 0xFF2BD96B.toInt(); strokeWidth = 4.5f * d }
     private val outline = Paint(line).apply { color = 0xFFFFFFFF.toInt(); strokeWidth = 8 * d }
     private val dot = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0xFFFFFFFF.toInt() }
     private val ring = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0xFFAA00FF.toInt(); style = Paint.Style.STROKE; strokeWidth = 3 * d }
@@ -160,8 +161,18 @@ class RouteOverlay(map: MapView, private val plan: () -> FlightPlan, private val
                 pr.toPixels(GeoPoint(a.lat, a.lon), pt)
                 pr.toPixels(GeoPoint(b.lat, b.lon), pt2)
                 val done = p.direct == null && i < p.active
-                c.drawLine(pt.x.toFloat(), pt.y.toFloat(), pt2.x.toFloat(), pt2.y.toFloat(), outline)
-                c.drawLine(pt.x.toFloat(), pt.y.toFloat(), pt2.x.toFloat(), pt2.y.toFloat(), if (done) past else line)
+                val x1 = pt.x.toFloat(); val y1 = pt.y.toFloat(); val x2 = pt2.x.toFloat(); val y2 = pt2.y.toFloat()
+                c.drawLine(x1, y1, x2, y2, outline)
+                val here = aircraft()
+                if (!done && p.direct == null && i == p.active && here != null) {
+                    // The active leg: green up to abeam the aircraft, magenta ahead of it.
+                    pr.toPixels(here, pt)
+                    val dx = x2 - x1; val dy = y2 - y1; val len2 = dx * dx + dy * dy
+                    val t = if (len2 > 0) (((pt.x - x1) * dx + (pt.y - y1) * dy) / len2).coerceIn(0f, 1f) else 0f
+                    val mx = x1 + dx * t; val my = y1 + dy * t
+                    c.drawLine(x1, y1, mx, my, past)
+                    c.drawLine(mx, my, x2, y2, line)
+                } else c.drawLine(x1, y1, x2, y2, if (done) past else line)
             }
         }
         p.direct?.let { t ->

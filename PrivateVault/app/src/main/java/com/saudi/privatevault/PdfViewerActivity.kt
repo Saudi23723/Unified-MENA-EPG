@@ -1280,11 +1280,14 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
 
     private fun onTextSelected(text: String) {
         val items = arrayOf(getString(R.string.sel_highlight), getString(R.string.sel_copy),
-            getString(R.string.ai_explain_sel), getString(R.string.ai_ask_sel), getString(R.string.sel_speak), getString(R.string.sel_later))
+            getString(R.string.ai_explain_sel), getString(R.string.ai_ask_sel), getString(R.string.sel_speak), getString(R.string.sel_later), getString(R.string.sel_translate))
         MaterialAlertDialogBuilder(this)
             .setTitle(text.replace('\n', ' ').take(80) + if (text.length > 80) "…" else "")
             .setItems(items) { _, which ->
-                if (which == 5) {
+                if (which == 6) {
+                    b.page.clearSelection()
+                    Translate.show(this, text)
+                } else if (which == 5) {
                     addLater(text)
                     b.page.clearSelection()
                 } else if (which == 4) {
