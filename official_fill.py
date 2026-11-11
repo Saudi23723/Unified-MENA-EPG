@@ -116,8 +116,53 @@ def clean(name: str) -> str:
     return n.strip()
 
 
+_BEIN_QA_GROUP = re.compile(r"🇶🇦|^(AR|SA|QA|KSA|MENA)\b|ARAB|عرب", re.I)
+_BEIN_NOT_QA = re.compile(r"\b(TR|TURK\w*|US|USA|AU|AUS|CA|ES|ESPA\w*|ESPANOL|ASIA|HK|ID|MY|TH|NZ|CONNECT)\b|SLING|AT&T|ROKU|TUBI|PRIME", re.I)
+
+
+def bein(name: str, group: str) -> str | None:
+    """beIN SPORTS (Qatar / MENA) channels, whatever the provider adds to the name (APPEL, TOD, BEE TV, ULTRA UHD,
+    "02", SD...), get this repository's own beIN guide (owner, 11 Nov 2026: "these are all beIN Sports Qatar,
+    why no guide"). Only in a Qatar / Arabic group or with an Arabic prefix; Turkish, US, French-country... feeds keep
+    their own (they show other matches)."""
+    n = " ".join(str(name).replace("⚽", "O").split()).upper()
+    g = str(group or "")
+    if not re.search(r"\bBE\s?IN\b|BEIN", n) or not re.search(r"SPORT|ULTRA", n):
+        return None
+    if not (_BEIN_QA_GROUP.search(g) or re.match(r"^(AR|SA|QA|KSA)\s*[:|]", n)):
+        return None
+    if _BEIN_NOT_QA.search(n) or re.search(r"🇹🇷|🇺🇸|🇫🇷|🇦🇺|🇪🇸", g):
+        return None
+    if re.search(r"\bNEWS\b", n):
+        return "a:beinsportsnews.qa"
+    if re.search(r"\bGLOBAL\b", n):
+        return "u:beINSports.qa"
+    d = lambda rx: (lambda m: str(int(m.group(1))) if m else None)(re.search(rx, n))
+    if re.search(r"\bNBA\b|ONLY EVENT|2160P|\b4K\s*(UHD)?$", n) and not re.search(r"SPORTS?\s*0?\d", n):
+        return None
+    k = d(r"\b(?:ENGLISH|EN)\s*0?(\d)\b") or d(r"\bSPORTS?\s*0?(\d)\s*(?:EN|ENGLISH)\b")
+    if k:
+        return f"u:beINSportsEn{k}.qa" if k in "12" else None
+    k = d(r"\b(?:FRANCE|FR)\s*0?(\d)\b") or d(r"\bSPORTS?\s*0?(\d)\s*(?:FR|FRANCE)\b")
+    if k:
+        return f"u:beINSportsFr{k}.qa" if k in "12" else None
+    k = d(r"\bX?S?TRA\s*0?(\d)") or d(r"\bSPORTS?\s*0?(\d)\s*X?S?TRA\b")
+    if k:
+        return f"u:beINSportsXtra{k}.qa"
+    k = d(r"\bMAX\s*0?(\d)\b")
+    if k:
+        return f"u:beINSportsMax{k}.qa" if k in "123456" else None
+    k = d(r"\bSPORTS?\s*(?:ULTRA\s*)?(?:UHD\s*)?0?(\d)\b") or d(r"\bULTRA\s*UHD\s*0?(\d)\b")
+    if k and k != "0":
+        return f"u:beINSports{k}.qa"
+    return None
+
+
 def fill(name: str, group: str) -> str | None:
     """An official guide id for a channel that has none, or None."""
+    b = bein(name, group)
+    if b:
+        return b
     n = clean(name)
     if _FOREIGN.search(n):
         return None
