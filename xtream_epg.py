@@ -204,13 +204,46 @@ for f in sorted(glob.glob("xtream/*/channel_map.json")):
     if provider and name in ("strong", "dream4k", "family4k"):
         shown_ids = {c["stream_id"] for c in chans}
         def hname(g):
-            m = re.match(r"^\s*\|?([A-Z]{2,4})\s*\|\s*✪?\s*(.*)$", g.strip())
-            if not m or not m.group(2):
-                return g.strip()
-            code, rest = m.group(1), m.group(2).strip(" |")
-            iso = {"UK": "GB", "EN": "GB"}.get(code, code)
-            flag = "".join(chr(0x1F1E6 + ord(ch) - 65) for ch in iso) if len(iso) == 2 and code not in ("AR",) else code
-            return f"{flag} | {rest}"
+            # the look of the shown groups (owner, 11 Nov 2026: "flags, and names tidied as if they were not hidden"):
+            # "🇯🇴 | JORDAN ⁴ᴷ", "🇶🇦 | beIN ꜱᴘᴏʀᴛꜱ ⁸ᴷ", "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+            g = re.sub(r"\s+", " ", g).strip()
+            m = re.match(r"^\s*\|?([A-Z0-9]{2,4})\s*\|\s*✪?\s*(.*)$", g)
+            code, rest = (m.group(1), m.group(2).strip(" |")) if m and m.group(2) else ("", g)
+            if re.match(r"^[\U0001F1E6-\U0001F1FF]{2}\s*\|", g) or re.match(r"^\W{1,3}\s*\|", g):   # already "🇬🇧 | ..."
+                flag, rest = g.split("|", 1)[0].strip(), g.split("|", 1)[1].strip()
+            else:
+                up = rest.upper()
+                hint = [(r"JORDAN|ROYA|\bJO\b", "🇯🇴"), (r"LEBAN", "🇱🇧"), (r"EGYPT|\bEGY", "🇪🇬"), (r"SYRIA", "🇸🇾"), (r"IRAQ", "🇮🇶"),
+                        (r"KUWAIT", "🇰🇼"), (r"QATAR|BEIN|ALKASS|AL KASS", "🇶🇦"), (r"UAE|EMIRAT|DUBAI|ABU DHABI|STARZ", "🇦🇪"),
+                        (r"BAHRAIN", "🇧🇭"), (r"OMAN\b", "🇴🇲"), (r"YEMEN", "🇾🇪"), (r"PALESTIN|FAJER", "🇵🇸"), (r"MOROC|MAROC", "🇲🇦"),
+                        (r"ALGER", "🇩🇿"), (r"TUNIS", "🇹🇳"), (r"LIBY", "🇱🇾"), (r"SUDAN", "🇸🇩"),
+                        (r"SAUDI|KSA|MBC|SHAHID|\bSTC\b|\bSSC\b|THMANYAH|ROTANA", "🇸🇦"), (r"ALWAN", "🔷"),
+                        (r"OSN|NETFLIX|SHOOF|DISNEY|PRIME", "🔘"), (r"NEWS|أخبار|اخبار", "📰"), (r"KIDS|CARTOON|أطفال|اطفال", "🧸"),
+                        (r"QURAN|ISLAM|قرآن", "🕌"), (r"RADIO", "📻"), (r"MUSIC", "🎵"), (r"DOCUMENT|وثائق", "🌍"),
+                        (r"MOVIE|CINEMA|FILM|BOX OFFICE|افلام|أفلام", "🎬"), (r"SERIES|DRAMA|مسلسل", "🎞"),
+                        (r"SPORT|رياض|SOCCER|FOOTBALL|LEAGUE|\bPPV\b", "⚽")]
+                country = code and code not in ("AR", "4K", "8K") and re.fullmatch(r"[A-Z]{2,3}", code)
+                flag = None if country else next((f for r_, f in hint if re.search(r_, up)), None)
+                if not flag:
+                    iso = {"UK": "GB", "EN": "GB", "USA": "US"}.get(code, code)
+                    if code in ("4K", "8K"):
+                        flag = "💠"
+                    elif len(iso) == 2 and iso.isalpha() and code != "AR":
+                        flag = "".join(chr(0x1F1E6 + ord(ch) - 65) for ch in iso)
+                    else:
+                        flag = "🌐"
+            sup = str.maketrans("0123456789KDHRAWFPSUEVCT", "⁰¹²³⁴⁵⁶⁷⁸⁹ᴷᴰᴴᴿᴬᵂᶠᴾˢᵁᴱⱽᶜᵀ")
+            small = str.maketrans("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴘǫʀꜱᴛᴜᴠᴡxʏᴢ")
+            out = []
+            rest = re.sub(r"\bBEIN\b", "beIN", rest)
+            for i, w in enumerate(rest.split(" ")):
+                if re.fullmatch(r"(?i)(\d{1,2}K|F?HD|UHD|SD|RAW|HEVC|\d{2}FPS|\d{3,4}P)", w):
+                    out.append(w.upper().replace("FPS", "fps").translate(sup) if "FPS" not in w.upper() else w[:2].translate(sup) + "ᶠᵖˢ")
+                elif i > 0 and re.fullmatch(r"[A-Z]{5,}", w):
+                    out.append(w.translate(small))
+                else:
+                    out.append(w)
+            return f"{flag} | " + " ".join(out)
         hcats, hstreams, hseen = [], [], set()
         for c in provider:
             if c["stream_id"] in shown_ids or c["stream_id"] in hseen:
