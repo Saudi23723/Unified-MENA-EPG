@@ -128,7 +128,12 @@ class LiveActivity : BaseActivity() {
             }
             override fun onPlaybackStateChanged(state: Int) {
                 // every moment spent waiting after the picture started puts the viewer that much behind live
-                if (state == Player.STATE_BUFFERING && player.currentPosition > 0) { bufStart = android.os.SystemClock.elapsedRealtime(); slowLine() }
+                if (state == Player.STATE_BUFFERING && player.currentPosition > 0) {
+                    bufStart = android.os.SystemClock.elapsedRealtime()
+                    android.util.Log.w("SAUDI", "wait: ${playing?.name} ahead=${player.bufferedPosition - player.currentPosition}ms speed=${player.playbackParameters.speed}")
+                    slowLine()
+                }
+                if (state == Player.STATE_READY && bufStart > 0) android.util.Log.w("SAUDI", "wait over after ${android.os.SystemClock.elapsedRealtime() - bufStart}ms")
                 if (state != Player.STATE_BUFFERING && bufStart > 0) { lag += android.os.SystemClock.elapsedRealtime() - bufStart; bufStart = 0 }
                 if (state == Player.STATE_READY) {
                     // remember which link worked for this channel

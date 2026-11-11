@@ -73,6 +73,11 @@ object Vod {
         catCache[k] = l
         return l
     }
+    private val rTitlePrefix = Regex("^\\s*([A-Za-z]{2,3}(-[A-Za-z0-9]{1,6}){0,3}|4K|UHD)\\s*[-:|]\\s*")
+    private val rTitleTail = Regex("[\\(\\[]\\s*(19|20)\\d{2}\\s*[\\)\\]]|\\b(19|20)\\d{2}\\b\\s*$|\\b(4K|UHD|FHD|HD|HEVC|MULTI|DUAL|AR|SUBS?)\\b", RegexOption.IGNORE_CASE)
+    /** a title as the world writes it: no provider prefix ("AR-SUBS - "), no year, no quality words */
+    fun titleKey(n: String): String = n.replace(rTitlePrefix, "").replace(rTitleTail, " ").lowercase().replace(Regex("[^a-z0-9\\u0600-\\u06ff]+"), "")
+
     /** group names some providers send glued together ("أفلامأجنبية2025/2026"): words and years apart */
     fun tidyName(n: String): String = n.trim()
         .replace(Regex("(أفلام|افلام|مسلسلات|برامج)(?=[\\u0621-\\u064A])"), "$1 ")
@@ -194,6 +199,26 @@ object Vod {
         val kind = if (series) "series" else "movies"
         val newest = all.sortedByDescending { it.added }.take(600)
         val out = ArrayList<Pair<String, VodItem>>()
+        // what the world is watching (the repo's trending.json, from TMDB): the titles this playlist really has
+        try {
+            val byName = HashMap<String, VodItem>(all.size * 2)
+            for (i in all) { val k = titleKey(i.name); if (k.length >= 2 && k !in byName) byName[k] = i }
+            val t = JSONObject(text("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/trending.json"))
+            val lists = t.optJSONArray("lists") ?: JSONArray()
+            for (li in 0 until lists.length()) {
+                val l = lists.getJSONObject(li); val items = l.optJSONArray("items") ?: continue
+                var n = 0
+                for (k in 0 until items.length()) {
+                    val x = items.getJSONObject(k)
+                    if ((x.optString("kind") == "series") != series) continue
+                    val hit = byName[titleKey(x.optString("title"))] ?: byName[titleKey(x.optString("original"))] ?: continue
+                    if (out.any { it.second.id == hit.id }) continue
+                    val r = x.optDouble("rating", 0.0)
+                    out.add(l.optString("name") to VodItem(hit.id, hit.name, hit.poster, hit.ext, hit.rating.ifEmpty { if (r > 0) r.toString() else "" }, hit.year.ifEmpty { x.optString("year") }, hit.added))
+                    if (++n >= 8) break
+                }
+            }
+        } catch (e: Exception) { }
         newest.take(14).forEach { out.add("New in $kind" to it) }
         // the best rated among what came lately (not the same old classics every day)
         newest.filter { (it.rating.toDoubleOrNull() ?: 0.0) >= 7.5 }.sortedByDescending { it.rating.toDoubleOrNull() ?: 0.0 }.filter { x -> out.none { it.second.id == x.id } }.take(10)
