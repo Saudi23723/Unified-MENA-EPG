@@ -104,6 +104,7 @@ class LogbookActivity : BaseActivity() {
         body = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
         col.addView(body)
         Logbook.reconcilePaper(this)
+        if (Logbook.foldRecorded(this)) Toast.makeText(this, R.string.log_folded, Toast.LENGTH_LONG).show()
         entries = Logbook.all(this)
         endorsements = Logbook.endorsements(this)
         tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -549,6 +550,11 @@ class LogbookActivity : BaseActivity() {
             entries.removeAll { it.id == e.id }
             entries.add(e)
             entries.sortWith(compareByDescending<LogEntry> { it.date }.thenByDescending { it.timeOut })
+            // Typed by hand for a day the GPS already recorded: one flight, not two.
+            if (isNew && !e.remarks.contains("Recorded by GPS")) entries.filter { it.date == e.date && it.id != e.id && it.remarks.contains("Recorded by GPS") && !it.signed }.forEach { r ->
+                if (e.track.isEmpty()) e.track = r.track
+                entries.remove(r)
+            }
             try {
                 Logbook.save(this, entries)
                 Toast.makeText(this, "✓ " + getString(R.string.log_save) + " · " + EfbUi.num(e.total) + " h", Toast.LENGTH_SHORT).show()

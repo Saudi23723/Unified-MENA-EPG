@@ -161,6 +161,32 @@ object Logbook {
         save(ctx, list.sortedWith(compareByDescending<LogEntry> { it.date }.thenByDescending { it.timeOut }))
     }
 
+    /**
+     * The same flight twice: one the GPS recorded, one typed by hand for the same day. The typed one
+     * stays (it is the pilot's), the recording gives it its track and goes. True when something changed.
+     */
+    fun foldRecorded(ctx: Context): Boolean = synchronized(LOCK) {
+        val list = all(ctx)
+        var changed = false
+        for ((_, day) in list.groupBy { it.date }) {
+            if (day.size < 2) continue
+            val typed = day.filter { !it.remarks.contains("Recorded by GPS") }
+            val rec = day.filter { it.remarks.contains("Recorded by GPS") && !it.signed }
+            if (typed.isEmpty() || rec.isEmpty()) continue
+            for (r in rec) {
+                val t = typed.firstOrNull { it.track.isEmpty() } ?: typed.first()
+                if (t.track.isEmpty() && r.track.isNotEmpty()) t.track = r.track
+                if (t.distanceNm == 0.0) t.distanceNm = r.distanceNm
+                if (t.farthestNm == 0.0) t.farthestNm = r.farthestNm
+                t.updated = System.currentTimeMillis()
+                list.remove(r)
+                changed = true
+            }
+        }
+        if (changed) save(ctx, list)
+        changed
+    }
+
     /** A track file recorded but never joined to a flight: by the day it started. */
     private fun looseTracks(ctx: Context, list: List<LogEntry>): Map<String, String> {
         val used = list.map { it.track }.toSet()
@@ -335,10 +361,11 @@ object FlightRecorder {
         var dep: String = "", var depLat: Double = 0.0, var depLon: Double = 0.0,
         var landings: Int = 0, var landedAt: Long = 0, var last: String = "", var airMs: Long = 0, var upAt: Long = 0,
         var dist: Double = 0.0, var far: Double = 0.0, var pLat: Double = 0.0, var pLon: Double = 0.0, var stops: String = "",
+        var lastAir: Long = 0, var slow: Int = 0,
     ) {
         fun json() = JSONObject().put("s", started).put("a", airborne).put("f", fast).put("d", dep).put("dy", depLat).put("dx", depLon)
             .put("l", landings).put("la", landedAt).put("last", last).put("am", airMs).put("up", upAt).put("dist", dist).put("far", far)
-            .put("py", pLat).put("px", pLon).put("stops", stops)
+            .put("py", pLat).put("px", pLon).put("stops", stops).put("lf", lastAir)
     }
 
     private var s: State? = null
@@ -348,7 +375,7 @@ object FlightRecorder {
         val o = try { JSONObject(VaultLock.prefs(ctx).getString(KEY, "{}")!!) } catch (e: Exception) { JSONObject() }
         return State(o.optLong("s"), o.optBoolean("a"), o.optInt("f"), o.optString("d"), o.optDouble("dy"), o.optDouble("dx"),
             o.optInt("l"), o.optLong("la"), o.optString("last"), o.optLong("am"), o.optLong("up"), o.optDouble("dist"), o.optDouble("far"),
-            o.optDouble("py"), o.optDouble("px"), o.optString("stops")).also { s = it }
+            o.optDouble("py"), o.optDouble("px"), o.optString("stops"), o.optLong("lf")).also { s = it }
     }
 
     private fun store(ctx: Context, st: State) = VaultLock.prefs(ctx).edit().putString(KEY, st.json().toString()).apply()
@@ -397,6 +424,8 @@ object FlightRecorder {
                 }
                 st.airborne = true
                 st.upAt = now
+                st.lastAir = now
+                st.slow = 0
                 changed = true
             } else if (st.started > 0 && kt < 3 && st.landedAt > 0 && now - st.landedAt > 5 * 60000) {
                 val e = finish(st)
@@ -408,12 +437,19 @@ object FlightRecorder {
             st.dist += Nav.distanceNm(st.pLat, st.pLon, l.latitude, l.longitude)
             st.far = maxOf(st.far, Nav.distanceNm(st.depLat, st.depLon, l.latitude, l.longitude))
             st.pLat = l.latitude; st.pLon = l.longitude
-            if (kt < 30) {
+            // Back after a gap (the GPS or the app was off): the flight ended at the last fix in the air, not now.
+            val gap = st.lastAir > 0 && now - st.lastAir > 2 * 60000
+            // Slow flight into a headwind is not a landing: slow for several fixes, or found slow after a gap.
+            st.slow = if (kt < 30) st.slow + 1 else 0
+            if (kt >= 30) st.lastAir = now
+            if (st.slow >= 6 || (gap && kt < 30)) {
+                val at = if (gap) st.lastAir else now
                 st.airborne = false
                 st.fast = 0
+                st.slow = 0
                 st.landings++
-                st.landedAt = now
-                st.airMs += now - st.upAt
+                st.landedAt = at
+                st.airMs += (at - st.upAt).coerceAtLeast(0)
                 st.last = nearest(l.latitude, l.longitude, airports)
                 if (!st.stops.endsWith(st.last)) st.stops += " " + st.last
                 changed = true
@@ -443,7 +479,11 @@ object FlightRecorder {
     fun finishNow(ctx: Context): LogEntry? {
         val st = state(ctx)
         if (st.started == 0L) return null
-        if (st.airborne) { st.airMs += System.currentTimeMillis() - st.upAt; st.airborne = false }
+        if (st.airborne) {
+            val now = System.currentTimeMillis()
+            val end = if (st.lastAir > 0 && now - st.lastAir > 2 * 60000) st.lastAir else now
+            st.airMs += (end - st.upAt).coerceAtLeast(0); st.airborne = false
+        }
         val e = finish(st)
         s = State()
         store(ctx, s!!)
