@@ -29,7 +29,7 @@ def flag(group: str) -> str:
         return {"gb": "uk", "um": "us", "hm": "au"}.get(cc, cc)
     if "\U0001F3F4" in group: return "uk"
     m = re.match(r"\s*([A-Z]{2})\s*\|", group)   # "TR | SPOR"
-    return {"UK": "uk", "US": "us", "TR": "tr", "DE": "de", "FR": "fr", "IT": "it"}.get(m.group(1), "") if m else ""
+    return {"UK": "uk", "US": "us", "TR": "tr", "DE": "de", "FR": "fr", "IT": "it", "PT": "pt", "CH": "ch", "RO": "ro", "SI": "si"}.get(m.group(1), "") if m else ""
 
 
 def main():
