@@ -227,7 +227,7 @@ for f in sorted(glob.glob("xtream/*/channel_map.json")):
                 country = code and code not in ("AR", "4K", "8K") and re.fullmatch(r"[A-Z]{2,3}", code)
                 flag = None if country else next((f for r_, f in hint if re.search(r_, up)), None)
                 # the streaming brands keep their own mark whatever the country (owner: "the logo like the ones before it")
-                if re.search(r"OSN|NETFLIX|SHOOF|DISNEY|PRIME|DREAM ?4K|HBO|APPLE TV|STARZPLAY", up):
+                if re.search(r"OSN|NETFLIX|SHOOF|DISNEY|PRIME|DREAM|HBO|APPLE TV|STARZPLAY", up):
                     flag = "🔘"
                 if not flag:
                     iso = {"UK": "GB", "EN": "GB", "USA": "US"}.get(code, code)
