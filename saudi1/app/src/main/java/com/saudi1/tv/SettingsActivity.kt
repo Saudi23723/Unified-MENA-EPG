@@ -57,7 +57,7 @@ class SettingsActivity : BaseActivity() {
         row("Night mode", (if (Dim.level == 0) "Dimming off" else "Dimming ${Dim.level} %") + " · Eye comfort " + Dim.warmNames[Dim.warm]) {
             nightDialog()
         }
-        row("Night mode at a set time", if (Dim.scheduled) "Every day " + Dim.clock(Dim.from) + " – " + Dim.clock(Dim.to) else "Off") { nightSchedule() }
+        row("Night mode at a set time", if (Dim.scheduled) "On · every day " + Dim.clock(Dim.from) + " – " + Dim.clock(Dim.to) else "Off") { nightSchedule() }
         val sc = App.prefs.getBoolean("showcase", true)
         row("Showcase on Home", if (sc) "On · new and top rated titles when the remote rests" else "Off") { App.prefs.edit().putBoolean("showcase", !sc).apply(); build() }
         val aq = App.prefs.getBoolean("auto_quality", true)
@@ -238,9 +238,21 @@ class SettingsActivity : BaseActivity() {
             if (go != null) setOnClickListener { go() }
         }
         val a = TextView(this).apply { text = title; textSize = 17f; setTypeface(typeface, Typeface.BOLD); setTextColor(getColorStateList(R.color.on_focus)); isDuplicateParentStateEnabled = true }
-        val b = TextView(this).apply { text = value; textSize = 15f; setTextColor(getColorStateList(R.color.on_focus2)); isDuplicateParentStateEnabled = true; gravity = Gravity.END }
+        // On / Off settings show a switch: green ON, grey OFF (owner, 11 Nov 2026); the rest of the text stays beside it
+        val on = value == "On" || value.startsWith("On ·") || value.startsWith("On  ·")
+        val off = value == "Off" || value.startsWith("Off ·")
+        val detail = if (on || off) value.substringAfter("·", "").trim() else value
+        val b = TextView(this).apply { text = detail; textSize = 15f; setTextColor(getColorStateList(R.color.on_focus2)); isDuplicateParentStateEnabled = true; gravity = Gravity.END }
         r.addView(a, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
         r.addView(b, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1.3f))
+        if (on || off) {
+            val sw = TextView(this).apply {
+                text = if (on) "ON" else "OFF"; textSize = 13f; setTypeface(typeface, Typeface.BOLD); gravity = Gravity.CENTER
+                setTextColor(if (on) 0xFF04140D.toInt() else 0xFFE5E7EB.toInt())
+                background = android.graphics.drawable.GradientDrawable().apply { cornerRadius = 20 * d; setColor(if (on) 0xFF10B981.toInt() else 0xFF4B5563.toInt()) }
+            }
+            r.addView(sw, LinearLayout.LayoutParams((64 * d).toInt(), (30 * d).toInt()).apply { marginStart = (14 * d).toInt() })
+        }
         list.addView(r, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (58 * d).toInt()).apply { bottomMargin = (6 * d).toInt() })
         if (list.findFocus() == null && go != null) r.post { if (list.findFocus() == null) r.requestFocus() }
     }
