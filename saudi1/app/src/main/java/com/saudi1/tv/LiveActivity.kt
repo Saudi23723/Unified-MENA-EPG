@@ -171,6 +171,7 @@ class LiveActivity : BaseActivity() {
                 delay(3000)
                 val c = playing
                 if (c == null || !player.playWhenReady || player.playbackState == Player.STATE_IDLE || player.playbackState == Player.STATE_ENDED) { still = 0; last = -1; frames = -1; frozen = 0; continue }
+                Device.now("live", c.name)
                 val pos = player.currentPosition
                 if (pos == last) { if (++still >= 3) { still = 0; last = -1; android.util.Log.w("SAUDI", "stalled: restart ${c.name}"); start(c); continue } } else still = 0
                 last = pos

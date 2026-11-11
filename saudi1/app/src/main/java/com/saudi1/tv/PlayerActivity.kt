@@ -68,7 +68,7 @@ class PlayerActivity : BaseActivity() {
                 if (state == Player.STATE_ENDED) { save(); if (nextUrls.isNotEmpty()) askNext() else finish() }
             }
         })
-        lifecycleScope.launch { while (isActive) { delay(15_000); save() } }
+        lifecycleScope.launch { while (isActive) { tellNow(); delay(15_000); save() } }
     }
 
     private fun load(u: String, from: Long) {
@@ -234,5 +234,11 @@ class PlayerActivity : BaseActivity() {
     }
 
     override fun onPause() { super.onPause(); save(); player.pause() }
+
+    /** the admin site shows what is playing (only while it plays) */
+    private fun tellNow() {
+        if (!player.isPlaying && player.playbackState != androidx.media3.common.Player.STATE_BUFFERING) return
+        Device.now(when { key.startsWith("e") -> "series"; key.startsWith("m") -> "movie"; key.startsWith("r") -> "recording"; else -> "video" }, title)
+    }
     override fun onDestroy() { super.onDestroy(); player.release() }
 }

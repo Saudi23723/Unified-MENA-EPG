@@ -1,12 +1,15 @@
 package com.saudi1.tv
 
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 
 /** Activation through the owner's admin site: the TV shows its code, the owner adds the login there,
  *  Reload picks it up. A login typed by hand on the TV (Settings) is kept as it is. */
 object Device {
-    private const val API = "https://saudi1.1saifsaudi.workers.dev/api/device"
+    const val SITE = "https://saudi1.1saifsaudi.workers.dev"
+    private const val API = "$SITE/api/device"
 
     val code: String
         get() {
@@ -49,6 +52,19 @@ object Device {
         Api.groups = emptyList()
         java.io.File(App.app.filesDir, "live_categories.json").delete(); java.io.File(App.app.filesDir, "live_streams.json").delete()
         Vod.clear()
+    }
+
+    // ---- what this device is watching: the owner sees it on the admin site (playlist + channel / movie / episode) ----
+    private var lastNow = ""; private var lastNowAt = 0L
+    fun now(kind: String, title: String) {
+        val pl = active.ifEmpty { Prefs.playlist }
+        val sig = "$kind|$title|$pl"; val t = System.currentTimeMillis()
+        if (sig == lastNow && t - lastNowAt < 100_000) return   // the same thing: said again every 100 s, so "now" stays true
+        lastNow = sig; lastNowAt = t
+        val body = JSONObject().put("code", code).put("playlist", pl).put("kind", kind).put("title", title.take(140)).toString()
+        Thread {
+            try { App.http.newCall(Request.Builder().url(SITE + "/api/now").post(body.toRequestBody("application/json".toMediaType())).build()).execute().close() } catch (e: Exception) { }
+        }.start()
     }
 
     /** "active" | "pending" | "stopped" | "expired" | "offline" */

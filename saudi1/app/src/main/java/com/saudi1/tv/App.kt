@@ -16,6 +16,7 @@ class App : Application(), ImageLoaderFactory {
         app = this
         prefs = getSharedPreferences("saudi1", Context.MODE_PRIVATE)
         tidy()
+        Backup.auto()
     }
 
     /** once a week, by itself: leftovers are cleared (an old update file, lists of playlists no longer used, temp files).

@@ -38,7 +38,9 @@ class HomeActivity : BaseActivity() {
             while (true) {
                 val now = Date(); clock.text = tf.format(now); date.text = df.format(now)
                 val h = java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY)
-                hello.text = when (h) { in 5..11 -> "Good morning"; in 12..16 -> "Good afternoon"; else -> "Good evening" }
+                // the name the owner gave this device on the admin site greets its viewer
+                val who = Device.name.trim().substringBefore(' ').takeIf { it.length in 2..20 }?.let { ", $it" } ?: ""
+                hello.text = (when (h) { in 5..11 -> "Good morning"; in 12..16 -> "Good afternoon"; else -> "Good evening" }) + who
                 delay(15_000)
             }
         }

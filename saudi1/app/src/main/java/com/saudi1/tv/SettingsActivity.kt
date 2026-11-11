@@ -77,6 +77,20 @@ class SettingsActivity : BaseActivity() {
             startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT).addCategory(Intent.CATEGORY_OPENABLE).setType("*/*"), 11)
         }
 
+        section("Backup")
+        val bf = SimpleDateFormat("d MMM, h:mm a", Locale.ENGLISH)
+        row("Back up now", "Favorites, continue watching, reminders and settings · " + (if (Backup.at > 0) "last " + bf.format(Date(Backup.at)) else "not yet") + " · daily by itself") {
+            Thread { val ok = Backup.save(); runOnUiThread { android.widget.Toast.makeText(this, if (ok) "Backed up ✓" else "Could not back up (no connection?)", android.widget.Toast.LENGTH_LONG).show(); build() } }.start()
+        }
+        row("Restore", "Put back the last backup of this device") {
+            AlertDialog.Builder(this).setTitle("Restore the last backup?").setMessage("Favorites, continue watching, reminders and settings go back to how they were at the last backup.")
+                .setPositiveButton("Restore") { _, _ ->
+                    Thread { val t = Backup.restore(); runOnUiThread {
+                        android.widget.Toast.makeText(this, if (t != null) "Restored ✓ (backup of " + bf.format(Date(t)) + ")" else "No backup found for this device", android.widget.Toast.LENGTH_LONG).show()
+                        Api.groups = emptyList(); applyDim(); build() } }.start()
+                }.setNegativeButton("Cancel", null).show()
+        }
+
         section("Parental lock")
         row("PIN lock", if (Parental.on) "On · adult groups are locked" else "Off") { pinDialog() }
         if (Parental.on) row("Lock / unlock groups", "${Parental.locked.size} chosen groups") {
