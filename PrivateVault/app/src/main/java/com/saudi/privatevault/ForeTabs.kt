@@ -35,7 +35,7 @@ object ForeTabs {
         Tab(R.drawable.ic_tab_airports, R.string.ff_airports, { it is AirportsActivity }) { a -> open(a, AirportsActivity::class.java) },
         Tab(R.drawable.ic_map, R.string.ff_maps, { it is MapActivity }) { a -> open(a, MapActivity::class.java) },
         Tab(R.drawable.ic_tab_plates, R.string.ff_plates, { it is PlatesActivity }) { a -> open(a, PlatesActivity::class.java) },
-        Tab(R.drawable.ic_doc, R.string.ff_documents, { it is LibraryActivity || it is ManeuversActivity || it is RegsActivity || it is HandbookActivity || it is CfrBrowseActivity }) { a -> open(a, LibraryActivity::class.java) },
+        Tab(R.drawable.ic_doc, R.string.ff_documents, { it is LibraryActivity || it is ManeuversActivity || it is JeppBookActivity || it is RegsActivity || it is HandbookActivity || it is CfrBrowseActivity }) { a -> open(a, LibraryActivity::class.java) },
         Tab(R.drawable.ic_tab_imagery, R.string.ff_imagery, { it is ImageryActivity }) { a -> open(a, ImageryActivity::class.java) },
         Tab(R.drawable.ic_tab_flights, R.string.ff_flights, { it is WeightBalanceActivity || it is E6bActivity || it is PerformanceActivity }) { a -> open(a, MapActivity::class.java) { it.putExtra(MapActivity.EXTRA_NAVLOG, true) } },
         Tab(R.drawable.ic_fab_pencil, R.string.ff_scratchpads, { it is ScratchPadActivity }) { a -> open(a, ScratchPadActivity::class.java) },
@@ -57,7 +57,7 @@ object ForeTabs {
     fun wants(a: Activity) = !Tv.isTv(a) && (a is EfbHomeActivity || a is MapActivity || a is LogbookActivity || a is ChecklistActivity ||
         a is ScratchPadActivity || a is LibraryActivity || a is SettingsActivity || a is FrequenciesActivity || a is E6bActivity ||
         a is WeightBalanceActivity || a is RegsActivity || a is EfbCheckActivity || a is TrainerActivity || a is AirportDiagramActivity ||
-        a is HandbookActivity || a is CfrBrowseActivity || a is ImageryActivity || a is PlatesActivity || a is AirportsActivity || a is PerformanceActivity || a is ManeuversActivity || a is WebActivity)
+        a is HandbookActivity || a is CfrBrowseActivity || a is ImageryActivity || a is PlatesActivity || a is AirportsActivity || a is PerformanceActivity || a is ManeuversActivity || a is JeppBookActivity || a is WebActivity)
 
     fun attach(a: Activity) {
         if (!wants(a)) return

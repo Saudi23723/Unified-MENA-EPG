@@ -106,6 +106,9 @@
             android:name=".ManeuversActivity"
             android:exported="false" />
         <activity
+            android:name=".JeppBookActivity"
+            android:exported="false" />
+        <activity
             android:name=".SvtActivity"
             android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden"
             android:exported="false"
