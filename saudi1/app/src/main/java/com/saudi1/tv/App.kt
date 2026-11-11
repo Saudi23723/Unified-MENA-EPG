@@ -15,6 +15,7 @@ class App : Application(), ImageLoaderFactory {
         super.onCreate()
         app = this
         prefs = getSharedPreferences("saudi1", Context.MODE_PRIVATE)
+        prefs.getString("net_tz", "")?.takeIf { it.contains('/') }?.let { useZone(it) }
         // when the app stops by an error, what happened is kept (Settings › App › Last error) so it can be fixed
         val before = Thread.getDefaultUncaughtExceptionHandler()
         Thread.setDefaultUncaughtExceptionHandler { t, e ->
@@ -68,6 +69,10 @@ class App : Application(), ImageLoaderFactory {
         .build()
 
     companion object {
+        /** the app's times in the zone of where the device is (the system zone stays as the TV has it) */
+        fun useZone(id: String) {
+            try { val z = java.util.TimeZone.getTimeZone(id); if (z.id == id && java.util.TimeZone.getDefault().id != id) java.util.TimeZone.setDefault(z) } catch (e: Exception) { }
+        }
         lateinit var app: App
         lateinit var prefs: SharedPreferences
         val http: OkHttpClient by lazy {

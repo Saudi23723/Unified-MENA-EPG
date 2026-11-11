@@ -86,6 +86,19 @@ object Device {
     } catch (e: Exception) { "No internet connection" }
 
     /** "active" | "pending" | "stopped" | "expired" | "offline" */
+    /** the zone of the place the internet is in (ipwho.is, free, no key), asked at most every 3 hours */
+    private fun netZone(): String? {
+        val now = System.currentTimeMillis()
+        if (now - App.prefs.getLong("net_tz_at", 0) < 3 * 3600_000L) return App.prefs.getString("net_tz", null)
+        return try {
+            App.http.newCall(okhttp3.Request.Builder().url("https://ipwho.is/?fields=timezone").build()).execute().use { r ->
+                val id = org.json.JSONObject(r.body!!.string()).optJSONObject("timezone")?.optString("id").orEmpty()
+                App.prefs.edit().putLong("net_tz_at", now).apply()
+                id.takeIf { it.contains('/') }
+            }
+        } catch (e: Exception) { null }
+    }
+
     fun check(): String = try {
         val u = "$API?code=$code&model=" + java.net.URLEncoder.encode(android.os.Build.MODEL, "UTF-8")
         App.http.newCall(Request.Builder().url(u).build()).execute().use { r ->
@@ -102,6 +115,12 @@ object Device {
                 Prefs.server = pick.optString("server"); Prefs.user = pick.optString("user"); Prefs.pass = pick.optString("pass")
                 active = pick.optString("name")
                 name = o.optString("name"); expires = o.optLong("expires")
+                // the time zone of the place the device is in now (a Chromecast on Wi-Fi does not find it by itself):
+                // the guide, the matches, the clock in the app follow it (owner, 11 Nov 2026: a pilot's TV)
+                (o.optString("tz").takeIf { it.contains('/') } ?: netZone())?.let { tz ->
+                    if (App.prefs.getString("net_tz", "") != tz) App.prefs.edit().putString("net_tz", tz).apply()
+                    App.useZone(tz)
+                }
                 // the VPN the owner put on the admin site (an empty one there keeps a file imported on the phone)
                 o.optString("vpn").takeIf { it.isNotBlank() }?.let { if (it != Vpn.conf) { Vpn.conf = it; Vpn.wanted = true } }
                 manual = false

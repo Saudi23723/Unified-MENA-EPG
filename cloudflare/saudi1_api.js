@@ -100,7 +100,9 @@ export default {
       let vpn = "";
       const v = await env.DB.prepare("SELECT conf FROM vpn WHERE code=?").bind(code).first();
       if (v) { try { vpn = (await open(env, v.conf)).conf || ""; } catch (err) {} }
-      return json({ status: "active", server: lists[0].server, user: l.user, pass: l.pass, name: d.name || "", expires: d.expires || 0, playlists: lists, vpn });
+      return json({ status: "active", server: lists[0].server, user: l.user, pass: l.pass, name: d.name || "", expires: d.expires || 0, playlists: lists, vpn,
+        // the time zone of where the device is now (from its internet): the guide and the matches follow a traveller (owner, 11 Nov 2026)
+        tz: (req.cf && req.cf.timezone) || "" });
     }
 
     // POST /api/now {code, playlist, kind, title}: the app says what is playing (every 100 s while it plays)
