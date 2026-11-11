@@ -27,8 +27,14 @@ def get(path, **q):
 
 
 def rows(path, kind, pages=2, **q):
-    out = []
+    """titles of one TMDB list; each also carries its Arabic name (playlists often use it)"""
+    out = []; ar = {}
     for p in range(1, pages + 1):
+        try:
+            for x in get(path, page=p, language="ar", **q).get("results", []):
+                ar[x.get("id")] = x.get("title") or x.get("name") or ""
+        except Exception:
+            pass
         for x in get(path, page=p, **q).get("results", []):
             k = x.get("media_type") or kind
             if k not in ("movie", "tv") or not x.get("poster_path"): continue
@@ -36,6 +42,7 @@ def rows(path, kind, pages=2, **q):
                 "kind": "series" if k == "tv" else "movie",
                 "title": x.get("title") or x.get("name") or "",
                 "original": x.get("original_title") or x.get("original_name") or "",
+                "ar": ar.get(x.get("id"), ""),
                 "year": (x.get("release_date") or x.get("first_air_date") or "")[:4],
                 "rating": round(float(x.get("vote_average") or 0), 1),
                 "poster": IMG + "w500" + x["poster_path"],
@@ -49,13 +56,21 @@ def main():
     if not KEY:
         print("no TMDB_KEY secret: nothing to do"); return 0
     today = time.strftime("%Y-%m-%d"); past = time.strftime("%Y-%m-%d", time.gmtime(time.time() - 400 * 86400))
+    recent = {"primary_release_date.gte": past}; recent_tv = {"first_air_date.gte": past}
     lists = [
-        ("Trending this week", rows("trending/all/week", "movie", 3)),
+        ("Trending this week", rows("trending/all/week", "movie", 4)),
+        ("Trending today", rows("trending/all/day", "movie", 2)),
         ("In cinemas now · box office", rows("movie/now_playing", "movie", 3, region="US")),
-        ("Arabic · trending", rows("discover/movie", "movie", 2, with_original_language="ar", sort_by="popularity.desc", **{"primary_release_date.gte": past})
-            + rows("discover/tv", "tv", 2, with_original_language="ar", sort_by="popularity.desc", **{"first_air_date.gte": past})),
-        ("Turkish series · trending", rows("discover/tv", "tv", 2, with_original_language="tr", sort_by="popularity.desc")),
+        ("Arabic series · trending", rows("discover/tv", "tv", 4, with_original_language="ar", sort_by="popularity.desc", **recent_tv)
+            + rows("discover/tv", "tv", 3, with_original_language="ar", sort_by="popularity.desc")),
+        ("Arabic movies · trending", rows("discover/movie", "movie", 4, with_original_language="ar", sort_by="popularity.desc", **recent)
+            + rows("discover/movie", "movie", 3, with_original_language="ar", sort_by="popularity.desc")),
+        ("Turkish series · trending", rows("discover/tv", "tv", 5, with_original_language="tr", sort_by="popularity.desc")),
+        ("Turkish movies · trending", rows("discover/movie", "movie", 3, with_original_language="tr", sort_by="popularity.desc")),
+        ("Arabic · top rated", rows("discover/tv", "tv", 2, with_original_language="ar", sort_by="vote_average.desc", **{"vote_count.gte": 15})
+            + rows("discover/movie", "movie", 2, with_original_language="ar", sort_by="vote_average.desc", **{"vote_count.gte": 30})),
         ("Popular series", rows("tv/popular", "tv", 3)),
+        ("Popular movies", rows("movie/popular", "movie", 3)),
         ("Top rated movies", rows("movie/top_rated", "movie", 3)),
         ("Top rated series", rows("tv/top_rated", "tv", 3)),
     ]
