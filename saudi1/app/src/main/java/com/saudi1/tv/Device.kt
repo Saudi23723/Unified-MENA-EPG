@@ -67,6 +67,13 @@ object Device {
         }.start()
     }
 
+    /** payment for access, when the owner turned it on: {price, url}; else null (blocking) */
+    fun payInfo(): JSONObject? = try {
+        App.http.newCall(Request.Builder().url("$SITE/api/pay?code=$code").build()).execute().use { r ->
+            val o = JSONObject(r.body!!.string()); if (r.isSuccessful && o.optBoolean("on") && o.optString("url").isNotEmpty()) o else null
+        }
+    } catch (e: Exception) { null }
+
     /** spends a promo code on this device. "" = accepted, else what to tell the viewer (blocking) */
     fun promo(p: String): String = try {
         val body = JSONObject().put("code", code).put("promo", p.trim()).toString()

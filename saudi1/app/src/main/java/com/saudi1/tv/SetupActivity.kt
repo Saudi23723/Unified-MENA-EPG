@@ -5,6 +5,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import coil.load
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -66,6 +67,24 @@ class SetupActivity : AppCompatActivity() {
             e.requestFocus()
         }
         if (App.prefs.getBoolean("promo_ok", false)) promo.text = "🎟  Promo code accepted ✓"
+        // no promo code: pay from the phone (only when the owner turned payment on) — a QR to the owner's payment page
+        val pay = findViewById<TextView>(R.id.pay)
+        pay.setTextColor(getColorStateList(R.color.on_focus))
+        lifecycleScope.launch {
+            val o = withContext(Dispatchers.IO) { Device.payInfo() } ?: return@launch
+            pay.text = "💳  Buy access" + o.optString("price").let { if (it.isEmpty()) "" else "  ·  $it" }
+            pay.visibility = android.view.View.VISIBLE
+            pay.setOnClickListener {
+                val d = resources.displayMetrics.density
+                val u = o.optString("url")
+                val box = android.widget.LinearLayout(this@SetupActivity).apply { orientation = android.widget.LinearLayout.VERTICAL; gravity = android.view.Gravity.CENTER; setPadding((24 * d).toInt(), (18 * d).toInt(), (24 * d).toInt(), (8 * d).toInt()) }
+                val qr = android.widget.ImageView(this@SetupActivity)
+                qr.load("https://api.qrserver.com/v1/create-qr-code/?size=440x440&margin=14&data=" + java.net.URLEncoder.encode(u, "UTF-8"))
+                box.addView(qr, android.widget.LinearLayout.LayoutParams((240 * d).toInt(), (240 * d).toInt()))
+                box.addView(TextView(this@SetupActivity).apply { text = "Scan with your phone, or open:\n" + u.removePrefix("https://") + "\n\nAfter the payment this screen opens by itself once your provider activates the device."; textSize = 15f; gravity = android.view.Gravity.CENTER; setPadding(0, (14 * d).toInt(), 0, 0) })
+                androidx.appcompat.app.AlertDialog.Builder(this@SetupActivity).setTitle(pay.text).setView(box).setPositiveButton("Close", null).show()
+            }
+        }
         reload.requestFocus()
         // the owner may add this device any moment: check every 10 seconds while this screen is open
         lifecycleScope.launch { while (isActive) { activate(false); delay(10_000) } }
