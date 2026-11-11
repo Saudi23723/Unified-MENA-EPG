@@ -35,7 +35,8 @@ if [ -z "$SUB" ] || [ "$SUB" = "null" ]; then
 fi
 
 say "machine"
-[ -f ~/.ssh/saudi_vpn ] || ssh-keygen -t ed25519 -N "" -f ~/.ssh/saudi_vpn -q
+# RSA: Cloud Shell runs in FIPS mode, where ED25519 keys are refused
+[ -f ~/.ssh/saudi_vpn ] || ssh-keygen -t rsa -b 3072 -m PEM -N "" -f ~/.ssh/saudi_vpn -q
 I=$(q oci compute instance list -c "$C" --display-name saudi-vpn --lifecycle-state RUNNING --query 'data[0].id')
 if [ -z "$I" ] || [ "$I" = "null" ]; then
   SHAPE=VM.Standard.E2.1.Micro
