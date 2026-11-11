@@ -171,7 +171,7 @@ class HomeActivity : BaseActivity() {
     private fun armIdle() {
         idleJob?.cancel()
         if (!App.prefs.getBoolean("showcase", true) || !Prefs.ready || isTouch) return
-        idleJob = lifecycleScope.launch { delay(90_000); if (!overlayOpen && hasWindowFocus()) startActivity(Intent(this@HomeActivity, ShowcaseActivity::class.java)) }
+        idleJob = lifecycleScope.launch { delay(60_000); if (!overlayOpen && hasWindowFocus()) startActivity(Intent(this@HomeActivity, ShowcaseActivity::class.java)) }
     }
     override fun dispatchKeyEvent(event: android.view.KeyEvent): Boolean { armIdle(); return super.dispatchKeyEvent(event) }
     override fun onPause() { super.onPause(); idleJob?.cancel() }

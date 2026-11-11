@@ -68,7 +68,8 @@ class ShowcaseActivity : BaseActivity() {
                 // movies and series take turns
                 val out = ArrayList<Triple<String, VodItem, Boolean>>()
                 for (k in 0 until maxOf(m.size, s.size)) { m.getOrNull(k)?.let { out.add(Triple(it.first, it.second, false)) }; s.getOrNull(k)?.let { out.add(Triple(it.first, it.second, true)) } }
-                out
+                // a different order every time: there is always something else to pick
+                out.shuffle(); out
             }
             if (l.isEmpty()) { finish(); return@launch }
             items = l; i = 0; show()
