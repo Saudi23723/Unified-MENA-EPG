@@ -11,6 +11,7 @@ import android.graphics.drawable.GradientDrawable
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.os.Build
 import android.os.Bundle
 import android.text.InputType
 import android.view.Menu
@@ -201,8 +202,8 @@ class MapActivity : BaseActivity(), NeonHost {
         pullDrawings()
 
         map.addMapListener(DelayedMapListener(object : MapListener {
-            override fun onScroll(event: ScrollEvent?): Boolean = idle()
-            override fun onZoom(event: ZoomEvent?): Boolean = idle()
+            override fun onScroll(event: ScrollEvent?): Boolean { autoDiagrams(); return idle() }
+            override fun onZoom(event: ZoomEvent?): Boolean { autoDiagrams(); return idle() }
         }, 900))
 
         // The instrument strip in place of the four plain readouts.
@@ -267,6 +268,8 @@ class MapActivity : BaseActivity(), NeonHost {
                 .show()
         }
         askGps()
+        // Track up stays on from one flight to the next until it is unticked.
+        if (prefs.getBoolean("track_up_on", false)) trackUp = true
         // Back to the chart as it was flown: following, track up, ahead.
         if (prefs.getBoolean("view_follow", false)) b.root.postDelayed({
             trackUp = prefs.getBoolean("view_track", false); ahead = prefs.getBoolean("view_ahead", false)
@@ -1114,6 +1117,10 @@ class MapActivity : BaseActivity(), NeonHost {
             m.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0f, listener, mainLooper)
         } catch (e: Exception) {
         }
+        // Keep the fixes coming with the map in the background or the screen off.
+        if (Build.VERSION.SDK_INT >= 33 && checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS) != android.content.pm.PackageManager.PERMISSION_GRANTED)
+            requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 77)
+        TrackingService.start(this)
         try {
             m.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000L, 0f, coarse, mainLooper)
         } catch (e: Exception) {
@@ -1134,6 +1141,7 @@ class MapActivity : BaseActivity(), NeonHost {
     }
 
     private fun stopGps() {
+        TrackingService.stop(this)
         try {
             lm?.removeUpdates(listener)
             lm?.removeUpdates(coarse)
@@ -1344,14 +1352,14 @@ class MapActivity : BaseActivity(), NeonHost {
                             map.controller.setCenter(c)
                         } else map.controller.setCenter(p)
                     }
-                    if (trackUp && fix.hasBearing() && moving) {
-                        // Turn the chart gently towards the track instead of snapping.
-                        val want = fix.bearing
-                        heading = if (heading.isNaN()) want else heading + (((want - heading + 540) % 360) - 180) * 0.15f
-                        map.mapOrientation = -heading
-                    }
                 } else if (moving) {
                     map.invalidate()
+                }
+                if (trackUp && fix.hasBearing() && moving) {
+                    // Turn the chart gently towards the track instead of snapping.
+                    val want = fix.bearing
+                    heading = if (heading.isNaN()) want else heading + (((want - heading + 540) % 360) - 180) * 0.15f
+                    map.mapOrientation = -heading
                 }
             }
             b.root.postDelayed(this, if (moving || following) 33L else 250L)
@@ -1475,7 +1483,10 @@ class MapActivity : BaseActivity(), NeonHost {
         prefs.edit().putBoolean("svt_split", true).apply()
     }
 
-    private val plateOverlays = ArrayList<org.osmdroid.views.overlay.GroundOverlay>()
+    /** The FAA diagrams on the chart, by airport, and the fields known to have none. */
+    private val diagrams = LinkedHashMap<String, org.osmdroid.views.overlay.GroundOverlay>()
+    private val noDiagram = HashSet<String>()
+    private var diagramsBusy = false
 
     /**
      * A diagram as ForeFlight lays it on the map: no white paper, a dark glass panel and the
@@ -1499,51 +1510,31 @@ class MapActivity : BaseActivity(), NeonHost {
     }
 
     /**
-     * Plates on maps: the official FAA airport diagrams of every field around (up to five within
-     * 15 NM of the centre), each laid on the chart where it really lies, from the latitude and
-     * longitude printed on its border, turned north up when it is printed turned. Again to remove.
+     * Plates on maps, as ForeFlight has them: zoomed in, every airport on the screen shows its
+     * official FAA diagram where it really lies (from the latitude and longitude printed on its
+     * border, turned north up when printed turned). The menu item turns it on and off.
      */
     private fun plateOnMap() {
-        if (plateOverlays.isNotEmpty()) { map.overlays.removeAll(plateOverlays.toSet()); plateOverlays.clear(); map.invalidate(); return }
-        val c = map.mapCenter
-        val near = airports.map { it to Nav.distanceNm(c.latitude, c.longitude, it.lat, it.lon) }
-            .filter { it.second <= 15 }.sortedBy { it.second }.map { it.first }.take(14)
+        val on = !prefs.getBoolean("auto_diagrams", true)
+        prefs.edit().putBoolean("auto_diagrams", on).apply()
+        if (!on) { map.overlays.removeAll(diagrams.values.toSet()); diagrams.clear(); map.invalidate(); return }
+        if (map.zoomLevelDouble < 12.0) map.controller.zoomTo(13.0)
         Toast.makeText(this, getString(R.string.apt_plates_loading), Toast.LENGTH_SHORT).show()
+        b.root.postDelayed({ autoDiagrams() }, 900)
+    }
+
+    /** Lays the diagrams of the airports now on the screen, a few at a time, nearest the centre first. */
+    private fun autoDiagrams() {
+        if (!prefs.getBoolean("auto_diagrams", true) || diagramsBusy || map.zoomLevelDouble < 12.0) return
+        val bb = map.boundingBox; val c = map.mapCenter
+        val want = airports.filter { it.lat in bb.latSouth..bb.latNorth && it.lon in bb.lonWest..bb.lonEast && it.ident !in diagrams && it.ident !in noDiagram }
+            .sortedBy { Nav.distanceNm(c.latitude, c.longitude, it.lat, it.lon) }.take(4)
+        if (want.isEmpty()) return
+        diagramsBusy = true
         lifecycleScope.launch {
-            var placed = 0
-            for (cand in near) {
-                if (placed >= 5) break
-                val made = withContext(Dispatchers.IO) {
-                    try {
-                        val res = AviationData.plates(this@MapActivity, cand.ident) ?: return@withContext null
-                        val apd = res.second.firstOrNull { it.code == "APD" } ?: return@withContext null
-                        val f = AviationData.platePdf(this@MapActivity, res.first, apd.pdf) ?: return@withContext null
-                        val geo = PdfLinks.open(this@MapActivity, f)?.use { it.georef(0) } ?: return@withContext null
-                        val pfd = android.os.ParcelFileDescriptor.open(f, android.os.ParcelFileDescriptor.MODE_READ_ONLY)
-                        var bmp = android.graphics.pdf.PdfRenderer(pfd).use { r ->
-                            r.openPage(0).use { pg ->
-                                val w = 1200; val h = (w.toFloat() * pg.height / pg.width).toInt()
-                                android.graphics.Bitmap.createBitmap(w, h, android.graphics.Bitmap.Config.ARGB_8888).also {
-                                    it.eraseColor(android.graphics.Color.WHITE)
-                                    pg.render(it, null, null, android.graphics.pdf.PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY)
-                                }
-                            }
-                        }
-                        // Leave out the title band and the footer: only the drawing goes on the map.
-                        val top = if (geo.turn == 0f) 0.085 else 0.0
-                        val bot = if (geo.turn == 0f) 0.925 else 1.0
-                        val y0 = (bmp.height * top).toInt(); val y1 = (bmp.height * bot).toInt()
-                        if (top > 0 || bot < 1) bmp = android.graphics.Bitmap.createBitmap(bmp, 0, y0, bmp.width, y1 - y0)
-                        // The page's corners on the ground; a chart printed turned is turned back, north up.
-                        val corners = listOf(geo.ground(0.0, top), geo.ground(1.0, top), geo.ground(1.0, bot), geo.ground(0.0, bot))
-                        val north = corners.maxOf { it[0] }; val south = corners.minOf { it[0] }
-                        val west = corners.minOf { it[1] }; val east = corners.maxOf { it[1] }
-                        val turn = -geo.turn
-                        if (turn != 0f) bmp = android.graphics.Bitmap.createBitmap(bmp, 0, 0, bmp.width, bmp.height,
-                            android.graphics.Matrix().apply { postRotate(turn) }, true)
-                        Triple(nightInk(bmp), GeoPoint(north, west), GeoPoint(south, east))
-                    } catch (e: Throwable) { null }
-                } ?: continue
+            for (a in want) {
+                val made = withContext(Dispatchers.IO) { buildDiagram(a) }
+                if (made == null) { noDiagram += a.ident; continue }
                 val o = org.osmdroid.views.overlay.GroundOverlay().apply {
                     image = made.first
                     setPosition(made.second, made.third)
@@ -1551,14 +1542,50 @@ class MapActivity : BaseActivity(), NeonHost {
                 }
                 // Under the aircraft, the route and traffic.
                 map.overlays.add(1.coerceAtMost(map.overlays.size), o)
-                plateOverlays += o
-                if (placed == 0) map.controller.animateTo(GeoPoint(cand.lat, cand.lon), maxOf(map.zoomLevelDouble, 15.0), 800L)
-                placed++
+                diagrams[a.ident] = o
+                // Memory: keep the nearest eight.
+                while (diagrams.size > 8) {
+                    val cc = map.mapCenter
+                    val far = diagrams.keys.maxByOrNull { k -> airports.firstOrNull { it.ident == k }?.let { Nav.distanceNm(cc.latitude, cc.longitude, it.lat, it.lon) } ?: 0.0 } ?: break
+                    diagrams.remove(far)?.let { map.overlays.remove(it); it.image?.recycle() }
+                }
                 map.invalidate()
             }
-            if (placed == 0) Toast.makeText(this@MapActivity, R.string.plate_on_map_none, Toast.LENGTH_LONG).show()
+            diagramsBusy = false
         }
     }
+
+    /** One field's FAA diagram as a picture and the ground it covers; null when it has none or no printed scale. */
+    private fun buildDiagram(cand: AviationData.Airport): Triple<android.graphics.Bitmap, GeoPoint, GeoPoint>? = try {
+        val res = AviationData.plates(this@MapActivity, cand.ident)
+        val apd = res?.second?.firstOrNull { it.code == "APD" }
+        val f = apd?.let { AviationData.platePdf(this@MapActivity, res.first, it.pdf) }
+        val geo = f?.let { PdfLinks.open(this@MapActivity, it)?.use { l -> l.georef(0) } }
+        if (f == null || geo == null) null else {
+            val pfd = android.os.ParcelFileDescriptor.open(f, android.os.ParcelFileDescriptor.MODE_READ_ONLY)
+            var bmp = android.graphics.pdf.PdfRenderer(pfd).use { r ->
+                r.openPage(0).use { pg ->
+                    val w = 1000; val h = (w.toFloat() * pg.height / pg.width).toInt()
+                    android.graphics.Bitmap.createBitmap(w, h, android.graphics.Bitmap.Config.ARGB_8888).also {
+                        it.eraseColor(android.graphics.Color.WHITE)
+                        pg.render(it, null, null, android.graphics.pdf.PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY)
+                    }
+                }
+            }
+            // Leave out the title band and the footer: only the drawing goes on the map.
+            val top = if (geo.turn == 0f) 0.085 else 0.0
+            val bot = if (geo.turn == 0f) 0.925 else 1.0
+            val y0 = (bmp.height * top).toInt(); val y1 = (bmp.height * bot).toInt()
+            if (top > 0 || bot < 1) bmp = android.graphics.Bitmap.createBitmap(bmp, 0, y0, bmp.width, y1 - y0)
+            val corners = listOf(geo.ground(0.0, top), geo.ground(1.0, top), geo.ground(1.0, bot), geo.ground(0.0, bot))
+            val north = corners.maxOf { it[0] }; val south = corners.minOf { it[0] }
+            val west = corners.minOf { it[1] }; val east = corners.maxOf { it[1] }
+            val turn = -geo.turn
+            if (turn != 0f) bmp = android.graphics.Bitmap.createBitmap(bmp, 0, 0, bmp.width, bmp.height,
+                android.graphics.Matrix().apply { postRotate(turn) }, true)
+            Triple(nightInk(bmp), GeoPoint(north, west), GeoPoint(south, east))
+        }
+    } catch (e: Throwable) { null }
 
     private var tankReminded = 0
 
@@ -1949,7 +1976,8 @@ class MapActivity : BaseActivity(), NeonHost {
     private fun viewToast(t: String) { viewToastShown?.cancel(); viewToastShown = Toast.makeText(this, t, Toast.LENGTH_SHORT).also { it.show() } }
 
     /** The way the chart was being flown, kept: back from notes, the radio or traffic, it is the same. */
-    private fun keepView() = prefs.edit().putBoolean("view_follow", following).putBoolean("view_track", trackUp).putBoolean("view_ahead", ahead).apply()
+    private fun keepView() = prefs.edit().putBoolean("view_follow", following).putBoolean("view_track", trackUp).putBoolean("view_ahead", ahead)
+        .putBoolean("track_up_on", trackUp).apply()
 
     private fun follow(quiet: Boolean = false) {
         following = !following
@@ -1957,7 +1985,8 @@ class MapActivity : BaseActivity(), NeonHost {
         if (following && map.zoomLevelDouble < 9) map.controller.setZoom(10.0)
         if (!following) map.mapOrientation = 0f
         b.fabLocate.alpha = if (following) 1f else 0.6f
-        if (!following) { trackUp = false; ahead = false }
+        // Track up, once ticked, stays: panning the chart lets go of the aircraft, not of the track.
+        if (!following && !prefs.getBoolean("track_up_on", false)) { trackUp = false; ahead = false }
         b.fabLocate.setImageResource(viewIcon())
         keepView()
         if (!quiet) Toast.makeText(this, if (following) "📍 ${getString(R.string.map_follow)}" else "✋", Toast.LENGTH_SHORT).show()
@@ -2208,31 +2237,23 @@ class MapActivity : BaseActivity(), NeonHost {
         menu.add(0, 43, 0, "🎧").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
         menu.add(0, 40, 0, R.string.av_menu).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
         menu.add(0, 42, 0, R.string.traffic_list)
-        menu.add(0, 44, 0, R.string.plate_on_map)
-        menu.add(0, 45, 0, R.string.svt_split)
-        menu.add(0, 41, 0, R.string.map_view_menu)
+        menu.add(0, 44, 0, R.string.plate_on_map).setCheckable(true).isChecked = prefs.getBoolean("auto_diagrams", true)
         menu.add(0, 38, 0, R.string.clear_lines).setIcon(R.drawable.ic_delete).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
         menu.findItem(38)?.icon?.setTint(EfbUi.TEXT)
         menu.add(0, 36, 0, R.string.pos_report)
         menu.add(0, 37, 0, R.string.glide_menu)
         menu.add(0, 30, 0, R.string.freq_title)
         menu.add(0, 31, 0, R.string.notes_title)
-        menu.add(0, 32, 0, R.string.charts_title)
-        menu.add(0, 34, 0, R.string.pilotage_menu).setCheckable(true).isChecked = pilotage
-        menu.add(0, 35, 0, R.string.efbc_title)
         menu.add(0, 21, 0, R.string.pack_title)
         menu.add(0, 22, 0, R.string.brief_title)
         menu.add(0, 26, 0, R.string.map_profile)
-        menu.add(0, 27, 0, R.string.map_svt)
         menu.add(0, 28, 0, R.string.voice_on).setCheckable(true).isChecked = prefs.getBoolean("voice_on", true)
         menu.add(0, 29, 0, R.string.fuel_reminder).setCheckable(true).isChecked = prefs.getBoolean("tank_reminder", true)
         menu.add(0, 25, 0, R.string.cs_bulk)
         menu.add(0, 23, 0, R.string.timer_title)
-        menu.add(0, 24, 0, R.string.lang_switch)
         menu.add(0, 10, 0, R.string.plan_title)
         menu.add(0, 12, 0, R.string.wb_title)
         menu.add(0, 13, 0, R.string.wx_winds)
-        menu.add(0, 16, 0, R.string.map_3d).setCheckable(true).isChecked = tilted
         menu.add(0, 14, 0, R.string.map_sharp).setCheckable(true).isChecked = prefs.getBoolean("map_big", false)
         menu.add(0, 15, 0, R.string.map_clear_trail)
         menu.add(0, 4, 0, R.string.map_download)
@@ -2274,7 +2295,7 @@ class MapActivity : BaseActivity(), NeonHost {
             38 -> clearLines()
             40 -> AvionicsPanel.toggle(this)
             42 -> trafficList()
-            44 -> plateOnMap()
+            44 -> { plateOnMap(); item.isChecked = prefs.getBoolean("auto_diagrams", true) }
             45 -> svtSplit()
             43 -> RadioPlayer.choose(this)
             41 -> MaterialAlertDialogBuilder(this).setTitle(R.string.map_view_menu).setMessage(R.string.map_view_help).setPositiveButton(android.R.string.ok, null).show()
