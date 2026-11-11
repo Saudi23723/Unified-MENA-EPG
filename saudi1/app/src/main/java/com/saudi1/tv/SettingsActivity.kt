@@ -140,6 +140,9 @@ class SettingsActivity : BaseActivity() {
             AlertDialog.Builder(this).setTitle("Last error").setMessage(err.take(2500)).setPositiveButton("OK", null)
                 .setNegativeButton("Clear") { _, _ -> java.io.File(filesDir, "last_error.txt").delete(); build() }.show()
         }
+        row("Clear the cache", "Pictures and temporary files · also done by itself every day") {
+            App.app.tidy(true) { freed -> runOnUiThread { android.widget.Toast.makeText(this, "Cache cleared · ${freed / 1048576} MB", android.widget.Toast.LENGTH_SHORT).show() } }
+        }
         row("How to use", "The welcome and a short tour of the remote") { Intro.show(this) }
         row("Download link", "saudi1.1saifsaudi.workers.dev/apk", null)
     }

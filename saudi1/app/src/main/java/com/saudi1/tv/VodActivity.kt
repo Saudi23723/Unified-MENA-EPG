@@ -211,6 +211,7 @@ class VodActivity : BaseActivity() {
     }
 
     private fun show() {
+        fetchedTo = -1
         findViewById<TextView>(R.id.vodCount).text = items.size.toString()
         gridAdapter.notifyDataSetChanged(); grid.scrollToPosition(0)
     }
@@ -237,6 +238,27 @@ class VodActivity : BaseActivity() {
             .putExtra("name", it.name).putExtra("poster", it.poster).putExtra("ext", it.ext))
     }
 
+    /** "★ 7.5" without String.format for every poster drawn */
+    private fun ratingText(r: String): String {
+        val v = r.toDoubleOrNull() ?: return ""
+        val t = Math.round(v * 10).toInt(); return "★ " + (t / 10) + "." + (t % 10)
+    }
+    // the poster size, worked out once (not for every poster drawn)
+    private val ph by lazy { posterH() }
+    private val pw by lazy { ph * 2 / 3 }
+    /** the posters of the two rows below the one drawn are fetched before they are needed: no grey squares while moving */
+    private var fetchedTo = -1
+    private fun prefetch(i: Int) {
+        val to = (i + COLS * 3).coerceAtMost(items.size - 1)
+        if (to <= fetchedTo) return
+        val il = coil.Coil.imageLoader(this)
+        for (k in maxOf(fetchedTo + 1, i + 1)..to) {
+            val u = items[k].poster; if (u.isEmpty()) continue
+            il.enqueue(coil.request.ImageRequest.Builder(this).data(u).size(pw, ph).build())
+        }
+        fetchedTo = to
+    }
+
     /** a real poster shape (2:3) for the width a column has (known before the first layout too) */
     private fun posterH(): Int {
         val d = resources.displayMetrics.density
@@ -244,6 +266,7 @@ class VodActivity : BaseActivity() {
         return (((gw - grid.paddingLeft - grid.paddingRight) / COLS - (16 * d).toInt()) * 3 / 2).coerceAtLeast((90 * d).toInt())
     }
 
+    private var lastStep = 0L
     private fun moveTo(pos: Int) {
         val lm = grid.layoutManager ?: return
         val v = lm.findViewByPosition(pos)
@@ -308,7 +331,7 @@ class VodActivity : BaseActivity() {
         override fun onCreateViewHolder(p: ViewGroup, t: Int): H {
             val h = H(LayoutInflater.from(p.context).inflate(R.layout.item_poster, p, false))
             // a real poster shape (2:3) for the width a column has
-            (h.poster.parent as View).layoutParams.height = posterH()
+            (h.poster.parent as View).layoutParams.height = ph
             h.itemView.setOnClickListener { lastPos = h.bindingAdapterPosition; items.getOrNull(h.bindingAdapterPosition)?.let { play(it) } }
             // hold OK: add to / remove from Favorites
             h.itemView.setOnLongClickListener {
@@ -330,6 +353,11 @@ class VodActivity : BaseActivity() {
             h.itemView.setOnKeyListener { _, k, e ->
                 if (e.action != KeyEvent.ACTION_DOWN) return@setOnKeyListener false
                 val p = h.bindingAdapterPosition; if (p < 0) return@setOnKeyListener false
+                if (e.repeatCount > 0 && (k == KeyEvent.KEYCODE_DPAD_DOWN || k == KeyEvent.KEYCODE_DPAD_UP)) {
+                    val t = android.os.SystemClock.uptimeMillis()
+                    if (t - lastStep < 140 || grid.scrollState != RecyclerView.SCROLL_STATE_IDLE && t - lastStep < 220) return@setOnKeyListener true
+                    lastStep = t
+                }
                 when (k) {
                     // the last row goes round to the first one (same column), like the lists
                     KeyEvent.KEYCODE_DPAD_DOWN -> { if (p + COLS < items.size) moveTo(p + COLS) else if (p / COLS < (items.size - 1) / COLS) moveTo(items.size - 1) else wrapGrid(p % COLS); true }
@@ -345,11 +373,12 @@ class VodActivity : BaseActivity() {
         }
         override fun onBindViewHolder(h: H, i: Int) {
             val it = items[i]
-            (h.poster.parent as View).let { f -> val ph = posterH(); if (f.layoutParams.height != ph) { f.layoutParams.height = ph; f.requestLayout() } }
+            (h.poster.parent as View).let { f -> if (f.layoutParams.height != ph) { f.layoutParams.height = ph; f.requestLayout() } }
             h.name.text = (if (isFav(it.id)) "★ " else "") + Vod.shown(it.name)
-            h.rating.text = it.rating.toDoubleOrNull()?.let { r -> "★ " + "%.1f".format(r) } ?: ""
+            h.rating.text = ratingText(it.rating)
             h.rating.visibility = if (h.rating.text.isEmpty()) View.GONE else View.VISIBLE
-            if (it.poster.isEmpty()) h.poster.setImageResource(R.drawable.banner) else h.poster.load(it.poster) { size(240, 360); error(R.drawable.banner) }
+            if (it.poster.isEmpty()) h.poster.setImageResource(R.drawable.banner) else h.poster.load(it.poster) { size(pw, ph); error(R.drawable.banner) }
+            prefetch(i)
             val key = (if (series) "e" else "m") + it.id
             val r = resumeOf[key]; val pos = r?.get(0) ?: 0L; val dur = r?.get(1) ?: 0L
             h.progress.visibility = if (pos > 0 && !series || current == RESUME) View.VISIBLE else View.GONE

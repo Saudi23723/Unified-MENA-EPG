@@ -29,26 +29,40 @@ class App : Application(), ImageLoaderFactory {
         Backup.auto()
     }
 
-    /** once a week, by itself: leftovers are cleared (an old update file, lists of playlists no longer used, temp files).
-     *  Favorites, Continue watching, downloads and recordings are never touched. */
-    private fun tidy() {
-        if (System.currentTimeMillis() - prefs.getLong("tidy_at", 0) < 7 * 86400_000L) return
+    /** the cache is cleared by itself (owner, 10 Nov 2026), once a day: pictures not seen for 3 days, temp files, an old
+     *  update file, lists of playlists no longer used; and everything of the pictures when they pass 350 MB.
+     *  Favorites, Continue watching, settings, downloads and recordings are never touched. */
+    fun tidy(force: Boolean = false, done: ((Long) -> Unit)? = null) {
+        if (!force && System.currentTimeMillis() - prefs.getLong("tidy_at", 0) < 86400_000L) return
         prefs.edit().putLong("tidy_at", System.currentTimeMillis()).apply()
         Thread {
+            var freed = 0L
+            fun del(f: java.io.File) { val n = f.length(); if (f.delete()) freed += n }
             try {
-                val old = System.currentTimeMillis() - 14 * 86400_000L
-                java.io.File(cacheDir, "update.apk").delete()
-                java.io.File(cacheDir, "vod").walkBottomUp().forEach { if (it.isFile && it.lastModified() < old) it.delete() else if (it.isDirectory && it.list()?.isEmpty() == true) it.delete() }
-                cacheDir.listFiles()?.forEach { if (it.isFile && it.lastModified() < old) it.delete() }
+                val now = System.currentTimeMillis()
+                java.io.File(cacheDir, "update.apk").takeIf { it.isFile }?.let { del(it) }
+                // the pictures: old ones always; all of them when they grew too big (or when asked by hand)
+                val img = listOf(java.io.File(cacheDir, "img"), java.io.File(cacheDir, "logos"))
+                val size = img.sumOf { d -> d.walkBottomUp().filter { it.isFile }.sumOf { it.length() } }
+                for (d in img) d.walkBottomUp().forEach { if (it.isFile && (force || size > 350L * 1024 * 1024 || now - it.lastModified() > 3 * 86400_000L)) del(it) }
+                if (force || size > 350L * 1024 * 1024) try { imageLoader.diskCache?.clear() } catch (e: Exception) { }
+                java.io.File(cacheDir, "vod").walkBottomUp().forEach { if (it.isFile && now - it.lastModified() > 14 * 86400_000L) del(it) else if (it.isDirectory && it.list()?.isEmpty() == true) it.delete() }
+                cacheDir.listFiles()?.forEach { if (it.isFile && (force || now - it.lastModified() > 3 * 86400_000L)) del(it) }
+                if (force) try { imageLoader.memoryCache?.clear() } catch (e: Exception) { }
             } catch (e: Exception) { }
+            done?.invoke(freed)
         }.start()
     }
+    private val imageLoader by lazy { coil.Coil.imageLoader(this) }
 
     // small memory cache: the Chromecast has 2 GB for everything (Dream froze from memory pressure)
     override fun newImageLoader(): ImageLoader = ImageLoader.Builder(this)
         .okHttpClient(http)
-        .memoryCache { MemoryCache.Builder(this).maxSizeBytes(24 * 1024 * 1024).build() }
-        .diskCache { DiskCache.Builder().directory(cacheDir.resolve("logos")).maxSizeBytes(64L * 1024 * 1024).build() }
+        // posters kept decoded for the rows around (RGB 565: half the memory, the same look for pictures);
+        // kept on disk too, so a group opened again shows its posters at once
+        .memoryCache { MemoryCache.Builder(this).maxSizeBytes(48 * 1024 * 1024).build() }
+        .allowRgb565(true)
+        .diskCache { DiskCache.Builder().directory(cacheDir.resolve("img")).maxSizeBytes(250L * 1024 * 1024).build() }
         .crossfade(false)
         .respectCacheHeaders(false)
         .build()
