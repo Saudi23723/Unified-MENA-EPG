@@ -41,6 +41,8 @@ class AirportSheet(
     }
     private val wx = text("${act.getString(R.string.map_loading_wx)}")
     private val info = text("")
+    private val rose = RunwayWindView(act)
+    private val comps = LinearLayout(act).apply { orientation = LinearLayout.VERTICAL }
     private val pattern = text("", mono = true)
     private val facts = LinearLayout(act).apply {
         orientation = LinearLayout.HORIZONTAL; layoutDirection = View.LAYOUT_DIRECTION_LTR
@@ -139,7 +141,7 @@ class AirportSheet(
             addView(header(R.string.apt_sun)); addView(text(sunText(), mono = true))
             addView(header(R.string.tp_title)); addView(pattern)
         }
-        val rwyPage = page().apply { addView(header(R.string.apt_runways)); addView(info) }
+        val rwyPage = page().apply { addView(header(R.string.apt_runways)); addView(rose); addView(comps); addView(info, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(10) }) }
         val wxPage = page().apply { addView(header(R.string.apt_weather)); addView(wx) }
         val chartsPage = page()
         val chartBtns = LinearLayout(act).apply { orientation = LinearLayout.VERTICAL }
@@ -231,6 +233,7 @@ class AirportSheet(
                 badge.visibility = View.VISIBLE
             }
             info.text = runways(apt, metar)
+            windRose(apt, metar)
             pattern.text = patternText(apt, metar)
             // D-ATIS, where the field has one (towered airports): the current information, word for word.
             val atis = withContext(Dispatchers.IO) { datis(a.icao.ifEmpty { "K" + a.ident }) }
@@ -353,6 +356,75 @@ class AirportSheet(
         apt?.optString("tower")?.takeIf { it.isNotEmpty() && it != "null" }?.let { sb.append("\nTower: ${if (it == "T") "yes" else it}") }
         if (sb.isEmpty()) sb.append("—")
         return sb.toString().trim()
+    }
+
+    /**
+     * The runway picture and, under it, every runway end's wind components as cards: green
+     * into the wind, amber with a tailwind, red past the SportStar's demonstrated limits
+     * (16 kt crosswind, 6 kt tailwind, POH section 2).
+     */
+    private fun windRose(apt: JSONObject?, m: AviationData.Metar?) {
+        val rwys = apt?.optJSONArray("runways") ?: JSONArray()
+        val j = m?.json
+        val wdirTrue = j?.opt("wdir")?.toString()?.toDoubleOrNull()
+        val wspd = num(j, "wspd") ?: 0.0
+        val gust = num(j, "wgst")
+        val variation = Nav.variation(a.lat, a.lon)
+        val wMag = wdirTrue?.let { ((it - variation) % 360 + 360) % 360 }
+        val list = ArrayList<RunwayWindView.Rwy>()
+        class End(val id: String, val head: Double, val cross: Double)
+        val ends = ArrayList<End>()
+        for (i in 0 until rwys.length()) {
+            val r = rwys.optJSONObject(i) ?: continue
+            val id = r.optString("id")
+            val parts = id.split('/').filter { it.isNotBlank() }
+            val n = parts.firstOrNull()?.takeWhile { it.isDigit() }?.toIntOrNull() ?: continue
+            if (n !in 1..36) continue
+            val len = r.optString("dimension").substringBefore('x').trim().toIntOrNull() ?: 3000
+            list += RunwayWindView.Rwy(parts, n * 10.0, len)
+            if (wMag == null || wspd <= 0) continue
+            for (e in parts) {
+                val num = e.takeWhile { it.isDigit() }.toIntOrNull() ?: continue
+                val ang = Math.toRadians(wMag - num * 10.0)
+                ends += End(e, wspd * Math.cos(ang), wspd * Math.sin(ang))
+            }
+        }
+        rose.rwys = list; rose.windFromMag = wMag; rose.windKt = wspd; rose.gustKt = gust
+        rose.best = ends.maxByOrNull { it.head }?.id
+        rose.visibility = if (list.isEmpty()) View.GONE else View.VISIBLE
+        rose.invalidate()
+        comps.removeAllViews()
+        val gx = gust?.let { g -> { e: End -> Math.abs(g * e.cross / wspd) } }
+        for (e in ends.sortedByDescending { it.head }) {
+            val xw = Math.abs(e.cross); val gxw = gx?.invoke(e)
+            val tail = e.head < -0.5
+            val bad = xw > 16 || (gxw ?: 0.0) > 16 || (tail && -e.head > 6)
+            val color = when { bad -> EfbUi.BAD; tail -> EfbUi.WARN; e.id == rose.best -> EfbUi.GOOD; else -> EfbUi.ACCENT }
+            val row = LinearLayout(act).apply {
+                orientation = LinearLayout.HORIZONTAL; gravity = android.view.Gravity.CENTER_VERTICAL
+                background = EfbUi.cardBg(act); setPadding(dp(12), dp(10), dp(12), dp(10))
+            }
+            row.addView(TextView(act).apply {
+                text = e.id; textSize = 15f; setTypeface(typeface, android.graphics.Typeface.BOLD); gravity = android.view.Gravity.CENTER
+                setTextColor(0xFFFFFFFF.toInt())
+                background = android.graphics.drawable.GradientDrawable().apply { cornerRadius = dp(6).toFloat(); setColor(color) }
+                setPadding(dp(8), dp(4), dp(8), dp(4)); minWidth = dp(54)
+            })
+            val t = LinearLayout(act).apply { orientation = LinearLayout.VERTICAL; setPadding(dp(12), 0, 0, 0) }
+            t.addView(text((if (tail) "↓ Tailwind %.0f kt" else "↑ Headwind %.0f kt").format(Math.abs(e.head)) +
+                "   ⇄ Crosswind %.0f kt %s".format(xw, if (e.cross >= 0) "from the right" else "from the left") +
+                (gxw?.let { " · gusts %.0f".format(it) } ?: ""), 13.5f))
+            val note = when {
+                xw > 16 || (gxw ?: 0.0) > 16 -> "Beyond the SportStar's demonstrated 16 kt crosswind"
+                tail && -e.head > 6 -> "Beyond the SportStar's 6 kt tailwind limit"
+                tail -> "Tailwind: +4.5 % landing distance per kt (POH)"
+                e.id == rose.best -> "Favoured by the wind"
+                else -> ""
+            }
+            if (note.isNotEmpty()) t.addView(text(note, 12f).apply { setTextColor(color) })
+            row.addView(t, LinearLayout.LayoutParams(0, -2, 1f))
+            comps.addView(row, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(8) })
+        }
     }
 
     /** Pattern altitude, each runway's side, and the runway the wind favours. */

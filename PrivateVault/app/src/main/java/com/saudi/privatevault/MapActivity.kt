@@ -1780,7 +1780,7 @@ class MapActivity : BaseActivity(), NeonHost {
             Toast.makeText(this, R.string.plan_empty, Toast.LENGTH_LONG).show()
             return
         }
-        val v = ProfileView(this, plan).apply { minimumHeight = dp(260) }
+        val v = ProfileView(this, plan).apply { minimumHeight = dp(340) }
         ownship.position()?.let { here ->
             // Where along the route the aircraft is: distance flown to the nearest point of it.
             var best = Double.MAX_VALUE; var along = 0.0; var at = 0.0
