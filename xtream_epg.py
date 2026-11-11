@@ -189,10 +189,22 @@ for f in sorted(glob.glob("xtream/*/channel_map.json")):
     # same way as the others, so adding them later is easy"): the same clean names, logos and guides, in a file only
     # SAUDI.TV reads (hidden_live.json), where they come in hidden; Settings -> Arrange shows any of them. DreamTV and
     # TiviMate never see them (live_categories / live_streams above are unchanged).
-    if os.path.exists(f"{play}/channels.json"):
+    # the provider's whole list: the fresh catalog the live-patch job reads every 10 minutes (Strong, Dream4k),
+    # else the export kept in the repository (xtream/<playlist>/channels.json)
+    provider = None
+    try:
+        with urllib.request.urlopen(f"https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/live-patch/catalog/{name}.json", timeout=60) as _r:
+            _cat = json.load(_r)
+        _cn = {str(a): b for a, b in _cat.get("cats", [])}
+        provider = [{"stream_id": int(x[0]), "name": x[1] or "", "group": _cn.get(str(x[2]), ""), "epg": "", "icon": x[3] or ""}
+                    for x in _cat.get("live", []) if str(x[0]).isdigit()]
+    except Exception:
+        if os.path.exists(f"{play}/channels.json"):
+            provider = json.load(open(f"{play}/channels.json", encoding="utf-8"))
+    if provider and name in ("strong", "dream4k", "family4k"):
         shown_ids = {c["stream_id"] for c in chans}
         def hname(g):
-            m = re.match(r"^\s*\|?([A-Z]{2,4})\|?\s*\|?\s*(.*)$", g.strip())
+            m = re.match(r"^\s*\|?([A-Z]{2,4})\s*\|\s*✪?\s*(.*)$", g.strip())
             if not m or not m.group(2):
                 return g.strip()
             code, rest = m.group(1), m.group(2).strip(" |")
@@ -200,7 +212,7 @@ for f in sorted(glob.glob("xtream/*/channel_map.json")):
             flag = "".join(chr(0x1F1E6 + ord(ch) - 65) for ch in iso) if len(iso) == 2 and code not in ("AR",) else code
             return f"{flag} | {rest}"
         hcats, hstreams, hseen = [], [], set()
-        for c in json.load(open(f"{play}/channels.json", encoding="utf-8")):
+        for c in provider:
             if c["stream_id"] in shown_ids or c["stream_id"] in hseen:
                 continue
             hseen.add(c["stream_id"])
@@ -210,7 +222,7 @@ for f in sorted(glob.glob("xtream/*/channel_map.json")):
                 if cid not in {x["category_id"] for x in hcats}:
                     hcats.append({"category_id": cid, "category_name": g, "parent_id": 0})
             sp = split(official_fill.override(c["name"]) or c.get("epg") or official_fill.fill(c["name"], g))
-            icon = LOGOS.find(c["name"], g, name, sp[0] if sp else None, sp[1] if sp else None)
+            icon = LOGOS.find(c["name"], g, name, sp[0] if sp else None, sp[1] if sp else None) or c.get("icon") or ""
             hstreams.append({"num": len(streams) + len(hstreams) + 1, "name": c["name"], "stream_type": "live", "stream_id": c["stream_id"],
                              "stream_icon": icon, "epg_channel_id": sp[1] if sp else None, "category_id": cid})
             if sp:
