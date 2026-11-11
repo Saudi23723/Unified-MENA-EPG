@@ -209,6 +209,8 @@ for f in sorted(glob.glob("xtream/*/channel_map.json")):
             g = re.sub(r"\s+", " ", g).strip()
             m = re.match(r"^\s*\|?([A-Z0-9]{2,4})\s*\|\s*✪?\s*(.*)$", g)
             code, rest = (m.group(1), m.group(2).strip(" |")) if m and m.group(2) else ("", g)
+            # the provider's spelling mistakes (owner, 11 Nov 2026: "DREAM 4K MOVIS")
+            rest = re.sub(r"\bMOVIS\b", "MOVIES", re.sub(r"\bMOIVES\b|\bMOVIEES\b", "MOVIES", rest))
             if re.match(r"^[\U0001F1E6-\U0001F1FF]{2}\s*\|", g) or re.match(r"^\W{1,3}\s*\|", g):   # already "🇬🇧 | ..."
                 flag, rest = g.split("|", 1)[0].strip(), g.split("|", 1)[1].strip()
             else:
@@ -224,6 +226,9 @@ for f in sorted(glob.glob("xtream/*/channel_map.json")):
                         (r"SPORT|رياض|SOCCER|FOOTBALL|LEAGUE|\bPPV\b", "⚽")]
                 country = code and code not in ("AR", "4K", "8K") and re.fullmatch(r"[A-Z]{2,3}", code)
                 flag = None if country else next((f for r_, f in hint if re.search(r_, up)), None)
+                # the streaming brands keep their own mark whatever the country (owner: "the logo like the ones before it")
+                if re.search(r"OSN|NETFLIX|SHOOF|DISNEY|PRIME|DREAM ?4K|HBO|APPLE TV|STARZPLAY", up):
+                    flag = "🔘"
                 if not flag:
                     iso = {"UK": "GB", "EN": "GB", "USA": "US"}.get(code, code)
                     if code in ("4K", "8K"):
