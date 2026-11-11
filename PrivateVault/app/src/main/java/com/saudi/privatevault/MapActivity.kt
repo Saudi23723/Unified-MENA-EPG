@@ -1478,6 +1478,27 @@ class MapActivity : BaseActivity(), NeonHost {
     private val plateOverlays = ArrayList<org.osmdroid.views.overlay.GroundOverlay>()
 
     /**
+     * A diagram as ForeFlight lays it on the map: no white paper, a dark glass panel and the
+     * runways, taxiways and labels in light ink, readable over the chart, the satellite or the night.
+     */
+    private fun nightInk(src: android.graphics.Bitmap): android.graphics.Bitmap {
+        val w = src.width; val h = src.height
+        val px = IntArray(w * h)
+        src.getPixels(px, 0, w, 0, 0, w, h)
+        src.recycle()
+        for (i in px.indices) {
+            val c = px[i]
+            val r = (c shr 16) and 0xFF; val g = (c shr 8) and 0xFF; val b = c and 0xFF
+            val ink = 255 - (r * 30 + g * 59 + b * 11) / 100          // 0 paper … 255 black ink
+            val k = (ink * 1.4f).coerceAtMost(255f) / 255f
+            val a = (0x8C + (255 - 0x8C) * k).toInt()
+            val cr = (0x0B + (0xF2 - 0x0B) * k).toInt(); val cg = (0x12 + (0xF6 - 0x12) * k).toInt(); val cb = (0x20 + (0xFF - 0x20) * k).toInt()
+            px[i] = (a shl 24) or (cr shl 16) or (cg shl 8) or cb
+        }
+        return android.graphics.Bitmap.createBitmap(px, w, h, android.graphics.Bitmap.Config.ARGB_8888)
+    }
+
+    /**
      * Plates on maps: the official FAA airport diagrams of every field around (up to five within
      * 15 NM of the centre), each laid on the chart where it really lies, from the latitude and
      * longitude printed on its border, turned north up when it is printed turned. Again to remove.
@@ -1508,27 +1529,30 @@ class MapActivity : BaseActivity(), NeonHost {
                                 }
                             }
                         }
+                        // Leave out the title band and the footer: only the drawing goes on the map.
+                        val top = if (geo.turn == 0f) 0.085 else 0.0
+                        val bot = if (geo.turn == 0f) 0.925 else 1.0
+                        val y0 = (bmp.height * top).toInt(); val y1 = (bmp.height * bot).toInt()
+                        if (top > 0 || bot < 1) bmp = android.graphics.Bitmap.createBitmap(bmp, 0, y0, bmp.width, y1 - y0)
                         // The page's corners on the ground; a chart printed turned is turned back, north up.
-                        val corners = listOf(geo.ground(0.0, 0.0), geo.ground(1.0, 0.0), geo.ground(1.0, 1.0), geo.ground(0.0, 1.0))
+                        val corners = listOf(geo.ground(0.0, top), geo.ground(1.0, top), geo.ground(1.0, bot), geo.ground(0.0, bot))
                         val north = corners.maxOf { it[0] }; val south = corners.minOf { it[0] }
                         val west = corners.minOf { it[1] }; val east = corners.maxOf { it[1] }
                         val turn = -geo.turn
                         if (turn != 0f) bmp = android.graphics.Bitmap.createBitmap(bmp, 0, 0, bmp.width, bmp.height,
                             android.graphics.Matrix().apply { postRotate(turn) }, true)
-                        // Half the memory: five diagrams at once must fit.
-                        val small = bmp.copy(android.graphics.Bitmap.Config.RGB_565, false); bmp.recycle()
-                        Triple(small, GeoPoint(north, west), GeoPoint(south, east))
+                        Triple(nightInk(bmp), GeoPoint(north, west), GeoPoint(south, east))
                     } catch (e: Throwable) { null }
                 } ?: continue
                 val o = org.osmdroid.views.overlay.GroundOverlay().apply {
                     image = made.first
                     setPosition(made.second, made.third)
-                    transparency = 0.12f
+                    transparency = 0f
                 }
                 // Under the aircraft, the route and traffic.
                 map.overlays.add(1.coerceAtMost(map.overlays.size), o)
                 plateOverlays += o
-                if (placed == 0) map.controller.animateTo(GeoPoint(cand.lat, cand.lon), maxOf(map.zoomLevelDouble, 13.5), 800L)
+                if (placed == 0) map.controller.animateTo(GeoPoint(cand.lat, cand.lon), maxOf(map.zoomLevelDouble, 15.0), 800L)
                 placed++
                 map.invalidate()
             }
