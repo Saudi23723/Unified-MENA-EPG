@@ -360,7 +360,7 @@ export default {
             const have = new Set(L.map((x) => String(x.stream_id)));
             for (const e of pt.extra) for (const x of e.items) if (!have.has(String(x.stream_id)))
               L.push({ num: 95000 + k++, name: x.name, stream_type: "live", stream_id: x.stream_id, stream_icon: x.stream_icon,
-                epg_channel_id: null, added: "0", category_id: e.id, custom_sid: "", tv_archive: 0, direct_source: "", tv_archive_duration: 0 });
+                epg_channel_id: null, added: "0", category_id: e.id, category_name: e.name, custom_sid: "", tv_archive: 0, direct_source: "", tv_archive_duration: 0 });
           }
           return json(L, 120);
         } catch (e) {

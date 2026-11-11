@@ -106,6 +106,10 @@ object Api {
         return true
     }
 
+    /** a group the list of groups did not name (the two lists are read a moment apart): the name the channel carries,
+     *  else what the relay's extra event groups (91xx) are, never a bare "Other" twice */
+    fun unlisted(cat: String, name: String) = name.trim().ifEmpty { if (Regex("^91\\d\\d$").matches(cat)) "🔥 PPV ᴇᴠᴇɴᴛꜱ" else "Other" }
+
     private fun build(cats: InputStream, streams: InputStream) {
         val order = ArrayList<Group>(); val map = HashMap<String, Group>()
         JsonReader(InputStreamReader(cats, Charsets.UTF_8)).use { j ->
@@ -127,7 +131,7 @@ object Api {
         JsonReader(InputStreamReader(streams, Charsets.UTF_8)).use { j ->
             j.beginArray()
             while (j.hasNext()) {
-                var id = 0; var num = 0; var name = ""; var logo = ""; var epg = ""; var cat = ""
+                var id = 0; var num = 0; var name = ""; var logo = ""; var epg = ""; var cat = ""; var catName = ""
                 j.beginObject()
                 while (j.hasNext()) when (j.nextName()) {
                     "stream_id" -> id = str(j).toIntOrNull() ?: 0
@@ -136,13 +140,14 @@ object Api {
                     "stream_icon" -> logo = str(j)
                     "epg_channel_id" -> epg = str(j)
                     "category_id" -> cat = str(j)
+                    "category_name" -> catName = str(j)
                     else -> j.skipValue()
                 }
                 j.endObject()
                 if (id == 0 || ids.containsKey(id)) continue
                 val ch = Channel(id, if (num > 0) num else all.size + 1, name.trim(), logo, epg, cat)
                 ids[id] = ch; all.add(ch)
-                (map[cat] ?: map.getOrPut(cat) { Group(cat, "Other").also { order.add(it) } }).channels.add(ch)
+                (map[cat] ?: map.getOrPut(cat) { Group(cat, unlisted(cat, catName)).also { order.add(it) } }).channels.add(ch)
             }
             j.endArray()
         }
@@ -202,14 +207,18 @@ object Api {
     }
 
     // ---- guide: the repo's per-channel files (xtream-data branch), one small file per channel ----
-    private val maps = ConcurrentHashMap<Int, Map<String, String>>()
-    private val epg = ConcurrentHashMap<Int, Pair<Long, List<Program>>>()
+    // kept per playlist: after a change of playlist the guides of the one before were looked up for the new
+    // channels, and every channel said "No guide" (Argon, 9 Nov 2026)
+    private val maps = ConcurrentHashMap<String, Map<String, String>>()
+    private val epg = ConcurrentHashMap<String, Pair<Long, List<Program>>>()
 
     fun guide(c: Channel): List<Program> {
         val now = System.currentTimeMillis()
-        epg[c.id]?.let { if (now - it.first < 30 * 60_000) return it.second }
+        val k = Prefs.playlist + "/" + Prefs.server.hashCode() + "/" + c.id
+        // a guide that came back empty (or failed) is asked for again after 2 minutes, not half an hour
+        epg[k]?.let { if (now - it.first < (if (it.second.isEmpty()) 2 else 30) * 60_000) return it.second }
         val list = try { fromRepo(c) ?: fromServer(c) } catch (e: Exception) { emptyList() }
-        epg[c.id] = now to list
+        epg[k] = now to list
         return list
     }
 
@@ -217,10 +226,11 @@ object Api {
         val pl = Prefs.playlist
         if (pl.isEmpty()) return null
         val bucket = c.id % 256
-        val m = maps[bucket] ?: get("$DATA" + "map/$pl/$bucket.json").use { r ->
+        val m = maps["$pl/$bucket"] ?: get("$DATA" + "map/$pl/$bucket.json").use { r ->
+            if (!r.isSuccessful) throw java.io.IOException("HTTP ${r.code}")
             val o = JSONObject(r.body!!.string())
             o.keys().asSequence().associateWith { o.getString(it) }
-        }.also { maps[bucket] = it }
+        }.also { maps["$pl/$bucket"] = it }
         val file = m[c.id.toString()] ?: return emptyList()
         return get("$DATA" + "epg/$file.json").use { r -> parse(r.body!!.byteStream()) }
     }
