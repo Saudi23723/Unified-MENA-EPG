@@ -1475,31 +1475,33 @@ class MapActivity : BaseActivity(), NeonHost {
         prefs.edit().putBoolean("svt_split", true).apply()
     }
 
-    private var plateOverlay: org.osmdroid.views.overlay.GroundOverlay? = null
+    private val plateOverlays = ArrayList<org.osmdroid.views.overlay.GroundOverlay>()
 
     /**
-     * Plates on maps: the official FAA airport diagram of the field nearest the centre, laid on the
-     * chart where it really lies (from the latitude and longitude printed on its border); again to remove.
+     * Plates on maps: the official FAA airport diagrams of every field around (up to five within
+     * 15 NM of the centre), each laid on the chart where it really lies, from the latitude and
+     * longitude printed on its border, turned north up when it is printed turned. Again to remove.
      */
     private fun plateOnMap() {
-        plateOverlay?.let { map.overlays.remove(it); plateOverlay = null; map.invalidate(); return }
+        if (plateOverlays.isNotEmpty()) { map.overlays.removeAll(plateOverlays.toSet()); plateOverlays.clear(); map.invalidate(); return }
         val c = map.mapCenter
-        // The nearest fields first; a heliport or a private strip has no diagram, so try the next.
-        val near = airports.sortedBy { Nav.distanceNm(c.latitude, c.longitude, it.lat, it.lon) }.take(8)
+        val near = airports.map { it to Nav.distanceNm(c.latitude, c.longitude, it.lat, it.lon) }
+            .filter { it.second <= 15 }.sortedBy { it.second }.map { it.first }.take(14)
         Toast.makeText(this, getString(R.string.apt_plates_loading), Toast.LENGTH_SHORT).show()
         lifecycleScope.launch {
-            var apt = near.firstOrNull() ?: return@launch
-            val made = withContext(Dispatchers.IO) {
-                for (cand in near) {
+            var placed = 0
+            for (cand in near) {
+                if (placed >= 5) break
+                val made = withContext(Dispatchers.IO) {
                     try {
-                        val res = AviationData.plates(this@MapActivity, cand.ident) ?: continue
-                        val apd = res.second.firstOrNull { it.code == "APD" } ?: continue
-                        val f = AviationData.platePdf(this@MapActivity, res.first, apd.pdf) ?: continue
-                        val geo = PdfLinks.open(this@MapActivity, f)?.use { it.georef(0) } ?: continue
+                        val res = AviationData.plates(this@MapActivity, cand.ident) ?: return@withContext null
+                        val apd = res.second.firstOrNull { it.code == "APD" } ?: return@withContext null
+                        val f = AviationData.platePdf(this@MapActivity, res.first, apd.pdf) ?: return@withContext null
+                        val geo = PdfLinks.open(this@MapActivity, f)?.use { it.georef(0) } ?: return@withContext null
                         val pfd = android.os.ParcelFileDescriptor.open(f, android.os.ParcelFileDescriptor.MODE_READ_ONLY)
                         var bmp = android.graphics.pdf.PdfRenderer(pfd).use { r ->
                             r.openPage(0).use { pg ->
-                                val w = 1600; val h = (w.toFloat() * pg.height / pg.width).toInt()
+                                val w = 1200; val h = (w.toFloat() * pg.height / pg.width).toInt()
                                 android.graphics.Bitmap.createBitmap(w, h, android.graphics.Bitmap.Config.ARGB_8888).also {
                                     it.eraseColor(android.graphics.Color.WHITE)
                                     pg.render(it, null, null, android.graphics.pdf.PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY)
@@ -1513,22 +1515,24 @@ class MapActivity : BaseActivity(), NeonHost {
                         val turn = -geo.turn
                         if (turn != 0f) bmp = android.graphics.Bitmap.createBitmap(bmp, 0, 0, bmp.width, bmp.height,
                             android.graphics.Matrix().apply { postRotate(turn) }, true)
-                        apt = cand
-                        return@withContext Triple(bmp, GeoPoint(north, west), GeoPoint(south, east))
-                    } catch (e: Exception) { continue }
+                        // Half the memory: five diagrams at once must fit.
+                        val small = bmp.copy(android.graphics.Bitmap.Config.RGB_565, false); bmp.recycle()
+                        Triple(small, GeoPoint(north, west), GeoPoint(south, east))
+                    } catch (e: Throwable) { null }
+                } ?: continue
+                val o = org.osmdroid.views.overlay.GroundOverlay().apply {
+                    image = made.first
+                    setPosition(made.second, made.third)
+                    transparency = 0.12f
                 }
-                null
+                // Under the aircraft, the route and traffic.
+                map.overlays.add(1.coerceAtMost(map.overlays.size), o)
+                plateOverlays += o
+                if (placed == 0) map.controller.animateTo(GeoPoint(cand.lat, cand.lon), maxOf(map.zoomLevelDouble, 13.5), 800L)
+                placed++
+                map.invalidate()
             }
-            if (made == null) { Toast.makeText(this@MapActivity, R.string.plate_on_map_none, Toast.LENGTH_LONG).show(); return@launch }
-            val o = org.osmdroid.views.overlay.GroundOverlay().apply {
-                image = made.first
-                setPosition(made.second, made.third)
-                transparency = 0.12f
-            }
-            // Under the aircraft, the route and traffic.
-            map.overlays.add(1.coerceAtMost(map.overlays.size), o)
-            plateOverlay = o
-            map.controller.animateTo(GeoPoint(apt.lat, apt.lon), maxOf(map.zoomLevelDouble, 14.5), 800L)
+            if (placed == 0) Toast.makeText(this@MapActivity, R.string.plate_on_map_none, Toast.LENGTH_LONG).show()
         }
     }
 

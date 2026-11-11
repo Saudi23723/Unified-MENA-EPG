@@ -94,7 +94,35 @@ class AnnotatedPageView @JvmOverloads constructor(
     private val shipFill = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0xFF00E5FF.toInt() }
     private val shipEdge = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0xFF000000.toInt(); style = Paint.Style.STROKE; strokeJoin = Paint.Join.ROUND }
 
+    /** Other aircraft on a georeferenced chart: x, y (page fractions), track, and a label each. */
+    var traffic: List<Pair<FloatArray, String>> = emptyList()
+        set(v) { field = v; invalidate() }
+    private val tfFill = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0xFFFFB020.toInt() }
+    private val tfText = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0xFF111111.toInt(); isFakeBoldText = true }
+    private val tfHalo = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0xEEFFFFFF.toInt(); style = Paint.Style.STROKE; isFakeBoldText = true }
+
+    private fun drawTraffic(c: Canvas) {
+        val d = resources.displayMetrics.density
+        for ((o, label) in traffic) {
+            if (o[0] < -0.05f || o[0] > 1.05f || o[1] < -0.05f || o[1] > 1.05f) continue
+            val p = floatArrayOf(o[0] * pageW(), o[1] * pageH())
+            imageMatrix.mapPoints(p)
+            val r = 9 * d
+            c.save(); c.translate(p[0], p[1]); c.rotate(o[2])
+            val path = android.graphics.Path().apply { moveTo(0f, -r); lineTo(r * 0.7f, r * 0.7f); lineTo(0f, r * 0.3f); lineTo(-r * 0.7f, r * 0.7f); close() }
+            shipEdge.strokeWidth = 2f * d
+            c.drawPath(path, shipEdge); c.drawPath(path, tfFill)
+            c.restore()
+            tfText.textSize = 11 * d; tfHalo.textSize = 11 * d; tfHalo.strokeWidth = 3 * d
+            label.split('\n').forEachIndexed { i, s ->
+                c.drawText(s, p[0] + 11 * d, p[1] - 2 * d + i * 12 * d, tfHalo)
+                c.drawText(s, p[0] + 11 * d, p[1] - 2 * d + i * 12 * d, tfText)
+            }
+        }
+    }
+
     private fun drawOwnship(c: Canvas) {
+        drawTraffic(c)
         val o = ownship ?: return
         if (o[0] < -0.05f || o[0] > 1.05f || o[1] < -0.05f || o[1] > 1.05f) return
         val p = floatArrayOf(o[0] * pageW(), o[1] * pageH())

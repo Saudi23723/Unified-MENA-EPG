@@ -118,6 +118,8 @@ class AirportDiagramActivity : BaseActivity() {
         // The flight plan, the same magenta line (green where flown) as on the chart.
         val plan = FlightPlan.load(this)
         if (plan.points.size > 1 || plan.direct != null) map.overlays.add(RouteOverlay(map, { plan }, { ownship.position() }))
+        // Everyone around the field: on the ground, in the pattern, arriving (ADS-B).
+        map.overlays.add(TrafficOverlay(map) { ownship.fix?.takeIf { it.hasAltitude() }?.altitude?.times(3.28084) })
         ownship = OwnshipOverlay(map, airplane()).apply { onUserPan = { stopFollowing() } }
         map.overlays.add(ownship)
         map.setOnTouchListener { _, e -> if (e.actionMasked == MotionEvent.ACTION_MOVE) stopFollowing(); false }
@@ -281,15 +283,27 @@ class AirportDiagramActivity : BaseActivity() {
     }
     private var followChip: TextView? = null
 
+    private var trafficJob: kotlinx.coroutines.Job? = null
+
     override fun onResume() {
         super.onResume()
         map.onResume()
         map.removeCallbacks(frame)
         map.post(frame)
+        trafficJob?.cancel()
+        trafficJob = lifecycleScope.launch {
+            while (true) {
+                val c = map.mapCenter
+                kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) { Traffic.prune(); Traffic.fetch(c.latitude, c.longitude, 12) }
+                map.invalidate()
+                kotlinx.coroutines.delay(6000)
+            }
+        }
     }
 
     override fun onPause() {
         super.onPause()
+        trafficJob?.cancel()
         map.onPause()
         map.removeCallbacks(frame)
     }

@@ -1301,6 +1301,7 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
     private fun useGeo(g: PdfLinks.Geo?) {
         geoNow = g
         if (g == null) { b.page.ownship = null; stopGps(); return }
+        watchTraffic(g)
         val ok = androidx.core.content.ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == android.content.pm.PackageManager.PERMISSION_GRANTED
         if (!ok) return
         if (lm == null) {
@@ -1320,6 +1321,28 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
     private fun stopGps() {
         try { lm?.removeUpdates(gps) } catch (e: Exception) {}
         lm = null
+        trafficJob?.cancel(); trafficJob = null
+        b.page.traffic = emptyList()
+    }
+
+    private var trafficJob: kotlinx.coroutines.Job? = null
+
+    /** Everyone around a georeferenced chart (ADS-B), every few seconds while it is shown. */
+    private fun watchTraffic(g: PdfLinks.Geo) {
+        trafficJob?.cancel()
+        trafficJob = lifecycleScope.launch {
+            val c = g.ground(0.5, 0.5)
+            while (true) {
+                withContext(Dispatchers.IO) { Traffic.prune(); Traffic.fetch(c[0], c[1], 12) }
+                if (geoNow !== g) break
+                b.page.traffic = Traffic.targets.values.map { t ->
+                    val p = g.at(t.lat, t.lon)
+                    val alt = t.altFt?.let { if (it <= 0) "GND" else "%,d ft".format(it) } ?: ""
+                    floatArrayOf(p[0], p[1], t.track.toFloat() + g.turn) to listOf(t.call.ifEmpty { t.id.uppercase() } + if (t.type.isNotEmpty()) " ${t.type}" else "", alt).filter { it.isNotBlank() }.joinToString("\n")
+                }
+                kotlinx.coroutines.delay(6000)
+            }
+        }
     }
 
     // ---- 💭 notes pinned to words: a number on the page, the note behind it (typed, or written and drawn) ----
