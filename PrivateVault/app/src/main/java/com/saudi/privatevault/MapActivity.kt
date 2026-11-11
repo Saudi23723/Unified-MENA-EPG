@@ -1219,7 +1219,8 @@ class MapActivity : BaseActivity(), NeonHost {
                 val text = "⏱ %d:%02d:%02d".format(t / 3600, t / 60 % 60, t % 60)
                 if (b.toolbar.subtitle?.toString() != text) b.toolbar.subtitle = text
             }
-            if (now - lastTraffic > 10000) { lastTraffic = now; pollTraffic() }
+            // Every 5 s, as close to live as the networks are.
+            if (now - lastTraffic > 5000) { lastTraffic = now; pollTraffic() }
             if (following && now - lastIdle > 15000) {
                 lastIdle = now
                 idle()

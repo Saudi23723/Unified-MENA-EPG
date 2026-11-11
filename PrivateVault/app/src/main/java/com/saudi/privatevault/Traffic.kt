@@ -36,12 +36,29 @@ object Traffic {
 
     // ---- internet ----
 
-    /** Aircraft within [radiusNm] from airplanes.live (call off the main thread). */
+    // Three free ADS-B networks fed by receivers on the ground; the one that answered last is asked first.
+    private val SOURCES = listOf(
+        "https://api.airplanes.live/v2/point/%.4f/%.4f/%d",
+        "https://opendata.adsb.fi/api/v2/lat/%.4f/lon/%.4f/dist/%d",
+        "https://api.adsb.lol/v2/point/%.4f/%.4f/%d",
+    )
+    @Volatile private var good = 0
+    /** Which network the traffic came from last, for the map's label. */
+    @Volatile var source = ""
+
+    /** Aircraft within [radiusNm] from the ADS-B networks (call off the main thread). */
     fun fetch(lat: Double, lon: Double, radiusNm: Int = 40) {
         if (System.currentTimeMillis() - receiverSeen < 15000) return
         try {
-            val j = JSONObject(AviationData.get("https://api.airplanes.live/v2/point/%.4f/%.4f/%d".format(java.util.Locale.US, lat, lon, radiusNm), 15000))
-            val ac = j.optJSONArray("ac") ?: return
+            var text: String? = null
+            for (k in SOURCES.indices) {
+                val i = (good + k) % SOURCES.size
+                text = try { AviationData.get(SOURCES[i].format(java.util.Locale.US, lat, lon, radiusNm), 6000) } catch (e: Exception) { null }
+                if (text != null && text.trimStart().startsWith("{")) { good = i; source = java.net.URI(SOURCES[i]).host; break }
+                text = null
+            }
+            val j = JSONObject(text ?: return)
+            val ac = j.optJSONArray("ac") ?: j.optJSONArray("aircraft") ?: return
             val now = System.currentTimeMillis()
             for (i in 0 until ac.length()) {
                 val o = ac.getJSONObject(i)
