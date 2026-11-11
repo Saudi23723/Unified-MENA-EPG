@@ -32,8 +32,6 @@ class HomeActivity : BaseActivity() {
         findViewById<TextView>(R.id.footer).text = "Version " + BuildConfig.VERSION_NAME
 
         buildCards()
-        // the first opening on this device: the welcome and a short tour (again from Settings → How to use)
-        if (!Intro.seen && Prefs.ready) Intro.show(this)
         lifecycleScope.launch {
             val clock = findViewById<TextView>(R.id.clock); val date = findViewById<TextView>(R.id.date); val hello = findViewById<TextView>(R.id.hello)
             val tf = SimpleDateFormat("h:mm a", Locale.ENGLISH); val df = SimpleDateFormat("EEEE d MMMM", Locale.ENGLISH)
@@ -55,6 +53,7 @@ class HomeActivity : BaseActivity() {
     private fun dp(v: Float) = (v * d).toInt()
     private val k by lazy { if (isTouch) 0.8f else 1f }
     private var liveName: TextView? = null
+    private var liveCard: View? = null
     private var liveNow: TextView? = null
     private var liveBar: android.widget.ProgressBar? = null
     private val SLATE = 0xFF141B2B.toInt()
@@ -175,6 +174,7 @@ class HomeActivity : BaseActivity() {
             max = 1000; progressDrawable = resources.getDrawable(R.drawable.progress_white, theme); visibility = View.INVISIBLE
         }.also { live.addView(it, LinearLayout.LayoutParams(-1, dp(4f)).apply { topMargin = dp(12f) }) }
         live.setOnClickListener { open(LiveActivity::class.java) }
+        liveCard = live
         focusFx(live, grad(0xFF0F766E.toInt(), 0xFF134E6F.toInt(), 26f), grad(0xFF10B981.toInt(), 0xFF0EA5E9.toInt(), 26f), 26f)
         main.addView(live, LinearLayout.LayoutParams(0, h, 1.15f).apply { marginEnd = dp(18f) })
 
@@ -231,6 +231,18 @@ class HomeActivity : BaseActivity() {
             BaseActivity.cameBack = false
             if (Prefs.ready && App.prefs.contains("last_channel") && App.prefs.getBoolean("open_last", false)) {
                 startActivity(Intent(this, LiveActivity::class.java).putExtra("channel", Prefs.lastChannel)); return
+            }
+            // every time the app opens: the welcome, then Home comes up (and the first time the short tour)
+            if (Prefs.ready) {
+                val col = findViewById<View>(R.id.homeCol)
+                col.alpha = 0f
+                Welcome.show(this) {
+                    col.translationY = dp(26f).toFloat()
+                    col.animate().alpha(1f).translationY(0f).setStartDelay(150).setDuration(650)
+                        .setInterpolator(android.view.animation.PathInterpolator(0.2f, 0f, 0f, 1f)).start()
+                    liveCard?.requestFocus()
+                    if (!Intro.seen) Intro.show(this)
+                }
             }
         }
         if (!Prefs.ready) { startActivity(Intent(this, SetupActivity::class.java)); return }

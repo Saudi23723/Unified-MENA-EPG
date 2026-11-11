@@ -18,13 +18,19 @@ import kotlinx.coroutines.withContext
 
 /** Arrange like TiviMate (owner, 11 Nov 2026): Live TV / Movies / Series on top; the groups on the left
  *  (every group, the hidden ones too, marked ✕); the channels of the group on the right, each one shown or hidden.
- *  OK on a group: its channels. Hold OK (or MENU) on a group: move it, hide or show it. OK on a channel: hide / show. */
+ *  OK on a group: its channels. OK on a channel: hide / show.
+ *  Hold OK on a group or a channel: "Move" picks it up (it turns green and locked), ▲▼ carry it one place,
+ *  ◀▶ ten places, OK drops it there (owner: "instead of pressing 10 times, lock it, put it where I want, release"). */
 class ArrangeActivity : BaseActivity() {
     private val d by lazy { resources.displayMetrics.density }
     private var tab = 0                       // 0 Live TV, 1 Movies, 2 Series
     private var groups: List<Pair<String, String>> = emptyList()   // id, name
     private var chans: List<Channel> = emptyList()
     private var open = -1
+    /** what is picked up and carried: the group (left) or the channel (right) at this place, -1 = nothing */
+    private var gMove = -1
+    private var cMove = -1
+    private val moveBg by lazy { android.graphics.drawable.GradientDrawable().apply { cornerRadius = 10 * d; setColor(getColor(R.color.accent)) } }
     private lateinit var gRv: RecyclerView
     private lateinit var cRv: RecyclerView
     private lateinit var cTitle: TextView
@@ -52,7 +58,7 @@ class ArrangeActivity : BaseActivity() {
         }
         root.addView(tabRow)
         root.addView(TextView(this).apply {
-            text = "OK on a group: its channels  ·  Hold OK or MENU: move / hide the group  ·  OK on a channel: hide / show"
+            text = "OK on a group: its channels  ·  OK on a channel: hide / show  ·  Hold OK: Move — ▲▼ one place, ◀▶ ten places, OK to drop"
             textSize = 13f; setTextColor(0xFF9AA3AF.toInt()); setPadding(0, 0, 0, px(8))
         })
         val cols = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
@@ -72,7 +78,7 @@ class ArrangeActivity : BaseActivity() {
     private fun px(v: Int) = (v * d).toInt()
 
     private fun pick(t: Int) {
-        tab = t; open = -1; chans = emptyList(); cAd.notifyDataSetChanged()
+        tab = t; open = -1; gMove = -1; cMove = -1; chans = emptyList(); cAd.notifyDataSetChanged()
         tabs.forEachIndexed { i, v -> v.isSelected = i == t; v.alpha = if (i == t) 1f else 0.6f }
         cTitle.text = if (t == 0) "Pick a group to see its channels" else "Movies and series: groups can be moved or hidden"
         lifecycleScope.launch {
@@ -106,11 +112,11 @@ class ArrangeActivity : BaseActivity() {
 
     private fun groupMenu(i: Int) {
         val (id, name) = groups[i]; val hidden = isHid(id)
-        AlertDialog.Builder(this).setTitle(name).setItems(arrayOf("▲  Move up", "▼  Move down", "⤒  Move to the top", "⤓  Move to the end",
+        AlertDialog.Builder(this).setTitle(name).setItems(arrayOf("✥  Move  (pick it up, ▲▼ to carry, OK to drop)", "⤒  Move to the top", "⤓  Move to the end",
             if (hidden) "👁  Show this group" else "✕  Hide this group")) { _, a ->
             when (a) {
-                0 -> move(i, i - 1); 1 -> move(i, i + 1); 2 -> move(i, 0); 3 -> move(i, groups.size - 1)
-                4 -> {
+                0 -> pickGroup(i); 1 -> { move(i, 0); saveGroups() }; 2 -> { move(i, groups.size - 1); saveGroups() }
+                3 -> {
                     if (tab == 0) Arrange.setHidden(id, !hidden)
                     else { val h = Arrange.vodHidden(tab == 2); Arrange.setVodHidden(tab == 2, if (hidden) h - id else h + id) }
                     changed(); gAd.notifyItemChanged(i)
@@ -119,13 +125,79 @@ class ArrangeActivity : BaseActivity() {
         }.show()
     }
 
-    private fun move(from: Int, to0: Int) {
-        val to = to0.coerceIn(0, groups.size - 1); if (to == from) return
+    /** carry the group from one place to another (the row keeps the focus while it moves) */
+    private fun move(from: Int, to0: Int): Int {
+        val to = to0.coerceIn(0, groups.size - 1); if (to == from) return from
         val l = groups.toMutableList(); val g = l.removeAt(from); l.add(to, g); groups = l
-        val ids = l.map { it.first }
-        if (tab == 0) Arrange.order = ids else Arrange.setVodOrder(tab == 2, ids)
-        changed(); gAd.notifyDataSetChanged()
+        if (open == from) open = to else if (open in minOf(from, to)..maxOf(from, to)) open += if (to > from) -1 else 1
+        gAd.notifyItemMoved(from, to); gAd.notifyItemChanged(to)
         gRv.scrollToPosition(to); gRv.post { gRv.findViewHolderForAdapterPosition(to)?.itemView?.requestFocus() }
+        return to
+    }
+    private fun saveGroups() {
+        val ids = groups.map { it.first }
+        if (tab == 0) Arrange.order = ids else Arrange.setVodOrder(tab == 2, ids)
+        changed()
+    }
+    private fun pickGroup(i: Int) { cMove = -1; gMove = i; gAd.notifyItemChanged(i); toast("✥ Picked up — ▲▼ one place · ◀▶ ten places · OK to drop") }
+    private fun pickChan(i: Int) { gMove = -1; cMove = i; cAd.notifyItemChanged(i); toast("✥ Picked up — ▲▼ one place · ◀▶ ten places · OK to drop") }
+    private fun toast(t: String) = android.widget.Toast.makeText(this, t, android.widget.Toast.LENGTH_SHORT).show()
+
+    private fun moveChan(from: Int, to0: Int): Int {
+        val to = to0.coerceIn(0, chans.size - 1); if (to == from) return from
+        val l = chans as? MutableList<Channel> ?: return from
+        val c = l.removeAt(from); l.add(to, c)
+        cAd.notifyItemMoved(from, to); cAd.notifyItemChanged(to)
+        cRv.scrollToPosition(to); cRv.post { cRv.findViewHolderForAdapterPosition(to)?.itemView?.requestFocus() }
+        return to
+    }
+    private fun dropChan() {
+        val i = cMove; cMove = -1; if (i >= 0) cAd.notifyItemChanged(i)
+        if (open >= 0) { Arrange.setChanOrder(groups[open].first, chans.map { it.id.toString() }); Api.groups = emptyList() }
+    }
+    private fun dropGroup() { val i = gMove; gMove = -1; if (i >= 0) gAd.notifyItemChanged(i); saveGroups() }
+
+    /** while something is picked up, the remote carries it */
+    override fun dispatchKeyEvent(e: KeyEvent): Boolean {
+        if ((gMove < 0 && cMove < 0) || e.action != KeyEvent.ACTION_DOWN) {
+            return if ((gMove >= 0 || cMove >= 0) && e.action == KeyEvent.ACTION_UP && e.keyCode in keys) true else super.dispatchKeyEvent(e)
+        }
+        val step = when (e.keyCode) {
+            KeyEvent.KEYCODE_DPAD_UP -> -1; KeyEvent.KEYCODE_DPAD_DOWN -> 1
+            KeyEvent.KEYCODE_DPAD_LEFT, KeyEvent.KEYCODE_PAGE_UP, KeyEvent.KEYCODE_CHANNEL_UP -> -10
+            KeyEvent.KEYCODE_DPAD_RIGHT, KeyEvent.KEYCODE_PAGE_DOWN, KeyEvent.KEYCODE_CHANNEL_DOWN -> 10
+            else -> 0
+        }
+        if (step != 0) {
+            if (gMove >= 0) gMove = move(gMove, gMove + step) else cMove = moveChan(cMove, cMove + step)
+            return true
+        }
+        if (e.keyCode in setOf(KeyEvent.KEYCODE_DPAD_CENTER, KeyEvent.KEYCODE_ENTER, KeyEvent.KEYCODE_BACK, KeyEvent.KEYCODE_NUMPAD_ENTER)) {
+            if (gMove >= 0) dropGroup() else dropChan()
+            toast("✓ Dropped here")
+            return true
+        }
+        return true
+    }
+    private val keys = setOf(KeyEvent.KEYCODE_DPAD_UP, KeyEvent.KEYCODE_DPAD_DOWN, KeyEvent.KEYCODE_DPAD_LEFT, KeyEvent.KEYCODE_DPAD_RIGHT,
+        KeyEvent.KEYCODE_DPAD_CENTER, KeyEvent.KEYCODE_ENTER, KeyEvent.KEYCODE_BACK, KeyEvent.KEYCODE_NUMPAD_ENTER)
+
+    private fun chanMenu(i: Int) {
+        val c = chans[i]; val hidden = c.id.toString() in Arrange.hiddenChannels
+        AlertDialog.Builder(this).setTitle(c.name).setItems(arrayOf("✥  Move  (pick it up, ▲▼ to carry, OK to drop)", "⤒  Move to the top", "⤓  Move to the end",
+            if (hidden) "✓  Show this channel" else "✕  Hide this channel")) { _, a ->
+            when (a) {
+                0 -> pickChan(i)
+                1 -> { cMove = moveChan(i, 0); dropChan() }
+                2 -> { cMove = moveChan(i, chans.size - 1); dropChan() }
+                3 -> toggleChan(i)
+            }
+        }.show()
+    }
+    private fun toggleChan(i: Int) {
+        val id = chans[i].id.toString(); val hc = Arrange.hiddenChannels
+        Arrange.hiddenChannels = if (id in hc) hc - id else hc + id
+        Api.groups = emptyList(); cAd.notifyItemChanged(i); if (open >= 0) gAd.notifyItemChanged(open)
     }
 
     private fun row(p: ViewGroup) = TextView(p.context).apply {
@@ -152,8 +224,11 @@ class ArrangeActivity : BaseActivity() {
         override fun onBindViewHolder(h: RecyclerView.ViewHolder, i: Int) {
             val (id, name) = groups[i]; val hidden = isHid(id)
             val hc = if (tab == 0) Api.rawGroups.firstOrNull { it.id == id }?.channels?.count { it.id.toString() in Arrange.hiddenChannels } ?: 0 else 0
-            (h.itemView as TextView).text = (if (hidden) "✕   " else "👁   ") + name + (if (hc > 0) "   ($hc hidden)" else "") + (if (i == open) "   ▸" else "")
-            h.itemView.alpha = if (hidden) 0.5f else 1f
+            val mv = i == gMove
+            (h.itemView as TextView).text = (if (mv) "⇅   " else if (hidden) "✕   " else "👁   ") + name + (if (hc > 0) "   ($hc hidden)" else "") + (if (i == open) "   ▸" else "")
+            h.itemView.alpha = if (hidden && !mv) 0.5f else 1f
+            if (mv) { h.itemView.background = moveBg; (h.itemView as TextView).setTextColor(0xFF0B0E14.toInt()) }
+            else { h.itemView.setBackgroundResource(R.drawable.item_bg); (h.itemView as TextView).setTextColor(getColorStateList(R.color.on_focus)) }
         }
     }
 
@@ -161,23 +236,22 @@ class ArrangeActivity : BaseActivity() {
         override fun getItemCount() = chans.size
         override fun onCreateViewHolder(p: ViewGroup, t: Int): RecyclerView.ViewHolder {
             val v = row(p); val h = object : RecyclerView.ViewHolder(v) {}
-            v.setOnClickListener {
-                val i = h.bindingAdapterPosition; if (i < 0) return@setOnClickListener
-                val id = chans[i].id.toString(); val hc = Arrange.hiddenChannels
-                Arrange.hiddenChannels = if (id in hc) hc - id else hc + id
-                Api.groups = emptyList(); notifyItemChanged(i); if (open >= 0) gAd.notifyItemChanged(open)
-            }
+            v.setOnClickListener { val i = h.bindingAdapterPosition; if (i >= 0) toggleChan(i) }
+            v.setOnLongClickListener { val i = h.bindingAdapterPosition; if (i >= 0) chanMenu(i); true }
             v.setOnKeyListener { _, k, e ->
-                if (e.action == KeyEvent.ACTION_DOWN && k == KeyEvent.KEYCODE_DPAD_LEFT && open >= 0) {
+                if (e.action == KeyEvent.ACTION_DOWN && k == KeyEvent.KEYCODE_MENU) { val i = h.bindingAdapterPosition; if (i >= 0) chanMenu(i); true }
+                else if (e.action == KeyEvent.ACTION_DOWN && k == KeyEvent.KEYCODE_DPAD_LEFT && open >= 0) {
                     gRv.findViewHolderForAdapterPosition(open)?.itemView?.requestFocus(); true
                 } else false
             }
             return h
         }
         override fun onBindViewHolder(h: RecyclerView.ViewHolder, i: Int) {
-            val c = chans[i]; val hidden = c.id.toString() in Arrange.hiddenChannels
-            (h.itemView as TextView).text = (if (hidden) "✕   " else "✓   ") + c.name
-            h.itemView.alpha = if (hidden) 0.5f else 1f
+            val c = chans[i]; val hidden = c.id.toString() in Arrange.hiddenChannels; val mv = i == cMove
+            (h.itemView as TextView).text = (if (mv) "⇅   " else if (hidden) "✕   " else "✓   ") + "${i + 1}.  " + c.name
+            h.itemView.alpha = if (hidden && !mv) 0.5f else 1f
+            if (mv) { h.itemView.background = moveBg; (h.itemView as TextView).setTextColor(0xFF0B0E14.toInt()) }
+            else { h.itemView.setBackgroundResource(R.drawable.item_bg); (h.itemView as TextView).setTextColor(getColorStateList(R.color.on_focus)) }
         }
     }
 }

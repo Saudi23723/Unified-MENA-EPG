@@ -8,6 +8,8 @@ android {
     compileSdk = 34
     defaultConfig {
         applicationId = "com.saudi1.tv"
+        // a side-by-side copy for screenshots of a brand-new install (saudi1_preview.yml); empty for the real app
+        applicationIdSuffix = System.getenv("APP_SUFFIX") ?: ""
         minSdk = 23
         targetSdk = 34
         versionCode = (System.getenv("BUILD_NUMBER") ?: "1").toInt()

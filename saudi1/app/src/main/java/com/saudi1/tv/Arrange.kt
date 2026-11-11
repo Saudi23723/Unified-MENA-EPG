@@ -44,7 +44,22 @@ object Arrange {
         if (all) return sorted
         val h = vodHidden(series); return if (h.isEmpty()) sorted else sorted.filter { it.id !in h }
     }
-    fun reset() { App.prefs.edit().remove("gh_" + pl()).remove("ch_" + pl()).remove("go_" + pl()).remove("gs_" + pl())
+    // the order of the channels inside a group (owner, 11 Nov 2026: "inside the groups I can rearrange, not only hide")
+    private fun ck(gid: String) = "co_" + pl() + "_" + gid
+    fun chanOrder(gid: String): List<String> = try { val a = JSONArray(App.prefs.getString(ck(gid), "[]")); (0 until a.length()).map { a.getString(it) } } catch (e: Exception) { emptyList() }
+    fun setChanOrder(gid: String, v: List<String>) = App.prefs.edit().putString(ck(gid), JSONArray(v).toString()).apply()
+    private fun sortChans(g: Group) {
+        val o = chanOrder(g.id); if (o.isEmpty() || g.channels.size < 2) return
+        val pos = HashMap<String, Int>(); o.forEachIndexed { i, id -> pos[id] = i }
+        val known = g.channels.filter { it.id.toString() in pos }.sortedBy { pos[it.id.toString()] }
+        if (known.isEmpty()) return
+        val out = ArrayList<Channel>(g.channels.size); var k = 0
+        for (c in g.channels) { if (c.id.toString() in pos) out.add(known[k++]) else out.add(c) }
+        g.channels.clear(); g.channels.addAll(out)
+    }
+
+    fun reset() { App.prefs.all.keys.filter { it.startsWith("co_" + pl() + "_") }.let { ks -> val e = App.prefs.edit(); ks.forEach { e.remove(it) }; e.apply() }
+        App.prefs.edit().remove("gh_" + pl()).remove("ch_" + pl()).remove("go_" + pl()).remove("gs_" + pl())
         .remove("vh_" + vk(true)).remove("vh_" + vk(false)).remove("vo_" + vk(true)).remove("vo_" + vk(false)).apply() }
 
     /** the playlist's groups in the viewer's order (hidden ones left in when all = true, for the arranging screen) */
@@ -57,6 +72,7 @@ object Arrange {
             for (g in groups) { if (g.id in pos) out.add(known[k++]) else out.add(g) }
             out
         }
+        sorted.forEach { sortChans(it) }
         if (all) return sorted
         val hc = hiddenChannels
         val shown = sorted.filter { !isHidden(it.id) }
