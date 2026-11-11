@@ -29,10 +29,17 @@ object Vpn {
 
     private fun b(ctx: Context) = backend ?: GoBackend(ctx.applicationContext).also { backend = it }
 
+    /** MTU 1280: smaller packets get through every network (hotel / airport Wi-Fi too), without them video gets stuck
+     *  in the tunnel and keeps loading (owner, 11 Nov 2026: "with the VPN it is very bad") */
+    private fun small(c: String): String {
+        val noMtu = c.lines().filterNot { Regex("(?i)^\\s*MTU\\s*=").containsMatchIn(it) }.joinToString("\n")
+        return noMtu.replaceFirst(Regex("(?i)\\[Interface]"), "[Interface]\nMTU = 1280")
+    }
+
     /** null = connected, else the reason (run off the main thread) */
     fun start(ctx: Context): String? = try {
         if (conf.isBlank()) "No VPN on this device" else {
-            b(ctx).setState(tunnel, Tunnel.State.UP, Config.parse(conf.byteInputStream()))
+            b(ctx).setState(tunnel, Tunnel.State.UP, Config.parse(small(conf).byteInputStream()))
             up = true; null
         }
     } catch (e: Exception) { up = false; e.message ?: e.javaClass.simpleName }
