@@ -126,7 +126,8 @@ class VideoPlayerActivity : BaseActivity() {
     private fun ensureCaptions(p: ExoPlayer) {
         val item = p.currentMediaItem ?: return
         val prefs = VaultLock.prefs(this)
-        if (!prefs.getBoolean("cc_on", true)) return
+        ccButton()
+        if (!prefs.getBoolean("cc_on", true)) { cc?.close(); cc = null; ccFor = ""; ccView?.visibility = android.view.View.GONE; return }
         val uri = item.localConfiguration?.uri ?: return
         if (ccFor == item.mediaId) return
         ccFor = item.mediaId
@@ -152,6 +153,43 @@ class VideoPlayerActivity : BaseActivity() {
         v.visibility = android.view.View.GONE
         b.player.removeCallbacks(ccTick)
         b.player.post(ccTick)
+    }
+
+    private var ccBtn: android.widget.TextView? = null
+
+    /** The CC button, shown with the player's controls: a tap turns the captions on or off. */
+    private fun ccButton() {
+        if (ccBtn != null) return
+        val d = resources.displayMetrics.density
+        val prefs = VaultLock.prefs(this)
+        val btn = android.widget.TextView(this).apply {
+            text = "CC"; textSize = if (tv) 20f else 16f; typeface = android.graphics.Typeface.DEFAULT_BOLD
+            setPadding((14 * d).toInt(), (6 * d).toInt(), (14 * d).toInt(), (6 * d).toInt())
+            isFocusable = true; isClickable = true
+            fun paint() {
+                val on = prefs.getBoolean("cc_on", true)
+                setTextColor(if (on) 0xFF000000.toInt() else 0xFFFFFFFF.toInt())
+                background = android.graphics.drawable.GradientDrawable().apply {
+                    cornerRadius = 8 * d; setColor(if (on) 0xFFFFFFFF.toInt() else 0x66000000); setStroke((2 * d).toInt(), 0xFFFFFFFF.toInt())
+                }
+            }
+            paint()
+            setOnClickListener {
+                val on = !prefs.getBoolean("cc_on", true)
+                prefs.edit().putBoolean("cc_on", on).apply()
+                paint()
+                flash(if (on) "CC ✓" else "CC ✕")
+                ccFor = ""
+                player?.let { p -> ensureCaptions(p) }
+            }
+        }
+        (b.player.overlayFrameLayout ?: b.player).addView(btn, android.widget.FrameLayout.LayoutParams(-2, -2, android.view.Gravity.TOP or android.view.Gravity.END).apply {
+            topMargin = (24 * d).toInt(); rightMargin = (24 * d).toInt()
+        })
+        ccBtn = btn
+        // With the controls: shown and hidden together.
+        b.player.setControllerVisibilityListener(androidx.media3.ui.PlayerView.ControllerVisibilityListener { v -> btn.visibility = v })
+        btn.visibility = if (b.player.isControllerFullyVisible) android.view.View.VISIBLE else android.view.View.GONE
     }
 
     private var lastPos = 0L
@@ -264,7 +302,9 @@ class VideoPlayerActivity : BaseActivity() {
                 VaultLock.prefs(this).edit().putInt("tv_video_size", i).apply()
                 flash("▣ " + sizeNames[i])
             }
-            android.view.KeyEvent.KEYCODE_DPAD_UP, android.view.KeyEvent.KEYCODE_MENU -> b.player.showController()
+            android.view.KeyEvent.KEYCODE_DPAD_UP, android.view.KeyEvent.KEYCODE_MENU -> { b.player.showController(); ccBtn?.requestFocus() }
+            // The remote's CC (or colour) key turns the captions on or off.
+            android.view.KeyEvent.KEYCODE_CAPTIONS, android.view.KeyEvent.KEYCODE_PROG_RED, android.view.KeyEvent.KEYCODE_PROG_GREEN -> ccBtn?.performClick()
             android.view.KeyEvent.KEYCODE_MEDIA_NEXT -> if (p.hasNextMediaItem()) p.seekToNextMediaItem()
             android.view.KeyEvent.KEYCODE_MEDIA_PREVIOUS -> if (p.hasPreviousMediaItem()) p.seekToPreviousMediaItem()
             else -> return super.dispatchKeyEvent(event)

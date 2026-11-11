@@ -208,10 +208,11 @@ class MapActivity : BaseActivity(), NeonHost {
         // The instrument strip in place of the four plain readouts.
         for (i in 0 until b.hud.childCount) b.hud.getChildAt(i).visibility = View.GONE
         strip = InstrumentStrip(this)
-        b.hud.addView(strip, LinearLayout.LayoutParams(-1, -2))
+        b.hud.visibility = View.GONE
         b.fabLayers.setOnClickListener { chooseLayer() }
         b.fabDraw.setOnClickListener { toggleDrawing() }
         styleControls()
+        foreflightLayout()
         b.fabLocate.setOnClickListener { cycleView() }
         b.fabSos.setOnClickListener { emergency() }
         b.zoomIn.setOnClickListener {
@@ -303,7 +304,7 @@ class MapActivity : BaseActivity(), NeonHost {
         pilotage = on
         ownship.isEnabled = !on
         if (on && following) follow()
-        b.hud.visibility = if (on) View.GONE else View.VISIBLE
+        strip.visibility = if (on) View.GONE else View.VISIBLE
         map.invalidate()
         showCurrency()
         Toast.makeText(this, if (on) R.string.pilotage_on else R.string.pilotage_off, Toast.LENGTH_LONG).show()
@@ -1062,7 +1063,7 @@ class MapActivity : BaseActivity(), NeonHost {
     private fun startGps() {
         lm = getSystemService(LocationManager::class.java)
         val m = lm ?: return
-        b.hud.visibility = View.VISIBLE
+        strip.visibility = View.VISIBLE
         b.hudGs.text = getString(R.string.map_no_gps)
         // Show the last known position at once, then the network's rough one, until the GPS locks.
         listOf(LocationManager.GPS_PROVIDER, LocationManager.NETWORK_PROVIDER, LocationManager.PASSIVE_PROVIDER)
@@ -1118,23 +1119,68 @@ class MapActivity : BaseActivity(), NeonHost {
         AirportDiagramActivity.open(this, apt)
     }
 
+    private fun stripHeight() = if (::strip.isInitialized && strip.visibility == View.VISIBLE) (strip.height.takeIf { it > 0 } ?: dp(56)) else 0
+
+    /**
+     * ForeFlight's layout of the map: the instruments in a band along the bottom, the tools in a
+     * slim column on the left (layers, draw, position, north up, zoom, SOS), the chart free between.
+     */
+    private fun foreflightLayout() {
+        b.fabs.visibility = View.GONE
+        b.zoomBox.visibility = View.GONE
+        strip.setBackgroundColor(0xEB16171A.toInt())
+        b.root.addView(strip, android.widget.FrameLayout.LayoutParams(-1, -2, android.view.Gravity.BOTTOM))
+        strip.elevation = dp(6).toFloat()
+        // The bottom panels (ruler, pen) sit above the band.
+        strip.addOnLayoutChangeListener { _, _, top, _, bottom, _, _, _, _ -> (b.fabs.parent as View).setPadding(0, 0, 0, bottom - top) }
+        val col = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            background = EfbUi.cardBg(this@MapActivity, 0xEB16171A.toInt(), 10).apply { setStroke(dp(1), 0x33FFFFFF) }
+            elevation = dp(6).toFloat()
+            setPadding(0, dp(4), 0, dp(4))
+        }
+        fun tool(icon: Int, tint: Int = EfbUi.TEXT, click: () -> Unit, long: (() -> Unit)? = null) = android.widget.ImageView(this).apply {
+            setImageResource(icon); setColorFilter(tint)
+            setPadding(dp(11), dp(11), dp(11), dp(11))
+            setBackgroundResource(R.drawable.item_focus_bg)
+            setOnClickListener { click() }
+            long?.let { l -> setOnLongClickListener { l(); true } }
+        }.also { col.addView(it, LinearLayout.LayoutParams(dp(46), dp(46))) }
+        fun line() = col.addView(View(this).apply { setBackgroundColor(0x33FFFFFF) }, LinearLayout.LayoutParams(dp(30), 1).apply { gravity = android.view.Gravity.CENTER_HORIZONTAL; setMargins(0, dp(2), 0, dp(2)) })
+        tool(R.drawable.ic_layers, click = { b.fabLayers.performClick() })
+        tool(R.drawable.ic_fab_pencil, click = { b.fabDraw.performClick() })
+        val locate = tool(R.drawable.ic_my_location, EfbUi.ACCENT, click = { b.fabLocate.performClick() }, long = { b.fabLocate.performLongClick() })
+        locateTool = locate
+        val north = tool(R.drawable.ic_compass, click = { b.northUp.performClick() })
+        northTool = north
+        line()
+        tool(R.drawable.ic_add, click = { b.zoomIn.performClick() })
+        tool(R.drawable.ic_remove, click = { b.zoomOut.performClick() })
+        line()
+        tool(R.drawable.ic_sos, 0xFFFF453A.toInt(), click = { b.fabSos.performClick() })
+        b.root.addView(col, android.widget.FrameLayout.LayoutParams(-2, -2, android.view.Gravity.START or android.view.Gravity.CENTER_VERTICAL).apply { marginStart = dp(8) })
+    }
+
+    private var northTool: View? = null
+    private var locateTool: android.widget.ImageView? = null
+
     /** Every box of the instrument strip, from this fix and the route. */
     private fun fillStrip(l: Location, kt: Double) {
         if (!::strip.isInitialized) return
         val good = gotGps
-        fun m(t: Double) = Nav.deg(Nav.magnetic(t, l.latitude, l.longitude))
-        strip.set("GS", if (good) "%d".format(Math.round(kt)) else "---")
-        strip.set("ALT", if (good && l.hasAltitude()) "%,d".format(Math.round(l.altitude * 3.28084)) else "---")
+        fun m(t: Double) = Nav.deg(Nav.magnetic(t, l.latitude, l.longitude)) + "M"
+        strip.set("GS", if (good) "%d kts".format(Math.round(kt)) else "---")
+        strip.set("ALT", if (good && l.hasAltitude()) "%,d'".format(Math.round(l.altitude * 3.28084)) else "---")
         strip.set("TRK", if (l.hasBearing() && kt > 5) m(l.bearing.toDouble()) else "---")
-        strip.set("VS", if (good && !lastAlt.isNaN()) "%+d".format((Math.round(vs / 50) * 50).toInt()) else "---")
-        strip.set("ACC", if (l.hasAccuracy()) "±%d ft".format(Math.round(l.accuracy * 3.28084)) else "---")
+        strip.set("VS", if (good && !lastAlt.isNaN()) "%d fpm".format((Math.round(vs / 50) * 50).toInt()) else "---")
+        strip.set("ACC", if (l.hasAccuracy()) "%d m".format(Math.round(l.accuracy)) else "---")
         fun dm(v: Double, p: Char, n: Char): String { val a = Math.abs(v); val dd = a.toInt(); return "%c%d°%04.1f'".format(if (v >= 0) p else n, dd, (a - dd) * 60) }
         strip.set("POS", dm(l.latitude, 'N', 'S') + " " + dm(l.longitude, 'E', 'W'))
         val t = plan.target()
         if (t == null) { for (k in listOf("DTK", "BRG", "MH", "DIS", "ETE", "DEST", "ETED", "ETA", "XTK")) strip.set(k, "---"); return }
         val dist = Nav.distanceNm(l.latitude, l.longitude, t.lat, t.lon)
         strip.set("BRG", m(Nav.bearingTrue(l.latitude, l.longitude, t.lat, t.lon)))
-        strip.set("DIS", if (dist < 10) "%.1f".format(dist) else "%.0f".format(dist))
+        strip.set("DIS", if (dist < 10) "%.1f nm".format(dist) else "%.0f nm".format(dist))
         val from = if (plan.direct != null) null else plan.points.getOrNull(plan.active - 1)
         if (from != null) {
             val leg = plan.leg(from, t)
@@ -1150,7 +1196,7 @@ class MapActivity : BaseActivity(), NeonHost {
         // Along the route to its last point.
         var rest = dist
         if (plan.direct == null) for (i in plan.active + 1 until plan.points.size) rest += Nav.distanceNm(plan.points[i - 1].lat, plan.points[i - 1].lon, plan.points[i].lat, plan.points[i].lon)
-        strip.set("DEST", if (rest < 10) "%.1f".format(rest) else "%.0f".format(rest))
+        strip.set("DEST", if (rest < 10) "%.1f nm".format(rest) else "%.0f nm".format(rest))
         if (kt > 20) {
             strip.set("ETE", FlightPlan.hm(dist / kt * 60))
             strip.set("ETED", FlightPlan.hm(rest / kt * 60))
@@ -1230,7 +1276,9 @@ class MapActivity : BaseActivity(), NeonHost {
         override fun run() {
             // While the map keeps following, it never settles: refresh what is in view every 15 s.
             val now = android.os.SystemClock.elapsedRealtime()
-            if (b.northUp.rotation != map.mapOrientation) b.northUp.rotation = map.mapOrientation
+            if (b.northUp.rotation != map.mapOrientation) { b.northUp.rotation = map.mapOrientation; northTool?.rotation = map.mapOrientation }
+            // The position tool shows the view in use: free, follow, track up, ahead.
+            locateTool?.let { t -> val ic = viewIcon(); if (t.tag != ic) { t.setImageResource(ic); t.tag = ic; t.alpha = if (following) 1f else 0.7f } }
             if (timerStart > 0) {
                 val t = (now - timerStart) / 1000
                 val text = "⏱ %d:%02d:%02d".format(t / 3600, t / 60 % 60, t % 60)
@@ -1845,7 +1893,7 @@ class MapActivity : BaseActivity(), NeonHost {
     private fun toggleDrawing() {
         val on = b.penBar.visibility != View.VISIBLE
         b.penBar.visibility = if (on) View.VISIBLE else View.GONE
-        b.fabs.visibility = if (on) View.GONE else View.VISIBLE
+        b.fabs.visibility = View.GONE
         pick(if (on) MapDrawOverlay.MapTool.RULER else MapDrawOverlay.MapTool.PAN)
     }
 
@@ -2157,7 +2205,7 @@ class MapActivity : BaseActivity(), NeonHost {
             b.topBar.setPadding(0, bars.top, 0, 0)
             b.topBar.setBackgroundColor(EfbUi.BG)
             // With the tab bar below, the bar takes the gesture area itself.
-            (b.fabs.parent as View).setPadding(0, 0, 0, if (ForeTabs.wants(this)) 0 else bars.bottom)
+            (b.fabs.parent as View).setPadding(0, 0, 0, stripHeight() + if (ForeTabs.wants(this)) 0 else bars.bottom)
             insets
         }
     }

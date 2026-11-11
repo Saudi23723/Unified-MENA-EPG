@@ -30,15 +30,15 @@ class InstrumentStrip(ctx: Context) : HorizontalScrollView(ctx) {
         val box = LinearLayout(context).apply {
             orientation = LinearLayout.VERTICAL; gravity = Gravity.CENTER
             setPadding((8 * d).toInt(), (2 * d).toInt(), (8 * d).toInt(), (3 * d).toInt())
-            minimumWidth = (68 * d).toInt()
+            minimumWidth = (84 * d).toInt()
         }
         box.addView(TextView(context).apply {
-            text = LABEL[key] ?: key; textSize = 10f; setTextColor(0xFF9FB0C0.toInt()); letterSpacing = 0.06f; gravity = Gravity.CENTER
+            text = LABEL[key] ?: key; textSize = 10.5f; setTextColor(0xFFB9BCC2.toInt()); gravity = Gravity.CENTER; maxLines = 1
             typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
         })
         val v = TextView(context).apply {
-            text = "---"; textSize = 17f; setTextColor(COLOR[key] ?: 0xFF7CFC00.toInt()); gravity = Gravity.CENTER
-            typeface = Typeface.create(Typeface.MONOSPACE, Typeface.BOLD); maxLines = 1
+            text = "---"; textSize = 19f; setTextColor(COLOR[key] ?: 0xFFFFFFFF.toInt()); gravity = Gravity.CENTER
+            typeface = Typeface.create("sans-serif-medium", Typeface.BOLD); maxLines = 1
         }
         box.addView(v)
         // A thin divider between boxes.
@@ -69,12 +69,13 @@ class InstrumentStrip(ctx: Context) : HorizontalScrollView(ctx) {
     }
 
     companion object {
-        val ORDER = listOf("GS", "ALT", "TRK", "DTK", "BRG", "MH", "DIS", "ETE", "DEST", "ETED", "ETA", "VS", "XTK", "ACC", "POS")
-        private val OFF = setOf("ETA", "XTK", "POS")
+        // ForeFlight's own order along the bottom; the rest a long press away.
+        val ORDER = listOf("DIS", "ETED", "GS", "ALT", "TRK", "ACC", "VS", "POS", "ETE", "DTK", "BRG", "MH", "DEST", "ETA", "XTK")
+        private val OFF = setOf("DTK", "MH", "DEST", "ETA", "XTK")
         private val LABEL = mapOf(
-            "GS" to "GS kt", "ALT" to "GPS ALT", "TRK" to "TRK", "DTK" to "DTK", "BRG" to "BRG", "MH" to "MH (wind)",
-            "DIS" to "DIST NEXT", "ETE" to "ETE NEXT", "DEST" to "DIST DEST", "ETED" to "ETE DEST", "ETA" to "ETA DEST",
-            "VS" to "VS fpm", "XTK" to "XTK nm", "ACC" to "ACCURACY", "POS" to "POSITION",
+            "GS" to "Groundspeed", "ALT" to "GPS Altitude", "TRK" to "Track", "DTK" to "Desired Track", "BRG" to "Bearing Next", "MH" to "Heading (wind)",
+            "DIS" to "Distance Next", "ETE" to "ETE Next", "DEST" to "Distance Dest", "ETED" to "ETE Dest", "ETA" to "ETA Dest",
+            "VS" to "Vertical Speed", "XTK" to "Cross Track", "ACC" to "Accuracy", "POS" to "Current Coordinates",
         )
         private val HELP = mapOf(
             "GS" to "groundspeed", "ALT" to "GPS altitude, ft MSL", "TRK" to "track over the ground, magnetic",
@@ -84,6 +85,7 @@ class InstrumentStrip(ctx: Context) : HorizontalScrollView(ctx) {
             "ETA" to "arrival time, local", "VS" to "vertical speed", "XTK" to "off course, left or right",
             "ACC" to "GPS accuracy, ft", "POS" to "latitude, longitude",
         )
-        private val COLOR = mapOf("DTK" to 0xFFE040FB.toInt(), "BRG" to 0xFFE040FB.toInt(), "DIS" to 0xFFE040FB.toInt(), "ETE" to 0xFFE040FB.toInt(), "MH" to 0xFF4FC3F7.toInt())
+        // White values as ForeFlight shows them; accuracy green when good.
+        private val COLOR = mapOf("ACC" to 0xFF34C759.toInt())
     }
 }

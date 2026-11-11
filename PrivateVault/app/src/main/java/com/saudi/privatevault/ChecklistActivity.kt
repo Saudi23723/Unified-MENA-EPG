@@ -39,6 +39,43 @@ class ChecklistActivity : BaseActivity() {
         else resume()
     }
 
+    /** The sections, in order, with their cards: for the side tabs. */
+    private val sections = ArrayList<Pair<String, View>>()
+    private var rail: LinearLayout? = null
+
+    /**
+     * Side tabs down the edge, as a printed tabbed checklist: one per section, emergencies red,
+     * reference pages green, the rest graphite; a tap and you are there.
+     */
+    private fun tabs() {
+        val scroll = col.parent as? android.widget.ScrollView ?: return
+        val r = rail ?: run {
+            val root = scroll.parent as? LinearLayout ?: return
+            val i = root.indexOfChild(scroll)
+            root.removeView(scroll)
+            val row = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; layoutDirection = View.LAYOUT_DIRECTION_LTR }
+            val railBox = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(dp(4), dp(6), dp(2), dp(6)) }
+            row.addView(android.widget.ScrollView(this).apply { isVerticalScrollBarEnabled = false; addView(railBox) }, LinearLayout.LayoutParams(dp(92), -1))
+            row.addView(scroll, LinearLayout.LayoutParams(0, -1, 1f))
+            root.addView(row, i, LinearLayout.LayoutParams(-1, 0, 1f))
+            rail = railBox
+            railBox
+        }
+        r.removeAllViews()
+        for ((name, card) in sections) {
+            val emergency = name.contains("EMERGENCY", true) || name.contains("FIRE", true) || name.contains("FAILURE", true)
+            val reference = name.startsWith("📋")
+            val bg = when { emergency -> 0xFFC62828.toInt(); reference -> 0xFF2E7D32.toInt(); else -> EfbUi.BAND }
+            val label = name.replace(Regex("^[^A-Za-z0-9]+"), "").substringBefore(" · ").substringBefore(" (").take(28)
+            r.addView(EfbUi.text(this, label, 11f, if (emergency || reference) 0xFFFFFFFF.toInt() else EfbUi.TEXT, bold = true).apply {
+                gravity = Gravity.CENTER; maxLines = 3
+                background = EfbUi.cardBg(this@ChecklistActivity, bg, 8).apply { setStroke(0, 0) }
+                setPadding(dp(4), dp(10), dp(4), dp(10))
+                setOnClickListener { scroll.smoothScrollTo(0, (card.top - dp(6)).coerceAtLeast(0)) }
+            }, LinearLayout.LayoutParams(-1, -2).apply { bottomMargin = dp(4) })
+        }
+    }
+
     // Ticks stay until the pilot resets them: leaving the screen or the app keeps the place.
     private fun load() {
         done.clear()
@@ -106,6 +143,7 @@ class ChecklistActivity : BaseActivity() {
         val rows = ArrayList<Triple<String, View, String>>()   // key, row, section
         val counters = HashMap<String, TextView?>()
         emergency = null
+        sections.clear()
         for (raw in text().lines()) {
             val line = raw.trim()
             if (line.isEmpty()) continue
@@ -120,6 +158,7 @@ class ChecklistActivity : BaseActivity() {
                 card.addView(head)
                 col.addView(card)
                 if (emergency == null && section.contains("EMERGENCY", true)) emergency = card
+                sections.add(section to card!!)
                 if (section.startsWith("📋")) card.background = EfbUi.cardBg(this, EfbUi.pick(0xFF0F2236.toInt(), 0xFFEAF2FF.toInt()))
                 continue
             }
@@ -176,6 +215,7 @@ class ChecklistActivity : BaseActivity() {
         for (s in rows.map { it.third }.distinct()) paint(rows, counters[s], s)
         firstOpen = rows.firstOrNull { it.first !in done && !it.third.contains("EMERGENCY", true) }?.second
         EfbUi.stagger(col)
+        tabs()
     }
 
     /** Ticked items dim and strike through; the first unticked one in each section is lit. */
