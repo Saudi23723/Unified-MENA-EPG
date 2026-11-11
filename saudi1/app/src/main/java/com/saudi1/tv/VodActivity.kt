@@ -110,6 +110,15 @@ class VodActivity : BaseActivity() {
         grid.setItemViewCacheSize(24)
         // posters that leave the screen are kept ready (not built again) while the rows move
         grid.recycledViewPool.setMaxRecycledViews(0, 40); grid.setHasFixedSize(true)
+        // the posters take the whole screen while the remote is on them (bigger pictures); the groups come back with ◀
+        window.decorView.viewTreeObserver.addOnGlobalFocusChangeListener { _, now ->
+            if (now == null || isTouch) return@addOnGlobalFocusChangeListener
+            val onPosters = now.parent === grid || now.id == R.id.vodSort
+            val left = catsRv.parent as View
+            if (onPosters == (left.visibility == View.GONE)) return@addOnGlobalFocusChangeListener
+            left.visibility = if (onPosters) View.GONE else View.VISIBLE
+            grid.post { gridAdapter.notifyItemRangeChanged(0, items.size) }
+        }
         refreshMarks()
         val fixed = listOf(VodCat(SEARCH, "🔍  Search"), VodCat(RESUME, "▶  Continue watching"), VodCat(FAV, "★  Favorites"), VodCat(DL, "⬇  Downloads"))
         // the screen is there at once: Continue watching first, the groups from the device, the provider asked behind it
@@ -271,6 +280,14 @@ class VodActivity : BaseActivity() {
 
     private fun focusCats() {
         val i = cats.indexOfFirst { it.id == current }.coerceAtLeast(0)
+        val left = catsRv.parent as View
+        if (left.visibility != View.VISIBLE) {
+            // the groups were away while the posters had the screen: back first, then the focus goes to them
+            left.visibility = View.VISIBLE
+            (catsRv.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(i, 120)
+            catsRv.post { catsRv.layoutManager?.findViewByPosition(i)?.requestFocus(); grid.post { gridAdapter.notifyItemRangeChanged(0, items.size) } }
+            return
+        }
         catsRv.layoutManager?.findViewByPosition(i)?.requestFocus() ?: run {
             catsRv.scrollToPosition(i); catsRv.post { catsRv.layoutManager?.findViewByPosition(i)?.requestFocus() }
         }
@@ -346,7 +363,7 @@ class VodActivity : BaseActivity() {
         override fun onBindViewHolder(h: H, i: Int) {
             val it = items[i]
             (h.poster.parent as View).let { f -> val ph = posterH(); if (f.layoutParams.height != ph) { f.layoutParams.height = ph; f.requestLayout() } }
-            h.name.text = (if (isFav(it.id)) "★ " else "") + it.name
+            h.name.text = (if (isFav(it.id)) "★ " else "") + Vod.shown(it.name)
             h.rating.text = it.rating.toDoubleOrNull()?.let { r -> "★ " + "%.1f".format(r) } ?: ""
             h.rating.visibility = if (h.rating.text.isEmpty()) View.GONE else View.VISIBLE
             if (it.poster.isEmpty()) h.poster.setImageResource(R.drawable.banner) else h.poster.load(it.poster) { size(240, 360); error(R.drawable.banner) }
