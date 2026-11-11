@@ -55,7 +55,7 @@ class ShowcaseActivity : BaseActivity() {
             val (l, it, _) = items[i]
             label.text = l.uppercase()
             // provider prefixes ("AR-SUBS - ", "EN - ") are not part of the title
-            title.text = it.name.replace(Regex("^\\s*[A-Z]{2}(-[A-Z]{2,5})*(-S)?\\s*[-:|]\\s*"), "")
+            title.text = it.name.replace(Regex("^\\s*[A-Za-z0-9]{2,3}(-[A-Za-z0-9]{1,6}){0,3}\\s+[-:|]\\s+"), "").replace(Regex("\\s*[\\(\\[](19|20)\\d{2}[\\)\\]]\\s*$"), "")
             meta.text = listOfNotNull(it.rating.toDoubleOrNull()?.let { r -> "★ " + "%.1f".format(r) }, it.year.takeIf { y -> y.length == 4 }).joinToString("     ")
             row.animate().cancel(); row.alpha = 0f
             poster.load(it.poster) { size(600, 900); error(R.drawable.banner) }
