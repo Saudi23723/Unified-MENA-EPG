@@ -78,7 +78,8 @@ def fam(c: str | None) -> str | None:
 def key(name: str) -> str:
     n = unicodedata.normalize("NFKC", str(name).translate(SMALL))
     n = re.sub(r"^\s*(\|?[A-Z]{2,4}\|?\s*[:|]\s*)+", "", n.upper())
-    n = re.sub(r"[\(\[].*?[\)\]]", " ", n)
+    # brackets keep a city or a call sign ("NBC 2 [BANGOR]", "FOX (KABB)") but not a one-letter or sound tag ("(D)", "(AAC)")
+    n = re.sub(r"[\(\[]\s*([A-Z]{1,2}|AAC|AC3|DOLBY ATMOS|MULTI|BACKUP|\d{1,2})\s*[\)\]]", " ", n)
     n = n.replace("&", " AND ").replace("+", " PLUS ")
     n = QUAL.sub(" ", n)
     n = re.sub(r"\bSPORTS\b", "SPORT", n)
@@ -167,7 +168,14 @@ def main():
 
     def pick(refs):
         refs = set(refs)
-        return next(iter(refs)) if len(refs) == 1 else None
+        if len(refs) == 1:
+            return next(iter(refs))
+        # several ids that are one channel in several qualities ("Alwan1_sport", "Alwan1_sport_hd", "Alwan1_sports"):
+        # the plainest one; two different channels stay a "don't know"
+        base = {re.sub(r"(_?(hd|sd|fhd|uhd|4k|raw|hevc)|s)$", "", r, flags=re.I) for r in refs}
+        if 1 < len(refs) <= 6 and len(base) == 1:
+            return min(refs, key=len)
+        return None
 
     report, total = [], 0
     for f, m in maps.items():
@@ -179,7 +187,7 @@ def main():
                 continue
             g = c.get("group", ""); cc = fam(country_of_group(g, c["name"])); k = key(c["name"])
             hit = None
-            if len(k) >= 5 and not GENERIC.match(k):
+            if (len(k) >= 5 or (len(k) >= 3 and cc)) and not GENERIC.match(k):
                 tw = twins.get((cc, k))
                 if tw and len(tw) == 1:
                     hit = next(iter(tw))

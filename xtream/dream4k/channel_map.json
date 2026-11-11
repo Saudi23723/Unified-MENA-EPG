@@ -332,7 +332,8 @@
  {
   "stream_id": 190369,
   "name": "beIN UHD 2160P",
-  "group": "🇶🇦 | beIN ꜱᴘᴏʀᴛꜱ ¹ 🔸"
+  "group": "🇶🇦 | beIN ꜱᴘᴏʀᴛꜱ ¹ 🔸",
+  "epg": "u:beIN4K.qa"
  },
  {
   "stream_id": 114053,
@@ -3536,7 +3537,8 @@
  {
   "stream_id": 468721,
   "name": "France 24 UHD (Arabic)",
-  "group": "📰 | قنوات الأخبار "
+  "group": "📰 | قنوات الأخبار ",
+  "epg": "a:Playlist.AE1France24Arabicae"
  },
  {
   "stream_id": 1364,
@@ -4791,7 +4793,8 @@
  {
   "stream_id": 54897,
   "name": "LFC TV UHD (D)",
-  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ"
+  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ",
+  "epg": "a:Playlist.fertequelfctvuk"
  },
  {
   "stream_id": 1149026,
@@ -9176,7 +9179,8 @@
  {
   "stream_id": 279335,
   "name": "NEWS 12 (WESTCHESTER) HD",
-  "group": "🇺🇲 | USA"
+  "group": "🇺🇲 | USA",
+  "epg": "a:news12westchester.us"
  },
  {
   "stream_id": 279332,
@@ -9556,7 +9560,8 @@
  {
   "stream_id": 99456,
   "name": "ABC (KDNL)",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequekdnlus"
  },
  {
   "stream_id": 99457,
@@ -9573,7 +9578,8 @@
  {
   "stream_id": 99459,
   "name": "ABC (KNXV)",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequeknxvus"
  },
  {
   "stream_id": 99460,
@@ -9613,7 +9619,8 @@
  {
   "stream_id": 99466,
   "name": "ABC (WABC)",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewabcus"
  },
  {
   "stream_id": 99467,
@@ -9624,12 +9631,14 @@
  {
   "stream_id": 99468,
   "name": "ABC (WCVB)",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewcvbus"
  },
  {
   "stream_id": 99469,
   "name": "ABC (WFAA)",
-  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | ABC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewfaaus"
  },
  {
   "stream_id": 99470,
@@ -10998,20 +11007,17 @@
  {
   "stream_id": 278837,
   "name": "NBC 11 HD [BALTIMORE]",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
-  "epg": "a:Playlist.fertequekntvus"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
  },
  {
   "stream_id": 278838,
   "name": "NBC 11 HD [FAIRBANKS]",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
-  "epg": "a:Playlist.fertequekntvus"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
  },
  {
   "stream_id": 278839,
   "name": "NBC 11 HD [LUBBOCK]",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
-  "epg": "a:Playlist.fertequekntvus"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
  },
  {
   "stream_id": 278840,
@@ -11125,44 +11131,37 @@
  {
   "stream_id": 278849,
   "name": "NBC 13 HD [CASPER]",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
-  "epg": "a:Playlist.fertequewnytus"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
  },
  {
   "stream_id": 278850,
   "name": "NBC 13 HD [DES MOINES]",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
-  "epg": "a:Playlist.fertequewnytus"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
  },
  {
   "stream_id": 278851,
   "name": "NBC 13 HD [DOTHAN]",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
-  "epg": "a:Playlist.fertequewnytus"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
  },
  {
   "stream_id": 278852,
   "name": "NBC 13 HD [MISSOULA]",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
-  "epg": "a:Playlist.fertequewnytus"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
  },
  {
   "stream_id": 278853,
   "name": "NBC 13 HD [MONTANA]",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
-  "epg": "a:Playlist.fertequewnytus"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
  },
  {
   "stream_id": 278854,
   "name": "NBC 13 HD [ROCKFORD]",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
-  "epg": "a:Playlist.fertequewnytus"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
  },
  {
   "stream_id": 278855,
   "name": "NBC 13 HD [YUMA]",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
-  "epg": "a:Playlist.fertequewnytus"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
  },
  {
   "stream_id": 76581,
@@ -11297,8 +11296,7 @@
  {
   "stream_id": 278870,
   "name": "NBC 21 HD [BEND]",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
-  "epg": "a:Playlist.fertequeknbnus"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
  },
  {
   "stream_id": 278871,
@@ -11309,14 +11307,12 @@
  {
   "stream_id": 278872,
   "name": "NBC 21 HD [SIOUX FALLS]",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
-  "epg": "a:Playlist.fertequeknbnus"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
  },
  {
   "stream_id": 278873,
   "name": "NBC 21 HD [ST. JOSEPH]",
-  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
-  "epg": "a:Playlist.fertequeknbnus"
+  "group": "🇺🇸 | NBC ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
  },
  {
   "stream_id": 76596,
@@ -12719,7 +12715,8 @@
  {
   "stream_id": 99500,
   "name": "CBS (WCBS)",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewcbsus"
  },
  {
   "stream_id": 99501,
@@ -12758,7 +12755,8 @@
  {
   "stream_id": 99507,
   "name": "CBS (WKRC)",
-  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ"
+  "group": "🇺🇸 | CBS ᴴᴰ/ᴿᴬᵂ ⁶⁰ᶠᵖˢ",
+  "epg": "a:Playlist.fertequewkrcus"
  },
  {
   "stream_id": 99508,
