@@ -90,7 +90,7 @@ class ArrangeActivity : BaseActivity() {
         }
     }
 
-    private fun hiddenG(): Set<String> = if (tab == 0) Arrange.hiddenGroups else Arrange.vodHidden(tab == 2)
+    private fun isHid(id: String) = if (tab == 0) Arrange.isHidden(id) else id in Arrange.vodHidden(tab == 2)
     private fun changed() { if (tab == 0) Api.groups = emptyList() }
 
     private fun showChannels(i: Int) {
@@ -105,14 +105,14 @@ class ArrangeActivity : BaseActivity() {
     }
 
     private fun groupMenu(i: Int) {
-        val (id, name) = groups[i]; val hidden = id in hiddenG()
+        val (id, name) = groups[i]; val hidden = isHid(id)
         AlertDialog.Builder(this).setTitle(name).setItems(arrayOf("▲  Move up", "▼  Move down", "⤒  Move to the top", "⤓  Move to the end",
             if (hidden) "👁  Show this group" else "✕  Hide this group")) { _, a ->
             when (a) {
                 0 -> move(i, i - 1); 1 -> move(i, i + 1); 2 -> move(i, 0); 3 -> move(i, groups.size - 1)
                 4 -> {
-                    val h = hiddenG(); val n = if (hidden) h - id else h + id
-                    if (tab == 0) Arrange.hiddenGroups = n else Arrange.setVodHidden(tab == 2, n)
+                    if (tab == 0) Arrange.setHidden(id, !hidden)
+                    else { val h = Arrange.vodHidden(tab == 2); Arrange.setVodHidden(tab == 2, if (hidden) h - id else h + id) }
                     changed(); gAd.notifyItemChanged(i)
                 }
             }
@@ -150,7 +150,7 @@ class ArrangeActivity : BaseActivity() {
             return h
         }
         override fun onBindViewHolder(h: RecyclerView.ViewHolder, i: Int) {
-            val (id, name) = groups[i]; val hidden = id in hiddenG()
+            val (id, name) = groups[i]; val hidden = isHid(id)
             val hc = if (tab == 0) Api.rawGroups.firstOrNull { it.id == id }?.channels?.count { it.id.toString() in Arrange.hiddenChannels } ?: 0 else 0
             (h.itemView as TextView).text = (if (hidden) "✕   " else "👁   ") + name + (if (hc > 0) "   ($hc hidden)" else "") + (if (i == open) "   ▸" else "")
             h.itemView.alpha = if (hidden) 0.5f else 1f

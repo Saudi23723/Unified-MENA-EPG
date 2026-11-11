@@ -185,6 +185,40 @@ for f in sorted(glob.glob("xtream/*/channel_map.json")):
         dump(items, f"{play}/cat/{cid}.json")
     maps[name] = mp
 
+    # the provider's groups this playlist does not show (owner, 11 Nov 2026: "keep the 214 hidden, but build them the
+    # same way as the others, so adding them later is easy"): the same clean names, logos and guides, in a file only
+    # SAUDI.TV reads (hidden_live.json), where they come in hidden; Settings -> Arrange shows any of them. DreamTV and
+    # TiviMate never see them (live_categories / live_streams above are unchanged).
+    if os.path.exists(f"{play}/channels.json"):
+        shown_ids = {c["stream_id"] for c in chans}
+        def hname(g):
+            m = re.match(r"^\s*\|?([A-Z]{2,4})\|?\s*\|?\s*(.*)$", g.strip())
+            if not m or not m.group(2):
+                return g.strip()
+            code, rest = m.group(1), m.group(2).strip(" |")
+            iso = {"UK": "GB", "EN": "GB"}.get(code, code)
+            flag = "".join(chr(0x1F1E6 + ord(ch) - 65) for ch in iso) if len(iso) == 2 and code not in ("AR",) else code
+            return f"{flag} | {rest}"
+        hcats, hstreams, hseen = [], [], set()
+        for c in json.load(open(f"{play}/channels.json", encoding="utf-8")):
+            if c["stream_id"] in shown_ids or c["stream_id"] in hseen:
+                continue
+            hseen.add(c["stream_id"])
+            g = hname(c.get("group") or "Other")
+            cid = str(800000 + zlib.crc32(g.encode("utf-8")) % 100000)
+            if not hcats or all(x["category_id"] != cid for x in hcats[-3:]):
+                if cid not in {x["category_id"] for x in hcats}:
+                    hcats.append({"category_id": cid, "category_name": g, "parent_id": 0})
+            sp = split(official_fill.override(c["name"]) or c.get("epg") or official_fill.fill(c["name"], g))
+            icon = LOGOS.find(c["name"], g, name, sp[0] if sp else None, sp[1] if sp else None)
+            hstreams.append({"num": len(streams) + len(hstreams) + 1, "name": c["name"], "stream_type": "live", "stream_id": c["stream_id"],
+                             "stream_icon": icon, "epg_channel_id": sp[1] if sp else None, "category_id": cid})
+            if sp:
+                want[sp[0]].add(sp[1])
+                mp.setdefault(str(c["stream_id"] % 256), {})[str(c["stream_id"])] = f"{sp[0]}/{safe(sp[1])}"
+        dump({"cats": hcats, "streams": hstreams}, f"{play}/hidden_live.json")
+        print(f"{name}: {len(hcats)} hidden groups, {len(hstreams)} channels built for SAUDI.TV")
+
 listings = {k: {c: [] for c in v} for k, v in want.items()}
 # a shifted copy ("<id>@+180", see 2a) needs its base guide read too
 for _k in ("u", "o", "a"):

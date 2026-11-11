@@ -15,6 +15,16 @@ object Arrange {
     var order: List<String>
         get() = try { val a = JSONArray(App.prefs.getString("go_" + pl(), "[]")); (0 until a.length()).map { a.getString(it) } } catch (e: Exception) { emptyList() }
         set(v) = App.prefs.edit().putString("go_" + pl(), JSONArray(v).toString()).apply()
+    /** groups that come hidden (the playlist's own hidden groups, built for the app); "Show" keeps them shown */
+    @Volatile var defaultHidden: Set<String> = emptySet()
+    var shownGroups: Set<String>
+        get() = App.prefs.getStringSet("gs_" + pl(), emptySet()) ?: emptySet()
+        set(v) = App.prefs.edit().putStringSet("gs_" + pl(), HashSet(v)).apply()
+    fun isHidden(id: String) = id in hiddenGroups || (id in defaultHidden && id !in shownGroups)
+    fun setHidden(id: String, hide: Boolean) {
+        if (hide) { hiddenGroups = hiddenGroups + id; shownGroups = shownGroups - id }
+        else { hiddenGroups = hiddenGroups - id; if (id in defaultHidden) shownGroups = shownGroups + id }
+    }
     val any get() = hiddenGroups.isNotEmpty() || hiddenChannels.isNotEmpty() || order.isNotEmpty()
 
     // Movies and Series groups (owner, 11 Nov 2026): hidden and moved the same way, per playlist
@@ -34,7 +44,7 @@ object Arrange {
         if (all) return sorted
         val h = vodHidden(series); return if (h.isEmpty()) sorted else sorted.filter { it.id !in h }
     }
-    fun reset() { App.prefs.edit().remove("gh_" + pl()).remove("ch_" + pl()).remove("go_" + pl())
+    fun reset() { App.prefs.edit().remove("gh_" + pl()).remove("ch_" + pl()).remove("go_" + pl()).remove("gs_" + pl())
         .remove("vh_" + vk(true)).remove("vh_" + vk(false)).remove("vo_" + vk(true)).remove("vo_" + vk(false)).apply() }
 
     /** the playlist's groups in the viewer's order (hidden ones left in when all = true, for the arranging screen) */
@@ -48,8 +58,8 @@ object Arrange {
             out
         }
         if (all) return sorted
-        val hg = hiddenGroups; val hc = hiddenChannels
-        val shown = sorted.filter { it.id !in hg }
+        val hc = hiddenChannels
+        val shown = sorted.filter { !isHidden(it.id) }
         if (hc.isNotEmpty()) shown.forEach { g -> g.channels.removeAll { it.id.toString() in hc } }
         return shown.filter { it.channels.isNotEmpty() }
     }

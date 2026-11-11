@@ -101,6 +101,14 @@ object Api {
             if (cf.exists() && sf.exists()) build(cf.inputStream(), sf.inputStream())
             return false
         }
+        // the provider's groups this playlist keeps hidden (built like the others; Settings -> Arrange shows them)
+        try {
+            val pl = Prefs.playlist
+            if (pl.isNotEmpty()) get("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/xtream/$pl/hidden_live.json").use { r ->
+                if (r.isSuccessful) r.body?.bytes()?.takeIf { it.size > 20 }?.let { cache("hidden_live.json").writeBytes(it) }
+                else if (r.code == 404) cache("hidden_live.json").delete()
+            }
+        } catch (e: Exception) { }
         build(c.inputStream(), tmp.inputStream())
         cf.writeBytes(c); tmp.renameTo(sf)
         return true
@@ -153,6 +161,27 @@ object Api {
             }
             j.endArray()
         }
+        // the hidden-by-default groups at the end (only when this list belongs to the playlist they were built for)
+        val dh = HashSet<String>()
+        try {
+            val hf = cache("hidden_live.json")
+            if (hf.isFile && Prefs.playlist.isNotEmpty()) {
+                val o = org.json.JSONObject(hf.readText())
+                val hc = o.getJSONArray("cats"); val hs = o.getJSONArray("streams")
+                for (i in 0 until hc.length()) {
+                    val c = hc.getJSONObject(i); val id = c.optString("category_id")
+                    if (id.isNotEmpty() && id !in map) { val g = Group(id, c.optString("category_name").trim()); map[id] = g; order.add(g); dh.add(id) }
+                }
+                for (i in 0 until hs.length()) {
+                    val x = hs.getJSONObject(i); val id = x.optInt("stream_id")
+                    if (id == 0 || ids.containsKey(id)) continue
+                    val g = map[x.optString("category_id")] ?: continue
+                    val ch = Channel(id, all.size + 1, x.optString("name").trim(), x.optString("stream_icon"), x.optString("epg_channel_id").takeIf { it != "null" } ?: "", g.id)
+                    ids[id] = ch; g.channels.add(ch)
+                }
+            }
+        } catch (e: Exception) { }
+        Arrange.defaultHidden = dh
         val fav = Prefs.favorites
         val out = ArrayList<Group>()
         out.add(Group(FAV, "★ Favorites", all.filter { it.id.toString() in fav }.toMutableList()))
