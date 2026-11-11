@@ -21,17 +21,21 @@
         <TextView android:id="@+id/pay" android:layout_width="match_parent" android:layout_height="54dp" android:visibility="gone"
             android:layout_marginTop="10dp" android:background="@drawable/item_bg" android:focusable="true" android:clickable="true"
             android:gravity="center" android:text="💳  Buy access" android:textSize="18sp" android:textStyle="bold"/>
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="34dp"
-            android:text="Or enter an Xtream login" android:textSize="20sp" android:textStyle="bold"/>
-        <TextView style="@style/Label" android:text="Server"/>
-        <EditText android:id="@+id/server" style="@style/Field" android:inputType="textUri"/>
-        <TextView style="@style/Label" android:text="Username"/>
-        <EditText android:id="@+id/user" style="@style/Field" android:inputType="text"/>
-        <TextView style="@style/Label" android:text="Password"/>
-        <EditText android:id="@+id/pass" style="@style/Field" android:inputType="textPassword"/>
-        <TextView android:id="@+id/save" android:layout_width="match_parent" android:layout_height="54dp"
-            android:layout_marginTop="28dp" android:background="@drawable/tile_bg" android:focusable="true" android:clickable="true"
-            android:gravity="center" android:text="Save and load" android:textSize="19sp" android:textStyle="bold"/>
+        <!-- the provider's own login on the TV is closed (owner, 11 Nov 2026): access only by activation, a promo code or payment -->
+        <LinearLayout android:id="@+id/manualBox" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:visibility="gone">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="34dp"
+                android:text="Or enter an Xtream login" android:textSize="20sp" android:textStyle="bold"/>
+            <TextView style="@style/Label" android:text="Server"/>
+            <EditText android:id="@+id/server" style="@style/Field" android:inputType="textUri"/>
+            <TextView style="@style/Label" android:text="Username"/>
+            <EditText android:id="@+id/user" style="@style/Field" android:inputType="text"/>
+            <TextView style="@style/Label" android:text="Password"/>
+            <EditText android:id="@+id/pass" style="@style/Field" android:inputType="textPassword"/>
+            <TextView android:id="@+id/save" android:layout_width="match_parent" android:layout_height="54dp"
+                android:layout_marginTop="28dp" android:background="@drawable/tile_bg" android:focusable="true" android:clickable="true"
+                android:gravity="center" android:text="Save and load" android:textSize="19sp" android:textStyle="bold"/>
+        </LinearLayout>
         <TextView android:id="@+id/msg" android:layout_width="match_parent" android:layout_height="wrap_content"
             android:layout_marginTop="16dp" android:gravity="center" android:textColor="@color/text2" android:textSize="16sp"/>
     </LinearLayout>

@@ -25,7 +25,8 @@ object Device {
     val pretty get() = code.substring(0, 4) + " " + code.substring(4)
 
     var manual: Boolean
-        get() = App.prefs.getBoolean("manual_login", false)
+        // closed (owner, 11 Nov 2026): no TV keeps working on a login typed into it; only the admin page opens a device
+        get() = false
         set(v) = App.prefs.edit().putBoolean("manual_login", v).apply()
 
     var name: String
