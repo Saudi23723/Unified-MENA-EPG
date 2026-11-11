@@ -77,7 +77,7 @@ object Vod {
     private val rTitleTail = Regex("[\\(\\[]\\s*(19|20)\\d{2}\\s*[\\)\\]]|\\b(19|20)\\d{2}\\b\\s*$|\\b(4K|UHD|FHD|HD|HEVC|MULTI|DUAL|AR|SUBS?)\\b", RegexOption.IGNORE_CASE)
     /** a title as the world writes it: no provider prefix ("AR-SUBS - "), no year, no quality words */
     fun titleKey(n: String): String = java.text.Normalizer.normalize(n.replace(rTitlePrefix, "").replace(rTitleTail, " ").lowercase().replace('ı', 'i'), java.text.Normalizer.Form.NFD)
-        .replace(Regex("[\\u0300-\\u036f\\u064b-\\u0652\\u0640]"), "")          // accents (Uzak Şehir = uzak sehir), Arabic marks
+        .replace(Regex("[\\u0300-\\u036f\\u064b-\\u0655\\u0640]"), "")          // accents (Uzak Şehir = uzak sehir), Arabic marks
         .replace(Regex("[أإآ]"), "ا").replace('ى', 'ي').replace('ة', 'ه')
         .replace(Regex("[^a-z0-9\\u0600-\\u06ff]+"), "")
 
