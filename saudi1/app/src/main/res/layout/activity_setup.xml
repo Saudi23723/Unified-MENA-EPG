@@ -15,6 +15,9 @@
         <TextView android:id="@+id/reload" android:layout_width="match_parent" android:layout_height="54dp"
             android:layout_marginTop="14dp" android:background="@drawable/tile_bg" android:focusable="true" android:clickable="true"
             android:gravity="center" android:text="⟳  Reload" android:textSize="19sp" android:textStyle="bold"/>
+        <TextView android:id="@+id/promo" android:layout_width="match_parent" android:layout_height="54dp"
+            android:layout_marginTop="10dp" android:background="@drawable/item_bg" android:focusable="true" android:clickable="true"
+            android:gravity="center" android:text="🎟  I have a promo code" android:textSize="18sp" android:textStyle="bold"/>
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="34dp"
             android:text="Or enter an Xtream login" android:textSize="20sp" android:textStyle="bold"/>
         <TextView style="@style/Label" android:text="Server"/>

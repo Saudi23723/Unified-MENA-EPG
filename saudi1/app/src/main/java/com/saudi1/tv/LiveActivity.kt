@@ -128,7 +128,7 @@ class LiveActivity : BaseActivity() {
             }
             override fun onPlaybackStateChanged(state: Int) {
                 // every moment spent waiting after the picture started puts the viewer that much behind live
-                if (state == Player.STATE_BUFFERING && player.currentPosition > 0) bufStart = android.os.SystemClock.elapsedRealtime()
+                if (state == Player.STATE_BUFFERING && player.currentPosition > 0) { bufStart = android.os.SystemClock.elapsedRealtime(); slowLine() }
                 if (state != Player.STATE_BUFFERING && bufStart > 0) { lag += android.os.SystemClock.elapsedRealtime() - bufStart; bufStart = 0 }
                 if (state == Player.STATE_READY) {
                     // remember which link worked for this channel
@@ -163,7 +163,10 @@ class LiveActivity : BaseActivity() {
                 val ahead = player.bufferedPosition - player.currentPosition
                 val fast = player.playbackParameters.speed > 1f
                 if (fast) lag = (lag - 50).coerceAtLeast(0)
-                val want = when { ahead > 9_000 || (lag > 1_500 && ahead > 4_000) -> 1.05f; fast && ahead > 3_500 && (lag > 0 || ahead > 6_000) -> 1.05f; else -> 1f }
+                // smooth first (owner, 9 Nov 2026: short freezes): what the provider sends ahead is KEPT as a reserve
+                // (up to ~9 s) so its small gaps do not show; only more than that is caught up. Being a few seconds
+                // behind live costs nothing, a spinner every few minutes does.
+                val want = when { ahead > 14_000 -> 1.05f; fast && ahead > 9_000 -> 1.05f; else -> 1f }
                 if (want != player.playbackParameters.speed) player.setPlaybackSpeed(want)
                 if (lag > 12_000 && ahead < 2_500) { lag = 0; playing?.let { start(it) } }
             }
@@ -281,13 +284,34 @@ class LiveActivity : BaseActivity() {
         if (old != null && old.id != c.id) previous = old
         if (c.id > 0) { History.add(c.id); Prefs.lastChannel = c.id }
         playing = c
-        tries = 0
+        tries = 0; stalls.clear()
         start(c)
         channelAdapter.items.indexOfFirst { it.id == old?.id }.takeIf { it >= 0 }?.let { channelAdapter.notifyItemChanged(it) }
         channelAdapter.items.indexOfFirst { it.id == c.id }.takeIf { it >= 0 }?.let { channelAdapter.notifyItemChanged(it) }
     }
 
     private var lag = 0L; private var bufStart = 0L
+
+    // ---- the connection cannot carry this quality: after 3 waits in 2 minutes the channel goes to its next lighter
+    // copy by itself (4K → FHD → HD → SD), once per channel; MENU › Quality goes back (Settings can turn this off)
+    private val stalls = ArrayList<Long>()
+    private var loweredFor = -1
+    private fun tier(n: String): Int { val u = n.uppercase(); return when {
+        Regex("\\b(8K|4K|UHD|2160P?|3840P?|RAW)\\b").containsMatchIn(u) -> 4; Regex("\\b(FHD|1080P?)\\b").containsMatchIn(u) -> 3
+        Regex("\\b(SD|LQ|LOW|LITE|480P?|576P?)\\b").containsMatchIn(u) -> 1; else -> 2 } }
+    private fun slowLine() {
+        val c = playing ?: return
+        if (!App.prefs.getBoolean("auto_quality", true) || c.id <= 0 || loweredFor == c.id) return
+        val now = android.os.SystemClock.elapsedRealtime()
+        stalls.add(now); stalls.removeAll { now - it > 120_000 }
+        if (stalls.size < 3) return
+        stalls.clear()
+        val mine = tier(c.name)
+        val lower = Api.qualities(c).filter { it.id != c.id && tier(it.name) < mine }.maxByOrNull { tier(it.name) } ?: return
+        loweredFor = lower.id
+        toast("Slow connection — now on ${lower.name}   ·   MENU › Quality to change")
+        jump(lower)
+    }
 
     private fun start(c: Channel, hls: Boolean = Hls.has(c.id)) {
         val u = Api.streamUrl(c)

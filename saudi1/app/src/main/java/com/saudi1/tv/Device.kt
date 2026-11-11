@@ -67,6 +67,16 @@ object Device {
         }.start()
     }
 
+    /** spends a promo code on this device. "" = accepted, else what to tell the viewer (blocking) */
+    fun promo(p: String): String = try {
+        val body = JSONObject().put("code", code).put("promo", p.trim()).toString()
+        App.http.newCall(Request.Builder().url(SITE + "/api/promo").post(body.toRequestBody("application/json".toMediaType())).build()).execute().use { r ->
+            val o = try { JSONObject(r.body!!.string()) } catch (e: Exception) { JSONObject() }
+            if (r.isSuccessful && o.optBoolean("ok")) { App.prefs.edit().putBoolean("promo_ok", true).apply(); "" }
+            else o.optString("error").ifEmpty { "Could not check the code. Try again." }
+        }
+    } catch (e: Exception) { "No internet connection" }
+
     /** "active" | "pending" | "stopped" | "expired" | "offline" */
     fun check(): String = try {
         val u = "$API?code=$code&model=" + java.net.URLEncoder.encode(android.os.Build.MODEL, "UTF-8")

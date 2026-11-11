@@ -47,6 +47,25 @@ class SetupActivity : AppCompatActivity() {
                 if (r.isEmpty()) { Device.manual = true; finish() } else msg.text = r
             }
         }
+        // a promo code from the owner: spent on this device (once), the owner then sees the device marked with it
+        val promo = findViewById<TextView>(R.id.promo)
+        promo.setTextColor(getColorStateList(R.color.on_focus))
+        promo.setOnClickListener {
+            val e = EditText(this).apply { hint = "XXXX-XXXX"; gravity = android.view.Gravity.CENTER; textSize = 26f
+                inputType = android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS or android.text.InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
+                filters = arrayOf(android.text.InputFilter.LengthFilter(9)) }
+            androidx.appcompat.app.AlertDialog.Builder(this).setTitle("Promo code").setView(e)
+                .setPositiveButton("OK") { _, _ ->
+                    codeStatus.text = "Checking the promo code…"
+                    lifecycleScope.launch {
+                        val r = withContext(Dispatchers.IO) { Device.promo(e.text.toString()) }
+                        codeStatus.text = if (r.isEmpty()) "Promo code accepted ✓  Your provider will finish the activation — this screen opens by itself." else r
+                        if (r.isEmpty()) promo.text = "🎟  Promo code accepted ✓"
+                    }
+                }.setNegativeButton("Cancel", null).show()
+            e.requestFocus()
+        }
+        if (App.prefs.getBoolean("promo_ok", false)) promo.text = "🎟  Promo code accepted ✓"
         reload.requestFocus()
         // the owner may add this device any moment: check every 10 seconds while this screen is open
         lifecycleScope.launch { while (isActive) { activate(false); delay(10_000) } }
@@ -64,7 +83,7 @@ class SetupActivity : AppCompatActivity() {
             "stopped" -> codeStatus.text = "This device is stopped. Contact your provider."
             "expired" -> codeStatus.text = "Your subscription has ended. Contact your provider."
             "offline" -> codeStatus.text = "No internet connection"
-            else -> codeStatus.text = "Waiting for activation…"
+            else -> if (!codeStatus.text.startsWith("Promo code accepted") || byHand) codeStatus.text = if (App.prefs.getBoolean("promo_ok", false)) "Promo code accepted ✓  Waiting for your provider to finish the activation…" else "Waiting for activation…"
         }
     }
 }
