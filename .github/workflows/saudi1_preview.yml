@@ -1,12 +1,12 @@
 name: SAUDI.TV preview copy
 
 # A copy of the app with another package name (com.saudi1.tv.preview), to see a brand-new install
-# (activation, payment, promo code) on a TV that already has the real app. Not published: an artifact only.
+# (activation, payment, promo code) on a TV that already has the real app. Put on its own pre-release "saudi1-preview".
 on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: saudi1-preview
@@ -33,8 +33,10 @@ jobs:
           BUILD_NUMBER: ${{ github.run_number }}
           APP_SUFFIX: ".preview"
         run: gradle -p saudi1 assembleRelease --no-daemon --console=plain
-      - uses: actions/upload-artifact@v4
-        with:
-          name: saudi1-preview
-          path: saudi1/app/build/outputs/apk/release/app-release.apk
-          retention-days: 3
+      - name: Publish the copy
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cp saudi1/app/build/outputs/apk/release/app-release.apk SAUDI1_preview.apk
+          gh release view saudi1-preview >/dev/null 2>&1 || gh release create saudi1-preview --title "SAUDI.TV preview copy" --notes "Test copy (com.saudi1.tv.preview) for screenshots of a new install. Not for viewers." --prerelease --latest=false
+          gh release upload saudi1-preview SAUDI1_preview.apk --clobber
