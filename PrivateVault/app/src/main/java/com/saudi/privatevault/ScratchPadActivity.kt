@@ -179,7 +179,7 @@ class ScratchPadActivity : BaseActivity() {
         for (cl in intArrayOf(if (light) Color.BLACK else Color.WHITE, 0xFF8FD3FF.toInt(), 0xFF2D8CFF.toInt(), 0xFF34C759.toInt(),
                 0xFFFFD60A.toInt(), 0xFFFF9F0A.toInt(), 0xFFFF453A.toInt(), 0xFFBF5AF2.toInt())) {
             sw.addView(View(this).apply {
-                background = GradientDrawable().apply { shape = GradientDrawable.OVAL; setColor(cl); setStroke(dp(if (cl == color) 3 else 1), if (cl == color) blue else 0x55FFFFFF) }
+                background = GradientDrawable().apply { shape = GradientDrawable.OVAL; setColor(cl); setStroke(dp(if (cl == this@ScratchPadActivity.color) 3 else 1), if (cl == this@ScratchPadActivity.color) blue else 0x55FFFFFF) }
                 setOnClickListener { pickColor(cl) }
             }, android.widget.GridLayout.LayoutParams().apply { width = dp(26); height = dp(26); setMargins(dp(3), dp(3), dp(3), dp(3)) })
         }
