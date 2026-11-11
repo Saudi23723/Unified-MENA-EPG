@@ -137,6 +137,7 @@ class EfbHomeActivity : BaseActivity() {
         group(R.string.home_plan, listOf(
             Item("🧭", 0xFF2D7FF9.toInt(), R.string.plan_title, R.string.sub_plan) { startActivity(Intent(this, MapActivity::class.java).putExtra(MapActivity.EXTRA_NAVLOG, true)) },
             Item("⚖️", 0xFF8E5CF7.toInt(), R.string.wb_title, R.string.sub_wb) { open(WeightBalanceActivity::class.java) },
+            Item("🛫", 0xFF34C759.toInt(), R.string.perf_title, R.string.perf_sub) { open(PerformanceActivity::class.java) },
             Item("🧮", 0xFF00A6A6.toInt(), R.string.e6b_title, R.string.sub_e6b) { open(E6bActivity::class.java) },
             Item("📻", 0xFF34C759.toInt(), R.string.freq_title, R.string.sub_freq) { open(FrequenciesActivity::class.java) },
             Item("📈", 0xFFFF9F0A.toInt(), R.string.map_profile, R.string.sub_profile) { startActivity(Intent(this, MapActivity::class.java).putExtra(MapActivity.EXTRA_PROFILE, true)) },

@@ -147,6 +147,7 @@ class AirportSheet(
             text = act.getString(label); isAllCaps = false; setOnClickListener { onClick() }
         }, LinearLayout.LayoutParams(-1, -2))
         wide(R.string.apt_plates) { plates() }
+        wide(R.string.perf_title) { act.startActivity(android.content.Intent(act, PerformanceActivity::class.java)) }
         wide(R.string.efb_diagram) { AirportDiagramActivity.open(act, a) }
         wide(R.string.apt_supplement) { supplement() }
         wide(R.string.freq_title) { FrequenciesActivity.open(act, a.icao.ifEmpty { a.ident }) }

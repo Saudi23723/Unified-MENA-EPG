@@ -834,6 +834,12 @@
     <string name="plan_winds_fetching">جاري جلب الرياح فوق…</string>
     <string name="plan_winds_none">ما قدرت أجيب توقعات الرياح هلق.</string>
     <string name="svt_split">🛩 الرؤية الاصطناعية جنب الخريطة</string>
+    <string name="perf_title">🛫 أداء الإقلاع والهبوط</string>
+    <string name="perf_sub">من POH الـ SportStar مع رياح اليوم لكل مدرج</string>
+    <string name="perf_load">جلب طقس المطار</string>
+    <string name="perf_calc">احسب</string>
+    <string name="perf_no_rwy">ما في بيانات مدارج لهالمطار.</string>
+    <string name="perf_note">الأرقام من POH الـ SportStar MAX (SSM2008AOIUS) القسم 5.2.3–5.2.4: وزن 1268 lbs، مستوى سطح البحر ISA، مع تصحيحات الـ POH للريح الخلفية والميلان. الـ POH ما فيه جداول للارتفاع؛ تقدير الـ DA قاعدة تقريبية (+10% إقلاع، +5% هبوط لكل 1000 ft) مش من الـ POH. الريح الأمامية ما انحسبت (أكثر أماناً). تحقق دائماً من الـ POH.</string>
     <string name="map_circle">دائرة</string>
     <string name="map_ruler">مسطرة</string>
     <string name="pen_write">كتابة وتظليل</string>

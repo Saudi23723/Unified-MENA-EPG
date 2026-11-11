@@ -820,6 +820,12 @@ or tap an airport → Add to route, or long-press anywhere on the chart.</string
     <string name="plan_winds_fetching">Fetching winds aloft…</string>
     <string name="plan_winds_none">Could not get the winds-aloft forecast right now.</string>
     <string name="svt_split">🛩 Synthetic vision beside the map</string>
+    <string name="perf_title">🛫 Takeoff &amp; landing performance</string>
+    <string name="perf_sub">From the SportStar POH with today’s wind, every runway</string>
+    <string name="perf_load">Load field weather</string>
+    <string name="perf_calc">Calculate</string>
+    <string name="perf_no_rwy">No runway data for this airport.</string>
+    <string name="perf_note">Figures from the SportStar MAX POH (SSM2008AOIUS) 5.2.3–5.2.4: 1268 lbs, sea level ISA, with the POH corrections for tailwind and slope. The POH has no altitude data; the DA estimate is a rule of thumb (+10% takeoff, +5% landing per 1,000 ft), not POH. Headwind is not credited (conservative). Always verify with the POH.</string>
     <string name="map_circle">Circle</string>
     <string name="map_ruler">Ruler</string>
     <string name="pen_write">Write and highlight</string>
