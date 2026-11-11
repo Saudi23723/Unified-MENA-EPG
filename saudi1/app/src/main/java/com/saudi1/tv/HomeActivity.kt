@@ -112,6 +112,52 @@ class HomeActivity : BaseActivity() {
         row.addView(v, LinearLayout.LayoutParams(0, dp(54f * k), 1f).apply { if (!last) marginEnd = dp(16f) })
     }
 
+    // VPN ON / OFF on Home, only on a device that has a VPN (owner, 11 Nov 2026): green ON, grey OFF
+    private var vpnBtn: LinearLayout? = null
+    private var vpnLb: TextView? = null
+    private val vpnBg = android.graphics.drawable.GradientDrawable()
+    private var vpnBusy = false
+    private fun vpnChip(row: LinearLayout) {
+        vpnBg.cornerRadius = 16f * d
+        val v = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = android.view.Gravity.CENTER; isFocusable = true; isClickable = true }
+        val lb = tv("VPN", 16f, 0xFFFFFFFF.toInt(), true)
+        v.addView(lb)
+        v.setOnClickListener { vpnTap() }
+        focusFx(v, vpnBg, solid(0xFFF2F4F8.toInt(), 16f), 16f) { f -> lb.setTextColor(if (f) 0xFF0B0E14.toInt() else 0xFFFFFFFF.toInt()) }
+        row.addView(v, LinearLayout.LayoutParams(0, dp(54f * k), 1f).apply { marginEnd = dp(16f) })
+        vpnBtn = v; vpnLb = lb
+        vpnShow()
+    }
+    private fun vpnShow() {
+        val b = vpnBtn ?: return
+        b.visibility = if (Vpn.conf.isBlank()) View.GONE else View.VISIBLE
+        vpnLb?.text = when { vpnBusy -> "🛡  VPN …"; Vpn.up -> "🛡  VPN  ON"; else -> "🛡  VPN  OFF" }
+        vpnBg.setColor(if (Vpn.up) 0xFF10B981.toInt() else 0xFF4B5563.toInt())
+    }
+    private fun vpnTap() {
+        if (vpnBusy || Vpn.conf.isBlank()) return
+        if (Vpn.up) {
+            Vpn.wanted = false; vpnBusy = true; vpnShow()
+            lifecycleScope.launch { withContext(Dispatchers.IO) { Vpn.stop(this@HomeActivity) }; vpnBusy = false; vpnShow() }
+            return
+        }
+        val ask = android.net.VpnService.prepare(this)
+        if (ask != null) startActivityForResult(ask, 20) else vpnGo()
+    }
+    private fun vpnGo() {
+        vpnBusy = true; vpnShow()
+        lifecycleScope.launch {
+            val err = withContext(Dispatchers.IO) { Vpn.start(this@HomeActivity) }
+            Vpn.wanted = err == null; vpnBusy = false; vpnShow()
+            if (err != null) android.widget.Toast.makeText(this@HomeActivity, "VPN failed: $err", android.widget.Toast.LENGTH_LONG).show()
+        }
+    }
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(req: Int, res: Int, data: Intent?) {
+        super.onActivityResult(req, res, data)
+        if (req == 20 && res == RESULT_OK) vpnGo()
+    }
+
     private fun buildCards() {
         val main = findViewById<LinearLayout>(R.id.mainRow); val small = findViewById<LinearLayout>(R.id.smallRow)
         val h = dp(286f * k)
@@ -147,6 +193,7 @@ class HomeActivity : BaseActivity() {
         chip(small, "🔍", "Search") { open(SearchActivity::class.java) }
         chip(small, "☰", "Playlists") { playlists() }
         chip(small, "⟳", "Reload") { reload() }
+        vpnChip(small)
         chip(small, "⚙", "Settings", last = true) { startActivity(Intent(this, SettingsActivity::class.java)) }
         live.requestFocus()
         if (isTouch) findViewById<View>(R.id.homeCol).setPadding(dp(22f), dp(14f), dp(22f), dp(40f))
@@ -187,6 +234,7 @@ class HomeActivity : BaseActivity() {
             }
         }
         if (!Prefs.ready) { startActivity(Intent(this, SetupActivity::class.java)); return }
+        vpnShow()
         status.text = (Device.name.ifEmpty { Prefs.server.substringAfter("://") }) + "   ·   Device " + Device.pretty
         // the lists are ready before Live TV opens: from the copy on the TV first, then fresh in the background
         lifecycleScope.launch(Dispatchers.IO) {
@@ -198,6 +246,7 @@ class HomeActivity : BaseActivity() {
             }
             // the VPN starts by itself when it is on (Android asked for permission once, in Settings)
             if (Vpn.wanted && !Vpn.up && Vpn.conf.isNotBlank() && android.net.VpnService.prepare(this@HomeActivity) == null) Vpn.start(this@HomeActivity)
+            withContext(Dispatchers.Main) { vpnShow() }
             withContext(Dispatchers.Main) { showLast() }
             if (Api.groups.isEmpty() || System.currentTimeMillis() - lastLoad > 15 * 60_000) {
                 try { if (Api.load(cached = false)) lastLoad = System.currentTimeMillis() } catch (_: Exception) { }
