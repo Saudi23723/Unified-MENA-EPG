@@ -91,6 +91,9 @@ class SettingsActivity : BaseActivity() {
                 }.setNegativeButton("Cancel", null).show()
         }
 
+        section("Arrange")
+        row("Arrange groups and channels", if (Arrange.any) "Your own order · ${Arrange.hiddenGroups.size} groups and ${Arrange.hiddenChannels.size} channels hidden" else "Move groups, hide groups or channels") { arrange() }
+
         section("Parental lock")
         row("PIN lock", if (Parental.on) "On · adult groups are locked" else "Off") { pinDialog() }
         if (Parental.on) row("Lock / unlock groups", "${Parental.locked.size} chosen groups") {
@@ -172,6 +175,40 @@ class SettingsActivity : BaseActivity() {
         val set = { AlertDialog.Builder(this).setTitle("New PIN (4 digits)").setView(e).setPositiveButton("Save") { _, _ ->
             val p = e.text.toString(); if (p.length == 4) { Parental.pin = p; Parental.unlocked = false; build() } }.setNeutralButton("Turn off") { _, _ -> Parental.pin = ""; build() }.show() }
         if (Parental.on) Parental.ask(this) { set() } else set()
+    }
+
+    /** the viewer's own order: pick a group, then move it, hide it, or hide channels inside it */
+    private fun arrange(at: Int = 0) {
+        if (Api.rawGroups.isEmpty()) { android.widget.Toast.makeText(this, "Open Live TV once first", android.widget.Toast.LENGTH_SHORT).show(); return }
+        val gs = Arrange.apply(Api.rawGroups, all = true)
+        val hg = Arrange.hiddenGroups; val hc = Arrange.hiddenChannels
+        val names = gs.map { g -> (if (g.id in hg) "✕  " else "") + g.name + g.channels.count { it.id.toString() in hc }.let { n -> if (n > 0) "   ($n hidden)" else "" } } + listOf("↺  Back to the playlist's own order (show everything)")
+        val dlg = AlertDialog.Builder(this).setTitle("Arrange · pick a group").setItems(names.toTypedArray()) { _, w ->
+            if (w == gs.size) { Arrange.reset(); Api.groups = emptyList(); build(); return@setItems }
+            val g = gs[w]; val hidden = g.id in hg
+            fun move(to: Int) {
+                val ids = gs.map { it.id }.toMutableList(); ids.removeAt(w); ids.add(to.coerceIn(0, ids.size), g.id)
+                Arrange.order = ids; Api.groups = emptyList(); arrange(to.coerceIn(0, ids.size - 1))
+            }
+            AlertDialog.Builder(this).setTitle(g.name).setItems(arrayOf("▲  Move up", "▼  Move down", "⤒  Move to the top", "⤓  Move to the end",
+                if (hidden) "👁  Show this group" else "✕  Hide this group", "Hide / show channels in this group…")) { _, a ->
+                when (a) {
+                    0 -> move(w - 1); 1 -> move(w + 1); 2 -> move(0); 3 -> move(gs.size - 1)
+                    4 -> { Arrange.hiddenGroups = if (hidden) hg - g.id else hg + g.id; Api.groups = emptyList(); arrange(w) }
+                    5 -> {
+                        val chk = g.channels.map { it.id.toString() in hc }.toBooleanArray()
+                        AlertDialog.Builder(this).setTitle("Tick the channels to hide").setMultiChoiceItems(g.channels.map { it.name }.toTypedArray(), chk) { _, i, c -> chk[i] = c }
+                            .setPositiveButton("Save") { _, _ ->
+                                val ids = g.channels.map { it.id.toString() }
+                                Arrange.hiddenChannels = (hc - ids.toSet()) + ids.filterIndexed { i, _ -> chk[i] }
+                                Api.groups = emptyList(); arrange(w)
+                            }.setNegativeButton("Cancel", null).show()
+                    }
+                }
+            }.show()
+        }.setOnDismissListener { build() }.create()
+        dlg.show()
+        dlg.listView?.setSelection(at)
     }
 
     private fun section(t: String) {

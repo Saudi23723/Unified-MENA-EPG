@@ -110,6 +110,8 @@ object Api {
      *  else what the relay's extra event groups (91xx) are, never a bare "Other" twice */
     fun unlisted(cat: String, name: String) = name.trim().ifEmpty { if (Regex("^91\\d\\d$").matches(cat)) "🔥 PPV ᴇᴠᴇɴᴛꜱ" else "Other" }
 
+    @Volatile var rawGroups: List<Group> = emptyList()
+
     private fun build(cats: InputStream, streams: InputStream) {
         val order = ArrayList<Group>(); val map = HashMap<String, Group>()
         JsonReader(InputStreamReader(cats, Charsets.UTF_8)).use { j ->
@@ -155,7 +157,9 @@ object Api {
         val out = ArrayList<Group>()
         out.add(Group(FAV, "★ Favorites", all.filter { it.id.toString() in fav }.toMutableList()))
         out.add(Group(ALL, "All channels", all))
-        out.addAll(order.filter { it.channels.isNotEmpty() })
+        // the provider's groups as they came (for the arranging screen), then the viewer's own order / hidden ones
+        rawGroups = order.filter { it.channels.isNotEmpty() }.map { Group(it.id, it.name, ArrayList(it.channels)) }
+        out.addAll(Arrange.apply(order.filter { it.channels.isNotEmpty() }))
         // the dashboard screens open from "Sports today" on the home screen (not a group in the list);
         // Ain FM is the first channel of All channels
         val d = dashboard()
