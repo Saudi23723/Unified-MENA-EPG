@@ -19,8 +19,8 @@ if [ ! -f wg0.conf ]; then
 Address = $NET.1/24
 ListenPort = $PORT
 PrivateKey = $(cat server.key)
-PostUp = iptables -I INPUT -p udp --dport $PORT -j ACCEPT; iptables -I FORWARD -i wg0 -j ACCEPT; iptables -I FORWARD -o wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o $IF -j MASQUERADE
-PostDown = iptables -D INPUT -p udp --dport $PORT -j ACCEPT; iptables -D FORWARD -i wg0 -j ACCEPT; iptables -D FORWARD -o wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o $IF -j MASQUERADE
+PostUp = iptables -I INPUT -p udp --dport $PORT -j ACCEPT; iptables -I FORWARD -i wg0 -j ACCEPT; iptables -I FORWARD -o wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o $IF -j MASQUERADE; iptables -t mangle -A FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
+PostDown = iptables -D INPUT -p udp --dport $PORT -j ACCEPT; iptables -D FORWARD -i wg0 -j ACCEPT; iptables -D FORWARD -o wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o $IF -j MASQUERADE; iptables -t mangle -D FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
 CONF
 fi
 for i in $(seq 1 "$N"); do
@@ -42,7 +42,7 @@ AllowedIPs = 0.0.0.0/0
 PersistentKeepalive = 25
 CONF
 done
-echo 'net.ipv4.ip_forward=1' > /etc/sysctl.d/99-saudi1-vpn.conf && sysctl -q --system
+printf 'net.ipv4.ip_forward=1\nnet.core.default_qdisc=fq\nnet.ipv4.tcp_congestion_control=bbr\nnet.core.rmem_max=16777216\nnet.core.wmem_max=16777216\nnet.core.netdev_max_backlog=5000\n' > /etc/sysctl.d/99-saudi1-vpn.conf && sysctl -q --system
 systemctl enable -q wg-quick@wg0 && systemctl restart wg-quick@wg0
 echo; echo "=== VPN is up on $IP:$PORT (UDP). Also open UDP $PORT in the cloud provider's firewall / security list. ==="
 for f in clients/*.conf; do echo; echo "----- $f -----"; cat "$f"; done

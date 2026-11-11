@@ -117,7 +117,8 @@ object Device {
                 name = o.optString("name"); expires = o.optLong("expires")
                 // the time zone of the place the device is in now (a Chromecast on Wi-Fi does not find it by itself):
                 // the guide, the matches, the clock in the app follow it (owner, 11 Nov 2026: a pilot's TV)
-                (o.optString("tz").takeIf { it.contains('/') } ?: netZone())?.let { tz ->
+                // not while our VPN is on: the internet then comes out in Phoenix and the clock would jump an hour (owner, 11 Nov 2026)
+                (if (Vpn.up) null else (o.optString("tz").takeIf { it.contains('/') } ?: netZone()))?.let { tz ->
                     if (App.prefs.getString("net_tz", "") != tz) App.prefs.edit().putString("net_tz", tz).apply()
                     App.useZone(tz)
                 }
