@@ -597,8 +597,6 @@ object NotePad {
 
     fun isOpen() = window?.isAttachedToWindow == true
 
-    fun isOpen() = window != null
-
     fun close(act: Activity) {
         val w = window ?: return
         window = null
