@@ -738,7 +738,7 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
         p.roundMarker = VaultLock.prefs(this).getBoolean("round_marker", false)
         // The pen: a long press, or a tap when it is already in hand, picks the kind of pen.
         p.penStyle = VaultLock.prefs(this).getInt("pen_style", 0)
-        fun penKinds() = PenInk.choose(this, p.penStyle) { i ->
+        fun penKinds() = PenInk.choose(this, p.penStyle, onLaser = { LaserLayer.start(this) }) { i ->
             p.penStyle = i
             VaultLock.prefs(this).edit().putInt("pen_style", i).apply()
             pick(Tool.PEN)

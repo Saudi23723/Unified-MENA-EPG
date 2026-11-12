@@ -545,12 +545,16 @@ object PenInk {
         }
     }
 
-    /** The pens, to pick one. */
-    fun choose(ctx: android.content.Context, current: Int, onPick: (Int) -> Unit) {
-        val items = PenStyle.values().map { (if (it.ordinal == current) "● " else "   ") + it.label }.toTypedArray()
+    /** The pens worth having, few and distinct (older drawings keep their own pen). */
+    private val OFFERED = listOf(PenStyle.BALLPOINT, PenStyle.PENCIL, PenStyle.MARKER, PenStyle.DASHED, PenStyle.NEON)
+
+    /** The pens, to pick one; with [onLaser], the laser pointer too. */
+    fun choose(ctx: android.content.Context, current: Int, onLaser: (() -> Unit)? = null, onPick: (Int) -> Unit) {
+        val labels = OFFERED.map { (if (it.ordinal == current) "● " else "   ") + it.label }.toMutableList()
+        if (onLaser != null) labels += "   🔴 Laser pointer"
         com.google.android.material.dialog.MaterialAlertDialogBuilder(ctx)
             .setTitle(ctx.getString(R.string.pen_kinds))
-            .setItems(items) { _, i -> onPick(i) }
+            .setItems(labels.toTypedArray()) { _, i -> if (i < OFFERED.size) onPick(OFFERED[i].ordinal) else onLaser?.invoke() }
             .show()
     }
 }

@@ -36,15 +36,17 @@ object Traffic {
 
     // ---- internet ----
 
-    // Three free ADS-B networks fed by receivers on the ground; the one that answered last is asked first.
+    // Two free ADS-B networks fed by receivers on the ground; the one that answered last is asked first.
+    // (airplanes.live now refuses apps without an agreement: it answers 403 with a JSON error.)
     private val SOURCES = listOf(
-        "https://api.airplanes.live/v2/point/%.4f/%.4f/%d",
-        "https://opendata.adsb.fi/api/v2/lat/%.4f/lon/%.4f/dist/%d",
         "https://api.adsb.lol/v2/point/%.4f/%.4f/%d",
+        "https://opendata.adsb.fi/api/v2/lat/%.4f/lon/%.4f/dist/%d",
     )
     @Volatile private var good = 0
     /** Which network the traffic came from last, for the map's label. */
     @Volatile var source = ""
+    /** Why the last fetch brought nothing, for the message. */
+    @Volatile var lastError = ""
 
     /** Aircraft within [radiusNm] from the ADS-B networks (call off the main thread). */
     fun fetch(lat: Double, lon: Double, radiusNm: Int = 40) {
@@ -53,11 +55,13 @@ object Traffic {
             var text: String? = null
             for (k in SOURCES.indices) {
                 val i = (good + k) % SOURCES.size
-                text = try { AviationData.get(SOURCES[i].format(java.util.Locale.US, lat, lon, radiusNm), 6000) } catch (e: Exception) { null }
-                if (text != null && text.trimStart().startsWith("{")) { good = i; source = java.net.URI(SOURCES[i]).host; break }
+                text = try { AviationData.get(SOURCES[i].format(java.util.Locale.US, lat, lon, radiusNm), 8000) } catch (e: Exception) { lastError = "${java.net.URI(SOURCES[i]).host}: ${e.message ?: e.javaClass.simpleName}"; null }
+                // Only a real answer: an error message is JSON too.
+                if (text != null && text.trimStart().startsWith("{") && ("\"ac\"" in text || "\"aircraft\"" in text)) { good = i; source = java.net.URI(SOURCES[i]).host; break }
                 text = null
             }
             val j = JSONObject(text ?: return)
+            lastError = ""
             val ac = j.optJSONArray("ac") ?: j.optJSONArray("aircraft") ?: return
             val now = System.currentTimeMillis()
             for (i in 0 until ac.length()) {
@@ -118,7 +122,8 @@ object Traffic {
 
     private fun message(m: ByteArray) {
         val id = u(m, 0)
-        if (id == 0) receiverSeen = System.currentTimeMillis()   // heartbeat
+        // Only real position reports count as a receiver: a stray packet on port 4000 must not
+        // silence the internet feed.
         if ((id != 0x14 && id != 0x0A) || m.size < 28) return
         receiverSeen = System.currentTimeMillis()
         if (id == 0x0A) return   // ownship: the phone's own GPS already places the aircraft

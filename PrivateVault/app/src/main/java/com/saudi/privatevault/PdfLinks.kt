@@ -202,6 +202,9 @@ class PdfLinks private constructor(private val doc: PDDocument) : Closeable {
      * x = ax·lon + bx, y = ay·lat + by. Null when the page has no such scale.
      */
     class Geo(val ax: Double, val bx: Double, val ay: Double, val by: Double, val cx: Double = 0.0, val cy: Double = 0.0) {
+        /** The grid the chart prints its coordinates on: south, north, west, east (the drawing lies about inside it). */
+        var frame: DoubleArray? = null
+
         // x = ax·lon + cx·lat + bx ; y = ay·lat + cy·lon + by (a chart may be printed turned, north to a side).
         fun at(lat: Double, lon: Double) = floatArrayOf((ax * lon + cx * lat + bx).toFloat(), (ay * lat + cy * lon + by).toFloat())
 
@@ -264,8 +267,11 @@ class PdfLinks private constructor(private val doc: PDDocument) : Closeable {
         }
         val x = fit(lons); val y = fit(lats)
         // North up, east to the right.
-        if (x != null && y != null && x.first > 0 && y.first < 0) Geo(x.first, x.second, y.first, y.second)
-        else turned(latsXY, lonsXY)
+        val g = if (x != null && y != null && x.first > 0 && y.first < 0) Geo(x.first, x.second, y.first, y.second)
+            else turned(latsXY, lonsXY)
+        if (g != null && latsXY.size >= 2 && lonsXY.size >= 2)
+            g.frame = doubleArrayOf(latsXY.minOf { it[0] }, latsXY.maxOf { it[0] }, lonsXY.minOf { it[0] }, lonsXY.maxOf { it[0] })
+        g
     } catch (e: Exception) { null }
 
     /**

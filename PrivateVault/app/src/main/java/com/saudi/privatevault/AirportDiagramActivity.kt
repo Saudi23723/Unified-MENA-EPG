@@ -143,7 +143,7 @@ class AirportDiagramActivity : BaseActivity() {
         lateinit var c3d: TextView
         lateinit var cTrack: TextView
         lateinit var cFollow: TextView
-        c3d = chip("3D") { tilt(!tilted); mark(c3d, tilted) }
+        c3d = chip("3D") { tilt(!tilted); mark(c3d, tilted) }.apply { visibility = View.GONE }   // a tilted flat picture is not 3D
         cTrack = chip("🧭 Track up") {
             trackUp = !trackUp
             mark(cTrack, trackUp)
