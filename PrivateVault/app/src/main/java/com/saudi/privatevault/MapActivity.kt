@@ -229,7 +229,10 @@ class MapActivity : BaseActivity(), NeonHost {
         insetOv = DiagramInsetOverlay(map) { ins -> showCard(ins) }
         map.overlays.add(insetOv)
         buildCard()
-        procOv = ProcedureOverlay(map)
+        procOv = ProcedureOverlay(map).apply {
+            me = { ownship.position()?.takeIf { gotGps }?.let { g -> Triple(g, ownship.fix?.takeIf { it.hasAltitude() }?.altitude?.times(3.28084), ownship.speedKt()) } }
+        }
+        ProcedureUi.here = { ownship.position()?.takeIf { gotGps } ?: map.mapCenter as GeoPoint }
         map.overlays.add(map.overlays.indexOf(insetOv).coerceAtLeast(0), procOv)
         b.root.postDelayed({ autoDiagrams() }, 2500)
         b.fabLocate.setOnClickListener { cycleView() }
@@ -1235,7 +1238,11 @@ class MapActivity : BaseActivity(), NeonHost {
         bar.addView(LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             addView(EfbUi.text(this@MapActivity, "${p.icao} · ${p.name}", 14f, 0xFFFFFFFF.toInt(), bold = true).apply { maxLines = 1 })
-            addView(EfbUi.text(this@MapActivity, trans?.let { "via $it" } ?: "vectors to final", 11.5f, 0xFFB0B4BC.toInt()).apply { maxLines = 1 })
+            val faf = p.final.firstOrNull { it.role == "F" }
+            val sub = listOfNotNull(trans?.let { "via $it" } ?: "vectors to final",
+                p.finalCourse()?.let { "final ${Nav.deg(it)}" },
+                faf?.let { f -> "FAF ${f.fix}" + (f.altText().takeIf { it.isNotEmpty() }?.let { " $it'" } ?: "") }).joinToString(" · ")
+            addView(EfbUi.text(this@MapActivity, sub, 11.5f, 0xFFB0B4BC.toInt()).apply { maxLines = 1 })
         }, LinearLayout.LayoutParams(-2, -2).apply { marginEnd = dp(8) })
         fun act(t: String, color: Int = 0xFFFFFFFF.toInt(), go: () -> Unit) = bar.addView(TextView(this).apply {
             text = t; textSize = 13f; setTextColor(color); gravity = Gravity.CENTER; typeface = EfbUi.MEDIUM
@@ -1245,6 +1252,10 @@ class MapActivity : BaseActivity(), NeonHost {
         act("📄 Plate") { ProcedureUi.plate(this, p) }
         act("🔀 Transition") { ProcedureUi.transition(this, p, { q, t -> showProcedure(q, t) }, { q, t -> addProcedure(q, t) }) }
         act("📋 Brief") { ProcedureUi.advisor(this, p, trans, { q, t -> showProcedure(q, t) }, { q, t -> addProcedure(q, t) }) }
+        act("➜ Direct", 0xFFFF2D9B.toInt()) {
+            val e = procOv.entry() ?: return@act
+            directTo(FlightPlan.Waypoint(e.fix, e.lat!!, e.lon!!))
+        }
         act("➕ Route") { addProcedure(p, trans) }
         act("🗺 Plate on chart") {
             plateOv?.let { o -> o.isEnabled = !o.isEnabled; map.invalidate()

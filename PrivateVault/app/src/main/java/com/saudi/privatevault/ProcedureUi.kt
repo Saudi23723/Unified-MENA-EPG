@@ -31,6 +31,52 @@ import org.osmdroid.views.overlay.Overlay
 class ProcedureOverlay(map: MapView) : Overlay() {
     var proc: Cifp.Procedure? = null
     var transition: String? = null
+    /** The aircraft: position, altitude (ft) and ground speed (kt), or null on the ground / without GPS. */
+    var me: () -> Triple<GeoPoint, Double?, Double>? = { null }
+
+    /** The first fix the aircraft flies to: the transition's start, or the final's first fix with vectors. */
+    fun entry(): Cifp.Leg? = proc?.legs(transition)?.firstOrNull { !it.missed && it.lat != null && it.lon != null }
+
+    /** The way from the aircraft to the approach: bearing, distance, time, and the height to lose for the entry fix's altitude. */
+    private fun drawWayIn(c: Canvas, mv: MapView) {
+        val m = me() ?: return
+        val e = entry() ?: return
+        val here = m.first
+        val dist = Nav.distanceNm(here.latitude, here.longitude, e.lat!!, e.lon!!)
+        if (dist < 0.3) return
+        val pr = mv.projection
+        pr.toPixels(here, p0); pr.toPixels(GeoPoint(e.lat, e.lon), p1)
+        c.drawLine(p0.x.toFloat(), p0.y.toFloat(), p1.x.toFloat(), p1.y.toFloat(), toHalo)
+        c.drawLine(p0.x.toFloat(), p0.y.toFloat(), p1.x.toFloat(), p1.y.toFloat(), toLine)
+        val brg = Nav.magnetic(Nav.bearingTrue(here.latitude, here.longitude, e.lat, e.lon), here.latitude, here.longitude)
+        val gs = m.third
+        val ete = if (gs > 25) " · %d min".format(Math.round(dist / gs * 60)) else ""
+        val l1 = "→ ${e.fix}${e.roleText().takeIf { it.isNotEmpty() && it != "Step-down" }?.let { " ($it)" } ?: ""} · ${Nav.deg(brg)}M · %.1f nm$ete".format(dist)
+        // The height: what the entry fix asks against where the aircraft is, and the descent rate it takes.
+        var l2 = ""
+        val alt = m.second; val want = e.alt1
+        if (alt != null && want != null) {
+            val diff = alt - want
+            l2 = when {
+                diff > 150 && (e.altDesc == '+') -> "At or above %,d' — you are %,d' above".format(want, Math.round(diff))
+                diff > 150 -> {
+                    val fpm = if (gs > 25) diff / (dist / gs * 60) else Double.NaN
+                    "Descend %,d' to %,d'".format(Math.round(diff), want) + (if (!fpm.isNaN()) " · %,d fpm".format(Math.round(fpm / 50) * 50) else "") +
+                        (if (!fpm.isNaN() && fpm > 1000) " · start down now" else "")
+                }
+                diff < -150 && e.altDesc != '-' -> "Climb %,d' to %,d'".format(Math.round(-diff), want)
+                else -> "On altitude for ${e.fix} (%,d')".format(want)
+            }
+        }
+        val x = (p0.x + p1.x) / 2f; val y = (p0.y + p1.y) / 2f
+        c.save(); c.rotate(-mv.mapOrientation, x, y)
+        val w = maxOf(toTx.measureText(l1), if (l2.isEmpty()) 0f else toTx2.measureText(l2))
+        val h = if (l2.isEmpty()) 22 * d else 38 * d
+        c.drawRoundRect(RectF(x - w / 2 - 8 * d, y - h / 2, x + w / 2 + 8 * d, y + h / 2), 7 * d, 7 * d, toBg)
+        c.drawText(l1, x - w / 2, y - h / 2 + 15.5f * d, toTx)
+        if (l2.isNotEmpty()) c.drawText(l2, x - w / 2, y - h / 2 + 32 * d, toTx2)
+        c.restore()
+    }
 
     private val d = map.resources.displayMetrics.density
     private val line = Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.STROKE; strokeWidth = 4.5f * d; strokeCap = Paint.Cap.ROUND; strokeJoin = Paint.Join.ROUND }
@@ -42,6 +88,12 @@ class ProcedureOverlay(map: MapView) : Overlay() {
     private val nameTx = Paint(Paint.ANTI_ALIAS_FLAG).apply { textSize = 12.5f * d; isFakeBoldText = true; color = 0xFF111111.toInt() }
     private val nameHalo = Paint(nameTx).apply { style = Paint.Style.STROKE; strokeWidth = 3.5f * d; color = 0xEEFFFFFF.toInt() }
     private val p0 = Point(); private val p1 = Point()
+    private val toLine = Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.STROKE; strokeWidth = 3f * d; color = 0xFFFFFFFF.toInt(); strokeCap = Paint.Cap.ROUND
+        pathEffect = DashPathEffect(floatArrayOf(12 * d, 8 * d), 0f) }
+    private val toHalo = Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.STROKE; strokeWidth = 6f * d; color = 0xAA000000.toInt(); strokeCap = Paint.Cap.ROUND }
+    private val toBg = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0xEE1B1D22.toInt() }
+    private val toTx = Paint(Paint.ANTI_ALIAS_FLAG).apply { textSize = 12.5f * d; isFakeBoldText = true; color = 0xFFFFFFFF.toInt() }
+    private val toTx2 = Paint(toTx).apply { isFakeBoldText = false; textSize = 11.5f * d; color = 0xFFFFD60A.toInt() }
 
     private fun toTrue(magCourse: Double, lat: Double, lon: Double): Double {
         val m = Nav.magnetic(magCourse, lat, lon)
@@ -51,6 +103,7 @@ class ProcedureOverlay(map: MapView) : Overlay() {
     override fun draw(c: Canvas, mv: MapView, shadow: Boolean) {
         if (shadow) return
         val p = proc ?: return
+        drawWayIn(c, mv)
         val legs = p.legs(transition)
         val pr = mv.projection
         var last: DoubleArray? = null
@@ -130,6 +183,8 @@ class ProcedureOverlay(map: MapView) : Overlay() {
 object ProcedureUi {
     /** A procedure chosen away from the map, to show when the map comes back. */
     var pending: Pair<Cifp.Procedure, String?>? = null
+    /** Where the aircraft is (the map sets it), to tell the nearest transition. */
+    var here: () -> GeoPoint? = { null }
 
     fun choose(act: AppCompatActivity, icao: String, onShow: (Cifp.Procedure, String?) -> Unit, onAdd: ((Cifp.Procedure, String?) -> Unit)?) {
         val code = icao.uppercase().let { if (it.length == 3) "K$it" else it }
@@ -154,7 +209,12 @@ object ProcedureUi {
     fun transition(act: AppCompatActivity, p: Cifp.Procedure, onShow: (Cifp.Procedure, String?) -> Unit, onAdd: ((Cifp.Procedure, String?) -> Unit)?) {
         val keys = p.transitions.keys.toList()
         if (keys.isEmpty()) { advisor(act, p, null, onShow, onAdd); return }
-        val labels = keys.map { k -> k + (p.transitions[k]?.firstOrNull()?.let { if (it.role == "A") " (IAF)" else "" } ?: "") } + "Vectors to final"
+        // Each transition's start, with its distance from the aircraft, the nearest one marked.
+        val h = here()
+        val far = keys.map { k -> p.transitions[k]?.firstOrNull { it.lat != null }?.let { l -> h?.let { Nav.distanceNm(it.latitude, it.longitude, l.lat!!, l.lon!!) } } }
+        val best = far.withIndex().filter { it.value != null }.minByOrNull { it.value!! }?.index
+        val labels = keys.mapIndexed { i, k -> (if (i == best) "★ " else "") + k + (p.transitions[k]?.firstOrNull()?.let { if (it.role == "A") " (IAF)" else "" } ?: "") +
+            (far[i]?.let { "  ·  %.0f nm".format(it) } ?: "") + (if (i == best) "  · nearest" else "") } + "Vectors to final"
         MaterialAlertDialogBuilder(act).setTitle("${p.name} · transition")
             .setItems(labels.toTypedArray()) { _, i -> advisor(act, p, keys.getOrNull(i), onShow, onAdd) }
             .setNegativeButton(R.string.cancel, null).show()
