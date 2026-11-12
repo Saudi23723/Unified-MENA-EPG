@@ -201,7 +201,13 @@ class VodActivity : BaseActivity() {
                 }
                 if (current != FAV || at.values.all { it == 0L }) return@launch
                 val o = f.sortedByDescending { at[it.id] ?: 0L }
-                if (o.indices.any { o[it].id != f[it].id } && grid.focusedChild == null) { items = o; show() }
+                // it used to wait for no focus at all, so it never moved (the first poster always has the focus): now it moves
+                // unless the viewer has already gone further than the first one
+                val pos = grid.focusedChild?.let { grid.getChildAdapterPosition(it) } ?: -1
+                if (o.indices.any { o[it].id != f[it].id } && pos <= 0) {
+                    items = o; show()
+                    if (pos == 0) grid.post { grid.findViewHolderForAdapterPosition(0)?.itemView?.requestFocus() }
+                }
             }
             return
         }
