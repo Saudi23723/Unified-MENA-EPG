@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-12T12:51:03.695Z",
+  "updated_at": "2026-11-12T12:56:27.499Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -434,7 +434,7 @@
       "latitude": 40.7128,
       "longitude": -74.006,
       "temperature_c": 12.5,
-      "humidity": 74,
+      "humidity": 75,
       "wind_speed": 10.0,
       "rain_chance": 2,
       "condition": "غائم",
@@ -447,13 +447,13 @@
           "date": "2026-11-12",
           "code": 63,
           "max": 16.5,
-          "min": 8.6,
+          "min": 8.8,
           "rain": 93
         },
         {
           "date": "2026-11-13",
           "code": 63,
-          "max": 8.6,
+          "max": 8.8,
           "min": 3.5,
           "rain": 98
         },
@@ -494,7 +494,7 @@
         }
       ],
       "today_max": 16.5,
-      "today_min": 8.6,
+      "today_min": 8.8,
       "sunrise": "06:39",
       "sunset": "16:40",
       "uv": 3
@@ -505,13 +505,13 @@
       "latitude": 34.0522,
       "longitude": -118.2437,
       "temperature_c": 15.0,
-      "humidity": 70,
+      "humidity": 73,
       "wind_speed": 8.7,
       "rain_chance": 0,
-      "condition": "غائم جزئياً",
-      "weather_code": 2,
+      "condition": "صافٍ",
+      "weather_code": 0,
       "observed_at": "2026-11-12T04:45",
-      "feels_c": 13.6,
+      "feels_c": 13.8,
       "utc_offset": -28800,
       "days": [
         {
@@ -576,20 +576,20 @@
       "latitude": 41.8781,
       "longitude": -87.6298,
       "temperature_c": 4.1,
-      "humidity": 82,
+      "humidity": 85,
       "wind_speed": 20.0,
       "rain_chance": 9,
-      "condition": "صافٍ",
-      "weather_code": 0,
+      "condition": "صافٍ غالباً",
+      "weather_code": 1,
       "observed_at": "2026-11-12T06:45",
       "feels_c": -0.7,
       "utc_offset": -21600,
       "days": [
         {
           "date": "2026-11-12",
-          "code": 73,
+          "code": 75,
           "max": 6.7,
-          "min": 1.2,
+          "min": 0.9,
           "rain": 43
         },
         {
@@ -636,7 +636,7 @@
         }
       ],
       "today_max": 6.7,
-      "today_min": 1.2,
+      "today_min": 0.9,
       "sunrise": "06:36",
       "sunset": "16:32",
       "uv": 1
@@ -718,13 +718,13 @@
       "latitude": 32.7767,
       "longitude": -96.797,
       "temperature_c": 11.0,
-      "humidity": 84,
+      "humidity": 80,
       "wind_speed": 8.4,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-11-12T06:45",
-      "feels_c": 9.4,
+      "feels_c": 9.2,
       "utc_offset": -21600,
       "days": [
         {
@@ -789,7 +789,7 @@
       "latitude": 37.7749,
       "longitude": -122.4194,
       "temperature_c": 11.7,
-      "humidity": 78,
+      "humidity": 79,
       "wind_speed": 3.4,
       "rain_chance": 0,
       "condition": "صافٍ",
