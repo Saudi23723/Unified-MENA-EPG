@@ -66,6 +66,12 @@ class LiveActivity : BaseActivity() {
     private var toastJob: Job? = null
     private var overlayJob: Job? = null
     private var tries = 0
+    // the copy actually being played (a backup copy when the channel itself sends nothing), and the start watch
+    private var src: Channel? = null
+    private var startedAt = 0L
+    private var readyOnce = false
+    private val triedIds = HashSet<Int>()
+    private lateinit var noteV: TextView
     private var usingHls = false
     private val time = SimpleDateFormat("h:mm", Locale.ENGLISH)
     private val clockF = SimpleDateFormat("h:mm a", Locale.ENGLISH)
@@ -107,19 +113,23 @@ class LiveActivity : BaseActivity() {
         // fast start for live TV: small buffers, play as soon as there is a second of video
         player = Players.make(this, live = true)
         playerView.player = player
+        // a line on the picture itself: what is happening when a channel does not come (owner, 11 Nov 2026: "most channels not working")
+        noteV = TextView(this).apply {
+            setTextColor(0xFFFFFFFF.toInt()); textSize = 17f; gravity = android.view.Gravity.CENTER; visibility = View.GONE
+            setShadowLayer(6f, 0f, 1f, 0xFF000000.toInt()); setPadding(40, 20, 40, 20)
+        }
+        playerView.overlayFrameLayout?.addView(noteV, android.widget.FrameLayout.LayoutParams(-1, -1))
         playerView.resizeMode = App.prefs.getInt("resize", AspectRatioFrameLayout.RESIZE_MODE_FIT)
         player.addListener(object : Player.Listener {
             override fun onPlayerError(error: PlaybackException) {
-                val c = playing ?: return
+                if (playing == null) return
                 // fell behind the live edge (HLS): jump back to live, no error for the viewer
                 if (error.errorCode == PlaybackException.ERROR_CODE_BEHIND_LIVE_WINDOW) { player.seekToDefaultPosition(); player.prepare(); return }
-                // 1st: the same link again (a provider "500" is often a busy moment); 2nd: the channel's HLS link
-                // (some channels are sent as HLS on the .ts address: "no extractor could read the stream"); then give up
-                when (tries++) {
-                    0 -> lifecycleScope.launch { delay(1200); if (playing === c) start(c) }
-                    1 -> lifecycleScope.launch { delay(500); if (playing === c) start(c, hls = !Hls.has(c.id)) }
-                    else -> toast("This channel is not available right now")
-                }
+                fail(error.errorCodeName + " " + (error.cause?.javaClass?.simpleName ?: "") + " " + (error.message ?: "").take(80))
+            }
+            override fun onTracksChanged(tracks: androidx.media3.common.Tracks) {
+                val v = player.videoFormat
+                android.util.Log.w("SAUDI", "tracks: ${src?.name} video=${v?.sampleMimeType} ${v?.codecs} ${v?.width}x${v?.height} audio=${player.audioFormat?.sampleMimeType}")
             }
             override fun onVideoSizeChanged(videoSize: androidx.media3.common.VideoSize) {
                 // the banner opened before the picture: its line gets the real quality as soon as it is known
@@ -127,6 +137,7 @@ class LiveActivity : BaseActivity() {
                 if (banner.visibility == View.VISIBLE) findViewById<TextView>(R.id.bName).text = c.name + qualityTag()
             }
             override fun onPlaybackStateChanged(state: Int) {
+                if (!readyOnce) android.util.Log.w("SAUDI", "state $state: ${src?.name}")
                 // every moment spent waiting after the picture started puts the viewer that much behind live
                 if (state == Player.STATE_BUFFERING && player.currentPosition > 0) {
                     bufStart = android.os.SystemClock.elapsedRealtime()
@@ -137,8 +148,10 @@ class LiveActivity : BaseActivity() {
                 if (state != Player.STATE_BUFFERING && bufStart > 0) { lag += android.os.SystemClock.elapsedRealtime() - bufStart; bufStart = 0 }
                 if (state == Player.STATE_READY) {
                     // remember which link worked for this channel
-                    playing?.let { c -> if (usingHls) Hls.add(c.id) else if (tries > 0) Hls.remove(c.id) }
+                    src?.let { c -> if (usingHls) Hls.add(c.id) else if (tries > 0) Hls.remove(c.id) }
                     tries = 0
+                    if (!readyOnce) { readyOnce = true; android.util.Log.w("SAUDI", "picture after ${android.os.SystemClock.elapsedRealtime() - startedAt}ms: ${src?.name}") }
+                    if (src != null && src?.id != playing?.id) note("Backup copy: ${src?.name}", 4000) else note(null)
                 }
             }
         })
@@ -165,6 +178,9 @@ class LiveActivity : BaseActivity() {
             while (isActive) {
                 delay(1000)
                 maybeBackUp()
+                // nothing at all 12 s after starting (the provider answers but sends no picture): next try, without waiting a minute
+                if (playing != null && !readyOnce && startedAt > 0 && player.playWhenReady &&
+                    android.os.SystemClock.elapsedRealtime() - startedAt > 12_000) { startedAt = 0; fail("nothing in 12 s") }
                 if (playing == null || usingHls || player.playbackState != Player.STATE_READY || !player.isPlaying) continue
                 val ahead = player.bufferedPosition - player.currentPosition
                 val fast = player.playbackParameters.speed > 1f
@@ -174,7 +190,7 @@ class LiveActivity : BaseActivity() {
                 // behind live costs nothing, a spinner every few minutes does.
                 val want = when { ahead > 14_000 -> 1.05f; fast && ahead > 9_000 -> 1.05f; else -> 1f }
                 if (want != player.playbackParameters.speed) player.setPlaybackSpeed(want)
-                if (lag > 12_000 && ahead < 2_500) { lag = 0; playing?.let { start(it) } }
+                if (lag > 12_000 && ahead < 2_500) { lag = 0; (src ?: playing)?.let { start(it) } }
             }
         }
         // a picture that stops moving (the provider's stream stalls) starts again by itself
@@ -184,16 +200,16 @@ class LiveActivity : BaseActivity() {
             while (isActive) {
                 delay(3000)
                 val c = playing
-                if (c == null || !player.playWhenReady || player.playbackState == Player.STATE_IDLE || player.playbackState == Player.STATE_ENDED) { still = 0; last = -1; frames = -1; frozen = 0; continue }
+                if (c == null || !readyOnce || !player.playWhenReady || player.playbackState == Player.STATE_IDLE || player.playbackState == Player.STATE_ENDED) { still = 0; last = -1; frames = -1; frozen = 0; continue }
                 Device.now("live", c.name)
                 val pos = player.currentPosition
-                if (pos == last) { if (++still >= 3) { still = 0; last = -1; android.util.Log.w("SAUDI", "stalled: restart ${c.name}"); start(c); continue } } else still = 0
+                if (pos == last) { if (++still >= 3) { still = 0; last = -1; android.util.Log.w("SAUDI", "stalled: restart ${c.name}"); start(src ?: c); continue } } else still = 0
                 last = pos
                 // the sound goes on but the picture is stuck (the video decoder stopped): the clock still moves, so
                 // watch the pictures shown instead — none for 6 s while playing = the channel again
                 val n = player.videoDecoderCounters?.let { it.ensureUpdated(); it.renderedOutputBufferCount } ?: -1
                 if (player.isPlaying && player.videoFormat != null && n >= 0 && n == frames) {
-                    if (++frozen >= 2) { frozen = 0; frames = -1; android.util.Log.w("SAUDI", "picture frozen: restart ${c.name}"); player.setPlaybackSpeed(1f); start(c); continue }
+                    if (++frozen >= 2) { frozen = 0; frames = -1; android.util.Log.w("SAUDI", "picture frozen: restart ${c.name}"); player.setPlaybackSpeed(1f); start(src ?: c); continue }
                 } else frozen = 0
                 frames = n
             }
@@ -291,6 +307,7 @@ class LiveActivity : BaseActivity() {
         if (c.id > 0) { History.add(c.id); Prefs.lastChannel = c.id }
         playing = c
         tries = 0; if (c.id != loweredFor) stalls.clear()
+        triedIds.clear(); note(null)
         start(c)
         channelAdapter.items.indexOfFirst { it.id == old?.id }.takeIf { it >= 0 }?.let { channelAdapter.notifyItemChanged(it) }
         channelAdapter.items.indexOfFirst { it.id == c.id }.takeIf { it >= 0 }?.let { channelAdapter.notifyItemChanged(it) }
@@ -336,7 +353,57 @@ class LiveActivity : BaseActivity() {
         jump(lower)
     }
 
+    /** A try that did not bring a picture: the same link again (a provider "500" is often a busy moment), then the
+     *  channel's HLS link (some channels are sent as HLS on the .ts address), then another copy of the same channel
+     *  (the same guide, e.g. GOLF CHANNEL in Canada for NBC GOLF), then a clear line on the picture. */
+    private fun fail(why: String) {
+        val c = playing ?: return
+        val s = src ?: c
+        android.util.Log.w("SAUDI", "no picture: ${s.name} (try $tries) $why")
+        when (tries++) {
+            0 -> { note("Connecting…", 0); lifecycleScope.launch { delay(1200); if (playing === c) start(s) } }
+            1 -> lifecycleScope.launch { delay(500); if (playing === c) start(s, hls = !Hls.has(s.id)) }
+            else -> {
+                triedIds += s.id
+                val t = twin(c)
+                if (t != null) {
+                    android.util.Log.w("SAUDI", "backup copy: ${t.name} (${t.id}) for ${c.name}")
+                    note("Not coming on this link — trying a backup copy…", 0)
+                    tries = 1   // the backup gets one more try, then the next backup
+                    start(t)
+                } else {
+                    startedAt = 0; player.stop()
+                    note("This channel is not sending a picture right now\n(the provider's side) — try again later", 0)
+                }
+            }
+        }
+    }
+
+    /** Another copy of the channel: the same guide id (not a 24/7 loop id), or the same name once quality marks are gone. */
+    private fun twin(c: Channel): Channel? {
+        fun key(n: String) = n.uppercase().replace(Regex("[ᴬ-ᵡʰ-ʸ⁰-⁹]+"), " ")
+            .replace(Regex("\\b(FHD|UHD|HD|SD|4K|8K|HEVC|H265|RAW|60FPS|50FPS|FPS|LQ|BACKUP)\\b"), " ")
+            .replace(Regex("\\([A-Z]{1,2}\\)"), " ").replace(Regex("^[A-Z]{2,3}\\s*[:|]\\s*"), "")
+            .replace(Regex("[^A-Z0-9]+"), " ").trim()
+        val e = c.epgId.takeIf { it.isNotBlank() && !it.contains("247-") }
+        val k = key(c.name).takeIf { it.length >= 4 }
+        return Api.byId.values.asSequence()
+            .filter { it.id > 0 && it.url.isEmpty() && it.id != c.id && it.id !in triedIds && it.group != Api.DASH }
+            .filter { (e != null && it.epgId == e) || (k != null && key(it.name) == k) }
+            .sortedBy { if (it.group == c.group) 0 else 1 }
+            .firstOrNull()
+    }
+
+    private var noteJob: kotlinx.coroutines.Job? = null
+    private fun note(t: String?, ms: Long = 0) {
+        noteJob?.cancel()
+        if (t == null) { noteV.visibility = View.GONE; return }
+        noteV.text = t; noteV.visibility = View.VISIBLE
+        if (ms > 0) noteJob = lifecycleScope.launch { delay(ms); noteV.visibility = View.GONE }
+    }
+
     private fun start(c: Channel, hls: Boolean = Hls.has(c.id)) {
+        src = c; startedAt = android.os.SystemClock.elapsedRealtime(); readyOnce = false
         val u = Api.streamUrl(c)
         usingHls = hls && u.endsWith(".ts")
         // HLS: the player itself stays 6 s from live, a little faster / slower to keep there
