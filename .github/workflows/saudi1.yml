@@ -4,6 +4,7 @@ name: SAUDI.TV app
 #   https://github.com/Saudi23723/Unified-MENA-EPG/releases/download/saudi1/SAUDI1.apk  (the Downloader link)
 on:
   push:
+    branches: [main]
     paths: ["saudi1/**", ".github/workflows/saudi1.yml"]
   workflow_dispatch:
 

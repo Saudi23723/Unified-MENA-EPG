@@ -1,0 +1,44 @@
+name: SAUDI.TV test build (one TV)
+
+# The real app (same package) built from a test branch, put on the pre-release "saudi1-test" only: installed by hand
+# on ONE TV and watched before it goes to everyone (owner, 11 Nov 2026: player changes are tried on one TV first).
+# The version number is given by hand (the one the TVs already have), so that TV is not "updated" back.
+on:
+  workflow_dispatch:
+    inputs:
+      build: { description: "version number to give it (the current one)", required: true }
+
+permissions:
+  contents: write
+
+concurrency:
+  group: saudi1-test
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: "17" }
+      - uses: gradle/actions/setup-gradle@v4
+        with: { gradle-version: "8.7" }
+      - name: Find the FFmpeg sound decoder for this Media3 version
+        run: |
+          M=$(grep -o 'media3-exoplayer:[0-9.]*' saudi1/app/build.gradle.kts | head -1 | cut -d: -f2)
+          curl -s https://repo1.maven.org/maven2/org/jellyfin/media3/media3-ffmpeg-decoder/maven-metadata.xml | grep -o '<version>[^<]*' | sed 's/<version>//' | tee /tmp/ff.txt
+          V=$(grep "^$M+" /tmp/ff.txt | tail -1)
+          echo "FFMPEG_VER=$V" >> $GITHUB_ENV
+      - name: Build
+        env:
+          BUILD_NUMBER: ${{ inputs.build }}
+        run: gradle -p saudi1 assembleRelease --no-daemon --console=plain
+      - name: Publish the test build
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cp saudi1/app/build/outputs/apk/release/app-release.apk SAUDI1_test.apk
+          gh release view saudi1-test >/dev/null 2>&1 || gh release create saudi1-test --title "SAUDI.TV test build" --notes "Test build for one TV. Not for viewers." --prerelease --latest=false
+          gh release upload saudi1-test SAUDI1_test.apk --clobber
