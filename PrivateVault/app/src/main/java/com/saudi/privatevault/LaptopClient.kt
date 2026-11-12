@@ -363,6 +363,39 @@ object LaptopClient {
         } catch (e: Exception) { null } finally { conn.disconnect() }
     }
 
+    @Volatile var trackProblem = ""
+
+    /**
+     * One position of a live-tracked flight to the cloud (the internet-reachable vault): the
+     * track's link the first time, the same afterwards; null with [trackProblem] when it fails.
+     */
+    fun trackPost(ctx: Context, body: JSONObject): String? {
+        val l = links(ctx)
+        val bases = known(ctx).sortedByDescending { it.startsWith("https") }
+        trackProblem = if (bases.isEmpty()) "no vault linked" else ""
+        for (base in bases) {
+            val tok = l.optString(base).ifEmpty { if (base == url(ctx)) token(ctx) ?: "" else "" }
+            val conn = open("$base/api/track", tok.ifEmpty { null })
+            try {
+                conn.requestMethod = "POST"; conn.doOutput = true
+                conn.setRequestProperty("Content-Type", "application/json")
+                conn.outputStream.use { it.write(body.toString().toByteArray()) }
+                when (conn.responseCode) {
+                    200 -> {
+                        val t = JSONObject(conn.inputStream.bufferedReader().readText()).optString("token")
+                        if (t.isNotEmpty()) return base.trimEnd('/') + "/track/" + t
+                    }
+                    404 -> trackProblem = "update"
+                    401 -> trackProblem = "sign in again"
+                    else -> trackProblem = "HTTP ${conn.responseCode}"
+                }
+            } catch (e: Exception) {
+                if (trackProblem.isEmpty()) trackProblem = "unreachable"
+            } finally { conn.disconnect() }
+        }
+        return null
+    }
+
     /** Asks the cloud to fetch its newest program now instead of at night; true when it started. */
     fun updateCloud(ctx: Context): Boolean {
         val l = links(ctx)

@@ -1087,6 +1087,30 @@ class MapActivity : BaseActivity(), NeonHost {
         paintPin()
     }
 
+    /** Live tracking for the people on the ground: start and share the link, share it again, or stop. */
+    private fun liveTrackMenu() {
+        if (LiveTrack.on(this)) {
+            val link = LiveTrack.link(this) ?: ""
+            MaterialAlertDialogBuilder(this).setTitle("📡 Live tracking is on").setMessage("$link\n\nYour position goes to this private link every 10 seconds.")
+                .setPositiveButton("Share link") { _, _ -> LiveTrack.share(this, link) }
+                .setNegativeButton("Stop tracking") { _, _ -> LiveTrack.stop(this); invalidateOptionsMenu(); Toast.makeText(this, "Live tracking stopped", Toast.LENGTH_SHORT).show() }
+                .setNeutralButton(R.string.cancel, null).show()
+            return
+        }
+        val fix = ownship.fix
+        val name = plan.points.let { if (it.size >= 2) "${it.first().id} → ${it.last().id}" else "Live flight" }
+        Toast.makeText(this, "Making your private tracking link…", Toast.LENGTH_SHORT).show()
+        lifecycleScope.launch {
+            val link = withContext(Dispatchers.IO) { LiveTrack.start(this@MapActivity, fix, name) }
+            if (link != null) { invalidateOptionsMenu(); LiveTrack.share(this@MapActivity, link); return@launch }
+            val why = LaptopClient.trackProblem
+            if (why == "update") {
+                withContext(Dispatchers.IO) { LaptopClient.updateCloud(this@MapActivity) }
+                Toast.makeText(this@MapActivity, "The cloud is updating to add live tracking — try again in 2 minutes.", Toast.LENGTH_LONG).show()
+            } else Toast.makeText(this@MapActivity, "Could not start live tracking: $why", Toast.LENGTH_LONG).show()
+        }
+    }
+
     /** An approach at the destination (or the nearest field): chosen, read in the advisor, drawn, added to the route. */
     private fun approachMenu() {
         val dest = plan.points.lastOrNull()?.id?.takeIf { it.length in 3..4 && airports.any { a -> a.icao == it || a.ident == it } }
@@ -1684,6 +1708,7 @@ class MapActivity : BaseActivity(), NeonHost {
 
     /** Ground speed in knots, track in degrees magnetic, altitude in feet MSL, vertical speed in feet per minute. */
     private fun onFix(l: Location, quiet: Boolean = false) {
+        if (!quiet && l.provider == LocationManager.GPS_PROVIDER) LiveTrack.onFix(this, l)
         if (l.provider == LocationManager.GPS_PROVIDER && !quiet) {
             if (!gotGps) {
                 gotGps = true
@@ -2770,6 +2795,7 @@ class MapActivity : BaseActivity(), NeonHost {
         menu.add(0, 42, 0, R.string.traffic_list)
         menu.add(0, 44, 0, R.string.plate_on_map).setCheckable(true).isChecked = prefs.getBoolean("auto_diagrams", true)
         menu.add(0, 47, 0, "✈  Approaches")
+        menu.add(0, 48, 0, "📡  Share live tracking").setCheckable(true).isChecked = LiveTrack.on(this)
         menu.add(0, 46, 0, "◎  Range rings").setCheckable(true).isChecked = prefs.getBoolean("rings", true)
         menu.add(0, 37, 0, R.string.glide_menu)
         menu.add(0, 30, 0, R.string.freq_title)
@@ -2843,6 +2869,7 @@ class MapActivity : BaseActivity(), NeonHost {
             42 -> trafficList()
             44 -> { plateOnMap(); item.isChecked = prefs.getBoolean("auto_diagrams", true) }
             47 -> approachMenu()
+            48 -> liveTrackMenu()
             46 -> {
                 val on = !prefs.getBoolean("rings", true)
                 prefs.edit().putBoolean("rings", on).apply(); item.isChecked = on

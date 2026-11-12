@@ -1317,6 +1317,68 @@ class SignRequests:
             return True
 
 
+class LiveTracks:
+    """A flight followed live from the ground: a private link, the aircraft's last positions, kept 48 hours."""
+
+    def __init__(self):
+        self.lock = threading.Lock()
+        self.all = {}
+
+    def post(self, body: dict) -> str:
+        token = str(body.get("token") or "")
+        p = body.get("p") or []
+        now = time.time()
+        with self.lock:
+            self.all = {k: v for k, v in self.all.items() if now - v.get("t", now) < 48 * 3600}
+            if token not in self.all:
+                token = secrets.token_urlsafe(12)
+                self.all[token] = {"name": str(body.get("name") or "Flight")[:40], "pts": [], "t": now, "ended": False}
+            tr = self.all[token]
+            if len(p) >= 2:
+                tr["pts"].append([float(x) for x in p[:5]] + [now])
+                tr["pts"] = tr["pts"][-3000:]
+            tr["t"] = now
+            tr["ended"] = bool(body.get("ended"))
+        return token
+
+    def get(self, token):
+        with self.lock:
+            tr = self.all.get(token)
+            return None if tr is None else {"name": tr["name"], "pts": tr["pts"], "ended": tr["ended"], "now": time.time()}
+
+
+TRACK_PAGE = """<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Live flight</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>html,body{margin:0;height:100%;background:#0f1012;font-family:-apple-system,Segoe UI,Roboto,sans-serif}#map{position:absolute;inset:0}
+.box{position:absolute;z-index:999;left:10px;right:10px;top:10px;background:rgba(27,29,34,.94);color:#fff;border-radius:14px;padding:10px 14px;box-shadow:0 4px 18px rgba(0,0,0,.4)}
+.box h1{font-size:17px;margin:0 0 6px}.row{display:flex;gap:16px}.row div{font-size:11px;color:#9a9ca3;font-weight:600}.row b{display:block;font-size:17px;color:#fff}
+.age{font-size:11px;color:#9a9ca3;margin-top:4px}.btn{position:absolute;z-index:999;right:10px;bottom:24px;background:#2d8cff;color:#fff;border:0;border-radius:22px;padding:10px 16px;font-size:14px}</style>
+</head><body><div id="map"></div>
+<div class="box"><h1 id="name">✈ Live flight</h1><div class="row"><div>ALT<b id="alt">—</b></div><div>GS<b id="gs">—</b></div><div>TRACK<b id="trk">—</b></div></div><div class="age" id="age">waiting for the aircraft…</div></div>
+<button class="btn" id="follow">📍 Follow</button>
+<script>
+const tok=location.pathname.split('/').pop();
+const map=L.map('map',{zoomControl:false}).setView([36.0,-115.0],10);
+const sec=L.tileLayer('https://tiles.arcgis.com/tiles/ssFJjBXIUyZDrSYZ/arcgis/rest/services/VFR_Sectional/MapServer/tile/{z}/{y}/{x}',{maxNativeZoom:12,maxZoom:16,attribution:'FAA'});
+const osm=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'© OpenStreetMap'});
+sec.addTo(map);L.control.layers({'Sectional':sec,'Map':osm}).addTo(map);
+const path=L.polyline([],{color:'#ff2d9b',weight:4}).addTo(map);
+const icon=r=>L.divIcon({className:'',iconSize:[34,34],iconAnchor:[17,17],html:'<div style="transform:rotate('+r+'deg);font-size:30px;line-height:34px;text-align:center;filter:drop-shadow(0 0 2px #000)">✈️</div>'});
+let mark=null,follow=true;document.getElementById('follow').onclick=()=>{follow=true};map.on('dragstart',()=>{follow=false});
+async function tick(){try{const r=await fetch('/track/'+tok+'.json',{cache:'no-store'});if(!r.ok){document.getElementById('age').textContent='This link has ended.';return}
+const d=await r.json();document.getElementById('name').textContent='✈ '+d.name;
+if(d.pts.length){const ll=d.pts.map(p=>[p[0],p[1]]);path.setLatLngs(ll);const p=d.pts[d.pts.length-1];
+if(!mark)mark=L.marker([p[0],p[1]],{icon:icon(p[4]-45)}).addTo(map);else{mark.setLatLng([p[0],p[1]]);mark.setIcon(icon(p[4]-45))}
+document.getElementById('alt').textContent=Math.round(p[2]).toLocaleString()+' ft';document.getElementById('gs').textContent=Math.round(p[3])+' kt';
+document.getElementById('trk').textContent=String(Math.round(p[4])).padStart(3,'0')+'°';
+const s=Math.round(d.now-p[5]);document.getElementById('age').textContent=(d.ended?'Flight ended · ':'')+'updated '+(s<60?s+' s':Math.round(s/60)+' min')+' ago';
+if(follow)map.setView([p[0],p[1]],Math.max(map.getZoom(),11))}}catch(e){}}
+tick();setInterval(tick,5000);
+</script></body></html>"""
+
+
 SIGN_PAGE = """<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Logbook signature</title><style>
 body{font-family:system-ui,sans-serif;background:#0d1117;color:#e6edf3;margin:0;padding:16px;max-width:640px;margin:auto}
@@ -1357,6 +1419,7 @@ class App:
         self.converter = Converter(home)
         self.notes = Notes(home)
         self.signs = SignRequests(home)
+        self.tracks = LiveTracks()
         self.assistant = Assistant(self.auth, self.cloud)
         self.charts = ChartMirror(home)
 
@@ -1456,6 +1519,15 @@ class Handler(BaseHTTPRequestHandler):
         if path in ("/", "/index.html"):
             with open(resource("index.html"), "rb") as f:
                 return self._send(200, f.read(), "text/html; charset=utf-8")
+        if path.startswith("/track/"):
+            # A live flight, public by its private link (no login: family and the instructor follow it).
+            tok = path[7:]
+            if tok.endswith(".json"):
+                tr = self.app.tracks.get(tok[:-5])
+                return self._json(tr) if tr is not None else self._error(404, "not found")
+            if self.app.tracks.get(tok) is None:
+                return self._send(404, b"This link is not valid or has ended.", "text/plain; charset=utf-8")
+            return self._send(200, TRACK_PAGE.encode("utf-8"), "text/html; charset=utf-8")
         if path.startswith("/sign/"):
             r = self.app.signs.get(path[6:])
             if not r:
@@ -1581,6 +1653,8 @@ class Handler(BaseHTTPRequestHandler):
         body = self._body()
         if path == "/api/signreq":
             return self._json({"token": self.app.signs.new(body.get("entry") or {})})
+        if path == "/api/track":
+            return self._json({"token": self.app.tracks.post(body)})
         if path == "/api/cloud/selfupdate":
             # A cloud server fetches its newest program now (the same script its nightly timer runs).
             script = "/usr/local/bin/khazanti-update"
