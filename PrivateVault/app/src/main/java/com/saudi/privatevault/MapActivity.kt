@@ -225,11 +225,9 @@ class MapActivity : BaseActivity(), NeonHost {
         rings = RangeRingsOverlay(map) { if (gotGps) ownship.position() else null }
         if (prefs.getBoolean("rings", true)) map.overlays.add(rings)
         // The diagram as a big card beside its field at any zoom; a tap on it goes there.
-        insetOv = DiagramInsetOverlay(map, { if (gotGps) ownship.fix else null }) { ins ->
-            if (following) follow(quiet = true)
-            diagramBoxes[ins.ident]?.let { map.zoomToBoundingBox(it, true, dp(12)) }
-        }
+        insetOv = DiagramInsetOverlay(map) { ins -> showCard(ins) }
         map.overlays.add(insetOv)
+        buildCard()
         procOv = ProcedureOverlay(map)
         map.overlays.add(map.overlays.indexOf(insetOv).coerceAtLeast(0), procOv)
         b.root.postDelayed({ autoDiagrams() }, 2500)
@@ -942,6 +940,87 @@ class MapActivity : BaseActivity(), NeonHost {
         updateNav()
         map.invalidate()
         Toast.makeText(this, "→ ${w.id}", Toast.LENGTH_SHORT).show()
+    }
+
+    // ---- the airport diagram card: a floating window, dragged, sized, pinned ----
+
+    private lateinit var cardFrame: LinearLayout
+    private lateinit var cardView: DiagramCardView
+    private lateinit var cardTitle: TextView
+    private lateinit var cardPin: TextView
+
+    private fun buildCard() {
+        cardView = DiagramCardView(this) { if (gotGps) ownship.fix else null }
+        cardFrame = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL; visibility = View.GONE; layoutDirection = View.LAYOUT_DIRECTION_LTR
+            background = EfbUi.cardBg(this@MapActivity, 0xFFFFFFFF.toInt(), 12).apply { setStroke(dp(2), 0xFF1B1D22.toInt()) }
+            elevation = dp(14).toFloat(); clipToOutline = true
+        }
+        val head = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL; setBackgroundColor(0xF01B1D22.toInt())
+            setPadding(dp(10), dp(2), dp(4), dp(2))
+        }
+        cardTitle = EfbUi.text(this, "", 14f, 0xFFFFFFFF.toInt(), bold = true).apply { maxLines = 1 }
+        head.addView(cardTitle, LinearLayout.LayoutParams(0, -2, 1f))
+        fun hb(t: String, go: (TextView) -> Unit) = TextView(this).apply {
+            text = t; textSize = 16f; setTextColor(0xFFFFFFFF.toInt()); gravity = Gravity.CENTER
+            setOnClickListener { go(this) }
+        }.also { head.addView(it, LinearLayout.LayoutParams(dp(38), dp(36))) }
+        cardPin = hb("📌") {
+            val cur = insetOv.current ?: return@hb
+            insetOv.pinned = if (insetOv.pinned == cur.ident) null else cur.ident
+            paintPin(); map.invalidate()
+        }
+        hb("−") { sizeCard(-40) }
+        hb("+") { sizeCard(40) }
+        hb("⤢") {
+            val cur = insetOv.current ?: return@hb
+            if (following) follow(quiet = true)
+            diagramBoxes.entries.firstOrNull { e -> airports.any { it.ident == e.key && it.icao.ifEmpty { it.ident } == cur.ident } }?.value
+                ?.let { map.zoomToBoundingBox(it, true, dp(12)) }
+        }
+        hb("✕") {
+            insetOv.current?.let { insetOv.hidden += it.ident; if (insetOv.pinned == it.ident) insetOv.pinned = null }
+            cardFrame.visibility = View.GONE; map.invalidate()
+        }
+        cardFrame.addView(head)
+        cardFrame.addView(cardView, LinearLayout.LayoutParams(-1, -2))
+        insetOv.card = cardFrame
+        val w = prefs.getInt("dc_w", 300)
+        b.root.addView(cardFrame, android.widget.FrameLayout.LayoutParams(dp(w), -2, Gravity.TOP or Gravity.START).apply { topMargin = dp(130); leftMargin = dp(70) })
+        cardFrame.translationX = prefs.getFloat("dc_x", 0f); cardFrame.translationY = prefs.getFloat("dc_y", 0f)
+        // Dragged by its title bar, as the scratchpad.
+        var sx = 0f; var sy = 0f; var tx = 0f; var ty = 0f
+        head.setOnTouchListener { _, e ->
+            when (e.actionMasked) {
+                android.view.MotionEvent.ACTION_DOWN -> { sx = e.rawX; sy = e.rawY; tx = cardFrame.translationX; ty = cardFrame.translationY }
+                android.view.MotionEvent.ACTION_MOVE -> { cardFrame.translationX = tx + e.rawX - sx; cardFrame.translationY = ty + e.rawY - sy; map.invalidate() }
+                android.view.MotionEvent.ACTION_UP -> prefs.edit().putFloat("dc_x", cardFrame.translationX).putFloat("dc_y", cardFrame.translationY).apply()
+            }
+            true
+        }
+    }
+
+    private fun paintPin() {
+        cardPin.background = if (insetOv.pinned != null && insetOv.pinned == insetOv.current?.ident)
+            EfbUi.cardBg(this, 0xFF2D8CFF.toInt(), 8) else null
+    }
+
+    private fun sizeCard(by: Int) {
+        val lp = cardFrame.layoutParams as android.widget.FrameLayout.LayoutParams
+        val wdp = ((lp.width / resources.displayMetrics.density).toInt() + by).coerceIn(180, (resources.displayMetrics.widthPixels / resources.displayMetrics.density * 0.96).toInt())
+        lp.width = dp(wdp); cardFrame.layoutParams = lp
+        prefs.edit().putInt("dc_w", wdp).apply()
+        map.invalidate()
+    }
+
+    private fun showCard(ins: DiagramInsetOverlay.Inset?) {
+        if (!::cardFrame.isInitialized) return
+        if (ins == null) { cardFrame.visibility = View.GONE; return }
+        cardView.inset = ins
+        cardTitle.text = "${ins.ident} · Airport diagram"
+        cardFrame.visibility = View.VISIBLE
+        paintPin()
     }
 
     /** An approach at the destination (or the nearest field): chosen, read in the advisor, drawn, added to the route. */
@@ -1663,6 +1742,7 @@ class MapActivity : BaseActivity(), NeonHost {
             withContext(Dispatchers.IO) { Traffic.prune(); Traffic.fetch(c.latitude, c.longitude) }
             findMe()
             map.invalidate()
+            if (::cardView.isInitialized) cardView.invalidate()
         }
     }
 
@@ -1789,7 +1869,7 @@ class MapActivity : BaseActivity(), NeonHost {
     private fun plateOnMap() {
         val on = !prefs.getBoolean("auto_diagrams", true) || diagrams.isEmpty()
         prefs.edit().putBoolean("auto_diagrams", on).apply()
-        if (!on) { map.overlays.removeAll(diagrams.values.toSet()); diagrams.clear(); insetOv.insets.clear(); noDiagram.clear(); map.invalidate(); return }
+        if (!on) { map.overlays.removeAll(diagrams.values.toSet()); diagrams.clear(); insetOv.insets.clear(); insetOv.hidden.clear(); insetOv.pinned = null; noDiagram.clear(); map.invalidate(); return }
         // As ForeFlight does it: go to the nearest field that has a diagram and fill the screen with it.
         val c = ownship.position() ?: map.mapCenter as GeoPoint
         val near = airports.map { it to Nav.distanceNm(c.latitude, c.longitude, it.lat, it.lon) }
@@ -1829,7 +1909,7 @@ class MapActivity : BaseActivity(), NeonHost {
         diagrams[ident] = o
         diagramBoxes[ident] = org.osmdroid.util.BoundingBox(made.second.latitude, made.third.longitude, made.third.latitude, made.second.longitude)
         airports.firstOrNull { it.ident == ident }?.let { a ->
-            insetOv.insets[ident] = DiagramInsetOverlay.Inset(a.icao.ifEmpty { a.ident }, made.first, made.second.latitude, made.second.longitude,
+            insetOv.insets[a.icao.ifEmpty { a.ident }] = DiagramInsetOverlay.Inset(a.icao.ifEmpty { a.ident }, made.first, made.second.latitude, made.second.longitude,
                 made.third.latitude, made.third.longitude, a.lat, a.lon)
         }
         map.invalidate()
@@ -1854,8 +1934,8 @@ class MapActivity : BaseActivity(), NeonHost {
                 // Memory: keep the nearest six.
                 while (diagrams.size > 6) {
                     val cc = map.mapCenter
-                    val far = diagrams.keys.maxByOrNull { k -> airports.firstOrNull { it.ident == k }?.let { Nav.distanceNm(cc.latitude, cc.longitude, it.lat, it.lon) } ?: 0.0 } ?: break
-                    insetOv.insets.remove(far)
+                    val far = diagrams.keys.filter { k -> airports.firstOrNull { it.ident == k }?.let { it.icao.ifEmpty { it.ident } } != insetOv.pinned }.maxByOrNull { k -> airports.firstOrNull { it.ident == k }?.let { Nav.distanceNm(cc.latitude, cc.longitude, it.lat, it.lon) } ?: 0.0 } ?: break
+                    insetOv.insets.remove(airports.firstOrNull { it.ident == far }?.let { it.icao.ifEmpty { it.ident } } ?: far)
                     diagrams.remove(far)?.let { map.overlays.remove(it); it.image?.recycle() }
                 }
                 map.invalidate()
@@ -2578,7 +2658,7 @@ class MapActivity : BaseActivity(), NeonHost {
         menu.add(0, 3, 0, R.string.map_track_up).setCheckable(true).isChecked = trackUp
         menu.add(0, 42, 0, R.string.traffic_list)
         menu.add(0, 44, 0, R.string.plate_on_map).setCheckable(true).isChecked = prefs.getBoolean("auto_diagrams", true)
-        menu.add(0, 47, 0, "✈  Approach (procedure)")
+        menu.add(0, 47, 0, "✈  Approaches")
         menu.add(0, 46, 0, "◎  Range rings").setCheckable(true).isChecked = prefs.getBoolean("rings", true)
         menu.add(0, 37, 0, R.string.glide_menu)
         menu.add(0, 30, 0, R.string.freq_title)

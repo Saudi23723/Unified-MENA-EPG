@@ -25,7 +25,7 @@ import android.widget.TextView
  */
 @SuppressLint("ViewConstructor", "ClickableViewAccessibility")
 class InkSheet(ctx: Context) : View(ctx) {
-    enum class Tool { HAND, PEN, MARKER, PENCIL, ERASER, RULER, PLANE, LASER }
+    enum class Tool { HAND, PEN, MARKER, PENCIL, ERASER, RULER, PLANE, NEON, LASER }
 
     private class Mark(val tool: Tool, val color: Int, val pts: ArrayList<Float>, var t: Long = 0L)
 
@@ -84,7 +84,8 @@ class InkSheet(ctx: Context) : View(ctx) {
         val it = marks.iterator()
         while (it.hasNext()) {
             val m = it.next()
-            if (m.tool == Tool.LASER && m.t > 0 && now - m.t > 2500) { it.remove(); continue }
+            // The laser stays bright two seconds after the finger lifts, then fades over two more.
+            if (m.tool == Tool.LASER && m.t > 0 && now - m.t > 4000) { it.remove(); continue }
             when (m.tool) {
                 Tool.PLANE -> plane(c, m.pts[0], m.pts[1], m.pts[2], m.color)
                 else -> {
@@ -99,12 +100,16 @@ class InkSheet(ctx: Context) : View(ctx) {
                     when (m.tool) {
                         Tool.MARKER -> { p.color = (m.color and 0x00FFFFFF) or 0x66000000; p.strokeWidth = 16 * d; p.strokeCap = Paint.Cap.SQUARE }
                         Tool.PENCIL -> { p.color = (m.color and 0x00FFFFFF) or 0xCC000000.toInt(); p.strokeWidth = 1.8f * d; p.strokeCap = Paint.Cap.ROUND }
-                        Tool.LASER -> {
-                            live = true
-                            val fade = if (m.t > 0) (1f - (now - m.t) / 2500f).coerceIn(0f, 1f) else 1f
-                            p.color = (m.color and 0x00FFFFFF) or ((0x66 * fade).toInt() shl 24); p.strokeWidth = 12 * d; p.strokeCap = Paint.Cap.ROUND
+                        Tool.LASER, Tool.NEON -> {
+                            val fade = if (m.tool == Tool.NEON || m.t == 0L) 1f else (1f - (now - m.t - 2000) / 2000f).coerceIn(0f, 1f)
+                            if (m.tool == Tool.LASER) live = true
+                            p.strokeCap = Paint.Cap.ROUND
+                            // Neon as a sign glows: a wide soft halo, a strong coloured tube, a white-hot core.
+                            p.color = (m.color and 0x00FFFFFF) or ((0x50 * fade).toInt() shl 24); p.strokeWidth = 24 * d
                             c.drawPath(path, p)
-                            p.color = (0xFFFFFF) or ((0xFF * fade).toInt() shl 24); p.strokeWidth = 3 * d
+                            p.color = (m.color and 0x00FFFFFF) or ((0xE6 * fade).toInt() shl 24); p.strokeWidth = 10 * d
+                            c.drawPath(path, p)
+                            p.color = 0x00FFFFFF or ((0xF0 * fade).toInt() shl 24); p.strokeWidth = 3.5f * d
                         }
                         Tool.RULER -> { p.color = m.color; p.strokeWidth = 3 * d; p.strokeCap = Paint.Cap.ROUND }
                         else -> { p.color = m.color; p.strokeWidth = 3.2f * d; p.strokeCap = Paint.Cap.ROUND }
@@ -170,7 +175,7 @@ class InkSheet(ctx: Context) : View(ctx) {
                 setOnClickListener { onClick(this) }
             }
             for ((t, g) in listOf(Tool.HAND to "✋", Tool.PEN to "🖊", Tool.MARKER to "🖍", Tool.PENCIL to "✏️", Tool.ERASER to "⌫",
-                Tool.RULER to "📏", Tool.PLANE to "✈️", Tool.LASER to "🔴")) {
+                Tool.RULER to "📏", Tool.PLANE to "✈️", Tool.NEON to "✨", Tool.LASER to "🔴")) {
                 val v = btn(g, if (t == Tool.ERASER) 17f else 18f) { ink.tool = t; mark() }
                 toolViews[t] = v
                 bar.addView(v, LinearLayout.LayoutParams(dp(42), dp(42)).apply { marginEnd = dp(2) })
@@ -186,8 +191,8 @@ class InkSheet(ctx: Context) : View(ctx) {
                 background = GradientDrawable().apply { setColor(0xF01C1C1E.toInt()); cornerRadius = dp(24).toFloat() }
                 elevation = dp(14).toFloat()
             }
-            for (cl in intArrayOf(0xFFFFFFFF.toInt(), 0xFF000000.toInt(), 0xFFFF3B30.toInt(), 0xFFFF9500.toInt(), 0xFFFFCC00.toInt(), 0xFF34C759.toInt(),
-                0xFF00C7BE.toInt(), 0xFF0A84FF.toInt(), 0xFFBF5AF2.toInt(), 0xFFFF2D9B.toInt())) {
+            for (cl in intArrayOf(0xFFFFFFFF.toInt(), 0xFF000000.toInt(), 0xFFFF1744.toInt(), 0xFFFF9100.toInt(), 0xFFFFEA00.toInt(), 0xFF39FF14.toInt(),
+                0xFF00E5FF.toInt(), 0xFF2979FF.toInt(), 0xFFD500F9.toInt(), 0xFFFF2BD6.toInt())) {
                 colors.addView(View(act).apply {
                     background = GradientDrawable().apply { shape = GradientDrawable.OVAL; setColor(cl); setStroke(dp(1), 0xFF636366.toInt()) }
                     setOnClickListener { ink.color = cl; prefs.edit().putInt("ink_color", cl).apply(); paintSwatch(); colors.visibility = View.GONE }

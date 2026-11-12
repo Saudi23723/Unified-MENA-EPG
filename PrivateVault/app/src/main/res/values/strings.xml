@@ -237,7 +237,7 @@
     <string name="apt_plates_loading">جاري جلب خرائط المطار من FAA…</string>
     <string name="apt_plates_fail">تعذّر جلب الخرائط، تأكد من الإنترنت</string>
     <string name="apt_no_plates">ما في إجراءات منشورة لهالمطار</string>
-    <string name="plan_title">🧭 خطة الرحلة (Nav Log)</string>
+    <string name="plan_title">🧭 خطة الرحلة</string>
     <string name="plan_empty">ما في رحلة بعد. اكبس «تعديل» واكتب المسار مثل: KBVU KHND KVGT
 أو اكبس على مطار ← «أضف للرحلة»، أو اكبس مطوّل على أي نقطة بالخريطة.</string>
     <string name="plan_edit">تعديل</string>
@@ -311,7 +311,7 @@
     <string name="pack_charts">جاري تنزيل الخرائط على طول المسار…</string>
     <string name="pack_done">✅ جاهز للطيران بدون إنترنت (%d ملف + الخرائط)</string>
     <string name="brief_title">📋 Briefing للمسار</string>
-    <string name="timer_title">⏱ مؤقت (تشغيل/إيقاف)</string>
+    <string name="timer_title">⏱ مؤقت</string>
     <string name="search_hint">🔍 FAA ID · ICAO · اسم المطار · المدينة</string>
     <string name="search_nearby">الأقرب لك</string>
     <string name="search_count">%d نتيجة</string>
@@ -349,7 +349,7 @@
     <string name="end_custom">✏️ نص خاص</string>
     <string name="end_text_help">النص (المدرّب بيكتبه حسب AC 61-65)</string>
     <string name="sig_clear">امسح</string>
-    <string name="cs_bulk">📘 Chart Supplement لنيفادا وكاليفورنيا (بدون إنترنت)</string>
+    <string name="cs_bulk">📘 Chart Supplements بدون إنترنت</string>
     <string name="cs_bulk_msg">رح ينزّل صفحات الـ Chart Supplement لـ %d مطار (تقريباً 50 ميغا) وتضل على التلفون للطيران بدون إنترنت. اعمله على الواي فاي.</string>
     <string name="cs_bulk_done">✅ %d مطار صار الـ Chart Supplement تبعه على التلفون</string>
     <string name="wb_aoi_source">من الـ AOI: الـ arms صفحة 6-8، حدود الـ C.G. من 20 لـ 34 %MAC صفحة 2-7، الـ MAC 4.1 ft. الوزن الفارغ والـ C.G. من ورقة وزن كل طيارة (N19EV: 765 lb، 19.81 %MAC، صفحة 6-5). طيارة ثانية: ✏️ ← «نسخة جديدة».</string>
@@ -686,7 +686,7 @@
     <string name="sub_ground">الحصص الأرضية بالـ Logbook: الساعات والمواضيع وتوقيع المدرب</string>
     <string name="home_hero_sub">مطار البيت %1$s · اكبس على الطقس لتغيّره</string>
     <string name="route_line">خط الطريق</string>
-    <string name="pos_report">📍 بلاغ موقعي (للراديو)</string>
+    <string name="pos_report">📍 بلاغ موقعي</string>
     <string name="pos_callsign">[نداءك]</string>
     <string name="pos_callsign_hint">نداءك، مثلاً Sportstar 19EV</string>
     <string name="pos_note">جملة جاهزة لتقولها على الـ CTAF. تأكد منها قبل ما تحكي.</string>
@@ -827,7 +827,7 @@
     <string name="cc_nokey">CC: ما في مفتاح Gemini على هالجهاز — شغّل الفيديو مرة عالتلفون وبتوصل الترجمة للتلفزيون لحالها</string>
     <string name="cc_noaudio">CC: ما قدرت أطلّع صوت هالفيديو</string>
     <string name="atc_split">🎧 LiveATC جنب الخريطة (شاشة مقسومة) — اختار %s فيه. الخريطة بتضل شغالة.</string>
-    <string name="plate_on_map">📄 مخططات كل المطارات فوق الخريطة (عند التكبير)</string>
+    <string name="plate_on_map">📄 مخططات المطارات</string>
     <string name="plate_on_map_none">ما قدرت أحط مخطط هالمطار على الخريطة (ما في Airport Diagram، أو ما عليه إحداثيات).</string>
     <string name="plan_winds_legs">🌬 رياح كل مرحلة من التوقعات</string>
     <string name="plan_print">🖨 طباعة / PDF للـ NavLog</string>
