@@ -24,7 +24,7 @@ import android.widget.TextView
  * other tool writes on a clear sheet over it.
  */
 @SuppressLint("ViewConstructor", "ClickableViewAccessibility")
-class InkLayer(ctx: Context) : View(ctx) {
+class InkSheet(ctx: Context) : View(ctx) {
     enum class Tool { HAND, PEN, MARKER, PENCIL, ERASER, RULER, PLANE, LASER }
 
     private class Mark(val tool: Tool, val color: Int, val pts: ArrayList<Float>, var t: Long = 0L)
@@ -149,7 +149,7 @@ class InkLayer(ctx: Context) : View(ctx) {
             fun dp(v: Int) = (v * dd).toInt()
             val prefs = VaultLock.prefs(act)
             val box = FrameLayout(act).apply { tag = TAG; elevation = dp(30).toFloat() }
-            val ink = InkLayer(act).apply { color = prefs.getInt("ink_color", 0xFFFF3B30.toInt()) }
+            val ink = InkSheet(act).apply { color = prefs.getInt("ink_color", 0xFFFF3B30.toInt()) }
             box.addView(ink, FrameLayout.LayoutParams(-1, -1))
 
             // The capsule.

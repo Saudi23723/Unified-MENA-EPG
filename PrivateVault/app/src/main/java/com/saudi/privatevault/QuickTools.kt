@@ -71,7 +71,7 @@ object QuickTools {
                 MotionEvent.ACTION_UP -> {
                     if (moved) prefs.edit().putFloat("qt_x", v.translationX).putFloat("qt_y", v.translationY).apply()
                     // A tap: the floating tool palette, as iPadOS has it; a long press: the other tools.
-                    else if (e.eventTime - downAt > 450) menu(act, v) else InkLayer.toggle(act)
+                    else if (e.eventTime - downAt > 450) menu(act, v) else InkSheet.toggle(act)
                 }
             }
             true
