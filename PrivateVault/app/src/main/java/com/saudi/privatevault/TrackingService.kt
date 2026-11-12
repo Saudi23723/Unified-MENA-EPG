@@ -20,14 +20,20 @@ class TrackingService : Service() {
     companion object {
         private const val CHANNEL = "tracking"
 
-        fun start(ctx: Context) {
+        /** Who needs the GPS kept alive (the map, an airport page): the service stops when none is left. */
+        private val users = HashSet<String>()
+
+        fun start(ctx: Context, who: String = "map") {
+            users += who
             try {
                 val i = Intent(ctx, TrackingService::class.java)
                 if (Build.VERSION.SDK_INT >= 26) ctx.startForegroundService(i) else ctx.startService(i)
             } catch (e: Exception) { }
         }
 
-        fun stop(ctx: Context) {
+        fun stop(ctx: Context, who: String = "map") {
+            users -= who
+            if (users.isNotEmpty()) return
             try { ctx.stopService(Intent(ctx, TrackingService::class.java)) } catch (e: Exception) { }
         }
     }

@@ -115,6 +115,11 @@ class AirportDiagramActivity : BaseActivity() {
             if (elev >= 0) tpaFt = ((elev + 1000 + 50) / 100) * 100
         }
         map.overlays.add(pattern)
+        // An instrument approach, when one is chosen: the same drawing as on the chart.
+        procOv = ProcedureOverlay(map).apply {
+            me = { ownship.position()?.let { g -> Triple(g, ownship.fix?.takeIf { it.hasAltitude() }?.altitude?.times(3.28084), ownship.speedKt()) } }
+        }
+        map.overlays.add(procOv)
         // The flight plan, the same magenta line (green where flown) as on the chart.
         val plan = FlightPlan.load(this)
         if (plan.points.size > 1 || plan.direct != null) map.overlays.add(RouteOverlay(map, { plan }, { ownship.position() }))
@@ -165,6 +170,20 @@ class AirportDiagramActivity : BaseActivity() {
         chips.addView(cTrack)
         chips.addView(cFollow)
         chips.addView(chip("📄 FAA diagram") { faaDiagram() }, 0)
+        // The FAA diagram laid on the photo where it really lies: on or off, for every airport.
+        lateinit var cFaa: TextView
+        cFaa = chip("🗺 FAA on photo") {
+            val on = !pagePrefs.getBoolean("faa_overlay", false)
+            pagePrefs.edit().putBoolean("faa_overlay", on).apply()
+            mark(cFaa, on)
+            faaOverlay(on, tell = true)
+        }
+        chips.addView(cFaa, 1)
+        faaChip = cFaa
+        lateinit var cApp: TextView
+        cApp = chip("✈ Approaches") { approaches() }
+        chips.addView(cApp, 2)
+        appChip = cApp
         chips.addView(chip("N↑") { turnTo(0f) })
         chips.addView(chip("⟳") { load(refresh = true) })
         top.addView(HorizontalScrollView(this).apply { isHorizontalScrollBarEnabled = false; addView(chips) })
@@ -197,6 +216,9 @@ class AirportDiagramActivity : BaseActivity() {
             insets
         }
         mark(c3d, false)
+        mark(cFaa, pagePrefs.getBoolean("faa_overlay", false))
+        mark(cApp, false)
+        if (pagePrefs.getBoolean("faa_overlay", false)) faaOverlay(true, tell = false)
         this.holder = holder
 
         // The opening shot: from high and turned, sweeping down onto the field.
@@ -210,6 +232,80 @@ class AirportDiagramActivity : BaseActivity() {
     }
 
     private var holder: FrameLayout? = null
+    private lateinit var procOv: ProcedureOverlay
+    private val pagePrefs by lazy { getSharedPreferences("airport_page", MODE_PRIVATE) }
+    private var faaOv: org.osmdroid.views.overlay.GroundOverlay? = null
+    private var faaChip: TextView? = null
+    private var appChip: TextView? = null
+
+    /** The FAA diagram on the photo, where it really lies (from the coordinates printed on it). */
+    private fun faaOverlay(on: Boolean, tell: Boolean) {
+        faaOv?.let { map.overlays.remove(it); it.image?.recycle() }; faaOv = null
+        map.invalidate()
+        if (!on) return
+        lifecycleScope.launch {
+            val made = withContext(Dispatchers.IO) { FaaDiagram.build(this@AirportDiagramActivity, ident) }
+            if (made == null) {
+                if (tell) Toast.makeText(this@AirportDiagramActivity, "$ident has no FAA diagram that can be placed (the FAA publishes one for the larger fields only).", Toast.LENGTH_LONG).show()
+                return@launch
+            }
+            if (!pagePrefs.getBoolean("faa_overlay", false)) { made.first.recycle(); return@launch }
+            val o = org.osmdroid.views.overlay.GroundOverlay().apply { image = made.first; setPosition(made.second, made.third); transparency = 0.12f }
+            // Over the photo, under the labels, the pattern, the traffic and the aircraft.
+            map.overlays.add(map.overlays.indexOf(labels).coerceAtLeast(0), o)
+            faaOv = o
+            map.invalidate()
+        }
+    }
+
+    private fun showApproach(p: Cifp.Procedure, trans: String?) {
+        procOv.proc = p; procOv.transition = trans
+        appChip?.let { it.text = "✈ ${p.name}"; mark(it, true) }
+        val pts = p.legs(trans).mapNotNull { l -> if (l.lat != null && l.lon != null) GeoPoint(l.lat, l.lon) else null }
+        if (pts.size >= 2) {
+            stopFollowing()
+            // The whole approach in view: farther out than the airport alone needs.
+            map.minZoomLevel = 7.0
+            map.zoomToBoundingBox(org.osmdroid.util.BoundingBox.fromGeoPoints(pts), true, dp(70))
+        }
+        map.invalidate()
+    }
+
+    private fun addApproach(p: Cifp.Procedure, trans: String?) {
+        val wps = p.legs(trans).filter { !it.missed && it.lat != null && it.lon != null && it.fix.isNotEmpty() && !it.fix.startsWith("RW") }
+            .map { FlightPlan.Waypoint(it.fix, it.lat!!, it.lon!!) }.distinctBy { it.id }
+        if (wps.isEmpty()) return
+        val plan = FlightPlan.load(this)
+        val last = plan.points.lastOrNull()
+        val isDest = last != null && (last.id == p.icao || "K" + last.id == p.icao || last.id == p.icao.removePrefix("K"))
+        if (isDest) plan.points.addAll(plan.points.size - 1, wps) else plan.points.addAll(wps)
+        plan.save(this)
+        showApproach(p, trans)
+        Toast.makeText(this, "${p.name}: ${wps.joinToString(" › ") { it.id }} added to the route", Toast.LENGTH_LONG).show()
+    }
+
+    /** The field's instrument approaches: chosen and drawn; with one drawn, what can be done with it. */
+    private fun approaches() {
+        val icao = intent.getStringExtra("icao")?.ifEmpty { ident } ?: ident
+        val p = procOv.proc
+        if (p == null) { ProcedureUi.choose(this, icao, { q, t -> showApproach(q, t) }, { q, t -> addApproach(q, t) }); return }
+        val t = procOv.transition
+        com.google.android.material.dialog.MaterialAlertDialogBuilder(this).setTitle("✈ ${p.name}" + (t?.let { " · via $it" } ?: " · vectors"))
+            .setItems(arrayOf("📋 Brief (fixes, altitudes, missed approach)", "📄 Plate", "🔀 Another transition", "➕ Add to the route", "✈ Another approach", "✕ Remove from the picture")) { _, i ->
+                when (i) {
+                    0 -> ProcedureUi.advisor(this, p, t, { q, u -> showApproach(q, u) }, { q, u -> addApproach(q, u) })
+                    1 -> ProcedureUi.plate(this, p)
+                    2 -> ProcedureUi.transition(this, p, { q, u -> showApproach(q, u) }, { q, u -> addApproach(q, u) })
+                    3 -> addApproach(p, t)
+                    4 -> ProcedureUi.choose(this, icao, { q, u -> showApproach(q, u) }, { q, u -> addApproach(q, u) })
+                    else -> {
+                        procOv.proc = null; procOv.transition = null
+                        appChip?.let { it.text = "✈ Approaches"; mark(it, false) }
+                        map.minZoomLevel = 11.0; map.invalidate()
+                    }
+                }
+            }.show()
+    }
     private var sketch: DiagramSketch? = null
     private var sketchTools: View? = null
     private var bottomBar: View? = null
@@ -287,6 +383,7 @@ class AirportDiagramActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
+        ProcedureUi.here = { ownship.position() ?: GeoPoint(lat0, lon0) }
         map.onResume()
         map.removeCallbacks(frame)
         map.post(frame)
@@ -311,6 +408,8 @@ class AirportDiagramActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         try { getSystemService(LocationManager::class.java)?.removeUpdates(gps) } catch (e: Exception) {}
+        TrackingService.stop(this, "airport")
+        faaOv?.image?.recycle()
         map.onDetach()
     }
 
@@ -456,6 +555,8 @@ class AirportDiagramActivity : BaseActivity() {
         try {
             m.getLastKnownLocation(LocationManager.GPS_PROVIDER)?.takeIf { System.currentTimeMillis() - it.time < 120000 }?.let { onFix(it) }
             m.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0f, gps, mainLooper)
+            // The aircraft goes on being followed with this page in the background or the screen off.
+            TrackingService.start(this, "airport")
         } catch (e: Exception) {
         }
     }

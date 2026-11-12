@@ -232,7 +232,6 @@ class MapActivity : BaseActivity(), NeonHost {
         procOv = ProcedureOverlay(map).apply {
             me = { ownship.position()?.takeIf { gotGps }?.let { g -> Triple(g, ownship.fix?.takeIf { it.hasAltitude() }?.altitude?.times(3.28084), ownship.speedKt()) } }
         }
-        ProcedureUi.here = { ownship.position()?.takeIf { gotGps } ?: map.mapCenter as GeoPoint }
         map.overlays.add(map.overlays.indexOf(insetOv).coerceAtLeast(0), procOv)
         b.root.postDelayed({ autoDiagrams() }, 2500)
         b.fabLocate.setOnClickListener { cycleView() }
@@ -344,6 +343,7 @@ class MapActivity : BaseActivity(), NeonHost {
 
     override fun onResume() {
         super.onResume()
+        ProcedureUi.here = { ownship.position()?.takeIf { gotGps } ?: map.mapCenter as GeoPoint }
         ProcedureUi.pending?.let { (p, t) -> ProcedureUi.pending = null; b.root.post { showProcedure(p, t) } }
         map.onResume()
         showCurrency()
@@ -827,7 +827,7 @@ class MapActivity : BaseActivity(), NeonHost {
     /** Zoomed in: the traffic patterns of every airport in view, each runway, the one into the wind bright. */
     private fun showPattern() {
         if (!::patternOv.isInitialized) return
-        if (!prefs.getBoolean("tp_on", true)) { patternBox?.visibility = View.GONE; return }
+        if (!prefs.getBoolean("tp_on", true)) { patternBox?.visibility = View.GONE; rwyPanel?.visibility = View.GONE; return }
         if (map.zoomLevelDouble < 11) { if (patternOv.fields.isNotEmpty()) { patternOv.fields.clear(); map.invalidate() }; patternPanel(); return }
         val bb = map.boundingBox
         val c = map.mapCenter
@@ -880,7 +880,7 @@ class MapActivity : BaseActivity(), NeonHost {
             }
             patternBox = this
         }
-        if (fields.isEmpty() || !prefs.getBoolean("tp_on", true) || map.zoomLevelDouble < 11) { box.visibility = View.GONE; return }
+        if (fields.isEmpty() || !prefs.getBoolean("tp_on", true) || map.zoomLevelDouble < 11) { box.visibility = View.GONE; runwayPanel(null); return }
         box.visibility = View.VISIBLE
         val f = fields.firstOrNull { it.ident == patternBoxFor } ?: fields.first()
         patternBoxFor = f.ident
@@ -914,6 +914,133 @@ class MapActivity : BaseActivity(), NeonHost {
             }, LinearLayout.LayoutParams(-2, -2).apply { marginStart = dp(5) })
         }
         box.addView(android.widget.HorizontalScrollView(this).apply { isHorizontalScrollBarEnabled = false; addView(chips) })
+        box.addView(android.widget.TextView(this).apply {
+            text = "ⓘ"; textSize = 16f; setTextColor(if (prefs.getBoolean("rwy_panel", true)) EfbUi.ACCENT else 0xFFB0BEC5.toInt())
+            setPadding(dp(10), dp(4), dp(6), dp(4))
+            setOnClickListener { prefs.edit().putBoolean("rwy_panel", !prefs.getBoolean("rwy_panel", true)).apply(); patternPanel() }
+        })
+        runwayPanel(f)
+    }
+
+    private var rwyPanel: LinearLayout? = null
+    private val rwyInfo = HashMap<String, org.json.JSONObject?>()
+    private var rwyPanelKey = ""
+
+    /**
+     * Every runway of the field in the pattern box, floating at the left: its length, width and
+     * surface, its heading, its traffic side, and its headwind and crosswind in the wind now —
+     * green into the wind, amber with a tailwind, red past the SportStar's limits (16 kt across,
+     * 6 kt behind). A tap on a runway shows or hides its pattern; the title bar drags the panel.
+     */
+    private fun runwayPanel(f: PatternOverlay.Field?) {
+        val on = f != null && prefs.getBoolean("rwy_panel", true) && prefs.getBoolean("tp_on", true) && map.zoomLevelDouble >= 11
+        if (!on) { rwyPanel?.visibility = View.GONE; return }
+        f!!
+        val a = airports.firstOrNull { it.ident == f.ident } ?: return
+        val station = airportsLayer.station(a)
+        if (station !in rwyInfo) {
+            rwyInfo[station] = null
+            lifecycleScope.launch {
+                val j = withContext(Dispatchers.IO) { try { AviationData.airportInfo(this@MapActivity, station) } catch (e: Exception) { null } }
+                if (j != null) { rwyInfo[station] = j; rwyPanelKey = ""; patternPanel() } else rwyInfo.remove(station)
+            }
+        }
+        val metar = airportsLayer.weather[station]?.json
+        val wdir = metar?.opt("wdir")?.toString()?.toDoubleOrNull()
+        val wspd = metar?.opt("wspd")?.toString()?.toDoubleOrNull() ?: 0.0
+        val gust = metar?.opt("wgst")?.toString()?.toDoubleOrNull()
+        val picked = patternPicked.getOrPut(f.ident) { HashSet() }
+        val key = "${f.ident}|${rwyInfo[station] != null}|$wdir|$wspd|$gust|${f.active}|${picked.sorted()}|${f.ends.keys.map { PatternOverlay.isRight(this, f.ident, it) }}"
+        val panel = rwyPanel ?: LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL; layoutDirection = View.LAYOUT_DIRECTION_LTR
+            background = EfbUi.cardBg(this@MapActivity, 0xF00F1318.toInt(), 14).apply { setStroke(dp(1), 0xFF29313D.toInt()) }
+            elevation = dp(10).toFloat(); clipToOutline = true
+            b.root.addView(this, android.widget.FrameLayout.LayoutParams(dp(232), -2, Gravity.TOP or Gravity.START).apply { topMargin = dp(150); leftMargin = dp(64) })
+            translationX = prefs.getFloat("rp_x", 0f); translationY = prefs.getFloat("rp_y", 0f)
+            rwyPanel = this
+        }
+        panel.visibility = View.VISIBLE
+        if (key == rwyPanelKey) return
+        rwyPanelKey = key
+        panel.removeAllViews()
+        val head = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL; setBackgroundColor(0xFF1B222C.toInt()); setPadding(dp(10), dp(6), dp(2), dp(6)) }
+        head.addView(LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            addView(EfbUi.text(this@MapActivity, "${f.name} · Runways", 14f, 0xFFFFFFFF.toInt(), bold = true))
+            val wind = when {
+                metar == null -> "no weather report"
+                wspd <= 0 -> "wind calm"
+                wdir == null -> "wind variable %.0f kt".format(wspd)
+                else -> "wind ${Nav.deg(Nav.magnetic(wdir, a.lat, a.lon))}M %.0f kt".format(wspd) + (gust?.let { " G%.0f".format(it) } ?: "")
+            }
+            addView(EfbUi.text(this@MapActivity, "Elev %,d' · TPA %,d' · $wind".format(a.elevation, f.tpaFt), 11f, 0xFFB0B4BC.toInt()))
+        }, LinearLayout.LayoutParams(0, -2, 1f))
+        head.addView(TextView(this).apply {
+            text = "✕"; textSize = 15f; setTextColor(0xFFFFFFFF.toInt()); gravity = Gravity.CENTER
+            setOnClickListener { prefs.edit().putBoolean("rwy_panel", false).apply(); patternPanel() }
+        }, LinearLayout.LayoutParams(dp(36), dp(36)))
+        var sx = 0f; var sy = 0f; var tx = 0f; var ty = 0f
+        head.setOnTouchListener { _, e ->
+            when (e.actionMasked) {
+                android.view.MotionEvent.ACTION_DOWN -> { sx = e.rawX; sy = e.rawY; tx = panel.translationX; ty = panel.translationY }
+                android.view.MotionEvent.ACTION_MOVE -> { panel.translationX = tx + e.rawX - sx; panel.translationY = ty + e.rawY - sy }
+                android.view.MotionEvent.ACTION_UP -> prefs.edit().putFloat("rp_x", panel.translationX).putFloat("rp_y", panel.translationY).apply()
+            }
+            true
+        }
+        panel.addView(head)
+        val info = rwyInfo[station]?.optJSONArray("runways")
+        val variation = Nav.variation(a.lat, a.lon)
+        val rows = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
+        for (r in f.ends.keys.sortedBy { it.takeWhile { c -> c.isDigit() }.toIntOrNull() ?: 99 }) {
+            val (thr, far) = f.ends[r] ?: continue
+            val hdgTrue = Nav.bearingTrue(thr.latitude, thr.longitude, far.latitude, far.longitude)
+            val hdgMag = Nav.magnetic(hdgTrue, a.lat, a.lon)
+            // The published runway this end belongs to: its size and surface.
+            var dim = ""; var surf = ""
+            for (i in 0 until (info?.length() ?: 0)) {
+                val o = info!!.optJSONObject(i) ?: continue
+                val ids = o.optString("id").split('/').map { it.trim().trimStart('0') }
+                if (r.trim().trimStart('0') in ids) {
+                    dim = o.optString("dimension").replace("x", " × ") + " ft"
+                    surf = when (o.optString("surface").uppercase()) { "A" -> "asphalt"; "C" -> "concrete"; "G" -> "grass"; "T" -> "turf"; "D" -> "dirt"; "" -> ""; else -> o.optString("surface").lowercase() }
+                }
+            }
+            if (dim.isEmpty()) dim = "%,d ft".format(Math.round(Nav.distanceNm(thr.latitude, thr.longitude, far.latitude, far.longitude) * 6076.12 / 50) * 50)
+            val rightTfc = PatternOverlay.isRight(this, f.ident, r)
+            var windLine = ""; var windColor = 0xFFB0B4BC.toInt()
+            if (wdir != null && wspd > 0) {
+                val ang = Math.toRadians(wdir - variation - hdgMag)
+                val hw = wspd * Math.cos(ang); val xw = wspd * Math.sin(ang)
+                val gx = gust?.let { Math.abs(it * Math.sin(ang)) }
+                windLine = "%s %.0f kt · X %.0f kt %s".format(if (hw >= 0) "↑ head" else "↓ TAIL", Math.abs(hw), Math.abs(xw), if (xw >= 0) "from R" else "from L") +
+                    (gx?.let { " (gust %.0f)".format(it) } ?: "")
+                windColor = when {
+                    Math.abs(xw) > 16 || (gx ?: 0.0) > 16 || hw < -6 -> 0xFFFF453A.toInt()
+                    hw < 0 -> 0xFFFFB020.toInt()
+                    else -> 0xFF30D158.toInt()
+                }
+            } else if (metar != null && wspd <= 0) { windLine = "calm" + if (PatternOverlay.calmRunway(f.ident) == r) " · the calm-wind runway" else "" }
+            val shown = r in picked
+            rows.addView(LinearLayout(this).apply {
+                orientation = LinearLayout.VERTICAL; setPadding(dp(10), dp(7), dp(10), dp(7))
+                setBackgroundColor(if (shown) 0x331A6FE0 else 0)
+                val line1 = LinearLayout(this@MapActivity).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
+                line1.addView(EfbUi.text(this@MapActivity, "RWY $r" + if (r == f.active) " ★" else "", 15f, if (r == f.active) 0xFFFFD60A.toInt() else 0xFFFFFFFF.toInt(), bold = true), LinearLayout.LayoutParams(0, -2, 1f))
+                line1.addView(EfbUi.text(this@MapActivity, "${Nav.deg(hdgMag)}M · ${if (rightTfc) "RIGHT" else "left"} traffic", 11.5f, if (rightTfc) 0xFFFFB020.toInt() else 0xFFB0B4BC.toInt(), bold = rightTfc))
+                addView(line1)
+                addView(EfbUi.text(this@MapActivity, listOf(dim, surf).filter { it.isNotEmpty() }.joinToString(" · "), 12f, 0xFFD5D9E0.toInt()))
+                if (windLine.isNotEmpty()) addView(EfbUi.text(this@MapActivity, windLine, 12f, windColor, bold = true))
+                setOnClickListener {
+                    if (!picked.add(r)) picked.remove(r)
+                    patternOv.fields[f.ident]?.shown = picked
+                    patternPanel(); map.invalidate()
+                }
+            })
+            rows.addView(View(this).apply { setBackgroundColor(0x22FFFFFF) }, LinearLayout.LayoutParams(-1, 1))
+        }
+        rows.addView(EfbUi.text(this, "★ into the wind · tap a runway for its pattern", 10.5f, 0xFF8A919C.toInt()).apply { setPadding(dp(10), dp(5), dp(10), dp(6)) })
+        panel.addView(android.widget.ScrollView(this).apply { addView(rows) }, LinearLayout.LayoutParams(-1, -2))
     }
 
     private fun idle(): Boolean {
@@ -1020,7 +1147,7 @@ class MapActivity : BaseActivity(), NeonHost {
             insetOv.pinned = if (insetOv.pinned == cur.ident) null else cur.ident
             paintPin(); map.invalidate()
         }
-        hb("⤢") {
+        hb("⌖") {
             val cur = insetOv.current ?: return@hb
             if (following) follow(quiet = true)
             val bb = diagramBoxes.entries.firstOrNull { e -> airports.any { it.ident == e.key && it.icao.ifEmpty { it.ident } == cur.ident } }?.value
@@ -1092,10 +1219,13 @@ class MapActivity : BaseActivity(), NeonHost {
             }
             insetOv.pinned = key
             if (following) follow(quiet = true)
-            if (map.zoomLevelDouble >= insetOv.closeZoom) map.controller.zoomTo(12.5)
-            map.controller.animateTo(GeoPoint(a.lat, a.lon))
-            // Shown now, even when this field's card was closed before (the overlay only tells of changes).
-            insetOv.insets[key]?.let { showCard(it) }
+            // The diagram where it really lies, over the airport and its runways, filling the screen;
+            // zoomed out it becomes the card, whose ⌖ comes back here.
+            val bb = diagramBoxes[a.ident]
+            if (bb != null) {
+                map.zoomToBoundingBox(bb, true, dp(24))
+                map.postDelayed({ if (map.zoomLevelDouble < insetOv.closeZoom) map.controller.zoomTo(insetOv.closeZoom + 0.6); autoDiagrams(); map.invalidate() }, 900)
+            } else map.controller.animateTo(GeoPoint(a.lat, a.lon))
             map.invalidate()
         }
     }
@@ -1686,7 +1816,7 @@ class MapActivity : BaseActivity(), NeonHost {
         // Keep the fixes coming with the map in the background or the screen off.
         if (Build.VERSION.SDK_INT >= 33 && checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS) != android.content.pm.PackageManager.PERMISSION_GRANTED)
             requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 77)
-        TrackingService.start(this)
+        TrackingService.start(this, "map")
         try {
             m.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000L, 0f, coarse, mainLooper)
         } catch (e: Exception) {
@@ -1707,7 +1837,7 @@ class MapActivity : BaseActivity(), NeonHost {
     }
 
     private fun stopGps() {
-        TrackingService.stop(this)
+        TrackingService.stop(this, "map")
         try {
             lm?.removeUpdates(listener)
             lm?.removeUpdates(coarse)
@@ -2196,42 +2326,7 @@ class MapActivity : BaseActivity(), NeonHost {
      * chart's own latitude/longitude grid (no title, frequencies or notes), drawn sharp at the size
      * it will be seen, on paper by day and dark by night; null when it has none or no printed scale.
      */
-    private fun buildDiagram(cand: AviationData.Airport): Triple<android.graphics.Bitmap, GeoPoint, GeoPoint>? = try {
-        val res = AviationData.plates(this@MapActivity, cand.ident)
-        val apd = res?.second?.firstOrNull { it.code == "APD" }
-        val f = apd?.let { AviationData.platePdf(this@MapActivity, res.first, it.pdf) }
-        val geo = f?.let { PdfLinks.open(this@MapActivity, it)?.use { l -> l.georef(0) } }
-        if (f == null || geo == null) null else {
-            // The drawing: the page without its edges, title band and footer (the runways often run
-            // past the last printed coordinate, so the grid alone would cut them).
-            val x0 = 0.04; val x1 = 0.96
-            val y0 = if (geo.turn == 0f) 0.085 else 0.05; val y1 = if (geo.turn == 0f) 0.925 else 0.95
-            val pfd = android.os.ParcelFileDescriptor.open(f, android.os.ParcelFileDescriptor.MODE_READ_ONLY)
-            var bmp = android.graphics.pdf.PdfRenderer(pfd).use { r ->
-                r.openPage(0).use { pg ->
-                    val pw = pg.width.toDouble(); val ph = pg.height.toDouble()
-                    val cw = 1300
-                    val s = cw / ((x1 - x0) * pw)
-                    val ch = ((y1 - y0) * ph * s).toInt().coerceIn(200, 2600)
-                    android.graphics.Bitmap.createBitmap(cw, ch, android.graphics.Bitmap.Config.ARGB_8888).also {
-                        it.eraseColor(android.graphics.Color.WHITE)
-                        val m = android.graphics.Matrix().apply {
-                            postScale(s.toFloat(), s.toFloat())
-                            postTranslate((-x0 * pw * s).toFloat(), (-y0 * ph * s).toFloat())
-                        }
-                        pg.render(it, null, m, android.graphics.pdf.PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY)
-                    }
-                }
-            }
-            val corners = listOf(geo.ground(x0, y0), geo.ground(x1, y0), geo.ground(x1, y1), geo.ground(x0, y1))
-            val north = corners.maxOf { it[0] }; val south = corners.minOf { it[0] }
-            val west = corners.minOf { it[1] }; val east = corners.maxOf { it[1] }
-            val turn = -geo.turn
-            if (turn != 0f) bmp = android.graphics.Bitmap.createBitmap(bmp, 0, 0, bmp.width, bmp.height,
-                android.graphics.Matrix().apply { postRotate(turn) }, true)
-            Triple(bmp, GeoPoint(north, west), GeoPoint(south, east))
-        }
-    } catch (e: Throwable) { null }
+    private fun buildDiagram(cand: AviationData.Airport) = FaaDiagram.build(this, cand.ident)
 
     private var tankReminded = 0
 
