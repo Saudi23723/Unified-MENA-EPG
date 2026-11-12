@@ -209,7 +209,7 @@ class MapActivity : BaseActivity(), NeonHost {
 
         map.addMapListener(DelayedMapListener(object : MapListener {
             override fun onScroll(event: ScrollEvent?): Boolean { autoDiagrams(); return idle() }
-            override fun onZoom(event: ZoomEvent?): Boolean { autoDiagrams(); syncZoomSlider(); return idle() }
+            override fun onZoom(event: ZoomEvent?): Boolean { autoDiagrams(); return idle() }
         }, 900))
 
         // The instrument strip in place of the four plain readouts.
@@ -1017,15 +1017,12 @@ class MapActivity : BaseActivity(), NeonHost {
             insetOv.pinned = if (insetOv.pinned == cur.ident) null else cur.ident
             paintPin(); map.invalidate()
         }
-        hb("−") { sizeCard(-40) }
-        hb("+") { sizeCard(40) }
         hb("⤢") {
             val cur = insetOv.current ?: return@hb
             if (following) follow(quiet = true)
             val bb = diagramBoxes.entries.firstOrNull { e -> airports.any { it.ident == e.key && it.icao.ifEmpty { it.ident } == cur.ident } }?.value
                 ?: return@hb
-            // The card steps aside close in; the diagram itself fills the screen.
-            cardFrame.visibility = View.GONE
+            // Close in the card steps aside by itself; the diagram itself fills the screen.
             map.zoomToBoundingBox(bb, true, dp(24))
             map.postDelayed({ if (map.zoomLevelDouble < insetOv.closeZoom) map.controller.zoomTo(insetOv.closeZoom + 0.6); autoDiagrams(); map.invalidate() }, 900)
         }
@@ -1034,6 +1031,33 @@ class MapActivity : BaseActivity(), NeonHost {
             cardFrame.visibility = View.GONE; map.invalidate()
         }
         cardFrame.addView(head)
+        // The card's size as a slider: left small, right big.
+        val sizeRow = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL; setBackgroundColor(0xF01B1D22.toInt())
+            setPadding(dp(10), 0, dp(10), 0)
+        }
+        sizeRow.addView(EfbUi.text(this, "🔍", 12f, 0xFFFFFFFF.toInt()))
+        val minW = 180; val maxW = (resources.displayMetrics.widthPixels / resources.displayMetrics.density * 0.96).toInt()
+        cardSize = android.widget.SeekBar(this).apply {
+            max = 1000
+            progress = ((prefs.getInt("dc_w", 300) - minW) * 1000 / (maxW - minW).coerceAtLeast(1)).coerceIn(0, 1000)
+            progressTintList = android.content.res.ColorStateList.valueOf(EfbUi.ACCENT)
+            thumbTintList = android.content.res.ColorStateList.valueOf(0xFFFFFFFF.toInt())
+            setOnSeekBarChangeListener(object : android.widget.SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(sb: android.widget.SeekBar, p: Int, user: Boolean) {
+                    if (!user) return
+                    val wdp = minW + (maxW - minW) * p / 1000
+                    val lp = cardFrame.layoutParams as android.widget.FrameLayout.LayoutParams
+                    lp.width = dp(wdp); cardFrame.layoutParams = lp; map.invalidate()
+                }
+                override fun onStartTrackingTouch(sb: android.widget.SeekBar) {}
+                override fun onStopTrackingTouch(sb: android.widget.SeekBar) {
+                    prefs.edit().putInt("dc_w", ((cardFrame.layoutParams.width) / resources.displayMetrics.density).toInt()).apply()
+                }
+            })
+        }
+        sizeRow.addView(cardSize, LinearLayout.LayoutParams(0, dp(34), 1f))
+        cardFrame.addView(sizeRow)
         cardFrame.addView(cardView, LinearLayout.LayoutParams(-1, -2))
         insetOv.card = cardFrame
         val w = prefs.getInt("dc_w", 300)
@@ -1064,8 +1088,11 @@ class MapActivity : BaseActivity(), NeonHost {
                 addDiagram(a.ident, made)
             }
             insetOv.pinned = key
+            if (following) follow(quiet = true)
             if (map.zoomLevelDouble >= insetOv.closeZoom) map.controller.zoomTo(12.5)
             map.controller.animateTo(GeoPoint(a.lat, a.lon))
+            // Shown now, even when this field's card was closed before (the overlay only tells of changes).
+            insetOv.insets[key]?.let { showCard(it) }
             map.invalidate()
         }
     }
@@ -1075,13 +1102,7 @@ class MapActivity : BaseActivity(), NeonHost {
             EfbUi.cardBg(this, 0xFF2D8CFF.toInt(), 8) else null
     }
 
-    private fun sizeCard(by: Int) {
-        val lp = cardFrame.layoutParams as android.widget.FrameLayout.LayoutParams
-        val wdp = ((lp.width / resources.displayMetrics.density).toInt() + by).coerceIn(180, (resources.displayMetrics.widthPixels / resources.displayMetrics.density * 0.96).toInt())
-        lp.width = dp(wdp); cardFrame.layoutParams = lp
-        prefs.edit().putInt("dc_w", wdp).apply()
-        map.invalidate()
-    }
+    private var cardSize: android.widget.SeekBar? = null
 
     private fun showCard(ins: DiagramInsetOverlay.Inset?) {
         if (!::cardFrame.isInitialized) return
@@ -1201,16 +1222,60 @@ class MapActivity : BaseActivity(), NeonHost {
         }
     }
 
+    private var procBarView: View? = null
+
+    /** The approach on the chart and what can be done with it: its plate, another transition, the advisor, the route, the plate image on or off, close. */
+    private fun procBar(p: Cifp.Procedure, trans: String?) {
+        procBarView?.let { b.root.removeView(it) }
+        val bar = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL; layoutDirection = View.LAYOUT_DIRECTION_LTR
+            background = EfbUi.cardBg(this@MapActivity, 0xF01B1D22.toInt(), 14).apply { setStroke(dp(1), 0x55FFFFFF) }
+            elevation = dp(12).toFloat(); setPadding(dp(12), dp(4), dp(4), dp(4))
+        }
+        bar.addView(LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            addView(EfbUi.text(this@MapActivity, "${p.icao} · ${p.name}", 14f, 0xFFFFFFFF.toInt(), bold = true).apply { maxLines = 1 })
+            addView(EfbUi.text(this@MapActivity, trans?.let { "via $it" } ?: "vectors to final", 11.5f, 0xFFB0B4BC.toInt()).apply { maxLines = 1 })
+        }, LinearLayout.LayoutParams(-2, -2).apply { marginEnd = dp(8) })
+        fun act(t: String, color: Int = 0xFFFFFFFF.toInt(), go: () -> Unit) = bar.addView(TextView(this).apply {
+            text = t; textSize = 13f; setTextColor(color); gravity = Gravity.CENTER; typeface = EfbUi.MEDIUM
+            setPadding(dp(10), 0, dp(10), 0); setBackgroundResource(R.drawable.item_focus_bg)
+            setOnClickListener { go() }
+        }, LinearLayout.LayoutParams(-2, dp(40)))
+        act("📄 Plate") { ProcedureUi.plate(this, p) }
+        act("🔀 Transition") { ProcedureUi.transition(this, p, { q, t -> showProcedure(q, t) }, { q, t -> addProcedure(q, t) }) }
+        act("📋 Brief") { ProcedureUi.advisor(this, p, trans, { q, t -> showProcedure(q, t) }, { q, t -> addProcedure(q, t) }) }
+        act("➕ Route") { addProcedure(p, trans) }
+        act("🗺 Plate on chart") {
+            plateOv?.let { o -> o.isEnabled = !o.isEnabled; map.invalidate()
+                Toast.makeText(this, if (o.isEnabled) "Plate on the chart" else "Plate hidden — the approach path stays", Toast.LENGTH_SHORT).show() }
+                ?: plateOnChart(p)
+        }
+        act("✈ Other") { approachMenu() }
+        act("✕", 0xFFFF6B6B.toInt()) { clearProcedure() }
+        val scroll = android.widget.HorizontalScrollView(this).apply { isHorizontalScrollBarEnabled = false; addView(bar) }
+        b.root.addView(scroll, android.widget.FrameLayout.LayoutParams(-2, -2, Gravity.TOP or Gravity.CENTER_HORIZONTAL).apply { topMargin = dp(70); leftMargin = dp(64); rightMargin = dp(12) })
+        procBarView = scroll
+    }
+
+    /** The approach off the chart: its path, its plate, its bar. */
+    private fun clearProcedure() {
+        procOv.proc = null; procOv.transition = null
+        plateOv?.let { map.overlays.remove(it); it.image?.recycle() }; plateOv = null
+        procBarView?.let { b.root.removeView(it) }; procBarView = null
+        map.invalidate()
+    }
+
     fun showProcedure(p: Cifp.Procedure, trans: String?) {
         procOv.proc = p; procOv.transition = trans
         plateOnChart(p)
+        procBar(p, trans)
         val pts = p.legs(trans).mapNotNull { l -> if (l.lat != null && l.lon != null) GeoPoint(l.lat, l.lon) else null }
         if (pts.size >= 2) {
             if (following) follow(quiet = true)
             map.zoomToBoundingBox(org.osmdroid.util.BoundingBox.fromGeoPoints(pts), true, dp(60))
         }
         map.invalidate()
-        Toast.makeText(this, "${p.name} · ${trans ?: "vectors"} — tap the menu's Approach again to change", Toast.LENGTH_LONG).show()
     }
 
     /** The approach's fixes into the route, before the destination when it is this airport. */
@@ -1691,35 +1756,14 @@ class MapActivity : BaseActivity(), NeonHost {
         val north = tool(R.drawable.ic_compass, click = { b.northUp.performClick() })
         northTool = north
         line()
-        // Zoom as a slider, top close in, bottom far out.
-        val zoomBar = android.widget.SeekBar(this).apply {
-            max = 1000; rotation = 270f
-            progressTintList = android.content.res.ColorStateList.valueOf(EfbUi.ACCENT)
-            thumbTintList = android.content.res.ColorStateList.valueOf(0xFFFFFFFF.toInt())
-            setOnSeekBarChangeListener(object : android.widget.SeekBar.OnSeekBarChangeListener {
-                override fun onProgressChanged(s: android.widget.SeekBar, p: Int, user: Boolean) {
-                    if (user) map.controller.setZoom(map.minZoomLevel + (map.maxZoomLevel - map.minZoomLevel) * p / 1000.0)
-                }
-                override fun onStartTrackingTouch(s: android.widget.SeekBar) {}
-                override fun onStopTrackingTouch(s: android.widget.SeekBar) {}
-            })
-        }
-        zoomSlider = zoomBar
-        val holder = android.widget.FrameLayout(this)
-        holder.addView(zoomBar, android.widget.FrameLayout.LayoutParams(dp(150), dp(40), android.view.Gravity.CENTER))
-        col.addView(holder, LinearLayout.LayoutParams(dp(46), dp(160)))
+        tool(R.drawable.ic_add, click = { b.zoomIn.performClick() })
+        tool(R.drawable.ic_remove, click = { b.zoomOut.performClick() })
         line()
         tool(R.drawable.ic_sos, 0xFFFF453A.toInt(), click = { b.fabSos.performClick() })
         b.root.addView(col, android.widget.FrameLayout.LayoutParams(-2, -2, android.view.Gravity.START or android.view.Gravity.CENTER_VERTICAL).apply { marginStart = dp(8) })
     }
 
     private var northTool: View? = null
-    private var zoomSlider: android.widget.SeekBar? = null
-
-    private fun syncZoomSlider() {
-        val s = zoomSlider ?: return
-        s.progress = (((map.zoomLevelDouble - map.minZoomLevel) / (map.maxZoomLevel - map.minZoomLevel)) * 1000).toInt()
-    }
     private var locateTool: android.widget.ImageView? = null
 
     /** Every box of the instrument strip, from this fix and the route. */

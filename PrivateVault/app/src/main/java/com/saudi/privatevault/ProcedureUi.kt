@@ -151,7 +151,7 @@ object ProcedureUi {
         }
     }
 
-    private fun transition(act: AppCompatActivity, p: Cifp.Procedure, onShow: (Cifp.Procedure, String?) -> Unit, onAdd: ((Cifp.Procedure, String?) -> Unit)?) {
+    fun transition(act: AppCompatActivity, p: Cifp.Procedure, onShow: (Cifp.Procedure, String?) -> Unit, onAdd: ((Cifp.Procedure, String?) -> Unit)?) {
         val keys = p.transitions.keys.toList()
         if (keys.isEmpty()) { advisor(act, p, null, onShow, onAdd); return }
         val labels = keys.map { k -> k + (p.transitions[k]?.firstOrNull()?.let { if (it.role == "A") " (IAF)" else "" } ?: "") } + "Vectors to final"
@@ -232,7 +232,7 @@ object ProcedureUi {
     }
 
     /** The FAA plate of the same approach, in the reader. */
-    private fun plate(act: AppCompatActivity, p: Cifp.Procedure) {
+    fun plate(act: AppCompatActivity, p: Cifp.Procedure) {
         val ident = p.icao.removePrefix("K").takeIf { p.icao.length == 4 && p.icao.startsWith("K") } ?: p.icao
         act.lifecycleScope.launch {
             val res = withContext(Dispatchers.IO) { AviationData.plates(act, ident) }

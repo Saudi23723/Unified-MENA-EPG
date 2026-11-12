@@ -209,11 +209,11 @@ class InkSheet(ctx: Context) : View(ctx) {
             swatch.setOnClickListener { colors.visibility = if (colors.visibility == View.VISIBLE) View.GONE else View.VISIBLE }
             bar.addView(swatch, LinearLayout.LayoutParams(dp(30), dp(30)).apply { marginEnd = dp(6) })
             // The size: S, M, L — a dot that grows with it.
-            val sizes = floatArrayOf(0.6f, 1f, 1.8f)
+            val sizes = floatArrayOf(0.45f, 1f, 1.8f)
             ink.size = sizes[prefs.getInt("ink_size", 1).coerceIn(0, 2)]
             val sizeBtn = TextView(act).apply { gravity = Gravity.CENTER; setTextColor(0xFFFFFFFF.toInt()); textSize = 11f; typeface = EfbUi.MEDIUM }
             fun paintSize() {
-                val i = sizes.indexOfFirst { it == ink.size }.coerceAtLeast(1)
+                val i = sizes.indexOfFirst { it == ink.size }.coerceAtLeast(0)
                 sizeBtn.text = listOf("S", "M", "L")[i]
                 sizeBtn.background = GradientDrawable().apply { shape = GradientDrawable.OVAL; setColor(0xFF3A3A3C.toInt()); setStroke(dp(1 + i * 2), 0xFFFFFFFF.toInt()) }
             }
