@@ -194,8 +194,10 @@ class VodActivity : BaseActivity() {
             if (series && f.size > 1) loadJob = lifecycleScope.launch {
                 val at = withContext(Dispatchers.IO) {
                     val st = Vod.stamps(true)
-                    // four at a time, not to press the provider
-                    f.chunked(4).flatMap { ch -> ch.map { x -> kotlinx.coroutines.async { x.id to maxOf(st[x.id] ?: 0L, Vod.latestEpisodeAt(x.id)) } }.map { it.await() } }.toMap()
+                    // one after another, not to press the provider (each kept 3 hours, so mostly from the device)
+                    val m = HashMap<Int, Long>()
+                    for (x in f) m[x.id] = maxOf(st[x.id] ?: 0L, Vod.latestEpisodeAt(x.id))
+                    m
                 }
                 if (current != FAV || at.values.all { it == 0L }) return@launch
                 val o = f.sortedByDescending { at[it.id] ?: 0L }
