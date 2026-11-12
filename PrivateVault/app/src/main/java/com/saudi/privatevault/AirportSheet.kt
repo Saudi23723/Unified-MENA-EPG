@@ -130,6 +130,15 @@ class AirportSheet(
             Toast.makeText(act, if (now) R.string.fav_added else R.string.fav_removed, Toast.LENGTH_SHORT).show()
         }
         button(R.string.notes_title) { dialog.dismiss(); Notebooks.choose(act, a.icao.ifEmpty { a.ident }) }
+        // The field's FAA diagram on the map, its card pinned to it.
+        buttons.addView(MaterialButton(act, null, com.google.android.material.R.attr.materialButtonOutlinedStyle).apply {
+            text = "📄 Diagram on map"; isAllCaps = false
+            setOnClickListener {
+                dialog.dismiss()
+                val m = act as? MapActivity
+                if (m != null) m.diagramFor(a) else AirportDiagramActivity.open(act, a)
+            }
+        }, LinearLayout.LayoutParams(-2, -2).apply { marginEnd = dp(8) })
         body.addView(HorizontalScrollView(act).apply {
             isHorizontalScrollBarEnabled = false
             addView(buttons)

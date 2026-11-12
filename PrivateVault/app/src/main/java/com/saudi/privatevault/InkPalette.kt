@@ -174,9 +174,15 @@ class InkSheet(ctx: Context) : View(ctx) {
                 text = glyph; textSize = size; gravity = Gravity.CENTER; setTextColor(0xFFFFFFFF.toInt())
                 setOnClickListener { onClick(this) }
             }
-            for ((t, g) in listOf(Tool.HAND to "✋", Tool.PEN to "🖊", Tool.MARKER to "🖍", Tool.PENCIL to "✏️", Tool.ERASER to "⌫",
+            for ((t, g) in listOf(Tool.HAND to "✋", Tool.PEN to "🖊", Tool.MARKER to "🖍", Tool.ERASER to "",
                 Tool.RULER to "📏", Tool.PLANE to "✈️", Tool.NEON to "✨", Tool.LASER to "🔴")) {
-                val v = btn(g, if (t == Tool.ERASER) 17f else 18f) { ink.tool = t; mark() }
+                val v = btn(g, 18f) { ink.tool = t; mark() }
+                if (t == Tool.ERASER) {
+                    // A real eraser, drawn, not a delete key.
+                    val dr = androidx.core.content.ContextCompat.getDrawable(act, R.drawable.ic_tool_eraser)?.mutate()?.apply { setTint(0xFFFFFFFF.toInt()); setBounds(0, 0, dp(22), dp(22)) }
+                    v.setCompoundDrawables(dr, null, null, null)
+                    v.setPadding(dp(10), 0, 0, 0)
+                }
                 toolViews[t] = v
                 bar.addView(v, LinearLayout.LayoutParams(dp(42), dp(42)).apply { marginEnd = dp(2) })
             }

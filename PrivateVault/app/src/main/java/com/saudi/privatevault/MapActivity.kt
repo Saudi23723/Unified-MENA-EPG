@@ -618,12 +618,57 @@ class MapActivity : BaseActivity(), NeonHost {
         val call = t.call
         lifecycleScope.launch {
             val r = withContext(Dispatchers.IO) { if (Traffic.airline(call) != null) Traffic.route(call) else null }
-            if (targetId == t.id) route.text = when {
-                r != null -> "Route: $r   (callsign database)"
-                Traffic.airline(call) == null -> "Route: not filed publicly (private / GA)"
-                else -> "Route: not found"
-            }
+            if (targetId != t.id) return@launch
+            val now = Traffic.targets[t.id] ?: t
+            val phase = phaseOf(now)
+            // The database's route only when the aircraft really is on it: between the two fields and heading for the second.
+            val checked = r?.let { routeFits(it, now) }
+            route.text = listOfNotNull(phase, when {
+                r != null && checked == true -> "Route $r"
+                r != null -> "Database route ($r) does not match where it flies — out of date"
+                Traffic.airline(call) == null -> "Private / GA: no public route"
+                else -> null
+            }).joinToString("\n").ifEmpty { "Route: unknown" }
         }
+    }
+
+    private fun apt(code: String) = airports.firstOrNull { it.icao == code || it.ident == code || "K" + it.ident == code }
+
+    /** True when the aircraft lies on the way from the first field to the last and points at the last. */
+    private fun routeFits(route: String, t: Traffic.Target): Boolean? {
+        val ends = route.split(" → ").map { it.trim() }
+        val a = apt(ends.first()) ?: return null
+        val b = apt(ends.last()) ?: return null
+        val total = Nav.distanceNm(a.lat, a.lon, b.lat, b.lon)
+        val via = Nav.distanceNm(a.lat, a.lon, t.lat, t.lon) + Nav.distanceNm(t.lat, t.lon, b.lat, b.lon)
+        val toB = Nav.bearingTrue(t.lat, t.lon, b.lat, b.lon)
+        val off = Math.abs(((t.track - toB + 540) % 360) - 180)
+        val nearB = Nav.distanceNm(t.lat, t.lon, b.lat, b.lon) < 25
+        val vs = t.vsFpm ?: 0
+        // Coming down near where the database says it left from: it is landing there, so that route is not this flight's.
+        if (Nav.distanceNm(t.lat, t.lon, a.lat, a.lon) < 30 && vs < -300 && (t.altFt ?: 99999) < 12000) return false
+        // Climbing out near where the database says it goes: the same, the other way.
+        if (nearB && vs > 300 && (t.altFt ?: 99999) < 12000) return false
+        return via <= total * 1.3 + 20 && (off < 70 || nearB)
+    }
+
+    /** What the aircraft is doing by itself: arriving at or leaving the nearest field (low, near it, descending or climbing), or en route. */
+    private fun phaseOf(t: Traffic.Target): String? {
+        val alt = t.altFt ?: return null
+        val vs = t.vsFpm ?: 0
+        fun off(a: AviationData.Airport) = Math.abs(((t.track - Nav.bearingTrue(t.lat, t.lon, a.lat, a.lon) + 540) % 360) - 180)
+        val close = airports.map { it to Nav.distanceNm(t.lat, t.lon, it.lat, it.lon) }.filter { it.second < 30 }
+        if (close.isEmpty()) return null
+        val (nearest, dn) = close.minByOrNull { it.second }!!
+        if (alt <= 0 || (t.gsKt < 40 && dn < 2)) return "On the ground at ${nearest.icao.ifEmpty { nearest.ident }}"
+        if (vs < -300) {
+            // Coming down: the field ahead whose 3° glide path (about 318 ft a mile) best fits its height.
+            val best = close.filter { off(it.first) < 50 && alt - it.first.elevation in -300..9000 }
+                .minByOrNull { (a, d) -> Math.abs((alt - a.elevation) - 318 * d) + 40 * off(a) }
+            if (best != null) return "Arriving ${best.first.icao.ifEmpty { best.first.ident }} (likely) · %.0f nm · %,d fpm".format(best.second, vs)
+        }
+        if (vs > 300 && alt - nearest.elevation < 9000 && off(nearest) > 90) return "Departing ${nearest.icao.ifEmpty { nearest.ident }} (likely) · climbing"
+        return null
     }
 
     private fun fillTarget(t: Traffic.Target) {
@@ -998,6 +1043,25 @@ class MapActivity : BaseActivity(), NeonHost {
                 android.view.MotionEvent.ACTION_UP -> prefs.edit().putFloat("dc_x", cardFrame.translationX).putFloat("dc_y", cardFrame.translationY).apply()
             }
             true
+        }
+    }
+
+    /** One field's diagram on the map, chosen from its airport page: laid, pinned, its card shown. */
+    fun diagramFor(a: AviationData.Airport) {
+        prefs.edit().putBoolean("auto_diagrams", true).apply()
+        val key = a.icao.ifEmpty { a.ident }
+        insetOv.hidden.remove(key)
+        Toast.makeText(this, getString(R.string.apt_plates_loading), Toast.LENGTH_SHORT).show()
+        lifecycleScope.launch {
+            if (a.ident !in diagrams) {
+                val made = withContext(Dispatchers.IO) { buildDiagram(a) }
+                if (made == null) { Toast.makeText(this@MapActivity, R.string.plate_on_map_none, Toast.LENGTH_LONG).show(); return@launch }
+                addDiagram(a.ident, made)
+            }
+            insetOv.pinned = key
+            if (map.zoomLevelDouble >= insetOv.closeZoom) map.controller.zoomTo(12.5)
+            map.controller.animateTo(GeoPoint(a.lat, a.lon))
+            map.invalidate()
         }
     }
 
