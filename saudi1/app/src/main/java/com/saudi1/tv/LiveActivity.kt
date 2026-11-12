@@ -196,7 +196,10 @@ class LiveActivity : BaseActivity() {
             while (isActive) {
                 delay(3000)
                 val c = playing
-                if (c != null && (!player.isPlaying || player.currentPosition < 15_000)) android.util.Log.w("SAUDI", "tick ${src?.name}: state=${player.playbackState} playing=${player.isPlaying} pos=${player.currentPosition} buf=${player.bufferedPosition} frames=${player.videoDecoderCounters?.let { it.ensureUpdated(); it.renderedOutputBufferCount }} ready=$readyOnce tries=$tries")
+                // a provider's "off air" filler: a black clip sent all at once (NBC GOLF, 11 Nov 2026: 86 s of picture
+                // in the first 3 s, every frame black). Real live TV cannot be a minute ahead of live.
+                if (c != null && readyOnce && !offChecked && src?.url.isNullOrEmpty() && player.currentPosition < 20_000 &&
+                    player.bufferedPosition - player.currentPosition > 45_000) { offChecked = true; offAir(); continue }
                 if (c == null || !readyOnce || !player.playWhenReady || player.playbackState == Player.STATE_IDLE || player.playbackState == Player.STATE_ENDED) { still = 0; last = -1; frames = -1; frozen = 0; continue }
                 Device.now("live", c.name)
                 val pos = player.currentPosition
@@ -402,6 +405,18 @@ class LiveActivity : BaseActivity() {
         if (src != null && src?.id != playing?.id) note("Backup copy: ${src?.name}", 4000) else note(null)
     }
 
+    private var offChecked = false
+    /** the provider sends its filler instead of the channel: another copy of it if there is one, else say so on the picture */
+    private fun offAir() {
+        val c = playing ?: return
+        val s = src ?: c
+        triedIds += s.id
+        val t = twin(c)
+        android.util.Log.w("SAUDI", "off air: ${s.name}, backup: ${t?.name}")
+        if (t != null) { note("Not coming on this link — trying a backup copy…", 0); tries = 1; start(t) }
+        else note("This channel's picture is off at the provider right now", 0)
+    }
+
     private var noteJob: kotlinx.coroutines.Job? = null
     private fun note(t: String?, ms: Long = 0) {
         noteJob?.cancel()
@@ -411,7 +426,7 @@ class LiveActivity : BaseActivity() {
     }
 
     private fun start(c: Channel, hls: Boolean = Hls.has(c.id)) {
-        src = c; startedAt = android.os.SystemClock.elapsedRealtime(); readyOnce = false
+        src = c; startedAt = android.os.SystemClock.elapsedRealtime(); readyOnce = false; offChecked = false
         val u = Api.streamUrl(c)
         usingHls = hls && u.endsWith(".ts")
         // HLS: the player itself stays 6 s from live, a little faster / slower to keep there
