@@ -77,7 +77,7 @@ class LaserLayer(ctx: Context) : View(ctx) {
     companion object {
         private const val TAG = "laser_layer"
         private const val TAIL_MS = 450L
-        private const val FADE_MS = 600L
+        private const val FADE_MS = 2500L
 
         /** Over the whole screen, with a small bar: the colour, and ✓ to put it away. */
         fun start(act: Activity) {

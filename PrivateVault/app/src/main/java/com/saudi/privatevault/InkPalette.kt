@@ -84,7 +84,7 @@ class InkSheet(ctx: Context) : View(ctx) {
         val it = marks.iterator()
         while (it.hasNext()) {
             val m = it.next()
-            if (m.tool == Tool.LASER && m.t > 0 && now - m.t > 700) { it.remove(); continue }
+            if (m.tool == Tool.LASER && m.t > 0 && now - m.t > 2500) { it.remove(); continue }
             when (m.tool) {
                 Tool.PLANE -> plane(c, m.pts[0], m.pts[1], m.pts[2], m.color)
                 else -> {
@@ -101,7 +101,7 @@ class InkSheet(ctx: Context) : View(ctx) {
                         Tool.PENCIL -> { p.color = (m.color and 0x00FFFFFF) or 0xCC000000.toInt(); p.strokeWidth = 1.8f * d; p.strokeCap = Paint.Cap.ROUND }
                         Tool.LASER -> {
                             live = true
-                            val fade = if (m.t > 0) (1f - (now - m.t) / 700f).coerceIn(0f, 1f) else 1f
+                            val fade = if (m.t > 0) (1f - (now - m.t) / 2500f).coerceIn(0f, 1f) else 1f
                             p.color = (m.color and 0x00FFFFFF) or ((0x66 * fade).toInt() shl 24); p.strokeWidth = 12 * d; p.strokeCap = Paint.Cap.ROUND
                             c.drawPath(path, p)
                             p.color = (0xFFFFFF) or ((0xFF * fade).toInt() shl 24); p.strokeWidth = 3 * d

@@ -93,6 +93,7 @@ class DiagramInsetOverlay(
         }
         // Everyone around, and me.
         for (t in Traffic.targets.values) {
+            if (t.id == Traffic.meId) continue
             val p = at(t.lat, t.lon) ?: continue
             c.save(); c.translate(p[0], p[1]); c.rotate(t.track.toFloat())
             val r = 8 * d

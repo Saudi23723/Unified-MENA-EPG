@@ -1598,6 +1598,7 @@ class MapActivity : BaseActivity(), NeonHost {
 
     /** A target within 2 nm and 1000 ft: its clock position, distance and relative altitude. */
     private fun trafficClose(t: Traffic.Target): String? {
+        if (t.id == Traffic.meId) return null
         val l = ownship.fix ?: return null
         val alt = l.takeIf { it.hasAltitude() && gotGps }?.altitude?.times(3.28084) ?: return null
         val tAlt = t.altFt ?: return null
@@ -1623,8 +1624,34 @@ class MapActivity : BaseActivity(), NeonHost {
         val c = ownship.position() ?: map.mapCenter as GeoPoint
         lifecycleScope.launch {
             withContext(Dispatchers.IO) { Traffic.prune(); Traffic.fetch(c.latitude, c.longitude) }
+            findMe()
             map.invalidate()
         }
+    }
+
+    private var meAnnounced: String? = null
+
+    /**
+     * Am I seen? In flight, the target where I am — within half a mile, 400 ft and 25 kt of my own
+     * GPS — is my aircraft's ADS-B Out as every other aircraft and ATC receive it. It is not drawn as
+     * traffic, and the map says once that I am visible.
+     */
+    private fun findMe() {
+        val l = ownship.fix?.takeIf { gotGps } ?: return
+        val kt = ownship.speedKt()
+        if (kt < 35) { Traffic.meId = null; return }
+        val alt = l.takeIf { it.hasAltitude() }?.altitude?.times(3.28084)
+        val me = Traffic.targets.values.filter { t ->
+            Nav.distanceNm(l.latitude, l.longitude, t.lat, t.lon) < 0.5 &&
+                (alt == null || t.altFt == null || Math.abs(t.altFt!! - alt) < 400) && Math.abs(t.gsKt - kt) < 25
+        }.minByOrNull { Nav.distanceNm(l.latitude, l.longitude, it.lat, it.lon) }
+        Traffic.meId = me?.id
+        if (me != null && meAnnounced != me.id) {
+            meAnnounced = me.id
+            val name = me.call.ifEmpty { me.reg.ifEmpty { me.id.uppercase() } }
+            Toast.makeText(this, "📡 ADS-B Out seen: $name — other aircraft and ATC can see you", Toast.LENGTH_LONG).show()
+        }
+        b.toolbar.subtitle = if (me != null) "📡 Visible on ADS-B · ${me.call.ifEmpty { me.reg }}" else b.toolbar.subtitle
     }
 
     /**

@@ -79,6 +79,8 @@ object Traffic {
     @Volatile var source = ""
     /** Why the last fetch brought nothing, for the message. */
     @Volatile var lastError = ""
+    /** My own aircraft as the ADS-B networks see it (its transponder's ADS-B Out), not drawn as traffic. */
+    @Volatile var meId: String? = null
 
     /** Aircraft within [radiusNm] from the ADS-B networks (call off the main thread). */
     fun fetch(lat: Double, lon: Double, radiusNm: Int = 40) {
@@ -207,6 +209,7 @@ class TrafficOverlay(map: MapView, private val ownAltFt: () -> Double?) : Overla
         val box = mapView.boundingBox
         val own = ownAltFt()
         for (t in Traffic.targets.values) {
+            if (t.id == Traffic.meId) continue
             if (t.lat < box.latSouth || t.lat > box.latNorth || t.lon < box.lonWest || t.lon > box.lonEast) continue
             mapView.projection.toPixels(GeoPoint(t.lat, t.lon), pt)
             val x = pt.x.toFloat(); val y = pt.y.toFloat()
