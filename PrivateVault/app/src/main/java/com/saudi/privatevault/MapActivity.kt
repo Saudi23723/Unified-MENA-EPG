@@ -67,6 +67,7 @@ class MapActivity : BaseActivity(), NeonHost {
     private lateinit var ownship: OwnshipOverlay
     private lateinit var weather: WeatherOverlay
     private lateinit var rings: RangeRingsOverlay
+    private lateinit var insetOv: DiagramInsetOverlay
     private lateinit var route: RouteOverlay
     private var radar: RadarOverlay? = null
     private lateinit var hazard: HazardOverlay
@@ -195,6 +196,7 @@ class MapActivity : BaseActivity(), NeonHost {
         map.overlays.add(ownship)
         traffic = TrafficOverlay(map) { ownship.fix?.takeIf { it.hasAltitude() && gotGps }?.altitude?.times(3.28084) }.apply {
             near = { t -> trafficClose(t) != null }
+            onTap = { t -> targetCard(t) }
         }
         // Traffic on from the start, as ForeFlight shows it: online ADS-B near you, and a Stratux / Sentry when connected.
         if (prefs.getBoolean("wx_traffic", true)) { map.overlays.add(traffic); Traffic.startReceiver() }
@@ -221,6 +223,13 @@ class MapActivity : BaseActivity(), NeonHost {
         // Range rings around the aircraft, on and off from the menu.
         rings = RangeRingsOverlay(map) { if (gotGps) ownship.position() else null }
         if (prefs.getBoolean("rings", true)) map.overlays.add(rings)
+        // The diagram as a big card beside its field at any zoom; a tap on it goes there.
+        insetOv = DiagramInsetOverlay(map, { if (gotGps) ownship.fix else null }) { ins ->
+            if (following) follow(quiet = true)
+            diagramBoxes[ins.ident]?.let { map.zoomToBoundingBox(it, true, dp(12)) }
+        }
+        map.overlays.add(insetOv)
+        b.root.postDelayed({ autoDiagrams() }, 2500)
         b.fabLocate.setOnClickListener { cycleView() }
         b.fabSos.setOnClickListener { emergency() }
         b.zoomIn.setOnClickListener {
@@ -540,6 +549,95 @@ class MapActivity : BaseActivity(), NeonHost {
         }
         map.invalidate()
         if (::weather.isInitialized) wxBar()
+    }
+
+    // ---- an aircraft tapped on the chart: its floating card ----
+
+    private var targetView: View? = null
+    private var targetId: String? = null
+    private val targetTick = object : Runnable {
+        override fun run() {
+            val id = targetId ?: return
+            val t = Traffic.targets[id]
+            if (t == null) { closeTarget(); return }
+            fillTarget(t)
+            b.root.postDelayed(this, 2000)
+        }
+    }
+    private var tgtLines: List<TextView> = emptyList()
+    private var tgtRoute: TextView? = null
+
+    private fun closeTarget() {
+        targetId = null; b.root.removeCallbacks(targetTick)
+        targetView?.let { b.root.removeView(it) }; targetView = null
+    }
+
+    /** As ForeFlight's traffic pop-up: who it is, the airline and type, its route, and height, speed, climb, distance from me. */
+    private fun targetCard(t: Traffic.Target) {
+        closeTarget()
+        targetId = t.id
+        val card = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL; layoutDirection = View.LAYOUT_DIRECTION_LTR
+            background = EfbUi.cardBg(this@MapActivity, 0xF21B1D22.toInt(), 14).apply { setStroke(dp(1), 0xFF3A3D44.toInt()) }
+            setPadding(dp(14), dp(10), dp(10), dp(12)); elevation = dp(12).toFloat(); isClickable = true
+        }
+        val head = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
+        val title = EfbUi.text(this, "", 18f, 0xFFFFFFFF.toInt(), bold = true)
+        head.addView(title, LinearLayout.LayoutParams(0, -2, 1f))
+        head.addView(TextView(this).apply {
+            text = "✕"; textSize = 17f; setTextColor(0xFFB8BCC4.toInt()); setPadding(dp(10), dp(2), dp(6), dp(2))
+            setOnClickListener { closeTarget() }
+        })
+        card.addView(head)
+        val sub = EfbUi.text(this, "", 13f, 0xFF7FD3FF.toInt(), bold = true)
+        card.addView(sub)
+        val route = EfbUi.text(this, "Route: …", 13.5f, 0xFFFFFFFF.toInt()).apply { setPadding(0, dp(4), 0, dp(4)) }
+        tgtRoute = route
+        card.addView(route)
+        val grid = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; setPadding(0, dp(6), 0, 0) }
+        val cells = ArrayList<TextView>()
+        for (label in listOf("ALT", "GS", "VS", "DIST")) {
+            val cell = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
+            cell.addView(EfbUi.text(this, label, 10.5f, 0xFF9A9CA3.toInt(), bold = true))
+            val v = EfbUi.text(this, "—", 15f, 0xFFFFFFFF.toInt(), bold = true)
+            cells.add(v); cell.addView(v)
+            grid.addView(cell, LinearLayout.LayoutParams(0, -2, 1f))
+        }
+        card.addView(grid)
+        val foot = EfbUi.text(this, "", 11.5f, 0xFF9A9CA3.toInt()).apply { setPadding(0, dp(6), 0, 0) }
+        card.addView(foot)
+        tgtLines = listOf(title, sub, foot) + cells
+        b.root.addView(card, android.widget.FrameLayout.LayoutParams(minOf(dp(340), (resources.displayMetrics.widthPixels * 0.9).toInt()), -2,
+            Gravity.TOP or Gravity.CENTER_HORIZONTAL).apply { topMargin = dp(118) })
+        targetView = card
+        fillTarget(t)
+        b.root.postDelayed(targetTick, 2000)
+        // The route, from the callsign database.
+        val call = t.call
+        lifecycleScope.launch {
+            val r = withContext(Dispatchers.IO) { if (Traffic.airline(call) != null) Traffic.route(call) else null }
+            if (targetId == t.id) route.text = when {
+                r != null -> "Route: $r   (callsign database)"
+                Traffic.airline(call) == null -> "Route: not filed publicly (private / GA)"
+                else -> "Route: not found"
+            }
+        }
+    }
+
+    private fun fillTarget(t: Traffic.Target) {
+        val (title, sub, foot) = tgtLines
+        val alt = tgtLines[3]; val gs = tgtLines[4]; val vs = tgtLines[5]; val dist = tgtLines[6]
+        val airline = Traffic.airline(t.call)
+        title.text = t.call.ifEmpty { t.reg.ifEmpty { t.id.uppercase() } }
+        sub.text = listOfNotNull(airline ?: t.owner.ifEmpty { null }, t.desc.ifEmpty { t.type.ifEmpty { null } }, t.reg.takeIf { it.isNotEmpty() && it != t.call })
+            .joinToString("  ·  ").ifEmpty { "Aircraft" }
+        alt.text = t.altFt?.let { if (it <= 0) "GND" else "%,d ft".format(it) } ?: "—"
+        gs.text = "${t.gsKt} kt"
+        vs.text = t.vsFpm?.let { if (Math.abs(it) < 100) "level" else "%+,d".format(it) } ?: "—"
+        val me = ownship.position()
+        dist.text = me?.let { "%.1f nm".format(Nav.distanceNm(it.latitude, it.longitude, t.lat, t.lon)) } ?: "—"
+        foot.text = listOfNotNull("Track %03.0f°".format(t.track), t.squawk.takeIf { it.isNotEmpty() }?.let { "Squawk $it" },
+            "hex ${t.id.uppercase()}", if (t.fromReceiver) "ADS-B receiver" else Traffic.source.ifEmpty { "ADS-B network" }).joinToString("  ·  ")
     }
 
     // ---- the weather bar, as ForeFlight's: hazard buttons, the radar loop and its dBZ scale ----
@@ -1627,7 +1725,7 @@ class MapActivity : BaseActivity(), NeonHost {
     private fun plateOnMap() {
         val on = !prefs.getBoolean("auto_diagrams", true) || diagrams.isEmpty()
         prefs.edit().putBoolean("auto_diagrams", on).apply()
-        if (!on) { map.overlays.removeAll(diagrams.values.toSet()); diagrams.clear(); noDiagram.clear(); map.invalidate(); return }
+        if (!on) { map.overlays.removeAll(diagrams.values.toSet()); diagrams.clear(); insetOv.insets.clear(); noDiagram.clear(); map.invalidate(); return }
         // As ForeFlight does it: go to the nearest field that has a diagram and fill the screen with it.
         val c = ownship.position() ?: map.mapCenter as GeoPoint
         val near = airports.map { it to Nav.distanceNm(c.latitude, c.longitude, it.lat, it.lon) }
@@ -1650,8 +1748,8 @@ class MapActivity : BaseActivity(), NeonHost {
             diagramsBusy = false
             val bb = box
             if (bb == null) { Toast.makeText(this@MapActivity, R.string.plate_on_map_none, Toast.LENGTH_LONG).show(); return@launch }
-            if (following) follow(quiet = true)
-            map.zoomToBoundingBox(bb, true, dp(12))
+            // No zoom needed: the card shows it big beside the field.
+            map.invalidate()
             map.postDelayed({ autoDiagrams() }, 1200)
         }
     }
@@ -1666,18 +1764,22 @@ class MapActivity : BaseActivity(), NeonHost {
         map.overlays.add(1.coerceAtMost(map.overlays.size), o)
         diagrams[ident] = o
         diagramBoxes[ident] = org.osmdroid.util.BoundingBox(made.second.latitude, made.third.longitude, made.third.latitude, made.second.longitude)
+        airports.firstOrNull { it.ident == ident }?.let { a ->
+            insetOv.insets[ident] = DiagramInsetOverlay.Inset(a.icao.ifEmpty { a.ident }, made.first, made.second.latitude, made.second.longitude,
+                made.third.latitude, made.third.longitude, a.lat, a.lon)
+        }
         map.invalidate()
     }
 
     /** Lays the diagrams of the airports now on the screen, a few at a time, nearest the centre first. */
     private fun autoDiagrams() {
         // Seen only close in: from afar a diagram is a stamp on the chart.
-        val close = map.zoomLevelDouble >= 13.0
+        val close = map.zoomLevelDouble >= insetOv.closeZoom
         for (o in diagrams.values) o.isEnabled = close
-        if (!prefs.getBoolean("auto_diagrams", true) || diagramsBusy || !close) return
+        if (!prefs.getBoolean("auto_diagrams", true) || diagramsBusy || map.zoomLevelDouble < 9.0) return
         val bb = map.boundingBox; val c = map.mapCenter
         val want = airports.filter { it.lat in bb.latSouth..bb.latNorth && it.lon in bb.lonWest..bb.lonEast && it.ident !in diagrams && it.ident !in noDiagram }
-            .sortedBy { Nav.distanceNm(c.latitude, c.longitude, it.lat, it.lon) }.take(3)
+            .sortedBy { Nav.distanceNm(c.latitude, c.longitude, it.lat, it.lon) }.take(if (close) 3 else 2)
         if (want.isEmpty()) return
         diagramsBusy = true
         lifecycleScope.launch {
@@ -1689,6 +1791,7 @@ class MapActivity : BaseActivity(), NeonHost {
                 while (diagrams.size > 6) {
                     val cc = map.mapCenter
                     val far = diagrams.keys.maxByOrNull { k -> airports.firstOrNull { it.ident == k }?.let { Nav.distanceNm(cc.latitude, cc.longitude, it.lat, it.lon) } ?: 0.0 } ?: break
+                    insetOv.insets.remove(far)
                     diagrams.remove(far)?.let { map.overlays.remove(it); it.image?.recycle() }
                 }
                 map.invalidate()

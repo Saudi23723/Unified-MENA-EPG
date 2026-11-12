@@ -366,6 +366,16 @@ object NotePad {
         }
         head.addView(pageLabel)
         head.addView(icon(R.drawable.ic_folder) { switcher(act, frame, book, isBig) }, LinearLayout.LayoutParams(dp(38), dp(38)))
+        // The page's template: scratchpad (ATIS + clearance), ATIS, CRAFT, PIREP, lined, blank, grid, dots.
+        head.addView(glyph("▤", 19f) {
+            val styles = NoteBook.Style.values()
+            com.google.android.material.dialog.MaterialAlertDialogBuilder(act)
+                .setTitle("Template")
+                .setSingleChoiceItems(styles.map { it.label }.toTypedArray(), styles.indexOf(book.style)) { dlg, i ->
+                    dlg.dismiss()
+                    book.style = styles[i]; book.save(); canvas.invalidate()
+                }.show()
+        })
         head.addView(glyph("–", 22f) { minimise(act, frame, book) })
         grow = glyph("⤢", 18f) { isBig = !isBig; place() }
         head.addView(grow)

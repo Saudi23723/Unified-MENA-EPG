@@ -56,10 +56,10 @@ object QuickTools {
         content.addView(b, FrameLayout.LayoutParams(dp(56), dp(56), Gravity.END or Gravity.BOTTOM).apply { marginEnd = dp(14); bottomMargin = dp(150) })
         b.translationX = prefs.getFloat("qt_x", 0f)
         b.translationY = prefs.getFloat("qt_y", 0f)
-        var sx = 0f; var sy = 0f; var tx = 0f; var ty = 0f; var moved = false
+        var sx = 0f; var sy = 0f; var tx = 0f; var ty = 0f; var moved = false; var downAt = 0L
         b.setOnTouchListener { v, e ->
             when (e.actionMasked) {
-                MotionEvent.ACTION_DOWN -> { sx = e.rawX; sy = e.rawY; tx = v.translationX; ty = v.translationY; moved = false }
+                MotionEvent.ACTION_DOWN -> { sx = e.rawX; sy = e.rawY; tx = v.translationX; ty = v.translationY; moved = false; downAt = e.eventTime }
                 MotionEvent.ACTION_MOVE -> {
                     if (Math.hypot((e.rawX - sx).toDouble(), (e.rawY - sy).toDouble()) > dp(8)) moved = true
                     if (moved) {
@@ -70,7 +70,8 @@ object QuickTools {
                 }
                 MotionEvent.ACTION_UP -> {
                     if (moved) prefs.edit().putFloat("qt_x", v.translationX).putFloat("qt_y", v.translationY).apply()
-                    else menu(act, v)
+                    // A tap: the floating tool palette, as iPadOS has it; a long press: the other tools.
+                    else if (e.eventTime - downAt > 450) menu(act, v) else InkLayer.toggle(act)
                 }
             }
             true
