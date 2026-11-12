@@ -23,6 +23,20 @@ class WeatherOverlay(map: MapView) : Overlay() {
     var showAirmets = true
     var showTfrs = true
     var showPireps = true
+    /** Which hazards to draw (ICE, TURB HI, TURB LO, IFR, TS); empty for all. */
+    var hazards: Set<String> = emptySet()
+
+    private fun hazardOf(a: AviationData.Area): String {
+        val t = a.label.uppercase()
+        return when {
+            "CONVECTIVE" in t || a.kind.contains("CONVECTIVE", true) -> "TS"
+            "TURB" in t && ("HI" in t.substringAfter("TURB")) -> "TURB HI"
+            "TURB" in t -> "TURB LO"
+            "ICE" in t || "ICING" in t -> "ICE"
+            "IFR" in t -> "IFR"
+            else -> "OTHER"
+        }
+    }
     var onPick: ((List<String>) -> Unit)? = null
 
     private val d = map.resources.displayMetrics.density
@@ -42,7 +56,7 @@ class WeatherOverlay(map: MapView) : Overlay() {
     private val pt = Point()
 
     private fun visible(): List<AviationData.Area> =
-        (if (showAirmets) areas else emptyList()) + (if (showTfrs) tfrs else emptyList())
+        (if (showAirmets) areas.filter { hazards.isEmpty() || hazardOf(it) in hazards } else emptyList()) + (if (showTfrs) tfrs else emptyList())
 
     override fun draw(c: Canvas, mapView: MapView, shadow: Boolean) {
         if (shadow) return

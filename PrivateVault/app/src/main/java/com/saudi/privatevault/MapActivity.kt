@@ -22,6 +22,8 @@ import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.TextView
+import android.view.Gravity
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -64,6 +66,7 @@ class MapActivity : BaseActivity(), NeonHost {
     private lateinit var airportsLayer: AirportsOverlay
     private lateinit var ownship: OwnshipOverlay
     private lateinit var weather: WeatherOverlay
+    private lateinit var rings: RangeRingsOverlay
     private lateinit var route: RouteOverlay
     private var radar: RadarOverlay? = null
     private lateinit var hazard: HazardOverlay
@@ -214,6 +217,10 @@ class MapActivity : BaseActivity(), NeonHost {
         b.fabDraw.setOnClickListener { toggleDrawing() }
         styleControls()
         foreflightLayout()
+        b.root.post { wxBar() }
+        // Range rings around the aircraft, on and off from the menu.
+        rings = RangeRingsOverlay(map) { if (gotGps) ownship.position() else null }
+        if (prefs.getBoolean("rings", true)) map.overlays.add(rings)
         b.fabLocate.setOnClickListener { cycleView() }
         b.fabSos.setOnClickListener { emergency() }
         b.zoomIn.setOnClickListener {
@@ -459,6 +466,7 @@ class MapActivity : BaseActivity(), NeonHost {
                 prefs.edit().putString("map_data", data.name).putInt("winds_alt", windAlt).apply()
                 setStationData(data, windAlt)
                 refreshWeather()
+                wxBar()
                 map.invalidate()
             }
             .setNegativeButton(R.string.cancel, null)
@@ -531,6 +539,101 @@ class MapActivity : BaseActivity(), NeonHost {
             map.overlays.add(if (official != null) 1 else 0, r)
         }
         map.invalidate()
+        if (::weather.isInitialized) wxBar()
+    }
+
+    // ---- the weather bar, as ForeFlight's: hazard buttons, the radar loop and its dBZ scale ----
+
+    private var wxPanel: LinearLayout? = null
+    private var loopOn = false
+    private var loopIdx = 0
+    private val LOOP = listOf(50, 40, 30, 20, 10, 0)
+    private val loopStep = object : Runnable {
+        override fun run() {
+            val r = radar ?: run { loopOn = false; return }
+            if (!loopOn) return
+            loopIdx = (loopIdx + 1) % LOOP.size
+            r.age = LOOP[loopIdx]
+            loopLabel?.text = if (r.age == 0) "Now" else "−${r.age} min"
+            b.root.postDelayed(this, if (r.age == 0) 1800L else 750L)
+        }
+    }
+    private var loopLabel: TextView? = null
+    private var playBtn: TextView? = null
+
+    /** Shows or hides the bar above the instrument band, as the radar and the AIRMET layers are on. */
+    private fun wxBar() {
+        val showHaz = weather.showAirmets
+        val showRadar = radar != null
+        if (!showHaz && !showRadar) { wxPanel?.visibility = View.GONE; loopOn = false; return }
+        val panel = wxPanel ?: LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL; gravity = Gravity.CENTER_HORIZONTAL
+            layoutDirection = View.LAYOUT_DIRECTION_LTR; elevation = dp(7).toFloat()
+            b.root.addView(this, android.widget.FrameLayout.LayoutParams(-2, -2, Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL))
+            wxPanel = this
+        }
+        panel.removeAllViews()
+        panel.visibility = View.VISIBLE
+        (panel.layoutParams as android.widget.FrameLayout.LayoutParams).bottomMargin = stripHeight() + dp(10)
+        if (showHaz) {
+            val row = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; background = EfbUi.cardBg(this@MapActivity, 0xF01B1D22.toInt(), 10); setPadding(dp(3), dp(3), dp(3), dp(3)) }
+            val chosen = (prefs.getString("wx_hz", "") ?: "").split(',').filter { it.isNotEmpty() }.toMutableSet()
+            weather.hazards = chosen
+            for ((key, label) in listOf("ICE" to "Ice", "TURB HI" to "Turb\nHigh", "TURB LO" to "Turb\nLow", "IFR" to "IFR", "TS" to "TS")) {
+                val t = TextView(this).apply {
+                    text = label; textSize = 12.5f; typeface = EfbUi.MEDIUM; gravity = Gravity.CENTER; setTextColor(0xFFFFFFFF.toInt())
+                    setPadding(dp(10), dp(6), dp(10), dp(6)); minWidth = dp(48)
+                }
+                fun paint() { t.background = EfbUi.cardBg(this, if (key in chosen) 0xFF2D8CFF.toInt() else 0x00000000, 8) }
+                paint()
+                t.setOnClickListener {
+                    if (key in chosen) chosen.remove(key) else chosen.add(key)
+                    prefs.edit().putString("wx_hz", chosen.joinToString(",")).apply()
+                    weather.hazards = chosen.toSet(); paint(); map.invalidate()
+                }
+                row.addView(t, LinearLayout.LayoutParams(-2, dp(44)).apply { marginEnd = dp(2) })
+            }
+            panel.addView(row)
+        }
+        if (showRadar) {
+            val box = LinearLayout(this).apply {
+                orientation = LinearLayout.VERTICAL; background = EfbUi.cardBg(this@MapActivity, 0xF01B1D22.toInt(), 10)
+                setPadding(dp(10), dp(6), dp(10), dp(6))
+            }
+            // The scale: rain from 5 to 75 dBZ in the radar's own colours.
+            val scale = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
+            scale.addView(EfbUi.text(this, "dBZ", 11f, 0xFFFFFFFF.toInt(), bold = true), LinearLayout.LayoutParams(-2, -2).apply { marginEnd = dp(6) })
+            val ramp = intArrayOf(0xFF04E9E7.toInt(), 0xFF019FF4.toInt(), 0xFF0300F4.toInt(), 0xFF02FD02.toInt(), 0xFF01C501.toInt(), 0xFF008E00.toInt(),
+                0xFFFDF802.toInt(), 0xFFE5BC00.toInt(), 0xFFFD9500.toInt(), 0xFFFD0000.toInt(), 0xFFD40000.toInt(), 0xFFBC0000.toInt(), 0xFFF800FD.toInt(), 0xFF9854C6.toInt())
+            val col = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
+            col.addView(View(this).apply { background = android.graphics.drawable.GradientDrawable(android.graphics.drawable.GradientDrawable.Orientation.LEFT_RIGHT, ramp).apply { cornerRadius = dp(2).toFloat() } },
+                LinearLayout.LayoutParams(dp(190), dp(9)))
+            val nums = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
+            for (v in listOf("5", "25", "45", "65", "75")) nums.addView(EfbUi.text(this, v, 10f, 0xFFDDDDDD.toInt()), LinearLayout.LayoutParams(0, -2, 1f))
+            col.addView(nums, LinearLayout.LayoutParams(dp(190), -2))
+            scale.addView(col)
+            box.addView(scale)
+            // The loop: ▶ plays the last 50 minutes, the slider-like label says when.
+            val ctl = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL; setPadding(0, dp(4), 0, 0) }
+            val play = TextView(this).apply {
+                text = if (loopOn) "❚❚" else "▶"; textSize = 16f; setTextColor(0xFFFFFFFF.toInt()); gravity = Gravity.CENTER
+                background = EfbUi.cardBg(this@MapActivity, 0xFF2D8CFF.toInt(), 18)
+            }
+            playBtn = play
+            val label = EfbUi.text(this, if ((radar?.age ?: 0) == 0) "Now" else "−${radar?.age} min", 14f, 0xFFFFFFFF.toInt(), bold = true)
+            loopLabel = label
+            play.setOnClickListener {
+                loopOn = !loopOn
+                play.text = if (loopOn) "❚❚" else "▶"
+                b.root.removeCallbacks(loopStep)
+                if (loopOn) { loopIdx = LOOP.size - 1; b.root.post(loopStep) } else { radar?.age = 0; label.text = "Now" }
+            }
+            ctl.addView(play, LinearLayout.LayoutParams(dp(40), dp(34)))
+            ctl.addView(EfbUi.text(this, "  Radar  ", 12f, 0xFFB8BCC4.toInt()))
+            ctl.addView(label)
+            box.addView(ctl)
+            panel.addView(box, LinearLayout.LayoutParams(-2, -2).apply { topMargin = dp(6) })
+        }
     }
 
     private fun refreshWeather() {
@@ -759,9 +862,12 @@ class MapActivity : BaseActivity(), NeonHost {
         val near = airports.minByOrNull { Nav.distanceNm(g.latitude, g.longitude, it.lat, it.lon) }
             ?.takeIf { Nav.distanceNm(g.latitude, g.longitude, it.lat, it.lon) < 10 }
         val target = near?.let { FlightPlan.Waypoint(it.icao.ifEmpty { it.ident }, it.lat, it.lon) } ?: wp
+        val around = airports.map { it to Nav.distanceNm(g.latitude, g.longitude, it.lat, it.lon) }
+            .filter { it.second < 25 }.sortedBy { it.second }.take(5).map { it.first }
         PointSheet(this, near?.lat ?: g.latitude, near?.lon ?: g.longitude, near, from?.let { it.latitude to it.longitude },
             onDirect = { directTo(target) }, onAdd = { addToRoute(target) },
-            onAirport = near?.let { a -> { showAirport(a) } }).show()
+            onAirport = near?.let { a -> { showAirport(a) } },
+            press = g.latitude to g.longitude, nearby = around, onNearby = { a -> showAirport(a) }).show()
     }
 
     private fun findWaypoint(token: String): FlightPlan.Waypoint? {
@@ -2284,6 +2390,7 @@ class MapActivity : BaseActivity(), NeonHost {
         menu.add(0, 3, 0, R.string.map_track_up).setCheckable(true).isChecked = trackUp
         menu.add(0, 42, 0, R.string.traffic_list)
         menu.add(0, 44, 0, R.string.plate_on_map).setCheckable(true).isChecked = prefs.getBoolean("auto_diagrams", true)
+        menu.add(0, 46, 0, "◎  Range rings").setCheckable(true).isChecked = prefs.getBoolean("rings", true)
         menu.add(0, 37, 0, R.string.glide_menu)
         menu.add(0, 30, 0, R.string.freq_title)
         menu.add(0, 36, 0, R.string.pos_report)
@@ -2355,6 +2462,12 @@ class MapActivity : BaseActivity(), NeonHost {
             40 -> AvionicsPanel.toggle(this)
             42 -> trafficList()
             44 -> { plateOnMap(); item.isChecked = prefs.getBoolean("auto_diagrams", true) }
+            46 -> {
+                val on = !prefs.getBoolean("rings", true)
+                prefs.edit().putBoolean("rings", on).apply(); item.isChecked = on
+                map.overlays.remove(rings); if (on) map.overlays.add(rings)
+                map.invalidate()
+            }
             45 -> svtSplit()
             43 -> RadioPlayer.choose(this)
             41 -> MaterialAlertDialogBuilder(this).setTitle(R.string.map_view_menu).setMessage(R.string.map_view_help).setPositiveButton(android.R.string.ok, null).show()

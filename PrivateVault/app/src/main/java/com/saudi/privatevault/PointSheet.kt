@@ -30,6 +30,10 @@ class PointSheet(
     private val onDirect: () -> Unit,
     private val onAdd: () -> Unit,
     private val onAirport: (() -> Unit)?,
+    /** The pressed point itself, and the airports around it, for the Location / Airspace / Nearby sections. */
+    private val press: Pair<Double, Double>? = null,
+    private val nearby: List<AviationData.Airport> = emptyList(),
+    private val onNearby: ((AviationData.Airport) -> Unit)? = null,
 ) {
     private val d = act.resources.displayMetrics.density
     private fun dp(v: Int) = (v * d).toInt()
@@ -92,9 +96,12 @@ class PointSheet(
         action("＋", R.string.apt_add_route, onAdd)
         onAirport?.let { action("✈", R.string.apt_tab_info, it) }
         body.addView(actions)
+        pointInfo(body)
 
         if (apt == null) {
-            dialog.setContentView(body); dialog.show(); return
+            dialog.setContentView(android.widget.ScrollView(act).apply { addView(body) })
+            dialog.behavior.peekHeight = (act.resources.displayMetrics.heightPixels * 0.62).toInt()
+            dialog.show(); return
         }
 
         // Weather tabs.
@@ -139,6 +146,78 @@ class PointSheet(
             metarPage(pages[0].second, m)
             tafPage(pages[1].second, taf)
             windsPage(pages[2].second, fb)
+        }
+    }
+
+    private fun section(parent: LinearLayout, title: String) = parent.addView(tv(title, 12f, dim, bold = true).apply {
+        letterSpacing = 0.08f; setPadding(dp(2), dp(16), 0, dp(6))
+    })
+
+    /**
+     * As ForeFlight's map sidebar has it: where the point is (latitude/longitude in degrees and
+     * minutes, the ground's elevation), every airspace over it with its floor and ceiling, and the
+     * airports around it with distance and bearing.
+     */
+    private fun pointInfo(body: LinearLayout) {
+        val (pl, po) = press ?: (lat to lon)
+        fun dm(v: Double, pos: Char, neg: Char): String {
+            val a = Math.abs(v); val deg = a.toInt(); val min = (a - deg) * 60
+            return "%d°%05.2f'%c".format(deg, min, if (v >= 0) pos else neg)
+        }
+        section(body, "LOCATION")
+        val loc = LinearLayout(act).apply { orientation = LinearLayout.VERTICAL; background = EfbUi.cardBg(act); setPadding(dp(14), dp(4), dp(14), dp(4)); layoutDirection = View.LAYOUT_DIRECTION_LTR }
+        row(loc, "Position", "${dm(pl, 'N', 'S')}  ${dm(po, 'E', 'W')}")
+        val elevRow = tv("…", 15f, ink, bold = true)
+        val er = LinearLayout(act).apply { orientation = LinearLayout.HORIZONTAL; setPadding(0, dp(10), 0, dp(10)) }
+        er.addView(tv("Ground", 14f, dim, bold = true), LinearLayout.LayoutParams(dp(120), -2))
+        er.addView(elevRow.apply { gravity = Gravity.END }, LinearLayout.LayoutParams(0, -2, 1f))
+        loc.addView(View(act).apply { setBackgroundColor(EfbUi.CARD_LINE) }, LinearLayout.LayoutParams(-1, 1))
+        loc.addView(er)
+        body.addView(loc)
+
+        section(body, "AIRSPACE")
+        val asp = LinearLayout(act).apply { orientation = LinearLayout.VERTICAL; background = EfbUi.cardBg(act); setPadding(dp(14), dp(6), dp(14), dp(6)); layoutDirection = View.LAYOUT_DIRECTION_LTR }
+        asp.addView(tv("…", 13f, dim))
+        body.addView(asp)
+
+        if (nearby.isNotEmpty()) {
+            section(body, "NEARBY")
+            val nb = LinearLayout(act).apply { orientation = LinearLayout.VERTICAL; background = EfbUi.cardBg(act); setPadding(dp(14), dp(2), dp(14), dp(2)); layoutDirection = View.LAYOUT_DIRECTION_LTR }
+            for ((i, a) in nearby.withIndex()) {
+                if (i > 0) nb.addView(View(act).apply { setBackgroundColor(EfbUi.CARD_LINE) }, LinearLayout.LayoutParams(-1, 1))
+                val r = LinearLayout(act).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL; setPadding(0, dp(10), 0, dp(10)) }
+                r.addView(tv("◉", 15f, accent), LinearLayout.LayoutParams(dp(26), -2))
+                val t = LinearLayout(act).apply { orientation = LinearLayout.VERTICAL }
+                t.addView(tv(a.icao.ifEmpty { a.ident }, 15f, ink, bold = true))
+                val brg = Nav.magnetic(Nav.bearingTrue(pl, po, a.lat, a.lon), pl, po)
+                t.addView(tv("${a.name} · %.1f nm ${Nav.deg(brg)}M".format(Nav.distanceNm(pl, po, a.lat, a.lon)), 12.5f, dim))
+                r.addView(t, LinearLayout.LayoutParams(0, -2, 1f))
+                r.addView(tv("›", 20f, dim))
+                if (onNearby != null) r.setOnClickListener { dialog.dismiss(); onNearby.invoke(a) }
+                nb.addView(r)
+            }
+            body.addView(nb)
+        }
+
+        act.lifecycleScope.launch {
+            val (elev, list) = withContext(Dispatchers.IO) {
+                val e = try { Terrain.elevationFt(pl, po, wait = true) } catch (e: Exception) { null }
+                val areas = try { Airspace.areas.ifEmpty { Airspace.load(act) } } catch (e: Throwable) { emptyList() }
+                e to areas.filter { it.contains(pl, po) }
+            }
+            elevRow.text = elev?.let { "%,d ft MSL".format(it.toInt()) } ?: "—"
+            asp.removeAllViews()
+            if (list.isEmpty()) asp.addView(tv("Class E/G (no B, C, D or special-use airspace here)", 13.5f, dim).apply { setPadding(0, dp(8), 0, dp(8)) })
+            for ((i, a) in list.sortedBy { it.lowFt ?: 0 }.withIndex()) {
+                if (i > 0) asp.addView(View(act).apply { setBackgroundColor(EfbUi.CARD_LINE) }, LinearLayout.LayoutParams(-1, 1))
+                val r = LinearLayout(act).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL; setPadding(0, dp(9), 0, dp(9)) }
+                r.addView(View(act).apply { setBackgroundColor(Airspace.color(a.kind)) }, LinearLayout.LayoutParams(dp(5), dp(34)).apply { marginEnd = dp(10) })
+                val t = LinearLayout(act).apply { orientation = LinearLayout.VERTICAL }
+                t.addView(tv(a.name.ifEmpty { Airspace.spoken(a.kind) }, 15f, ink, bold = true))
+                t.addView(tv("${Airspace.spoken(a.kind)} · ${a.low.ifEmpty { "?" }} – ${a.high.ifEmpty { "?" }}" + if (a.note.isNotBlank()) " · ${a.note.take(60)}" else "", 12.5f, dim))
+                r.addView(t, LinearLayout.LayoutParams(0, -2, 1f))
+                asp.addView(r)
+            }
         }
     }
 

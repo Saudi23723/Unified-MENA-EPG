@@ -27,9 +27,12 @@ import kotlin.math.tan
  */
 class RadarOverlay(private val map: MapView) : Overlay() {
     private val base = "https://mesonet.agron.iastate.edu/cache/tile.py/1.0.0/nexrad-n0q-900913"
-    private val cache = object : LinkedHashMap<String, Bitmap>(96, 0.75f, true) {
-        override fun removeEldestEntry(e: MutableMap.MutableEntry<String, Bitmap>?) = size > 96
+    private val cache = object : LinkedHashMap<String, Bitmap>(140, 0.75f, true) {
+        override fun removeEldestEntry(e: MutableMap.MutableEntry<String, Bitmap>?) = size > 140
     }
+    /** Minutes into the past for the loop: 0 is the latest picture; the IEM keeps every 5 min to 50. */
+    var age = 0
+        set(v) { field = v; map.postInvalidate() }
     private val loading = HashSet<String>()
     private val pool = Executors.newFixedThreadPool(4)
     private val paint = Paint(Paint.FILTER_BITMAP_FLAG or Paint.ANTI_ALIAS_FLAG or Paint.DITHER_FLAG).apply { alpha = 175 }
@@ -66,9 +69,9 @@ class RadarOverlay(private val map: MapView) : Overlay() {
         for (x in x0..x1) for (y in y0..y1) {
             if (y < 0 || y >= n) continue
             val xx = ((x % n) + n) % n
-            val key = "$bucket/$z/$xx/$y"
+            val key = "$bucket/$age/$z/$xx/$y"
             val bmp = synchronized(cache) { cache[key] }
-            if (bmp == null) { fetch(key, z, xx, y); continue }
+            if (bmp == null) { fetch(key, z, xx, y, age); continue }
             mapView.projection.toPixels(GeoPoint(y2lat(y.toDouble(), z), x2lon(x.toDouble(), z)), a)
             mapView.projection.toPixels(GeoPoint(y2lat(y + 1.0, z), x2lon(x + 1.0, z)), b)
             src.set(0, 0, bmp.width, bmp.height)
@@ -78,11 +81,12 @@ class RadarOverlay(private val map: MapView) : Overlay() {
         }
     }
 
-    private fun fetch(key: String, z: Int, x: Int, y: Int) {
+    private fun fetch(key: String, z: Int, x: Int, y: Int, age: Int) {
         synchronized(loading) { if (!loading.add(key)) return }
         pool.execute {
             try {
-                val conn = URL("$base/$z/$x/$y.png?b=$bucket").openConnection() as HttpURLConnection
+                val layer = if (age == 0) base else "$base-m%02dm".format(age)
+                val conn = URL("$layer/$z/$x/$y.png?b=$bucket").openConnection() as HttpURLConnection
                 conn.connectTimeout = 15000; conn.readTimeout = 20000
                 conn.setRequestProperty("User-Agent", "PilotCompanion/1.0")
                 val bmp = try { conn.inputStream.use { BitmapFactory.decodeStream(it) } } finally { conn.disconnect() }
