@@ -1155,6 +1155,52 @@ class MapActivity : BaseActivity(), NeonHost {
     private fun openApproaches(icao: String) =
         ProcedureUi.choose(this, icao, { p, t -> showProcedure(p, t) }, { p, t -> addProcedure(p, t) })
 
+    private var plateOv: org.osmdroid.views.overlay.GroundOverlay? = null
+
+    /**
+     * The approach's FAA plate laid on the chart where it really is, as ForeFlight's plates on maps:
+     * its plan view placed from the fixes' true positions (CIFP) against their symbols on the plate.
+     */
+    private fun plateOnChart(p: Cifp.Procedure) {
+        plateOv?.let { map.overlays.remove(it); it.image?.recycle() }; plateOv = null
+        val ident = p.icao.removePrefix("K").takeIf { p.icao.length == 4 && p.icao.startsWith("K") } ?: p.icao
+        lifecycleScope.launch {
+            val made = withContext(Dispatchers.IO) {
+                try {
+                    val res = AviationData.plates(this@MapActivity, ident) ?: return@withContext null
+                    val norm = { s: String -> s.uppercase().replace(" ", "").replace("RWY", "") }
+                    val pl = res.second.firstOrNull { it.code == "IAP" && norm(it.name) == norm(p.name) } ?: return@withContext null
+                    val f = AviationData.platePdf(this@MapActivity, res.first, pl.pdf) ?: return@withContext null
+                    val fx = Cifp.fixesFor(this@MapActivity, p.icao)
+                    val geo = PdfLinks.open(this@MapActivity, f)?.use { it.plateGeo(0, fx) } ?: return@withContext null
+                    // The plan view: between the briefing strip and the profile.
+                    val x0 = 0.03; val x1 = 0.97; val y0 = 0.155; val y1 = 0.665
+                    val bmp = android.graphics.pdf.PdfRenderer(android.os.ParcelFileDescriptor.open(f, android.os.ParcelFileDescriptor.MODE_READ_ONLY)).use { r ->
+                        r.openPage(0).use { pg ->
+                            val pw = pg.width.toDouble(); val ph = pg.height.toDouble()
+                            val cw = 1400; val s = cw / ((x1 - x0) * pw); val ch = ((y1 - y0) * ph * s).toInt()
+                            android.graphics.Bitmap.createBitmap(cw, ch, android.graphics.Bitmap.Config.ARGB_8888).also {
+                                it.eraseColor(android.graphics.Color.WHITE)
+                                pg.render(it, null, android.graphics.Matrix().apply { postScale(s.toFloat(), s.toFloat()); postTranslate((-x0 * pw * s).toFloat(), (-y0 * ph * s).toFloat()) },
+                                    android.graphics.pdf.PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY)
+                            }
+                        }
+                    }
+                    val nw = geo.ground(x0, y0); val se = geo.ground(x1, y1)
+                    Triple(bmp, GeoPoint(nw[0], nw[1]), GeoPoint(se[0], se[1]))
+                } catch (e: Throwable) { null }
+            }
+            if (made == null) {
+                Toast.makeText(this@MapActivity, "This plate could not be placed exactly (its fixes' symbols were not found) — open it from the advisor instead.", Toast.LENGTH_LONG).show()
+                return@launch
+            }
+            val o = org.osmdroid.views.overlay.GroundOverlay().apply { image = made.first; setPosition(made.second, made.third); transparency = 0.08f }
+            map.overlays.add(map.overlays.indexOf(procOv).coerceAtLeast(1), o)
+            plateOv = o
+            map.invalidate()
+        }
+    }
+
     fun showProcedure(p: Cifp.Procedure, trans: String?) {
         procOv.proc = p; procOv.transition = trans
         plateOnChart(p)
