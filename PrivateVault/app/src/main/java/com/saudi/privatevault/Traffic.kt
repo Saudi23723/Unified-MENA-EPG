@@ -55,9 +55,12 @@ object Traffic {
             var text: String? = null
             for (k in SOURCES.indices) {
                 val i = (good + k) % SOURCES.size
-                text = try { AviationData.get(SOURCES[i].format(java.util.Locale.US, lat, lon, radiusNm), 8000) } catch (e: Exception) { lastError = "${java.net.URI(SOURCES[i]).host}: ${e.message ?: e.javaClass.simpleName}"; null }
+                // The host by hand: the address template holds "%", which java.net.URI refuses
+                // (that exception, swallowed, is what kept the traffic away).
+                val host = SOURCES[i].substringAfter("://").substringBefore('/')
+                text = try { AviationData.get(SOURCES[i].format(java.util.Locale.US, lat, lon, radiusNm), 8000) } catch (e: Exception) { lastError = "$host: ${e.message ?: e.javaClass.simpleName}"; null }
                 // Only a real answer: an error message is JSON too.
-                if (text != null && text.trimStart().startsWith("{") && ("\"ac\"" in text || "\"aircraft\"" in text)) { good = i; source = java.net.URI(SOURCES[i]).host; break }
+                if (text != null && text.trimStart().startsWith("{") && ("\"ac\"" in text || "\"aircraft\"" in text)) { good = i; source = host; break }
                 text = null
             }
             val j = JSONObject(text ?: return)
@@ -65,7 +68,7 @@ object Traffic {
             val ac = j.optJSONArray("ac") ?: j.optJSONArray("aircraft") ?: return
             val now = System.currentTimeMillis()
             for (i in 0 until ac.length()) {
-                val o = ac.getJSONObject(i)
+                val o = ac.optJSONObject(i) ?: continue
                 val hex = o.optString("hex")
                 if (hex.isEmpty()) continue
                 val la = o.optDouble("lat", Double.NaN); val lo = o.optDouble("lon", Double.NaN)
@@ -75,6 +78,7 @@ object Traffic {
                     o.optDouble("gs", 0.0).toInt(), o.optDouble("track", 0.0), o.optString("t"), now, false)
             }
         } catch (e: Exception) {
+            lastError = e.javaClass.simpleName + (e.message?.let { ": $it" } ?: "")
         }
     }
 

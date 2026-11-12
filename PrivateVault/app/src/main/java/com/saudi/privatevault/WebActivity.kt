@@ -25,7 +25,24 @@ class WebActivity : BaseActivity() {
             val bar = ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal).apply { max = 100 }
             root.addView(bar, LinearLayout.LayoutParams(-1, EfbUi.dp(this, 3)))
             val web = WebView(this)
-            root.addView(web, LinearLayout.LayoutParams(-1, 0, 1f))
+            val frame = android.widget.FrameLayout(this)
+            frame.addView(web, android.widget.FrameLayout.LayoutParams(-1, -1))
+            root.addView(frame, LinearLayout.LayoutParams(-1, 0, 1f))
+            val start = intent.getStringExtra("url")
+            // The AWC's graphical forecasts open on where I am, and a 📍 button brings them back there.
+            if (start != null && start.contains("aviationweather.gov/gfa")) {
+                val pin = android.widget.TextView(this).apply {
+                    text = "📍"; textSize = 22f; gravity = android.view.Gravity.CENTER
+                    background = android.graphics.drawable.GradientDrawable().apply { shape = android.graphics.drawable.GradientDrawable.OVAL; setColor(0xFF2D8CFF.toInt()) }
+                    elevation = EfbUi.dp(this@WebActivity, 6).toFloat()
+                    contentDescription = "My position"
+                    setOnClickListener { web.loadUrl(gfaHere()) }
+                }
+                val sz = EfbUi.dp(this, 54)
+                frame.addView(pin, android.widget.FrameLayout.LayoutParams(sz, sz, android.view.Gravity.BOTTOM or android.view.Gravity.START).apply {
+                    setMargins(EfbUi.dp(this@WebActivity, 16), 0, 0, EfbUi.dp(this@WebActivity, 120))
+                })
+            }
             web.settings.javaScriptEnabled = true
             web.settings.domStorageEnabled = true
             web.settings.builtInZoomControls = true
@@ -61,8 +78,29 @@ class WebActivity : BaseActivity() {
                     "<img src='" + img + "?t=" + System.currentTimeMillis() / 300000 + "' style='width:100%;height:auto' " +
                     "onerror=\"document.body.innerHTML='<p style=color:#aaa;font-family:sans-serif;padding:20px>Not available right now — try again in a minute.</p>'\"></body></html>",
                     "text/html", "utf-8", null)
-            } else web.loadUrl(intent.getStringExtra("url") ?: "about:blank")
+            } else web.loadUrl(if (start != null && start.contains("aviationweather.gov/gfa")) gfaHere() else start ?: "about:blank")
         }
+    }
+
+    /** Where I am: the newest fix the phone has (GPS, network), else the home field. */
+    private fun here(): Pair<Double, Double> {
+        try {
+            val m = getSystemService(android.location.LocationManager::class.java)
+            val fix = listOf(android.location.LocationManager.GPS_PROVIDER, android.location.LocationManager.NETWORK_PROVIDER, android.location.LocationManager.PASSIVE_PROVIDER)
+                .mapNotNull { p -> try { m.getLastKnownLocation(p) } catch (e: SecurityException) { null } }
+                .maxByOrNull { it.time }
+            if (fix != null) return fix.latitude to fix.longitude
+        } catch (e: Exception) { }
+        val home = VaultLock.prefs(this).getString("efb_home", "KBVU") ?: "KBVU"
+        return try {
+            AviationData.airports(this).firstOrNull { it.icao == home || it.ident == home || "K" + it.ident == home }?.let { it.lat to it.lon }
+        } catch (e: Exception) { null } ?: (35.9475 to -114.8611)
+    }
+
+    /** The GFA centred on me, close enough to read the stations around (its own ?center=lat,lon&zoom= link). */
+    private fun gfaHere(): String {
+        val (lat, lon) = here()
+        return "https://aviationweather.gov/gfa/?center=%.3f,%.3f&zoom=8".format(java.util.Locale.US, lat, lon)
     }
 
     private fun savePdf(url: String, csIdent: String?) {

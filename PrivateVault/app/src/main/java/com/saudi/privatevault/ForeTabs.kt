@@ -38,7 +38,8 @@ object ForeTabs {
         Tab(R.drawable.ic_doc, R.string.ff_documents, { it is LibraryActivity || it is ManeuversActivity || it is JeppBookActivity || it is CheckrideActivity || it is RegsActivity || it is HandbookActivity || it is CfrBrowseActivity }) { a -> open(a, LibraryActivity::class.java) },
         Tab(R.drawable.ic_tab_imagery, R.string.ff_imagery, { it is ImageryActivity }) { a -> open(a, ImageryActivity::class.java) },
         Tab(R.drawable.ic_tab_flights, R.string.ff_flights, { it is WeightBalanceActivity || it is E6bActivity || it is PerformanceActivity }) { a -> open(a, MapActivity::class.java) { it.putExtra(MapActivity.EXTRA_NAVLOG, true) } },
-        Tab(R.drawable.ic_fab_pencil, R.string.ff_scratchpads, { it is ScratchPadActivity }) { a -> open(a, ScratchPadActivity::class.java) },
+        // A small pad over whatever is on the screen, as ForeFlight's floating scratchpad; again to put it away.
+        Tab(R.drawable.ic_fab_pencil, R.string.ff_scratchpads, { it is ScratchPadActivity }) { a -> Notebooks.scratch(a) },
         Tab(R.drawable.ic_check, R.string.ff_checklist, { it is ChecklistActivity }) { a -> open(a, ChecklistActivity::class.java) },
         Tab(R.drawable.ic_tab_logbook, R.string.ff_logbook, { it is LogbookActivity }) { a -> open(a, LogbookActivity::class.java) },
         Tab(R.drawable.ic_more, R.string.ff_more, { it is EfbHomeActivity || it is SettingsActivity || it is FrequenciesActivity || it is EfbCheckActivity || it is TrainerActivity }) { a -> open(a, EfbHomeActivity::class.java) },

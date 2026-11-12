@@ -30,6 +30,13 @@ object Notebooks {
         NotePad.show(act, empty ?: NoteBook.create(act, NoteBook.Style.BLANK, topic), big)
     }
 
+    /** The scratchpad as a small pad over the screen in use: the last one, or a new one with ATIS and clearance boxes. */
+    fun scratch(act: Activity) {
+        if (NotePad.isOpen()) { NotePad.close(act); return }
+        val last = NoteBook.all(act).firstOrNull { it.style == NoteBook.Style.SCRATCHPAD }
+        NotePad.show(act, last ?: NoteBook.create(act, NoteBook.Style.SCRATCHPAD, "Scratchpad"), false)
+    }
+
     /** The PDFs made from notebooks, kept in the vault. */
     fun pdfs(topic: String?): List<VaultItem> =
         VaultStore.itemsIn(folderId()).filter { topic == null || it.name.startsWith(topic) }.sortedByDescending { it.added }

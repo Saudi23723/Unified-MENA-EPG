@@ -1489,6 +1489,7 @@ class MapActivity : BaseActivity(), NeonHost {
     /** The FAA diagrams on the chart, by airport, and the fields known to have none. */
     private val diagrams = LinkedHashMap<String, org.osmdroid.views.overlay.GroundOverlay>()
     private val noDiagram = HashSet<String>()
+    private val diagramBoxes = HashMap<String, org.osmdroid.util.BoundingBox>()
     private var diagramsBusy = false
 
     /**
@@ -1518,18 +1519,54 @@ class MapActivity : BaseActivity(), NeonHost {
      * border, turned north up when printed turned). The menu item turns it on and off.
      */
     private fun plateOnMap() {
-        val on = !prefs.getBoolean("auto_diagrams", true)
+        val on = !prefs.getBoolean("auto_diagrams", true) || diagrams.isEmpty()
         prefs.edit().putBoolean("auto_diagrams", on).apply()
-        if (!on) { map.overlays.removeAll(diagrams.values.toSet()); diagrams.clear(); map.invalidate(); return }
-        if (map.zoomLevelDouble < 14.5) map.controller.zoomTo(15.0)
+        if (!on) { map.overlays.removeAll(diagrams.values.toSet()); diagrams.clear(); noDiagram.clear(); map.invalidate(); return }
+        // As ForeFlight does it: go to the nearest field that has a diagram and fill the screen with it.
+        val c = ownship.position() ?: map.mapCenter as GeoPoint
+        val near = airports.map { it to Nav.distanceNm(c.latitude, c.longitude, it.lat, it.lon) }
+            .filter { it.second <= 30 }.sortedBy { it.second }.map { it.first }.take(10)
         Toast.makeText(this, getString(R.string.apt_plates_loading), Toast.LENGTH_SHORT).show()
-        b.root.postDelayed({ autoDiagrams() }, 900)
+        diagramsBusy = true
+        lifecycleScope.launch {
+            var shown: GeoPoint? = null; var box: org.osmdroid.util.BoundingBox? = null
+            for (a in near) {
+                if (a.ident in diagrams) { box = diagramBoxes[a.ident]; shown = GeoPoint(a.lat, a.lon) }
+                if (box != null) break
+                if (a.ident in noDiagram) continue
+                val made = withContext(Dispatchers.IO) { buildDiagram(a) }
+                if (made == null) { noDiagram += a.ident; continue }
+                addDiagram(a.ident, made)
+                box = org.osmdroid.util.BoundingBox(made.second.latitude, made.third.longitude, made.third.latitude, made.second.longitude)
+                shown = GeoPoint(a.lat, a.lon)
+                break
+            }
+            diagramsBusy = false
+            val bb = box
+            if (bb == null) { Toast.makeText(this@MapActivity, R.string.plate_on_map_none, Toast.LENGTH_LONG).show(); return@launch }
+            if (following) follow(quiet = true)
+            map.zoomToBoundingBox(bb, true, dp(12))
+            map.postDelayed({ autoDiagrams() }, 1200)
+        }
+    }
+
+    private fun addDiagram(ident: String, made: Triple<android.graphics.Bitmap, GeoPoint, GeoPoint>) {
+        val o = org.osmdroid.views.overlay.GroundOverlay().apply {
+            image = made.first
+            setPosition(made.second, made.third)
+            transparency = 0f
+        }
+        // Under the aircraft, the route and traffic.
+        map.overlays.add(1.coerceAtMost(map.overlays.size), o)
+        diagrams[ident] = o
+        diagramBoxes[ident] = org.osmdroid.util.BoundingBox(made.second.latitude, made.third.longitude, made.third.latitude, made.second.longitude)
+        map.invalidate()
     }
 
     /** Lays the diagrams of the airports now on the screen, a few at a time, nearest the centre first. */
     private fun autoDiagrams() {
         // Seen only close in: from afar a diagram is a stamp on the chart.
-        val close = map.zoomLevelDouble >= 13.8
+        val close = map.zoomLevelDouble >= 13.0
         for (o in diagrams.values) o.isEnabled = close
         if (!prefs.getBoolean("auto_diagrams", true) || diagramsBusy || !close) return
         val bb = map.boundingBox; val c = map.mapCenter
@@ -1541,14 +1578,7 @@ class MapActivity : BaseActivity(), NeonHost {
             for (a in want) {
                 val made = withContext(Dispatchers.IO) { buildDiagram(a) }
                 if (made == null) { noDiagram += a.ident; continue }
-                val o = org.osmdroid.views.overlay.GroundOverlay().apply {
-                    image = made.first
-                    setPosition(made.second, made.third)
-                    transparency = 0f
-                }
-                // Under the aircraft, the route and traffic.
-                map.overlays.add(1.coerceAtMost(map.overlays.size), o)
-                diagrams[a.ident] = o
+                addDiagram(a.ident, made)
                 // Memory: keep the nearest six.
                 while (diagrams.size > 6) {
                     val cc = map.mapCenter
@@ -1599,7 +1629,7 @@ class MapActivity : BaseActivity(), NeonHost {
             val turn = -geo.turn
             if (turn != 0f) bmp = android.graphics.Bitmap.createBitmap(bmp, 0, 0, bmp.width, bmp.height,
                 android.graphics.Matrix().apply { postRotate(turn) }, true)
-            Triple(if (EfbUi.light) bmp else nightInk(bmp), GeoPoint(north, west), GeoPoint(south, east))
+            Triple(bmp, GeoPoint(north, west), GeoPoint(south, east))
         }
     } catch (e: Throwable) { null }
 

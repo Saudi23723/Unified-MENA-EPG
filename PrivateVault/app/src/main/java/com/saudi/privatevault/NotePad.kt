@@ -353,9 +353,10 @@ object NotePad {
         showPage()
         var isBig = big
         lateinit var grow: TextView
-        // Roomy from the start: most of a tablet's width, nearly the whole of a phone's.
-        val smallW = minOf((sw * 0.62).toInt(), dp(560)).coerceAtLeast(minOf(dp(320), (sw * 0.92).toInt()))
-        val smallH = (smallW * 1.35).toInt().coerceAtMost((sh * 0.78).toInt())
+        // Small by default, a pad in the corner over the chart; the size the pilot dragged it to is kept.
+        val pr = VaultLock.prefs(act)
+        val smallW = pr.getInt("pad_w", minOf((sw * 0.42).toInt(), dp(330)).coerceAtLeast(dp(250))).coerceIn(dp(220), (sw * 0.94).toInt())
+        val smallH = pr.getInt("pad_h", (smallW * 1.25).toInt()).coerceIn(dp(240), (sh * 0.9).toInt())
         val bigW = minOf((sw * 0.86).toInt(), dp(720))
         val bigH = (sh * 0.8).toInt()
         fun place() {
@@ -454,14 +455,19 @@ object NotePad {
             when (e.actionMasked) {
                 MotionEvent.ACTION_DOWN -> { gx = e.rawX; gy = e.rawY; gw = frame.width; gh = frame.height }
                 MotionEvent.ACTION_MOVE -> {
-                    lp.width = (gw - (e.rawX - gx)).toInt().coerceIn(dp(240), (sw * 0.94).toInt())
-                    lp.height = (gh + (e.rawY - gy)).toInt().coerceIn(dp(260), (sh * 0.9).toInt())
+                    lp.width = (gw - (e.rawX - gx)).toInt().coerceIn(dp(220), (sw * 0.94).toInt())
+                    lp.height = (gh + (e.rawY - gy)).toInt().coerceIn(dp(240), (sh * 0.9).toInt())
                     frame.layoutParams = lp
                 }
+                MotionEvent.ACTION_UP -> VaultLock.prefs(act).edit().putInt("pad_w", lp.width).putInt("pad_h", lp.height).apply()
             }
             true
         }
-        frame.addView(grip, FrameLayout.LayoutParams(dp(18), dp(18), Gravity.BOTTOM or Gravity.START).apply { setMargins(dp(4), 0, 0, dp(52)) })
+        // A clear corner grip (◢ turned to the free corner) to pull the pad bigger or smaller.
+        grip.background = GradientDrawable().apply { setColor(0xCC2E9BFF.toInt()); cornerRadius = dp(6).toFloat() }
+        frame.addView(grip, FrameLayout.LayoutParams(dp(28), dp(28), Gravity.BOTTOM or Gravity.START).apply { setMargins(dp(6), 0, 0, dp(54)) })
+        frame.addView(TextView(act).apply { text = "⤡"; textSize = 15f; setTextColor(white); gravity = Gravity.CENTER; isClickable = false; isFocusable = false },
+            FrameLayout.LayoutParams(dp(28), dp(28), Gravity.BOTTOM or Gravity.START).apply { setMargins(dp(6), 0, 0, dp(54)) })
 
         // A note closed with nothing written is not kept.
         frame.tag = Runnable { if (book.pages.all { it.isEmpty() } && book.style == NoteBook.Style.BLANK) book.file.delete() else if (dirty) book.save() }
@@ -590,6 +596,8 @@ object NotePad {
     }
 
     fun isOpen() = window?.isAttachedToWindow == true
+
+    fun isOpen() = window != null
 
     fun close(act: Activity) {
         val w = window ?: return
