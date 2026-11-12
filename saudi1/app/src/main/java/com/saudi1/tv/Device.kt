@@ -105,7 +105,7 @@ object Device {
     }
 
     fun check(): String = try {
-        val u = "$API?code=$code&model=" + java.net.URLEncoder.encode(android.os.Build.MODEL, "UTF-8")
+        val u = "$API?code=$code&model=" + java.net.URLEncoder.encode(android.os.Build.MODEL, "UTF-8") + (if (Vpn.up) "&vpn=1" else "")
         App.http.newCall(Request.Builder().url(u).build()).execute().use { r ->
             val o = JSONObject(r.body!!.string())
             val st = o.optString("status")
@@ -128,7 +128,11 @@ object Device {
                     App.useZone(tz)
                 }
                 // the VPN the owner put on the admin site (an empty one there keeps a file imported on the phone)
-                o.optString("vpn").takeIf { it.isNotBlank() }?.let { if (it != Vpn.conf) { Vpn.conf = it; Vpn.wanted = true } }
+                // the VPN is only what the owner put on the admin site for this device (owner, 11 Nov 2026: no VPN
+                // option at all on a device without one); taken off there = stopped and gone here
+                val vc = o.optString("vpn")
+                if (vc.isNotBlank()) { if (vc != Vpn.conf) { Vpn.conf = vc; Vpn.wanted = true } }
+                else if (Vpn.conf.isNotBlank()) { Vpn.stop(App.app); Vpn.conf = ""; Vpn.wanted = false }
                 manual = false
                 if (changed) Api.groups = emptyList()
             } else if (!manual && (st == "stopped" || st == "expired")) {

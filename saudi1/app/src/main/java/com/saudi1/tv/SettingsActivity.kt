@@ -71,14 +71,10 @@ class SettingsActivity : BaseActivity() {
             App.prefs.edit().putBoolean("zap_invert", !zapInvert).apply(); build()
         }
 
-        section("VPN")
-        row("VPN (WireGuard)", when {
-            Vpn.conf.isBlank() -> "Not set · the owner adds it on the admin site"
-            Vpn.up -> "🛡 On · " + Vpn.endpoint()
-            else -> "Off · " + Vpn.endpoint()
-        }) { vpnToggle() }
-        if (isTouch) row("Import a VPN file", "A WireGuard .conf file from your VPN provider") {
-            startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT).addCategory(Intent.CATEGORY_OPENABLE).setType("*/*"), 11)
+        // only on a device the owner gave a VPN on the admin site (owner, 11 Nov 2026)
+        if (Vpn.conf.isNotBlank()) {
+            section("VPN")
+            row("VPN", if (Vpn.up) "🛡 On · " + Vpn.endpoint() else "Off · " + Vpn.endpoint()) { vpnToggle() }
         }
 
         section("Backup")
@@ -148,7 +144,7 @@ class SettingsActivity : BaseActivity() {
     }
 
     private fun vpnToggle() {
-        if (Vpn.conf.isBlank()) { android.widget.Toast.makeText(this, "No VPN yet: the owner adds it to this device on the admin site, then Reload", android.widget.Toast.LENGTH_LONG).show(); return }
+        if (Vpn.conf.isBlank()) return
         if (Vpn.up) {
             Vpn.wanted = false
             lifecycleScope.launch { withContext(Dispatchers.IO) { Vpn.stop(this@SettingsActivity) }; build() }
@@ -172,11 +168,6 @@ class SettingsActivity : BaseActivity() {
     override fun onActivityResult(req: Int, res: Int, data: Intent?) {
         super.onActivityResult(req, res, data)
         if (req == 10 && res == RESULT_OK) vpnStart()
-        if (req == 11 && res == RESULT_OK) data?.data?.let { uri ->
-            val t = try { contentResolver.openInputStream(uri)?.use { it.readBytes().decodeToString() } ?: "" } catch (e: Exception) { "" }
-            if (!Vpn.valid(t)) { android.widget.Toast.makeText(this, "This is not a WireGuard .conf file", android.widget.Toast.LENGTH_LONG).show(); return@let }
-            Vpn.conf = t; build(); vpnToggle()
-        }
     }
 
     private fun pinDialog() {
