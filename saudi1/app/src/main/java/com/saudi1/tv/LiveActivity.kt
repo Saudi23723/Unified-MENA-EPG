@@ -129,7 +129,9 @@ class LiveActivity : BaseActivity() {
             }
             override fun onTracksChanged(tracks: androidx.media3.common.Tracks) {
                 val v = player.videoFormat
-                android.util.Log.w("SAUDI", "tracks: ${src?.name} video=${v?.sampleMimeType} ${v?.codecs} ${v?.width}x${v?.height} audio=${player.audioFormat?.sampleMimeType}")
+                val all = tracks.groups.joinToString { g -> (0 until g.length).joinToString("/") { i -> g.getTrackFormat(i).let { f -> "${f.sampleMimeType} ${f.codecs ?: ""} ${f.width}x${f.height}" } + if (g.isTrackSupported(i)) "" else " (not supported)" } }
+                android.util.Log.w("SAUDI", "tracks: ${src?.name} video=${v?.sampleMimeType} ${v?.width}x${v?.height} audio=${player.audioFormat?.sampleMimeType} all=[$all]")
+                if (player.playbackState == Player.STATE_READY) picture()
             }
             override fun onVideoSizeChanged(videoSize: androidx.media3.common.VideoSize) {
                 // the banner opened before the picture: its line gets the real quality as soon as it is known
@@ -146,13 +148,7 @@ class LiveActivity : BaseActivity() {
                 }
                 if (state == Player.STATE_READY && bufStart > 0) android.util.Log.w("SAUDI", "wait over after ${android.os.SystemClock.elapsedRealtime() - bufStart}ms")
                 if (state != Player.STATE_BUFFERING && bufStart > 0) { lag += android.os.SystemClock.elapsedRealtime() - bufStart; bufStart = 0 }
-                if (state == Player.STATE_READY) {
-                    // remember which link worked for this channel
-                    src?.let { c -> if (usingHls) Hls.add(c.id) else if (tries > 0) Hls.remove(c.id) }
-                    tries = 0
-                    if (!readyOnce) { readyOnce = true; android.util.Log.w("SAUDI", "picture after ${android.os.SystemClock.elapsedRealtime() - startedAt}ms: ${src?.name}") }
-                    if (src != null && src?.id != playing?.id) note("Backup copy: ${src?.name}", 4000) else note(null)
-                }
+                if (state == Player.STATE_READY) picture()
             }
         })
         // phones / tablets: a tap on the picture shows the controls, a swipe ▲▼ changes channel, a tap in browse mode goes full screen
@@ -392,6 +388,17 @@ class LiveActivity : BaseActivity() {
             .filter { (e != null && it.epgId == e) || (k != null && key(it.name) == k) }
             .sortedBy { if (it.group == c.group) 0 else 1 }
             .firstOrNull()
+    }
+
+    /** "ready" is not enough: a dead feed from the provider comes READY with no picture and no sound in it (seen on NBC GOLF) */
+    private fun picture() {
+        if (readyOnce || (player.videoFormat == null && player.audioFormat == null)) return
+        readyOnce = true
+        // remember which link worked for this channel
+        src?.let { c -> if (usingHls) Hls.add(c.id) else if (tries > 0) Hls.remove(c.id) }
+        tries = 0
+        android.util.Log.w("SAUDI", "picture after ${android.os.SystemClock.elapsedRealtime() - startedAt}ms: ${src?.name}")
+        if (src != null && src?.id != playing?.id) note("Backup copy: ${src?.name}", 4000) else note(null)
     }
 
     private var noteJob: kotlinx.coroutines.Job? = null
