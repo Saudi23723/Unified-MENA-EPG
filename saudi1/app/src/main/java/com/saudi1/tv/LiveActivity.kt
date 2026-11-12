@@ -196,6 +196,7 @@ class LiveActivity : BaseActivity() {
             while (isActive) {
                 delay(3000)
                 val c = playing
+                if (c != null && (!player.isPlaying || player.currentPosition < 15_000)) android.util.Log.w("SAUDI", "tick ${src?.name}: state=${player.playbackState} playing=${player.isPlaying} pos=${player.currentPosition} buf=${player.bufferedPosition} frames=${player.videoDecoderCounters?.let { it.ensureUpdated(); it.renderedOutputBufferCount }} ready=$readyOnce tries=$tries")
                 if (c == null || !readyOnce || !player.playWhenReady || player.playbackState == Player.STATE_IDLE || player.playbackState == Player.STATE_ENDED) { still = 0; last = -1; frames = -1; frozen = 0; continue }
                 Device.now("live", c.name)
                 val pos = player.currentPosition
