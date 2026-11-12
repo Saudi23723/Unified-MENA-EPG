@@ -43,8 +43,9 @@ class DiagramInsetOverlay(
     private val pt = Point()
 
     private fun pick(mv: MapView): Inset? {
-        pinned?.let { p -> insets[p]?.let { return it } }
+        // Close in, the diagram itself lies on the chart: no card, pinned or not.
         if (mv.zoomLevelDouble >= closeZoom) return null
+        pinned?.let { p -> insets[p]?.let { return it } }
         val bb = mv.boundingBox; val c = mv.mapCenter
         return insets.values.filter { it.ident !in hidden && it.lat in bb.latSouth..bb.latNorth && it.lon in bb.lonWest..bb.lonEast }
             .minByOrNull { Nav.distanceNm(c.latitude, c.longitude, it.lat, it.lon) }

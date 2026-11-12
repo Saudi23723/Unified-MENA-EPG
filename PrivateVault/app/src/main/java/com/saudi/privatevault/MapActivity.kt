@@ -192,7 +192,7 @@ class MapActivity : BaseActivity(), NeonHost {
         map.overlays.add(draw)
         ownship = OwnshipOverlay(map, airplane()).apply { onUserPan = { if (following) follow() } }
         glide = GlideRing(map, { if (gotGps) ownship.position() else null }, { if (lastAlt.isNaN()) null else lastAlt })
-        glide.ratio = prefs.getString("glide_ratio", "")?.toDoubleOrNull() ?: 0.0
+        glide.ratio = prefs.getString("glide_ratio", "10")?.toDoubleOrNull() ?: 10.0
         map.overlays.add(glide)
         map.overlays.add(ownship)
         traffic = TrafficOverlay(map) { ownship.fix?.takeIf { it.hasAltitude() && gotGps }?.altitude?.times(3.28084) }.apply {
@@ -209,7 +209,7 @@ class MapActivity : BaseActivity(), NeonHost {
 
         map.addMapListener(DelayedMapListener(object : MapListener {
             override fun onScroll(event: ScrollEvent?): Boolean { autoDiagrams(); return idle() }
-            override fun onZoom(event: ZoomEvent?): Boolean { autoDiagrams(); return idle() }
+            override fun onZoom(event: ZoomEvent?): Boolean { autoDiagrams(); syncZoomSlider(); return idle() }
         }, 900))
 
         // The instrument strip in place of the four plain readouts.
@@ -1022,8 +1022,12 @@ class MapActivity : BaseActivity(), NeonHost {
         hb("⤢") {
             val cur = insetOv.current ?: return@hb
             if (following) follow(quiet = true)
-            diagramBoxes.entries.firstOrNull { e -> airports.any { it.ident == e.key && it.icao.ifEmpty { it.ident } == cur.ident } }?.value
-                ?.let { map.zoomToBoundingBox(it, true, dp(12)) }
+            val bb = diagramBoxes.entries.firstOrNull { e -> airports.any { it.ident == e.key && it.icao.ifEmpty { it.ident } == cur.ident } }?.value
+                ?: return@hb
+            // The card steps aside close in; the diagram itself fills the screen.
+            cardFrame.visibility = View.GONE
+            map.zoomToBoundingBox(bb, true, dp(24))
+            map.postDelayed({ if (map.zoomLevelDouble < insetOv.closeZoom) map.controller.zoomTo(insetOv.closeZoom + 0.6); autoDiagrams(); map.invalidate() }, 900)
         }
         hb("✕") {
             insetOv.current?.let { insetOv.hidden += it.ident; if (insetOv.pinned == it.ident) insetOv.pinned = null }
@@ -1108,64 +1112,48 @@ class MapActivity : BaseActivity(), NeonHost {
             if (why == "update") {
                 withContext(Dispatchers.IO) { LaptopClient.updateCloud(this@MapActivity) }
                 Toast.makeText(this@MapActivity, "The cloud is updating to add live tracking — try again in 2 minutes.", Toast.LENGTH_LONG).show()
-            } else Toast.makeText(this@MapActivity, "Could not start live tracking: $why", Toast.LENGTH_LONG).show()
+            } else {
+                val msg = when (why) {
+                    "no vault linked" -> "Live tracking goes through your cloud vault, and this tablet is not linked to it yet. Link it from the vault's screen (Laptop / Cloud), then try again."
+                    "unreachable" -> "The cloud vault could not be reached: no internet right now, or the cloud server is off."
+                    "sign in again" -> "The cloud vault asks this tablet to sign in again (from the vault's screen)."
+                    else -> "The cloud vault answered: $why"
+                }
+                MaterialAlertDialogBuilder(this@MapActivity).setTitle("📡 Live tracking").setMessage(msg).setPositiveButton(R.string.ok, null).show()
+            }
         }
     }
 
     /** An approach at the destination (or the nearest field): chosen, read in the advisor, drawn, added to the route. */
     private fun approachMenu() {
-        val dest = plan.points.lastOrNull()?.id?.takeIf { it.length in 3..4 && airports.any { a -> a.icao == it || a.ident == it } }
+        // Any field: the ones around (with instrument approaches) first, or one typed.
         val c = ownship.position() ?: map.mapCenter as GeoPoint
-        val near = airports.minByOrNull { Nav.distanceNm(c.latitude, c.longitude, it.lat, it.lon) }
-        val icao = dest ?: near?.let { it.icao.ifEmpty { it.ident } } ?: return
-        ProcedureUi.choose(this, icao, { p, t -> showProcedure(p, t) }, { p, t -> addProcedure(p, t) })
-    }
-
-    private var plateOv: org.osmdroid.views.overlay.GroundOverlay? = null
-
-    /**
-     * The approach's FAA plate laid on the chart where it really is, as ForeFlight's plates on maps:
-     * its plan view placed from the fixes' true positions (CIFP) against their symbols on the plate.
-     */
-    private fun plateOnChart(p: Cifp.Procedure) {
-        plateOv?.let { map.overlays.remove(it); it.image?.recycle() }; plateOv = null
-        val ident = p.icao.removePrefix("K").takeIf { p.icao.length == 4 && p.icao.startsWith("K") } ?: p.icao
-        lifecycleScope.launch {
-            val made = withContext(Dispatchers.IO) {
-                try {
-                    val res = AviationData.plates(this@MapActivity, ident) ?: return@withContext null
-                    val norm = { s: String -> s.uppercase().replace(" ", "").replace("RWY", "") }
-                    val pl = res.second.firstOrNull { it.code == "IAP" && norm(it.name) == norm(p.name) } ?: return@withContext null
-                    val f = AviationData.platePdf(this@MapActivity, res.first, pl.pdf) ?: return@withContext null
-                    val fx = Cifp.fixesFor(this@MapActivity, p.icao)
-                    val geo = PdfLinks.open(this@MapActivity, f)?.use { it.plateGeo(0, fx) } ?: return@withContext null
-                    // The plan view: between the briefing strip and the profile.
-                    val x0 = 0.03; val x1 = 0.97; val y0 = 0.155; val y1 = 0.665
-                    val bmp = android.graphics.pdf.PdfRenderer(android.os.ParcelFileDescriptor.open(f, android.os.ParcelFileDescriptor.MODE_READ_ONLY)).use { r ->
-                        r.openPage(0).use { pg ->
-                            val pw = pg.width.toDouble(); val ph = pg.height.toDouble()
-                            val cw = 1400; val s = cw / ((x1 - x0) * pw); val ch = ((y1 - y0) * ph * s).toInt()
-                            android.graphics.Bitmap.createBitmap(cw, ch, android.graphics.Bitmap.Config.ARGB_8888).also {
-                                it.eraseColor(android.graphics.Color.WHITE)
-                                pg.render(it, null, android.graphics.Matrix().apply { postScale(s.toFloat(), s.toFloat()); postTranslate((-x0 * pw * s).toFloat(), (-y0 * ph * s).toFloat()) },
-                                    android.graphics.pdf.PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY)
-                            }
-                        }
-                    }
-                    val nw = geo.ground(x0, y0); val se = geo.ground(x1, y1)
-                    Triple(bmp, GeoPoint(nw[0], nw[1]), GeoPoint(se[0], se[1]))
-                } catch (e: Throwable) { null }
-            }
-            if (made == null) {
-                Toast.makeText(this@MapActivity, "This plate could not be placed exactly (its fixes' symbols were not found) — open it from the advisor instead.", Toast.LENGTH_LONG).show()
-                return@launch
-            }
-            val o = org.osmdroid.views.overlay.GroundOverlay().apply { image = made.first; setPosition(made.second, made.third); transparency = 0.08f }
-            map.overlays.add(map.overlays.indexOf(procOv).coerceAtLeast(1), o)
-            plateOv = o
-            map.invalidate()
+        val dest = plan.points.lastOrNull()?.id
+        val near = airports.map { it to Nav.distanceNm(c.latitude, c.longitude, it.lat, it.lon) }.filter { it.second < 60 }.sortedBy { it.second }
+            .map { it.first }.filter { a -> !Cifp.ready(this) || Cifp.fixesFor(this, a.icao.ifEmpty { a.ident }).isNotEmpty() }.take(12)
+        val box = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(dp(20), dp(6), dp(20), 0) }
+        val input = android.widget.EditText(this).apply { hint = "Type an airport (KLAS, BVU, KHND…)"; setSingleLine(); inputType = android.text.InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS }
+        box.addView(input)
+        val dlg = MaterialAlertDialogBuilder(this).setTitle("✈ Approaches").setView(box)
+            .setPositiveButton("Open") { _, _ -> input.text.toString().trim().uppercase().takeIf { it.length >= 3 }?.let { openApproaches(it) } }
+            .setNegativeButton(R.string.cancel, null).create()
+        val list = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(0, dp(8), 0, 0) }
+        val names = (listOfNotNull(dest?.takeIf { d -> airports.any { it.icao == d || it.ident == d } }) + near.map { it.icao.ifEmpty { it.ident } }).distinct()
+        for (n in names) {
+            val a = airports.firstOrNull { it.icao == n || it.ident == n }
+            list.addView(TextView(this).apply {
+                text = "$n   " + (a?.let { "${it.name} · %.0f nm".format(Nav.distanceNm(c.latitude, c.longitude, it.lat, it.lon)) } ?: "")
+                textSize = 15f; setTextColor(EfbUi.TEXT); setPadding(dp(6), dp(11), dp(6), dp(11))
+                setBackgroundResource(R.drawable.item_focus_bg)
+                setOnClickListener { dlg.dismiss(); openApproaches(n) }
+            })
         }
+        box.addView(android.widget.ScrollView(this).apply { addView(list) }, LinearLayout.LayoutParams(-1, dp(320)))
+        dlg.show()
     }
+
+    private fun openApproaches(icao: String) =
+        ProcedureUi.choose(this, icao, { p, t -> showProcedure(p, t) }, { p, t -> addProcedure(p, t) })
 
     fun showProcedure(p: Cifp.Procedure, trans: String?) {
         procOv.proc = p; procOv.transition = trans
@@ -1471,7 +1459,7 @@ class MapActivity : BaseActivity(), NeonHost {
     private fun askGlide() {
         val input = android.widget.EditText(this).apply {
             inputType = android.text.InputType.TYPE_CLASS_NUMBER or android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL
-            setText(prefs.getString("glide_ratio", "")); hint = "e.g. from the POH"
+            setText(prefs.getString("glide_ratio", "10")); hint = "10 (about 10:1 for a light sport airplane)"
         }
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.glide_menu)
@@ -1657,14 +1645,35 @@ class MapActivity : BaseActivity(), NeonHost {
         val north = tool(R.drawable.ic_compass, click = { b.northUp.performClick() })
         northTool = north
         line()
-        tool(R.drawable.ic_add, click = { b.zoomIn.performClick() })
-        tool(R.drawable.ic_remove, click = { b.zoomOut.performClick() })
+        // Zoom as a slider, top close in, bottom far out.
+        val zoomBar = android.widget.SeekBar(this).apply {
+            max = 1000; rotation = 270f
+            progressTintList = android.content.res.ColorStateList.valueOf(EfbUi.ACCENT)
+            thumbTintList = android.content.res.ColorStateList.valueOf(0xFFFFFFFF.toInt())
+            setOnSeekBarChangeListener(object : android.widget.SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(s: android.widget.SeekBar, p: Int, user: Boolean) {
+                    if (user) map.controller.setZoom(map.minZoomLevel + (map.maxZoomLevel - map.minZoomLevel) * p / 1000.0)
+                }
+                override fun onStartTrackingTouch(s: android.widget.SeekBar) {}
+                override fun onStopTrackingTouch(s: android.widget.SeekBar) {}
+            })
+        }
+        zoomSlider = zoomBar
+        val holder = android.widget.FrameLayout(this)
+        holder.addView(zoomBar, android.widget.FrameLayout.LayoutParams(dp(150), dp(40), android.view.Gravity.CENTER))
+        col.addView(holder, LinearLayout.LayoutParams(dp(46), dp(160)))
         line()
         tool(R.drawable.ic_sos, 0xFFFF453A.toInt(), click = { b.fabSos.performClick() })
         b.root.addView(col, android.widget.FrameLayout.LayoutParams(-2, -2, android.view.Gravity.START or android.view.Gravity.CENTER_VERTICAL).apply { marginStart = dp(8) })
     }
 
     private var northTool: View? = null
+    private var zoomSlider: android.widget.SeekBar? = null
+
+    private fun syncZoomSlider() {
+        val s = zoomSlider ?: return
+        s.progress = (((map.zoomLevelDouble - map.minZoomLevel) / (map.maxZoomLevel - map.minZoomLevel)) * 1000).toInt()
+    }
     private var locateTool: android.widget.ImageView? = null
 
     /** Every box of the instrument strip, from this fix and the route. */
@@ -2635,6 +2644,10 @@ class MapActivity : BaseActivity(), NeonHost {
     }
 
     private fun toggleDrawing() {
+        // The old docked bar is retired: every pen is the floating palette now.
+        b.penBar.visibility = View.GONE
+        InkSheet.toggle(this)
+        if (true) return
         val on = b.penBar.visibility != View.VISIBLE
         b.penBar.visibility = if (on) View.VISIBLE else View.GONE
         b.fabs.visibility = View.GONE

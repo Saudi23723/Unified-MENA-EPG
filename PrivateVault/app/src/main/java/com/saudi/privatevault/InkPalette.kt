@@ -27,10 +27,12 @@ import android.widget.TextView
 class InkSheet(ctx: Context) : View(ctx) {
     enum class Tool { HAND, PEN, MARKER, PENCIL, ERASER, RULER, PLANE, NEON, LASER }
 
-    private class Mark(val tool: Tool, val color: Int, val pts: ArrayList<Float>, var t: Long = 0L)
+    private class Mark(val tool: Tool, val color: Int, val pts: ArrayList<Float>, var t: Long = 0L, val w: Float = 1f)
 
     var tool = Tool.PEN
     var color = 0xFFFF3B30.toInt()
+    /** The pen's size: small, medium, large (a factor on every tool's width). */
+    var size = 1f
     private val marks = ArrayList<Mark>()
     private val undone = ArrayList<Mark>()
     private var cur: Mark? = null
@@ -50,8 +52,8 @@ class InkSheet(ctx: Context) : View(ctx) {
                 parent?.requestDisallowInterceptTouchEvent(true)
                 when (tool) {
                     Tool.ERASER -> erase(x, y)
-                    Tool.PLANE -> { marks.add(Mark(Tool.PLANE, color, arrayListOf(x, y, 0f))); undone.clear() }
-                    else -> { cur = Mark(tool, color, arrayListOf(x, y)).also { marks.add(it); undone.clear() } }
+                    Tool.PLANE -> { marks.add(Mark(Tool.PLANE, color, arrayListOf(x, y, 0f), w = size)); undone.clear() }
+                    else -> { cur = Mark(tool, color, arrayListOf(x, y), w = size).also { marks.add(it); undone.clear() } }
                 }
             }
             MotionEvent.ACTION_MOVE -> {
@@ -87,7 +89,7 @@ class InkSheet(ctx: Context) : View(ctx) {
             // The laser stays bright two seconds after the finger lifts, then fades over two more.
             if (m.tool == Tool.LASER && m.t > 0 && now - m.t > 4000) { it.remove(); continue }
             when (m.tool) {
-                Tool.PLANE -> plane(c, m.pts[0], m.pts[1], m.pts[2], m.color)
+                Tool.PLANE -> plane(c, m.pts[0], m.pts[1], m.pts[2], m.color, m.w)
                 else -> {
                     if (m.pts.size < 2) continue
                     val path = Path().apply {
@@ -98,21 +100,21 @@ class InkSheet(ctx: Context) : View(ctx) {
                     }
                     p.pathEffect = null
                     when (m.tool) {
-                        Tool.MARKER -> { p.color = (m.color and 0x00FFFFFF) or 0x66000000; p.strokeWidth = 16 * d; p.strokeCap = Paint.Cap.SQUARE }
-                        Tool.PENCIL -> { p.color = (m.color and 0x00FFFFFF) or 0xCC000000.toInt(); p.strokeWidth = 1.8f * d; p.strokeCap = Paint.Cap.ROUND }
+                        Tool.MARKER -> { p.color = (m.color and 0x00FFFFFF) or 0x66000000; p.strokeWidth = 16 * d * m.w; p.strokeCap = Paint.Cap.SQUARE }
+                        Tool.PENCIL -> { p.color = (m.color and 0x00FFFFFF) or 0xCC000000.toInt(); p.strokeWidth = 1.8f * d * m.w; p.strokeCap = Paint.Cap.ROUND }
                         Tool.LASER, Tool.NEON -> {
                             val fade = if (m.tool == Tool.NEON || m.t == 0L) 1f else (1f - (now - m.t - 2000) / 2000f).coerceIn(0f, 1f)
                             if (m.tool == Tool.LASER) live = true
                             p.strokeCap = Paint.Cap.ROUND
                             // Neon as a sign glows: a wide soft halo, a strong coloured tube, a white-hot core.
-                            p.color = (m.color and 0x00FFFFFF) or ((0x50 * fade).toInt() shl 24); p.strokeWidth = 24 * d
+                            p.color = (m.color and 0x00FFFFFF) or ((0x50 * fade).toInt() shl 24); p.strokeWidth = 24 * d * m.w
                             c.drawPath(path, p)
-                            p.color = (m.color and 0x00FFFFFF) or ((0xE6 * fade).toInt() shl 24); p.strokeWidth = 10 * d
+                            p.color = (m.color and 0x00FFFFFF) or ((0xE6 * fade).toInt() shl 24); p.strokeWidth = 10 * d * m.w
                             c.drawPath(path, p)
-                            p.color = 0x00FFFFFF or ((0xF0 * fade).toInt() shl 24); p.strokeWidth = 3.5f * d
+                            p.color = 0x00FFFFFF or ((0xF0 * fade).toInt() shl 24); p.strokeWidth = 3.5f * d * m.w
                         }
-                        Tool.RULER -> { p.color = m.color; p.strokeWidth = 3 * d; p.strokeCap = Paint.Cap.ROUND }
-                        else -> { p.color = m.color; p.strokeWidth = 3.2f * d; p.strokeCap = Paint.Cap.ROUND }
+                        Tool.RULER -> { p.color = m.color; p.strokeWidth = 3 * d * m.w; p.strokeCap = Paint.Cap.ROUND }
+                        else -> { p.color = m.color; p.strokeWidth = 3.2f * d * m.w; p.strokeCap = Paint.Cap.ROUND }
                     }
                     c.drawPath(path, p)
                     if (m.tool == Tool.RULER && m.pts.size >= 4) {
@@ -128,8 +130,8 @@ class InkSheet(ctx: Context) : View(ctx) {
         if (live) postInvalidateOnAnimation()
     }
 
-    private fun plane(c: Canvas, x: Float, y: Float, rot: Float, color: Int) {
-        val s = 16 * d
+    private fun plane(c: Canvas, x: Float, y: Float, rot: Float, color: Int, w: Float = 1f) {
+        val s = 16 * d * w
         val path = Path().apply {
             moveTo(0f, -s); lineTo(s * 0.18f, -s * 0.2f); lineTo(s, s * 0.25f); lineTo(s, s * 0.45f); lineTo(s * 0.18f, s * 0.2f)
             lineTo(s * 0.15f, s * 0.7f); lineTo(s * 0.45f, s); lineTo(-s * 0.45f, s); lineTo(-s * 0.15f, s * 0.7f)
@@ -206,6 +208,21 @@ class InkSheet(ctx: Context) : View(ctx) {
             }
             swatch.setOnClickListener { colors.visibility = if (colors.visibility == View.VISIBLE) View.GONE else View.VISIBLE }
             bar.addView(swatch, LinearLayout.LayoutParams(dp(30), dp(30)).apply { marginEnd = dp(6) })
+            // The size: S, M, L — a dot that grows with it.
+            val sizes = floatArrayOf(0.6f, 1f, 1.8f)
+            ink.size = sizes[prefs.getInt("ink_size", 1).coerceIn(0, 2)]
+            val sizeBtn = TextView(act).apply { gravity = Gravity.CENTER; setTextColor(0xFFFFFFFF.toInt()); textSize = 11f; typeface = EfbUi.MEDIUM }
+            fun paintSize() {
+                val i = sizes.indexOfFirst { it == ink.size }.coerceAtLeast(1)
+                sizeBtn.text = listOf("S", "M", "L")[i]
+                sizeBtn.background = GradientDrawable().apply { shape = GradientDrawable.OVAL; setColor(0xFF3A3A3C.toInt()); setStroke(dp(1 + i * 2), 0xFFFFFFFF.toInt()) }
+            }
+            paintSize()
+            sizeBtn.setOnClickListener {
+                val i = (sizes.indexOfFirst { it == ink.size } + 1) % sizes.size
+                ink.size = sizes[i]; prefs.edit().putInt("ink_size", i).apply(); paintSize()
+            }
+            bar.addView(sizeBtn, LinearLayout.LayoutParams(dp(32), dp(32)).apply { marginEnd = dp(6) })
             bar.addView(btn("↶", 20f) { ink.undo() }, LinearLayout.LayoutParams(dp(38), dp(42)))
             bar.addView(btn("🗑", 17f) { ink.clear() }, LinearLayout.LayoutParams(dp(38), dp(42)))
             bar.addView(btn("📝", 17f) { if (NotePad.isOpen()) NotePad.close(act) else Notebooks.scratch(act) }, LinearLayout.LayoutParams(dp(38), dp(42)))
