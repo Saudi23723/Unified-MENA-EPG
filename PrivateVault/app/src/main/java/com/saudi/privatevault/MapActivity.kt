@@ -217,7 +217,8 @@ class MapActivity : BaseActivity(), NeonHost {
         strip = InstrumentStrip(this)
         b.hud.visibility = View.GONE
         b.fabLayers.setOnClickListener { chooseLayer() }
-        b.fabDraw.setOnClickListener { toggleDrawing() }
+        // One palette everywhere: the floating one, as on the other screens.
+        b.fabDraw.setOnClickListener { InkSheet.toggle(this) }
         styleControls()
         foreflightLayout()
         b.root.post { wxBar() }
@@ -2626,7 +2627,8 @@ class MapActivity : BaseActivity(), NeonHost {
 
     /** Neon that stays: the neon pen on the map, kept with its drawings. */
     override fun neonPen() {
-        if (b.penBar.visibility != View.VISIBLE) toggleDrawing()
+        if (!InkSheet.isOpen(this)) InkSheet.toggle(this)
+        return
         draw.penStyle = PenStyle.NEON.ordinal
         prefs.edit().putInt("map_pen_style", draw.penStyle).apply()
         pick(MapDrawOverlay.MapTool.PEN)
@@ -2793,7 +2795,6 @@ class MapActivity : BaseActivity(), NeonHost {
         // In flight, first.
         menu.add(0, 3, 0, R.string.map_track_up).setCheckable(true).isChecked = trackUp
         menu.add(0, 42, 0, R.string.traffic_list)
-        menu.add(0, 44, 0, R.string.plate_on_map).setCheckable(true).isChecked = prefs.getBoolean("auto_diagrams", true)
         menu.add(0, 47, 0, "✈  Approaches")
         menu.add(0, 48, 0, "📡  Share live tracking").setCheckable(true).isChecked = LiveTrack.on(this)
         menu.add(0, 46, 0, "◎  Range rings").setCheckable(true).isChecked = prefs.getBoolean("rings", true)
