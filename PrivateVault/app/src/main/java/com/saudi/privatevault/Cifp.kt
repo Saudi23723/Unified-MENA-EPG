@@ -198,13 +198,43 @@ object Cifp {
         File(out, "$apt.json").writeText(o.toString())
     }
 
-    /** A procedure's readable name from its code: R27 → RNAV (GPS) RWY 27, I12L → ILS RWY 12L, V-B → VOR-B… */
+    /** Every fix and runway threshold the airport's procedures use, by name: for placing its plates. */
+    fun fixesFor(ctx: Context, icao: String): Map<String, DoubleArray> {
+        val code = icao.uppercase().let { if (it.length == 3) "K$it" else it }
+        val out = HashMap<String, DoubleArray>()
+        try {
+            val o = JSONObject(File(dir(ctx), "$code.json").readText())
+            val ps = o.getJSONArray("p")
+            for (i in 0 until ps.length()) {
+                val t = ps.getJSONObject(i).getJSONObject("t")
+                for (k in t.keys()) {
+                    val a = t.getJSONArray(k)
+                    for (j in 0 until a.length()) {
+                        val x = a.getJSONArray(j)
+                        val lat = x.opt(1)?.toString()?.toDoubleOrNull(); val lon = x.opt(2)?.toString()?.toDoubleOrNull()
+                        if (lat != null && lon != null && x.optString(0).isNotEmpty()) out[x.optString(0)] = doubleArrayOf(lat, lon)
+                    }
+                }
+            }
+            val rw = o.getJSONObject("rw")
+            for (k in rw.keys()) rw.getJSONArray(k).let { out[k] = doubleArrayOf(it.getDouble(0), it.getDouble(1)) }
+        } catch (e: Exception) { }
+        return out
+    }
+
+    /** A procedure's readable name from its code: R27 → RNAV (GPS) RWY 27, I12L → ILS RWY 12L, R08-Y → RNAV (GPS) Y RWY 08, RNV-B → RNAV (GPS)-B… */
     fun nameOf(id: String): String {
+        // Circling procedures by their letter: RNV-B, VOR-C, VDM-A, NDB-A.
+        Regex("^(RNV|VOR|VDM|NDB|LOC|LDA|GPS|TCN)-([A-Z])$").find(id)?.let { m ->
+            val k = when (m.groupValues[1]) { "RNV" -> "RNAV (GPS)"; "VDM" -> "VOR/DME"; "TCN" -> "TACAN"; else -> m.groupValues[1] }
+            return "$k-${m.groupValues[2]}"
+        }
         val kind = when (id.firstOrNull()) {
             'R' -> "RNAV (GPS)"; 'H' -> "RNAV (RNP)"; 'I' -> "ILS"; 'L' -> "LOC"; 'B' -> "LOC/BC"; 'V' -> "VOR"; 'D' -> "VOR/DME"
             'N' -> "NDB"; 'Q' -> "NDB/DME"; 'S' -> "VOR"; 'P' -> "GPS"; 'X' -> "LDA"; 'U' -> "SDF"; 'G' -> "IGS"; 'J' -> "GLS"; else -> id.take(1)
         }
-        val rest = id.drop(1)
+        // R08-Y: the runway padded to its letter.
+        val rest = id.drop(1).let { r -> if (r.matches(Regex("^\\d{2}-[A-Z]$"))) r.replace("-", "") else r }
         if (rest.startsWith("-")) return "$kind-${rest.drop(1)}"          // circling: VOR-A, RNAV (GPS)-B
         val m = Regex("^(\\d{2}[LRC]?)([A-Z]?)$").find(rest)
         return if (m != null) "$kind${m.groupValues[2].takeIf { it.isNotEmpty() }?.let { " $it" } ?: ""} RWY ${m.groupValues[1]}" else "$kind $rest"

@@ -1291,7 +1291,16 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
         val l = links ?: run { b.page.ownship = null; return }
         if (geo.containsKey(index)) { useGeo(geo[index]); return }
         lifecycleScope.launch {
-            val g = withContext(linkThread) { l.georef(index) }
+            val g = withContext(linkThread) {
+                l.georef(index) ?: run {
+                    // An approach plate: placed from its fixes' true positions in the FAA's coded data.
+                    val apt = b.toolbar.title?.toString()?.trim()?.substringBefore(' ')?.uppercase().orEmpty()
+                    if (apt.length in 3..4 && itemId.startsWith("plate:") && Cifp.ready(this@PdfViewerActivity)) {
+                        val fx = Cifp.fixesFor(this@PdfViewerActivity, apt)
+                        if (fx.size >= 3) l.plateGeo(index, fx) else null
+                    } else null
+                }
+            }
             geo[index] = g
             if (index == pageIndex) useGeo(g)
         }

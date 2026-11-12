@@ -295,6 +295,124 @@ class PdfLinks private constructor(private val doc: PDDocument) : Closeable {
         return Geo(0.0, latX.second, 0.0, lonY.second, latX.first, lonY.first)
     }
 
+    /** The page's drawn shapes, each sub-path's box (top-left page points), for finding chart symbols. */
+    private class Shapes(page: com.tom_roush.pdfbox.pdmodel.PDPage) : com.tom_roush.pdfbox.contentstream.PDFGraphicsStreamEngine(page) {
+        val boxes = ArrayList<FloatArray>()
+        private val top = page.cropBox.upperRightY
+        private var x0 = 0f; private var y0 = 0f; private var x1 = 0f; private var y1 = 0f; private var has = false
+        private var cx = 0f; private var cy = 0f
+        private fun add(x: Float, y: Float) {
+            if (!has) { x0 = x; x1 = x; y0 = y; y1 = y; has = true } else { x0 = minOf(x0, x); x1 = maxOf(x1, x); y0 = minOf(y0, y); y1 = maxOf(y1, y) }
+        }
+        private fun sub() { if (has) boxes.add(floatArrayOf(x0, top - y1, x1, top - y0)); has = false }
+        override fun appendRectangle(p0: android.graphics.PointF, p1: android.graphics.PointF, p2: android.graphics.PointF, p3: android.graphics.PointF) {
+            sub(); add(p0.x, p0.y); add(p1.x, p1.y); add(p2.x, p2.y); add(p3.x, p3.y); sub()
+        }
+        override fun drawImage(pdImage: com.tom_roush.pdfbox.pdmodel.graphics.image.PDImage) {}
+        override fun clip(windingRule: android.graphics.Path.FillType) {}
+        override fun moveTo(x: Float, y: Float) { sub(); add(x, y); cx = x; cy = y }
+        override fun lineTo(x: Float, y: Float) { add(x, y); cx = x; cy = y }
+        override fun curveTo(x1: Float, y1: Float, x2: Float, y2: Float, x3: Float, y3: Float) { add(x1, y1); add(x2, y2); add(x3, y3); cx = x3; cy = y3 }
+        override fun getCurrentPoint(): android.graphics.PointF = android.graphics.PointF(cx, cy)
+        override fun closePath() {}
+        override fun endPath() { has = false }
+        override fun strokePath() { sub() }
+        override fun fillPath(windingRule: android.graphics.Path.FillType) { sub() }
+        override fun fillAndStrokePath(windingRule: android.graphics.Path.FillType) { sub() }
+        override fun shadingFill(shadingName: com.tom_roush.pdfbox.cos.COSName) {}
+    }
+
+    /**
+     * An instrument approach plate placed on the ground, as exactly as the plate itself is drawn:
+     * each fix's name found on the plan view (letter by letter, for names set at an angle), the
+     * waypoint symbol beside it (the 4-point star, about 10 pt), and the fix's true position from
+     * the FAA's coded data ([fixes]: name → lat, lon). Pairs of fixes vote (RANSAC) for one scale
+     * and offset, north up; a plate is placed only when three or more fixes agree within 0.15 NM.
+     * Tried on FAA plates of BVU, IFP, PHX, SGU, VGT and LAS: 3 to 10 fixes agree, most within
+     * 0.05 NM. Null when it cannot be sure (ILS plates whose fixes use other symbols, for one).
+     */
+    fun plateGeo(index: Int, fixes: Map<String, DoubleArray>): Geo? = try {
+        val page = doc.getPage(index)
+        val w = page.cropBox.width.toDouble(); val h = page.cropBox.height.toDouble()
+        val sh = Shapes(page); sh.processPage(page)
+        // Waypoint symbols: star halves merged into one point.
+        val syms = ArrayList<DoubleArray>()   // x, y, n
+        for (b in sh.boxes) {
+            val bw = b[2] - b[0]; val bh = b[3] - b[1]
+            if (bw !in 7.5f..13f || bh !in 7.5f..13f) continue
+            val x = (b[0] + b[2]) / 2.0; val y = (b[1] + b[3]) / 2.0
+            val m = syms.firstOrNull { Math.hypot(it[0] - x, it[1] - y) < 8 }
+            if (m != null) { m[0] = (m[0] * m[2] + x) / (m[2] + 1); m[1] = (m[1] * m[2] + y) / (m[2] + 1); m[2] += 1.0 } else syms.add(doubleArrayOf(x, y, 1.0))
+        }
+        // Every glyph with its centre.
+        val s = ChunkStripper().apply { startPage = index + 1; endPage = index + 1; sortByPosition = true }
+        s.getText(doc)
+        val glyphs = ArrayList<Triple<Char, Double, Double>>()
+        for ((_, pos) in s.chunks) for (t in pos) {
+            val u = t.unicode ?: continue
+            if (u.length != 1) continue
+            glyphs.add(Triple(u[0], t.x + t.width / 2.0, t.y - t.height / 2.0))
+        }
+        val byChar = glyphs.groupBy { it.first }
+        fun labels(name: String): List<DoubleArray> {
+            val out = ArrayList<DoubleArray>()
+            for (g0 in byChar[name[0]] ?: emptyList()) {
+                val chain = arrayListOf(g0); var ok = true
+                for (ch in name.drop(1)) {
+                    val last = chain.last()
+                    val next = (byChar[ch] ?: emptyList()).filter { it !in chain && Math.hypot(it.second - last.second, it.third - last.third) < 11 }
+                        .minByOrNull { Math.hypot(it.second - last.second, it.third - last.third) }
+                    if (next == null) { ok = false; break }
+                    chain.add(next)
+                }
+                if (ok) out.add(doubleArrayOf(chain.map { it.second }.average(), chain.map { it.third }.average()))
+            }
+            return out
+        }
+        class Obs(val name: String, val lat: Double, val lon: Double, val cands: List<DoubleArray>)
+        val obs = ArrayList<Obs>()
+        for ((n, ll) in fixes) {
+            if (n.length < 3) continue
+            for (l in labels(n)) {
+                if (l[1] < 0.17 * h || l[1] > 0.66 * h) continue    // the plan view only
+                val c = syms.filter { Math.hypot(it[0] - l[0], it[1] - l[1]) < 26 }.sortedBy { Math.hypot(it[0] - l[0], it[1] - l[1]) }.take(6)
+                if (c.isNotEmpty()) obs.add(Obs(n, ll[0], ll[1], c))
+            }
+        }
+        if (obs.map { it.name }.distinct().size < 3) null else {
+            val cosL = Math.cos(Math.toRadians(obs.map { it.lat }.average()))
+            fun e(o: Obs) = doubleArrayOf(o.lon * cosL * 60, o.lat * 60)
+            var best = 0; var model: DoubleArray? = null   // a, s1x, s1y, e1x, e1y
+            for (i in obs.indices) for (j in i + 1 until obs.size) {
+                val o1 = obs[i]; val o2 = obs[j]
+                if (o1.name == o2.name) continue
+                val e1 = e(o1); val e2 = e(o2)
+                val dist = Math.hypot(e2[0] - e1[0], e2[1] - e1[1])
+                if (dist < 1.5) continue
+                val angGeo = Math.atan2(e2[1] - e1[1], e2[0] - e1[0])
+                for (s1 in o1.cands) for (s2 in o2.cands) {
+                    val a = Math.hypot(s2[0] - s1[0], s2[1] - s1[1]) / dist
+                    if (a !in 3.0..40.0) continue
+                    val angPg = Math.atan2(-(s2[1] - s1[1]), s2[0] - s1[0])
+                    if (Math.abs(((angGeo - angPg + Math.PI) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI) - Math.PI) > 0.06) continue
+                    val names = HashSet<String>()
+                    for (o in obs) {
+                        val eo = e(o)
+                        val ex = s1[0] + a * (eo[0] - e1[0]); val ey = s1[1] - a * (eo[1] - e1[1])
+                        if (o.cands.any { Math.hypot(ex - it[0], ey - it[1]) / a < 0.15 }) names.add(o.name)
+                    }
+                    if (names.size > best) { best = names.size; model = doubleArrayOf(a, s1[0], s1[1], e1[0], e1[1]) }
+                }
+            }
+            val m = model
+            if (best < 3 || m == null) null else {
+                // page x = s1x + a·(lon·cos·60 − e1x); page y = s1y − a·(lat·60 − e1y); as page fractions.
+                val (a, sx, sy, ex, ey) = m.toList()
+                Geo(a * 60 * cosL / w, (sx - a * ex) / w, -a * 60 / h, (sy + a * ey) / h)
+            }
+        }
+    } catch (e: Throwable) { null }
+
     private var stripper: ChunkStripper? = null
     private val readLabels = ArrayList<String?>()
     private val readToc = ArrayList<Pair<String, String>>()
