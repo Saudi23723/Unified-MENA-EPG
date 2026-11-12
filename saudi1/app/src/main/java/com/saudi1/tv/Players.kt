@@ -18,13 +18,7 @@ object Players {
             .setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
             .setEnableDecoderFallback(true)
         val b = ExoPlayer.Builder(ctx, renderers)
-            .setMediaSourceFactory(DefaultMediaSourceFactory(DefaultDataSource.Factory(ctx, OkHttpDataSource.Factory(App.http)),
-                // faster channel change (owner, 11 Nov 2026): a live .ts picture may start on any key frame, not only
-                // on the first "IDR" one, which can be seconds away; the frames are cut by the picture itself
-                androidx.media3.extractor.DefaultExtractorsFactory()
-                    .setTsExtractorFlags(androidx.media3.extractor.ts.DefaultTsPayloadReaderFactory.FLAG_ALLOW_NON_IDR_KEYFRAMES or
-                        androidx.media3.extractor.ts.DefaultTsPayloadReaderFactory.FLAG_DETECT_ACCESS_UNITS)
-                    .setTsExtractorTimestampSearchBytes(1500 * 188)))
+            .setMediaSourceFactory(DefaultMediaSourceFactory(DefaultDataSource.Factory(ctx, OkHttpDataSource.Factory(App.http))))
             .setAudioAttributes(AudioAttributes.Builder().setUsage(C.USAGE_MEDIA).setContentType(C.AUDIO_CONTENT_TYPE_MOVIE).build(), audioFocus)
             .setSeekBackIncrementMs(seekMs).setSeekForwardIncrementMs(seekMs)
         // Multiview: never more than full HD per screen (two 4K pictures at once are too much for the TV's chip)
@@ -34,8 +28,7 @@ object Players {
         // live TV: starts after 1.5 s of picture, keeps up to 50 s in reserve so short provider hiccups don't show,
         // and after a hiccup waits for 3 s before playing again (no stop-start-stop). Staying close to live is
         // done by LiveActivity's catch-up (plays 1.07x while it is behind).
-        // (owner, 11 Nov 2026: faster channel change) the picture starts after 1 s instead of 1.5 s
-        if (live) b.setLoadControl(DefaultLoadControl.Builder().setBufferDurationsMs(15_000, 50_000, 1_000, 3_000)
+        if (live) b.setLoadControl(DefaultLoadControl.Builder().setBufferDurationsMs(15_000, 50_000, 1_500, 3_000)
             .setPrioritizeTimeOverSizeThresholds(true).build())
         return b.build()
     }
