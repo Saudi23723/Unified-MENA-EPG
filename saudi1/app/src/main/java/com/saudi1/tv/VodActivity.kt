@@ -190,11 +190,15 @@ class VodActivity : BaseActivity() {
         if (c.id == FAV) {
             val f = favs().map { VodItem(it.optInt("id"), it.optString("n"), it.optString("p"), it.optString("e"), it.optString("r"), "") }
             items = f; show()
-            // series: the one that got a new episode last comes first
+            // series: the one with the newest episode comes first (each favourite's own episode list, every 3 hours)
             if (series && f.size > 1) loadJob = lifecycleScope.launch {
-                val st = withContext(Dispatchers.IO) { Vod.stamps(true) }
-                if (current != FAV || st.isEmpty()) return@launch
-                val o = f.sortedByDescending { st[it.id] ?: 0L }
+                val at = withContext(Dispatchers.IO) {
+                    val st = Vod.stamps(true)
+                    // four at a time, not to press the provider
+                    f.chunked(4).flatMap { ch -> ch.map { x -> kotlinx.coroutines.async { x.id to maxOf(st[x.id] ?: 0L, Vod.latestEpisodeAt(x.id)) } }.map { it.await() } }.toMap()
+                }
+                if (current != FAV || at.values.all { it == 0L }) return@launch
+                val o = f.sortedByDescending { at[it.id] ?: 0L }
                 if (o.indices.any { o[it].id != f[it].id } && grid.focusedChild == null) { items = o; show() }
             }
             return

@@ -117,7 +117,9 @@ class VodDetailActivity : BaseActivity() {
         episodesBox = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
         var firstBtn: View? = null
         seasons.keys.forEach { s ->
-            val b = button("Season $s", false) { showSeason(s) }
+            val eps = seasons[s] ?: emptyList()
+            val seen = eps.count { Resume.done("e${it.id}") }
+            val b = button("Season $s" + (if (seen > 0) "  ·  ✓ $seen/${eps.size}" else ""), false) { showSeason(s) }
             seasonsBox.addView(b, LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply { marginEnd = (10 * d).toInt() })
             if (firstBtn == null) firstBtn = b
         }
@@ -161,12 +163,37 @@ class VodDetailActivity : BaseActivity() {
                 }
             }
             if (pos > 0 && resumeRow == null) resumeRow = row
-            row.addView(TextView(this).apply { text = "E${e.num}"; textSize = 16f; setTypeface(typeface, Typeface.BOLD); setTextColor(getColorStateList(R.color.on_focus)); isDuplicateParentStateEnabled = true },
-                LinearLayout.LayoutParams((70 * d).toInt(), ViewGroup.LayoutParams.WRAP_CONTENT))
-            row.addView(TextView(this).apply {
-                text = (if (done) "✓  " else "") + (Downloads.get(key)?.let { if (it.done) "⬇✓ " else "⬇… " } ?: "") + e.title + (if (pos > 0) "   ▶ Resume " + hms(pos) else "") + (if (e.duration.isNotEmpty()) "   ·   ${e.duration}" else "")
+            // watched / half watched / not yet (owner, 11 Nov 2026): a red ✓ for a finished episode, amber with a bar
+            // for one left in the middle, a green dot for one not seen yet
+            val durMs = Resume.dur(key).takeIf { it > 0 } ?: parseDur(e.duration)
+            val (chipTxt, chipCol) = when {
+                done -> "✓  Watched" to 0xFFDC2626.toInt()
+                pos > 0 -> "▶  " + hms(pos) to 0xFFF59E0B.toInt()
+                else -> "●  New" to 0xFF10B981.toInt()
+            }
+            row.orientation = LinearLayout.VERTICAL
+            val line = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL; isDuplicateParentStateEnabled = true }
+            line.addView(TextView(this).apply {
+                text = chipTxt; textSize = 12f; setTypeface(typeface, Typeface.BOLD); setTextColor(0xFFFFFFFF.toInt()); gravity = Gravity.CENTER
+                background = android.graphics.drawable.GradientDrawable().apply { cornerRadius = 20 * d; setColor(chipCol) }
+                setPadding((10 * d).toInt(), (3 * d).toInt(), (10 * d).toInt(), (3 * d).toInt())
+            }, LinearLayout.LayoutParams((104 * d).toInt(), ViewGroup.LayoutParams.WRAP_CONTENT).apply { marginEnd = (12 * d).toInt() })
+            line.addView(TextView(this).apply { text = "E${e.num}"; textSize = 16f; setTypeface(typeface, Typeface.BOLD); setTextColor(getColorStateList(R.color.on_focus)); isDuplicateParentStateEnabled = true },
+                LinearLayout.LayoutParams((60 * d).toInt(), ViewGroup.LayoutParams.WRAP_CONTENT))
+            line.addView(TextView(this).apply {
+                text = (Downloads.get(key)?.let { if (it.done) "⬇✓ " else "⬇… " } ?: "") + e.title + (if (e.duration.isNotEmpty()) "   ·   ${e.duration}" else "")
                 textSize = 15f; maxLines = 2; ellipsize = TextUtils.TruncateAt.END; setTextColor(getColorStateList(R.color.on_focus)); isDuplicateParentStateEnabled = true
             }, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
+            row.addView(line)
+            if (pos > 0 && durMs > 0) {
+                val bar = android.widget.ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal).apply {
+                    max = 1000; progress = (pos * 1000 / durMs).toInt().coerceIn(0, 1000)
+                    progressTintList = android.content.res.ColorStateList.valueOf(0xFFF59E0B.toInt())
+                    progressBackgroundTintList = android.content.res.ColorStateList.valueOf(0x33FFFFFF)
+                }
+                row.addView(bar, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (4 * d).toInt()).apply { topMargin = (6 * d).toInt() })
+            }
+            if (done) row.alpha = 0.72f
             episodesBox.addView(row, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply { bottomMargin = (6 * d).toInt() })
         }
     }
@@ -179,6 +206,16 @@ class VodDetailActivity : BaseActivity() {
             b.text = label(); toastS(if (on) "★ Added to Favorites" else "Removed from Favorites")
         }
         return b
+    }
+
+    /** "00:42:10" / "42:10" / "45 min" -> milliseconds */
+    private fun parseDur(t: String): Long {
+        val p = t.trim().split(':').mapNotNull { it.trim().toLongOrNull() }
+        return when {
+            p.size == 3 -> (p[0] * 3600 + p[1] * 60 + p[2]) * 1000
+            p.size == 2 -> (p[0] * 60 + p[1]) * 1000
+            else -> (Regex("(\\d+)\\s*min").find(t)?.groupValues?.get(1)?.toLongOrNull() ?: 0) * 60_000
+        }
     }
 
     private fun toastS(t: String) = android.widget.Toast.makeText(this, t, android.widget.Toast.LENGTH_SHORT).show()

@@ -234,6 +234,24 @@ object Vod {
         return out
     }
 
+    /** when the series' newest episode came out on the provider (each episode's "added"), kept 3 hours on the device:
+     *  Favorites put the series with the newest episode first (owner, 11 Nov 2026: Mehmed, Yeralti, Tulsa King on top) */
+    fun latestEpisodeAt(id: Int): Long {
+        val k = "lep_" + Resume.pl() + "_" + id
+        val c = App.prefs.getString(k, null)?.split(':')
+        if (c != null && c.size == 2 && System.currentTimeMillis() - (c[0].toLongOrNull() ?: 0) < 3 * 3600_000L) return c[1].toLongOrNull() ?: 0
+        val v = try {
+            val info = seriesInfo(id)
+            var m = info.optJSONObject("info")?.optString("last_modified")?.toLongOrNull() ?: 0L
+            val eps = info.optJSONObject("episodes")
+            if (eps != null) for (s in eps.keys()) { val a = eps.optJSONArray(s) ?: continue
+                for (i in 0 until a.length()) m = maxOf(m, a.optJSONObject(i)?.optString("added")?.toLongOrNull() ?: 0L) }
+            m
+        } catch (e: Exception) { return c?.getOrNull(1)?.toLongOrNull() ?: 0 }
+        App.prefs.edit().putString(k, "${System.currentTimeMillis()}:$v").apply()
+        return v
+    }
+
     fun movieInfo(id: Int): JSONObject = JSONObject(text(api("get_vod_info", "&vod_id=$id")))
     fun seriesInfo(id: Int): JSONObject = JSONObject(text(api("get_series_info", "&series_id=$id")))
 

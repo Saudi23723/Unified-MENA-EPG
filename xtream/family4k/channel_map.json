@@ -25,7 +25,8 @@
  {
   "stream_id": 66126,
   "name": "Al Jazeera Mubasher",
-  "group": "📰 | قنوات الأخبار "
+  "group": "📰 | قنوات الأخبار ",
+  "epg": "a:Playlist.Logo.AlJazeeraMubasher.qa"
  },
  {
   "stream_id": 13436,
@@ -35,7 +36,8 @@
  {
   "stream_id": 6940,
   "name": "Al Jazeera English",
-  "group": "📰 | قنوات الأخبار "
+  "group": "📰 | قنوات الأخبار ",
+  "epg": "a:AlJazeeraDocumentary.qa"
  },
  {
   "stream_id": 2288,
@@ -82,12 +84,14 @@
  {
   "stream_id": 3522,
   "name": "Sky News Arabic HD",
-  "group": "📰 | قنوات الأخبار "
+  "group": "📰 | قنوات الأخبار ",
+  "epg": "a:skynewsarabiahd.sa"
  },
  {
   "stream_id": 265142,
   "name": "Sky News Arabic SD",
-  "group": "📰 | قنوات الأخبار "
+  "group": "📰 | قنوات الأخبار ",
+  "epg": "a:skynewsarabiahd.sa"
  },
  {
   "stream_id": 2281,
@@ -207,7 +211,8 @@
  {
   "stream_id": 299049,
   "name": "Al Aan HD",
-  "group": "📰 | قنوات الأخبار "
+  "group": "📰 | قنوات الأخبار ",
+  "epg": "a:Playlist.Logo.AlAanTV.ae"
  },
  {
   "stream_id": 299052,
@@ -217,7 +222,8 @@
  {
   "stream_id": 299053,
   "name": "Al Hadath Al Youm",
-  "group": "📰 | قنوات الأخبار "
+  "group": "📰 | قنوات الأخبار ",
+  "epg": "a:Playlist.Logo.AlHadathAlyoum.eg"
  },
  {
   "stream_id": 299055,
@@ -267,7 +273,8 @@
  {
   "stream_id": 299051,
   "name": "iNews HD",
-  "group": "📰 | قنوات الأخبار "
+  "group": "📰 | قنوات الأخبار ",
+  "epg": "a:Playlist.Logo.INews.iq"
  },
  {
   "stream_id": 299280,
@@ -1413,7 +1420,8 @@
  {
   "stream_id": 99417,
   "name": "Kaifa TV",
-  "group": "🇯🇴 | JORDAN"
+  "group": "🇯🇴 | JORDAN",
+  "epg": "a:Playlist.Logo.KaifaTV.jo"
  },
  {
   "stream_id": 1039541,
@@ -1485,12 +1493,14 @@
  {
   "stream_id": 28233,
   "name": "LBC International HD",
-  "group": "🇱🇧 | LEBANON ▶ لبنان"
+  "group": "🇱🇧 | LEBANON ▶ لبنان",
+  "epg": "a:Playlist.Logo.LBCInternational.lb"
  },
  {
   "stream_id": 28239,
   "name": "LBC International 4K",
-  "group": "🇱🇧 | LEBANON ▶ لبنان"
+  "group": "🇱🇧 | LEBANON ▶ لبنان",
+  "epg": "a:Playlist.Logo.LBCInternational.lb"
  },
  {
   "stream_id": 387668,
@@ -1500,12 +1510,14 @@
  {
   "stream_id": 6893,
   "name": "NBN HD",
-  "group": "🇱🇧 | LEBANON ▶ لبنان"
+  "group": "🇱🇧 | LEBANON ▶ لبنان",
+  "epg": "a:Playlist.Logo.NBN.lb"
  },
  {
   "stream_id": 67463,
   "name": "NBN 4K",
-  "group": "🇱🇧 | LEBANON ▶ لبنان"
+  "group": "🇱🇧 | LEBANON ▶ لبنان",
+  "epg": "a:Playlist.Logo.NBN.lb"
  },
  {
   "stream_id": 99080,
@@ -1526,7 +1538,8 @@
  {
   "stream_id": 5870,
   "name": "Al Manar TV",
-  "group": "🇱🇧 | LEBANON ▶ لبنان"
+  "group": "🇱🇧 | LEBANON ▶ لبنان",
+  "epg": "a:Playlist.Logo.AlManar.lb"
  },
  {
   "stream_id": 28237,
@@ -1536,7 +1549,8 @@
  {
   "stream_id": 99087,
   "name": "Al Iman TV",
-  "group": "🇱🇧 | LEBANON ▶ لبنان"
+  "group": "🇱🇧 | LEBANON ▶ لبنان",
+  "epg": "a:Playlist.Logo.AlImanTV.lb"
  },
  {
   "stream_id": 20914,
@@ -1547,7 +1561,8 @@
  {
   "stream_id": 33756,
   "name": "Al Aan TV",
-  "group": "🇱🇧 | LEBANON ▶ لبنان"
+  "group": "🇱🇧 | LEBANON ▶ لبنان",
+  "epg": "a:Playlist.Logo.AlAanTV.ae"
  },
  {
   "stream_id": 1949,
@@ -1562,12 +1577,14 @@
  {
   "stream_id": 99081,
   "name": "Arabica",
-  "group": "🇱🇧 | LEBANON ▶ لبنان"
+  "group": "🇱🇧 | LEBANON ▶ لبنان",
+  "epg": "a:Playlist.Logo.ArabicaTV.lb"
  },
  {
   "stream_id": 99425,
   "name": "Taha TV",
-  "group": "🇱🇧 | LEBANON ▶ لبنان"
+  "group": "🇱🇧 | LEBANON ▶ لبنان",
+  "epg": "a:Playlist.Logo.TahaTV.lb"
  },
  {
   "stream_id": 64978,
@@ -1649,12 +1666,14 @@
  {
   "stream_id": 66268,
   "name": "Al Salam TV",
-  "group": "🇵🇸 | PALESTINE ▶ فلسطين"
+  "group": "🇵🇸 | PALESTINE ▶ فلسطين",
+  "epg": "a:Playlist.Logo.AlSalamTV.iq"
  },
  {
   "stream_id": 28844,
   "name": "Musawa TV",
-  "group": "🇵🇸 | PALESTINE ▶ فلسطين"
+  "group": "🇵🇸 | PALESTINE ▶ فلسطين",
+  "epg": "a:Playlist.Logo.MusawaChannel.ps"
  },
  {
   "stream_id": 14450,
@@ -1675,12 +1694,14 @@
  {
   "stream_id": 297728,
   "name": "Awdah TV",
-  "group": "🇵🇸 | PALESTINE ▶ فلسطين"
+  "group": "🇵🇸 | PALESTINE ▶ فلسطين",
+  "epg": "a:Playlist.Logo.AwdahTV.ps"
  },
  {
   "stream_id": 429481,
   "name": "Nablus Live",
-  "group": "🇵🇸 | PALESTINE ▶ فلسطين"
+  "group": "🇵🇸 | PALESTINE ▶ فلسطين",
+  "epg": "a:Playlist.Logo.NablusTV.ps"
  },
  {
   "stream_id": 114369,
@@ -1690,7 +1711,8 @@
  {
   "stream_id": 74970,
   "name": "Maan TV",
-  "group": "🇵🇸 | PALESTINE ▶ فلسطين"
+  "group": "🇵🇸 | PALESTINE ▶ فلسطين",
+  "epg": "a:Playlist.Logo.MaanTV.ps"
  },
  {
   "stream_id": 33164,
@@ -1801,7 +1823,8 @@
  {
   "stream_id": 1058335,
   "name": "MBC Mood 4K",
-  "group": "🇸🇦 | MBC MIX"
+  "group": "🇸🇦 | MBC MIX",
+  "epg": "a:Playlist.Logo.MBCMood.sa"
  },
  {
   "stream_id": 1058332,
@@ -1949,7 +1972,8 @@
  {
   "stream_id": 1058336,
   "name": "MBC Mood HD",
-  "group": "🇸🇦 | MBC ᴴᴰ/ꜱᴅ"
+  "group": "🇸🇦 | MBC ᴴᴰ/ꜱᴅ",
+  "epg": "a:Playlist.Logo.MBCMood.sa"
  },
  {
   "stream_id": 1058333,
@@ -1965,12 +1989,14 @@
  {
   "stream_id": 99851,
   "name": "Panorama FM FHD",
-  "group": "🇸🇦 | MBC ᴴᴰ/ꜱᴅ"
+  "group": "🇸🇦 | MBC ᴴᴰ/ꜱᴅ",
+  "epg": "a:Playlist.Logo.PanoramaFM.sa"
  },
  {
   "stream_id": 78573,
   "name": "MBC FM HD",
-  "group": "🇸🇦 | MBC ᴴᴰ/ꜱᴅ"
+  "group": "🇸🇦 | MBC ᴴᴰ/ꜱᴅ",
+  "epg": "a:Playlist.Logo.MBCFM.ae"
  },
  {
   "stream_id": 99848,
@@ -2051,7 +2077,8 @@
  {
   "stream_id": 1058337,
   "name": "MBC Mood SD",
-  "group": "🇸🇦 | MBC ᴴᴰ/ꜱᴅ"
+  "group": "🇸🇦 | MBC ᴴᴰ/ꜱᴅ",
+  "epg": "a:Playlist.Logo.MBCMood.sa"
  },
  {
   "stream_id": 1058334,
@@ -2062,22 +2089,26 @@
  {
   "stream_id": 71198,
   "name": "Thikrayat HD",
-  "group": "🇸🇦 | SAUDI ARABIA"
+  "group": "🇸🇦 | SAUDI ARABIA",
+  "epg": "a:Playlist.Logo.ThikrayatTV.sa"
  },
  {
   "stream_id": 99414,
   "name": "Bin Othaimeen",
-  "group": "🇸🇦 | SAUDI ARABIA"
+  "group": "🇸🇦 | SAUDI ARABIA",
+  "epg": "a:Playlist.Logo.BinOthaimeen.sa"
  },
  {
   "stream_id": 30075,
   "name": "Al Sahraa TV",
-  "group": "🇸🇦 | SAUDI ARABIA"
+  "group": "🇸🇦 | SAUDI ARABIA",
+  "epg": "a:Playlist.Logo.AlSahraaTV.sa"
  },
  {
   "stream_id": 99462,
   "name": "Zad TV",
-  "group": "🇸🇦 | SAUDI ARABIA"
+  "group": "🇸🇦 | SAUDI ARABIA",
+  "epg": "a:Playlist.Logo.ZadTV.sa"
  },
  {
   "stream_id": 69829,
@@ -2110,7 +2141,8 @@
  {
   "stream_id": 100327,
   "name": "Atfal & Mawaheb",
-  "group": "🇸🇦 | SAUDI ARABIA"
+  "group": "🇸🇦 | SAUDI ARABIA",
+  "epg": "a:Playlist.Logo.AtfalMawahebTV.sa"
  },
  {
   "stream_id": 338038,
@@ -2164,7 +2196,8 @@
  {
   "stream_id": 726952,
   "name": "Al Majd Al Tabeeaiyah SD",
-  "group": "🇸🇦 | SAUDI ARABIA"
+  "group": "🇸🇦 | SAUDI ARABIA",
+  "epg": "a:Playlist.Logo.AlMajdAlTabeeaiyah.sa"
  },
  {
   "stream_id": 726951,
@@ -2174,7 +2207,8 @@
  {
   "stream_id": 726953,
   "name": "Al Majd Documentary SD",
-  "group": "🇸🇦 | SAUDI ARABIA"
+  "group": "🇸🇦 | SAUDI ARABIA",
+  "epg": "a:Playlist.Logo.AlMajdDocumentary.sa"
  },
  {
   "stream_id": 726954,
@@ -2194,7 +2228,8 @@
  {
   "stream_id": 752067,
   "name": "iEN Doros 1",
-  "group": "🇸🇦 | SAUDI ARABIA"
+  "group": "🇸🇦 | SAUDI ARABIA",
+  "epg": "a:Playlist.Logo.IENDoros1.sa"
  },
  {
   "stream_id": 752068,
@@ -2239,7 +2274,8 @@
  {
   "stream_id": 752076,
   "name": "iEN Doros 10",
-  "group": "🇸🇦 | SAUDI ARABIA"
+  "group": "🇸🇦 | SAUDI ARABIA",
+  "epg": "a:Playlist.Logo.IENDoros10.sa"
  },
  {
   "stream_id": 752077,
@@ -3982,7 +4018,8 @@
  {
   "stream_id": 10025,
   "name": "Noor Dubai TV",
-  "group": "🇦🇪 | UAE ▶ الإمارات"
+  "group": "🇦🇪 | UAE ▶ الإمارات",
+  "epg": "a:Playlist.Logo.NoorDubai.ae"
  },
  {
   "stream_id": 145627,
@@ -4015,17 +4052,20 @@
  {
   "stream_id": 47664,
   "name": "Al Khalij TV",
-  "group": "🇦🇪 | UAE ▶ الإمارات"
+  "group": "🇦🇪 | UAE ▶ الإمارات",
+  "epg": "a:Playlist.Logo.AlKhalijTV.sa"
  },
  {
   "stream_id": 179877,
   "name": "Ajman TV HD",
-  "group": "🇦🇪 | UAE ▶ الإمارات"
+  "group": "🇦🇪 | UAE ▶ الإمارات",
+  "epg": "a:Playlist.Logo.Ajman.ae"
  },
  {
   "stream_id": 179874,
   "name": "Fujairah TV",
-  "group": "🇦🇪 | UAE ▶ الإمارات"
+  "group": "🇦🇪 | UAE ▶ الإمارات",
+  "epg": "a:Playlist.Logo.FujairahTV.ae"
  },
  {
   "stream_id": 270446,
@@ -4048,12 +4088,14 @@
  {
   "stream_id": 313981,
   "name": "Sharjah 2 HD",
-  "group": "🇦🇪 | UAE ▶ الإمارات"
+  "group": "🇦🇪 | UAE ▶ الإمارات",
+  "epg": "a:Playlist.Logo.Sharjah2.ae"
  },
  {
   "stream_id": 2703,
   "name": "Al Nahar HD",
-  "group": "🇪🇬 | EGYPT ▶ مصر"
+  "group": "🇪🇬 | EGYPT ▶ مصر",
+  "epg": "a:Playlist.Logo.AlNahar.eg"
  },
  {
   "stream_id": 2701,
@@ -4079,7 +4121,8 @@
  {
   "stream_id": 24466,
   "name": "Watan TV",
-  "group": "🇪🇬 | EGYPT ▶ مصر"
+  "group": "🇪🇬 | EGYPT ▶ مصر",
+  "epg": "a:Playlist.Logo.WatanTV.eg"
  },
  {
   "stream_id": 36874,
@@ -4101,7 +4144,8 @@
  {
   "stream_id": 709039,
   "name": "Al Wathaeqya FHD",
-  "group": "🇪🇬 | EGYPT ▶ مصر"
+  "group": "🇪🇬 | EGYPT ▶ مصر",
+  "epg": "a:Playlist.Logo.AlWathaeqya.eg"
  },
  {
   "stream_id": 2293,
@@ -4141,7 +4185,8 @@
  {
   "stream_id": 32786,
   "name": "Nile TV International",
-  "group": "🇪🇬 | EGYPT ▶ مصر"
+  "group": "🇪🇬 | EGYPT ▶ مصر",
+  "epg": "a:Playlist.Logo.NileTVInternational.eg"
  },
  {
   "stream_id": 4140,
@@ -4208,7 +4253,8 @@
  {
   "stream_id": 14414,
   "name": "Al Hayat HD",
-  "group": "🇪🇬 | EGYPT ▶ مصر"
+  "group": "🇪🇬 | EGYPT ▶ مصر",
+  "epg": "a:Playlist.Logo.AlhayatTV.eg"
  },
  {
   "stream_id": 14214,
@@ -4268,7 +4314,8 @@
  {
   "stream_id": 7200,
   "name": "Sada El Balad",
-  "group": "🇪🇬 | EGYPT ▶ مصر"
+  "group": "🇪🇬 | EGYPT ▶ مصر",
+  "epg": "a:Playlist.Logo.SadaElbalad.eg"
  },
  {
   "stream_id": 99725,
@@ -4278,7 +4325,8 @@
  {
   "stream_id": 7199,
   "name": "Sada El Balad Drama",
-  "group": "🇪🇬 | EGYPT ▶ مصر"
+  "group": "🇪🇬 | EGYPT ▶ مصر",
+  "epg": "a:Playlist.Logo.SadaElbaladDrama.eg"
  },
  {
   "stream_id": 14415,
@@ -4324,7 +4372,8 @@
  {
   "stream_id": 101754,
   "name": "Mix Hollywood TV",
-  "group": "🇪🇬 | EGYPT ▶ مصر"
+  "group": "🇪🇬 | EGYPT ▶ مصر",
+  "epg": "a:Playlist.Logo.MixHollywood.eg"
  },
  {
   "stream_id": 99723,
@@ -4360,7 +4409,8 @@
  {
   "stream_id": 14196,
   "name": "Azhari TV",
-  "group": "🇪🇬 | EGYPT ▶ مصر"
+  "group": "🇪🇬 | EGYPT ▶ مصر",
+  "epg": "a:Playlist.Logo.AzhariTV.jo"
  },
  {
   "stream_id": 14241,
@@ -4393,7 +4443,8 @@
  {
   "stream_id": 7189,
   "name": "Sama TV",
-  "group": "🇸🇾 | SYRIA ▶ سوريا"
+  "group": "🇸🇾 | SYRIA ▶ سوريا",
+  "epg": "a:Playlist.Logo.SamaTV.sy"
  },
  {
   "stream_id": 36459,
@@ -4403,22 +4454,26 @@
  {
   "stream_id": 10980,
   "name": "Lana TV HD",
-  "group": "🇸🇾 | SYRIA ▶ سوريا"
+  "group": "🇸🇾 | SYRIA ▶ سوريا",
+  "epg": "a:Playlist.Logo.LanaTV.lb"
  },
  {
   "stream_id": 36460,
   "name": "Lana TV 4K",
-  "group": "🇸🇾 | SYRIA ▶ سوريا"
+  "group": "🇸🇾 | SYRIA ▶ سوريا",
+  "epg": "a:Playlist.Logo.LanaTV.lb"
  },
  {
   "stream_id": 69847,
   "name": "Lana TV SD",
-  "group": "🇸🇾 | SYRIA ▶ سوريا"
+  "group": "🇸🇾 | SYRIA ▶ سوريا",
+  "epg": "a:Playlist.Logo.LanaTV.lb"
  },
  {
   "stream_id": 7188,
   "name": "Syria Drama",
-  "group": "🇸🇾 | SYRIA ▶ سوريا"
+  "group": "🇸🇾 | SYRIA ▶ سوريا",
+  "epg": "a:Playlist.Logo.SyriaDrama.sy"
  },
  {
   "stream_id": 36462,
@@ -4428,7 +4483,8 @@
  {
   "stream_id": 20913,
   "name": "Syria TV",
-  "group": "🇸🇾 | SYRIA ▶ سوريا"
+  "group": "🇸🇾 | SYRIA ▶ سوريا",
+  "epg": "a:Playlist.Logo.SyriaTV.sy"
  },
  {
   "stream_id": 28811,
@@ -4454,7 +4510,8 @@
  {
   "stream_id": 892645,
   "name": "Syria one",
-  "group": "🇸🇾 | SYRIA ▶ سوريا"
+  "group": "🇸🇾 | SYRIA ▶ سوريا",
+  "epg": "a:Playlist.Logo.SyriaOne.sy"
  },
  {
   "stream_id": 937244,
@@ -4510,7 +4567,8 @@
  {
   "stream_id": 92227,
   "name": "Rojava HD",
-  "group": "🇸🇾 | SYRIA ▶ سوريا"
+  "group": "🇸🇾 | SYRIA ▶ سوريا",
+  "epg": "a:Playlist.Logo.RojavaTV.sy"
  },
  {
   "stream_id": 155219,
@@ -6922,7 +6980,8 @@
  {
   "stream_id": 68553,
   "name": "Racing UK HD",
-  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ"
+  "group": "🏴󠁧󠁢󠁥󠁮󠁧󠁿 | ꜱᴋʏ ꜱᴘᴏʀᴛꜱ 🔺 ᴛɴᴛ",
+  "epg": "a:RacingUK.uk"
  },
  {
   "stream_id": 1021006,
@@ -7758,19 +7817,19 @@
   "stream_id": 70423,
   "name": "BeIN Sports 6 HD",
   "group": "🇺🇲 | US ꜱᴘᴏʀᴛꜱ",
-  "epg": ""
+  "epg": "a:beinsports6.us"
  },
  {
   "stream_id": 70422,
   "name": "BeIN Sports 7 HD",
   "group": "🇺🇲 | US ꜱᴘᴏʀᴛꜱ",
-  "epg": ""
+  "epg": "a:beinsports7.us"
  },
  {
   "stream_id": 70421,
   "name": "BeIN Sports 8 HD",
   "group": "🇺🇲 | US ꜱᴘᴏʀᴛꜱ",
-  "epg": ""
+  "epg": "a:beinsports8.us"
  },
  {
   "stream_id": 70427,
@@ -9298,17 +9357,20 @@
  {
   "stream_id": 33666,
   "name": "KSA Sport 1 HD",
-  "group": "🌍 | ARABIC ꜱᴘᴏʀᴛꜱ"
+  "group": "🌍 | ARABIC ꜱᴘᴏʀᴛꜱ",
+  "epg": "a:Playlist.Logo.KSASports1.sa"
  },
  {
   "stream_id": 33664,
   "name": "KSA Sport 2 HD",
-  "group": "🌍 | ARABIC ꜱᴘᴏʀᴛꜱ"
+  "group": "🌍 | ARABIC ꜱᴘᴏʀᴛꜱ",
+  "epg": "a:Playlist.Logo.KSASports2.sa"
  },
  {
   "stream_id": 512042,
   "name": "KSA Sport 3 HD",
-  "group": "🌍 | ARABIC ꜱᴘᴏʀᴛꜱ"
+  "group": "🌍 | ARABIC ꜱᴘᴏʀᴛꜱ",
+  "epg": "a:Playlist.Logo.KSASports3.sa"
  },
  {
   "stream_id": 33461,
@@ -9325,7 +9387,8 @@
  {
   "stream_id": 33564,
   "name": "Dubai Sport 3 HD",
-  "group": "🌍 | ARABIC ꜱᴘᴏʀᴛꜱ"
+  "group": "🌍 | ARABIC ꜱᴘᴏʀᴛꜱ",
+  "epg": "a:Playlist.Logo.DubaiSports3.ae"
  },
  {
   "stream_id": 1017615,
@@ -9357,7 +9420,8 @@
  {
   "stream_id": 299574,
   "name": "Dubai Racing 3 HD",
-  "group": "🌍 | ARABIC ꜱᴘᴏʀᴛꜱ"
+  "group": "🌍 | ARABIC ꜱᴘᴏʀᴛꜱ",
+  "epg": "a:Playlist.Logo.DubaiRacing3.ae"
  },
  {
   "stream_id": 178141,
@@ -9367,17 +9431,20 @@
  {
   "stream_id": 110738,
   "name": "Bahrain Sport 1 HD",
-  "group": "🌍 | ARABIC ꜱᴘᴏʀᴛꜱ"
+  "group": "🌍 | ARABIC ꜱᴘᴏʀᴛꜱ",
+  "epg": "a:Playlist.Logo.BahrainSports1.bh"
  },
  {
   "stream_id": 178149,
   "name": "Bahrain Sport 2 HD",
-  "group": "🌍 | ARABIC ꜱᴘᴏʀᴛꜱ"
+  "group": "🌍 | ARABIC ꜱᴘᴏʀᴛꜱ",
+  "epg": "a:Playlist.Logo.BahrainSports2.bh"
  },
  {
   "stream_id": 100002,
   "name": "Oman Sport HD",
-  "group": "🌍 | ARABIC ꜱᴘᴏʀᴛꜱ"
+  "group": "🌍 | ARABIC ꜱᴘᴏʀᴛꜱ",
+  "epg": "a:Playlist.Logo.OmanSportsTV.om"
  },
  {
   "stream_id": 178148,
@@ -9404,7 +9471,8 @@
  {
   "stream_id": 33389,
   "name": "Libya Sport 1",
-  "group": "🌍 | ARABIC ꜱᴘᴏʀᴛꜱ"
+  "group": "🌍 | ARABIC ꜱᴘᴏʀᴛꜱ",
+  "epg": "a:Playlist.Logo.LibyaSportTV1.ly"
  },
  {
   "stream_id": 178145,
@@ -9438,7 +9506,8 @@
  {
   "stream_id": 178139,
   "name": "Arryadia HD",
-  "group": "🌍 | ARABIC ꜱᴘᴏʀᴛꜱ"
+  "group": "🌍 | ARABIC ꜱᴘᴏʀᴛꜱ",
+  "epg": "a:Playlist.Logo.Arryadia.ma"
  },
  {
   "stream_id": 299282,
@@ -9533,7 +9602,8 @@
  {
   "stream_id": 425805,
   "name": "Spt-VIP FIFA+",
-  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ"
+  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ",
+  "epg": "a:Playlist.iptvepgFIFAus"
  },
  {
   "stream_id": 116081,
@@ -9616,7 +9686,8 @@
  {
   "stream_id": 116109,
   "name": "Liga TV BAR HD",
-  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ"
+  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ",
+  "epg": "a:Playlist.Logo.LaLigaTVBar.es"
  },
  {
   "stream_id": 116117,
@@ -9626,17 +9697,20 @@
  {
   "stream_id": 116110,
   "name": "Movistar LA Liga HD",
-  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ"
+  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ",
+  "epg": "a:Playlist.ES1MLALIGATVes"
  },
  {
   "stream_id": 116112,
   "name": "Movistar La Liga 1 FHD [ Live ]",
-  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ"
+  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ",
+  "epg": "a:Playlist.Logo.LaLiga1porMovistarPlusPlus.es"
  },
  {
   "stream_id": 116113,
   "name": "Movistar La Liga 2 HD [ Live ]",
-  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ"
+  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ",
+  "epg": "a:Playlist.ES1MLALIGATV2es"
  },
  {
   "stream_id": 116111,
@@ -9793,7 +9867,8 @@
  {
   "stream_id": 930235,
   "name": "S Sport +",
-  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ"
+  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ",
+  "epg": "a:Playlist.Logo.tvl.tr.ssportplus"
  },
  {
   "stream_id": 930222,
@@ -9882,7 +9957,8 @@
  {
   "stream_id": 116134,
   "name": "Sport Klub 4",
-  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ"
+  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ",
+  "epg": "a:Playlist.Logo.tvl.hr.sportklub4"
  },
  {
   "stream_id": 116122,
@@ -9897,17 +9973,20 @@
  {
   "stream_id": 116126,
   "name": "RTSH Sport HD",
-  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ"
+  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ",
+  "epg": "a:Playlist.Logo.RTSHSport.al"
  },
  {
   "stream_id": 116127,
   "name": "Super Sport 1 HD",
-  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ"
+  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ",
+  "epg": "a:Playlist.AL1SuperSport1al"
  },
  {
   "stream_id": 116128,
   "name": "Super Sport 2 HD",
-  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ"
+  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ",
+  "epg": "a:Playlist.AL1SuperSport2al"
  },
  {
   "stream_id": 116118,
@@ -9924,7 +10003,8 @@
  {
   "stream_id": 116121,
   "name": "Tring Sport 4",
-  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ"
+  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ",
+  "epg": "a:Playlist.Logo.TringSport4.al"
  },
  {
   "stream_id": 116155,
@@ -9988,12 +10068,14 @@
  {
   "stream_id": 930240,
   "name": "IRIB 3 HD",
-  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ"
+  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ",
+  "epg": "a:Playlist.Logo.IRIB3.ir"
  },
  {
   "stream_id": 930224,
   "name": "IRIB Varzesh HD",
-  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ"
+  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ",
+  "epg": "a:Playlist.Logo.VarzeshTV.ir"
  },
  {
   "stream_id": 930215,
@@ -10009,7 +10091,8 @@
  {
   "stream_id": 930244,
   "name": "Sony Ten 2 HD",
-  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ"
+  "group": "🌍 | INTERNATIONAL ꜱᴘᴏʀᴛꜱ",
+  "epg": "a:Playlist.IN1SonyTen2HDin"
  },
  {
   "stream_id": 930216,
@@ -10370,7 +10453,7 @@
   "stream_id": 72705,
   "name": "Crime & Investigation HD",
   "group": "🇬🇧 | SKY ᴍɪx ᴅᴏᴄꜱ",
-  "epg": ""
+  "epg": "a:crimeandinvestigationnetwork.uk"
  },
  {
   "stream_id": 68508,
@@ -10869,7 +10952,7 @@
   "stream_id": 221290,
   "name": "Nat Geo Wild HD",
   "group": "🇺🇲 | US ᴅᴏᴄᴜᴍᴇɴᴛᴀʀʏ",
-  "epg": ""
+  "epg": "a:natgeowild.us"
  },
  {
   "stream_id": 70528,
@@ -13220,12 +13303,14 @@
  {
   "stream_id": 70638,
   "name": "AB3 HD",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "a:ab3channel.fr"
  },
  {
   "stream_id": 300652,
   "name": "AB3 FHD",
-  "group": "🇫🇷 | FRANCE"
+  "group": "🇫🇷 | FRANCE",
+  "epg": "a:ab3channel.fr"
  },
  {
   "stream_id": 654023,
@@ -15445,12 +15530,14 @@
  {
   "stream_id": 70896,
   "name": "Star HD",
-  "group": "🇵🇹 | PORTUGAL"
+  "group": "🇵🇹 | PORTUGAL",
+  "epg": "a:Playlist.Logo.StarChannel.pt"
  },
  {
   "stream_id": 71993,
   "name": "Star 4K",
-  "group": "🇵🇹 | PORTUGAL"
+  "group": "🇵🇹 | PORTUGAL",
+  "epg": "a:Playlist.Logo.StarChannel.pt"
  },
  {
   "stream_id": 70898,

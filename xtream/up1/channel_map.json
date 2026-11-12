@@ -418,12 +418,14 @@
  {
   "stream_id": 168598,
   "name": "Spor Smart 2 FHD",
-  "group": "TR | TIVIBU & SPOR SMART"
+  "group": "TR | TIVIBU & SPOR SMART",
+  "epg": "a:Playlist.Logo.SporSmart2.tr"
  },
  {
   "stream_id": 168599,
   "name": "Spor Smart 2 HD",
-  "group": "TR | TIVIBU & SPOR SMART"
+  "group": "TR | TIVIBU & SPOR SMART",
+  "epg": "a:Playlist.Logo.SporSmart2.tr"
  },
  {
   "stream_id": 168600,
@@ -709,7 +711,8 @@
  {
   "stream_id": 168622,
   "name": "TJK TV",
-  "group": "TR | SPOR"
+  "group": "TR | SPOR",
+  "epg": "a:Playlist.Logo.TJKTV.tr"
  },
  {
   "stream_id": 168624,
@@ -1166,7 +1169,8 @@
  {
   "stream_id": 286030,
   "name": "Kanal Avrupa",
-  "group": "TR | ULUSAL"
+  "group": "TR | ULUSAL",
+  "epg": "a:Playlist.Logo.KanalAvrupa.tr"
  },
  {
   "stream_id": 289842,
@@ -1687,7 +1691,8 @@
  {
   "stream_id": 304941,
   "name": "TBMM TV",
-  "group": "TR | HABER"
+  "group": "TR | HABER",
+  "epg": "a:Playlist.Logo.TBMMTV.tr"
  },
  {
   "stream_id": 189643,
@@ -2360,7 +2365,7 @@
   "stream_id": 179400,
   "name": "Sky Sports Arena FHD",
   "group": "UK | SKY SPORTS",
-  "epg": ""
+  "epg": "a:Playlist.Logo.SkySportsArena.uk"
  },
  {
   "stream_id": 179403,
@@ -2604,7 +2609,7 @@
   "stream_id": 182269,
   "name": "Sky Sports Arena HD",
   "group": "UK | SKY SPORTS",
-  "epg": ""
+  "epg": "a:Playlist.Logo.SkySportsArena.uk"
  },
  {
   "stream_id": 182270,
@@ -2672,7 +2677,7 @@
   "stream_id": 182279,
   "name": "Sky Sports Arena SD",
   "group": "UK | SKY SPORTS",
-  "epg": ""
+  "epg": "a:Playlist.Logo.SkySportsArena.uk"
  },
  {
   "stream_id": 182280,
@@ -2972,7 +2977,8 @@
  {
   "stream_id": 214685,
   "name": "TNT Sport Ultimate 4K",
-  "group": "UK | TNT SPORTS"
+  "group": "UK | TNT SPORTS",
+  "epg": "a:Playlist.Logo.TNTSportsUltimate.uk"
  },
  {
   "stream_id": 179154,
@@ -3190,7 +3196,8 @@
  {
   "stream_id": 181455,
   "name": "Sporty Stuff TV FHD",
-  "group": "UK | SPORTS"
+  "group": "UK | SPORTS",
+  "epg": "a:Playlist.Logo.SportyStuffTV.uk"
  },
  {
   "stream_id": 181505,
@@ -4668,7 +4675,8 @@
  {
   "stream_id": 180227,
   "name": "Syfy HD HEVC",
-  "group": "UK | ENTERTAINMENT"
+  "group": "UK | ENTERTAINMENT",
+  "epg": "a:Playlist.Logo.SkySciFi.uk"
  },
  {
   "stream_id": 180230,
@@ -4703,7 +4711,8 @@
  {
   "stream_id": 180247,
   "name": "Syfy FHD HEVC",
-  "group": "UK | ENTERTAINMENT"
+  "group": "UK | ENTERTAINMENT",
+  "epg": "a:Playlist.Logo.SkySciFi.uk"
  },
  {
   "stream_id": 180250,
@@ -5427,7 +5436,8 @@
  {
   "stream_id": 179522,
   "name": "Telemundo Al Dia",
-  "group": "US | NEWS"
+  "group": "US | NEWS",
+  "epg": "a:Playlist.Logo.TelemundoAlDia.us"
  },
  {
   "stream_id": 179526,

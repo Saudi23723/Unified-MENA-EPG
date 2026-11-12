@@ -25,7 +25,10 @@ jobs:
         with:
           python-version: "3.12"
       - name: Fill
-        run: python tools/fill_missing_epg.py --write
+        run: |
+          git fetch -q --depth 1 origin att-epg && git show FETCH_HEAD:att_epg.xml.gz > att_epg.xml.gz || rm -f att_epg.xml.gz
+          python tools/fill_missing_epg.py --write
+          rm -f att_epg.xml.gz
       - name: Commit and rebuild the Xtream data
         env:
           GH_TOKEN: ${{ github.token }}

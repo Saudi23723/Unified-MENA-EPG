@@ -150,6 +150,12 @@ def main():
         kind = "u:" if f == "unified_mena_epg.xml" else ("o:" if f.startswith("official_") else "r:" + f[:-4] + "/")
         for cid, names in xml_channels(open(f, "rb").read()):
             add(kind + cid, cid, names, None)
+    # this repository's US guide (AT&T / Pluto / Samsung, branch att-epg; the workflow puts it here)
+    att = next((f for f in ("att_epg.xml.gz", os.environ.get("ATT_EPG", "")) if f and os.path.isfile(f)), None)
+    if att:
+        for cid, names in xml_channels(open(att, "rb").read()):
+            add("a:" + cid, cid, names, None)
+        print("att_epg read")
     links = dict(re.findall(r'^\s*"(\w+)":\s*"(https?://[^"]+)"', open("xtream_epg.py", encoding="utf-8").read().split("OWNER_LINKS = {", 1)[1].split("}", 1)[0], re.M))
     link_cc = {"italy": "IT", "swiss": "CH", "germany": "DE", "portugal": "PT", "turkey": "TR", "romania": "RO", "slovenia": "SI"}
     for src, url in links.items():
@@ -175,6 +181,10 @@ def main():
         base = {re.sub(r"(_?(hd|sd|fhd|uhd|4k|raw|hevc)|s)$", "", r, flags=re.I) for r in refs}
         if 1 < len(refs) <= 6 and len(base) == 1:
             return min(refs, key=len)
+        # one channel's own guide and the copies made for playlists ("Playlist.ferteque…"): the channel's own
+        own = [r for r in refs if "Playlist." not in r]
+        if len(own) == 1 and len(refs) <= 6:
+            return own[0]
         return None
 
     report, total = [], 0

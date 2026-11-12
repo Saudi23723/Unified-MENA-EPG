@@ -173,8 +173,8 @@ for f in sorted(glob.glob("xtream/*/channel_map.json")):
     for n, c in enumerate(chans, 1):
         sp = split(official_fill.override(c["name"]) or c.get("epg") or official_fill.fill(c["name"], c["group"]))
         _g = c["group"].translate(_SMALLCAPS)
-        if not sp and not xtream_order.EVENT_GROUP.search(c["group"]) and (FILLER_247.search(_g) or "24/7" in c["name"]) \
-                and not NOT_247.search(_g + " " + c["name"]):
+        if not sp and not xtream_order.EVENT_GROUP.search(c["group"]) and ((FILLER_247.search(_g) and not NOT_247.search(_g + " " + c["name"]))
+                or re.search(r"24\s*/\s*7|LIVE\s?NOW|NEWS\s?NOW", c["name"], re.I)):
             _t = loop_title(c["name"])
             _fid = "247" if _t == "Program 24/7" else "247-%08x" % zlib.crc32(_t.encode("utf-8"))
             FILLER_TITLES[_fid] = _t
