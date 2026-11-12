@@ -68,6 +68,7 @@ class MapActivity : BaseActivity(), NeonHost {
     private lateinit var weather: WeatherOverlay
     private lateinit var rings: RangeRingsOverlay
     private lateinit var insetOv: DiagramInsetOverlay
+    private lateinit var procOv: ProcedureOverlay
     private lateinit var route: RouteOverlay
     private var radar: RadarOverlay? = null
     private lateinit var hazard: HazardOverlay
@@ -229,6 +230,8 @@ class MapActivity : BaseActivity(), NeonHost {
             diagramBoxes[ins.ident]?.let { map.zoomToBoundingBox(it, true, dp(12)) }
         }
         map.overlays.add(insetOv)
+        procOv = ProcedureOverlay(map)
+        map.overlays.add(map.overlays.indexOf(insetOv).coerceAtLeast(0), procOv)
         b.root.postDelayed({ autoDiagrams() }, 2500)
         b.fabLocate.setOnClickListener { cycleView() }
         b.fabSos.setOnClickListener { emergency() }
@@ -339,6 +342,7 @@ class MapActivity : BaseActivity(), NeonHost {
 
     override fun onResume() {
         super.onResume()
+        ProcedureUi.pending?.let { (p, t) -> ProcedureUi.pending = null; b.root.post { showProcedure(p, t) } }
         map.onResume()
         showCurrency()
         setOfficial()
@@ -940,6 +944,39 @@ class MapActivity : BaseActivity(), NeonHost {
         Toast.makeText(this, "→ ${w.id}", Toast.LENGTH_SHORT).show()
     }
 
+    /** An approach at the destination (or the nearest field): chosen, read in the advisor, drawn, added to the route. */
+    private fun approachMenu() {
+        val dest = plan.points.lastOrNull()?.id?.takeIf { it.length in 3..4 && airports.any { a -> a.icao == it || a.ident == it } }
+        val c = ownship.position() ?: map.mapCenter as GeoPoint
+        val near = airports.minByOrNull { Nav.distanceNm(c.latitude, c.longitude, it.lat, it.lon) }
+        val icao = dest ?: near?.let { it.icao.ifEmpty { it.ident } } ?: return
+        ProcedureUi.choose(this, icao, { p, t -> showProcedure(p, t) }, { p, t -> addProcedure(p, t) })
+    }
+
+    fun showProcedure(p: Cifp.Procedure, trans: String?) {
+        procOv.proc = p; procOv.transition = trans
+        val pts = p.legs(trans).mapNotNull { l -> if (l.lat != null && l.lon != null) GeoPoint(l.lat, l.lon) else null }
+        if (pts.size >= 2) {
+            if (following) follow(quiet = true)
+            map.zoomToBoundingBox(org.osmdroid.util.BoundingBox.fromGeoPoints(pts), true, dp(60))
+        }
+        map.invalidate()
+        Toast.makeText(this, "${p.name} · ${trans ?: "vectors"} — tap the menu's Approach again to change", Toast.LENGTH_LONG).show()
+    }
+
+    /** The approach's fixes into the route, before the destination when it is this airport. */
+    fun addProcedure(p: Cifp.Procedure, trans: String?) {
+        val wps = p.legs(trans).filter { !it.missed && it.lat != null && it.lon != null && it.fix.isNotEmpty() && !it.fix.startsWith("RW") }
+            .map { FlightPlan.Waypoint(it.fix, it.lat!!, it.lon!!) }.distinctBy { it.id }
+        if (wps.isEmpty()) return
+        val last = plan.points.lastOrNull()
+        val isDest = last != null && (last.id == p.icao || "K" + last.id == p.icao || last.id == p.icao.removePrefix("K"))
+        if (isDest) plan.points.addAll(plan.points.size - 1, wps) else plan.points.addAll(wps)
+        plan.save(this); updateNav()
+        showProcedure(p, trans)
+        Toast.makeText(this, "${p.name}: ${wps.joinToString(" › ") { it.id }} added", Toast.LENGTH_LONG).show()
+    }
+
     private fun addToRoute(w: FlightPlan.Waypoint) {
         plan.points.add(w)
         plan.save(this)
@@ -1184,7 +1221,7 @@ class MapActivity : BaseActivity(), NeonHost {
         b.fabSos.imageTintList = android.content.res.ColorStateList.valueOf(0xFFFF453A.toInt())
         b.fabLocate.backgroundTintList = android.content.res.ColorStateList.valueOf(0xFF2E9BFF.toInt())
         b.penBar.background = android.graphics.drawable.GradientDrawable().apply {
-            cornerRadius = dp(18).toFloat(); setColor(0xF21C1F24.toInt()); setStroke(dp(1), 0xFF30353C.toInt())
+            cornerRadius = dp(30).toFloat(); setColor(0xF01C1C1E.toInt()); setStroke(dp(1), 0xFF3A3A3C.toInt())
         }
         b.hudNav.setBackgroundColor(0xF0101418.toInt())
     }
@@ -2297,6 +2334,27 @@ class MapActivity : BaseActivity(), NeonHost {
 
     private fun setUpPen() {
         val bar = b.penTools
+        // As iPadOS's tool palette: a capsule floating over the chart, dragged by its grip anywhere, its place kept.
+        val grip = TextView(this).apply { text = "⋮⋮"; textSize = 16f; setTextColor(0xFF8E8E93.toInt()); setPadding(dp(10), dp(8), dp(6), dp(8)) }
+        bar.addView(grip)
+        var gx = 0f; var gy = 0f; var px = 0f; var py = 0f
+        grip.setOnTouchListener { _, e ->
+            when (e.actionMasked) {
+                android.view.MotionEvent.ACTION_DOWN -> { gx = e.rawX; gy = e.rawY; px = b.penBar.translationX; py = b.penBar.translationY }
+                android.view.MotionEvent.ACTION_MOVE -> { b.penBar.translationX = px + e.rawX - gx; b.penBar.translationY = py + e.rawY - gy }
+                android.view.MotionEvent.ACTION_UP -> prefs.edit().putFloat("pen_x", b.penBar.translationX).putFloat("pen_y", b.penBar.translationY).apply()
+            }
+            true
+        }
+        b.root.post {
+            // Out of the bottom row, floating above everything on the chart.
+            (b.penBar.parent as? android.view.ViewGroup)?.removeView(b.penBar)
+            b.root.addView(b.penBar, android.widget.FrameLayout.LayoutParams(-2, -2, Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL).apply {
+                bottomMargin = stripHeight() + dp(90); leftMargin = dp(10); rightMargin = dp(10)
+            })
+            b.penBar.elevation = dp(16).toFloat()
+            b.penBar.translationX = prefs.getFloat("pen_x", 0f); b.penBar.translationY = prefs.getFloat("pen_y", 0f)
+        }
         fun button(icon: Int, label: String, onClick: () -> Unit) = ImageButton(this).apply {
             setImageResource(icon)
             contentDescription = label
@@ -2520,6 +2578,7 @@ class MapActivity : BaseActivity(), NeonHost {
         menu.add(0, 3, 0, R.string.map_track_up).setCheckable(true).isChecked = trackUp
         menu.add(0, 42, 0, R.string.traffic_list)
         menu.add(0, 44, 0, R.string.plate_on_map).setCheckable(true).isChecked = prefs.getBoolean("auto_diagrams", true)
+        menu.add(0, 47, 0, "✈  Approach (procedure)")
         menu.add(0, 46, 0, "◎  Range rings").setCheckable(true).isChecked = prefs.getBoolean("rings", true)
         menu.add(0, 37, 0, R.string.glide_menu)
         menu.add(0, 30, 0, R.string.freq_title)
@@ -2592,6 +2651,7 @@ class MapActivity : BaseActivity(), NeonHost {
             40 -> AvionicsPanel.toggle(this)
             42 -> trafficList()
             44 -> { plateOnMap(); item.isChecked = prefs.getBoolean("auto_diagrams", true) }
+            47 -> approachMenu()
             46 -> {
                 val on = !prefs.getBoolean("rings", true)
                 prefs.edit().putBoolean("rings", on).apply(); item.isChecked = on

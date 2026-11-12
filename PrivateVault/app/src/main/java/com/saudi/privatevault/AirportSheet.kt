@@ -149,6 +149,15 @@ class AirportSheet(
             text = act.getString(label); isAllCaps = false; setOnClickListener { onClick() }
         }, LinearLayout.LayoutParams(-1, -2))
         wide(R.string.apt_plates) { plates() }
+        chartBtns.addView(MaterialButton(act, null, com.google.android.material.R.attr.materialButtonOutlinedStyle).apply {
+            text = "✈ Approaches (FAA coded procedures)"; isAllCaps = false
+            setOnClickListener {
+                val map = act as? MapActivity
+                ProcedureUi.choose(act, a.icao.ifEmpty { a.ident },
+                    { p, t -> if (map != null) { dialog.dismiss(); map.showProcedure(p, t) } else { ProcedureUi.pending = p to t; act.startActivity(android.content.Intent(act, MapActivity::class.java)) } },
+                    map?.let { m -> { p: Cifp.Procedure, t: String? -> dialog.dismiss(); m.addProcedure(p, t) } })
+            }
+        }, LinearLayout.LayoutParams(-1, -2))
         wide(R.string.perf_title) { act.startActivity(android.content.Intent(act, PerformanceActivity::class.java)) }
         wide(R.string.efb_diagram) { AirportDiagramActivity.open(act, a) }
         wide(R.string.apt_supplement) { supplement() }
