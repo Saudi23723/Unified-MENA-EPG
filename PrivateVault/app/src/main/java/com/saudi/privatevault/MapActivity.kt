@@ -2421,7 +2421,7 @@ class MapActivity : BaseActivity(), NeonHost {
         if (!prefs.getBoolean("auto_diagrams", true) || diagramsBusy || map.zoomLevelDouble < 9.0) return
         val bb = map.boundingBox; val c = map.mapCenter
         val want = airports.filter { it.lat in bb.latSouth..bb.latNorth && it.lon in bb.lonWest..bb.lonEast && it.ident !in diagrams && it.ident !in noDiagram }
-            .sortedBy { Nav.distanceNm(c.latitude, c.longitude, it.lat, it.lon) }.take(if (close) 3 else 2)
+            .sortedBy { Nav.distanceNm(c.latitude, c.longitude, it.lat, it.lon) }.take(if (map.zoomLevelDouble >= 13.0) 3 else 2)
         if (want.isEmpty()) return
         diagramsBusy = true
         lifecycleScope.launch {
