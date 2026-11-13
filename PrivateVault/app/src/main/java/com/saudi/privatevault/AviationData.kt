@@ -627,6 +627,18 @@ object Nav {
     }
 
     fun deg(d: Double) = "%03d°".format(Math.round(d).toInt() % 360)
+
+    /** The pressure altitude of a field: its elevation corrected for the altimeter setting (inHg or hPa). */
+    fun pressureAltitude(elevFt: Double, altim: Double): Double {
+        val hpa = if (altim > 100) altim else altim * 33.8639
+        return elevFt + (1013.25 - hpa) * 30
+    }
+
+    /** The density altitude: the pressure altitude plus 120 ft for each degree the air is warmer than ISA. */
+    fun densityAltitude(elevFt: Double, altim: Double, tempC: Double): Double {
+        val pa = pressureAltitude(elevFt, altim)
+        return pa + 120 * (tempC - (15 - 2 * pa / 1000))
+    }
 }
 
 /** Sunrise, sunset and civil twilight (the almanac method), for the day and night rules of logging and currency. */

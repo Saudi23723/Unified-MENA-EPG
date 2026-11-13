@@ -23,11 +23,13 @@ class DiagramInsetOverlay(
     private val map: MapView,
     private val onChange: (Inset?) -> Unit,
 ) : Overlay() {
-    class Inset(val ident: String, val bmp: Bitmap, val north: Double, val west: Double, val south: Double, val east: Double, val lat: Double, val lon: Double)
+    class Inset(val ident: String, val bmp: Bitmap, val north: Double, val west: Double, val south: Double, val east: Double, val lat: Double, val lon: Double) {
+        /** The same diagram lying on the chart; it shows when it is big enough there, and the card steps aside. */
+        var ground: org.osmdroid.views.overlay.GroundOverlay? = null
+        var laid = false
+    }
 
     val insets = LinkedHashMap<String, Inset>()
-    /** At or above this zoom the diagram on the chart itself is big enough and the card steps aside. */
-    var closeZoom = 14.0
     /** The field the card stays on, whatever the chart does. */
     var pinned: String? = null
     /** Fields whose card was closed (until diagrams are turned off and on). */
@@ -42,17 +44,38 @@ class DiagramInsetOverlay(
     private val dot = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0xFF2D8CFF.toInt() }
     private val pt = Point()
 
+    private val qa = Point(); private val qb = Point()
+
+    /**
+     * Whether a field's diagram is big enough on the chart to be read there (its diagonal against the
+     * screen's short side), decided on every frame so the change from the card to the chart and back
+     * is immediate; a margin between the two keeps it from flickering at the edge.
+     */
+    private fun settle(mv: MapView): Boolean {
+        var changed = false
+        val side = minOf(mv.width, mv.height).toDouble()
+        for (ins in insets.values) {
+            mv.projection.toPixels(GeoPoint(ins.north, ins.west), qa); mv.projection.toPixels(GeoPoint(ins.south, ins.east), qb)
+            val diag = Math.hypot((qa.x - qb.x).toDouble(), (qa.y - qb.y).toDouble())
+            val now = if (ins.laid) diag >= side * 0.62 else diag >= side * 0.78
+            if (now != ins.laid) { ins.laid = now; changed = true }
+            ins.ground?.let { g -> if (g.isEnabled != now) { g.isEnabled = now; changed = true } }
+        }
+        return changed
+    }
+
     private fun pick(mv: MapView): Inset? {
-        // Close in, the diagram itself lies on the chart: no card, pinned or not.
-        if (mv.zoomLevelDouble >= closeZoom) return null
-        pinned?.let { p -> insets[p]?.let { return it } }
+        // The diagram that lies readable on the chart needs no card, pinned or not.
+        pinned?.let { p -> insets[p]?.let { return if (it.laid) null else it } }
         val bb = mv.boundingBox; val c = mv.mapCenter
         return insets.values.filter { it.ident !in hidden && it.lat in bb.latSouth..bb.latNorth && it.lon in bb.lonWest..bb.lonEast }
-            .minByOrNull { Nav.distanceNm(c.latitude, c.longitude, it.lat, it.lon) }
+            .minByOrNull { Nav.distanceNm(c.latitude, c.longitude, it.lat, it.lon) }?.takeIf { !it.laid }
     }
 
     override fun draw(c: Canvas, mv: MapView, sh: Boolean) {
         if (sh) return
+        // The diagrams on the chart are drawn before this overlay: a change shows on the next frame.
+        if (settle(mv)) mv.postInvalidate()
         val ins = pick(mv)
         if (ins !== current) { current = ins; mv.post { onChange(ins) } }
         if (ins == null) return

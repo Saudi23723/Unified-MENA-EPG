@@ -237,9 +237,26 @@ object ProcedureUi {
             addView(EfbUi.text(act, k, 11f, EfbUi.DIM, bold = true).apply { gravity = Gravity.CENTER })
             addView(EfbUi.text(act, v, 17f, EfbUi.TEXT, bold = true).apply { gravity = Gravity.CENTER })
         }, LinearLayout.LayoutParams(0, -2, 1f))
+        val faf = legs.firstOrNull { it.role == "F" }
+        val map0 = legs.firstOrNull { it.role == "M" }
+        // The runway this approach serves, as the FAA codes it: its threshold elevation and crossing height.
+        val rwy = Regex("(\\d{2}[LRC]?)").find(p.id.drop(1))?.groupValues?.get(1)?.trimStart('0')
+        val end = rwy?.let { Cifp.runwayEnds(act, p.icao)[it] }
+        // How far it is from each fix to the missed-approach point, along the path itself.
+        val onPath = legs.filter { !it.missed && it.lat != null && it.lon != null }
+        fun toGo(fix: String): Double? {
+            val i = onPath.indexOfFirst { it.fix == fix }
+            val m = onPath.indexOfFirst { it.role == "M" }
+            if (i < 0 || m < 0 || i > m) return null
+            var sum = 0.0
+            for (k in i until m) sum += Nav.distanceNm(onPath[k].lat!!, onPath[k].lon!!, onPath[k + 1].lat!!, onPath[k + 1].lon!!)
+            return sum
+        }
+        val finalNm = faf?.let { toGo(it.fix) }
         cell("Final", p.finalCourse()?.let { "%03.0f°".format(it) } ?: "—")
-        cell("FAF", legs.firstOrNull { it.role == "F" }?.let { "${it.fix}\n${it.altText()}'" } ?: "—")
-        cell("MAP", legs.firstOrNull { it.role == "M" }?.fix ?: "—")
+        cell("FAF", faf?.let { "${it.fix}\n${it.altText()}'" } ?: "—")
+        cell("MAP", map0?.let { it.fix + (finalNm?.let { n -> "\n%.1f nm".format(n) } ?: "") } ?: "—")
+        if (end?.elevFt != null) cell("RWY $rwy", "%,d'".format(end.elevFt) + (end.tchFt?.takeIf { it > 0 }?.let { "\nTCH $it'" } ?: ""))
         body.addView(strip, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(12) })
 
         fun section(t: String) = body.addView(EfbUi.text(act, t, 12f, EfbUi.DIM, bold = true).apply { letterSpacing = 0.08f; setPadding(dp(2), dp(16), 0, dp(6)) })
@@ -258,7 +275,8 @@ object ProcedureUi {
                 val t = LinearLayout(act).apply { orientation = LinearLayout.VERTICAL; setPadding(dp(12), 0, 0, 0) }
                 t.addView(EfbUi.text(act, l.fix.ifEmpty { "climb on course" }, 15.5f, EfbUi.TEXT, bold = true))
                 val sub = listOfNotNull(l.course?.let { "%03.0f°".format(it) }, l.dist?.let { "%.1f nm".format(it) },
-                    if (l.path.startsWith("H")) (if (l.turn == 'L') "left turns" else "right turns") else null).joinToString("  ·  ")
+                    if (l.path.startsWith("H")) (if (l.turn == 'L') "left turns" else "right turns") else null,
+                    if (!missed) toGo(l.fix)?.takeIf { it > 0.05 }?.let { "%.1f nm to the MAP".format(it) } else null).joinToString("  ·  ")
                 if (sub.isNotEmpty()) t.addView(EfbUi.text(act, sub, 12.5f, EfbUi.DIM))
                 r.addView(t, LinearLayout.LayoutParams(0, -2, 1f))
                 val alt = l.altText()
@@ -269,6 +287,38 @@ object ProcedureUi {
         }
         section("ROUTE")
         legsCard(legs.filter { !it.missed }, false)
+        // The descent on the final segment: the gradient it asks and the rate that holds it.
+        if (faf != null && finalNm != null && finalNm > 0.3) {
+            val fafAlt = faf.alt1
+            val bottom = end?.elevFt?.let { it + (end.tchFt?.takeIf { t -> t > 0 } ?: 50) }
+            if (fafAlt != null && bottom != null && fafAlt > bottom) {
+                section("DESCENT ON FINAL")
+                val drop = (fafAlt - bottom).toDouble()
+                val perNm = drop / finalNm
+                val card = LinearLayout(act).apply { orientation = LinearLayout.VERTICAL; background = EfbUi.cardBg(act); setPadding(dp(12), dp(10), dp(12), dp(10)) }
+                card.addView(EfbUi.text(act, "%,d' at ${faf.fix} down to %,d' over the threshold in %.1f nm".format(fafAlt, bottom, finalNm), 14f, EfbUi.TEXT, bold = true))
+                card.addView(EfbUi.text(act, "%,d ft per nm  ·  %.2f° path".format(Math.round(perNm).toInt(), Math.toDegrees(Math.atan(perNm / 6076.12))), 12.5f, 0xFFFF9F0A.toInt()))
+                val tbl = LinearLayout(act).apply { orientation = LinearLayout.VERTICAL; setPadding(0, dp(8), 0, 0) }
+                tbl.addView(LinearLayout(act).apply {
+                    orientation = LinearLayout.HORIZONTAL
+                    addView(EfbUi.text(act, "GS", 11f, EfbUi.DIM, bold = true), LinearLayout.LayoutParams(0, -2, 1f))
+                    addView(EfbUi.text(act, "RATE", 11f, EfbUi.DIM, bold = true), LinearLayout.LayoutParams(0, -2, 1f))
+                    addView(EfbUi.text(act, "FAF TO MAP", 11f, EfbUi.DIM, bold = true), LinearLayout.LayoutParams(0, -2, 1.3f))
+                })
+                for (gs in listOf(70, 80, 90, 100, 120)) {
+                    val mins = finalNm / gs * 60
+                    tbl.addView(LinearLayout(act).apply {
+                        orientation = LinearLayout.HORIZONTAL; setPadding(0, dp(3), 0, dp(3))
+                        addView(EfbUi.text(act, "$gs kt", 13f, EfbUi.TEXT), LinearLayout.LayoutParams(0, -2, 1f))
+                        addView(EfbUi.text(act, "%,d fpm".format((Math.round(perNm * gs / 60 / 10) * 10).toInt()), 13f, 0xFF64D2FF.toInt(), bold = true), LinearLayout.LayoutParams(0, -2, 1f))
+                        addView(EfbUi.text(act, "%d:%02d".format(mins.toInt(), Math.round((mins - mins.toInt()) * 60).toInt().coerceIn(0, 59)), 13f, EfbUi.TEXT), LinearLayout.LayoutParams(0, -2, 1.3f))
+                    })
+                }
+                card.addView(tbl)
+                card.addView(EfbUi.text(act, "From the coded altitudes and the runway's own elevation: the chart's own rate table and minimums still rule.", 10.5f, EfbUi.DIM).apply { setPadding(0, dp(8), 0, 0) })
+                body.addView(card)
+            }
+        }
         val ma = legs.filter { it.missed }
         if (ma.isNotEmpty()) {
             section("MISSED APPROACH")

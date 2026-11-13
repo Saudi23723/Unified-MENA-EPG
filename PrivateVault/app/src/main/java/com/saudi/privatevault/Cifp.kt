@@ -58,17 +58,20 @@ object Cifp {
         return anchor.plusDays(k * 28)
     }
 
+    // The marker of a finished read; its number goes up when more is read from the same file (2: runway details).
+    private const val DONE = "done2"
+
     private fun dir(ctx: Context): File {
         val d = cycleStart()
         return File(ctx.filesDir, "cifp/%02d%02d%02d".format(d.year % 100, d.monthValue, d.dayOfMonth))
     }
 
-    fun ready(ctx: Context) = File(dir(ctx), "done").exists()
+    fun ready(ctx: Context) = File(dir(ctx), DONE).exists()
 
     /** Downloads and reads this cycle's CIFP (call off the main thread); [progress] gets 0..100. */
     fun ensure(ctx: Context, progress: (Int) -> Unit = {}): Boolean {
         val out = dir(ctx)
-        if (File(out, "done").exists()) return true
+        if (File(out, DONE).exists()) return true
         out.mkdirs()
         // Earlier cycles away.
         out.parentFile?.listFiles()?.filter { it != out }?.forEach { it.deleteRecursively() }
@@ -96,7 +99,7 @@ object Cifp {
                 }
                 c.disconnect()
                 if (out.listFiles()?.any { it.name.endsWith(".json") } == true) {
-                    File(out, "done").writeText(n)
+                    File(out, DONE).writeText(n)
                     return true
                 }
             } catch (e: Exception) { }
@@ -122,14 +125,15 @@ object Cifp {
         var apt = ""
         val local = HashMap<String, DoubleArray>()       // terminal waypoints, runways, terminal NDBs
         val legs = ArrayList<String>()
+        val rwd = HashMap<String, String>()              // runway records, as published
         var ref: DoubleArray? = null
         var name = ""
 
         fun flush() {
-            if (apt.isEmpty() || legs.isEmpty()) return
+            if (apt.isEmpty() || (legs.isEmpty() && rwd.isEmpty())) return
             val p = ref ?: return
             if (p[0] !in S..N || p[1] !in W..E) return
-            write(out, apt, name, p, local, global, legs)
+            write(out, apt, name, p, local, global, legs, rwd)
         }
 
         while (true) {
@@ -148,18 +152,18 @@ object Cifp {
             }
             if (sec != 'P') continue
             val a = col(l, 7, 10).trim()
-            if (a != apt) { flush(); apt = a; local.clear(); legs.clear(); ref = null; name = "" }
+            if (a != apt) { flush(); apt = a; local.clear(); legs.clear(); rwd.clear(); ref = null; name = "" }
             when (l[12]) {
                 'A' -> { ref = latlon(l); name = col(l, 94, 123).trim() }
                 'C', 'N' -> { if (l[38 - 1 + 0] == '0' || true) latlon(l)?.let { local[col(l, 14, 18).trim()] = it } }
-                'G' -> latlon(l)?.let { local[col(l, 14, 18).trim()] = it }
+                'G' -> { latlon(l)?.let { local[col(l, 14, 18).trim()] = it }; if (l[21] == '0' || l[21] == '1') rwd[col(l, 14, 18).trim()] = l }
                 'F' -> if (l[38] == '0' || l[38] == '1') legs.add(l)   // primary records (continuation 0/1) only
             }
         }
         flush()
     }
 
-    private fun write(out: File, apt: String, name: String, ref: DoubleArray, local: Map<String, DoubleArray>, global: Map<String, DoubleArray>, lines: List<String>) {
+    private fun write(out: File, apt: String, name: String, ref: DoubleArray, local: Map<String, DoubleArray>, global: Map<String, DoubleArray>, lines: List<String>, rwd: Map<String, String>) {
         val procs = LinkedHashMap<String, JSONObject>()
         for (l in lines) {
             val id = col(l, 14, 19).trim()
@@ -195,6 +199,15 @@ object Cifp {
         val rw = JSONObject()
         for ((k, v) in local) if (k.startsWith("RW")) rw.put(k, JSONArray().put(v[0]).put(v[1]))
         o.put("rw", rw)
+        // Each runway end as the FAA codes it: length, magnetic bearing, threshold elevation, displaced threshold, TCH, width, ILS.
+        val rd = JSONObject()
+        for ((k, l) in rwd) rd.put(k, JSONArray().apply {
+            put(col(l, 23, 27).trim().toIntOrNull() ?: JSONObject.NULL); put(col(l, 28, 31).trim().toIntOrNull()?.let { it / 10.0 } ?: JSONObject.NULL)
+            put(col(l, 67, 71).trim().toIntOrNull() ?: JSONObject.NULL); put(col(l, 72, 75).trim().toIntOrNull() ?: JSONObject.NULL)
+            put(col(l, 76, 77).trim().toIntOrNull() ?: JSONObject.NULL); put(col(l, 78, 80).trim().toIntOrNull() ?: JSONObject.NULL)
+            put(col(l, 82, 85).trim())
+        })
+        o.put("rd", rd)
         File(out, "$apt.json").writeText(o.toString())
     }
 
@@ -275,6 +288,25 @@ object Cifp {
             out.add(Procedure(icao.uppercase(), id, nameOf(id), trans, fin))
         }
         return out.sortedBy { it.name }
+    }
+
+    /** A runway end as the FAA codes it. */
+    class RunwayEnd(val id: String, val lengthFt: Int?, val magBearing: Double?, val elevFt: Int?, val displacedFt: Int?, val tchFt: Int?, val widthFt: Int?, val ils: String)
+
+    /** The airport's runway ends by name (27, 01L…), from this cycle's file; empty when it is not on the phone. */
+    fun runwayEnds(ctx: Context, icao: String): Map<String, RunwayEnd> {
+        val code = icao.uppercase().let { if (it.length == 3) "K$it" else it }
+        val out = LinkedHashMap<String, RunwayEnd>()
+        try {
+            val rd = JSONObject(File(dir(ctx), "$code.json").readText()).optJSONObject("rd") ?: return out
+            for (k in rd.keys()) {
+                val a = rd.getJSONArray(k)
+                fun i(n: Int) = a.opt(n).takeIf { it != JSONObject.NULL }?.toString()?.toDoubleOrNull()
+                val id = k.removePrefix("RW").trim()
+                out[id.trimStart('0')] = RunwayEnd(id, i(0)?.toInt(), i(1), i(2)?.toInt(), i(3)?.toInt(), i(4)?.toInt(), i(5)?.toInt(), a.optString(6))
+            }
+        } catch (e: Exception) { }
+        return out
     }
 
     /** A runway threshold (RW27 → lat, lon). */

@@ -949,8 +949,12 @@ class MapActivity : BaseActivity(), NeonHost {
         val wdir = metar?.opt("wdir")?.toString()?.toDoubleOrNull()
         val wspd = metar?.opt("wspd")?.toString()?.toDoubleOrNull() ?: 0.0
         val gust = metar?.opt("wgst")?.toString()?.toDoubleOrNull()
+        val tempC = metar?.opt("temp")?.toString()?.toDoubleOrNull()
+        val altim = metar?.opt("altim")?.toString()?.toDoubleOrNull()
+        // The FAA's own runway record: length as published, threshold elevation, displaced threshold, width, ILS.
+        val coded = Cifp.runwayEnds(this, station)
         val picked = patternPicked.getOrPut(f.ident) { HashSet() }
-        val key = "${f.ident}|${rwyInfo[station] != null}|$wdir|$wspd|$gust|${f.active}|${picked.sorted()}|${f.ends.keys.map { PatternOverlay.isRight(this, f.ident, it) }}"
+        val key = "${f.ident}|${rwyInfo[station] != null}|${coded.size}|$wdir|$wspd|$gust|$tempC|$altim|${f.active}|${picked.sorted()}|${f.ends.keys.map { PatternOverlay.isRight(this, f.ident, it) }}"
         val panel = rwyPanel ?: LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL; layoutDirection = View.LAYOUT_DIRECTION_LTR
             background = EfbUi.cardBg(this@MapActivity, 0xF00F1318.toInt(), 14).apply { setStroke(dp(1), 0xFF29313D.toInt()) }
@@ -974,6 +978,17 @@ class MapActivity : BaseActivity(), NeonHost {
                 else -> "wind ${Nav.deg(Nav.magnetic(wdir, a.lat, a.lon))}M %.0f kt".format(wspd) + (gust?.let { " G%.0f".format(it) } ?: "")
             }
             addView(EfbUi.text(this@MapActivity, "Elev %,d' · TPA %,d' · $wind".format(a.elevation, f.tpaFt), 11f, 0xFFB0B4BC.toInt()))
+            // The air the aeroplane will actually fly in: how high the field feels today.
+            if (tempC != null && altim != null) {
+                val da = Nav.densityAltitude(a.elevation.toDouble(), altim, tempC)
+                val over = da - a.elevation
+                addView(EfbUi.text(this@MapActivity, "Density alt %,d' (%+,d' over the field) · %.0f°C · %.2f\"".format(
+                    Math.round(da).toInt(), Math.round(over).toInt(), tempC, if (altim > 100) altim * 0.02953 else altim), 11f,
+                    if (da >= 6000) 0xFFFF9F0A.toInt() else 0xFF9AD5A0.toInt()))
+                if (over > 1000) addView(EfbUi.text(this@MapActivity,
+                    "Rule of thumb: about %+d%% on the ground roll and that much less climb — read your POH chart.".format((over / 1000 * 10).toInt()),
+                    10.5f, 0xFFFFD60A.toInt()))
+            }
         }, LinearLayout.LayoutParams(0, -2, 1f))
         head.addView(TextView(this).apply {
             text = "✕"; textSize = 15f; setTextColor(0xFFFFFFFF.toInt()); gravity = Gravity.CENTER
@@ -1006,7 +1021,17 @@ class MapActivity : BaseActivity(), NeonHost {
                     surf = when (o.optString("surface").uppercase()) { "A" -> "asphalt"; "C" -> "concrete"; "G" -> "grass"; "T" -> "turf"; "D" -> "dirt"; "" -> ""; else -> o.optString("surface").lowercase() }
                 }
             }
+            // The FAA's coded record for this end, where this cycle's CIFP is on the phone.
+            val cr = coded[r.trim().trimStart('0')]
+            if (cr?.lengthFt != null) dim = "%,d".format(cr.lengthFt) + (cr.widthFt?.let { " × %,d".format(it) } ?: "") + " ft"
             if (dim.isEmpty()) dim = "%,d ft".format(Math.round(Nav.distanceNm(thr.latitude, thr.longitude, far.latitude, far.longitude) * 6076.12 / 50) * 50)
+            val extra = ArrayList<String>()
+            cr?.elevFt?.let { extra.add("thr %,d'".format(it)) }
+            cr?.displacedFt?.takeIf { it > 0 }?.let { extra.add("displaced %,d'".format(it)) }
+            cr?.tchFt?.takeIf { it > 0 }?.let { extra.add("TCH %d'".format(it)) }
+            cr?.ils?.takeIf { it.isNotBlank() }?.let { extra.add("ILS $it") }
+            // The landing distance this end really offers, where the threshold is displaced.
+            val usable = if (cr?.lengthFt != null && (cr.displacedFt ?: 0) > 0) cr.lengthFt - cr.displacedFt!! else null
             val rightTfc = PatternOverlay.isRight(this, f.ident, r)
             var windLine = ""; var windColor = 0xFFB0B4BC.toInt()
             if (wdir != null && wspd > 0) {
@@ -1030,6 +1055,8 @@ class MapActivity : BaseActivity(), NeonHost {
                 line1.addView(EfbUi.text(this@MapActivity, "${Nav.deg(hdgMag)}M · ${if (rightTfc) "RIGHT" else "left"} traffic", 11.5f, if (rightTfc) 0xFFFFB020.toInt() else 0xFFB0B4BC.toInt(), bold = rightTfc))
                 addView(line1)
                 addView(EfbUi.text(this@MapActivity, listOf(dim, surf).filter { it.isNotEmpty() }.joinToString(" · "), 12f, 0xFFD5D9E0.toInt()))
+                if (extra.isNotEmpty()) addView(EfbUi.text(this@MapActivity, extra.joinToString(" · "), 11f, 0xFF9AA3AF.toInt()))
+                usable?.let { addView(EfbUi.text(this@MapActivity, "landing from the displaced threshold: %,d ft".format(it), 11f, 0xFFFF9F0A.toInt())) }
                 if (windLine.isNotEmpty()) addView(EfbUi.text(this@MapActivity, windLine, 12f, windColor, bold = true))
                 setOnClickListener {
                     if (!picked.add(r)) picked.remove(r)
@@ -1039,7 +1066,9 @@ class MapActivity : BaseActivity(), NeonHost {
             })
             rows.addView(View(this).apply { setBackgroundColor(0x22FFFFFF) }, LinearLayout.LayoutParams(-1, 1))
         }
-        rows.addView(EfbUi.text(this, "★ into the wind · tap a runway for its pattern", 10.5f, 0xFF8A919C.toInt()).apply { setPadding(dp(10), dp(5), dp(10), dp(6)) })
+        rows.addView(EfbUi.text(this, "★ into the wind · tap a runway for its pattern" +
+            (if (coded.isEmpty()) "\nlengths from the FAA airport file; open an approach once to add the coded runway data" else "\nlength, threshold elevation and TCH from the FAA's coded data (CIFP)"),
+            10.5f, 0xFF8A919C.toInt()).apply { setPadding(dp(10), dp(5), dp(10), dp(6)) })
         panel.addView(android.widget.ScrollView(this).apply { addView(rows) }, LinearLayout.LayoutParams(-1, -2))
     }
 
@@ -1150,11 +1179,10 @@ class MapActivity : BaseActivity(), NeonHost {
         hb("⌖") {
             val cur = insetOv.current ?: return@hb
             if (following) follow(quiet = true)
-            val bb = diagramBoxes.entries.firstOrNull { e -> airports.any { it.ident == e.key && it.icao.ifEmpty { it.ident } == cur.ident } }?.value
-                ?: return@hb
-            // Close in the card steps aside by itself; the diagram itself fills the screen.
-            map.zoomToBoundingBox(bb, true, dp(24))
-            map.postDelayed({ if (map.zoomLevelDouble < insetOv.closeZoom) map.controller.zoomTo(insetOv.closeZoom + 0.6); autoDiagrams(); map.invalidate() }, 900)
+            // Onto the airport: the diagram where it really lies fills the screen, and the card steps aside.
+            map.mapOrientation = 0f
+            map.zoomToBoundingBox(org.osmdroid.util.BoundingBox(cur.north, cur.east, cur.south, cur.west), false, dp(20))
+            map.invalidate()
         }
         hb("✕") {
             insetOv.current?.let { insetOv.hidden += it.ident; if (insetOv.pinned == it.ident) insetOv.pinned = null }
@@ -1222,10 +1250,8 @@ class MapActivity : BaseActivity(), NeonHost {
             // The diagram where it really lies, over the airport and its runways, filling the screen;
             // zoomed out it becomes the card, whose ⌖ comes back here.
             val bb = diagramBoxes[a.ident]
-            if (bb != null) {
-                map.zoomToBoundingBox(bb, true, dp(24))
-                map.postDelayed({ if (map.zoomLevelDouble < insetOv.closeZoom) map.controller.zoomTo(insetOv.closeZoom + 0.6); autoDiagrams(); map.invalidate() }, 900)
-            } else map.controller.animateTo(GeoPoint(a.lat, a.lon))
+            if (bb != null) { map.mapOrientation = 0f; map.zoomToBoundingBox(bb, false, dp(20)) }
+            else map.controller.animateTo(GeoPoint(a.lat, a.lon))
             map.invalidate()
         }
     }
@@ -1510,23 +1536,90 @@ class MapActivity : BaseActivity(), NeonHost {
 
     private var printWeb: android.webkit.WebView? = null
 
-    private fun navLog() {
-        val text = android.widget.TextView(this).apply {
+    /** One cell of the nav-log table. */
+    private fun cell(t: String, w: Int, color: Int = 0xFFE6EAF0.toInt(), bold: Boolean = false, size: Float = 12.5f): TextView =
+        TextView(this).apply {
+            text = t; textSize = size; setTextColor(color); gravity = Gravity.CENTER
             typeface = android.graphics.Typeface.MONOSPACE
-            textSize = 12f
-            setTextIsSelectable(true)
-            layoutDirection = View.LAYOUT_DIRECTION_LTR
-            textDirection = View.TEXT_DIRECTION_LTR
-            setPadding(dp(16), dp(8), dp(16), dp(8))
-            this.text = if (plan.points.size < 2) getString(R.string.plan_empty) else
-                plan.points.joinToString(" ") { it.id } + "\n\n" + plan.navLog()
+            if (bold) setTypeface(typeface, android.graphics.Typeface.BOLD)
+            setPadding(dp(3), dp(5), dp(3), dp(5))
+            layoutParams = LinearLayout.LayoutParams(dp(w), -2)
         }
-        val scroll = android.widget.ScrollView(this).apply {
-            addView(android.widget.HorizontalScrollView(this@MapActivity).apply { addView(text) })
+
+    /**
+     * The navigation log as a real log: a line for each leg with its wind, magnetic heading, distance,
+     * ground speed, time, clock time overhead, fuel burnt and fuel still in the tanks; a total line; and
+     * under it what it all means (the reserve, the cross-country rule, the slowest leg). A tap on a leg
+     * sets that leg's own wind.
+     */
+    private fun navLog() {
+        val outer = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; layoutDirection = View.LAYOUT_DIRECTION_LTR }
+        if (plan.points.size < 2) {
+            outer.addView(EfbUi.text(this, getString(R.string.plan_empty), 15f, EfbUi.TEXT).apply { setPadding(dp(20), dp(16), dp(20), dp(16)) })
+        } else {
+            val rows = plan.rows()
+            val sum = plan.summary()
+            // The head: the flight's own figures, and the route itself.
+            outer.addView(EfbUi.text(this, plan.points.joinToString("  ›  ") { it.id }, 15f, EfbUi.ACCENT, bold = true)
+                .apply { setPadding(dp(14), dp(10), dp(14), dp(2)) })
+            outer.addView(EfbUi.text(this, "%,d ft · TAS %d kt · %.1f gph · %.1f gal on board%s".format(plan.altitude, plan.tas, plan.gph, plan.fuelOnBoard,
+                plan.etdMin?.let { " · off %02d:%02d".format(it / 60, it % 60) } ?: " · times from now"), 12f, 0xFF9AA3AF.toInt())
+                .apply { setPadding(dp(14), 0, dp(14), dp(8)) })
+            val table = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(dp(8), 0, dp(8), 0) }
+            val cols = listOf("LEG" to 104, "WIND" to 60, "MH" to 46, "DIST" to 44, "REM" to 44, "GS" to 36, "ETE" to 44, "ETA" to 46, "FUEL" to 42, "LEFT" to 44)
+            table.addView(LinearLayout(this).apply {
+                orientation = LinearLayout.HORIZONTAL
+                setBackgroundColor(0xFF1B2430.toInt())
+                for ((t, w) in cols) addView(cell(t, w, 0xFF8FA3B8.toInt(), bold = true, size = 11f))
+            })
+            for (r in rows) {
+                val l = r.leg
+                val row = LinearLayout(this).apply {
+                    orientation = LinearLayout.HORIZONTAL
+                    setBackgroundColor(if (r.index % 2 == 0) 0x14FFFFFF else 0)
+                    setBackgroundResource(R.drawable.item_focus_bg)
+                }
+                row.addView(cell("%s→%s".format(l.from.id.take(5), l.to.id.take(5)), cols[0].second, 0xFFFFFFFF.toInt(), bold = true))
+                row.addView(cell("%03d/%d".format(r.windDir, r.windKt), cols[1].second, if (plan.legWinds.containsKey(r.index)) 0xFF30D158.toInt() else 0xFF9AA3AF.toInt()))
+                row.addView(cell(Nav.deg(l.mh), cols[2].second, 0xFFFFD60A.toInt(), bold = true))
+                row.addView(cell("%.1f".format(l.dist), cols[3].second))
+                row.addView(cell("%.1f".format(sum.dist - r.cumDist), cols[4].second, 0xFF9AA3AF.toInt()))
+                row.addView(cell("%d".format(Math.round(l.gs).toInt()), cols[5].second,
+                    if (l.gs < plan.tas * 0.8) 0xFFFF9F0A.toInt() else 0xFFE6EAF0.toInt()))
+                row.addView(cell(FlightPlan.hm(l.minutes), cols[6].second))
+                row.addView(cell(plan.clock(r.cumMin), cols[7].second, 0xFF64D2FF.toInt()))
+                row.addView(cell("%.1f".format(l.fuel), cols[8].second))
+                row.addView(cell("%.1f".format(r.fuelLeft), cols[9].second,
+                    if (r.fuelLeft < sum.reserveGal) 0xFFFF453A.toInt() else 0xFF30D158.toInt(), bold = true))
+                row.setOnClickListener { legWind(r.index, l) }
+                table.addView(row)
+                table.addView(View(this).apply { setBackgroundColor(0x1AFFFFFF) }, LinearLayout.LayoutParams(-1, 1))
+            }
+            table.addView(LinearLayout(this).apply {
+                orientation = LinearLayout.HORIZONTAL
+                setBackgroundColor(0xFF14202C.toInt())
+                addView(cell("TOTAL", cols[0].second, 0xFFFFFFFF.toInt(), bold = true))
+                addView(cell("", cols[1].second)); addView(cell("", cols[2].second))
+                addView(cell("%.1f".format(sum.dist), cols[3].second, 0xFFFFFFFF.toInt(), bold = true))
+                addView(cell("", cols[4].second)); addView(cell("", cols[5].second))
+                addView(cell(FlightPlan.hm(sum.minutes), cols[6].second, 0xFFFFFFFF.toInt(), bold = true))
+                addView(cell(plan.clock(sum.minutes), cols[7].second, 0xFF64D2FF.toInt(), bold = true))
+                addView(cell("%.1f".format(sum.fuel), cols[8].second, 0xFFFFFFFF.toInt(), bold = true))
+                addView(cell("%.1f".format(sum.fuelLeft), cols[9].second, if (sum.reserveKept) 0xFF30D158.toInt() else 0xFFFF453A.toInt(), bold = true))
+            })
+            outer.addView(android.widget.HorizontalScrollView(this).apply { isHorizontalScrollBarEnabled = false; addView(table) })
+            outer.addView(EfbUi.text(this, "a tap on a leg sets its own wind", 10.5f, 0xFF6E7681.toInt()).apply { setPadding(dp(14), dp(4), dp(14), dp(8)) })
+            for ((n, ok) in plan.notes()) outer.addView(LinearLayout(this).apply {
+                orientation = LinearLayout.HORIZONTAL
+                setPadding(dp(14), dp(3), dp(14), dp(3))
+                addView(EfbUi.text(this@MapActivity, if (ok) "✓" else "•", 13f, if (ok) 0xFF30D158.toInt() else 0xFFFF9F0A.toInt(), bold = true),
+                    LinearLayout.LayoutParams(dp(18), -2))
+                addView(EfbUi.text(this@MapActivity, n, 12.5f, if (ok) 0xFFD5D9E0.toInt() else 0xFFFFD60A.toInt()))
+            })
         }
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.plan_title)
-            .setView(scroll)
+            .setView(android.widget.ScrollView(this).apply { addView(outer) })
             .setPositiveButton(R.string.plan_edit) { _, _ -> editPlan() }
             .setNeutralButton(R.string.plan_more) { _, _ ->
                 val opts = arrayOf(getString(R.string.plan_reverse), getString(R.string.plan_clear), getString(R.string.plan_share),
@@ -1540,7 +1633,7 @@ class MapActivity : BaseActivity(), NeonHost {
                         7 -> printNavLog()
                         2 -> startActivity(android.content.Intent.createChooser(android.content.Intent(android.content.Intent.ACTION_SEND).apply {
                             type = "text/plain"
-                            putExtra(android.content.Intent.EXTRA_TEXT, plan.points.joinToString(" ") { it.id } + "\n\n" + plan.navLog())
+                            putExtra(android.content.Intent.EXTRA_TEXT, plan.navLog())
                         }, null))
                         3 -> plan.direct = null
                         4 -> openWb()
@@ -1552,6 +1645,29 @@ class MapActivity : BaseActivity(), NeonHost {
                 }.show()
             }
             .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
+    /** One leg's own wind, typed as 240/15, or taken back to the plan's single wind. */
+    private fun legWind(index: Int, l: FlightPlan.Leg) {
+        val cur = plan.legWinds[index]
+        val input = EditText(this).apply {
+            setText(cur?.let { "%03d/%d".format(it.first, it.second) } ?: "")
+            hint = "240/15"
+            setSingleLine()
+            setPadding(dp(20), dp(10), dp(20), dp(10))
+        }
+        MaterialAlertDialogBuilder(this)
+            .setTitle("🌬 ${l.from.id} → ${l.to.id}")
+            .setMessage("The wind on this leg at %,d ft, as the forecast gives it (from / knots).".format(plan.altitude))
+            .setView(input)
+            .setPositiveButton(R.string.ok) { _, _ ->
+                val n = input.text.toString().split('/', ' ', '@').mapNotNull { it.trim().toIntOrNull() }
+                if (n.size >= 2) plan.legWinds[index] = Triple(n[0] % 361, n[1], cur?.third) else plan.legWinds.remove(index)
+                plan.save(this); updateNav(); routePanel?.refresh(); map.invalidate(); navLog()
+            }
+            .setNeutralButton("Plan's wind") { _, _ -> plan.legWinds.remove(index); plan.save(this); updateNav(); map.invalidate(); navLog() }
+            .setNegativeButton(R.string.cancel) { _, _ -> navLog() }
             .show()
     }
 
@@ -1580,6 +1696,8 @@ class MapActivity : BaseActivity(), NeonHost {
         val tas = field(R.string.plan_tas, plan.tas.toString())
         val gph = field(R.string.plan_gph, plan.gph.toString())
         val fob = field(R.string.plan_fob, plan.fuelOnBoard.toString())
+        val etd = field(R.string.plan_etd, plan.etdMin?.let { "%02d:%02d".format(it / 60, it % 60) } ?: "", number = false)
+        val res = field(R.string.plan_reserve, plan.reserveMin.toString())
         val wind = field(R.string.plan_wind, "%03d/%d".format(plan.windDir, plan.windKt), number = false)
         val auto = com.google.android.material.button.MaterialButton(this).apply {
             text = getString(R.string.plan_wind_auto)
@@ -1613,6 +1731,11 @@ class MapActivity : BaseActivity(), NeonHost {
                 tas.text.toString().toIntOrNull()?.takeIf { it in 30..400 }?.let { plan.tas = it }
                 gph.text.toString().toDoubleOrNull()?.let { plan.gph = it }
                 fob.text.toString().toDoubleOrNull()?.let { plan.fuelOnBoard = it }
+                etd.text.toString().trim().let { t ->
+                    val n = t.split(':', '.', ' ').mapNotNull { it.trim().toIntOrNull() }
+                    plan.etdMin = if (t.isEmpty()) null else if (n.size >= 2) (n[0].coerceIn(0, 23) * 60 + n[1].coerceIn(0, 59)) else n.firstOrNull()?.let { h -> h.coerceIn(0, 23) * 60 }
+                }
+                res.text.toString().toIntOrNull()?.takeIf { it in 0..240 }?.let { plan.reserveMin = it }
                 wind.text.toString().split('/', ' ', '@').mapNotNull { it.trim().toIntOrNull() }.let {
                     if (it.size >= 2) { plan.windDir = it[0] % 361; plan.windKt = it[1] }
                 }
@@ -2287,16 +2410,14 @@ class MapActivity : BaseActivity(), NeonHost {
         diagramBoxes[ident] = org.osmdroid.util.BoundingBox(made.second.latitude, made.third.longitude, made.third.latitude, made.second.longitude)
         airports.firstOrNull { it.ident == ident }?.let { a ->
             insetOv.insets[a.icao.ifEmpty { a.ident }] = DiagramInsetOverlay.Inset(a.icao.ifEmpty { a.ident }, made.first, made.second.latitude, made.second.longitude,
-                made.third.latitude, made.third.longitude, a.lat, a.lon)
+                made.third.latitude, made.third.longitude, a.lat, a.lon).also { it.ground = o; o.isEnabled = false }
         }
         map.invalidate()
     }
 
     /** Lays the diagrams of the airports now on the screen, a few at a time, nearest the centre first. */
     private fun autoDiagrams() {
-        // Seen only close in: from afar a diagram is a stamp on the chart.
-        val close = map.zoomLevelDouble >= insetOv.closeZoom
-        for (o in diagrams.values) o.isEnabled = close
+        // (Whether a diagram shows on the chart or as the card is settled by the card's overlay, frame by frame.)
         if (!prefs.getBoolean("auto_diagrams", true) || diagramsBusy || map.zoomLevelDouble < 9.0) return
         val bb = map.boundingBox; val c = map.mapCenter
         val want = airports.filter { it.lat in bb.latSouth..bb.latNorth && it.lon in bb.lonWest..bb.lonEast && it.ident !in diagrams && it.ident !in noDiagram }

@@ -39,6 +39,75 @@ class FlightPlan {
 
     /** The forecast wind of each leg (from, kt, temperature °C), by leg number; the single wind is used where none. */
     val legWinds = HashMap<Int, Triple<Int, Int, Int?>>()
+    /** Off the blocks, as minutes since midnight: the clock times in the log run from it. Null for times from now. */
+    var etdMin: Int? = null
+    /** The fuel the tanks must still hold on landing (VFR day: 30 minutes, night: 45; 91.151). */
+    var reserveMin = 30
+
+    /** One line of the navigation log: a leg with everything that is true of it by its end. */
+    class Row(
+        val index: Int, val leg: Leg, val windDir: Int, val windKt: Int, val tempC: Int?,
+        val cumDist: Double, val cumMin: Double, val cumFuel: Double, val fuelLeft: Double,
+    )
+
+    /** What the whole flight comes to, and whether it is legal and within the fuel. */
+    class Summary(
+        val dist: Double, val minutes: Double, val fuel: Double, val fuelLeft: Double,
+        val reserveGal: Double, val reserveKept: Boolean, val enduranceMin: Double, val farthestNm: Double,
+    )
+
+    fun rows(): List<Row> {
+        val out = ArrayList<Row>()
+        var d = 0.0; var m = 0.0; var fu = 0.0
+        for ((i, l) in legs().withIndex()) {
+            d += l.dist; m += l.minutes; fu += l.fuel
+            val w = legWinds[i]
+            out.add(Row(i, l, w?.first ?: windDir, w?.second ?: windKt, w?.third, d, m, fu, fuelOnBoard - fu))
+        }
+        return out
+    }
+
+    fun summary(): Summary {
+        val r = rows()
+        val dist = r.lastOrNull()?.cumDist ?: 0.0
+        val min = r.lastOrNull()?.cumMin ?: 0.0
+        val fuel = r.lastOrNull()?.cumFuel ?: 0.0
+        val left = fuelOnBoard - fuel
+        val reserve = gph * reserveMin / 60.0
+        return Summary(dist, min, fuel, left, reserve, left >= reserve - 1e-9,
+            if (gph > 0) fuelOnBoard / gph * 60 else 0.0, farthestNm())
+    }
+
+    /** The clock time a given number of minutes into the flight, from the planned departure (or from now). */
+    fun clock(minutesIn: Double): String {
+        val base = etdMin?.let { it * 60000L + startOfToday() } ?: System.currentTimeMillis()
+        return java.text.SimpleDateFormat("HH:mm", java.util.Locale.US).format(java.util.Date(base + (minutesIn * 60000).toLong()))
+    }
+
+    private fun startOfToday(): Long {
+        val c = java.util.Calendar.getInstance()
+        c.set(java.util.Calendar.HOUR_OF_DAY, 0); c.set(java.util.Calendar.MINUTE, 0)
+        c.set(java.util.Calendar.SECOND, 0); c.set(java.util.Calendar.MILLISECOND, 0)
+        return c.timeInMillis
+    }
+
+    /** What the log has to say beyond the numbers: the fuel, the reserve, the cross-country rule, the wind. */
+    fun notes(): List<Pair<String, Boolean>> {
+        val out = ArrayList<Pair<String, Boolean>>()
+        if (points.size < 2) return out
+        val s = summary()
+        out.add("Fuel on board %.1f gal · burn %.1f · on landing %.1f gal (%s left to fly)"
+            .format(fuelOnBoard, s.fuel, s.fuelLeft, hm(if (gph > 0) s.fuelLeft / gph * 60 else 0.0)) to s.reserveKept)
+        out.add((if (s.reserveKept) "VFR %d min reserve kept (%.1f gal, 91.151)".format(reserveMin, s.reserveGal)
+            else "BELOW the %d min VFR reserve (%.1f gal needed, %.1f left) — 91.151".format(reserveMin, s.reserveGal, s.fuelLeft)) to s.reserveKept)
+        out.add((if (s.farthestNm > 50) "Cross-country: the farthest point is %.0f nm out (61.109 asks more than 50)".format(s.farthestNm)
+            else "Not a 61.109 cross-country: the farthest point is %.0f nm out (more than 50 needed)".format(s.farthestNm)) to (s.farthestNm > 50))
+        val head = rows().minByOrNull { it.leg.gs }
+        if (head != null && head.leg.gs < tas * 0.8) out.add("Slowest leg %s → %s: %d kt over the ground against %d kt of wind"
+            .format(head.leg.from.id, head.leg.to.id, Math.round(head.leg.gs).toInt(), head.windKt) to false)
+        if (legWinds.isEmpty() && windKt == 0) out.add("No wind in the plan: fetch the winds aloft before you fly it" to false)
+        return out
+    }
 
     fun legs(): List<Leg> = (1 until points.size).map { i -> leg(points[i - 1], points[i], i - 1) }
 
@@ -83,33 +152,31 @@ class FlightPlan {
         return false
     }
 
+    /** The log as plain text, for sharing: the same numbers the table shows. */
     fun navLog(): String {
         val sb = StringBuilder()
-        sb.append("ALT %,d ft · TAS %d kt · W %03d°/%d kt · %.1f gph\n\n".format(altitude, tas, windDir, windKt, gph))
-        sb.append("%-11s %4s %4s %4s %4s %5s %4s %5s %5s\n".format("LEG", "TC", "WCA", "TH", "MH", "DIST", "GS", "ETE", "FUEL"))
-        var dist = 0.0; var min = 0.0; var fuel = 0.0
-        for (l in legs()) {
-            dist += l.dist; min += l.minutes; fuel += l.fuel
-            sb.append("%-11s %4s %+4d %4s %4s %5.1f %4d %5s %5.1f\n".format(
-                "${l.from.id.take(5)}-${l.to.id.take(5)}", Nav.deg(l.tc), Math.round(l.wca).toInt(), Nav.deg(l.th), Nav.deg(l.mh),
-                l.dist, Math.round(l.gs).toInt(), hm(l.minutes), l.fuel,
+        sb.append(points.joinToString(" ") { it.id }).append("\n")
+        sb.append("ALT %,d ft · TAS %d kt · %.1f gph · fuel %.1f gal%s\n\n".format(altitude, tas, gph, fuelOnBoard,
+            etdMin?.let { " · off %02d:%02d".format(it / 60, it % 60) } ?: ""))
+        sb.append("%-13s %8s %4s %5s %4s %5s %5s %5s %5s\n".format("LEG", "WIND", "MH", "DIST", "GS", "ETE", "ETA", "FUEL", "REM"))
+        for (r in rows()) {
+            val l = r.leg
+            sb.append("%-13s %8s %4s %5.1f %4d %5s %5s %5.1f %5.1f\n".format(
+                "${l.from.id.take(6)}-${l.to.id.take(6)}", "%03d/%d".format(r.windDir, r.windKt), Nav.deg(l.mh),
+                l.dist, Math.round(l.gs).toInt(), hm(l.minutes), clock(r.cumMin), l.fuel, r.fuelLeft,
             ))
         }
-        sb.append("\n%-11s %24s %5.1f %4s %5s %5.1f\n".format("TOTAL", "", dist, "", hm(min), fuel))
-        val reserve = gph * 0.5
-        val left = fuelOnBoard - fuel
-        sb.append("\nFuel on board %.1f gal · after landing %.1f gal (%s)\n".format(fuelOnBoard, left, hm(left / gph * 60)))
-        sb.append(if (left >= reserve) "✅ VFR day reserve 30 min (%.1f gal) kept\n".format(reserve)
-            else "⚠️ Below the 30 min VFR day reserve (%.1f gal)\n".format(reserve))
-        val far = farthestNm()
-        if (points.size > 1) sb.append(if (far > 50) "✅ Cross-country: a point %.0f nm from the departure (61.109 > 50 nm)\n".format(far)
-            else "Cross-country for 61.109 needs a landing more than 50 nm away (now %.0f nm)\n".format(far))
+        val s = summary()
+        sb.append("%-13s %8s %4s %5.1f %4s %5s %5s %5.1f %5.1f\n".format("TOTAL", "", "", s.dist, "", hm(s.minutes), clock(s.minutes), s.fuel, s.fuelLeft))
+        sb.append("\n")
+        for ((n, ok) in notes()) sb.append(if (ok) "✅ " else "• ").append(n).append("\n")
         return sb.toString()
     }
 
     fun toJson(): JSONObject = JSONObject()
         .put("pts", JSONArray().apply { for (p in points) put(JSONArray().put(p.id).put(p.lat).put(p.lon)) })
         .put("alt", altitude).put("tas", tas).put("gph", gph).put("wd", windDir).put("ws", windKt).put("fob", fuelOnBoard)
+        .put("etd", etdMin ?: JSONObject.NULL).put("res", reserveMin)
         .put("lw", JSONObject().apply { for ((k, v) in legWinds) put(k.toString(), JSONArray().put(v.first).put(v.second).put(v.third ?: JSONObject.NULL)) })
 
     fun save(ctx: Context) = VaultLock.prefs(ctx).edit().putString("flight_plan", toJson().toString()).apply()
@@ -131,6 +198,8 @@ class FlightPlan {
             windDir = o.optInt("wd", 0)
             windKt = o.optInt("ws", 0)
             fuelOnBoard = o.optDouble("fob", 24.0)
+            etdMin = if (o.isNull("etd")) null else o.optInt("etd")
+            reserveMin = o.optInt("res", 30)
             o.optJSONObject("lw")?.let { w ->
                 for (k in w.keys()) w.optJSONArray(k)?.let { a -> legWinds[k.toInt()] = Triple(a.optInt(0), a.optInt(1), if (a.isNull(2)) null else a.optInt(2)) }
             }
@@ -138,18 +207,18 @@ class FlightPlan {
 
         /** The navigation log as a printable page: the plan, each leg with its wind, the totals and the fuel. */
         fun html(p: FlightPlan, title: String): String {
-            val legs = p.legs()
             fun e(s: String) = s.replace("&", "&amp;").replace("<", "&lt;")
             val rows = StringBuilder()
-            var dist = 0.0; var min = 0.0; var fuel = 0.0
-            legs.forEachIndexed { i, l ->
-                dist += l.dist; min += l.minutes; fuel += l.fuel
-                val w = p.legWinds[i]?.let { "%03d/%d".format(it.first, it.second) + (it.third?.let { t -> " %+d°".format(t) } ?: "") } ?: "%03d/%d".format(p.windDir, p.windKt)
+            for (r in p.rows()) {
+                val l = r.leg
+                val w = "%03d/%d".format(r.windDir, r.windKt) + (r.tempC?.let { t -> " %+d°".format(t) } ?: "")
                 rows.append("<tr><td><b>${e(l.from.id)}</b> → <b>${e(l.to.id)}</b></td><td>${"%,d".format(p.altitude)}</td><td>$w</td>" +
                     "<td>${Nav.deg(l.tc)}</td><td>${"%+d".format(Math.round(l.wca).toInt())}</td><td>${Nav.deg(l.th)}</td><td><b>${Nav.deg(l.mh)}</b></td>" +
-                    "<td>${"%.1f".format(l.dist)}</td><td>${Math.round(l.gs)}</td><td>${hm(l.minutes)}</td><td></td><td></td><td>${"%.1f".format(l.fuel)}</td></tr>")
+                    "<td>${"%.1f".format(l.dist)}</td><td>${"%.1f".format(r.cumDist)}</td><td>${Math.round(l.gs)}</td><td>${hm(l.minutes)}</td>" +
+                    "<td>${p.clock(r.cumMin)}</td><td></td><td>${"%.1f".format(l.fuel)}</td><td>${"%.1f".format(r.fuelLeft)}</td></tr>")
             }
-            val left = p.fuelOnBoard - fuel
+            val sum = p.summary()
+            val dist = sum.dist; val min = sum.minutes; val fuel = sum.fuel; val left = sum.fuelLeft
             return """<html><head><meta charset="utf-8"><style>
                 body{font-family:sans-serif;margin:18px;color:#111} h1{font-size:20px;margin:0} .sub{color:#555;margin:4px 0 14px}
                 table{border-collapse:collapse;width:100%;font-size:12px} th,td{border:1px solid #999;padding:5px;text-align:center}
@@ -158,11 +227,11 @@ class FlightPlan {
             </style></head><body>
             <h1>NAVLOG · ${e(title)}</h1>
             <div class="sub">${e(p.points.joinToString(" ") { it.id })} · ALT ${"%,d".format(p.altitude)} ft · TAS ${p.tas} kt · ${"%.1f".format(p.gph)} gph · fuel on board ${"%.1f".format(p.fuelOnBoard)} gal</div>
-            <table><tr><th>Leg</th><th>Alt</th><th>Wind</th><th>TC</th><th>WCA</th><th>TH</th><th>MH</th><th>Dist nm</th><th>GS</th><th>ETE</th><th>ATE</th><th>ATA</th><th>Fuel gal</th></tr>
+            <table><tr><th>Leg</th><th>Alt</th><th>Wind</th><th>TC</th><th>WCA</th><th>TH</th><th>MH</th><th>Dist</th><th>Rem nm</th><th>GS</th><th>ETE</th><th>ETA</th><th>ATA</th><th>Fuel</th><th>Rem gal</th></tr>
             $rows
-            <tr class="tot"><td>TOTAL</td><td colspan="6"></td><td>${"%.1f".format(dist)}</td><td></td><td>${hm(min)}</td><td></td><td></td><td>${"%.1f".format(fuel)}</td></tr></table>
+            <tr class="tot"><td>TOTAL</td><td colspan="6"></td><td>${"%.1f".format(dist)}</td><td></td><td></td><td>${hm(min)}</td><td>${p.clock(min)}</td><td></td><td>${"%.1f".format(fuel)}</td><td>${"%.1f".format(left)}</td></tr></table>
             <div class="box">Fuel after landing<br><b>${"%.1f".format(left)} gal (${hm(left / p.gph * 60)})</b></div>
-            <div class="box">VFR day reserve 30 min<br><b>${"%.1f".format(p.gph * 0.5)} gal · ${if (left >= p.gph * 0.5) "kept ✓" else "NOT kept ⚠"}</b></div>
+            <div class="box">VFR reserve ${p.reserveMin} min<br><b>${"%.1f".format(sum.reserveGal)} gal · ${if (sum.reserveKept) "kept ✓" else "NOT kept ⚠"}</b></div>
             <div class="box">ATIS<br><br></div><div class="box">Altimeter<br><br></div><div class="box">Clearance / squawk<br><br></div>
             <p style="color:#777;font-size:10px;margin-top:16px">Winds from the NWS winds-aloft forecast where fetched. For planning; verify with an official briefing.</p>
             </body></html>"""
