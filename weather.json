@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-13T23:21:37.551Z",
+  "updated_at": "2026-11-13T23:26:43.247Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -292,7 +292,7 @@
       "latitude": 51.5074,
       "longitude": -0.1278,
       "temperature_c": 3.8,
-      "humidity": 67,
+      "humidity": 68,
       "wind_speed": 5.0,
       "rain_chance": 0,
       "condition": "صافٍ",
@@ -363,7 +363,7 @@
       "latitude": 53.4808,
       "longitude": -2.2426,
       "temperature_c": 4.0,
-      "humidity": 75,
+      "humidity": 77,
       "wind_speed": 6.5,
       "rain_chance": 0,
       "condition": "غائم",
@@ -480,7 +480,7 @@
         },
         {
           "date": "2026-11-18",
-          "code": 1,
+          "code": 0,
           "max": 14.2,
           "min": 6.7,
           "rain": 0
@@ -551,7 +551,7 @@
         },
         {
           "date": "2026-11-18",
-          "code": 3,
+          "code": 2,
           "max": 21.1,
           "min": 16.3,
           "rain": 37
@@ -568,7 +568,7 @@
       "today_min": 15.2,
       "sunrise": "06:23",
       "sunset": "16:50",
-      "uv": 4
+      "uv": 3
     },
     {
       "city": "شيكاغو",
@@ -615,7 +615,7 @@
         },
         {
           "date": "2026-11-17",
-          "code": 2,
+          "code": 3,
           "max": 11.7,
           "min": 4.8,
           "rain": 0
@@ -814,7 +814,7 @@
         },
         {
           "date": "2026-11-15",
-          "code": 63,
+          "code": 81,
           "max": 16.6,
           "min": 11.8,
           "rain": 97
@@ -842,7 +842,7 @@
         },
         {
           "date": "2026-11-19",
-          "code": 63,
+          "code": 81,
           "max": 15.6,
           "min": 12.8,
           "rain": 50
@@ -852,7 +852,7 @@
       "today_min": 11.2,
       "sunrise": "06:48",
       "sunset": "16:59",
-      "uv": 1
+      "uv": 2
     }
   ]
 }
