@@ -1,0 +1,33 @@
+name: SAUDI.TV to the viewers
+
+# The only way a new app version reaches the viewers' TVs: the build that was installed and watched on one TV
+# (from "saudi1-test") is copied as it is to the "saudi1" release. Give the build number that was tested;
+# if the test release holds another build, nothing is copied.
+on:
+  workflow_dispatch:
+    inputs:
+      build: { description: "the tested build number (e.g. 97)", required: true }
+
+permissions:
+  contents: write
+
+concurrency:
+  group: saudi1
+  cancel-in-progress: false
+
+jobs:
+  promote:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Copy the tested build to the viewers
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          gh release download saudi1-test -p SAUDI1_test.apk -p test_version.txt
+          got=$(cat test_version.txt)
+          if [ "$got" != "build ${{ inputs.build }}" ]; then echo "the test release holds '$got', not build ${{ inputs.build }}: nothing copied"; exit 1; fi
+          mv SAUDI1_test.apk SAUDI1.apk
+          gh release upload saudi1 SAUDI1.apk --clobber
+          echo "build ${{ inputs.build }}" > version.txt
+          gh release upload saudi1 version.txt --clobber

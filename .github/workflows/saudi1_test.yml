@@ -39,6 +39,6 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          cp saudi1/app/build/outputs/apk/release/app-release.apk SAUDI1_test.apk
+          cp saudi1/app/build/outputs/apk/release/app-release.apk SAUDI1_branch.apk
           gh release view saudi1-test >/dev/null 2>&1 || gh release create saudi1-test --title "SAUDI.TV test build" --notes "Test build for one TV. Not for viewers." --prerelease --latest=false
-          gh release upload saudi1-test SAUDI1_test.apk --clobber
+          gh release upload saudi1-test SAUDI1_branch.apk --clobber

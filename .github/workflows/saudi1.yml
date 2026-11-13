@@ -1,6 +1,8 @@
 name: SAUDI.TV app
 
-# Builds the SAUDI.1 Android TV / phone app and publishes it as the "saudi1" release:
+# Builds the SAUDI.TV app. It does NOT go to the viewers' TVs: it is put on the pre-release "saudi1-test", installed on
+# ONE TV and watched there (no freeze, no "not responding", channels play). Only then saudi1_promote.yml copies that
+# same file to the "saudi1" release that every TV updates from (owner, 13 Nov 2026: "make sure these errors never happen again").
 #   https://github.com/Saudi23723/Unified-MENA-EPG/releases/download/saudi1/SAUDI1.apk  (the Downloader link)
 on:
   push:
@@ -36,13 +38,13 @@ jobs:
         env:
           BUILD_NUMBER: ${{ github.run_number }}
         run: gradle -p saudi1 assembleRelease --no-daemon --console=plain
-      - name: Publish
+      - name: Publish for the test TV (not for the viewers)
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          cp saudi1/app/build/outputs/apk/release/app-release.apk SAUDI1.apk
-          ls -la SAUDI1.apk
-          gh release view saudi1 >/dev/null 2>&1 || gh release create saudi1 --title "SAUDI.TV" --notes "SAUDI.TV for Android TV, phones and tablets. Downloader link: https://github.com/${{ github.repository }}/releases/download/saudi1/SAUDI1.apk" --latest=false
-          gh release upload saudi1 SAUDI1.apk --clobber
-          echo "build ${{ github.run_number }}" > version.txt
-          gh release upload saudi1 version.txt --clobber
+          cp saudi1/app/build/outputs/apk/release/app-release.apk SAUDI1_test.apk
+          ls -la SAUDI1_test.apk
+          gh release view saudi1-test >/dev/null 2>&1 || gh release create saudi1-test --title "SAUDI.TV test build" --notes "Tested on one TV before it goes to the viewers (saudi1_promote.yml). Not for viewers." --prerelease --latest=false
+          gh release upload saudi1-test SAUDI1_test.apk --clobber
+          echo "build ${{ github.run_number }}" > test_version.txt
+          gh release upload saudi1-test test_version.txt --clobber
