@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-14T05:53:53.768Z",
+  "updated_at": "2026-11-14T05:59:40.510Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -7,21 +7,21 @@
       "country": "الأردن",
       "latitude": 31.9454,
       "longitude": 35.9284,
-      "temperature_c": 13.8,
+      "temperature_c": 13.6,
       "humidity": 52,
-      "wind_speed": 3.3,
+      "wind_speed": 3.2,
       "rain_chance": 0,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-11-14T08:45",
-      "feels_c": 11.9,
+      "feels_c": 11.7,
       "utc_offset": 10800,
       "days": [
         {
           "date": "2026-11-14",
           "code": 3,
-          "max": 22.5,
-          "min": 12.7,
+          "max": 22.3,
+          "min": 12.8,
           "rain": 0
         },
         {
@@ -67,8 +67,8 @@
           "rain": 0
         }
       ],
-      "today_max": 22.5,
-      "today_min": 12.7,
+      "today_max": 22.3,
+      "today_min": 12.8,
       "sunrise": "07:03",
       "sunset": "17:37",
       "uv": 5
@@ -78,21 +78,21 @@
       "country": "الأردن",
       "latitude": 29.532,
       "longitude": 35.006,
-      "temperature_c": 21.9,
-      "humidity": 48,
-      "wind_speed": 7.3,
+      "temperature_c": 22.0,
+      "humidity": 47,
+      "wind_speed": 7.0,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-11-14T08:45",
-      "feels_c": 21.0,
+      "feels_c": 21.1,
       "utc_offset": 10800,
       "days": [
         {
           "date": "2026-11-14",
           "code": 0,
           "max": 30.7,
-          "min": 20.3,
+          "min": 20.5,
           "rain": 0
         },
         {
@@ -139,7 +139,7 @@
         }
       ],
       "today_max": 30.7,
-      "today_min": 20.3,
+      "today_min": 20.5,
       "sunrise": "07:03",
       "sunset": "17:45",
       "uv": 5
@@ -220,20 +220,20 @@
       "country": "الإمارات",
       "latitude": 25.2048,
       "longitude": 55.2708,
-      "temperature_c": 27.4,
+      "temperature_c": 27.2,
       "humidity": 56,
       "wind_speed": 9.9,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-11-14T09:45",
-      "feels_c": 28.8,
+      "feels_c": 28.6,
       "utc_offset": 14400,
       "days": [
         {
           "date": "2026-11-14",
           "code": 0,
-          "max": 28.2,
+          "max": 28.0,
           "min": 26.2,
           "rain": 0
         },
@@ -241,7 +241,7 @@
           "date": "2026-11-15",
           "code": 0,
           "max": 29.1,
-          "min": 26.3,
+          "min": 26.2,
           "rain": 0
         },
         {
@@ -280,7 +280,7 @@
           "rain": 2
         }
       ],
-      "today_max": 28.2,
+      "today_max": 28.0,
       "today_min": 26.2,
       "sunrise": "06:35",
       "sunset": "17:31",
@@ -455,7 +455,7 @@
           "code": 3,
           "max": 7.9,
           "min": 1.1,
-          "rain": 2
+          "rain": 3
         },
         {
           "date": "2026-11-16",
@@ -526,7 +526,7 @@
           "code": 53,
           "max": 20.1,
           "min": 13.2,
-          "rain": 48
+          "rain": 55
         },
         {
           "date": "2026-11-15",
@@ -597,7 +597,7 @@
           "code": 71,
           "max": 6.3,
           "min": -0.6,
-          "rain": 34
+          "rain": 29
         },
         {
           "date": "2026-11-15",
@@ -668,14 +668,14 @@
           "code": 3,
           "max": 20.7,
           "min": 11.7,
-          "rain": 9
+          "rain": 11
         },
         {
           "date": "2026-11-15",
           "code": 3,
           "max": 19.5,
           "min": 8.9,
-          "rain": 0
+          "rain": 1
         },
         {
           "date": "2026-11-16",
@@ -739,7 +739,7 @@
           "code": 51,
           "max": 17.3,
           "min": 7.4,
-          "rain": 42
+          "rain": 43
         },
         {
           "date": "2026-11-15",
@@ -810,7 +810,7 @@
           "code": 51,
           "max": 16.0,
           "min": 10.6,
-          "rain": 15
+          "rain": 17
         },
         {
           "date": "2026-11-15",
