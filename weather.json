@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-14T23:49:27.091Z",
+  "updated_at": "2026-11-14T23:54:44.940Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -7,21 +7,21 @@
       "country": "الأردن",
       "latitude": 31.9454,
       "longitude": 35.9284,
-      "temperature_c": 14.7,
+      "temperature_c": 14.9,
       "humidity": 55,
-      "wind_speed": 3.9,
+      "wind_speed": 3.2,
       "rain_chance": 0,
-      "condition": "صافٍ غالباً",
-      "weather_code": 1,
+      "condition": "صافٍ",
+      "weather_code": 0,
       "observed_at": "2026-11-15T02:45",
-      "feels_c": 13.0,
+      "feels_c": 13.4,
       "utc_offset": 10800,
       "days": [
         {
           "date": "2026-11-15",
           "code": 3,
           "max": 24.8,
-          "min": 13.4,
+          "min": 13.7,
           "rain": 0
         },
         {
@@ -68,7 +68,7 @@
         }
       ],
       "today_max": 24.8,
-      "today_min": 13.4,
+      "today_min": 13.7,
       "sunrise": "07:04",
       "sunset": "17:36",
       "uv": 5
@@ -79,20 +79,20 @@
       "latitude": 29.532,
       "longitude": 35.006,
       "temperature_c": 21.2,
-      "humidity": 56,
+      "humidity": 55,
       "wind_speed": 5.6,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-11-15T02:45",
-      "feels_c": 21.0,
+      "feels_c": 20.9,
       "utc_offset": 10800,
       "days": [
         {
           "date": "2026-11-15",
           "code": 0,
-          "max": 29.9,
-          "min": 19.7,
+          "max": 30.0,
+          "min": 19.6,
           "rain": 0
         },
         {
@@ -138,8 +138,8 @@
           "rain": 0
         }
       ],
-      "today_max": 29.9,
-      "today_min": 19.7,
+      "today_max": 30.0,
+      "today_min": 19.6,
       "sunrise": "07:04",
       "sunset": "17:44",
       "uv": 5
@@ -220,21 +220,21 @@
       "country": "الإمارات",
       "latitude": 25.2048,
       "longitude": 55.2708,
-      "temperature_c": 26.6,
+      "temperature_c": 26.3,
       "humidity": 60,
-      "wind_speed": 1.9,
+      "wind_speed": 1.4,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-11-15T03:45",
-      "feels_c": 29.4,
+      "feels_c": 28.9,
       "utc_offset": 14400,
       "days": [
         {
           "date": "2026-11-15",
           "code": 0,
-          "max": 29.2,
-          "min": 25.6,
+          "max": 29.1,
+          "min": 25.3,
           "rain": 0
         },
         {
@@ -280,8 +280,8 @@
           "rain": 0
         }
       ],
-      "today_max": 29.2,
-      "today_min": 25.6,
+      "today_max": 29.1,
+      "today_min": 25.3,
       "sunrise": "06:35",
       "sunset": "17:31",
       "uv": 6
@@ -448,14 +448,14 @@
           "code": 3,
           "max": 6.8,
           "min": 2.5,
-          "rain": 5
+          "rain": 8
         },
         {
           "date": "2026-11-15",
           "code": 3,
           "max": 7.1,
           "min": 1.2,
-          "rain": 3
+          "rain": 4
         },
         {
           "date": "2026-11-16",
@@ -732,14 +732,14 @@
           "code": 51,
           "max": 18.0,
           "min": 8.7,
-          "rain": 24
+          "rain": 27
         },
         {
           "date": "2026-11-15",
           "code": 63,
           "max": 10.3,
           "min": 7.5,
-          "rain": 98
+          "rain": 97
         },
         {
           "date": "2026-11-16",
@@ -810,7 +810,7 @@
           "code": 61,
           "max": 15.4,
           "min": 10.9,
-          "rain": 96
+          "rain": 95
         },
         {
           "date": "2026-11-16",
