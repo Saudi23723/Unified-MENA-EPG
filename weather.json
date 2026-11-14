@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-14T05:01:15.826Z",
+  "updated_at": "2026-11-14T05:06:54.926Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -61,7 +61,7 @@
         },
         {
           "date": "2026-11-20",
-          "code": 2,
+          "code": 0,
           "max": 22.1,
           "min": 10.9,
           "rain": 3
@@ -448,7 +448,7 @@
           "code": 3,
           "max": 6.3,
           "min": 1.0,
-          "rain": 9
+          "rain": 8
         },
         {
           "date": "2026-11-15",
@@ -507,7 +507,7 @@
       "temperature_c": 15.3,
       "humidity": 96,
       "wind_speed": 14.0,
-      "rain_chance": 45,
+      "rain_chance": 52,
       "condition": "مطر غزير",
       "weather_code": 65,
       "observed_at": "2026-11-13T21:00",
@@ -526,7 +526,7 @@
           "code": 63,
           "max": 19.4,
           "min": 13.3,
-          "rain": 54
+          "rain": 48
         },
         {
           "date": "2026-11-15",
@@ -578,7 +578,7 @@
       "temperature_c": 0.9,
       "humidity": 89,
       "wind_speed": 12.0,
-      "rain_chance": 28,
+      "rain_chance": 24,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-11-13T23:00",
@@ -597,7 +597,7 @@
           "code": 53,
           "max": 6.4,
           "min": -0.5,
-          "rain": 38
+          "rain": 34
         },
         {
           "date": "2026-11-15",
@@ -649,7 +649,7 @@
       "temperature_c": 16.8,
       "humidity": 48,
       "wind_speed": 19.5,
-      "rain_chance": 2,
+      "rain_chance": 1,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-11-13T21:00",
@@ -668,7 +668,7 @@
           "code": 3,
           "max": 20.5,
           "min": 10.8,
-          "rain": 8
+          "rain": 9
         },
         {
           "date": "2026-11-15",
@@ -739,7 +739,7 @@
           "code": 51,
           "max": 17.6,
           "min": 8.0,
-          "rain": 48
+          "rain": 42
         },
         {
           "date": "2026-11-15",
@@ -791,7 +791,7 @@
       "temperature_c": 12.9,
       "humidity": 79,
       "wind_speed": 9.0,
-      "rain_chance": 7,
+      "rain_chance": 10,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-11-13T21:00",
@@ -810,7 +810,7 @@
           "code": 55,
           "max": 16.3,
           "min": 11.1,
-          "rain": 7
+          "rain": 15
         },
         {
           "date": "2026-11-15",
