@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-14T15:21:02.911Z",
+  "updated_at": "2026-11-14T15:26:58.202Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -291,20 +291,20 @@
       "country": "بريطانيا",
       "latitude": 51.5074,
       "longitude": -0.1278,
-      "temperature_c": 8.6,
-      "humidity": 67,
+      "temperature_c": 9.3,
+      "humidity": 62,
       "wind_speed": 7.9,
       "rain_chance": 0,
       "condition": "غائم جزئياً",
       "weather_code": 2,
       "observed_at": "2026-11-14T15:15",
-      "feels_c": 5.8,
+      "feels_c": 6.4,
       "utc_offset": 0,
       "days": [
         {
           "date": "2026-11-14",
           "code": 3,
-          "max": 8.7,
+          "max": 9.4,
           "min": -0.3,
           "rain": 0
         },
@@ -351,7 +351,7 @@
           "rain": 8
         }
       ],
-      "today_max": 8.7,
+      "today_max": 9.4,
       "today_min": -0.3,
       "sunrise": "07:16",
       "sunset": "16:12",
@@ -362,20 +362,20 @@
       "country": "بريطانيا",
       "latitude": 53.4808,
       "longitude": -2.2426,
-      "temperature_c": 7.6,
+      "temperature_c": 7.8,
       "humidity": 69,
       "wind_speed": 11.2,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-11-14T15:15",
-      "feels_c": 4.2,
+      "feels_c": 4.4,
       "utc_offset": 0,
       "days": [
         {
           "date": "2026-11-14",
           "code": 3,
-          "max": 7.7,
+          "max": 8.0,
           "min": 2.1,
           "rain": 0
         },
@@ -422,7 +422,7 @@
           "rain": 10
         }
       ],
-      "today_max": 7.7,
+      "today_max": 8.0,
       "today_min": 2.1,
       "sunrise": "07:32",
       "sunset": "16:13",
@@ -508,8 +508,8 @@
       "humidity": 99,
       "wind_speed": 7.0,
       "rain_chance": 0,
-      "condition": "ضباب",
-      "weather_code": 45,
+      "condition": "غائم",
+      "weather_code": 3,
       "observed_at": "2026-11-14T07:15",
       "feels_c": 14.4,
       "utc_offset": -28800,
