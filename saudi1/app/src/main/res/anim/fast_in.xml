@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- screens change with a short crossfade (smoother on TV boxes than the system slide) -->
+<alpha xmlns:android="http://schemas.android.com/apk/res/android" android:duration="170"
+    android:fromAlpha="0" android:toAlpha="1" android:interpolator="@android:interpolator/decelerate_quad"/>

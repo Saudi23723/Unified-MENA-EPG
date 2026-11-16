@@ -1,0 +1,42 @@
+name: SAUDI.TV preview copy
+
+# A copy of the app with another package name (com.saudi1.tv.preview), to see a brand-new install
+# (activation, payment, promo code) on a TV that already has the real app. Put on its own pre-release "saudi1-preview".
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: saudi1-preview
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: "17" }
+      - uses: gradle/actions/setup-gradle@v4
+        with: { gradle-version: "8.7" }
+      - name: Find the FFmpeg sound decoder for this Media3 version
+        run: |
+          M=$(grep -o 'media3-exoplayer:[0-9.]*' saudi1/app/build.gradle.kts | head -1 | cut -d: -f2)
+          curl -s https://repo1.maven.org/maven2/org/jellyfin/media3/media3-ffmpeg-decoder/maven-metadata.xml | grep -o '<version>[^<]*' | sed 's/<version>//' | tee /tmp/ff.txt
+          V=$(grep "^$M+" /tmp/ff.txt | tail -1)
+          echo "FFMPEG_VER=$V" >> $GITHUB_ENV
+      - name: Build
+        env:
+          BUILD_NUMBER: ${{ github.run_number }}
+          APP_SUFFIX: ".preview"
+        run: gradle -p saudi1 assembleRelease --no-daemon --console=plain
+      - name: Publish the copy
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cp saudi1/app/build/outputs/apk/release/app-release.apk SAUDI1_preview.apk
+          gh release view saudi1-preview >/dev/null 2>&1 || gh release create saudi1-preview --title "SAUDI.TV preview copy" --notes "Test copy (com.saudi1.tv.preview) for screenshots of a new install. Not for viewers." --prerelease --latest=false
+          gh release upload saudi1-preview SAUDI1_preview.apk --clobber
