@@ -20,13 +20,6 @@
     <display-name lang="ar">ON Sport PLUS</display-name>
     <display-name>ON SPORT PLUS</display-name><display-name>ON SPORT PLUS 4K</display-name><display-name>ON SPORT PLUS HD</display-name><display-name>SPO: ON SPORT PLUS</display-name><display-name>SPO: ON SPORT PLUS 4K</display-name><display-name>SPO: ON SPORT PLUS HD</display-name><icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/onsportplus.png" />
   </channel>
-  <programme start="20261114220000 +0000" stop="20261115220000 +0000" channel="ONSport1">
-    <title lang="ar">⏰ التالي بعد يومين · مصر الأولمبي - اليابان الأولمبي</title>
-    <desc lang="ar">ON Sport 1 | 2026-11-15
-
-لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
-    <category lang="en">Sports</category>
-  </programme>
   <programme start="20261115220000 +0000" stop="20261116220000 +0000" channel="ONSport1">
     <title lang="ar">⏰ التالي غداً · مصر الأولمبي - اليابان الأولمبي</title>
     <desc lang="ar">ON Sport 1 | 2026-11-16
@@ -326,9 +319,9 @@
 لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261114220000 +0000" stop="20261115220000 +0000" channel="ONSport2">
+  <programme start="20261130220000 +0000" stop="20261201220000 +0000" channel="ONSport1">
     <title lang="ar">لا توجد مباراة مجدولة</title>
-    <desc lang="ar">ON Sport 2 | 2026-11-15
+    <desc lang="ar">ON Sport 1 | 2026-12-01
 
 لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
     <category lang="en">Sports</category>
@@ -438,9 +431,9 @@
 لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261114220000 +0000" stop="20261115220000 +0000" channel="ONSportMAX">
-    <title lang="ar">⏰ التالي بعد 4 أيام · Baladiyat El Mahalla - Haras El-Hodood</title>
-    <desc lang="ar">ON Sport MAX | 2026-11-15
+  <programme start="20261130220000 +0000" stop="20261201220000 +0000" channel="ONSport2">
+    <title lang="ar">لا توجد مباراة مجدولة</title>
+    <desc lang="ar">ON Sport 2 | 2026-12-01
 
 لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
     <category lang="en">Sports</category>
@@ -678,9 +671,9 @@
 لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261114220000 +0000" stop="20261115220000 +0000" channel="ONSportPLUS">
+  <programme start="20261130220000 +0000" stop="20261201220000 +0000" channel="ONSportMAX">
     <title lang="ar">لا توجد مباراة مجدولة</title>
-    <desc lang="ar">ON Sport PLUS | 2026-11-15
+    <desc lang="ar">ON Sport MAX | 2026-12-01
 
 لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
     <category lang="en">Sports</category>
@@ -786,6 +779,13 @@
   <programme start="20261129220000 +0000" stop="20261130220000 +0000" channel="ONSportPLUS">
     <title lang="ar">لا توجد مباراة مجدولة</title>
     <desc lang="ar">ON Sport PLUS | 2026-11-30
+
+لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261130220000 +0000" stop="20261201220000 +0000" channel="ONSportPLUS">
+    <title lang="ar">لا توجد مباراة مجدولة</title>
+    <desc lang="ar">ON Sport PLUS | 2026-12-01
 
 لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
     <category lang="en">Sports</category>
