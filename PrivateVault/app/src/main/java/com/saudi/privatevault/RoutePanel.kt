@@ -9,14 +9,19 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.HorizontalScrollView
 import android.widget.LinearLayout
-import android.widget.ScrollView
 import android.widget.TextView
 
 /**
- * The route as a floating card over the map, as an EFB shows a flight plan: from and
- * to with the totals (distance, time, fuel), each leg with its magnetic heading,
- * distance, time and fuel (the active one lit), the fuel left and the reserve, and the
- * route's actions. Drag it by its head; fold it to its head; it follows every change.
+ * The flight plan bar across the top of the chart, laid out the way an EFB lays it out:
+ *
+ *  · on the left, the aeroplane, the performance profile it is flown on, and the cruising altitude,
+ *    each its own box and each a tap away from being changed;
+ *  · along the middle, the route as a row of chips — a tap on one opens that waypoint (go direct,
+ *    put it in the route, take it out), a tap between two opens the leg (fly it, direct to its end,
+ *    remove it);
+ *  · on the right, the buttons that act on the whole plan;
+ *  · underneath, the figures a pilot reads at a glance: distance, time, the clock time of arrival,
+ *    fuel, the wind along the route, and how much longer the route is than the straight line.
  */
 class RoutePanel(
     private val act: Activity,
@@ -27,12 +32,24 @@ class RoutePanel(
     private val d = act.resources.displayMetrics.density
     private fun dp(v: Int) = (v * d).toInt()
     private val white = 0xFFFFFFFF.toInt()
-    private val grey = 0xFF8E8E93.toInt()
-    private val magenta = 0xFFE040FB.toInt()
+    private val grey = 0xFF8E9299.toInt()
+    private val blue = 0xFF2F80ED.toInt()
+    private val panel = 0xF0151A21.toInt()
     private var card: LinearLayout? = null
     private var shown = ""
     private var folded = VaultLock.prefs(act).getBoolean("route_folded", false)
     var topOffset = 0
+
+    /** What the bar can do beyond the plain actions; the map fills these in. */
+    var onEdit: (() -> Unit)? = null
+    var onNavlog: (() -> Unit)? = null
+    var onProfile: (() -> Unit)? = null
+    var onProcedure: (() -> Unit)? = null
+    var onEtd: (() -> Unit)? = null
+    var onAircraft: (() -> Unit)? = null
+    var onAltitude: (() -> Unit)? = null
+    var onWaypoint: ((Int) -> Unit)? = null
+    var onLeg: ((Int) -> Unit)? = null
 
     private fun tv(s: CharSequence, size: Float, color: Int = white, bold: Boolean = false, mono: Boolean = false) = TextView(act).apply {
         text = s; textSize = size; setTextColor(color)
@@ -40,10 +57,15 @@ class RoutePanel(
         layoutDirection = View.LAYOUT_DIRECTION_LTR; textDirection = View.TEXT_DIRECTION_LTR
     }
 
-    /** Drawn again only when the route, its active leg or its settings change. */
+    private fun box(fill: Int, radius: Int = 7, stroke: Int = 0) = GradientDrawable().apply {
+        cornerRadius = dp(radius).toFloat(); setColor(fill)
+        if (stroke != 0) setStroke(dp(1), stroke)
+    }
+
     fun refresh(force: Boolean = false) {
         val p = plan()
-        val key = p.points.joinToString(",") { it.id } + "|${p.active}|${p.direct?.id}|${p.altitude}|${p.tas}|${p.windDir}|${p.windKt}|${p.gph}|${p.fuelOnBoard}|$folded"
+        val key = p.points.joinToString(",") { it.id } + "|${p.active}|${p.direct?.id}|${p.altitude}|${p.tas}|${p.windDir}|" +
+            "${p.windKt}|${p.gph}|${p.fuelOnBoard}|${p.etdMin}|${p.legWinds.size}|$folded|${AircraftProfile.current(act).name}"
         if (!force && key == shown && card != null) return
         shown = key
         val old = card
@@ -55,82 +77,148 @@ class RoutePanel(
         build(p, keepX, keepY)
     }
 
+    /** One of the small stacked boxes on the left: a label over a value. */
+    private fun stack(value: String, sub: String?, go: (() -> Unit)?): LinearLayout =
+        LinearLayout(act).apply {
+            orientation = LinearLayout.VERTICAL
+            gravity = Gravity.CENTER
+            background = box(0xFF20262E.toInt())
+            setPadding(dp(9), dp(5), dp(9), dp(5))
+            addView(tv(value, 12.5f, white, bold = true).apply { gravity = Gravity.CENTER })
+            if (sub != null) addView(tv(sub, 10f, grey).apply { gravity = Gravity.CENTER })
+            go?.let { setOnClickListener { _ -> it() } }
+        }
+
+    /** A figure under the bar: its name small and grey above, its value below. */
+    private fun figure(label: String, value: String, color: Int = white): LinearLayout =
+        LinearLayout(act).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(0, 0, dp(16), 0)
+            addView(tv(label, 9f, grey, bold = true).apply { letterSpacing = 0.08f })
+            addView(tv(value, 13.5f, color, bold = true))
+        }
+
     private fun build(p: FlightPlan, x: Float, y: Float) {
-        val legs = p.legs()
-        val dist = legs.sumOf { it.dist }; val min = legs.sumOf { it.minutes }; val fuel = legs.sumOf { it.fuel }
+        val profile = AircraftProfile.current(act)
+        val res = Navlog.build(
+            p.points, p.altitude, profile,
+            { i -> p.legWinds[i]?.let { it.first to it.second } ?: (p.windDir to p.windKt) },
+            p.fuelOnBoard, p.reserveMin, null, null, withMora = false,
+        )
         val c = LinearLayout(act).apply {
             orientation = LinearLayout.VERTICAL
-            background = GradientDrawable().apply { cornerRadius = dp(18).toFloat(); setColor(0xF0121418.toInt()); setStroke(dp(1), 0xFF30353C.toInt()) }
-            elevation = dp(14).toFloat()
-            setPadding(dp(14), dp(10), dp(10), dp(12))
+            background = box(panel, 14, 0xFF2B323C.toInt())
+            elevation = dp(12).toFloat()
+            setPadding(dp(8), dp(8), dp(8), dp(8))
             isClickable = true
             layoutDirection = View.LAYOUT_DIRECTION_LTR
             translationX = x; translationY = y
         }
-        // Head: the route, the totals, fold and close.
-        val head = LinearLayout(act).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
-        val names = LinearLayout(act).apply { orientation = LinearLayout.VERTICAL }
-        names.addView(tv("${p.points.first().id}  →  ${p.points.last().id}", 17f, white, bold = true))
-        names.addView(tv("%.1f nm  ·  %s  ·  %.1f gal  ·  %,d ft".format(dist, FlightPlan.hm(min), fuel, p.altitude), 12.5f, grey))
-        head.addView(names, LinearLayout.LayoutParams(0, -2, 1f))
-        head.addView(tv(if (folded) "⌄" else "⌃", 22f).apply {
-            setPadding(dp(12), 0, dp(10), dp(2))
-            setOnClickListener { folded = !folded; VaultLock.prefs(act).edit().putBoolean("route_folded", folded).apply(); refresh(true) }
-        })
-        c.addView(head)
+
+        // ---- the top line: aeroplane and altitude, the route chips, the plan's own buttons ----
+        val top = LinearLayout(act).apply { orientation = LinearLayout.HORIZONTAL }
+        val left = LinearLayout(act).apply { orientation = LinearLayout.VERTICAL }
+        val tail = Aircraft.all(act).getOrNull(VaultLock.prefs(act).getInt("wb_current", 0))?.name ?: "AIRCRAFT"
+        left.addView(stack(tail.take(10), null) { onAircraft?.invoke() }, LinearLayout.LayoutParams(dp(92), -2))
+        left.addView(stack(profile.name.take(12), "${Math.round(profile.cruiseTas)} kt · ${EfbUi.num(profile.cruiseGph)} gph") { onProfile?.invoke() },
+            LinearLayout.LayoutParams(dp(92), -2).apply { topMargin = dp(4) })
+        left.addView(stack("%,d'".format(p.altitude), null) { onAltitude?.invoke() },
+            LinearLayout.LayoutParams(dp(92), -2).apply { topMargin = dp(4) })
+        top.addView(left)
+
+        val mid = LinearLayout(act).apply { orientation = LinearLayout.VERTICAL; setPadding(dp(8), 0, dp(8), 0) }
+        // The route: a chip for every point, with the leg between two of them tappable in its own right.
+        val chips = LinearLayout(act).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
+        val activeTo = p.target()
+        for ((i, w) in p.points.withIndex()) {
+            if (i > 0) chips.addView(TextView(act).apply {
+                text = "›"; textSize = 15f; setTextColor(grey); gravity = Gravity.CENTER
+                setPadding(dp(5), dp(3), dp(5), dp(3))
+                setOnClickListener { onLeg?.invoke(i) }
+            })
+            val lit = activeTo != null && p.direct == null && w.id == activeTo.id && i == p.active
+            chips.addView(tv(w.id, 13f, if (lit) white else 0xFFD6DCE4.toInt(), bold = lit).apply {
+                background = box(if (lit) blue else 0xFF232A33.toInt(), 13)
+                setPadding(dp(11), dp(6), dp(11), dp(6))
+                maxLines = 1
+                setOnClickListener { onWaypoint?.invoke(i) }
+            }, LinearLayout.LayoutParams(-2, -2))
+        }
+        p.direct?.let { dt ->
+            chips.addView(tv("D→ ${dt.id}", 13f, white, bold = true).apply {
+                background = box(0xFFE040FB.toInt(), 13); setPadding(dp(11), dp(6), dp(11), dp(6))
+                setOnClickListener { plan().direct = null; plan().save(act); refresh(true) }
+            }, LinearLayout.LayoutParams(-2, -2).apply { marginStart = dp(6) })
+        }
+        mid.addView(HorizontalScrollView(act).apply { isHorizontalScrollBarEnabled = false; addView(chips) })
+        top.addView(mid, LinearLayout.LayoutParams(0, -2, 1f))
+
+        val right = LinearLayout(act).apply { orientation = LinearLayout.VERTICAL }
+        fun sideBtn(label: String, go: () -> Unit) = right.addView(tv(label, 12f, white, bold = true).apply {
+            gravity = Gravity.CENTER
+            background = box(0xFF20262E.toInt())
+            setPadding(dp(10), dp(6), dp(10), dp(6))
+            setOnClickListener { go() }
+        }, LinearLayout.LayoutParams(dp(86), -2).apply { topMargin = dp(4) })
+        sideBtn("Procedure") { onProcedure?.invoke() }
+        sideBtn("Reverse") { actions.getOrNull(2)?.second?.invoke() }
+        sideBtn(p.etdMin?.let { "ETD %02d:%02d".format(it / 60, it % 60) } ?: "ETD") { onEtd?.invoke() }
+        top.addView(right)
+        c.addView(top)
+
+        if (!folded) {
+            c.addView(View(act).apply { setBackgroundColor(0xFF2B323C.toInt()) },
+                LinearLayout.LayoutParams(-1, 1).apply { setMargins(0, dp(8), 0, dp(7)) })
+
+            // ---- the figures, and the three buttons that open the plan in full ----
+            val row = LinearLayout(act).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
+            val fig = LinearLayout(act).apply { orientation = LinearLayout.HORIZONTAL }
+            fig.addView(figure("DIST", "%.0f nm".format(res.distNm)))
+            fig.addView(figure("ETE", "%dh%02dm".format(res.minutes.toInt() / 60, res.minutes.toInt() % 60)))
+            fig.addView(figure("ETA", p.clock(res.minutes), 0xFF64D2FF.toInt()))
+            fig.addView(figure("FUEL", "%.1f g".format(res.fuelGal), if (res.reserveKept) white else 0xFFFF453A.toInt()))
+            // The wind along the whole route: how much it helps or holds, on the average.
+            val comp = res.rows.sumOf { r ->
+                val rel = Math.toRadians(r.windDir - r.tc)
+                -Math.cos(rel) * r.windKt * r.distNm
+            } / res.distNm.coerceAtLeast(0.1)
+            fig.addView(figure("WIND", "%d kt %s".format(Math.abs(Math.round(comp).toInt()), if (comp >= 0) "tail" else "head"),
+                if (comp >= 0) 0xFF30D158.toInt() else 0xFFFF9F0A.toInt()))
+            // How far the route goes beyond the straight line between its ends.
+            val straight = Nav.distanceNm(p.points.first().lat, p.points.first().lon, p.points.last().lat, p.points.last().lon)
+            fig.addView(figure("RTE CORR", "%.0f nm".format((res.distNm - straight).coerceAtLeast(0.0))))
+            row.addView(HorizontalScrollView(act).apply { isHorizontalScrollBarEnabled = false; addView(fig) },
+                LinearLayout.LayoutParams(0, -2, 1f))
+            fun act3(label: String, go: () -> Unit) = row.addView(tv(label, 12.5f, white, bold = true).apply {
+                gravity = Gravity.CENTER
+                background = box(0xFF20262E.toInt())
+                setPadding(dp(11), dp(8), dp(11), dp(8))
+                setOnClickListener { go() }
+            }, LinearLayout.LayoutParams(-2, -2).apply { marginStart = dp(5) })
+            act3("Edit") { onEdit?.invoke() }
+            act3("NavLog") { onNavlog?.invoke() }
+            act3("Profile") { actions.getOrNull(3)?.second?.invoke() }
+            c.addView(row)
+            if (res.warnings.isNotEmpty()) c.addView(tv("⚠ " + res.warnings.first(), 11f, 0xFFFFB020.toInt())
+                .apply { setPadding(dp(2), dp(6), 0, 0); maxLines = 2 })
+        }
+
+        // Folded to the chips alone; dragged anywhere by its left boxes.
+        c.setOnLongClickListener {
+            folded = !folded
+            VaultLock.prefs(act).edit().putBoolean("route_folded", folded).apply()
+            refresh(true); true
+        }
         var dx = 0f; var dy = 0f
-        head.setOnTouchListener { _, e ->
+        left.setOnTouchListener { v, e ->
             when (e.actionMasked) {
                 MotionEvent.ACTION_DOWN -> { dx = c.translationX - e.rawX; dy = c.translationY - e.rawY }
                 MotionEvent.ACTION_MOVE -> { c.translationX = e.rawX + dx; c.translationY = e.rawY + dy }
             }
             false
         }
-
-        if (!folded) {
-            c.addView(View(act).apply { setBackgroundColor(0xFF2C2C2E.toInt()) }, LinearLayout.LayoutParams(-1, 1).apply { setMargins(0, dp(8), 0, dp(6)) })
-            // The legs, as a table.
-            val table = LinearLayout(act).apply { orientation = LinearLayout.VERTICAL }
-            fun row(cells: List<String>, color: Int, bold: Boolean, lit: Boolean) {
-                val r = LinearLayout(act).apply {
-                    orientation = LinearLayout.HORIZONTAL; setPadding(dp(6), dp(5), dp(6), dp(5))
-                    if (lit) background = GradientDrawable().apply { cornerRadius = dp(8).toFloat(); setColor(0x33E040FB) }
-                }
-                val w = intArrayOf(96, 52, 56, 52, 48)
-                for ((i, s) in cells.withIndex()) r.addView(tv(s, 13f, if (i == 0 && lit) magenta else color, bold, mono = i > 0).apply {
-                    gravity = if (i == 0) Gravity.START else Gravity.END; maxLines = 1
-                }, LinearLayout.LayoutParams(dp(w[i]), -2))
-                table.addView(r)
-            }
-            row(listOf("LEG", "MH", "NM", "ETE", "GAL"), grey, true, false)
-            val activeTo = p.target()
-            for ((i, l) in legs.withIndex()) {
-                val lit = p.direct == null && i + 1 == p.active
-                row(listOf("${l.from.id.take(5)}›${l.to.id.take(5)}", Nav.deg(l.mh), "%.1f".format(l.dist), FlightPlan.hm(l.minutes), "%.1f".format(l.fuel)), white, false, lit)
-            }
-            if (p.direct != null && activeTo != null) row(listOf("D→ ${activeTo.id}", "", "", "", ""), magenta, true, true)
-            c.addView(ScrollView(act).apply { addView(HorizontalScrollView(act).apply { isHorizontalScrollBarEnabled = false; addView(table) }) },
-                LinearLayout.LayoutParams(-2, -2).apply { height = if (legs.size > 6) dp(220) else -2 })
-
-            // Fuel left and the VFR day reserve (91.151: 30 minutes).
-            val left = p.fuelOnBoard - fuel
-            val reserve = p.gph * 0.5
-            val ok = left >= reserve
-            c.addView(tv((if (ok) "✓ " else "⚠ ") + act.getString(R.string.route_fuel_left, left, FlightPlan.hm(left / p.gph * 60)), 12.5f,
-                if (ok) 0xFF30D158.toInt() else 0xFFFF9F0A.toInt(), bold = true).apply { setPadding(dp(6), dp(8), 0, dp(4)) })
-            c.addView(tv(act.getString(R.string.route_settings, p.tas, p.windDir, p.windKt, p.gph), 11.5f, grey).apply { setPadding(dp(6), 0, 0, dp(8)) })
-
-            // The route's actions, as chips.
-            val chips = LinearLayout(act).apply { orientation = LinearLayout.HORIZONTAL }
-            for ((label, go) in actions) chips.addView(tv(label, 13f, white, bold = true).apply {
-                background = GradientDrawable().apply { cornerRadius = dp(14).toFloat(); setColor(0xFF1C1F24.toInt()); setStroke(dp(1), 0xFF3A3F47.toInt()) }
-                setPadding(dp(12), dp(7), dp(12), dp(7))
-                setOnClickListener { go() }
-            }, LinearLayout.LayoutParams(-2, -2).apply { marginEnd = dp(6) })
-            c.addView(HorizontalScrollView(act).apply { isHorizontalScrollBarEnabled = false; addView(chips) })
-        }
-        val maxW = minOf((act.resources.displayMetrics.widthPixels * 0.92).toInt(), dp(380))
-        host.addView(c, FrameLayout.LayoutParams(maxW, -2, Gravity.TOP or Gravity.START).apply { leftMargin = dp(10); topMargin = topOffset + dp(8) })
+        val maxW = minOf((act.resources.displayMetrics.widthPixels * 0.97).toInt(), dp(760))
+        host.addView(c, FrameLayout.LayoutParams(maxW, -2, Gravity.TOP or Gravity.CENTER_HORIZONTAL).apply { topMargin = topOffset + dp(6) })
         card = c
     }
 

@@ -1823,8 +1823,152 @@ class MapActivity : BaseActivity(), NeonHost {
             getString(R.string.wb_title) to { openWb() },
             getString(R.string.plan_clear) to { plan.points.clear(); plan.direct = null; plan.active = 1; plan.save(this); updateNav(); map.invalidate() },
         )).also { routePanel = it }
+        rp.onEdit = { editPlan() }
+        rp.onNavlog = { navLog() }
+        rp.onProfile = { NavlogActivity.open(this) }
+        rp.onProcedure = { approachMenu() }
+        rp.onAircraft = { openWb() }
+        rp.onAltitude = { altitudePick() }
+        rp.onEtd = { etdPick() }
+        rp.onWaypoint = { i -> waypointSheet(i) }
+        rp.onLeg = { i -> legSheet(i) }
         rp.topOffset = b.topBar.height
         rp.refresh()
+    }
+
+    /** The head of one of the plan's sheets: a Close on the left, the sheet's name in the middle. */
+    private fun sheetHead(title: String, dlg: androidx.appcompat.app.AlertDialog): LinearLayout {
+        val h = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL
+            setBackgroundColor(0xFF1B222C.toInt()); setPadding(dp(8), dp(8), dp(8), dp(8))
+            layoutDirection = View.LAYOUT_DIRECTION_LTR
+        }
+        h.addView(TextView(this).apply {
+            text = "Close"; textSize = 13.5f; setTextColor(0xFFFFFFFF.toInt()); gravity = Gravity.CENTER
+            typeface = EfbUi.MEDIUM
+            background = EfbUi.cardBg(this@MapActivity, 0xFF2A313B.toInt(), 8)
+            setPadding(dp(12), dp(7), dp(12), dp(7))
+            setOnClickListener { dlg.dismiss() }
+        })
+        h.addView(EfbUi.text(this, title, 15f, 0xFFFFFFFF.toInt(), bold = true).apply { gravity = Gravity.CENTER },
+            LinearLayout.LayoutParams(0, -2, 1f))
+        h.addView(View(this), LinearLayout.LayoutParams(dp(58), dp(1)))
+        return h
+    }
+
+    /** The row of actions across a sheet, each its own column, as an EFB puts them. */
+    private fun sheetActions(items: List<Pair<String, () -> Unit>>, dlg: androidx.appcompat.app.AlertDialog): LinearLayout {
+        val r = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL; layoutDirection = View.LAYOUT_DIRECTION_LTR
+            setBackgroundColor(0xFF121820.toInt())
+        }
+        for ((n, it) in items.withIndex()) {
+            if (n > 0) r.addView(View(this).apply { setBackgroundColor(0xFF2B323C.toInt()) }, LinearLayout.LayoutParams(1, -1))
+            r.addView(TextView(this).apply {
+                text = it.first; textSize = 13.5f; gravity = Gravity.CENTER
+                setTextColor(if (it.first.startsWith("Remove")) 0xFFFF6B6B.toInt() else 0xFF4DA3FF.toInt())
+                typeface = EfbUi.MEDIUM
+                setPadding(dp(6), dp(14), dp(6), dp(14))
+                setBackgroundResource(R.drawable.item_focus_bg)
+                setOnClickListener { _ -> dlg.dismiss(); it.second() }
+            }, LinearLayout.LayoutParams(0, -2, 1f))
+        }
+        return r
+    }
+
+    private fun sheetRow(label: String, value: String): LinearLayout = LinearLayout(this).apply {
+        orientation = LinearLayout.HORIZONTAL; layoutDirection = View.LAYOUT_DIRECTION_LTR
+        setPadding(dp(16), dp(11), dp(16), dp(11))
+        addView(EfbUi.text(this@MapActivity, label, 14f, 0xFFD6DCE4.toInt()), LinearLayout.LayoutParams(0, -2, 1f))
+        addView(EfbUi.ltr(EfbUi.text(this@MapActivity, value, 14f, 0xFFFFFFFF.toInt(), bold = true, mono = true)))
+    }
+
+    private fun sheetHeader(t: String) = EfbUi.text(this, t, 11f, 0xFF8E9299.toInt(), bold = true)
+        .apply { letterSpacing = 0.09f; setPadding(dp(16), dp(14), dp(16), dp(5)) }
+
+    /** One leg of the route: flown, gone direct to its end, or taken out — with its distance and course. */
+    private fun legSheet(i: Int) {
+        if (i < 1 || i >= plan.points.size) return
+        val a = plan.points[i - 1]; val bPt = plan.points[i]
+        val box = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setBackgroundColor(EfbUi.BG) }
+        val dlg = MaterialAlertDialogBuilder(this).setView(box).create()
+        box.addView(sheetHead("Route Leg", dlg))
+        box.addView(EfbUi.ltr(EfbUi.text(this, "${a.id}  →  ${bPt.id}", 13f, 0xFF8E9299.toInt()))
+            .apply { setPadding(dp(16), dp(10), dp(16), dp(2)) })
+        val acts = ArrayList<Pair<String, () -> Unit>>()
+        acts.add("Fly Leg" to { plan.active = i; plan.direct = null; plan.save(this); updateNav(); map.invalidate() })
+        acts.add("Direct Leg End" to { plan.direct = FlightPlan.Waypoint(bPt.id, bPt.lat, bPt.lon); plan.save(this); updateNav(); map.invalidate() })
+        if (plan.points.size > 2) acts.add("Remove Leg" to {
+            plan.points.removeAt(i); plan.legWinds.clear()
+            plan.active = plan.active.coerceIn(1, maxOf(1, plan.points.size - 1))
+            plan.save(this); updateNav(); routePanel?.refresh(true); map.invalidate()
+        })
+        box.addView(sheetActions(acts, dlg), LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(8) })
+        val tc = Nav.bearingTrue(a.lat, a.lon, bPt.lat, bPt.lon)
+        val mc = Nav.magnetic(tc, (a.lat + bPt.lat) / 2, (a.lon + bPt.lon) / 2)
+        box.addView(sheetRow("Distance", "%.1f nm".format(Nav.distanceNm(a.lat, a.lon, bPt.lat, bPt.lon))))
+        box.addView(View(this).apply { setBackgroundColor(0xFF2B323C.toInt()) }, LinearLayout.LayoutParams(-1, 1))
+        box.addView(sheetRow("Course", "${Nav.deg(mc)}M   ${Nav.deg(tc)}T"))
+        box.addView(View(this).apply { setBackgroundColor(0xFF2B323C.toInt()) }, LinearLayout.LayoutParams(-1, 1))
+        val w = plan.legWinds[i - 1]?.let { "%03d/%d".format(it.first, it.second) } ?: "%03d/%d".format(plan.windDir, plan.windKt)
+        box.addView(sheetRow("Wind", w))
+        box.addView(View(this).apply { setBackgroundColor(0xFF2B323C.toInt()) }, LinearLayout.LayoutParams(-1, 1))
+        box.addView(sheetRow("Insert a point", "tap and hold the line"))
+        dlg.show()
+    }
+
+    /** One point of the route: what it is, where it is, and what may be done with it. */
+    private fun waypointSheet(i: Int) {
+        val w = plan.points.getOrNull(i) ?: return
+        val box = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setBackgroundColor(EfbUi.BG) }
+        val dlg = MaterialAlertDialogBuilder(this).setView(box).create()
+        box.addView(sheetHead(w.id, dlg))
+        val acts = ArrayList<Pair<String, () -> Unit>>()
+        acts.add("Direct To" to { directTo(w) })
+        acts.add("Fly To" to { if (i > 0) { plan.active = i; plan.direct = null; plan.save(this); updateNav(); map.invalidate() } })
+        if (plan.points.size > 2) acts.add("Remove" to {
+            plan.points.removeAt(i); plan.legWinds.clear()
+            plan.active = plan.active.coerceIn(1, maxOf(1, plan.points.size - 1))
+            plan.save(this); updateNav(); routePanel?.refresh(true); map.invalidate()
+        })
+        box.addView(sheetActions(acts, dlg), LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(8) })
+        val apt = airports.firstOrNull { it.icao == w.id || it.ident == w.id }
+        box.addView(sheetHeader("WAYPOINT INFO"))
+        box.addView(sheetRow("Name", apt?.name ?: w.id))
+        box.addView(sheetRow("Type", if (apt != null) "Airport" else "User waypoint"))
+        apt?.let { box.addView(sheetRow("Elevation", "%,d ft".format(it.elevation))) }
+        box.addView(sheetHeader("LOCATION INFO"))
+        box.addView(sheetRow("Mag Var", "%.1f°%s".format(Math.abs(Nav.variation(w.lat, w.lon)), if (Nav.variation(w.lat, w.lon) >= 0) "W" else "E")))
+        box.addView(sheetRow("Coordinates", "%.4f, %.4f".format(w.lat, w.lon)))
+        ownship.position()?.let { me ->
+            box.addView(sheetRow("Bearing To", Nav.deg(Nav.magnetic(Nav.bearingTrue(me.latitude, me.longitude, w.lat, w.lon), me.latitude, me.longitude)) + "M"))
+            box.addView(sheetRow("Distance", "%.1f nm".format(Nav.distanceNm(me.latitude, me.longitude, w.lat, w.lon))))
+        }
+        dlg.show()
+    }
+
+    /** The cruising altitude, picked from the levels the rules allow for the route's direction. */
+    private fun altitudePick() {
+        val p = plan
+        if (p.points.size < 2) { editPlan(); return }
+        val tc = Nav.bearingTrue(p.points.first().lat, p.points.first().lon, p.points.last().lat, p.points.last().lon)
+        val east = Nav.magnetic(tc, p.points.first().lat, p.points.first().lon) < 180
+        val list = if (east) listOf(3500, 5500, 7500, 9500, 11500) else listOf(4500, 6500, 8500, 10500, 12500)
+        MaterialAlertDialogBuilder(this).setTitle(if (east) "Eastbound · odd thousands + 500" else "Westbound · even thousands + 500")
+            .setItems(list.map { "%,d ft".format(it) }.toTypedArray()) { _, k ->
+                p.altitude = list[k]; p.save(this); updateNav(); routePanel?.refresh(true)
+            }
+            .setNeutralButton("Type one") { _, _ -> editPlan() }
+            .setNegativeButton(R.string.cancel, null).show()
+    }
+
+    /** When the flight leaves the blocks: every time in the log runs from it. */
+    private fun etdPick() {
+        val now = java.util.Calendar.getInstance()
+        val cur = plan.etdMin
+        android.app.TimePickerDialog(this, { _, h, m ->
+            plan.etdMin = h * 60 + m; plan.save(this); updateNav(); routePanel?.refresh(true)
+        }, cur?.div(60) ?: now.get(java.util.Calendar.HOUR_OF_DAY), cur?.rem(60) ?: now.get(java.util.Calendar.MINUTE), true).show()
     }
 
     private fun updateNav() {
