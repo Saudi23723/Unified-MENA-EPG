@@ -123,13 +123,52 @@ object Logbook {
         mutableListOf()
     }
 
+    /**
+     * The same flight written twice — one the GPS recorded, one the pilot edited or typed — is one
+     * flight. Two lines count as the same when they are on the same day, off the blocks at the same
+     * minute, and in the same aeroplane. The fuller line stays (signed first, then the longer time,
+     * then the one edited last) and takes anything the other one alone had: its track, its route,
+     * its distances, its landings. Nothing is ever thrown away silently with more in it.
+     */
+    fun fold(list: List<LogEntry>): List<LogEntry> {
+        val out = ArrayList<LogEntry>()
+        for (e in list) {
+            val twin = out.firstOrNull { o ->
+                o.date == e.date && o.timeOut.isNotEmpty() && o.timeOut == e.timeOut &&
+                    (o.tail.isEmpty() || e.tail.isEmpty() || o.tail.equals(e.tail, true))
+            }
+            if (twin == null) { out.add(e); continue }
+            val keep = when {
+                twin.signed != e.signed -> if (twin.signed) twin else e
+                Math.abs(twin.total - e.total) > 0.05 -> if (twin.total > e.total) twin else e
+                else -> if (twin.updated >= e.updated) twin else e
+            }
+            val drop = if (keep === twin) e else twin
+            if (keep.track.isEmpty()) keep.track = drop.track
+            if (keep.route.isEmpty()) keep.route = drop.route
+            if (keep.from.isEmpty()) keep.from = drop.from
+            if (keep.to.isEmpty()) keep.to = drop.to
+            if (keep.tail.isEmpty()) keep.tail = drop.tail
+            if (keep.aircraft.isEmpty()) keep.aircraft = drop.aircraft
+            if (keep.timeIn.isEmpty()) keep.timeIn = drop.timeIn
+            if (keep.distanceNm == 0.0) keep.distanceNm = drop.distanceNm
+            if (keep.farthestNm == 0.0) keep.farthestNm = drop.farthestNm
+            if (keep.dayLdg == 0) keep.dayLdg = drop.dayLdg
+            if (keep.nightLdg == 0) keep.nightLdg = drop.nightLdg
+            if (keep.remarks.isEmpty()) keep.remarks = drop.remarks
+            out[out.indexOf(twin)] = keep
+        }
+        return out
+    }
+
     fun save(ctx: Context, list: List<LogEntry>, stamp: Boolean = true) = synchronized(LOCK) {
+        val folded = fold(list)
         val before = if (stamp) all(ctx).associate { it.id to it.toJson().toString() } else emptyMap()
         val tmp = File(file(ctx).path + ".tmp")
-        tmp.writeText(JSONArray().apply { for (e in list) put(e.toJson()) }.toString())
+        tmp.writeText(JSONArray().apply { for (e in folded) put(e.toJson()) }.toString())
         if (!tmp.renameTo(file(ctx))) { file(ctx).writeText(tmp.readText()); tmp.delete() }
         if (stamp) {
-            LogbookSync.noteChange(ctx, "f", before, list.associate { it.id to it.toJson().toString() })
+            LogbookSync.noteChange(ctx, "f", before, folded.associate { it.id to it.toJson().toString() })
             LogbookSync.soon(ctx)
         }
     }

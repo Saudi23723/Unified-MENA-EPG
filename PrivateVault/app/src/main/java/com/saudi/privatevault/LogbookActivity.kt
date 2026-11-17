@@ -620,8 +620,10 @@ class LogbookActivity : BaseActivity() {
             entries.removeAll { it.id == e.id }
             entries.add(e)
             entries.sortWith(compareByDescending<LogEntry> { it.date }.thenByDescending { it.timeOut })
-            // Typed by hand for a day the GPS already recorded: one flight, not two.
-            if (isNew && !e.remarks.contains("Recorded by GPS")) entries.filter { it.date == e.date && it.id != e.id && it.remarks.contains("Recorded by GPS") && !it.signed }.forEach { r ->
+            // Typed by hand for a day the GPS already recorded: one flight, not two. (The same when
+            // the recorded one is the one being edited: its twin still folds into it, on save as well.)
+            entries.filter { it.date == e.date && it.id != e.id && it.remarks.contains("Recorded by GPS") && !it.signed &&
+                (it.timeOut.isEmpty() || e.timeOut.isEmpty() || it.timeOut == e.timeOut) }.forEach { r ->
                 if (e.track.isEmpty()) e.track = r.track
                 entries.remove(r)
             }

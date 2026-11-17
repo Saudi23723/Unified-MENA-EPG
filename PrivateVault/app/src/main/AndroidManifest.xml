@@ -81,6 +81,10 @@
             android:name=".LogbookActivity"
             android:exported="false" />
         <activity
+            android:name=".NavlogActivity"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden"
+            android:exported="false" />
+        <activity
             android:name=".E6bActivity"
             android:exported="false" />
         <activity
