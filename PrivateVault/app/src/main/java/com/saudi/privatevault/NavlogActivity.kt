@@ -482,18 +482,39 @@ class NavlogActivity : BaseActivity() {
         if (plan.points.size < 2) return
         toast("Getting the forecast winds…")
         lifecycleScope.launch {
-            val text = withContext(Dispatchers.IO) { try { AviationData.windsAloft(6) } catch (e: Exception) { "" } }
-            if (text.isBlank()) { toast("No winds-aloft forecast right now — type them on a leg instead."); return@launch }
-            plan.legWinds.clear()
-            for (i in 1 until plan.points.size) {
-                val a = plan.points[i - 1]; val b = plan.points[i]
-                AviationData.windAt(text, (a.lat + b.lat) / 2, (a.lon + b.lon) / 2, plan.altitude)?.let { plan.legWinds[i - 1] = it }
+            val got = withContext(Dispatchers.IO) {
+                var n = 0
+                val found = HashMap<Int, Triple<Int, Int, Int?>>()
+                for (i in 1 until plan.points.size) {
+                    val a = plan.points[i - 1]; val b = plan.points[i]
+                    val lat = (a.lat + b.lat) / 2; val lon = (a.lon + b.lon) / 2
+                    val w = Winds.triple(this@NavlogActivity, lat, lon, plan.altitude, whenAt(i))
+                        ?: AviationData.windAt(fbText(), lat, lon, plan.altitude)
+                    if (w != null) { found[i - 1] = w; n++ }
+                }
+                found
             }
+            if (got.isEmpty()) { toast("No wind forecast could be read — type one on a leg instead."); return@launch }
+            plan.legWinds.clear(); plan.legWinds.putAll(got)
             plan.save(this@NavlogActivity)
-            toast("Winds in: ${plan.legWinds.size} legs")
+            toast("Winds in: ${got.size} legs")
             rebuild()
         }
     }
+
+    /** When the aeroplane is expected over a leg, so the wind read is the wind it will meet. */
+    private fun whenAt(leg: Int): Long {
+        val base = plan.etdMin?.let { m ->
+            val c = java.util.Calendar.getInstance()
+            c.set(java.util.Calendar.HOUR_OF_DAY, m / 60); c.set(java.util.Calendar.MINUTE, m % 60)
+            c.set(java.util.Calendar.SECOND, 0); c.timeInMillis
+        } ?: System.currentTimeMillis()
+        val mins = result?.rows?.take(leg)?.sumOf { it.minutes } ?: 0.0
+        return base + (mins * 60000).toLong()
+    }
+
+    private var fbCache: String? = null
+    private fun fbText(): String = fbCache ?: (try { AviationData.windsAloft(6) } catch (e: Exception) { "" }).also { fbCache = it }
 
     /** Every legal cruising altitude flown on paper, so the quickest and the leanest show themselves. */
     private fun altitudeAdvisor() {
@@ -505,16 +526,20 @@ class NavlogActivity : BaseActivity() {
             .setNegativeButton(R.string.cancel, null).create()
         dlg.show()
         lifecycleScope.launch {
-            val text = withContext(Dispatchers.IO) { try { AviationData.windsAloft(6) } catch (e: Exception) { "" } }
             val mid = plan.points.let { p -> p.sumOf { it.lat } / p.size to p.sumOf { it.lon } / p.size }
+            val text = withContext(Dispatchers.IO) {
+                Winds.forecast(this@NavlogActivity, mid.first, mid.second)
+                try { AviationData.windsAloft(6) } catch (e: Exception) { "" }
+            }
             val opts = withContext(Dispatchers.Default) {
                 Navlog.altitudes(plan.points, profile, plan.fuelOnBoard, plan.reserveMin, false,
-                    { alt -> if (text.isBlank()) null else AviationData.windAt(text, mid.first, mid.second, alt)?.let { it.first to it.second } },
+                    { alt -> Winds.at(this@NavlogActivity, mid.first, mid.second, alt)?.let { it.dirTrue to it.kt }
+                        ?: (if (text.isBlank()) null else AviationData.windAt(text, mid.first, mid.second, alt)?.let { it.first to it.second }) },
                     plan.points.firstOrNull()?.let { elevOf(it) }, plan.points.lastOrNull()?.let { elevOf(it) })
             }
             box.removeAllViews()
             if (opts.isEmpty()) { box.addView(EfbUi.text(this@NavlogActivity, "Nothing to compare.", 14f, EfbUi.DIM)); return@launch }
-            if (text.isBlank()) box.addView(EfbUi.text(this@NavlogActivity, "No forecast wind: still air at every level.", 11.5f, 0xFFFFB020.toInt()).apply { setPadding(dp(10), 0, dp(10), dp(6)) })
+            if (opts.all { it.wind == "000/0" }) box.addView(EfbUi.text(this@NavlogActivity, "No forecast wind could be read: still air at every level.", 11.5f, 0xFFFFB020.toInt()).apply { setPadding(dp(10), 0, dp(10), dp(6)) })
             for (o in opts) {
                 box.addView(LinearLayout(this@NavlogActivity).apply {
                     orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL

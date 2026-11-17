@@ -108,6 +108,7 @@ class BriefingActivity : BaseActivity() {
                 val areas = try { AviationData.airspaceWeather() } catch (e: Exception) { emptyList() }
                 val tfrs = try { AviationData.tfrs() } catch (e: Exception) { emptyList() }
                 val pireps = try { AviationData.pireps(lats.min() - 1.5, lons.min() - 1.5, lats.max() + 1.5, lons.max() + 1.5) } catch (e: Exception) { emptyList() }
+                plan.points.let { p -> Winds.forecast(this@BriefingActivity, p.sumOf { it.lat } / p.size, p.sumOf { it.lon } / p.size) }
                 val fb = try { AviationData.windsAloft(6) } catch (e: Exception) { "" }
                 Triple(metars, tafs, listOf(areas, tfrs, pireps, listOf(fb)))
             }
@@ -217,7 +218,8 @@ class BriefingActivity : BaseActivity() {
         var any = false
         for (i in 1 until plan.points.size) {
             val a = plan.points[i - 1]; val b = plan.points[i]
-            val w = AviationData.windAt(fb, (a.lat + b.lat) / 2, (a.lon + b.lon) / 2, plan.altitude) ?: continue
+            val w = Winds.triple(this, (a.lat + b.lat) / 2, (a.lon + b.lon) / 2, plan.altitude)
+                ?: AviationData.windAt(fb, (a.lat + b.lat) / 2, (a.lon + b.lon) / 2, plan.altitude) ?: continue
             any = true
             val tc = Nav.bearingTrue(a.lat, a.lon, b.lat, b.lon)
             val rel = Math.toRadians(w.first - tc)

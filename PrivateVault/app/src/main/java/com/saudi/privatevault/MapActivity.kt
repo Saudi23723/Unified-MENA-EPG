@@ -1561,13 +1561,19 @@ class MapActivity : BaseActivity(), NeonHost {
         if (plan.points.size < 2) { Toast.makeText(this, R.string.plan_empty, Toast.LENGTH_LONG).show(); return }
         Toast.makeText(this, R.string.plan_winds_fetching, Toast.LENGTH_SHORT).show()
         lifecycleScope.launch {
-            val text = withContext(Dispatchers.IO) { AviationData.windsAloft(6) }
-            if (text.isBlank()) { Toast.makeText(this@MapActivity, R.string.plan_winds_none, Toast.LENGTH_LONG).show(); return@launch }
-            plan.legWinds.clear()
-            for (i in 1 until plan.points.size) {
-                val a = plan.points[i - 1]; val b = plan.points[i]
-                AviationData.windAt(text, (a.lat + b.lat) / 2, (a.lon + b.lon) / 2, plan.altitude)?.let { plan.legWinds[i - 1] = it }
+            val text = withContext(Dispatchers.IO) { try { AviationData.windsAloft(6) } catch (e: Exception) { "" } }
+            val got = withContext(Dispatchers.IO) {
+                val m = HashMap<Int, Triple<Int, Int, Int?>>()
+                for (i in 1 until plan.points.size) {
+                    val a = plan.points[i - 1]; val b = plan.points[i]
+                    val lat = (a.lat + b.lat) / 2; val lon = (a.lon + b.lon) / 2
+                    (Winds.triple(this@MapActivity, lat, lon, plan.altitude)
+                        ?: AviationData.windAt(text, lat, lon, plan.altitude))?.let { m[i - 1] = it }
+                }
+                m
             }
+            if (got.isEmpty()) { Toast.makeText(this@MapActivity, R.string.plan_winds_none, Toast.LENGTH_LONG).show(); return@launch }
+            plan.legWinds.clear(); plan.legWinds.putAll(got)
             plan.save(this@MapActivity)
             updateNav(); routePanel?.refresh()
             navLog()
@@ -1647,8 +1653,10 @@ class MapActivity : BaseActivity(), NeonHost {
                 val lon = pts.sumOf { it.lon } / pts.size
                 val altFt = alt.text.toString().toIntOrNull() ?: plan.altitude
                 lifecycleScope.launch {
-                    val text = withContext(Dispatchers.IO) { AviationData.windsAloft() }
-                    val w = AviationData.windAt(text, lat, lon, altFt)
+                    val w = withContext(Dispatchers.IO) {
+                        Winds.triple(this@MapActivity, lat, lon, altFt)
+                            ?: AviationData.windAt(try { AviationData.windsAloft() } catch (e: Exception) { "" }, lat, lon, altFt)
+                    }
                     if (w == null) Toast.makeText(this@MapActivity, R.string.plan_wind_fail, Toast.LENGTH_LONG).show()
                     else wind.setText("%03d/%d".format(w.first, w.second))
                 }
