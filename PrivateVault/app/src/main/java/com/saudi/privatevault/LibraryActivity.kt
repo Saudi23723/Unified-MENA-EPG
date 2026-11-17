@@ -70,6 +70,11 @@ class LibraryActivity : BaseActivity() {
             "hb:https://www.faa.gov/regulations_policies/handbooks_manuals/aviation", null),
         Book("🌤", "Aviation Weather Handbook", "FAA-H-8083-28", "Aviation Weather Handbook FAA-H-8083-28.pdf",
             "https://www.faa.gov/regulations_policies/handbooks_manuals/aviation", "faa-h-8083-28[a-z]?\\.pdf"),
+        Book("🧭", "Instrument Flying Handbook", "FAA-H-8083-15", "Instrument Flying Handbook FAA-H-8083-15.pdf",
+            "https://www.faa.gov/regulations_policies/handbooks_manuals/aviation", "faa-h-8083-15[a-z]?\\.pdf"),
+        Book("📐", "Instrument Procedures Handbook", "FAA-H-8083-16", "Instrument Procedures Handbook FAA-H-8083-16.pdf",
+            "https://www.faa.gov/regulations_policies/handbooks_manuals/aviation", "faa-h-8083-16[a-z]?\\.pdf"),
+        Book("📘", "FAA Chart Supplement", "The whole regional book: every airport's page, bound and kept offline", null, "cs:", null),
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -135,10 +140,39 @@ class LibraryActivity : BaseActivity() {
 
     private fun read(item: VaultItem) = startActivity(Intent(this, PdfViewerActivity::class.java).putExtra(Viewers.EXTRA_ID, item.id))
 
+    /** The Chart Supplement, a region at a time: chosen, fetched page by page, and bound into one book. */
+    private fun supplementBook(sub: TextView) {
+        val folder = VaultStore.childFolders(null).firstOrNull { it.name == SupplementShelf.FOLDER }
+        val have = folder?.let { f -> VaultStore.itemsIn(f.id).filter { it.name.startsWith("Chart Supplement · ") } }.orEmpty()
+        val labels = ChartSupplementBook.REGIONS.map { (k, name) ->
+            val mine = have.firstOrNull { it.name.startsWith("Chart Supplement · $k · ") }
+            "$k   $name" + (mine?.let { "\n✓ already here" } ?: "")
+        }
+        com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
+            .setTitle("📘 Chart Supplement")
+            .setMessage("The FAA publishes it only as hundreds of separate pages. Pick a volume and the app will fetch them all and bind them into one book — about 30 MB, once every 56 days.")
+            .setItems(labels.toTypedArray()) { _, i ->
+                val region = ChartSupplementBook.REGIONS[i].first
+                have.firstOrNull { it.name.startsWith("Chart Supplement · $region · ") }?.let { read(it); return@setItems }
+                sub.text = "Starting…"
+                lifecycleScope.launch {
+                    val item = withContext(Dispatchers.IO) {
+                        ChartSupplementBook.build(this@LibraryActivity, region) { done, all, what ->
+                            runOnUiThread { sub.text = if (all > 0) "$what  (${done * 100 / maxOf(all, 1)}%)" else what }
+                        }
+                    }
+                    if (item == null) { sub.text = "Could not build it — check the connection and try again."; return@launch }
+                    sub.text = "✓ ${item.name}"
+                    read(item)
+                }
+            }.setNegativeButton(R.string.cancel, null).show()
+    }
+
     private fun open(b: Book, sub: TextView) {
         if (b.page == "cr:") { startActivity(Intent(this, CheckrideActivity::class.java)); return }
         if (b.page == "jepp:") { JeppBookActivity.open(this); return }
         if (b.page == "man:") { ManeuversActivity.open(this); return }
+        if (b.page == "cs:") { supplementBook(sub); return }
         if (b.page.startsWith("cfr:")) { CfrBrowseActivity.open(this, b.page.removePrefix("cfr:").toInt()); return }
         if (b.page.startsWith("hb:")) { HandbookActivity.open(this, b.title, b.page.removePrefix("hb:")); return }
         if (b.file == null) {

@@ -1742,6 +1742,8 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
         val total = renderer?.pageCount ?: 0
         val chapters = (links?.chapters.orEmpty().filter { it.page in 0 until maxOf(total, 1) })
             .ifEmpty { printed?.chapters.orEmpty() }
+            // No outline and no printed contents: the book's own headings still make one.
+            .ifEmpty { printed?.fromHeadings.orEmpty().filter { it.page in 0 until maxOf(total, 1) } }
         val noted = marks.pages.filterValues { it.isNotEmpty() }.keys.sorted()
         if (chapters.isEmpty() && bookmarks.isEmpty() && noted.isEmpty()) {
             val msg = if (printed == null && links != null) R.string.pdf_preparing_wait else R.string.contents_empty

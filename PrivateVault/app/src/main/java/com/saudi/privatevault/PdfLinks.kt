@@ -116,7 +116,8 @@ class PdfLinks private constructor(private val doc: PDDocument) : Closeable {
     /** A printed page number on a contents page, in page points with a top-left origin. */
     class LabelBox(val area: RectF, val label: String)
 
-    class Printed(val labels: List<String?>, val toc: List<Pair<String, String>>, val boxes: Map<Int, List<LabelBox>>) {
+    class Printed(val labels: List<String?>, val toc: List<Pair<String, String>>, val boxes: Map<Int, List<LabelBox>>,
+                  val headings: List<Pair<Int, String>> = emptyList()) {
         private val firstPage = HashMap<String, Int>().also { m ->
             labels.forEachIndexed { i, l -> if (l != null && l !in m) m[l] = i }
         }
@@ -130,6 +131,18 @@ class PdfLinks private constructor(private val doc: PDDocument) : Closeable {
                 val p = pageOf(label)
                 if (p < 0 || !seen.add(title to p)) null else Chapter("$title  ($label)", 0, p)
             }.sortedBy { it.page }
+        }
+
+        /**
+         * A book with neither an outline nor a printed contents page still has its headings: the one
+         * line on a page set in type plainly larger than the rest. Read page by page as the book is
+         * read, they make a contents list for any book at all.
+         */
+        val fromHeadings: List<Chapter> by lazy {
+            val seen = HashSet<String>()
+            headings.sortedBy { it.first }
+                .filter { it.second.length in 3..70 && seen.add(it.second.lowercase()) }
+                .map { (p, t) -> Chapter(t + (labels.getOrNull(p)?.let { "  ($it)" } ?: ""), 0, p) }
         }
 
         /** The contents line nearest to a tap: same line, the number to its right, not across columns. */
@@ -160,6 +173,7 @@ class PdfLinks private constructor(private val doc: PDDocument) : Closeable {
                 .put("labels", JSONArray(labels.map { it ?: JSONObject.NULL }))
                 .put("toc", JSONArray(toc.map { JSONArray(listOf(it.first, it.second)) }))
                 .put("boxes", bx)
+                .put("heads", JSONArray(headings.map { JSONArray(listOf(it.first, it.second)) }))
                 .toString()
         }
 
@@ -182,7 +196,9 @@ class PdfLinks private constructor(private val doc: PDDocument) : Closeable {
                         )
                     }
                 }
-                return Printed(labels, toc, boxes)
+                val he = o.optJSONArray("heads")
+                val heads = (0 until (he?.length() ?: 0)).map { he!!.getJSONArray(it).let { e -> e.getInt(0) to e.getString(1) } }
+                return Printed(labels, toc, boxes, heads)
             }
         }
     }
@@ -417,6 +433,7 @@ class PdfLinks private constructor(private val doc: PDDocument) : Closeable {
     private val readLabels = ArrayList<String?>()
     private val readToc = ArrayList<Pair<String, String>>()
     private val readBoxes = HashMap<Int, List<LabelBox>>()
+    private val readHeads = ArrayList<Pair<Int, String>>()
 
     val pageCount: Int get() = doc.numberOfPages
 
@@ -433,6 +450,7 @@ class PdfLinks private constructor(private val doc: PDDocument) : Closeable {
         }
         val label = LABEL_LINE.findAll(text).lastOrNull()?.groupValues?.get(1)?.lowercase()
         readLabels.add(label)
+        try { heading(s, i) } catch (e: Throwable) { }
         // Contents pages sit near the front of a book.
         if (i >= 40) return
         val entries = TOC_LINE.findAll(text).map { m ->
@@ -459,7 +477,33 @@ class PdfLinks private constructor(private val doc: PDDocument) : Closeable {
         if (boxes.isNotEmpty()) readBoxes[i] = boxes
     }
 
-    fun printed() = Printed(ArrayList(readLabels), ArrayList(readToc), HashMap(readBoxes))
+    fun printed() = Printed(ArrayList(readLabels), ArrayList(readToc), HashMap(readBoxes), ArrayList(readHeads))
+
+    /**
+     * The page's own heading, if it has one: the short line set in the largest type on the page,
+     * well above the rest in size, near its top. Headers and page numbers are left out.
+     */
+    private fun heading(s: ChunkStripper, page: Int) {
+        if (s.chunks.isEmpty()) return
+        data class C(val text: String, val size: Float, val top: Float)
+        val lines = s.chunks.mapNotNull { (t, pos) ->
+            if (pos.isEmpty()) return@mapNotNull null
+            val txt = t.trim()
+            if (txt.length !in 3..70) return@mapNotNull null
+            if (txt.count { it.isLetter() } < txt.length / 2) return@mapNotNull null
+            C(txt, pos.map { it.heightDir }.average().toFloat(), pos.minOf { it.yDirAdj })
+        }
+        if (lines.size < 4) return
+        val sizes = lines.map { it.size }.sorted()
+        val median = sizes[sizes.size / 2]
+        val best = lines.maxByOrNull { it.size } ?: return
+        if (median <= 0f || best.size < median * 1.45f) return
+        // A heading sits in the upper half; a big word low on the page is a figure's label.
+        val pageHeight = try { doc.getPage(page).mediaBox.height } catch (e: Exception) { 792f }
+        if (best.top > pageHeight * 0.55f) return
+        if (Regex("^[0-9ivxlc\\-\\s.]+$", RegexOption.IGNORE_CASE).matches(best.text)) return
+        readHeads.add(page to best.text.replace(Regex("\\s+"), " "))
+    }
 
     // ---- the letters on a page, for selecting text ----
 
