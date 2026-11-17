@@ -160,6 +160,8 @@
     <string name="contents_title">العلامات والفهرس</string>
     <string name="contents_empty">لا توجد علامات ولا فهرس بعد. اضغط 🔖 لإضافة علامة على الصفحة</string>
     <string name="sel_highlight">🖍 ظلّل</string>
+    <string name="regs_prev">السابق</string>
+    <string name="regs_next">التالي</string>
     <string name="sel_copy">📋 نسخ النص</string>
     <string name="sel_copied">تم نسخ النص</string>
     <string name="ai_title">🤖 الذكاء الاصطناعي</string>
@@ -882,4 +884,8 @@
     <string name="prev">السابق</string>
     <string name="next">التالي</string>
     <string name="page_of">صفحة %1$d من %2$d</string>
+    <string name="log_reports">📊 تقارير</string>
+    <string name="log_by_tail">حسب رقم الطيارة</string>
+    <string name="log_by_role">حسب المقعد</string>
+    <string name="log_by_airport">حسب مطار الإقلاع</string>
 </resources>

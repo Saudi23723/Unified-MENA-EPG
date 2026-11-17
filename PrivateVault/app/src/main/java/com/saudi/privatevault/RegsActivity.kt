@@ -255,6 +255,25 @@ class RegsActivity : BaseActivity() {
             Toast.makeText(this, R.string.sel_copied, Toast.LENGTH_SHORT).show()
         }
         col.addView(actions)
+        // The section before and the one after, so the part reads straight through without the contents.
+        val all = doc?.sections.orEmpty()
+        val here = all.indexOfFirst { it.num == s.num }
+        if (here >= 0 && all.size > 1) {
+            val move = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; setPadding(0, dp(8), 0, dp(20)) }
+            fun step(to: Section?, label: String, right: Boolean) = move.addView(LinearLayout(this).apply {
+                orientation = LinearLayout.VERTICAL
+                gravity = if (right) Gravity.END else Gravity.START
+                background = EfbUi.cardBg(this@RegsActivity, EfbUi.CARD, 12).apply { setStroke(0, 0) }
+                setPadding(dp(12), dp(10), dp(12), dp(10))
+                alpha = if (to == null) 0.35f else 1f
+                addView(EfbUi.text(this@RegsActivity, label, 12.5f, EfbUi.ACCENT, bold = true))
+                addView(EfbUi.ltr(EfbUi.text(this@RegsActivity, to?.head ?: "—", 12.5f, EfbUi.TEXT)).apply { maxLines = 2 })
+                if (to != null) setOnClickListener { section(to, back); (col.parent as? android.widget.ScrollView)?.scrollTo(0, 0) }
+            }, LinearLayout.LayoutParams(0, -2, 1f).apply { if (!right) marginEnd = dp(6) })
+            step(all.getOrNull(here - 1), "‹ " + getString(R.string.regs_prev), false)
+            step(all.getOrNull(here + 1), getString(R.string.regs_next) + " ›", true)
+            col.addView(move)
+        }
         (col.parent as? android.widget.ScrollView)?.scrollTo(0, 0)
     }
 }

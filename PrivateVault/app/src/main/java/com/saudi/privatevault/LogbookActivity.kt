@@ -256,15 +256,36 @@ class LogbookActivity : BaseActivity() {
                 }.show()
         }, LinearLayout.LayoutParams(-2, -2).apply { marginStart = dp(8) })
         body.addView(top)
+        val filters = listOf("All" to "", "🛰 GPS track" to "gps", "XC" to "xc", "Dual" to "dual",
+            "Solo" to "solo", "Night" to "night", "Instrument" to "inst", "Signed" to "signed")
+        val chips = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; setPadding(0, dp(8), 0, 0) }
+        body.addView(android.widget.HorizontalScrollView(this).apply { isHorizontalScrollBarEnabled = false; addView(chips) })
         val list = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
         body.addView(list)
+        lateinit var paintChips: () -> Unit
+        fun keep(e: LogEntry): Boolean = when (filter) {
+            "gps" -> e.track.isNotEmpty()
+            "xc" -> e.xc > 0
+            "dual" -> e.dual > 0
+            "solo" -> e.solo > 0
+            "night" -> e.night > 0
+            "inst" -> e.instrument + e.actual > 0
+            "signed" -> e.signed
+            else -> true
+        }
         fun fill() {
             list.removeAllViews()
             val q = query.trim().uppercase()
-            val shown = if (q.isEmpty()) entries else entries.filter { e ->
+            val shown = (if (q.isEmpty()) entries else entries.filter { e ->
                 listOf(e.date, e.aircraft, e.tail, e.from, e.to, e.route, e.remarks, e.instructor).any { it.uppercase().contains(q) }
+            }).filter { keep(it) }
+            val lessons = if (filter.isNotEmpty()) emptyList() else
+                Logbook.ground(this).filter { g -> q.isEmpty() || listOf(g.date, g.kind, g.topics, g.instructor, g.remarks).any { it.uppercase().contains(q) } }
+            if (filter == "gps" && shown.isNotEmpty()) {
+                val nm = shown.sumOf { it.distanceNm }
+                list.addView(EfbUi.text(this, "%d flights recorded by the GPS  ·  %.1f h  ·  %,.0f nm".format(shown.size, shown.sumOf { it.total }, nm),
+                    13f, EfbUi.ACCENT, bold = true).apply { setPadding(dp(4), dp(10), dp(4), 0) })
             }
-            val lessons = Logbook.ground(this).filter { g -> q.isEmpty() || listOf(g.date, g.kind, g.topics, g.instructor, g.remarks).any { it.uppercase().contains(q) } }
             if (shown.isEmpty() && lessons.isEmpty()) {
                 list.addView(EfbUi.text(this, getString(if (entries.isEmpty()) R.string.log_empty else R.string.empty_search), 14f, EfbUi.DIM).apply { setPadding(dp(4), dp(16), dp(4), 0) })
                 return
@@ -283,6 +304,16 @@ class LogbookActivity : BaseActivity() {
                 if (item is LogEntry) list.addView(flightCard(item)) else if (item is GroundLesson) list.addView(lessonCard(item))
             }
         }
+        paintChips = {
+            chips.removeAllViews()
+            for ((label, kee) in filters) chips.addView(EfbUi.text(this, label, 12.5f,
+                if (filter == kee) EfbUi.BG else EfbUi.TEXT, bold = filter == kee).apply {
+                background = EfbUi.cardBg(this@LogbookActivity, if (filter == kee) EfbUi.ACCENT else EfbUi.CARD, 12).apply { setStroke(0, 0) }
+                setPadding(dp(12), dp(7), dp(12), dp(7))
+                setOnClickListener { filter = kee; paintChips(); fill() }
+            }, LinearLayout.LayoutParams(-2, -2).apply { marginEnd = dp(6) })
+        }
+        paintChips()
         search.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) {}
             override fun onTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) {}
@@ -290,6 +321,8 @@ class LogbookActivity : BaseActivity() {
         })
         fill()
     }
+
+    private var filter = ""
 
     private fun monthName(ym: String): String = try {
         val c = Calendar.getInstance().apply { time = LogEntry.FMT.parse("$ym-01")!! }
@@ -346,10 +379,17 @@ class LogbookActivity : BaseActivity() {
         mid.addView(EfbUi.text(this, "${e.from.ifEmpty { "—" }} → ${e.to.ifEmpty { "—" }}", 17f, EfbUi.TEXT, bold = true))
         mid.addView(EfbUi.text(this, listOf(e.aircraft, e.tail, listOf(e.timeOut, e.timeIn).filter { it.isNotEmpty() }.joinToString("–")).filter { it.isNotEmpty() }.joinToString("  ·  "), 12f, EfbUi.DIM))
         val tags = listOfNotNull(
+            if (e.track.isNotEmpty()) "🛰 GPS" else null,
             if (e.dual > 0) "DUAL" else null, if (e.solo > 0) "SOLO" else null, if (e.xc > 0) "XC" else null,
             if (e.night > 0) "NIGHT" else null, if (e.instrument + e.actual > 0) "INST" else null,
             if (e.dayLdg + e.nightLdg > 0) "${e.dayLdg + e.nightLdg} LDG" else null,
         )
+        if (e.track.isNotEmpty() || e.distanceNm > 0) mid.addView(EfbUi.text(this,
+            listOfNotNull(
+                if (e.distanceNm > 0) "%.0f nm flown".format(e.distanceNm) else null,
+                if (e.farthestNm > 0) "%.0f nm out".format(e.farthestNm) else null,
+                e.route.takeIf { it.isNotEmpty() }?.let { "via $it" },
+            ).joinToString("  ·  "), 11.5f, 0xFF7FB2E5.toInt()))
         if (tags.isNotEmpty()) mid.addView(LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
             setPadding(0, dp(5), 0, 0)
@@ -705,6 +745,25 @@ class LogbookActivity : BaseActivity() {
                 t.addView(row)
             }
         }
+
+        // The logbook as pictures: where the hours went, and who was in which seat.
+        body.addView(header(getString(R.string.log_reports)))
+        fun pie(title: String, parts: List<Pair<String, Double>>, centre: String) {
+            if (parts.none { it.second > 0.001 }) return
+            val card = EfbUi.card(this)
+            body.addView(card)
+            card.addView(EfbUi.text(this, title, 13f, EfbUi.DIM, bold = true).apply { letterSpacing = 0.06f })
+            card.addView(PieChart(this, parts, centre), LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(6) })
+        }
+        pie(getString(R.string.log_by_aircraft), types.map { (k2, v) -> k2 to v.sumOf { e -> e.total } }, "hours")
+        pie(getString(R.string.log_by_tail), entries.filter { it.tail.isNotEmpty() }.groupBy { it.tail }
+            .map { (k2, v) -> k2 to v.sumOf { e -> e.total } }, "hours")
+        pie(getString(R.string.log_by_role), listOf(
+            "PIC" to entries.sumOf { it.pic }, "Dual received" to entries.sumOf { it.dual },
+            "Solo" to entries.sumOf { it.solo }, "Sim / ATD" to entries.sumOf { it.groundTrainer },
+            "Ground school" to Logbook.ground(this).sumOf { it.hours }), "hours")
+        pie(getString(R.string.log_by_airport), entries.filter { it.from.isNotEmpty() }.groupBy { it.from }
+            .map { (k2, v) -> k2 to v.sumOf { e -> e.total } }, "hours")
 
         body.addView(header(getString(R.string.log_iacra)))
         val ia = EfbUi.card(this)
