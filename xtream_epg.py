@@ -200,6 +200,13 @@ for f in sorted(glob.glob("xtream/*/channel_map.json")):
         if s_["stream_id"] in loop_ids and str(s_.get("stream_icon", "")).endswith("#weak"):
             s_["stream_icon"] = s_["stream_icon"][:-5]
     dump = lambda o, p: json.dump(o, open(p, "w", encoding="utf-8"), ensure_ascii=True, separators=(",", ":"))
+    # channels shown in a second group too (xtream_order.COPIES), for SAUDI.TV
+    copies = []
+    for _rx, _grx, _pos in getattr(xtream_order, "COPIES", {}).get(name, []):
+        _st = next((x for x in streams if re.search(_rx, x["name"], re.I)), None)
+        _gg = next((g for g in cats if re.search(_grx, g)), None)
+        if _st and _gg and catid[_gg] != _st["category_id"]:
+            copies.append({"stream_id": _st["stream_id"], "category_id": catid[_gg], "pos": _pos})
     dump([{"category_id": catid[g], "category_name": shown(g, name), "parent_id": 0} for g in cats],
          f"{play}/live_categories.json")
     dump(streams, f"{play}/live_streams.json")
@@ -299,7 +306,7 @@ for f in sorted(glob.glob("xtream/*/channel_map.json")):
             if sp:
                 want[sp[0]].add(sp[1])
                 mp.setdefault(str(c["stream_id"] % 256), {})[str(c["stream_id"])] = f"{sp[0]}/{safe(sp[1])}"
-        dump({"cats": hcats, "streams": hstreams}, f"{play}/hidden_live.json")
+        dump({"cats": hcats, "streams": hstreams, "copies": copies}, f"{play}/hidden_live.json")
         print(f"{name}: {len(hcats)} hidden groups, {len(hstreams)} channels built for SAUDI.TV")
 
 listings = {k: {c: [] for c in v} for k, v in want.items()}

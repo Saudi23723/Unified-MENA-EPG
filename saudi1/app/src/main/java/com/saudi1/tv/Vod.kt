@@ -236,6 +236,12 @@ object Vod {
 
     /** when the series' newest episode came out on the provider (each episode's "added"), kept 3 hours on the device:
      *  Favorites put the series with the newest episode first (owner, 11 Nov 2026: Mehmed, Yeralti, Tulsa King on top) */
+    /** the last known newest-episode time of a series, from the device only (no network, any age): for an instant order */
+    fun latestEpisodeKnown(id: Int): Long =
+        App.prefs.getString("lep_" + Resume.pl() + "_" + id, null)?.split(':')?.getOrNull(1)?.toLongOrNull() ?: 0L
+    fun latestEpisodeFresh(id: Int): Boolean =
+        System.currentTimeMillis() - (App.prefs.getString("lep_" + Resume.pl() + "_" + id, null)?.split(':')?.getOrNull(0)?.toLongOrNull() ?: 0L) < 3 * 3600_000L
+
     fun latestEpisodeAt(id: Int): Long {
         val k = "lep_" + Resume.pl() + "_" + id
         val c = App.prefs.getString(k, null)?.split(':')

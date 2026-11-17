@@ -289,3 +289,11 @@ def _order(chans: list[dict], playlist: str | None = None) -> list[dict]:
     # an optional "sort" in channel_map.json puts a group's main channels first (TRT 1, ATV, Show TV...)
     return sorted(chans, key=lambda c: (top(c["group"]), group_rank(c["group"], country), group_quality(c["group"]), first_seen[c["group"]],
                                           evk(c), lead_rank(c["name"]), group_lead(c["group"], c["name"]), sky_rank(c["name"]), c.get("sort", 999), channel_key(c["name"])))
+
+
+# A channel shown in a second group too, at a set place (SAUDI.TV only, through hidden_live.json "copies"):
+# playlist -> [(channel name, group name, place from 1)]. The channel stays in its own group as well.
+# owner, 17 Nov 2026: FOX WEATHER also in the USA group, 4th.
+COPIES = {
+    "strong": [(r"^US:\s*FOX\s+WEATHER$", r"^🇺🇲 \| USA$", 4)],
+}

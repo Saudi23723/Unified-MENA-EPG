@@ -164,6 +164,7 @@ object Api {
         }
         // the hidden-by-default groups at the end (only when this list belongs to the playlist they were built for)
         val dh = HashSet<String>()
+        val copies = ArrayList<Triple<Int, String, Int>>()
         try {
             val hf = cache("hidden_live_" + Prefs.playlist + ".json")
             if (hf.isFile && Prefs.playlist.isNotEmpty()) JsonReader(InputStreamReader(hf.inputStream(), Charsets.UTF_8)).use { j ->
@@ -185,12 +186,25 @@ object Api {
                         val g = map[cat] ?: continue
                         val ch = Channel(id, all.size + 1, name.trim(), logo, epg, g.id); ids[id] = ch; g.channels.add(ch)
                     }; j.endArray() }
+                    // a channel shown in a second group too, at a set place (owner, 17 Nov 2026: FOX WEATHER 4th in USA)
+                    "copies" -> { j.beginArray(); while (j.hasNext()) {
+                        var id = 0; var cat = ""; var pos = 0
+                        j.beginObject(); while (j.hasNext()) when (j.nextName()) {
+                            "stream_id" -> id = str(j).toIntOrNull() ?: 0; "category_id" -> cat = str(j); "pos" -> pos = str(j).toIntOrNull() ?: 0; else -> j.skipValue()
+                        }; j.endObject()
+                        if (id > 0 && cat.isNotEmpty()) copies.add(Triple(id, cat, pos))
+                    }; j.endArray() }
                     else -> j.skipValue()
                 }
                 j.endObject()
             }
         } catch (e: Exception) { }
         Arrange.defaultHidden = dh
+        for ((id, cat, pos) in copies) {
+            val ch = ids[id] ?: continue; val g = map[cat] ?: continue
+            if (g.channels.any { it.id == id }) continue
+            g.channels.add((pos - 1).coerceIn(0, g.channels.size), ch)
+        }
         val fav = Prefs.favorites
         val out = ArrayList<Group>()
         out.add(Group(FAV, "★ Favorites", all.filter { it.id.toString() in fav }.toMutableList()))

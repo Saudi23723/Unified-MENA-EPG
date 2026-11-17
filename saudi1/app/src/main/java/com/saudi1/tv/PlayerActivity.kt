@@ -60,13 +60,14 @@ class PlayerActivity : BaseActivity() {
         view.controllerAutoShow = false; view.useController = true; view.controllerShowTimeoutMs = 3500
         // the ⚙ on the player's bar opens this app's options (picture, audio, subtitles, speed...), not the small built-in menu
         view.findViewById<View>(androidx.media3.ui.R.id.exo_settings)?.setOnClickListener { options() }
-        // movies and series keep their own picture choice (Full screen cuts the black edges of wide films)
-        view.resizeMode = App.prefs.getInt("vod_resize", App.prefs.getInt("resize", 0))
+        // the picture: TiviMate's display modes (owner, 15 Nov 2026), for this title or for all movies and shows
+        applyMode()
         load(url, intent.getLongExtra("from", Resume.get(key)))
         player.addListener(object : Player.Listener {
             override fun onPlayerError(error: PlaybackException) {
                 android.widget.Toast.makeText(this@PlayerActivity, "Could not play this (${error.errorCodeName})", android.widget.Toast.LENGTH_LONG).show()
             }
+            override fun onVideoSizeChanged(videoSize: androidx.media3.common.VideoSize) { applyMode() }
             override fun onPlaybackStateChanged(state: Int) {
                 if (state == Player.STATE_ENDED) { save(); if (nextUrls.isNotEmpty()) askNext() else finish() }
             }
@@ -196,16 +197,59 @@ class PlayerActivity : BaseActivity() {
         return super.dispatchKeyEvent(e)
     }
 
+    // ---- display mode, as in TiviMate: Normal, Full, Zoom, Zoom 2.35:1, Reduced, 4:3, 16:9, 2.35:1 ----
+    private val MODES = arrayOf("Normal", "Full", "Zoom", "Zoom · 2.35:1", "Reduced", "4:3", "16:9", "2.35:1")
+    /** the title's own choice, else the one for all movies and shows (the old "Picture" choice carried over) */
+    private fun mode(): Int {
+        val own = App.prefs.getInt("dm_$key", -1)
+        if (own in MODES.indices) return own
+        val all = App.prefs.getInt("dm_all", -1)
+        if (all in MODES.indices) return all
+        return when (App.prefs.getInt("vod_resize", App.prefs.getInt("resize", 0))) { 3 -> 1; 4 -> 2; else -> 0 }
+    }
+
+    private fun applyMode() {
+        val m = mode()
+        val frame = view.findViewById<View>(androidx.media3.ui.R.id.exo_content_frame) ?: return
+        frame.scaleX = 1f; frame.scaleY = 1f
+        view.resizeMode = when (m) { 1 -> androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_FILL; 2 -> androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_ZOOM
+            else -> androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_FIT }
+        val vs = player.videoSize
+        val v = if (vs.width > 0 && vs.height > 0) vs.width * vs.pixelWidthHeightRatio / vs.height else 16f / 9f
+        val sc = if (view.width > 0 && view.height > 0) view.width.toFloat() / view.height else 16f / 9f
+        // the size of a picture of aspect a fitted in the screen (as parts of the screen's width and height)
+        fun fit(a: Float) = if (a >= sc) 1f to sc / a else a / sc to 1f
+        when (m) {
+            3 -> { val z = (2.35f / v).coerceAtLeast(1f); frame.scaleX = z; frame.scaleY = z }   // wide films: the black bars off
+            4 -> { frame.scaleX = 0.85f; frame.scaleY = 0.85f }                                 // a little smaller, all of it seen
+            5, 6, 7 -> {
+                val a = when (m) { 5 -> 4f / 3f; 6 -> 16f / 9f; else -> 2.35f }
+                val (wv, hv) = fit(v); val (wa, ha) = fit(a)
+                frame.scaleX = wa / wv; frame.scaleY = ha / hv
+            }
+        }
+    }
+
+    private fun displayModes() {
+        val all = App.prefs.getInt("dm_$key", -1) !in MODES.indices
+        val items = MODES.toList() + ((if (all) "✓  " else "☐  ") + "Apply to all movies and shows")
+        AlertDialog.Builder(this).setTitle("Display mode").setSingleChoiceItems(items.toTypedArray(), mode()) { dlg, k ->
+            val e = App.prefs.edit()
+            if (k == MODES.size) {
+                // the switch: this title keeps its own mode, or follows the one for all
+                if (all) e.putInt("dm_$key", mode()) else { e.putInt("dm_all", mode()); e.remove("dm_$key") }
+                e.apply(); dlg.dismiss(); displayModes(); return@setSingleChoiceItems
+            }
+            if (all) e.putInt("dm_all", k) else e.putInt("dm_$key", k)
+            e.apply(); applyMode(); dlg.dismiss()
+        }.show()
+    }
+
     private fun options() {
-        val modes = intArrayOf(0, 4, 3); val modeNames = arrayOf("Whole picture (with bars)", "Full screen (no black edges)", "Stretch")
         val speeds = floatArrayOf(0.5f, 0.75f, 1f, 1.25f, 1.5f, 2f)
         val sp = player.playbackParameters.speed
         val acts = ArrayList<Pair<String, () -> Unit>>()
-        acts.add("Picture: " + modeNames[modes.indexOf(view.resizeMode).coerceAtLeast(0)] to {
-            // remembered: the next movie opens the same way
-            AlertDialog.Builder(this).setTitle("Picture").setSingleChoiceItems(modeNames, modes.indexOf(view.resizeMode).coerceAtLeast(0)) { dlg, m ->
-                view.resizeMode = modes[m]; App.prefs.edit().putInt("vod_resize", modes[m]).apply(); dlg.dismiss() }.show(); Unit
-        })
+        acts.add("Display mode: " + MODES[mode()] to { displayModes() })
         acts.add("Audio" to { tracks(C.TRACK_TYPE_AUDIO) })
         acts.add("Subtitles" to { tracks(C.TRACK_TYPE_TEXT) })
         if (nextUrls.isNotEmpty()) acts.add("Next episode" to { playNext() })

@@ -28,6 +28,7 @@ class App : Application(), ImageLoaderFactory {
         }
         tidy()
         Backup.auto()
+        Health.start()
     }
 
     /** the cache is cleared by itself (owner, 10 Nov 2026), once a day: pictures not seen for 3 days, temp files, an old

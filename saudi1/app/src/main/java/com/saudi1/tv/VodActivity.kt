@@ -188,23 +188,21 @@ class VodActivity : BaseActivity() {
             show(); return
         }
         if (c.id == FAV) {
-            val f = favs().map { VodItem(it.optInt("id"), it.optString("n"), it.optString("p"), it.optString("e"), it.optString("r"), "") }
+            val raw = favs().map { VodItem(it.optInt("id"), it.optString("n"), it.optString("p"), it.optString("e"), it.optString("r"), "") }
+            // series: the one with the newest episode comes first. Shown AT ONCE in the order the device already knows
+            // (owner, 14 Nov 2026: "3-4 seconds of waiting"); only series not checked in the last 3 hours are asked again,
+            // in the background, and the order moves only if it really changed and the viewer is still on the first poster
+            val known = if (series) Vod.stamps(true) else emptyMap()
+            fun at(x: VodItem) = maxOf(known[x.id] ?: 0L, Vod.latestEpisodeKnown(x.id))
+            val f = if (series && raw.size > 1) raw.sortedByDescending { at(it) } else raw
             items = f; show()
-            // series: the one with the newest episode comes first (each favourite's own episode list, every 3 hours)
-            if (series && f.size > 1) loadJob = lifecycleScope.launch {
-                val at = withContext(Dispatchers.IO) {
-                    val st = Vod.stamps(true)
-                    // one after another, not to press the provider (each kept 3 hours, so mostly from the device)
-                    val m = HashMap<Int, Long>()
-                    for (x in f) m[x.id] = maxOf(st[x.id] ?: 0L, Vod.latestEpisodeAt(x.id))
-                    m
-                }
-                if (current != FAV || at.values.all { it == 0L }) return@launch
-                val o = f.sortedByDescending { at[it.id] ?: 0L }
-                // it used to wait for no focus at all, so it never moved (the first poster always has the focus): now it moves
-                // unless the viewer has already gone further than the first one
+            val stale = if (series && raw.size > 1) raw.filter { !Vod.latestEpisodeFresh(it.id) } else emptyList()
+            if (stale.isNotEmpty()) loadJob = lifecycleScope.launch {
+                withContext(Dispatchers.IO) { for (x in stale) Vod.latestEpisodeAt(x.id) }   // one after another, not to press the provider
+                if (current != FAV) return@launch
+                val o = raw.sortedByDescending { at(it) }
                 val pos = grid.focusedChild?.let { grid.getChildAdapterPosition(it) } ?: -1
-                if (o.indices.any { o[it].id != f[it].id } && pos <= 0) {
+                if (o.indices.any { o[it].id != items[it].id } && pos <= 0) {
                     items = o; show()
                     if (pos == 0) grid.post { grid.findViewHolderForAdapterPosition(0)?.itemView?.requestFocus() }
                 }
