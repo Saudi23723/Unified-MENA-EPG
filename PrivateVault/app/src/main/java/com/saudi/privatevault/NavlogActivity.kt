@@ -250,23 +250,18 @@ class NavlogActivity : BaseActivity() {
     /** What can be done with one leg: fly it, go straight to its end, take it out, give it its own wind. */
     private fun legMenu(r: Navlog.Row) {
         val real = !r.virtual
-        val items = ArrayList<String>()
-        items.add("➜  Fly this leg (make ${r.to.id} the active waypoint)")
-        items.add("↗  Direct to ${r.to.id}")
-        items.add("🌬  Wind on this leg")
-        if (real) items.add("＋  Insert a point after ${r.from.id}")
-        if (real && plan.points.size > 2) items.add("✕  Remove ${r.to.id} from the route")
+        val items = ArrayList<Pair<String, () -> Unit>>()
+        items.add("\u279C  Fly this leg (make ${r.to.id} the active waypoint)" to { flyLeg(r) })
+        items.add("\u2197  Direct to ${r.to.id}" to {
+            plan.direct = FlightPlan.Waypoint(r.to.id, r.to.lat, r.to.lon); plan.save(this); toast("Direct ${r.to.id}"); rebuild()
+        })
+        items.add("\uD83C\uDF2C  Wind on this leg" to { legWind(r) })
+        if (real) items.add("\uFF0B  Insert a point after ${r.from.id}" to { insertAfter(r) })
+        if (real && plan.points.size > 2) items.add("\u2715  Remove ${r.to.id} from the route" to { removePoint(r) })
         MaterialAlertDialogBuilder(this)
-            .setTitle("${r.from.id} → ${r.to.id}")
-            .setItems(items.toTypedArray()) { _, i ->
-                when (items[i].first()) {
-                    '➜' -> { flyLeg(r); }
-                    '↗' -> { plan.direct = FlightPlan.Waypoint(r.to.id, r.to.lat, r.to.lon); plan.save(this); toast("Direct ${r.to.id}"); rebuild() }
-                    '🌬' -> legWind(r)
-                    '＋' -> insertAfter(r)
-                    else -> removePoint(r)
-                }
-            }.setNegativeButton(R.string.cancel, null).show()
+            .setTitle("${r.from.id} \u2192 ${r.to.id}")
+            .setItems(items.map { it.first }.toTypedArray()) { _, i -> items[i].second() }
+            .setNegativeButton(R.string.cancel, null).show()
     }
 
     private fun flyLeg(r: Navlog.Row) {
