@@ -33,6 +33,8 @@ class InkSheet(ctx: Context) : View(ctx) {
     var color = 0xFFFF3B30.toInt()
     /** The pen's size: small, medium, large (a factor on every tool's width). */
     var size = 1f
+    /** True while the ruler is sitting on a clean angle, so the tap is felt once, not continuously. */
+    private var wasLevel = false
     private val marks = ArrayList<Mark>()
     private val undone = ArrayList<Mark>()
     private var cur: Mark? = null
@@ -61,13 +63,39 @@ class InkSheet(ctx: Context) : View(ctx) {
                     Tool.ERASER -> erase(x, y)
                     // The airplane stamp turns toward the drag.
                     Tool.PLANE -> marks.lastOrNull()?.let { m -> m.pts[2] = Math.toDegrees(Math.atan2((x - m.pts[0]).toDouble(), -(y - m.pts[1]).toDouble())).toFloat() }
-                    Tool.RULER -> cur?.let { m -> while (m.pts.size > 2) m.pts.removeAt(m.pts.size - 1); m.pts.add(x); m.pts.add(y) }
+                    Tool.RULER -> cur?.let { m ->
+                        while (m.pts.size > 2) m.pts.removeAt(m.pts.size - 1)
+                        // Within a couple of degrees of level, upright, or a clean 45: the line
+                        // clicks onto it and the tablet taps your hand, so a straight line is straight.
+                        val dx = x - m.pts[0]; val dy = y - m.pts[1]
+                        val len = Math.hypot(dx.toDouble(), dy.toDouble())
+                        var nx = x; var ny = y
+                        var snapped = false
+                        if (len > 12 * d) {
+                            val ang = Math.toDegrees(Math.atan2(dy.toDouble(), dx.toDouble()))
+                            val step = Math.round(ang / 45.0) * 45.0
+                            if (Math.abs(((ang - step + 540) % 360) - 180) < 2.5) {
+                                nx = (m.pts[0] + len * Math.cos(Math.toRadians(step))).toFloat()
+                                ny = (m.pts[1] + len * Math.sin(Math.toRadians(step))).toFloat()
+                                snapped = true
+                            }
+                        }
+                        if (snapped != wasLevel) {
+                            wasLevel = snapped
+                            if (snapped) try {
+                                performHapticFeedback(android.view.HapticFeedbackConstants.KEYBOARD_TAP,
+                                    android.view.HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING)
+                            } catch (e: Exception) { }
+                        }
+                        m.pts.add(nx); m.pts.add(ny)
+                    }
                     else -> cur?.pts?.apply { add(x); add(y) }
                 }
             }
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                 cur?.let { if (it.tool == Tool.LASER) it.t = SystemClock.uptimeMillis() }
                 cur = null
+                wasLevel = false
             }
         }
         invalidate()
@@ -232,6 +260,49 @@ class InkSheet(ctx: Context) : View(ctx) {
             holder.addView(HorizontalScrollView(act).apply { isHorizontalScrollBarEnabled = false; addView(bar) })
             holder.addView(colors, LinearLayout.LayoutParams(-2, -2).apply { topMargin = dp(6) })
             box.addView(holder, FrameLayout.LayoutParams(-2, -2, Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL).apply { bottomMargin = dp(150) })
+            // Dragged by its grip, and let go it settles into the nearest corner or edge — so it is
+            // never in the way, and always in a place the hand already knows.
+            run {
+                val p = act.getSharedPreferences("ink_bar", android.content.Context.MODE_PRIVATE)
+                holder.translationX = p.getFloat("x", 0f)
+                holder.translationY = p.getFloat("y", 0f)
+                var sx = 0f; var sy = 0f; var tx = 0f; var ty = 0f; var moved = false
+                grip.setOnTouchListener { v, e ->
+                    when (e.actionMasked) {
+                        MotionEvent.ACTION_DOWN -> {
+                            sx = e.rawX; sy = e.rawY; tx = holder.translationX; ty = holder.translationY; moved = false
+                            v.parent?.requestDisallowInterceptTouchEvent(true)
+                        }
+                        MotionEvent.ACTION_MOVE -> {
+                            holder.translationX = tx + e.rawX - sx
+                            holder.translationY = ty + e.rawY - sy
+                            if (Math.hypot((e.rawX - sx).toDouble(), (e.rawY - sy).toDouble()) > 8 * d) moved = true
+                        }
+                        MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                            if (!moved) { v.performClick() } else {
+                                // The four resting places, measured from where it normally sits.
+                                val w = box.width.toFloat(); val h = box.height.toFloat()
+                                val cx = holder.x + holder.width / 2f
+                                val cy = holder.y + holder.height / 2f
+                                val spots = listOf(
+                                    0f to 0f,                                   // where it starts: low and centred
+                                    0f to -(h - dp(330)).coerceAtLeast(0f),     // up at the top
+                                    -(w / 2 - holder.width / 2f - dp(8)) to -(h / 2 - dp(170)),   // left
+                                    (w / 2 - holder.width / 2f - dp(8)) to -(h / 2 - dp(170)),    // right
+                                )
+                                val best = spots.minByOrNull { (bx, by) ->
+                                    val px = (w - holder.width) / 2f + bx + holder.width / 2f
+                                    val py = h - dp(150) - holder.height + by + holder.height / 2f
+                                    Math.hypot((cx - px).toDouble(), (cy - py).toDouble())
+                                } ?: (0f to 0f)
+                                holder.animate().translationX(best.first).translationY(best.second).setDuration(160).start()
+                                p.edit().putFloat("x", best.first).putFloat("y", best.second).apply()
+                            }
+                        }
+                    }
+                    true
+                }
+            }
             holder.translationX = prefs.getFloat("ink_x", 0f); holder.translationY = prefs.getFloat("ink_y", 0f)
 
             // Dragged by its grip, anywhere on the screen; the place is kept.

@@ -3011,6 +3011,7 @@ class MapActivity : BaseActivity(), NeonHost {
         menu.add(0, 3, 0, R.string.map_track_up).setCheckable(true).isChecked = trackUp
         menu.add(0, 42, 0, R.string.traffic_list)
         menu.add(0, 47, 0, "✈  Approaches")
+        menu.add(0, 49, 0, "🌦  Weather briefing for the route")
         menu.add(0, 48, 0, "📡  Share live tracking").setCheckable(true).isChecked = LiveTrack.on(this)
         menu.add(0, 46, 0, "◎  Range rings").setCheckable(true).isChecked = prefs.getBoolean("rings", true)
         menu.add(0, 37, 0, R.string.glide_menu)
@@ -3084,6 +3085,7 @@ class MapActivity : BaseActivity(), NeonHost {
             40 -> AvionicsPanel.toggle(this)
             42 -> trafficList()
             44 -> { plateOnMap(); item.isChecked = prefs.getBoolean("auto_diagrams", true) }
+            49 -> BriefingActivity.open(this)
             47 -> approachMenu()
             48 -> liveTrackMenu()
             46 -> {
