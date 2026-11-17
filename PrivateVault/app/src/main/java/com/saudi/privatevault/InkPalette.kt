@@ -276,7 +276,7 @@ class InkSheet(ctx: Context) : View(ctx) {
                         MotionEvent.ACTION_MOVE -> {
                             holder.translationX = tx + e.rawX - sx
                             holder.translationY = ty + e.rawY - sy
-                            if (Math.hypot((e.rawX - sx).toDouble(), (e.rawY - sy).toDouble()) > 8 * d) moved = true
+                            if (Math.hypot((e.rawX - sx).toDouble(), (e.rawY - sy).toDouble()) > 8 * dd) moved = true
                         }
                         MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                             if (!moved) { v.performClick() } else {
