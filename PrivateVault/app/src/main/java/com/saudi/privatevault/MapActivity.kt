@@ -150,6 +150,8 @@ class MapActivity : BaseActivity(), NeonHost {
             override fun singleTapConfirmedHelper(p: GeoPoint?): Boolean = false
             override fun longPressHelper(p: GeoPoint?): Boolean {
                 if (p == null || draw.tool != MapDrawOverlay.MapTool.PAN) return false
+                // Held on the magenta line: the route is edited where the finger is, as on a chart.
+                legAt(p)?.let { i -> routeLegMenu(i, p); return true }
                 pointMenu(p)
                 return true
             }
@@ -1140,6 +1142,58 @@ class MapActivity : BaseActivity(), NeonHost {
     }
 
     // ---- the route ----
+
+    /** Which leg of the route the finger is on, if any: within about a fifth of an inch of the line. */
+    private fun legAt(p: GeoPoint): Int? {
+        if (plan.points.size < 2) return null
+        val pr = map.projection
+        val t = pr.toPixels(p, null)
+        var best: Int? = null; var bestD = (22 * resources.displayMetrics.density)
+        for (i in 1 until plan.points.size) {
+            val a = pr.toPixels(GeoPoint(plan.points[i - 1].lat, plan.points[i - 1].lon), null)
+            val b = pr.toPixels(GeoPoint(plan.points[i].lat, plan.points[i].lon), null)
+            val dx = (b.x - a.x).toFloat(); val dy = (b.y - a.y).toFloat()
+            val len2 = dx * dx + dy * dy
+            val u = if (len2 == 0f) 0f else (((t.x - a.x) * dx + (t.y - a.y) * dy) / len2).coerceIn(0f, 1f)
+            val d = Math.hypot((t.x - (a.x + u * dx)).toDouble(), (t.y - (a.y + u * dy)).toDouble()).toFloat()
+            if (d < bestD) { bestD = d; best = i }
+        }
+        return best
+    }
+
+    /**
+     * The route, edited by hand on the chart: a point put in where the finger is (snapped to a field
+     * or a fix within 5 nm), the leg flown, gone direct to, or taken out.
+     */
+    private fun routeLegMenu(i: Int, at: GeoPoint) {
+        val from = plan.points[i - 1]; val to = plan.points[i]
+        val near = airports.minByOrNull { Nav.distanceNm(at.latitude, at.longitude, it.lat, it.lon) }
+            ?.takeIf { Nav.distanceNm(at.latitude, at.longitude, it.lat, it.lon) < 5 }
+        val snapName = near?.let { it.icao.ifEmpty { it.ident } }
+        val items = ArrayList<Pair<String, () -> Unit>>()
+        items.add((snapName?.let { "\uFF0B  Put $it into the route here" } ?: "\uFF0B  Put a point here") to {
+            val w = if (near != null) FlightPlan.Waypoint(snapName!!, near.lat, near.lon)
+            else FlightPlan.Waypoint("WP%d".format(plan.points.size), at.latitude, at.longitude)
+            plan.points.add(i, w); plan.legWinds.clear(); plan.save(this); updateNav(); routePanel?.refresh(true); map.invalidate()
+            Toast.makeText(this, "${w.id} in the route", Toast.LENGTH_SHORT).show()
+        })
+        items.add("\u279C  Fly ${from.id} \u2192 ${to.id}" to {
+            plan.active = i; plan.direct = null; plan.save(this); updateNav(); map.invalidate()
+        })
+        items.add("\u2197  Direct to ${to.id}" to {
+            plan.direct = FlightPlan.Waypoint(to.id, to.lat, to.lon); plan.save(this); updateNav(); map.invalidate()
+        })
+        if (plan.points.size > 2) items.add("\u2715  Remove ${to.id}" to {
+            plan.points.removeAt(i); plan.legWinds.clear()
+            plan.active = plan.active.coerceIn(1, maxOf(1, plan.points.size - 1))
+            plan.save(this); updateNav(); routePanel?.refresh(true); map.invalidate()
+        })
+        items.add("\uD83D\uDCCD  What is here instead" to { pointMenu(at) })
+        MaterialAlertDialogBuilder(this)
+            .setTitle("${from.id} → ${to.id}  ·  %.1f nm".format(Nav.distanceNm(from.lat, from.lon, to.lat, to.lon)))
+            .setItems(items.map { it.first }.toTypedArray()) { _, k -> items[k].second() }
+            .setNegativeButton(R.string.cancel, null).show()
+    }
 
     private fun directTo(w: FlightPlan.Waypoint) {
         plan.direct = w
