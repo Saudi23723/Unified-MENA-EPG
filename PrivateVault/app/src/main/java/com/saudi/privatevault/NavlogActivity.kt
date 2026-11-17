@@ -34,6 +34,11 @@ class NavlogActivity : BaseActivity() {
     private var airports: List<AviationData.Airport> = emptyList()
     private val atos = HashMap<String, String>()
     private var mora = true
+    // What the GPS says, while the log is open: where we are, how fast, and which fix is next.
+    private var fix: android.location.Location? = null
+    private var live: TextView? = null
+    private var nearest = Double.MAX_VALUE
+    private var activeLeg = 0
 
     private fun dp(v: Int) = EfbUi.dp(this, v)
 
@@ -84,6 +89,12 @@ class NavlogActivity : BaseActivity() {
             return
         }
         body.addView(summary(r))
+        wbLine(r)?.let { body.addView(it) }
+        live = EfbUi.text(this, "", 13f, 0xFF64D2FF.toInt(), bold = true).apply {
+            setPadding(dp(14), dp(8), dp(14), dp(4)); visibility = View.GONE
+        }
+        body.addView(live)
+        paintLive()
         val table = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
         table.addView(columns())
         for (row in r.rows) table.addView(rowView(row, r))
@@ -100,6 +111,91 @@ class NavlogActivity : BaseActivity() {
     }
 
     private fun key(r: Navlog.Row) = "${r.from.id}>${r.to.id}#${r.index}"
+
+    /**
+     * The aeroplane's weight and where its balance sits, at take-off and again on landing with the
+     * log's own fuel burn taken out — the two numbers a loaded aeroplane is flown by.
+     */
+    private fun wbLine(r: Navlog.Result): View? {
+        val list = Aircraft.all(this)
+        if (list.isEmpty()) return null
+        val ac = list.getOrNull(VaultLock.prefs(this).getInt("wb_current", 0).coerceIn(0, list.size - 1)) ?: return null
+        val (to, ld) = try { ac.compute(r.fuelGal) } catch (e: Exception) { return null }
+        if (to.weight <= 0 || to.weight.isNaN()) return null
+        val row = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL; setBackgroundColor(0xFF121820.toInt())
+            setPadding(dp(14), dp(8), dp(14), dp(8))
+        }
+        fun cellOf(label: String, w: Double, cg: Double, ok: Boolean) = row.addView(LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            addView(EfbUi.text(this@NavlogActivity, label, 9.5f, 0xFF8FA3B8.toInt(), bold = true).apply { letterSpacing = 0.1f })
+            addView(EfbUi.text(this@NavlogActivity, "%,.0f lb · CG %.1f".format(w, cg), 14f,
+                if (ok) 0xFF30D158.toInt() else 0xFFFF453A.toInt(), bold = true))
+        }, LinearLayout.LayoutParams(0, -2, 1f))
+        cellOf("TAKE-OFF", to.weight, to.cg, to.inside)
+        cellOf("ON LANDING", ld.weight, ld.cg, ld.inside)
+        row.addView(TextView(this).apply {
+            text = "✎"; textSize = 16f; setTextColor(EfbUi.ACCENT); gravity = Gravity.CENTER
+            layoutParams = LinearLayout.LayoutParams(dp(40), -2)
+            setOnClickListener {
+                startActivity(Intent(this@NavlogActivity, WeightBalanceActivity::class.java)
+                    .putExtra(WeightBalanceActivity.EXTRA_BURN, r.fuelGal))
+            }
+        })
+        return row
+    }
+
+    /** The live line: how far to the next fix, the speed over the ground now, and when we land. */
+    private fun paintLive() {
+        val v = live ?: return
+        val l = fix
+        val r = result
+        if (l == null || r == null || r.rows.isEmpty()) { v.visibility = View.GONE; return }
+        val leg = r.rows.getOrNull(activeLeg) ?: r.rows.last()
+        val d = Nav.distanceNm(l.latitude, l.longitude, leg.to.lat, leg.to.lon)
+        val gs = if (l.hasSpeed()) l.speed * 1.943844 else 0.0
+        val brg = Nav.magnetic(Nav.bearingTrue(l.latitude, l.longitude, leg.to.lat, leg.to.lon), l.latitude, l.longitude)
+        val rest = r.rows.drop(activeLeg + 1).sumOf { it.distNm } + d
+        val mins = if (gs > 25) rest / gs * 60 else Double.NaN
+        v.visibility = View.VISIBLE
+        v.text = "▸ ${leg.to.id}  ${Nav.deg(brg)}M  %.1f nm".format(d) +
+            (if (gs > 1) "   ·   %d kt".format(Math.round(gs).toInt()) else "") +
+            (if (!mins.isNaN()) "   ·   lands ${plan.clock(mins)}" else "")
+    }
+
+    /** Overhead the fix: the time is stamped and the log moves on by itself, as a GPS does. */
+    private fun onFix(l: android.location.Location) {
+        fix = l
+        val r = result ?: return
+        val leg = r.rows.getOrNull(activeLeg) ?: return
+        val d = Nav.distanceNm(l.latitude, l.longitude, leg.to.lat, leg.to.lon)
+        val passed = d <= 0.5 || (nearest <= 1.5 && d > nearest + 0.15)
+        nearest = minOf(nearest, d)
+        if (passed) {
+            atos.getOrPut(key(leg)) { Navlog.utcNow() }
+            nearest = Double.MAX_VALUE
+            if (activeLeg + 1 < r.rows.size) activeLeg++
+            rebuild()
+        } else paintLive()
+    }
+
+    private val gps = android.location.LocationListener { l -> onFix(l) }
+
+    @android.annotation.SuppressLint("MissingPermission")
+    private fun startGps() {
+        if (androidx.core.content.ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+            != android.content.pm.PackageManager.PERMISSION_GRANTED) return
+        val m = getSystemService(android.location.LocationManager::class.java) ?: return
+        try {
+            m.getLastKnownLocation(android.location.LocationManager.GPS_PROVIDER)
+                ?.takeIf { System.currentTimeMillis() - it.time < 120000 }?.let { fix = it; paintLive() }
+            m.requestLocationUpdates(android.location.LocationManager.GPS_PROVIDER, 1000L, 0f, gps, mainLooper)
+        } catch (e: Exception) { }
+    }
+
+    private fun stopGps() {
+        try { getSystemService(android.location.LocationManager::class.java)?.removeUpdates(gps) } catch (e: Exception) { }
+    }
 
     private fun header(): View {
         val h = LinearLayout(this).apply {
@@ -375,6 +471,7 @@ class NavlogActivity : BaseActivity() {
             mora = !mora; VaultLock.prefs(this).edit().putBoolean("nav_mora", mora).apply(); rebuild()
         }
         btn(l2, "🖨 PDF", 0xFF48484A.toInt()) { printLog() }
+        btn(l2, "📋 ICAO", 0xFF48484A.toInt()) { icao() }
         btn(l2, "↗ Share", 0xFF48484A.toInt()) { share() }
         return wrap
     }
@@ -503,6 +600,50 @@ class NavlogActivity : BaseActivity() {
         return sb.toString()
     }
 
+    /**
+     * The flight plan as the ICAO form asks for it, box by box, ready to read out or to type into
+     * Leidos. The aircraft's own boxes come from the aeroplane you keep in weight and balance.
+     */
+    private fun icao() {
+        val r = result ?: return
+        val p = VaultLock.prefs(this)
+        val tail = Aircraft.all(this).getOrNull(p.getInt("wb_current", 0))?.name ?: ""
+        val dep = plan.points.firstOrNull()?.id ?: ""
+        val dest = plan.points.lastOrNull()?.id ?: ""
+        val route = plan.points.drop(1).dropLast(1).joinToString(" ") { it.id }.ifEmpty { "DCT" }
+        val etd = plan.etdMin?.let { "%02d%02d".format(it / 60, it % 60) } ?: "----"
+        val endur = if (plan.gph > 0) Navlog.hm(plan.fuelOnBoard / plan.gph * 60).replace(":", "") else "----"
+        val text = """
+            ICAO FLIGHT PLAN
+
+            7  Aircraft identification      ${p.getString("icao_call", tail).orEmpty()}
+            8  Flight rules / Type          V / G
+            9  Number / Type / Wake         1 / ${p.getString("icao_type", "EVSS").orEmpty()} / L
+            10 Equipment / Surveillance     ${p.getString("icao_equip", "SG").orEmpty()} / ${p.getString("icao_surv", "C").orEmpty()}
+            13 Departure / Time             $dep $etd
+            15 Speed / Level / Route        N${"%04d".format(plan.tas)} A${"%03d".format(plan.altitude / 100)} $route
+            16 Destination / EET / Alt      $dest ${Navlog.hm(r.minutes).replace(":", "")}
+            18 Other information            DOF/ PBN/ 
+            19 Endurance / Persons          E/$endur  P/${p.getString("icao_pob", "2").orEmpty()}
+               Emergency                    R/UV  S/ 
+               Colour / Pilot               A/${p.getString("icao_colour", "WHITE").orEmpty()}  C/${p.getString("pilot_name", "").orEmpty()}
+
+            Distance ${"%.0f".format(r.distNm)} nm · fuel ${"%.1f".format(r.fuelGal)} gal · reserve ${plan.reserveMin} min
+            Check every box before filing. VFR flight plans are filed with Leidos (1800wxbrief.com).
+        """.trimIndent()
+        val box = ScrollView(this).apply {
+            addView(EfbUi.ltr(EfbUi.text(this@NavlogActivity, text, 12.5f, EfbUi.TEXT, mono = true)).apply {
+                setPadding(dp(16), dp(10), dp(16), dp(10)); setTextIsSelectable(true)
+            })
+        }
+        MaterialAlertDialogBuilder(this).setTitle("📋 ICAO flight plan").setView(box)
+            .setPositiveButton("Share") { _, _ ->
+                startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).apply {
+                    type = "text/plain"; putExtra(Intent.EXTRA_TEXT, text)
+                }, null))
+            }.setNegativeButton(R.string.cancel, null).show()
+    }
+
     private fun share() = startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).apply {
         type = "text/plain"; putExtra(Intent.EXTRA_TEXT, text())
     }, null))
@@ -564,6 +705,12 @@ class NavlogActivity : BaseActivity() {
         plan = FlightPlan.load(this)
         profile = AircraftProfile.current(this)
         rebuild()
+        startGps()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        stopGps()
     }
 
     companion object {
