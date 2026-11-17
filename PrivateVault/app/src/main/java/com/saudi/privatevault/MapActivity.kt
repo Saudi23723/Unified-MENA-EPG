@@ -233,6 +233,8 @@ class MapActivity : BaseActivity(), NeonHost {
             me = { ownship.position()?.takeIf { gotGps }?.let { g -> Triple(g, ownship.fix?.takeIf { it.hasAltitude() }?.altitude?.times(3.28084), ownship.speedKt()) } }
         }
         map.overlays.add(map.overlays.indexOf(insetOv).coerceAtLeast(0), procOv)
+        // The plotter: two fingers held still measure the chart, as a plotter on paper.
+        map.overlays.add(PlotterOverlay(map) { ownship.speedKt() })
         b.root.postDelayed({ autoDiagrams() }, 2500)
         b.fabLocate.setOnClickListener { cycleView() }
         b.fabSos.setOnClickListener { emergency() }
