@@ -152,6 +152,8 @@ class AirportDiagramActivity : BaseActivity() {
         // the FAA diagram on it, the runways and the traffic pattern all lean away together, because
         // they are one picture. The runway names lean with it, which is what a pilot sees anyway.
         c3d = chip("🏔 3D") { tilt(!tilted); mark(c3d, tilted) }
+        // Asked for from the airport page: it opens already leaning, with the pattern on it.
+        if (intent.getBooleanExtra(EXTRA_3D, false)) map.post { tilt(true); mark(c3d, true) }
         cTrack = chip("🧭 Track up") {
             trackUp = !trackUp
             mark(cTrack, trackUp)
@@ -638,11 +640,15 @@ class AirportDiagramActivity : BaseActivity() {
     }
 
     companion object {
-        fun open(act: Activity, a: AviationData.Airport) {
+        /** Opened flat, or straight into the view from circuit height when `in3d` is asked for. */
+        fun open(act: Activity, a: AviationData.Airport, in3d: Boolean = false) {
             act.startActivity(Intent(act, AirportDiagramActivity::class.java)
                 .putExtra("ident", a.ident).putExtra("icao", a.icao).putExtra("name", a.name)
-                .putExtra("lat", a.lat).putExtra("lon", a.lon).putExtra("elev", a.elevation))
+                .putExtra("lat", a.lat).putExtra("lon", a.lon).putExtra("elev", a.elevation)
+                .putExtra(EXTRA_3D, in3d))
         }
+
+        const val EXTRA_3D = "in3d"
 
         private val SERVERS = listOf(
             "https://overpass-api.de/api/interpreter",

@@ -169,6 +169,8 @@ class AirportSheet(
         }, LinearLayout.LayoutParams(-1, -2))
         wide(R.string.perf_title) { act.startActivity(android.content.Intent(act, PerformanceActivity::class.java)) }
         wide(R.string.efb_diagram) { AirportDiagramActivity.open(act, a) }
+        // The field seen from circuit height, with the traffic pattern and the diagram lying on it.
+        wide(R.string.apt_3d) { AirportDiagramActivity.open(act, a, in3d = true) }
         wide(R.string.apt_supplement) { supplement() }
         wide(R.string.freq_title) { FrequenciesActivity.open(act, a.icao.ifEmpty { a.ident }) }
         wide(R.string.apt_notams) { notams() }

@@ -3921,19 +3921,26 @@ class MapActivity : BaseActivity(), NeonHost {
     private var tilted = false
 
     /** The chart laid down in perspective, the horizon ahead, the aircraft low on the screen. */
+    /**
+     * The chart with the aeroplane low on it and the way ahead in view.
+     *
+     * It used to lean the map by turning and stretching the view itself. The map underneath knows
+     * nothing of a view transform, so under it a finger dragged the chart by the wrong amount and
+     * in the wrong direction — the chart moved, but never where it was pushed, and that is what
+     * made the chart feel broken for days. No transform is applied to the map any more: the
+     * aeroplane is simply moved down the screen, which osmdroid understands, so the chart always
+     * goes exactly where the finger takes it. The leaning view belongs to the airport diagram,
+     * where it is a picture to look at rather than a chart to drag.
+     */
     private fun tilt(on: Boolean) {
         tilted = on
         val h = b.mapHolder.height.toFloat().coerceAtLeast(1f)
-        map.pivotX = map.width / 2f
-        map.pivotY = h
-        map.cameraDistance = 12000 * resources.displayMetrics.density
-        map.animate().rotationX(if (on) 38f else 0f).scaleX(if (on) 1.55f else 1f).scaleY(if (on) 1.35f else 1f)
-            .setDuration(650).setInterpolator(android.view.animation.DecelerateInterpolator()).start()
         b.mapHolder.background = if (on) android.graphics.drawable.GradientDrawable(
             android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM,
             intArrayOf(0xFF0B1A33.toInt(), 0xFF2D5C8A.toInt(), 0xFF9EC3E0.toInt()),
         ) else null
         map.setMapCenterOffset(0, if (on) (h * 0.22f).toInt() else 0)
+        map.invalidate()
     }
 
     /** The cockpit colours: dark bars, glowing buttons, and nothing under the status bar. */
