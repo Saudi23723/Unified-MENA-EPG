@@ -111,6 +111,7 @@ class LiveActivity : BaseActivity() {
         player.addListener(object : Player.Listener {
             override fun onPlayerError(error: PlaybackException) {
                 val c = playing ?: return
+                android.util.Log.w("SAUDI", "error: ${c.name}: ${error.errorCodeName} ${error.cause}")
                 // fell behind the live edge (HLS): jump back to live, no error for the viewer
                 if (error.errorCode == PlaybackException.ERROR_CODE_BEHIND_LIVE_WINDOW) { player.seekToDefaultPosition(); player.prepare(); return }
                 // 1st: the same link again (a provider "500" is often a busy moment); 2nd: the channel's HLS link
@@ -120,6 +121,12 @@ class LiveActivity : BaseActivity() {
                     1 -> lifecycleScope.launch { delay(500); if (playing === c) start(c, hls = !Hls.has(c.id)) }
                     else -> toast("This channel is not available right now")
                 }
+            }
+            override fun onTracksChanged(tracks: androidx.media3.common.Tracks) {
+                // what each channel really sends (to find why a channel shows no picture)
+                val t = tracks.groups.joinToString(" | ") { g -> (0 until g.length).joinToString(",") { i -> val f = g.getTrackFormat(i)
+                    "${f.sampleMimeType} ${if (f.width > 0) "${f.width}x${f.height} " else ""}${if (g.isTrackSelected(i)) "*" else ""}${if (!g.isTrackSupported(i)) "!" else ""}" } }
+                android.util.Log.w("SAUDI", "tracks: ${playing?.name}: $t")
             }
             override fun onVideoSizeChanged(videoSize: androidx.media3.common.VideoSize) {
                 applyMode()

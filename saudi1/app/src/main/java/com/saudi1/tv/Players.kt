@@ -17,8 +17,15 @@ object Players {
         val renderers = DefaultRenderersFactory(ctx)
             .setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
             .setEnableDecoderFallback(true)
+        // .ts channels taken straight from satellite (BBC PARLIAMENT, STARZPLAY SPORTS…) often never send the
+        // "IDR" key picture this player waited for: sound played, the picture stayed black (owner, 18 Nov 2026).
+        // Any key picture (I-frame) now starts the picture, and pictures are found even without access-unit
+        // markers, the way TiviMate reads them.
+        val extractors = androidx.media3.extractor.DefaultExtractorsFactory().setTsExtractorFlags(
+            androidx.media3.extractor.ts.DefaultTsPayloadReaderFactory.FLAG_ALLOW_NON_IDR_KEYFRAMES or
+            androidx.media3.extractor.ts.DefaultTsPayloadReaderFactory.FLAG_DETECT_ACCESS_UNITS)
         val b = ExoPlayer.Builder(ctx, renderers)
-            .setMediaSourceFactory(DefaultMediaSourceFactory(DefaultDataSource.Factory(ctx, OkHttpDataSource.Factory(App.http))))
+            .setMediaSourceFactory(DefaultMediaSourceFactory(DefaultDataSource.Factory(ctx, OkHttpDataSource.Factory(App.http)), extractors))
             .setAudioAttributes(AudioAttributes.Builder().setUsage(C.USAGE_MEDIA).setContentType(C.AUDIO_CONTENT_TYPE_MOVIE).build(), audioFocus)
             .setSeekBackIncrementMs(seekMs).setSeekForwardIncrementMs(seekMs)
         // Multiview: never more than full HD per screen (two 4K pictures at once are too much for the TV's chip)
