@@ -162,6 +162,15 @@ class PlayerActivity : BaseActivity() {
     }
 
     override fun dispatchKeyEvent(e: KeyEvent): Boolean {
+        // the menus (bottom bar, side panels): Back closes the top one, the other keys move in them
+        if (menus.isNotEmpty()) {
+            if (e.keyCode == KeyEvent.KEYCODE_BACK) { if (e.action == KeyEvent.ACTION_UP) popMenu(); return true }
+            return super.dispatchKeyEvent(e)
+        }
+        // Back with the bar (seek bar, buttons) showing: only the bar goes, the picture stays (owner, 17 Nov 2026)
+        if (e.keyCode == KeyEvent.KEYCODE_BACK && nextBox == null && !overlayOpen && view.isControllerFullyVisible) {
+            if (e.action == KeyEvent.ACTION_UP) view.hideController(); return true
+        }
         if (nextBox != null && e.keyCode == KeyEvent.KEYCODE_BACK) { if (e.action == KeyEvent.ACTION_UP) { closeNext(); finish() }; return true }
         if (!overlayOpen && nextBox == null) {
             val down = e.action == KeyEvent.ACTION_DOWN
@@ -232,52 +241,75 @@ class PlayerActivity : BaseActivity() {
 
     private fun displayModes() {
         val all = App.prefs.getInt("dm_$key", -1) !in MODES.indices
-        val items = MODES.toList() + ((if (all) "✓  " else "☐  ") + "Apply to all movies and shows")
-        AlertDialog.Builder(this).setTitle("Display mode").setSingleChoiceItems(items.toTypedArray(), mode()) { dlg, k ->
+        pushMenu(TvUi.side(this, "Display mode", MODES.toList(), mode(), { k ->
+            if (all) App.prefs.edit().putInt("dm_all", k).apply() else App.prefs.edit().putInt("dm_$key", k).apply()
+            applyMode(); closeMenus()
+        }, "Apply to all movies and shows", all, {
+            // the switch: this title keeps its own mode, or follows the one for all
             val e = App.prefs.edit()
-            if (k == MODES.size) {
-                // the switch: this title keeps its own mode, or follows the one for all
-                if (all) e.putInt("dm_$key", mode()) else { e.putInt("dm_all", mode()); e.remove("dm_$key") }
-                e.apply(); dlg.dismiss(); displayModes(); return@setSingleChoiceItems
-            }
-            if (all) e.putInt("dm_all", k) else e.putInt("dm_$key", k)
-            e.apply(); applyMode(); dlg.dismiss()
-        }.show()
+            if (all) e.putInt("dm_$key", mode()) else { e.putInt("dm_all", mode()); e.remove("dm_$key") }
+            e.apply(); popMenu(); displayModes()
+        }))
     }
 
+    // ---- the menus, TiviMate's way: a bar of icons at the bottom, the choices in a panel on the right ----
+    private val menus = ArrayList<View>()
+    private fun pushMenu(v: View) {
+        view.hideController()
+        (window.decorView as ViewGroup).addView(v, ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
+        menus.add(v); applyDim()
+    }
+    private fun popMenu() {
+        val v = menus.removeLastOrNull() ?: return
+        (window.decorView as ViewGroup).removeView(v)
+        // back on the bar: the focus returns to it
+        menus.lastOrNull()?.let { it.post { it.findFocus() ?: it.requestFocus(View.FOCUS_DOWN) } }
+    }
+    private fun closeMenus() { while (menus.isNotEmpty()) popMenu() }
+
     private fun options() {
+        if (menus.isNotEmpty()) return
         val speeds = floatArrayOf(0.5f, 0.75f, 1f, 1.25f, 1.5f, 2f)
         val sp = player.playbackParameters.speed
-        val acts = ArrayList<Pair<String, () -> Unit>>()
-        acts.add("Display mode: " + MODES[mode()] to { displayModes() })
-        acts.add("Audio" to { tracks(C.TRACK_TYPE_AUDIO) })
-        acts.add("Subtitles" to { tracks(C.TRACK_TYPE_TEXT) })
-        if (nextUrls.isNotEmpty()) acts.add("Next episode" to { playNext() })
-        acts.add("Play from the beginning" to { player.seekTo(0); player.play() })
-        acts.add("Speed: " + (if (sp == 1f) "Normal" else "${sp}x") to {
-            AlertDialog.Builder(this).setTitle("Speed").setSingleChoiceItems(speeds.map { if (it == 1f) "Normal" else "${it}x" }.toTypedArray(), speeds.indexOfFirst { it == sp }.coerceAtLeast(0)) { dlg, k ->
-                player.setPlaybackSpeed(speeds[k]); dlg.dismiss() }.show(); Unit
-        })
-        acts.add("Sleep timer: " + (if (sleepAt > 0) "${((sleepAt - System.currentTimeMillis()) / 60000 + 1)} min left" else "Off") to {
+        val tiles = ArrayList<TvUi.Tile>()
+        tiles += TvUi.Tile("▭", "Display", MODES[mode()]) { displayModes() }
+        tiles += TvUi.Tile("♫", "Audio", trackNow(C.TRACK_TYPE_AUDIO)) { tracks(C.TRACK_TYPE_AUDIO) }
+        tiles += TvUi.Tile("CC", "Subtitles", trackNow(C.TRACK_TYPE_TEXT)) { tracks(C.TRACK_TYPE_TEXT) }
+        tiles += TvUi.Tile("»", "Speed", if (sp == 1f) "Normal" else "${sp}x") {
+            pushMenu(TvUi.side(this, "Speed", speeds.map { if (it == 1f) "Normal" else "${it}x" }, speeds.indexOfFirst { it == sp }.coerceAtLeast(0), { k ->
+                player.setPlaybackSpeed(speeds[k]); closeMenus() }))
+        }
+        if (nextUrls.isNotEmpty()) tiles += TvUi.Tile("⇥", "Next episode", "") { closeMenus(); playNext() }
+        tiles += TvUi.Tile("↺", "From start", "") { closeMenus(); player.seekTo(0); player.play() }
+        tiles += TvUi.Tile("◷", "Sleep timer", if (sleepAt > 0) "${((sleepAt - System.currentTimeMillis()) / 60000 + 1)} min" else "Off") {
             val mins = intArrayOf(0, 15, 30, 45, 60, 90, 120)
-            AlertDialog.Builder(this).setTitle("Stop playing after").setItems(mins.map { if (it == 0) "Off" else "$it minutes" }.toTypedArray()) { _, k ->
+            val now = if (sleepAt > 0) -1 else 0
+            pushMenu(TvUi.side(this, "Stop playing after", mins.map { if (it == 0) "Off" else "$it minutes" }, now, { k ->
                 sleepJob?.cancel(); sleepAt = 0
                 if (mins[k] > 0) {
                     sleepAt = System.currentTimeMillis() + mins[k] * 60_000L
                     sleepJob = lifecycleScope.launch { delay(mins[k] * 60_000L); save(); finish() }
                 }
-            }.show(); Unit
-        })
-        acts.add("Night mode" to { nightDialog() })
-        acts.add("About this video" to {
+                closeMenus()
+            }))
+        }
+        tiles += TvUi.Tile("☾", "Night mode", if (Dim.level > 0 || Dim.warm > 0) "On" else "Off") { closeMenus(); nightDialog() }
+        tiles += TvUi.Tile("i", "Info", "") {
             val v = player.videoFormat; val a = player.audioFormat
             val lines = listOfNotNull(
                 v?.let { "Picture: ${it.width}×${it.height}" + (if (it.frameRate > 0) "  ·  ${it.frameRate.toInt()} fps" else "") + "  ·  " + codec(it.sampleMimeType) },
                 a?.let { "Sound: " + codec(it.sampleMimeType) + (if (it.channelCount > 0) "  ·  ${it.channelCount} ch" else "") + (it.language?.let { l -> "  ·  " + Locale(l).displayLanguage } ?: "") },
-                if (player.duration > 0) "Length: ${player.duration / 60000} min" else null)
-            AlertDialog.Builder(this).setTitle(title).setMessage(lines.joinToString("\n").ifEmpty { "No details yet" }).setPositiveButton("OK", null).show(); Unit
-        })
-        AlertDialog.Builder(this).setTitle(title).setItems(acts.map { it.first }.toTypedArray()) { _, w -> acts[w].second() }.show()
+                if (player.duration > 0) "Length: ${player.duration / 60000} min" else null).ifEmpty { listOf("No details yet") }
+            pushMenu(TvUi.side(this, title, listOf("Close"), -1, { closeMenus() }, lines = lines))
+        }
+        pushMenu(TvUi.bar(this, title, tiles))
+    }
+
+    /** what is chosen now, for the bar */
+    private fun trackNow(type: Int): String {
+        val g = player.currentTracks.groups.firstOrNull { it.type == type && it.isSelected } ?: return if (type == C.TRACK_TYPE_TEXT) "Off" else ""
+        val f = (0 until g.length).firstOrNull { g.isTrackSelected(it) }?.let { g.getTrackFormat(it) } ?: return ""
+        return listOfNotNull(f.language?.let { Locale(it).displayLanguage }, if (f.channelCount > 2) "${f.channelCount}ch" else null).joinToString(" ").ifEmpty { f.label ?: "On" }
     }
 
     private var sleepAt = 0L
@@ -304,13 +336,15 @@ class PlayerActivity : BaseActivity() {
         if (names.size < 2 && type == C.TRACK_TYPE_AUDIO || names.isEmpty()) {
             android.widget.Toast.makeText(this, if (type == C.TRACK_TYPE_AUDIO) "One audio only" else "No subtitles", android.widget.Toast.LENGTH_SHORT).show(); return
         }
-        AlertDialog.Builder(this).setItems(names.toTypedArray()) { _, w ->
+        val now = picks.indexOfFirst { (gi, t) -> if (gi < 0) player.currentTracks.groups.none { it.type == type && it.isSelected } else groups[gi].isTrackSelected(t) }
+        pushMenu(TvUi.side(this, if (type == C.TRACK_TYPE_AUDIO) "Audio" else "Subtitles", names, now, { w ->
             val (gi, t) = picks[w]
             val b = player.trackSelectionParameters.buildUpon()
             if (gi < 0) b.setTrackTypeDisabled(C.TRACK_TYPE_TEXT, true)
             else b.setTrackTypeDisabled(type, false).setOverrideForType(TrackSelectionOverride(groups[gi].mediaTrackGroup, t))
             player.trackSelectionParameters = b.build()
-        }.show()
+            closeMenus()
+        }))
     }
 
     override fun onPause() { super.onPause(); save(); player.pause() }
