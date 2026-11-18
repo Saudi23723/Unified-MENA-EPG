@@ -661,6 +661,7 @@ class NavlogActivity : BaseActivity() {
             mora = !mora; VaultLock.prefs(this).edit().putBoolean("nav_mora", mora).apply(); rebuild()
         }
         btn(l2, "🖨 PDF", 0xFF48484A.toInt()) { printLog() }
+        btn(l2, "📄 VFR Log", 0xFF8E6CC4.toInt()) { vfrNavLog() }
         btn(l2, "📋 ICAO", 0xFF48484A.toInt()) { icao() }
         btn(l2, "↗ Share", 0xFF48484A.toInt()) { share() }
         return wrap
@@ -864,6 +865,167 @@ class NavlogActivity : BaseActivity() {
     }, null))
 
     private var printWeb: android.webkit.WebView? = null
+
+    /** Sends a page to the printer, where it can be kept as a PDF. */
+    private fun printHtml(title: String, html: String) {
+        val web = android.webkit.WebView(this)
+        web.webViewClient = object : android.webkit.WebViewClient() {
+            override fun onPageFinished(v: android.webkit.WebView, url: String) {
+                getSystemService(android.print.PrintManager::class.java).print(title,
+                    v.createPrintDocumentAdapter(title),
+                    android.print.PrintAttributes.Builder()
+                        .setMediaSize(android.print.PrintAttributes.MediaSize.NA_LETTER.asLandscape()).build())
+            }
+        }
+        web.loadDataWithBaseURL(null, html, "text/html", "utf-8", null)
+        printWeb = web
+    }
+
+    /**
+     * The flight on the printed VFR navigation log — the ruled sheet pilots have carried on a
+     * kneeboard for fifty years. Every column the form has is here, in its order: the check points
+     * down the left, the beacon and its frequency, the course and the height, the wind and the
+     * temperature, the speeds, the whole chain from true course through the wind correction and the
+     * variation and the deviation to the compass heading, the distances, the ground speed, the times
+     * and the fuel. What can be worked out is printed in; what is written while flying — the actual
+     * ground speed, the time over, the fuel remaining — is left ruled and empty for a pencil.
+     */
+    private fun vfrNavLog() {
+        val r = result ?: return
+        val dep = plan.points.firstOrNull()?.id ?: ""
+        val dest = plan.points.lastOrNull()?.id ?: ""
+        val tail = Aircraft.all(this).getOrNull(VaultLock.prefs(this).getInt("wb_current", 0))?.name ?: ""
+        fun e(x: String) = x.replace("&", "&amp;").replace("<", "&lt;")
+        val rows = StringBuilder()
+        // The departure line first, then a line for every point the flight crosses.
+        rows.append("<tr><td class='fix'>${e(dep)}</td>" + "<td></td>".repeat(4) +
+            "<td colspan='2'></td>" + "<td></td>".repeat(13) + "<td class='w'></td><td class='w'></td></tr>")
+        for (x in r.rows) {
+            val variation = Nav.variation((x.from.lat + x.to.lat) / 2, (x.from.lon + x.to.lon) / 2)
+            val varTxt = "%.0f°%s".format(Math.abs(variation), if (variation >= 0) "W" else "E")
+            rows.append("<tr>")
+            rows.append("<td class='fix'>${e(x.to.id)}</td>")        // Check point
+            rows.append("<td></td><td></td>")                         // VOR ident, freq
+            rows.append("<td>DCT</td>")                               // Course (route)
+            rows.append("<td>${"%,d".format(x.altFt)}</td>")          // Altitude
+            rows.append("<td>${"%03d/%d".format(x.windDir, x.windKt)}</td>")
+            rows.append("<td>${plan.legWinds[x.index]?.third?.let { "%+d".format(it) } ?: ""}</td>")
+            rows.append("<td>${plan.tas}</td>")                       // CAS (planned)
+            rows.append("<td>${Math.round(x.tas).toInt()}</td>")       // TAS
+            rows.append("<td>${"%03d".format(Math.round(x.tc).toInt() % 360)}</td>")
+            rows.append("<td>${"%+d".format(Math.round(x.wca).toInt())}</td>")
+            rows.append("<td>${"%03d".format(Math.round(x.th).toInt() % 360)}</td>")
+            rows.append("<td>$varTxt</td>")
+            rows.append("<td class='mh'>${"%03d".format(Math.round(x.mh).toInt() % 360)}</td>")
+            rows.append("<td></td>")                                   // Deviation, from the card
+            rows.append("<td></td>")                                   // Compass heading
+            rows.append("<td>${"%.1f".format(x.distNm)}</td>")
+            rows.append("<td>${"%.1f".format(x.remainNm)}</td>")
+            rows.append("<td>${Math.round(x.gs).toInt()}</td>")        // GS estimated
+            rows.append("<td class='w'></td>")                         // GS actual
+            rows.append("<td>${Navlog.hm(x.minutes)}</td>")            // ETE
+            rows.append("<td>${plan.clock(x.cumMinutes)}</td>")        // ETA
+            rows.append("<td class='w'></td><td class='w'></td>")      // ATE, ATA
+            rows.append("<td>${"%.1f".format(x.fuelLeftGal)}</td>")    // Fuel remaining
+            rows.append("</tr>")
+        }
+        // A few blank lines, as the printed form leaves them.
+        repeat(3) { rows.append("<tr>" + "<td></td>".repeat(25) + "</tr>") }
+
+        fun block(which: String, id: String): String = """
+            <table class='sub'>
+              <tr><th colspan='2'>$which &nbsp; ${e(id)}</th></tr>
+              <tr><td>ATIS code</td><td class='w'></td></tr>
+              <tr><td>Wind</td><td class='w'></td></tr>
+              <tr><td>Ceiling &amp; visibility</td><td class='w'></td></tr>
+              <tr><td>Altimeter</td><td class='w'></td></tr>
+              <tr><td>Time check</td><td class='w'></td></tr>
+              <tr><td>Approach</td><td class='w'></td></tr>
+              <tr><td>Runway</td><td class='w'></td></tr>
+            </table>"""
+
+        fun freqs(which: String, id: String): String {
+            val a = airports.firstOrNull { it.icao == id || it.ident == id }
+            val list = a?.let { try { Frequencies.forAirport(this, it, null) } catch (x: Exception) { emptyList() } }.orEmpty()
+            fun f(vararg keys: String) = list.firstOrNull { fr -> keys.any { fr.kind.label.contains(it, true) } }?.let { Frequencies.mhz(it.mhz) } ?: ""
+            return """
+              <table class='sub'>
+                <tr><th colspan='2'>$which frequencies &nbsp; ${e(id)}</th></tr>
+                <tr><td>ATIS</td><td>${f("ATIS", "AWOS", "ASOS")}</td></tr>
+                <tr><td>Ground</td><td>${f("Ground")}</td></tr>
+                <tr><td>Tower</td><td>${f("Tower")}</td></tr>
+                <tr><td>Departure</td><td>${f("Departure", "Approach")}</td></tr>
+                <tr><td>CTAF</td><td>${f("CTAF", "UNICOM")}</td></tr>
+                <tr><td>FSS</td><td>${f("FSS", "Radio")}</td></tr>
+              </table>"""
+        }
+
+        val html = """<html><head><meta charset="utf-8"><style>
+          @page { margin: 8mm; }
+          body { font-family: Helvetica, Arial, sans-serif; color:#000; margin:0 }
+          h1 { font-size:15px; margin:0 0 2px 0; letter-spacing:1px }
+          .top { display:flex; justify-content:space-between; align-items:flex-end; border-bottom:2px solid #000; padding-bottom:3px; margin-bottom:5px }
+          .meta { font-size:10px }
+          table.log { border-collapse:collapse; width:100%; font-size:8.5px; table-layout:fixed }
+          table.log th, table.log td { border:0.6px solid #555; padding:2px 1px; text-align:center; height:15px; overflow:hidden }
+          table.log thead th { background:#d9d9d9; font-size:7px; line-height:1.05; font-weight:bold }
+          table.log td.fix { text-align:left; font-weight:bold; font-size:9px }
+          table.log td.mh { font-weight:bold; background:#f0f0f0 }
+          table.log td.w { background:#fbfbe8 }
+          .row2 { display:flex; gap:6px; margin-top:6px }
+          table.sub { border-collapse:collapse; font-size:8.5px; flex:1 }
+          table.sub th { background:#d9d9d9; border:0.6px solid #555; padding:2px; font-size:8px }
+          table.sub td { border:0.6px solid #555; padding:2px 4px; height:13px }
+          table.sub td.w { background:#fbfbe8; width:52% }
+          .foot { margin-top:5px; font-size:8px; color:#444 }
+        </style></head><body>
+        <div class="top">
+          <div><h1>VFR NAVIGATION LOG</h1>
+            <div class="meta"><b>${e(dep)} &rarr; ${e(dest)}</b> &nbsp; ${e(tail)} &nbsp;
+            ${profile.name} &nbsp; ${"%,d".format(plan.altitude)} ft &nbsp;
+            ${"%.1f".format(plan.gph)} gph &nbsp; ${"%.1f".format(plan.fuelOnBoard)} gal on board</div></div>
+          <div class="meta">Aircraft ${e(tail)} &nbsp;&nbsp; Date ____________ &nbsp;&nbsp; Page 1</div>
+        </div>
+        <table class="log">
+          <thead><tr>
+            <th style="width:7%">CHECK POINTS<br>(FIXES)</th>
+            <th style="width:3.4%">VOR<br>IDENT</th><th style="width:3.6%">FREQ</th>
+            <th style="width:4%">COURSE<br>(ROUTE)</th><th style="width:4%">ALTITUDE</th>
+            <th style="width:4.4%">WIND<br>DIR/VEL</th><th style="width:3%">TEMP</th>
+            <th style="width:3%">CAS</th><th style="width:3%">TAS</th>
+            <th style="width:3%">TC</th><th style="width:3.4%">WCA<br>-L +R</th><th style="width:3%">TH</th>
+            <th style="width:3.6%">VAR<br>E- +W</th><th style="width:3.2%">MH</th>
+            <th style="width:3.2%">DEV<br>&plusmn;</th><th style="width:3.2%">CH</th>
+            <th style="width:3.4%">DIST<br>LEG</th><th style="width:3.4%">REM</th>
+            <th style="width:3.4%">GS<br>EST</th><th style="width:3.4%">ACT</th>
+            <th style="width:3.6%">ETE</th><th style="width:3.6%">ETA</th>
+            <th style="width:3.6%">ATE</th><th style="width:3.6%">ATA</th>
+            <th style="width:4%">FUEL<br>REM</th>
+          </tr></thead>
+          <tbody>$rows</tbody>
+        </table>
+        <div class="row2">
+          ${block("Departure", dep)}
+          ${block("Destination", dest)}
+          ${freqs("Departure", dep)}
+          ${freqs("Destination", dest)}
+          <table class='sub'>
+            <tr><th colspan='2'>Times &amp; fuel</th></tr>
+            <tr><td>Block out</td><td class='w'></td></tr>
+            <tr><td>Time off</td><td class='w'></td></tr>
+            <tr><td>Time on</td><td class='w'></td></tr>
+            <tr><td>Block in</td><td class='w'></td></tr>
+            <tr><td>Log time</td><td class='w'></td></tr>
+            <tr><td>Fuel used</td><td class='w'></td></tr>
+          </table>
+        </div>
+        <div class="foot">Total ${"%.0f".format(r.distNm)} nm &middot; ${Navlog.hm(r.minutes)} &middot;
+          ${"%.1f".format(r.fuelGal)} gal burnt &middot; ${"%.1f".format(r.fuelLeftGal)} gal on landing &middot;
+          reserve ${plan.reserveMin} min (${"%.1f".format(r.reserveGal)} gal) ${if (r.reserveKept) "kept" else "NOT kept"}.
+          Shaded boxes are filled in as the flight is flown. For planning; verify with an official briefing.</div>
+        </body></html>"""
+        printHtml("VFR Nav Log $dep-$dest", html)
+    }
 
     private fun printLog() {
         val r = result ?: return
