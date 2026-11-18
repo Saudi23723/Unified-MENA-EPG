@@ -38,6 +38,9 @@ class StudyBookActivity : BaseActivity() {
     /** The picture taken for the page being written, if one has been taken. */
     private var clipFile: String? = null
     private var clipRow: LinearLayout? = null
+    /** What was read off the page, in the shape the page had it in. */
+    private var pending: JSONObject? = null
+    private var pendRow: LinearLayout? = null
     private lateinit var question: EditText
     private lateinit var mine: EditText
     private val prefs by lazy { VaultLock.prefs(this) }
@@ -88,7 +91,7 @@ class StudyBookActivity : BaseActivity() {
         val tools = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL; setBackgroundColor(0xFF161D25.toInt()); setPadding(dp(8), dp(7), dp(8), dp(7))
         }
-        tools.addView(chip("📋  Text", 0xFF2D7FF9.toInt()) { capture() },
+        tools.addView(chip("📋  Capture", 0xFF2D7FF9.toInt()) { capture() },
             LinearLayout.LayoutParams(0, -2, 1f).apply { marginEnd = dp(6) })
         tools.addView(chip("📷  Figure", 0xFFFF9F0A.toInt()) { startClip() },
             LinearLayout.LayoutParams(0, -2, 1f).apply { marginEnd = dp(6) })
@@ -191,18 +194,52 @@ class StudyBookActivity : BaseActivity() {
         clipRow = row
     }
 
-    /** Whatever is highlighted up in the page, brought down into the box. */
+    /**
+     * The page read as it stands, with nothing to highlight first. Whatever is selected is used if
+     * anything is; otherwise the whole page is taken, and either way it is read into its own shape
+     * — a question with its choices and its answer, or a passage of the book — so the book can set
+     * it out properly instead of keeping a block of prose.
+     */
     private fun capture() {
-        web.evaluateJavascript("(function(){return window.getSelection().toString();})()") { raw ->
-            val text = (raw ?: "").trim().removeSurrounding("\"")
-                .replace("\\n", "\n").replace("\\t", " ").replace("\\\"", "\"").trim()
-            if (text.isEmpty()) {
-                Toast.makeText(this, "Highlight the question up in the page first", Toast.LENGTH_SHORT).show()
-            } else {
-                question.setText(text)
-                Toast.makeText(this, "Captured", Toast.LENGTH_SHORT).show()
+        val js = "(function(){var s=window.getSelection().toString();" +
+            "return s && s.trim().length>0 ? s : (document.body ? document.body.innerText : '');})()"
+        web.evaluateJavascript(js) { raw ->
+            val text = unJs(raw)
+            if (text.isBlank()) {
+                Toast.makeText(this, "Nothing on this page to read", Toast.LENGTH_SHORT).show()
+                return@evaluateJavascript
             }
+            val o = StudyParse.parse(text)
+            pending = o
+            question.setText(if (o.optString("kind") == "qa") o.optString("q") else o.optString("head").ifEmpty { o.optString("q") })
+            showPending()
+            Toast.makeText(this, StudyParse.describe(o), Toast.LENGTH_LONG).show()
         }
+    }
+
+    /** The JavaScript string the WebView hands back, as plain text. */
+    private fun unJs(raw: String?): String {
+        var t = (raw ?: "").trim()
+        if (t == "null") return ""
+        if (t.startsWith("\"") && t.endsWith("\"") && t.length >= 2) t = t.substring(1, t.length - 1)
+        return t.replace("\\u003C", "<").replace("\\n", "\n").replace("\\r", "")
+            .replace("\\t", " ").replace("\\\"", "\"").replace("\\\\", "\\").trim()
+    }
+
+    /** What was read, named, so it can be checked before it is kept. */
+    private fun showPending() {
+        pendRow?.let { (it.parent as? android.view.ViewGroup)?.removeView(it) }
+        pendRow = null
+        val o = pending ?: return
+        val row = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL
+            setBackgroundColor(0xFF14301F.toInt()); setPadding(dp(10), dp(7), dp(8), dp(7))
+        }
+        row.addView(EfbUi.text(this, (if (o.optString("kind") == "qa") "✅  " else "📄  ") + StudyParse.describe(o),
+            12.5f, 0xFF7BE495.toInt(), bold = true), LinearLayout.LayoutParams(0, -2, 1f))
+        row.addView(chip("✕", 0xFF3A2A2A.toInt()) { pending = null; showPending() })
+        pad.addView(row, 0)
+        pendRow = row
     }
 
     private fun askSite() {
@@ -223,21 +260,26 @@ class StudyBookActivity : BaseActivity() {
 
     private fun addPage() {
         val q = question.text.toString().trim()
-        if (q.isEmpty() && clipFile == null) {
-            Toast.makeText(this, "Nothing for a page yet — capture some text or a figure", Toast.LENGTH_SHORT).show(); return
+        val o = pending
+        if (q.isEmpty() && clipFile == null && o == null) {
+            Toast.makeText(this, "Nothing for a page yet — press Capture, or take a figure", Toast.LENGTH_SHORT).show(); return
         }
-        val topic = topicOf(q + " " + mine.text.toString())
-        val pages = load()
-        pages.put(JSONObject()
-            .put("q", q.ifEmpty { "(a figure)" })
+        // The page keeps the shape it was read in, with the pilot's own wording of the question if
+        // they changed it, their explanation, and the figure if one was framed.
+        val page = o ?: JSONObject().put("kind", "note")
+        page.put("q", q.ifEmpty { page.optString("q").ifEmpty { "(a figure)" } })
             .put("e", mine.text.toString().trim())
             .put("img", clipFile ?: JSONObject.NULL)
-            .put("t", topic)
             .put("u", prefs.getString("study_last_url", "") ?: "")
-            .put("at", System.currentTimeMillis()))
+            .put("at", System.currentTimeMillis())
+        val topic = topicOf(q + " " + page.optString("why") + " " + page.optString("acs") + " " + mine.text.toString())
+        page.put("t", topic)
+        val pages = load()
+        pages.put(page)
         prefs.edit().putString(KEY, pages.toString()).apply()
         question.setText(""); mine.setText("")
         clipFile = null; showClip()
+        pending = null; showPending()
         Toast.makeText(this, "Page ${pages.length()} · filed under $topic", Toast.LENGTH_SHORT).show()
     }
 

@@ -112,25 +112,12 @@ class StudyBookReaderActivity : BaseActivity() {
         // ---- the page: the words, and the ink over them ----
         val sheet = android.widget.FrameLayout(this)
         val col = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(dp(16), dp(16), dp(16), dp(24)) }
-        col.addView(EfbUi.text(this, p.optString("q"), 15.5f, 0xFFFFFFFF.toInt(), bold = true))
-        // The figure or table taken from the page, at the width of the book's page.
-        val img = p.optString("img")
-        if (img.isNotEmpty() && img != "null") {
-            val f = java.io.File(java.io.File(filesDir, "studybook"), img)
-            if (f.exists()) android.graphics.BitmapFactory.decodeFile(f.path)?.let { bmp ->
-                col.addView(android.widget.ImageView(this).apply {
-                    setImageBitmap(bmp)
-                    adjustViewBounds = true
-                    scaleType = android.widget.ImageView.ScaleType.FIT_CENTER
-                    background = EfbUi.cardBg(this@StudyBookReaderActivity, 0xFFFFFFFF.toInt(), 8)
-                    setPadding(dp(4), dp(4), dp(4), dp(4))
-                }, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(12) })
-            }
+        when (p.optString("kind")) {
+            "qa" -> qaTemplate(col, p)
+            else -> noteTemplate(col, p)
         }
-        val mineTx = p.optString("e")
-        col.addView(EfbUi.text(this, if (mineTx.isBlank()) "— nothing written yet —" else "💡  $mineTx",
-            14.5f, if (mineTx.isBlank()) 0xFF6E7681.toInt() else 0xFFA5D6A7.toInt())
-            .apply { setPadding(0, dp(12), 0, 0) })
+        figure(col, p)
+        myNote(col, p)
         val src = p.optString("u")
         if (src.isNotEmpty()) col.addView(EfbUi.text(this, src, 10.5f, 0xFF5D6873.toInt()).apply {
             maxLines = 2; setPadding(0, dp(16), 0, 0)
@@ -159,6 +146,108 @@ class StudyBookReaderActivity : BaseActivity() {
             LinearLayout.LayoutParams(0, -2, 1f).apply { marginEnd = dp(6) })
         acts.addView(chip("⋯", 0xFF2A3B4D.toInt()) { more() })
         body.addView(acts)
+    }
+
+    /** A small label above a block, the way a printed book names its parts. */
+    private fun label(col: LinearLayout, t: String, colour: Int) {
+        col.addView(EfbUi.text(this, t, 10.5f, colour, bold = true).apply {
+            letterSpacing = 0.14f; setPadding(0, dp(16), 0, dp(6))
+        })
+    }
+
+    /**
+     * A question as a question bank sets one out: where it comes from, the question, its lettered
+     * choices with the right one marked, and why it is the right one. Never one block of prose.
+     */
+    private fun qaTemplate(col: LinearLayout, p: org.json.JSONObject) {
+        val where = listOf(p.optString("unit"), p.optString("sub")).filter { it.isNotEmpty() }
+        if (where.isNotEmpty()) col.addView(EfbUi.text(this, where.joinToString("  ·  "), 11f, 0xFF8E9BA8.toInt()))
+        val tags = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; setPadding(0, dp(8), 0, 0) }
+        for ((t, c) in listOf(p.optString("acs") to 0xFF8E5CF7.toInt(), p.optString("src") to 0xFF2D7FF9.toInt())) {
+            if (t.isEmpty()) continue
+            tags.addView(EfbUi.text(this, t, 11.5f, 0xFFFFFFFF.toInt(), bold = true).apply {
+                background = EfbUi.cardBg(this@StudyBookReaderActivity, c, 7)
+                setPadding(dp(9), dp(4), dp(9), dp(4))
+            }, LinearLayout.LayoutParams(-2, -2).apply { marginEnd = dp(6) })
+        }
+        if (tags.childCount > 0) col.addView(tags)
+
+        label(col, "QUESTION" + p.optString("n").let { if (it.isEmpty()) "" else "  $it" }, 0xFF64D2FF.toInt())
+        col.addView(EfbUi.text(this, p.optString("q"), 16f, 0xFFFFFFFF.toInt(), bold = true))
+
+        val ans = p.optString("ans")
+        val ch = p.optJSONArray("ch")
+        if (ch != null && ch.length() > 0) {
+            label(col, "CHOICES", 0xFF8E9BA8.toInt())
+            for (i in 0 until ch.length()) {
+                val o = ch.optJSONObject(i) ?: continue
+                val right = o.optString("l").equals(ans, true)
+                val row = LinearLayout(this).apply {
+                    orientation = LinearLayout.HORIZONTAL
+                    background = EfbUi.cardBg(this@StudyBookReaderActivity,
+                        if (right) 0xFF13301F.toInt() else 0xFF161D25.toInt(), 9)
+                    setPadding(dp(11), dp(10), dp(11), dp(10))
+                }
+                row.addView(EfbUi.text(this, o.optString("l") + if (right) " ✓" else "", 14f,
+                    if (right) 0xFF30D158.toInt() else 0xFF8E9BA8.toInt(), bold = true),
+                    LinearLayout.LayoutParams(dp(34), -2))
+                row.addView(EfbUi.text(this, o.optString("t"), 14.5f,
+                    if (right) 0xFFE8F5EC.toInt() else 0xFFC2CBD6.toInt(), bold = right),
+                    LinearLayout.LayoutParams(0, -2, 1f))
+                col.addView(row, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(7) })
+            }
+        }
+        val why = p.optString("why")
+        if (why.isNotEmpty()) {
+            label(col, "WHY" + (if (ans.isNotEmpty()) "  ·  ($ans) IS CORRECT" else ""), 0xFF30D158.toInt())
+            col.addView(EfbUi.text(this, why, 14.5f, 0xFFB7D9C2.toInt()))
+        }
+    }
+
+    /**
+     * A passage of the book: its numbered heading, and the points under it kept as points rather
+     * than run together into a wall of text.
+     */
+    private fun noteTemplate(col: LinearLayout, p: org.json.JSONObject) {
+        val head = p.optString("head")
+        if (head.isNotEmpty()) col.addView(EfbUi.text(this, head, 16.5f, 0xFFFFD60A.toInt(), bold = true))
+        val pts = p.optJSONArray("pts")
+        if (pts != null && pts.length() > 0) {
+            for (i in 0 until pts.length()) {
+                col.addView(EfbUi.text(this, pts.optString(i), 14.5f, 0xFFE2E8EF.toInt()).apply {
+                    setPadding(0, dp(if (i == 0 && head.isEmpty()) 0 else 10), 0, 0)
+                })
+            }
+        } else {
+            col.addView(EfbUi.text(this, p.optString("q"), 15f, 0xFFFFFFFF.toInt(), bold = head.isEmpty())
+                .apply { setPadding(0, dp(if (head.isEmpty()) 0 else 10), 0, 0) })
+        }
+    }
+
+    /** The figure or table framed off the page, at the width of the book's page, on white. */
+    private fun figure(col: LinearLayout, p: org.json.JSONObject) {
+        val img = p.optString("img")
+        if (img.isEmpty() || img == "null") return
+        val f = java.io.File(java.io.File(filesDir, "studybook"), img)
+        if (!f.exists()) return
+        android.graphics.BitmapFactory.decodeFile(f.path)?.let { bmp ->
+            label(col, "FIGURE", 0xFFFF9F0A.toInt())
+            col.addView(android.widget.ImageView(this).apply {
+                setImageBitmap(bmp)
+                adjustViewBounds = true
+                scaleType = android.widget.ImageView.ScaleType.FIT_CENTER
+                background = EfbUi.cardBg(this@StudyBookReaderActivity, 0xFFFFFFFF.toInt(), 8)
+                setPadding(dp(4), dp(4), dp(4), dp(4))
+            }, LinearLayout.LayoutParams(-1, -2))
+        }
+    }
+
+    /** What the pilot wrote for themselves, which is the part worth the book. */
+    private fun myNote(col: LinearLayout, p: org.json.JSONObject) {
+        val mineTx = p.optString("e")
+        label(col, "MY NOTE", 0xFFA5D6A7.toInt())
+        col.addView(EfbUi.text(this, if (mineTx.isBlank()) "— nothing written yet —" else mineTx,
+            14.5f, if (mineTx.isBlank()) 0xFF6E7681.toInt() else 0xFFA5D6A7.toInt()))
     }
 
     /** The colours, the nib, and the ways to take ink back off the page. */
