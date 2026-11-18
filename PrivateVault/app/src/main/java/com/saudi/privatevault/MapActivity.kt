@@ -152,6 +152,7 @@ class MapActivity : BaseActivity(), NeonHost {
         map.zoomController.setVisibility(CustomZoomButtonsController.Visibility.NEVER)
         map.minZoomLevel = 5.0
         map.isTilesScaledToDpi = prefs.getBoolean("map_big", false)
+        chartFine()
         zoomLimit()
         map.overlayManager.tilesOverlay.setLoadingBackgroundColor(0xFFEDE8DA.toInt())
         map.overlayManager.tilesOverlay.setLoadingLineColor(0xFFEDE8DA.toInt())
@@ -270,7 +271,10 @@ class MapActivity : BaseActivity(), NeonHost {
         rubber = RubberBandOverlay(map, { plan }) { leg, at -> insertInto(leg, at) }
         map.overlays.add(rubber)
         // The plotter: two fingers held still measure the chart, as a plotter on paper.
-        map.overlays.add(PlotterOverlay(map) { ownship.speedKt() })
+        plotter = PlotterOverlay(map, { ownship.speedKt() },
+            { AircraftProfile.current(this).cruiseTas }, { AircraftProfile.current(this).cruiseGph },
+            { plotterSync() })
+        map.overlays.add(plotter)
         b.root.postDelayed({ autoDiagrams() }, 2500)
         b.fabLocate.setOnClickListener { cycleView() }
         b.fabSos.setOnClickListener { emergency() }
@@ -1270,7 +1274,12 @@ class MapActivity : BaseActivity(), NeonHost {
         }
         row(getString(R.string.map_sharp), null, prefs.getBoolean("map_big", false)) {
             val on = !prefs.getBoolean("map_big", false)
-            prefs.edit().putBoolean("map_big", on).apply(); map.isTilesScaledToDpi = on; map.invalidate()
+            prefs.edit().putBoolean("map_big", on).apply(); map.isTilesScaledToDpi = on; zoomLimit(); map.invalidate()
+        }
+        row("Fine chart print", "The chart drawn at its own full resolution — twice the detail, four times the tiles",
+            prefs.getBoolean("chart_fine", true)) {
+            prefs.edit().putBoolean("chart_fine", !prefs.getBoolean("chart_fine", true)).apply()
+            chartFine()
         }
         head("Flight")
         row(getString(R.string.plan_title)) { navLog() }
@@ -1736,13 +1745,69 @@ class MapActivity : BaseActivity(), NeonHost {
         Toast.makeText(this, getString(R.string.plan_added, w.id, plan.points.size), Toast.LENGTH_SHORT).show()
     }
 
+    private var plotter: PlotterOverlay? = null
+    private var plotterBar: LinearLayout? = null
+    private var plotterText: TextView? = null
+    private var plotterLock: TextView? = null
+
+    /**
+     * The little bar the plotter brings with it: what it reads, the lock, and the way to put it
+     * away. It appears when a ruler is laid down and goes when the ruler does.
+     */
+    private fun plotterSync() {
+        val p = plotter ?: return
+        if (!p.up) { plotterBar?.visibility = View.GONE; return }
+        if (plotterBar == null) buildPlotterBar()
+        plotterBar?.visibility = View.VISIBLE
+        plotterText?.text = "📏  " + (p.reading() ?: "")
+        plotterLock?.let { v ->
+            v.text = if (p.locked) "🔒 Locked" else "🔓 Lock"
+            (v.background as? android.graphics.drawable.GradientDrawable)
+                ?.setColor(if (p.locked) 0xFF2D7FF9.toInt() else 0xFF2A313B.toInt())
+        }
+    }
+
+    private fun buildPlotterBar() {
+        val bar = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+            layoutDirection = View.LAYOUT_DIRECTION_LTR
+            background = EfbUi.cardBg(this@MapActivity, 0xF2161D25.toInt(), 12)
+            setPadding(dp(12), dp(7), dp(8), dp(7))
+        }
+        fun chip(label: String, colour: Int, go: () -> Unit) = TextView(this).apply {
+            text = label; textSize = 12.5f; setTextColor(0xFFFFFFFF.toInt()); gravity = Gravity.CENTER
+            typeface = EfbUi.MEDIUM
+            background = EfbUi.cardBg(this@MapActivity, colour, 8)
+            setPadding(dp(11), dp(6), dp(11), dp(6))
+            setOnClickListener { go() }
+        }
+        plotterText = EfbUi.text(this, "", 13f, 0xFFE8EDF3.toInt(), bold = true)
+        bar.addView(plotterText, LinearLayout.LayoutParams(-2, -2).apply { marginEnd = dp(10) })
+        plotterLock = chip("🔓 Lock", 0xFF2A313B.toInt()) {
+            plotter?.let { it.locked = !it.locked }
+            Toast.makeText(this, if (plotter?.locked == true) "🔒 the plotter is part of the chart" else "🔓 the plotter can be moved", Toast.LENGTH_SHORT).show()
+        }
+        bar.addView(plotterLock, LinearLayout.LayoutParams(-2, -2).apply { marginEnd = dp(6) })
+        bar.addView(chip("✕", 0xFF3A2A2A.toInt()) { plotter?.clear() })
+        b.root.addView(bar, android.widget.FrameLayout.LayoutParams(-2, -2).apply {
+            gravity = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
+            bottomMargin = dp(100)
+        })
+        plotterBar = bar
+    }
+
     /** How the plotter is used, for anyone who has not found it by accident. */
     private fun plotterHint() {
         MaterialAlertDialogBuilder(this)
             .setTitle("📏 Plotter")
             .setMessage("Put two fingers on the chart and hold them still for a moment. A ruler springs up between them " +
-                "with the distance, the magnetic course each way, and the time at your speed — with a tick every mile. " +
-                "Slide the fingers to measure somewhere else; lift one and it is gone.\n\n" +
+                "with the distance — in feet too under three miles, for measuring a runway — the magnetic course out and " +
+                "back, the time at the speed being flown, and the fuel the leg costs. A tick every mile, as on a paper plotter.\n\n" +
+                "Slide the fingers to measure elsewhere, then lift them: the ruler stays where it was put, pinned to the " +
+                "ground, so the chart moves freely under it. Pick up either end to move it. Tap it to put it away.\n\n" +
+                "🔒 Lock makes it part of the chart: nothing moves it, nothing clears it, and every finger belongs to the " +
+                "map again. ✕ takes it off.\n\n" +
                 "To put a point into the route: hold one finger anywhere on the chart. To bend a leg around weather " +
                 "or high ground: hold the magenta line and drag it.")
             .setPositiveButton(R.string.ok, null).show()
@@ -3683,10 +3748,30 @@ class MapActivity : BaseActivity(), NeonHost {
         return true
     }
 
+    /**
+     * The sectional is a photograph of a printed sheet, and the FAA publishes it as 256-pixel
+     * squares. Drawn one chart pixel to one screen pixel on a phone whose screen is three times as
+     * fine as that, the print is soft: there is detail in the sheet the screen never gets shown.
+     *
+     * Fine print draws each of those squares at half size instead. To fill the same screen the map
+     * must then ask for the next level down of the chart's own pyramid — four times as many squares
+     * over the same ground — and every one of them is the FAA's real print, not an enlargement. The
+     * lettering, the airspace figures, the frequencies and the terrain contours come up twice as
+     * fine as before, at the heights a chart is actually read at.
+     *
+     * It costs four times the tiles, so it is a switch: Fine chart print, in the map settings.
+     */
+    private fun chartFine() {
+        map.setTilesScaleFactor(if (prefs.getBoolean("chart_fine", true)) 0.5f else 1f)
+        zoomLimit()
+        map.invalidate()
+    }
+
     /** How far in a chart can be read: two to three steps past its printed scale. */
     private fun zoomLimit() {
         // A scanned chart holds about one step of enlargement before its print goes soft; closer in, the airport diagram takes over.
-        val best = layer.maxZoom
+        // With the print drawn fine, each level of the map covers half the ground, so the ceiling moves up with it.
+        val best = layer.maxZoom + if (prefs.getBoolean("chart_fine", true)) 1 else 0
         map.maxZoomLevel = best + if (best >= 16) 1.5 else if (map.isTilesScaledToDpi) 0.3 else 1.0
         if (map.zoomLevelDouble > map.maxZoomLevel) map.controller.setZoom(map.maxZoomLevel)
     }
