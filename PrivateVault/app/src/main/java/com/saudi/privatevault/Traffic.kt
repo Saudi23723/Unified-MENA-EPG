@@ -204,13 +204,25 @@ class TrafficOverlay(map: MapView, private val ownAltFt: () -> Double?) : Overla
         return true
     }
 
+    /** Where a label has already been written, so the next one does not land on top of it. */
+    private val taken = ArrayList<android.graphics.RectF>()
+
     override fun draw(c: Canvas, mapView: MapView, shadow: Boolean) {
         if (shadow) return
         val box = mapView.boundingBox
         val own = ownAltFt()
-        for (t in Traffic.targets.values) {
-            if (t.id == Traffic.meId) continue
-            if (t.lat < box.latSouth || t.lat > box.latNorth || t.lon < box.lonWest || t.lon > box.lonEast) continue
+        taken.clear()
+        // Close in, every aeroplane is named. Zoomed out, naming them all makes a thicket of text,
+        // so only the ones that matter are named: the nearest, the lowest, and anything close to us.
+        val zoom = mapView.zoomLevelDouble
+        val centre = mapView.mapCenter
+        val visible = Traffic.targets.values.filter {
+            it.id != Traffic.meId && it.lat >= box.latSouth && it.lat <= box.latNorth && it.lon >= box.lonWest && it.lon <= box.lonEast
+        }
+        val nameLimit = when { zoom >= 10 -> 40; zoom >= 8.5 -> 18; zoom >= 7 -> 8; else -> 0 }
+        val named = visible.sortedWith(compareBy({ if (near(it)) 0 else 1 },
+            { Nav.distanceNm(centre.latitude, centre.longitude, it.lat, it.lon) })).take(nameLimit).toHashSet()
+        for (t in visible) {
             mapView.projection.toPixels(GeoPoint(t.lat, t.lon), pt)
             val x = pt.x.toFloat(); val y = pt.y.toFloat()
             val close = near(t)
@@ -222,13 +234,27 @@ class TrafficOverlay(map: MapView, private val ownAltFt: () -> Double?) : Overla
             c.drawPath(p, fill)
             c.drawPath(p, edge)
             c.restore()
+            if (t !in named) continue
             val rel = if (own != null && t.altFt != null) "%+03d".format(Math.round((t.altFt!! - own) / 100.0).toInt()) else t.altFt?.let { "%03d".format(it / 100) } ?: ""
+            val lines = listOf(rel, t.call).filter { it.isNotEmpty() }
+            if (lines.isEmpty()) continue
+            val wTx = lines.maxOf { text.measureText(it) }
+            // The label goes to the right; if that corner is taken, it tries the other three.
+            val h = lines.size * 12 * d
+            var placed: android.graphics.RectF? = null
+            for ((ox, oy) in listOf(12 * d to -10 * d, -(wTx + 12 * d) to -10 * d, 12 * d to 6 * d, -(wTx + 12 * d) to 6 * d)) {
+                val rct = android.graphics.RectF(x + ox, y + oy, x + ox + wTx, y + oy + h)
+                if (taken.none { android.graphics.RectF.intersects(it, rct) }) { placed = rct; break }
+            }
+            val rct = placed ?: continue                 // nowhere free: leave this one unnamed
+            taken.add(rct)
             text.color = fill.color
             c.save()
             c.rotate(-mapView.mapOrientation, x, y)
-            for ((i, s) in listOf(rel, t.call).filter { it.isNotEmpty() }.withIndex()) {
-                c.drawText(s, x + 12 * d, y - 2 * d + i * 12 * d, halo)
-                c.drawText(s, x + 12 * d, y - 2 * d + i * 12 * d, text)
+            for ((i, s) in lines.withIndex()) {
+                val ly = rct.top + (i + 1) * 11 * d
+                c.drawText(s, rct.left, ly, halo)
+                c.drawText(s, rct.left, ly, text)
             }
             c.restore()
         }

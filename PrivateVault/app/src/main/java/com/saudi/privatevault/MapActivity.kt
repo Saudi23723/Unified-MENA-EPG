@@ -124,7 +124,11 @@ class MapActivity : BaseActivity(), NeonHost {
 
         layer = AviationData.LAYERS.firstOrNull { it.key == prefs.getString("map_layer", "sectional") } ?: AviationData.LAYERS[0]
         // The chart at its printed sharpness: one chart pixel to one screen pixel, enlarged smoothly past that.
-        map = MapView(this, SmoothTileProvider(applicationContext, layer.source()))
+        // Underneath everything, a plain world map that always has a tile. The aeronautical chart
+        // is laid over it, so where the chart has nothing to show — out past its edge, or zoomed
+        // further out than it is drawn — there is still a map, not an empty page.
+        val baseSource = AviationData.LAYERS.first { it.key == "topo" }.source()
+        map = MapView(this, SmoothTileProvider(applicationContext, baseSource))
         b.mapHolder.addView(map, FrameLayout.LayoutParams(-1, -1))
         map.setMultiTouchControls(true)
         map.zoomController.setVisibility(CustomZoomButtonsController.Visibility.NEVER)
@@ -133,6 +137,12 @@ class MapActivity : BaseActivity(), NeonHost {
         zoomLimit()
         map.overlayManager.tilesOverlay.setLoadingBackgroundColor(0xFFEDE8DA.toInt())
         map.overlayManager.tilesOverlay.setLoadingLineColor(0xFFEDE8DA.toInt())
+        chartOverlay = org.osmdroid.views.overlay.TilesOverlay(
+            org.osmdroid.tileprovider.MapTileProviderBasic(applicationContext, layer.source()), applicationContext).apply {
+            loadingBackgroundColor = android.graphics.Color.TRANSPARENT
+            loadingLineColor = android.graphics.Color.TRANSPARENT
+        }
+        if (layer.key != "topo") map.overlays.add(chartOverlay)
 
         // Where the map was left; the first time, over Boulder City (KBVU).
         val lat = prefs.getFloat("map_lat", 35.9478f).toDouble()
@@ -456,7 +466,18 @@ class MapActivity : BaseActivity(), NeonHost {
                 if (chosen != layer) {
                     layer = chosen
                     prefs.edit().putString("map_layer", layer.key).apply()
-                    map.setTileSource(layer.source())
+                    // The chart changes; the world map beneath it stays.
+                    chartOverlay?.let { map.overlays.remove(it); it.onDetach(map) }
+                    chartOverlay = null
+                    if (layer.key != "topo") {
+                        chartOverlay = org.osmdroid.views.overlay.TilesOverlay(
+                            org.osmdroid.tileprovider.MapTileProviderBasic(applicationContext, layer.source()), applicationContext).apply {
+                            loadingBackgroundColor = android.graphics.Color.TRANSPARENT
+                            loadingLineColor = android.graphics.Color.TRANSPARENT
+                        }
+                        map.overlays.add(0, chartOverlay)
+                    }
+                    map.invalidate()
                     zoomLimit()
                     setOfficial()
                 }
@@ -1147,6 +1168,7 @@ class MapActivity : BaseActivity(), NeonHost {
     // ---- the route ----
 
     private var rubber: RubberBandOverlay? = null
+    private var chartOverlay: org.osmdroid.views.overlay.TilesOverlay? = null
 
     /**
      * The finger lifted after bending a leg: what should go there? The point itself, or a field, a
