@@ -344,10 +344,3 @@ object Hls {
     fun add(id: Int) { val s = ids(); if (s.add(id.toString())) App.prefs.edit().putStringSet("hls_ids", s).apply() }
     fun remove(id: Int) { val s = ids(); if (s.remove(id.toString())) App.prefs.edit().putStringSet("hls_ids", s).apply() }
 }
-
-/** channels whose picture the TV's video chip cannot show (it stops after a few pictures): software decoder */
-object SoftVideo {
-    private fun ids(): MutableSet<String> = (App.prefs.getStringSet("soft_ids", emptySet()) ?: emptySet()).toMutableSet()
-    fun has(id: Int) = id.toString() in ids()
-    fun add(id: Int) { val s = ids(); if (s.add(id.toString())) App.prefs.edit().putStringSet("soft_ids", s).apply() }
-}
