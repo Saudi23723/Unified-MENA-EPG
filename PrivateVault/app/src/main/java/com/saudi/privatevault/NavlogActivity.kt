@@ -97,7 +97,12 @@ class NavlogActivity : BaseActivity() {
         paintLive()
         val table = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
         table.addView(columns())
-        for (row in r.rows) table.addView(rowView(row, r))
+        table.addView(departureRow())
+        for (row in r.rows) {
+            table.addView(View(this).apply { setBackgroundColor(0x14FFFFFF) }, LinearLayout.LayoutParams(-1, 1))
+            table.addView(rowView(row, r))
+        }
+        table.addView(totalRow(r))
         body.addView(HorizontalScrollView(this).apply { isHorizontalScrollBarEnabled = false; addView(table) })
         if (r.warnings.isNotEmpty()) {
             val warn = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(dp(14), dp(12), dp(14), dp(6)) }
@@ -243,25 +248,36 @@ class NavlogActivity : BaseActivity() {
         return s
     }
 
-    private fun cell(t: String, w: Int, color: Int = 0xFFE6EAF0.toInt(), bold: Boolean = false, size: Float = 12.5f, mono: Boolean = true): TextView =
+    private fun cell(t: String, w: Int, color: Int = 0xFFE6EAF0.toInt(), bold: Boolean = false, size: Float = 12f,
+                     mono: Boolean = true, align: Int = Gravity.CENTER): TextView =
         TextView(this).apply {
-            text = t; textSize = size; setTextColor(color); gravity = Gravity.START
+            text = t; textSize = size; setTextColor(color); gravity = align
             if (mono) typeface = android.graphics.Typeface.MONOSPACE
             if (bold) setTypeface(typeface, android.graphics.Typeface.BOLD)
-            setPadding(dp(3), 0, dp(3), 0)
+            setPadding(dp(2), 0, dp(2), 0)
             layoutParams = LinearLayout.LayoutParams(dp(w), -2)
         }
 
-    private val cols = listOf("LEG" to 120, "ALT / MORA" to 92, "MH / TC" to 80, "WIND / GS" to 82,
-        "DIST / REM" to 86, "ETE / ETO" to 84, "FUEL / LEFT" to 90, "ATO" to 64)
+    // The columns of a navigation log, in the order and the grouping a printed one uses.
+    private val W_WPT = 104; private val W_AWY = 54; private val W_HDG = 44; private val W_CRS = 44
+    private val W_ALT = 52; private val W_CMP = 40; private val W_WIND = 62; private val W_ISA = 40
+    private val W_TAS = 38; private val W_GS = 38; private val W_DL = 42; private val W_DR = 42
+    private val W_TL = 42; private val W_TR = 42; private val W_ETE = 48; private val W_ACT = 48
 
+    /** Two lines of heading: the group above, the column itself below, as the paper form prints it. */
     private fun columns(): View {
-        val h = LinearLayout(this).apply {
-            orientation = LinearLayout.HORIZONTAL; setBackgroundColor(0xFF25303F.toInt())
-            setPadding(dp(10), dp(7), dp(10), dp(7))
-        }
-        for ((t, w) in cols) h.addView(cell(t, w, 0xFFB0BEC5.toInt(), bold = true, size = 10f, mono = false))
-        return h
+        val wrap = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setBackgroundColor(0xFF25303F.toInt()) }
+        fun line(cells: List<Pair<String, Int>>, size: Float, color: Int) = wrap.addView(LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            setPadding(dp(8), dp(3), dp(8), dp(3))
+            for ((t, w) in cells) addView(cell(t, w, color, bold = true, size = size, mono = false))
+        })
+        line(listOf("" to W_WPT, "" to W_AWY, "MAG" to (W_HDG + W_CRS), "" to W_ALT, "WIND" to (W_CMP + W_WIND + W_ISA),
+            "SPD KT" to (W_TAS + W_GS), "DIST NM" to (W_DL + W_DR), "TIME" to (W_TL + W_TR + W_ETE + W_ACT)), 9f, 0xFF7C8B9C.toInt())
+        line(listOf("WAYPOINT" to W_WPT, "AIRWAY" to W_AWY, "HDG" to W_HDG, "CRS" to W_CRS, "ALT" to W_ALT,
+            "CMP" to W_CMP, "DIR/SPD" to W_WIND, "ISA" to W_ISA, "TAS" to W_TAS, "GS" to W_GS,
+            "LEG" to W_DL, "REM" to W_DR, "LEG" to W_TL, "REM" to W_TR, "ETE" to W_ETE, "ACT" to W_ACT), 9.5f, 0xFFB0BEC5.toInt())
+        return wrap
     }
 
     private fun badge(p: Phase): TextView {
@@ -271,76 +287,164 @@ class NavlogActivity : BaseActivity() {
             Phase.DESCENT -> "DSC" to 0xFFEF6C00.toInt()
         }
         return TextView(this).apply {
-            text = t; textSize = 9.5f; setTextColor(0xFFFFFFFF.toInt()); gravity = Gravity.CENTER
+            text = t; textSize = 9f; setTextColor(0xFFFFFFFF.toInt()); gravity = Gravity.CENTER
             typeface = EfbUi.MEDIUM
-            background = EfbUi.cardBg(this@NavlogActivity, c, 4)
-            setPadding(dp(5), dp(1), dp(5), dp(1))
+            background = EfbUi.cardBg(this@NavlogActivity, c, 3)
+            setPadding(dp(4), 0, dp(4), 0)
         }
     }
 
+    /** The first line of the log: the departure, with nothing yet flown. */
+    private fun departureRow(): View {
+        val p = plan.points.firstOrNull() ?: return View(this)
+        val line = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL
+            setPadding(dp(8), dp(7), dp(8), dp(7)); setBackgroundColor(0xFF18202B.toInt())
+        }
+        line.addView(cell(p.id, W_WPT, 0xFFFFFFFF.toInt(), bold = true, size = 13f, align = Gravity.START))
+        for (w in listOf(W_AWY, W_HDG, W_CRS, W_ALT, W_CMP, W_WIND, W_ISA, W_TAS, W_GS, W_DL)) line.addView(cell("—", w, 0xFF55606D.toInt()))
+        line.addView(cell("%.1f".format(result?.distNm ?: 0.0), W_DR, 0xFF8FA3B8.toInt()))
+        line.addView(cell("—", W_TL, 0xFF55606D.toInt()))
+        line.addView(cell(Navlog.hm(result?.minutes ?: 0.0), W_TR, 0xFF8FA3B8.toInt()))
+        line.addView(cell(plan.clock(0.0), W_ETE, 0xFF64D2FF.toInt()))
+        line.addView(cell("", W_ACT))
+        return line
+    }
+
+    /** One line: the leg into a waypoint, and everything true of it on arrival. */
     private fun rowView(r: Navlog.Row, all: Navlog.Result): View {
         val alert = r.moraFt != null && r.altFt < r.moraFt
         val line = LinearLayout(this).apply {
-            orientation = LinearLayout.HORIZONTAL
-            setPadding(dp(10), dp(8), dp(10), dp(8))
+            orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL
+            setPadding(dp(8), dp(6), dp(8), dp(6))
             setBackgroundColor(if (alert) 0xFF3B1818.toInt() else if (r.index % 2 == 0) 0xFF141B24.toInt() else 0xFF18202B.toInt())
+            isClickable = true
+            setOnClickListener { legMenu(r) }
         }
-        // The leg and what part of the flight it is.
+        // The waypoint, its phase badge, and the lowest safe altitude under it.
         line.addView(LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            addView(EfbUi.text(this@NavlogActivity, "${r.from.id.take(6)} → ${r.to.id.take(6)}", 13.5f, 0xFFFFFFFF.toInt(), bold = true).apply { maxLines = 1 })
-            addView(badge(r.phase), LinearLayout.LayoutParams(-2, -2).apply { topMargin = dp(2) })
-            layoutParams = LinearLayout.LayoutParams(dp(cols[0].second), -2)
+            layoutParams = LinearLayout.LayoutParams(dp(W_WPT), -2)
+            addView(LinearLayout(this@NavlogActivity).apply {
+                orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL
+                addView(badge(r.phase))
+                addView(EfbUi.text(this@NavlogActivity, if (r.virtual) "-${r.to.id}-" else r.to.id, 13f,
+                    if (r.virtual) 0xFFFFD60A.toInt() else 0xFFFFFFFF.toInt(), bold = true).apply {
+                    setPadding(dp(4), 0, 0, 0); maxLines = 1
+                })
+            })
+            r.moraFt?.let { addView(EfbUi.text(this@NavlogActivity, "MORA %,d".format(it), 9f,
+                if (alert) 0xFFFF453A.toInt() else 0xFF6E7681.toInt())) }
         })
-        line.addView(LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-            addView(cell("%,d'".format(r.altFt), cols[1].second, 0xFFFFFFFF.toInt(), bold = true))
-            addView(cell(r.moraFt?.let { "MORA %,d'".format(it) } ?: "MORA —", cols[1].second,
-                if (alert) 0xFFFF453A.toInt() else 0xFF8FA3B8.toInt(), size = 10.5f))
-        })
-        line.addView(LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-            addView(cell("%03d°M".format(Math.round(r.mh).toInt() % 360), cols[2].second, 0xFF4FC3F7.toInt(), bold = true, size = 14f))
-            addView(cell("%03d°T %+d".format(Math.round(r.tc).toInt() % 360, Math.round(r.wca).toInt()), cols[2].second, 0xFF8FA3B8.toInt(), size = 10.5f))
-        })
-        line.addView(LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-            addView(cell("%d kt".format(Math.round(r.gs).toInt()), cols[3].second,
-                if (r.gs < r.tas - 5) 0xFFFF9F0A.toInt() else 0xFFE6EAF0.toInt(), bold = true))
-            addView(cell("%03d/%d".format(r.windDir, r.windKt), cols[3].second,
-                if (plan.legWinds.containsKey(r.index)) 0xFF30D158.toInt() else 0xFF8FA3B8.toInt(), size = 10.5f))
-        })
-        line.addView(LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-            addView(cell("%.1f".format(r.distNm), cols[4].second, 0xFFE6EAF0.toInt()))
-            addView(cell("%.1f rem".format(r.remainNm), cols[4].second, 0xFF8FA3B8.toInt(), size = 10.5f))
-        })
-        line.addView(LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-            addView(cell(Navlog.hm(r.minutes), cols[5].second, 0xFFE6EAF0.toInt()))
-            addView(cell(plan.clock(r.cumMinutes), cols[5].second, 0xFF64D2FF.toInt(), size = 10.5f))
-        })
-        line.addView(LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-            addView(cell("%.1f".format(r.fuelGal), cols[6].second, 0xFFE6EAF0.toInt()))
-            addView(cell("%.1f left".format(r.fuelLeftGal), cols[6].second,
-                if (r.fuelLeftGal < all.reserveGal) 0xFFFF453A.toInt() else 0xFF30D158.toInt(), size = 10.5f, bold = true))
-        })
+        line.addView(cell("DCT", W_AWY, 0xFF8FA3B8.toInt(), size = 10.5f))
+        line.addView(cell("%03d".format(Math.round(r.mh).toInt() % 360), W_HDG, 0xFF4FC3F7.toInt(), bold = true, size = 13f))
+        line.addView(cell("%03d".format(Math.round(r.tc).toInt() % 360), W_CRS, 0xFF8FA3B8.toInt(), size = 11f))
+        line.addView(cell("%,d".format(r.altFt), W_ALT, if (alert) 0xFFFF453A.toInt() else 0xFFE6EAF0.toInt(), bold = alert))
+        // The wind as a component along the leg: a head or a tail, and how many knots of it.
+        val rel = Math.toRadians(r.windDir - r.tc)
+        val comp = -Math.cos(rel) * r.windKt
+        line.addView(cell((if (comp >= 0) "T" else "H") + "%d".format(Math.abs(Math.round(comp).toInt())), W_CMP,
+            if (comp >= 0) 0xFF30D158.toInt() else 0xFFFF9F0A.toInt(), bold = true, size = 11f))
+        line.addView(cell("%03d/%d".format(r.windDir, r.windKt), W_WIND,
+            if (plan.legWinds.containsKey(r.index)) 0xFFD6DCE4.toInt() else 0xFF8FA3B8.toInt(), size = 11f))
+        // How far the air is from a standard day at this height: what the book's figures assume.
+        val isa = plan.legWinds[r.index]?.third?.let { it - Math.round(15 - 2.0 * r.altFt / 1000).toInt() }
+        line.addView(cell(isa?.let { "%+d".format(it) } ?: "—", W_ISA, 0xFF8FA3B8.toInt(), size = 11f))
+        line.addView(cell("%d".format(Math.round(r.tas).toInt()), W_TAS, 0xFF8FA3B8.toInt(), size = 11f))
+        line.addView(cell("%d".format(Math.round(r.gs).toInt()), W_GS,
+            if (r.gs < r.tas - 5) 0xFFFF9F0A.toInt() else 0xFFE6EAF0.toInt(), bold = true))
+        line.addView(cell("%.1f".format(r.distNm), W_DL))
+        line.addView(cell("%.1f".format(r.remainNm), W_DR, 0xFF8FA3B8.toInt(), size = 11f))
+        line.addView(cell(Navlog.hm(r.minutes), W_TL))
+        line.addView(cell(Navlog.hm(all.minutes - r.cumMinutes), W_TR, 0xFF8FA3B8.toInt(), size = 11f))
+        line.addView(cell(plan.clock(r.cumMinutes), W_ETE, 0xFF64D2FF.toInt()))
         line.addView(TextView(this).apply {
-            text = r.atoUtc ?: "TAP"
-            textSize = 11.5f; typeface = android.graphics.Typeface.MONOSPACE
-            setTextColor(if (r.atoUtc != null) 0xFF69F0AE.toInt() else 0xFFFFB74D.toInt())
+            text = r.atoUtc ?: "·"
+            textSize = 11f; typeface = android.graphics.Typeface.MONOSPACE; gravity = Gravity.CENTER
+            setTextColor(if (r.atoUtc != null) 0xFF69F0AE.toInt() else 0xFF55606D.toInt())
             setTypeface(typeface, android.graphics.Typeface.BOLD)
-            setPadding(dp(3), dp(6), dp(3), dp(6))
-            layoutParams = LinearLayout.LayoutParams(dp(cols[7].second), -2)
+            setPadding(dp(2), dp(5), dp(2), dp(5))
+            layoutParams = LinearLayout.LayoutParams(dp(W_ACT), -2)
             setOnClickListener {
-                if (r.atoUtc == null) { atos[key(r)] = Navlog.utcNow() } else atos.remove(key(r))
+                if (r.atoUtc == null) atos[key(r)] = Navlog.utcNow() else atos.remove(key(r))
                 rebuild()
             }
         })
-        line.setOnClickListener { legMenu(r) }
-        line.isClickable = true
         return line
+    }
+
+    /** The totals line that closes the table. */
+    private fun totalRow(r: Navlog.Result): View = LinearLayout(this).apply {
+        orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL
+        setBackgroundColor(0xFF14202C.toInt()); setPadding(dp(8), dp(8), dp(8), dp(8))
+        addView(cell("TOTAL", W_WPT, 0xFFFFFFFF.toInt(), bold = true, size = 12.5f, mono = false, align = Gravity.START))
+        for (w in listOf(W_AWY, W_HDG, W_CRS, W_ALT, W_CMP, W_WIND, W_ISA, W_TAS, W_GS)) addView(cell("", w))
+        addView(cell("%.1f".format(r.distNm), W_DL, 0xFFFFFFFF.toInt(), bold = true))
+        addView(cell("", W_DR))
+        addView(cell(Navlog.hm(r.minutes), W_TL, 0xFFFFFFFF.toInt(), bold = true))
+        addView(cell("", W_TR))
+        addView(cell(plan.clock(r.minutes), W_ETE, 0xFF64D2FF.toInt(), bold = true))
+        addView(cell("", W_ACT))
+    }
+
+    /** The same route flown at every level, so the wind at each can be compared at a glance. */
+    private fun windsBlock(): View? {
+        val mid = plan.points.let { p -> p.sumOf { it.lat } / p.size to p.sumOf { it.lon } / p.size }
+        val levels = listOf(3000, 6000, 9000, 12000)
+        val found = levels.mapNotNull { a -> Winds.at(this, mid.first, mid.second, a)?.let { a to it } }
+        if (found.isEmpty()) return null
+        val wrap = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
+        wrap.addView(EfbUi.text(this, "WINDS ALOFT", 11f, 0xFF8FA3B8.toInt(), bold = true)
+            .apply { letterSpacing = 0.09f; setPadding(dp(14), dp(16), dp(14), dp(6)) })
+        val card = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL; setBackgroundColor(0xFF141B24.toInt())
+            setPadding(dp(8), dp(8), dp(8), dp(8))
+        }
+        val tc = Nav.bearingTrue(plan.points.first().lat, plan.points.first().lon, plan.points.last().lat, plan.points.last().lon)
+        for ((alt, w) in found) {
+            val rel = Math.toRadians(w.dirTrue - tc)
+            val comp = -Math.cos(rel) * w.kt
+            card.addView(LinearLayout(this).apply {
+                orientation = LinearLayout.VERTICAL; gravity = Gravity.CENTER
+                addView(EfbUi.text(this@NavlogActivity, "%,d FT".format(alt), 10f, 0xFF8FA3B8.toInt(), bold = true))
+                addView(EfbUi.text(this@NavlogActivity, "%03d/%d".format(w.dirTrue, w.kt), 13f, 0xFFE6EAF0.toInt(), bold = true, mono = true))
+                addView(EfbUi.text(this@NavlogActivity, (if (comp >= 0) "tail " else "head ") + "%d kt".format(Math.abs(Math.round(comp).toInt())), 10.5f,
+                    if (comp >= 0) 0xFF30D158.toInt() else 0xFFFF9F0A.toInt()))
+                w.tempC?.let { addView(EfbUi.text(this@NavlogActivity, "%+d°C".format(it), 10f, 0xFF6E7681.toInt())) }
+            }, LinearLayout.LayoutParams(0, -2, 1f))
+        }
+        wrap.addView(card)
+        return wrap
+    }
+
+    /** The two boxes a log is signed off with: who flew it, and the times written in after. */
+    private fun summaryBoxes(r: Navlog.Result): View {
+        val row = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; setPadding(dp(8), dp(14), dp(8), 0) }
+        fun boxOf(title: String, lines: List<Pair<String, String>>) = row.addView(LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            background = EfbUi.cardBg(this@NavlogActivity, 0xFF141B24.toInt(), 10)
+            setPadding(dp(12), dp(10), dp(12), dp(10))
+            addView(EfbUi.text(this@NavlogActivity, title, 10.5f, 0xFF8FA3B8.toInt(), bold = true).apply { letterSpacing = 0.09f })
+            for ((k, v) in lines) addView(LinearLayout(this@NavlogActivity).apply {
+                orientation = LinearLayout.HORIZONTAL; setPadding(0, dp(5), 0, 0)
+                addView(EfbUi.text(this@NavlogActivity, k, 12f, 0xFF8FA3B8.toInt()), LinearLayout.LayoutParams(0, -2, 1f))
+                addView(EfbUi.text(this@NavlogActivity, v, 12.5f, 0xFFE6EAF0.toInt(), bold = true, mono = true))
+            })
+        }, LinearLayout.LayoutParams(0, -2, 1f).apply { marginEnd = dp(8) })
+        val tail = Aircraft.all(this).getOrNull(VaultLock.prefs(this).getInt("wb_current", 0))?.name ?: "—"
+        boxOf("SUMMARY & TIMES", listOf(
+            "PIC" to (VaultLock.prefs(this).getString("pilot_name", "") ?: "").ifEmpty { "—" },
+            "Tail" to tail,
+            "Profile" to profile.name,
+            "Distance" to "%.0f nm".format(r.distNm),
+            "ETD" to (plan.etdMin?.let { "%02d:%02d".format(it / 60, it % 60) } ?: "now"),
+            "Taxi fuel" to "%.1f g".format(profile.taxiGal),
+        ))
+        boxOf("NOTES", listOf(
+            "Out" to "____", "In" to "____", "Block" to "____",
+            "Off" to "____", "On" to "____", "Flight" to "____",
+        ))
+        return row
     }
 
     /** What can be done with one leg: fly it, go straight to its end, take it out, give it its own wind. */

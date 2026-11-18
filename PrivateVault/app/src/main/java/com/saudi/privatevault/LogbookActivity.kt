@@ -107,6 +107,15 @@ class LogbookActivity : BaseActivity() {
         if (Logbook.foldRecorded(this)) Toast.makeText(this, R.string.log_folded, Toast.LENGTH_LONG).show()
         Logbook.reconcilePaper(this)
         entries = Logbook.all(this)
+        // One flight written twice is folded into one the moment the book is opened, so a logbook
+        // already carrying a double from an earlier version puts itself right.
+        val folded = Logbook.fold(entries)
+        if (folded.size != entries.size) {
+            val gone = entries.size - folded.size
+            Logbook.save(this, folded)
+            entries = Logbook.all(this)
+            Toast.makeText(this, "$gone duplicate ${if (gone == 1) "flight" else "flights"} merged into one", Toast.LENGTH_LONG).show()
+        }
         endorsements = Logbook.endorsements(this)
         tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(t: TabLayout.Tab) = show(ORDER[t.position])

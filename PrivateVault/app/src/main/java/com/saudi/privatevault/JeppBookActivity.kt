@@ -342,15 +342,22 @@ class JeppBookActivity : BaseActivity() {
     }
 
     private fun figure(name: String, ratio: Float): View {
+        // The picture is given the shape the file itself has, measured when it is decoded — never a
+        // shape written down beside it, which is what used to cut the right-hand edge off a page.
         val img = ImageView(this).apply {
-            scaleType = ImageView.ScaleType.FIT_CENTER; adjustViewBounds = true
-            background = EfbUi.cardBg(this@JeppBookActivity, 0xFFFFFFFF.toInt(), 12); clipToOutline = true
+            scaleType = ImageView.ScaleType.FIT_CENTER
+            adjustViewBounds = true
+            background = EfbUi.cardBg(this@JeppBookActivity, 0xFFFFFFFF.toInt(), 12)
         }
-        val w = resources.displayMetrics.widthPixels - dp(28)
-        img.layoutParams = LinearLayout.LayoutParams(-1, (w * ratio).toInt()).apply { topMargin = dp(14) }
+        img.layoutParams = LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(14) }
         Thread {
             val bm = try { assets.open("jepp/$name").use { BitmapFactory.decodeStream(it) } } catch (e: Exception) { null }
-            runOnUiThread { if (bm != null) img.setImageBitmap(bm) }
+            runOnUiThread {
+                if (bm != null) {
+                    img.setImageBitmap(bm)
+                    img.requestLayout()
+                }
+            }
         }.start()
         img.setOnClickListener { zoom(name) }
         return img
