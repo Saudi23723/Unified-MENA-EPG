@@ -241,20 +241,55 @@ class StudyBookActivity : BaseActivity() {
         // dragged — a lesson page is taken whole, the words read into their shape and every figure
         // on it copied off it as it stands.
         val js = """(function(){
+            var SKIP = {script:1,style:1,button:1,input:1,select:1,textarea:1,noscript:1,svg:1,table:1};
+            var JUNK = {'Back':1,'Forward':1,'Contents':1,'Print':1,'Done':1,'Hide':1,'Next':1,'Previous':1,
+                        'Grade':1,'Discard':1,'Pause':1,'Calculator':1,'Question Properties':1,'Image Viewer':1,
+                        'Session Tools':1,'Tools':1,'Session':1,'Mark For Review':1,'How Can We Help?':1,
+                        'Main Page':1,'Personal Classroom':1,'Logout':1,'Question Filters':1,'Unanswered':1,
+                        'Marked':1,'Incorrect':1,'No filters enabled':1,'Study Session':1,'Questions:':1,
+                        'Correct First Try':1,'Currently Correct':1,'Contact Gleim':1};
+            var out = [];
+            function push(t){
+                t = (t || '').replace(/\s+/g, ' ').trim();
+                if (!t || JUNK[t]) return;
+                if (/^(Copyright|Terms and Conditions|Phone:|Fax:|Elapsed Time|Average Time)/.test(t)) return;
+                out.push(t);
+            }
+            function walk(el){
+                var tag = el.tagName ? el.tagName.toLowerCase() : '';
+                if (SKIP[tag]) return;
+                if (tag === 'ol' || tag === 'ul'){
+                    var n = 1;
+                    for (var i = 0; i < el.children.length; i++){
+                        var li = el.children[i];
+                        if (li.tagName.toLowerCase() !== 'li') continue;
+                        push((tag === 'ol' ? (n++) + '. ' : '- ') + (li.innerText || ''));
+                    }
+                    return;
+                }
+                if (!el.children || el.children.length === 0){ push(el.innerText || el.textContent); return; }
+                for (var k = 0; k < el.childNodes.length; k++){
+                    var c = el.childNodes[k];
+                    if (c.nodeType === 3) push(c.textContent);
+                    else if (c.nodeType === 1) walk(c);
+                }
+            }
             var sel = window.getSelection().toString();
-            var out = { text: (sel && sel.trim().length > 20) ? sel : (document.body ? document.body.innerText : ''),
-                        dpr: window.devicePixelRatio || 1, vh: window.innerHeight, below: 0, figs: [] };
+            if (sel && sel.trim().length > 20) out.push(sel);
+            else if (document.body) walk(document.body);
+            var res = { text: out.join('\n'), dpr: window.devicePixelRatio || 1,
+                        iw: window.innerWidth || 0, below: 0, figs: [] };
             var els = document.querySelectorAll('img,table,svg,canvas,figure');
-            for (var i = 0; i < els.length; i++) {
+            for (var i = 0; i < els.length; i++){
                 var e = els[i];
                 var r = e.getBoundingClientRect();
                 if (r.width < 70 || r.height < 45) continue;
                 if (e.tagName.toLowerCase() === 'table' && e.querySelector('table')) continue;
-                if (r.top >= window.innerHeight || r.bottom <= 0) { out.below++; continue; }
-                out.figs.push({ x: r.left, y: r.top, w: r.width, h: r.height });
-                if (out.figs.length >= 8) break;
+                if (r.top >= window.innerHeight || r.bottom <= 0) { res.below++; continue; }
+                res.figs.push({ x: r.left, y: r.top, w: r.width, h: r.height });
+                if (res.figs.length >= 8) break;
             }
-            return JSON.stringify(out);
+            return JSON.stringify(res);
         })()"""
         web.evaluateJavascript(js) { raw ->
             val o = try { JSONObject(unJs(raw)) } catch (e: Exception) { null }
@@ -284,7 +319,12 @@ class StudyBookActivity : BaseActivity() {
     private fun grabFigures(o: JSONObject?): Int {
         val list = o?.optJSONArray("figs") ?: return 0
         if (list.length() == 0) return 0
-        val dpr = o.optDouble("dpr", 1.0).takeIf { it > 0.1 } ?: 1.0
+        // How many pixels of the picture one pixel of the page is worth. The page's own
+        // devicePixelRatio is not it: a page laid out wide and then zoomed out to fit the screen
+        // is drawn much smaller than that, which is what put the frame in the wrong place and made
+        // it far too big. The view's width over the page's own width is the real factor, exactly.
+        val iw = o.optDouble("iw", 0.0)
+        val dpr = if (iw > 10) web.width / iw else (o.optDouble("dpr", 1.0).takeIf { it > 0.1 } ?: 1.0)
         var n = 0
         try {
             val full = android.graphics.Bitmap.createBitmap(

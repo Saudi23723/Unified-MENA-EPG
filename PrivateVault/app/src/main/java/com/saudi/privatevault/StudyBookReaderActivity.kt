@@ -320,6 +320,8 @@ class StudyBookReaderActivity : BaseActivity() {
                 scaleType = android.widget.ImageView.ScaleType.FIT_CENTER
                 background = EfbUi.cardBg(this@StudyBookReaderActivity, 0xFFFFFFFF.toInt(), 8)
                 setPadding(dp(4), dp(4), dp(4), dp(4))
+                // A figure never swallows the page: tall ones are held to a readable height.
+                maxHeight = dp(420)
             }, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(8) })
         }
     }

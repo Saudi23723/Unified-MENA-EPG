@@ -25,7 +25,10 @@ object StudyParse {
 
     // ---- a question ----
 
-    private val RE_Q = Regex("""Question:?\s*(\d+)?[ \t]*\n?\s*(.+?)(?=\n\s*[A-E][.)]\s)""", RegexOption.DOT_MATCHES_ALL)
+    // "Question Properties" is a button on the bank's own toolbar, not a question. A question is
+    // written "Question: 5" or "Question 5", so the colon or the number is required.
+    private val RE_Q = Regex("""\bQuestion\b(?::\s*(\d+)?|\s+(\d+))[ \t]*\n?\s*(.+?)(?=\n\s*[A-E][.)]\s)""",
+        RegexOption.DOT_MATCHES_ALL)
     private val RE_CHOICE = Regex("""^[ \t]*([A-E])[.)]\s*(.+?)(?=\n[ \t]*[A-E][.)]\s|\n[ \t]*Answer\b|\z)""",
         setOf(RegexOption.MULTILINE, RegexOption.DOT_MATCHES_ALL))
     private val RE_ANS = Regex("""Answer\s*\(?([A-E])\)?\s*is\s*correct""", RegexOption.IGNORE_CASE)
@@ -40,7 +43,8 @@ object StudyParse {
     private val RE_SUB = Regex("""Subunit\s*(\d+)\s*:?\s*([^|\n]+)""")
 
     private fun question(text: String): JSONObject? {
-        val q = RE_Q.find(text) ?: return null
+        val q = RE_Q.findAll(text).lastOrNull() ?: return null
+        val number = q.groupValues[1].ifEmpty { q.groupValues[2] }
         val body = text.substring(q.range.last + 1)
         val choices = JSONArray()
         for (m in RE_CHOICE.findAll(body)) {
@@ -70,8 +74,8 @@ object StudyParse {
         if (ans.isEmpty()) ans = RE_ANS.find(body)?.groupValues?.get(1) ?: ""
         return JSONObject()
             .put("kind", "qa")
-            .put("n", q.groupValues[1])
-            .put("q", clean(q.groupValues[2]))
+            .put("n", number)
+            .put("q", clean(q.groupValues[3]))
             .put("ch", choices)
             .put("ans", ans)
             .put("why", why)
