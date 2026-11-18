@@ -29,6 +29,7 @@ object AviationData {
     private const val ESRI = "https://server.arcgisonline.com/ArcGIS/rest/services"
 
     val LAYERS = listOf(
+        Layer("aero", R.string.map_aero, "$ESRI/World_Topo_Map/MapServer", 17),
         Layer("sectional", R.string.map_sectional, "$FAA_TILES/VFR_Sectional/MapServer", 12),
         Layer("tac", R.string.map_tac, "$FAA_TILES/VFR_Terminal/MapServer", 13),
         Layer("ifrlow", R.string.map_ifr_low, "$FAA_TILES/IFR_AreaLow/MapServer", 12),

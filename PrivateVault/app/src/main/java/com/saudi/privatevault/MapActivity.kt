@@ -142,7 +142,10 @@ class MapActivity : BaseActivity(), NeonHost {
             loadingBackgroundColor = android.graphics.Color.TRANSPARENT
             loadingLineColor = android.graphics.Color.TRANSPARENT
         }
-        if (layer.key != "topo") map.overlays.add(chartOverlay)
+        if (layer.key != "topo" && layer.key != "aero") map.overlays.add(chartOverlay)
+        // The aeronautical map, drawn from the data rather than photographed from a printed sheet.
+        aero = AeroMap(this, map).apply { isEnabled = layer.key == "aero" }
+        map.overlays.add(aero)
 
         // Where the map was left; the first time, over Boulder City (KBVU).
         val lat = prefs.getFloat("map_lat", 35.9478f).toDouble()
@@ -188,7 +191,11 @@ class MapActivity : BaseActivity(), NeonHost {
             onPick = { texts -> MaterialAlertDialogBuilder(this@MapActivity).setMessage(texts.joinToString("\n\n")).setPositiveButton(android.R.string.ok, null).show() }
         }
         if (prefs.getBoolean("wx_airspace", true)) map.overlays.add(airspace)
-        lifecycleScope.launch { withContext(Dispatchers.IO) { try { Airspace.load(this@MapActivity) } catch (e: Throwable) {} }; map.invalidate() }
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) { try { Airspace.load(this@MapActivity) } catch (e: Throwable) { } }
+            aero?.airspace = Airspace.areas
+            map.invalidate()
+        }
         map.overlays.add(weather)
         plan = FlightPlan.load(this)
         route = RouteOverlay(map, { plan }, { if (::ownship.isInitialized) ownship.position() else null })
@@ -473,7 +480,8 @@ class MapActivity : BaseActivity(), NeonHost {
                     // The chart changes; the world map beneath it stays.
                     chartOverlay?.let { map.overlays.remove(it); it.onDetach(map) }
                     chartOverlay = null
-                    if (layer.key != "topo") {
+                    aero?.isEnabled = layer.key == "aero"
+                    if (layer.key != "topo" && layer.key != "aero") {
                         chartOverlay = org.osmdroid.views.overlay.TilesOverlay(
                             org.osmdroid.tileprovider.MapTileProviderBasic(applicationContext, layer.source()), applicationContext).apply {
                             loadingBackgroundColor = android.graphics.Color.TRANSPARENT
@@ -835,6 +843,7 @@ class MapActivity : BaseActivity(), NeonHost {
         lifecycleScope.launch {
             val list = withContext(Dispatchers.IO) { AviationData.airports(this@MapActivity) }
             airports = list
+            aero?.airports = list
             intent.getStringExtra(EXTRA_AIRPORT)?.let { id ->
                 intent.removeExtra(EXTRA_AIRPORT)
                 list.firstOrNull { it.ident == id }?.let { flyTo(it) }
@@ -880,6 +889,7 @@ class MapActivity : BaseActivity(), NeonHost {
             lifecycleScope.launch {
                 val json = withContext(Dispatchers.IO) { try { AirportDiagramActivity.fetch(this@MapActivity, a.ident, a.lat, a.lon, refresh = false) } catch (e: Exception) { null } }
                 patternEnds[a.ident] = PatternOverlay.endsFrom(json)
+                aero?.runways = patternEnds
                 patternLoading.remove(a.ident)
                 showPattern()
             }
@@ -1173,6 +1183,7 @@ class MapActivity : BaseActivity(), NeonHost {
 
     private var rubber: RubberBandOverlay? = null
     private var chartOverlay: org.osmdroid.views.overlay.TilesOverlay? = null
+    private var aero: AeroMap? = null
 
     /**
      * The finger lifted after bending a leg: what should go there? The point itself, or a field, a
