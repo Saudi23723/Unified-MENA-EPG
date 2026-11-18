@@ -113,8 +113,17 @@ class MultiviewActivity : BaseActivity() {
         when (others.size) {
             0 -> fillOthers(null)
             1 -> fillOthers(others[0])
-            else -> AlertDialog.Builder(this).setTitle("Other screen · which playlist?").setItems(others.map { it.name }.toTypedArray()) { _, w -> fillOthers(others[w]) }
-                .setOnCancelListener { fillOthers(others[0]) }.show()
+            // the question comes once the screens are in place and the first picture is on (owner, 17 Nov 2026:
+            // "the multiview transition is not smooth" — it opened at once over a black screen)
+            else -> lifecycleScope.launch {
+                val t0 = android.os.SystemClock.elapsedRealtime()
+                while (android.os.SystemClock.elapsedRealtime() - t0 < 2500 && first != null &&
+                    tiles[0].player.playbackState != androidx.media3.common.Player.STATE_READY) kotlinx.coroutines.delay(100)
+                kotlinx.coroutines.delay(250)
+                if (isFinishing || isDestroyed) return@launch
+                AlertDialog.Builder(this@MultiviewActivity).setTitle("Other screen · which playlist?").setItems(others.map { it.name }.toTypedArray()) { _, w -> fillOthers(others[w]) }
+                    .setOnCancelListener { fillOthers(others[0]) }.show()
+            }
         }
         tiles[0].root.post { tiles[0].root.requestFocus() }
         if (two) {
