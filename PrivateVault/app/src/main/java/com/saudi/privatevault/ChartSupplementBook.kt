@@ -2,6 +2,7 @@ package com.saudi.privatevault
 
 import android.content.Context
 import com.tom_roush.pdfbox.android.PDFBoxResourceLoader
+import com.tom_roush.pdfbox.io.MemoryUsageSetting
 import com.tom_roush.pdfbox.multipdf.PDFMergerUtility
 import java.io.File
 import java.net.HttpURLConnection
@@ -81,12 +82,22 @@ object ChartSupplementBook {
         if (names.isEmpty()) return null
         val dir = File(ctx.filesDir, "supplement/book/$ed/$region")
         dir.mkdirs()
-        val got = ArrayList<File>()
-        for ((i, n) in names.withIndex()) {
-            val f = File(dir, n)
-            if (fetch("$BASE/$ed/$n", f)) got.add(f)
-            progress(i + 1, names.size, "Page ${i + 1} of ${names.size}")
-        }
+        // A volume is four or five hundred separate page files. Fetched one after another that is
+        // twenty minutes of waiting, so six are fetched at a time; pages already on the phone are
+        // skipped, which is what makes a second attempt finish quickly after a dropped connection.
+        val done = java.util.concurrent.atomic.AtomicInteger(0)
+        val ok = java.util.Collections.synchronizedSet(HashSet<String>())
+        val pool = java.util.concurrent.Executors.newFixedThreadPool(6)
+        try {
+            val tasks = names.map { n ->
+                java.util.concurrent.Callable {
+                    if (fetch("$BASE/$ed/$n", File(dir, n))) ok.add(n)
+                    progress(done.incrementAndGet(), names.size, "Page ${done.get()} of ${names.size}")
+                }
+            }
+            pool.invokeAll(tasks)
+        } finally { pool.shutdown() }
+        val got = names.filter { ok.contains(it) }.map { File(dir, it) }
         if (got.size < names.size / 2) return null
         progress(names.size, names.size, "Binding ${got.size} pages into one book…")
         val name = "Chart Supplement · $region · $ed.pdf"
@@ -99,10 +110,13 @@ object ChartSupplementBook {
             PDFMergerUtility().apply {
                 for (p in got) addSource(p)
                 destinationFileName = target.absolutePath
-                mergeDocuments(null)
+                // Hundreds of pages will not be held in the phone's memory all at once: binding them
+                // through temporary files on disk is the difference between a book and a crash.
+                mergeDocuments(MemoryUsageSetting.setupTempFileOnly())
             }
         } catch (e: Throwable) {
             target.delete()
+            // The pages stay on the phone, so trying again binds what is already fetched.
             return null
         }
         // Older editions of the same region make way for this one.
