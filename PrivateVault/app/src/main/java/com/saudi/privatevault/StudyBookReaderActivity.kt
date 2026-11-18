@@ -49,6 +49,7 @@ class StudyBookReaderActivity : BaseActivity() {
         window.navigationBarColor = 0xFF0F141A.toInt()
         pages = try { JSONArray(prefs.getString(KEY, "[]")) } catch (e: Exception) { JSONArray() }
         if (pages.length() == 0) { finish(); return }
+        if (prefs.getBoolean(KEY_AUTO, true)) autoSort()
         at = intent.getIntExtra(EXTRA_AT, prefs.getInt(KEY_AT, 0)).coerceIn(0, pages.length() - 1)
         ink = prefs.getInt("study_ink", ink)
         nib = prefs.getFloat("study_nib", nib)
@@ -73,6 +74,58 @@ class StudyBookReaderActivity : BaseActivity() {
     }
 
     private fun page(): JSONObject = pages.optJSONObject(at) ?: JSONObject()
+
+    // ---- the order the book puts itself in ----
+
+    private val RE_UNIT_NO = Regex("""Unit\s*(\d+)""")
+    private val RE_SUB_NO = Regex("""Subunit\s*(\d+)""")
+    private val RE_HEAD_NO = Regex("""^(\d+)\.(\d+)""")
+
+    /**
+     * Where a page belongs in the book.
+     *
+     * A question bank is already a book with an order of its own — unit, then subunit, then the
+     * number of the question — and that is the order it is meant to be studied in. A passage of
+     * the book is numbered the same way, 3.10 being the tenth section of unit three, and it comes
+     * before the questions on it. Anything the page does not say falls to the back, kept together
+     * by subject and then by when it was taken.
+     */
+    private fun orderOf(p: JSONObject): IntArray {
+        val head = p.optString("head")
+        RE_HEAD_NO.find(head)?.let {
+            return intArrayOf(it.groupValues[1].toInt(), it.groupValues[2].toInt(), 0)
+        }
+        val u = RE_UNIT_NO.find(p.optString("unit"))?.groupValues?.get(1)?.toIntOrNull() ?: 9999
+        val sb = RE_SUB_NO.find(p.optString("sub"))?.groupValues?.get(1)?.toIntOrNull() ?: 9999
+        val q = p.optString("n").toIntOrNull() ?: 9998
+        return intArrayOf(u, sb, q)
+    }
+
+    /** The chapter a page sits under, for the contents. */
+    private fun chapterOf(p: JSONObject): String {
+        val head = p.optString("head")
+        RE_HEAD_NO.find(head)?.let { return "Unit ${it.groupValues[1]}" }
+        val u = p.optString("unit")
+        if (u.isNotEmpty()) return u
+        return p.optString("t", "GENERAL")
+    }
+
+    /** The book sorts itself into that order, keeping the page being read under the finger. */
+    private fun autoSort() {
+        val here = pages.optJSONObject(at)
+        val list = (0 until pages.length()).mapNotNull { pages.optJSONObject(it) }
+        val sorted = list.sortedWith(compareBy(
+            { orderOf(it)[0] }, { orderOf(it)[1] }, { orderOf(it)[2] },
+            { it.optString("t") }, { it.optLong("at") },
+        ))
+        val out = JSONArray()
+        for (o in sorted) out.put(o)
+        pages = out
+        if (here != null) {
+            val i = sorted.indexOfFirst { it === here }
+            if (i >= 0) at = i
+        }
+    }
 
     private fun chip(label: String, colour: Int, go: () -> Unit) = TextView(this).apply {
         text = label; textSize = 12.5f; setTextColor(0xFFFFFFFF.toInt()); gravity = Gravity.CENTER
@@ -299,18 +352,21 @@ class StudyBookReaderActivity : BaseActivity() {
         val dlg = MaterialAlertDialogBuilder(this).setView(ScrollView(this).apply { addView(box) }).create()
         box.addView(EfbUi.text(this, "CONTENTS  ·  ${pages.length()} pages", 12f, 0xFF8E9BA8.toInt(), bold = true)
             .apply { letterSpacing = 0.1f; setPadding(dp(16), dp(16), dp(16), dp(10)) })
-        val byTopic = LinkedHashMap<String, MutableList<Int>>()
+        // The chapters in the order the book is in, so the contents read the way the pages do.
+        val byChapter = LinkedHashMap<String, MutableList<Int>>()
         for (i in 0 until pages.length()) {
-            val t = pages.optJSONObject(i)?.optString("t", "GENERAL") ?: "GENERAL"
-            byTopic.getOrPut(t) { ArrayList() }.add(i)
+            val p = pages.optJSONObject(i) ?: continue
+            byChapter.getOrPut(chapterOf(p)) { ArrayList() }.add(i)
         }
-        for ((topic, list) in byTopic.entries.sortedBy { it.key }) {
+        for ((topic, list) in byChapter) {
             box.addView(EfbUi.text(this, "$topic   ·   ${list.size}", 12.5f, 0xFFFFD60A.toInt(), bold = true)
                 .apply { setBackgroundColor(0xFF1A222B.toInt()); setPadding(dp(16), dp(8), dp(16), dp(8)) })
             for (i in list) {
                 val p = pages.optJSONObject(i) ?: continue
                 val mark = if ((p.optJSONArray("ink")?.length() ?: 0) > 0) "  ✎" else ""
-                box.addView(EfbUi.text(this, "${i + 1}.  ${p.optString("q").replace("\n", " ").take(70)}$mark",
+                val figure = if (p.optString("img").let { it.isNotEmpty() && it != "null" }) "  🖼" else ""
+                val sub = p.optString("sub").let { s2 -> RE_SUB_NO.find(s2)?.let { "§${it.groupValues[1]}  " } ?: "" }
+                box.addView(EfbUi.text(this, "${i + 1}.  $sub${p.optString("q").replace("\n", " ").take(64)}$mark$figure",
                     13.5f, if (i == at) 0xFFFFFFFF.toInt() else 0xFFC2CBD6.toInt(), bold = i == at).apply {
                     setPadding(dp(20), dp(10), dp(16), dp(10))
                     setOnClickListener { dlg.dismiss(); go(i) }
@@ -325,6 +381,12 @@ class StudyBookReaderActivity : BaseActivity() {
     private fun more() {
         save()
         val items = ArrayList<Pair<String, () -> Unit>>()
+        val auto = prefs.getBoolean(KEY_AUTO, true)
+        items.add((if (auto) "✓  Automatic order — unit, subunit, question" else "    Automatic order — unit, subunit, question") to {
+            prefs.edit().putBoolean(KEY_AUTO, !auto).apply()
+            if (!auto) { autoSort(); save(); paint(); Toast.makeText(this, "The book has put itself in order", Toast.LENGTH_SHORT).show() }
+            else Toast.makeText(this, "Order is yours now — move pages as you like", Toast.LENGTH_SHORT).show()
+        })
         items.add("↑  Move this page earlier" to { move(-1) })
         items.add("↓  Move this page later" to { move(1) })
         items.add("🏷  Change the subject" to { retopic() })
@@ -347,6 +409,11 @@ class StudyBookReaderActivity : BaseActivity() {
     }
 
     private fun move(by: Int) {
+        // Moving a page by hand is the pilot saying the order is theirs, so the book stops sorting.
+        if (prefs.getBoolean(KEY_AUTO, true)) {
+            prefs.edit().putBoolean(KEY_AUTO, false).apply()
+            Toast.makeText(this, "Automatic order off — the order is yours now", Toast.LENGTH_SHORT).show()
+        }
         val to = at + by
         if (to < 0 || to >= pages.length()) { Toast.makeText(this, "Already at the end", Toast.LENGTH_SHORT).show(); return }
         val a = pages.optJSONObject(at); val b2 = pages.optJSONObject(to)
@@ -471,6 +538,7 @@ class StudyBookReaderActivity : BaseActivity() {
     companion object {
         private const val KEY = "study_book_pages"
         private const val KEY_AT = "study_book_at"
+        private const val KEY_AUTO = "study_book_auto"
         const val EXTRA_AT = "at"
 
         val COLOURS = intArrayOf(
