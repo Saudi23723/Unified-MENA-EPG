@@ -27,6 +27,9 @@ class App : Application(), ImageLoaderFactory {
             before?.uncaughtException(t, e)
         }
         tidy()
+        // a TV that stays on for days never restarts the app: the daily clean is checked every hour too
+        val h = android.os.Handler(android.os.Looper.getMainLooper())
+        h.postDelayed(object : Runnable { override fun run() { tidy(); h.postDelayed(this, 3600_000L) } }, 3600_000L)
         Backup.auto()
         Health.start()
     }
