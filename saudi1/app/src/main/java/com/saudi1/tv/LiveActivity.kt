@@ -136,6 +136,11 @@ class LiveActivity : BaseActivity() {
                 }
                 if (state == Player.STATE_READY && bufStart > 0) android.util.Log.w("SAUDI", "wait over after ${android.os.SystemClock.elapsedRealtime() - bufStart}ms")
                 if (state != Player.STATE_BUFFERING && bufStart > 0) { lag += android.os.SystemClock.elapsedRealtime() - bufStart; bufStart = 0 }
+                if (state == Player.STATE_READY && zapAt > 0) {
+                    // how long a channel takes to come (owner, 17 Nov 2026: "changing channels should be quicker")
+                    android.util.Log.w("SAUDI", "zap: ${playing?.name} picture in ${android.os.SystemClock.elapsedRealtime() - zapAt}ms")
+                    zapAt = 0
+                }
                 if (state == Player.STATE_READY) {
                     // remember which link worked for this channel
                     playing?.let { c -> if (usingHls) Hls.add(c.id) else if (tries > 0) Hls.remove(c.id) }
@@ -298,6 +303,8 @@ class LiveActivity : BaseActivity() {
     }
 
     private var lag = 0L; private var bufStart = 0L
+    private var backHeld = false
+    private var zapAt = 0L
 
     // ---- the connection cannot carry this quality: after 3 waits in 2 minutes the channel goes to its next lighter
     // copy by itself (4K → FHD → HD → SD), once per channel; MENU › Quality goes back (Settings can turn this off)
@@ -338,6 +345,7 @@ class LiveActivity : BaseActivity() {
     }
 
     private fun start(c: Channel, hls: Boolean = Hls.has(c.id)) {
+        zapAt = android.os.SystemClock.elapsedRealtime()
         val u = Api.streamUrl(c)
         usingHls = hls && u.endsWith(".ts")
         // HLS: the player itself stays 6 s from live, a little faster / slower to keep there
@@ -649,6 +657,11 @@ class LiveActivity : BaseActivity() {
                 if (!down) { if (groupsPanel.visibility == View.VISIBLE) closeGroups() else hideOverlay() }
                 return true
             }
+        }
+        // hold Back in the list: back to full screen on the channel playing (owner, 17 Nov 2026)
+        if (!full && e.keyCode == KeyEvent.KEYCODE_BACK && playing != null) {
+            if (down && e.repeatCount == 1) { backHeld = true; if (groupsPanel.visibility == View.VISIBLE) closeGroups(); setFull(true); return true }
+            if (backHeld) { if (!down) backHeld = false; return true }
         }
         if (down && !full) {
             when (e.keyCode) {
