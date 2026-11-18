@@ -155,12 +155,7 @@ class MapActivity : BaseActivity(), NeonHost {
         zoomLimit()
         map.overlayManager.tilesOverlay.setLoadingBackgroundColor(0xFFEDE8DA.toInt())
         map.overlayManager.tilesOverlay.setLoadingLineColor(0xFFEDE8DA.toInt())
-        chartOverlay = org.osmdroid.views.overlay.TilesOverlay(
-            org.osmdroid.tileprovider.MapTileProviderBasic(applicationContext, layer.source()), applicationContext).apply {
-            loadingBackgroundColor = android.graphics.Color.TRANSPARENT
-            loadingLineColor = android.graphics.Color.TRANSPARENT
-        }
-        if (layer.key != "topo" && layer.key != "aero") map.overlays.add(chartOverlay)
+        setChartLayer()
         // The aeronautical map, drawn from the data rather than photographed from a printed sheet.
         aero = AeroMap(this, map)
         aeroStyle()
@@ -247,7 +242,7 @@ class MapActivity : BaseActivity(), NeonHost {
 
         map.addMapListener(DelayedMapListener(object : MapListener {
             override fun onScroll(event: ScrollEvent?): Boolean { autoDiagrams(); return idle() }
-            override fun onZoom(event: ZoomEvent?): Boolean { autoDiagrams(); return idle() }
+            override fun onZoom(event: ZoomEvent?): Boolean { setChartLayer(); autoDiagrams(); return idle() }
         }, 900))
 
         // The instrument strip in place of the four plain readouts.
@@ -499,19 +494,9 @@ class MapActivity : BaseActivity(), NeonHost {
                 if (chosen != layer) {
                     layer = chosen
                     prefs.edit().putString("map_layer", layer.key).apply()
-                    // The chart changes; the world map beneath it stays.
-                    chartOverlay?.let { map.overlays.remove(it); it.onDetach(map) }
-                    chartOverlay = null
                     aeroStyle()
-                    bar?.setLayerName(getString(layer.label))
-                    if (layer.key != "topo" && layer.key != "aero") {
-                        chartOverlay = org.osmdroid.views.overlay.TilesOverlay(
-                            org.osmdroid.tileprovider.MapTileProviderBasic(applicationContext, layer.source()), applicationContext).apply {
-                            loadingBackgroundColor = android.graphics.Color.TRANSPARENT
-                            loadingLineColor = android.graphics.Color.TRANSPARENT
-                        }
-                        map.overlays.add(0, chartOverlay)
-                    }
+                    shownChart = "?"
+                    setChartLayer()
                     map.invalidate()
                     zoomLimit()
                     setOfficial()
@@ -1209,6 +1194,40 @@ class MapActivity : BaseActivity(), NeonHost {
 
     private var rubber: RubberBandOverlay? = null
     private var chartOverlay: org.osmdroid.views.overlay.TilesOverlay? = null
+    private var shownChart = "?"
+
+    /**
+     * Which printed chart is laid over the base, and the moment it changes.
+     *
+     * A sectional is drawn for a scale of half a million; past the zoom it was printed for, its ink
+     * only goes soft under enlargement — which is exactly why a sectional alone looks blurred when
+     * you come in close. A terminal chart is drawn four times finer over the busy areas, so close in
+     * it takes over by itself and the picture stays crisp. That is what a seamless chart does.
+     */
+    private fun setChartLayer() {
+        val want = when {
+            layer.key == "topo" || layer.key == "aero" -> ""
+            layer.key == "sectional" && map.zoomLevelDouble >= 11.3 && prefs.getBoolean("chart_auto", true) -> "tac"
+            else -> layer.key
+        }
+        if (want == shownChart) return
+        shownChart = want
+        chartOverlay?.let { map.overlays.remove(it); try { it.onDetach(map) } catch (e: Throwable) { } }
+        chartOverlay = null
+        if (want.isNotEmpty()) {
+            val src = AviationData.LAYERS.firstOrNull { it.key == want }?.source()
+            if (src != null) {
+                chartOverlay = org.osmdroid.views.overlay.TilesOverlay(
+                    org.osmdroid.tileprovider.MapTileProviderBasic(applicationContext, src), applicationContext).apply {
+                    loadingBackgroundColor = android.graphics.Color.TRANSPARENT
+                    loadingLineColor = android.graphics.Color.TRANSPARENT
+                }
+                map.overlays.add(0, chartOverlay)
+            }
+        }
+        bar?.setLayerName(
+            if (want == "tac" && layer.key == "sectional") getString(R.string.map_tac) else getString(layer.label))
+    }
     private var aero: AeroMap? = null
     private var bar: MapToolbar? = null
 
@@ -1703,6 +1722,18 @@ class MapActivity : BaseActivity(), NeonHost {
         updateNav()
         map.invalidate()
         Toast.makeText(this, getString(R.string.plan_added, w.id, plan.points.size), Toast.LENGTH_SHORT).show()
+    }
+
+    /** How the plotter is used, for anyone who has not found it by accident. */
+    private fun plotterHint() {
+        MaterialAlertDialogBuilder(this)
+            .setTitle("📏 Plotter")
+            .setMessage("Put two fingers on the chart and hold them still for a moment. A ruler springs up between them " +
+                "with the distance, the magnetic course each way, and the time at your speed — with a tick every mile. " +
+                "Slide the fingers to measure somewhere else; lift one and it is gone.\n\n" +
+                "To put a point into the route: hold one finger anywhere on the chart. To bend a leg around weather " +
+                "or high ground: hold the magenta line and drag it.")
+            .setPositiveButton(R.string.ok, null).show()
     }
 
     private fun pointMenu(g: GeoPoint) {
@@ -2289,6 +2320,7 @@ class MapActivity : BaseActivity(), NeonHost {
         fun line() = col.addView(View(this).apply { setBackgroundColor(0x33FFFFFF) }, LinearLayout.LayoutParams(dp(30), 1).apply { gravity = android.view.Gravity.CENTER_HORIZONTAL; setMargins(0, dp(2), 0, dp(2)) })
         tool(R.drawable.ic_layers, click = { b.fabLayers.performClick() })
         tool(R.drawable.ic_fab_pencil, click = { b.fabDraw.performClick() })
+        tool(R.drawable.ic_remove, click = { plotterHint() }, long = { plotterHint() })
         val locate = tool(R.drawable.ic_my_location, EfbUi.ACCENT, click = { b.fabLocate.performClick() }, long = { b.fabLocate.performLongClick() })
         locateTool = locate
         val north = tool(R.drawable.ic_compass, click = {
@@ -3579,7 +3611,9 @@ class MapActivity : BaseActivity(), NeonHost {
     /** How far in a chart can be read: two to three steps past its printed scale. */
     private fun zoomLimit() {
         // A scanned chart holds about one step of enlargement before its print goes soft; closer in, the airport diagram takes over.
-        map.maxZoomLevel = layer.maxZoom + if (layer.maxZoom >= 16) 1.5 else if (map.isTilesScaledToDpi) 0.3 else 1.0
+        val best = if (layer.key == "sectional" && prefs.getBoolean("chart_auto", true))
+            maxOf(layer.maxZoom, AviationData.LAYERS.first { it.key == "tac" }.maxZoom) else layer.maxZoom
+        map.maxZoomLevel = best + if (best >= 16) 1.5 else if (map.isTilesScaledToDpi) 0.3 else 1.0
         if (map.zoomLevelDouble > map.maxZoomLevel) map.controller.setZoom(map.maxZoomLevel)
     }
 
