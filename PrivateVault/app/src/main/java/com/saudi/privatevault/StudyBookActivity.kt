@@ -250,6 +250,7 @@ class StudyBookActivity : BaseActivity() {
                         'Correct First Try':1,'Currently Correct':1,'Contact Gleim':1,'Opens in new window':1,
                         'Privacy Policy':1,'Employment':1,'Terms and Conditions of Service':1};
             var out = [];
+            var pts = [];
             // Only what the page actually shows: a bank's page carries directions, skip links,
             // spacers and an index of every question in it, none of it ever on the screen.
             function shown(el){
@@ -260,11 +261,17 @@ class StudyBookActivity : BaseActivity() {
                 if (st.display === 'none' || st.visibility === 'hidden' || st.opacity === '0') return false;
                 return true;
             }
-            function push(t){
-                t = (t || '').replace(/\s+/g, ' ').trim();
+            // A point keeps three things: how deep it sits, its marker, and its words. The depth
+            // is what the book needs to set it out as a book does — the marker alone, flattened to
+            // the left margin, reads as a jumble of letters and numbers with no shape to it.
+            function push(t, depth, marker){
+                t = (t || '').replace(/\s+/g, ' ').replace(/\s*\|\s*/g, ' ').trim();
                 if (!t || JUNK[t]) return;
                 if (/^(Copyright|Terms and Conditions|Phone:|Fax:|Elapsed Time|Average Time|©)/.test(t)) return;
-                out.push(t);
+                if (/^\(?\d{3}\)?[ -]?\d{3}-\d{4}$/.test(t)) return;
+                if (t.length < 2) return;
+                pts.push({ d: depth || 0, m: marker || '', t: t });
+                out.push((marker ? marker + ' ' : '') + t);
             }
             // A list keeps its shape: 1. then a. then i., each one step in, as the book prints it.
             function mark(depth, n){
@@ -273,7 +280,7 @@ class StudyBookActivity : BaseActivity() {
                 var r = ['i','ii','iii','iv','v','vi','vii','viii','ix','x'];
                 return (r[n - 1] || n) + '.';
             }
-            function pad(depth){ return depth === 0 ? '' : (depth === 1 ? '    ' : '        '); }
+
             function list(el, depth){
                 var ordered = el.tagName.toLowerCase() === 'ol';
                 var n = 1;
@@ -291,7 +298,7 @@ class StudyBookActivity : BaseActivity() {
                             own += (c.innerText || '') + ' ';
                         }
                     }
-                    push(pad(depth) + (ordered ? mark(depth, n++) : '•') + ' ' + own);
+                    push(own, depth, ordered ? mark(depth, n++) : '•');
                     for (var k = 0; k < li.children.length; k++){
                         var c = li.children[k];
                         var ct = c.tagName.toLowerCase();
@@ -305,10 +312,10 @@ class StudyBookActivity : BaseActivity() {
                 if (!shown(el)) return;
                 if (out.length > 500) return;
                 if (tag === 'ol' || tag === 'ul'){ list(el, 0); return; }
-                if (!el.children || el.children.length === 0){ push(el.innerText || el.textContent); return; }
+                if (!el.children || el.children.length === 0){ push(el.innerText || el.textContent, 0, ''); return; }
                 for (var k = 0; k < el.childNodes.length; k++){
                     var c = el.childNodes[k];
-                    if (c.nodeType === 3) push(c.textContent);
+                    if (c.nodeType === 3) push(c.textContent, 0, '');
                     else if (c.nodeType === 1) walk(c);
                 }
             }
@@ -334,7 +341,7 @@ class StudyBookActivity : BaseActivity() {
             }
             var vw = window.innerWidth || 1, vh = window.innerHeight || 1;
             var sy = window.pageYOffset || document.documentElement.scrollTop || 0;
-            var res = { text: out.join('\n').slice(0, 20000), vw: vw, vh: vh,
+            var res = { text: out.join('\n').slice(0, 20000), pts: pts.slice(0, 400), vw: vw, vh: vh,
                         scrollY: sy, docH: Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
                         figs: [] };
             var els = document.querySelectorAll('img,table,svg,canvas');
@@ -361,6 +368,8 @@ class StudyBookActivity : BaseActivity() {
             web.evaluateJavascript("window.getSelection().removeAllRanges();", null)
             web.clearFocus()
             val parsed = StudyParse.parse(text)
+            // A lesson keeps the shape the page had it in, each point with its depth and marker.
+            if (parsed.optString("kind") != "qa") o?.optJSONArray("pts")?.let { parsed.put("plist", it) }
             pending = parsed
             question.setText(if (parsed.optString("kind") == "qa") parsed.optString("q")
                 else parsed.optString("head").ifEmpty { parsed.optString("q") })

@@ -290,6 +290,33 @@ class StudyBookReaderActivity : BaseActivity() {
         kindBadge(col, "LESSON", 0xFFFFD60A.toInt())
         val head = p.optString("head")
         if (head.isNotEmpty()) col.addView(EfbUi.text(this, head, 16.5f, 0xFFFFD60A.toInt(), bold = true))
+
+        // The points as the book sets them out: the marker in its own column, the words beside it,
+        // and each level stepped in from the one above, so the shape of the lesson can be read.
+        val plist = p.optJSONArray("plist")
+        if (plist != null && plist.length() > 0) {
+            for (i in 0 until plist.length()) {
+                val o = plist.optJSONObject(i) ?: continue
+                val d = o.optInt("d").coerceIn(0, 4)
+                val m = o.optString("m")
+                val t = o.optString("t")
+                if (t.isBlank()) continue
+                val row = LinearLayout(this).apply {
+                    orientation = LinearLayout.HORIZONTAL
+                    setPadding(dp(d * 15), dp(if (i == 0) 10 else 9), 0, 0)
+                }
+                if (m.isNotEmpty()) row.addView(
+                    EfbUi.text(this, m, 13.5f, when (d) {
+                        0 -> 0xFFFFD60A.toInt(); 1 -> 0xFF64D2FF.toInt(); else -> 0xFF8E9BA8.toInt()
+                    }, bold = d == 0),
+                    LinearLayout.LayoutParams(dp(if (d == 0) 24 else 26), -2))
+                row.addView(EfbUi.text(this, t, if (d == 0) 15f else 14f,
+                    if (d == 0) 0xFFFFFFFF.toInt() else 0xFFD3DAE2.toInt(), bold = d == 0),
+                    LinearLayout.LayoutParams(0, -2, 1f))
+                col.addView(row)
+            }
+            return
+        }
         val pts = p.optJSONArray("pts")
         if (pts != null && pts.length() > 0) {
             for (i in 0 until pts.length()) {
