@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-18T03:45:02.880Z",
+  "updated_at": "2026-11-18T03:50:30.173Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -291,14 +291,14 @@
       "country": "بريطانيا",
       "latitude": 51.5074,
       "longitude": -0.1278,
-      "temperature_c": 9.8,
-      "humidity": 84,
-      "wind_speed": 16.6,
+      "temperature_c": 9.9,
+      "humidity": 83,
+      "wind_speed": 15.1,
       "rain_chance": 39,
-      "condition": "صافٍ غالباً",
-      "weather_code": 1,
+      "condition": "غائم",
+      "weather_code": 3,
       "observed_at": "2026-11-18T03:45",
-      "feels_c": 6.7,
+      "feels_c": 7.0,
       "utc_offset": 0,
       "days": [
         {
@@ -362,21 +362,21 @@
       "country": "بريطانيا",
       "latitude": 53.4808,
       "longitude": -2.2426,
-      "temperature_c": 6.9,
+      "temperature_c": 7.0,
       "humidity": 93,
-      "wind_speed": 4.0,
+      "wind_speed": 3.6,
       "rain_chance": 45,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-11-18T03:45",
-      "feels_c": 5.3,
+      "feels_c": 5.5,
       "utc_offset": 0,
       "days": [
         {
           "date": "2026-11-18",
-          "code": 61,
+          "code": 53,
           "max": 8.6,
-          "min": 6.7,
+          "min": 6.9,
           "rain": 88
         },
         {
@@ -423,7 +423,7 @@
         }
       ],
       "today_max": 8.6,
-      "today_min": 6.7,
+      "today_min": 6.9,
       "sunrise": "07:39",
       "sunset": "16:07",
       "uv": 0
@@ -579,8 +579,8 @@
       "humidity": 73,
       "wind_speed": 11.5,
       "rain_chance": 0,
-      "condition": "غائم",
-      "weather_code": 3,
+      "condition": "غائم جزئياً",
+      "weather_code": 2,
       "observed_at": "2026-11-17T21:45",
       "feels_c": 0.7,
       "utc_offset": -21600,
@@ -595,7 +595,7 @@
         {
           "date": "2026-11-18",
           "code": 3,
-          "max": 15.9,
+          "max": 15.6,
           "min": 1.4,
           "rain": 0
         },
@@ -737,7 +737,7 @@
         {
           "date": "2026-11-18",
           "code": 3,
-          "max": 20.9,
+          "max": 21.0,
           "min": 6.5,
           "rain": 0
         },
@@ -807,7 +807,7 @@
         },
         {
           "date": "2026-11-18",
-          "code": 63,
+          "code": 65,
           "max": 13.0,
           "min": 9.0,
           "rain": 100
