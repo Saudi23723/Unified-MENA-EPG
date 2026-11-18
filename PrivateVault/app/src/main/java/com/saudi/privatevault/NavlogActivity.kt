@@ -36,6 +36,8 @@ class NavlogActivity : BaseActivity() {
     /** What the pilot writes in as the flight goes: the actual ground speed, times and fuel. */
     private val actual = HashMap<String, String>()
     private var mora = true
+    /** The points this log is built from — the route, or the single Direct-To leg. */
+    private var pts: List<FlightPlan.Waypoint> = emptyList()
     // What the GPS says, while the log is open: where we are, how fast, and which fix is next.
     private var fix: android.location.Location? = null
     private var live: TextView? = null
@@ -73,20 +75,55 @@ class NavlogActivity : BaseActivity() {
         airports.firstOrNull { it.icao == w.id || it.ident == w.id }?.elevation?.toDouble()
 
     private fun compute(): Navlog.Result = Navlog.build(
-        plan.points, plan.altitude, profile,
+        pts, plan.altitude, profile,
         { i -> plan.legWinds[i]?.let { it.first to it.second } ?: (plan.windDir to plan.windKt) },
         plan.fuelOnBoard, plan.reserveMin,
-        plan.points.firstOrNull()?.let { elevOf(it) }, plan.points.lastOrNull()?.let { elevOf(it) }, mora,
+        pts.firstOrNull()?.let { elevOf(it) }, pts.lastOrNull()?.let { elevOf(it) }, mora,
     )
 
+    /**
+     * The points the log is built from. Normally the route the pilot typed. But when they have
+     * gone Direct-To without a route entered, Direct-To *is* the flight: the log is then the one
+     * leg from where the aeroplane stands to that point, which is what the pilot asked for and
+     * what every other electronic flight bag shows them.
+     */
+    private fun logPoints(): List<FlightPlan.Waypoint> {
+        if (plan.points.size >= 2) return plan.points
+        val to = plan.direct ?: return plan.points
+        val from = plan.points.firstOrNull()
+            ?: here()?.let { FlightPlan.Waypoint("PPOS", it.latitude, it.longitude) }
+            ?: return plan.points
+        if (from.id == to.id) return plan.points
+        return listOf(from, to)
+    }
+
+    /** Where the aeroplane is: the live fix if the log has one, else the last the phone remembers. */
+    @android.annotation.SuppressLint("MissingPermission")
+    private fun here(): android.location.Location? {
+        fix?.let { return it }
+        if (androidx.core.content.ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+            != android.content.pm.PackageManager.PERMISSION_GRANTED) return null
+        val m = getSystemService(android.location.LocationManager::class.java) ?: return null
+        return listOf(
+            android.location.LocationManager.GPS_PROVIDER,
+            android.location.LocationManager.NETWORK_PROVIDER,
+            android.location.LocationManager.PASSIVE_PROVIDER,
+        ).mapNotNull { p -> try { m.getLastKnownLocation(p) } catch (e: Exception) { null } }
+            .maxByOrNull { it.time }
+    }
+
     private fun rebuild() {
+        pts = logPoints()
         val r = compute()
         result = r
         for (row in r.rows) atos[key(row)]?.let { row.atoUtc = it }
         body.removeAllViews()
         body.addView(header())
-        if (plan.points.size < 2) {
-            body.addView(EfbUi.text(this, "No route yet. Open the map, tap Edit on the flight plan and type one — for example KBVU KHND KVGT.", 15f, EfbUi.TEXT)
+        if (pts.size < 2) {
+            val why = if (plan.direct != null)
+                "Going direct to ${plan.direct!!.id}, but the log needs a starting point and the GPS has not given one yet. Turn location on, or type a route — for example ${plan.direct!!.id} on the end of KBVU."
+            else "No route yet. Open the map, tap Edit on the flight plan and type one — for example KBVU KHND KVGT. Or go Direct-To a point and the log will show that leg."
+            body.addView(EfbUi.text(this, why, 15f, EfbUi.TEXT)
                 .apply { setPadding(dp(20), dp(30), dp(20), dp(20)) })
             body.addView(actionRow())
             return
@@ -265,7 +302,7 @@ class NavlogActivity : BaseActivity() {
         h.addView(LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             addView(EfbUi.text(this@NavlogActivity, "NAVLOG", 11f, 0xFF8FA3B8.toInt(), bold = true).apply { letterSpacing = 0.14f })
-            addView(EfbUi.text(this@NavlogActivity, plan.points.joinToString(" · ") { it.id }.ifEmpty { "no route" }, 16f, 0xFFFFFFFF.toInt(), bold = true).apply { maxLines = 1 })
+            addView(EfbUi.text(this@NavlogActivity, pts.joinToString(" · ") { it.id }.ifEmpty { "no route" }, 16f, 0xFFFFFFFF.toInt(), bold = true).apply { maxLines = 1 })
         }, LinearLayout.LayoutParams(0, -2, 1f))
         h.addView(chip("${"%,d".format(plan.altitude)}'  ▾", 0xFF0077CC.toInt()) { altitudeAdvisor() })
         return h
@@ -288,8 +325,8 @@ class NavlogActivity : BaseActivity() {
     /** The head of the log: who is flying what, where, when, and on how much fuel. */
     private fun flightSummary(r: Navlog.Result): View {
         val wrap = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setBackgroundColor(0xFF141B24.toInt()) }
-        val dep = plan.points.firstOrNull()?.id ?: ""
-        val dest = plan.points.lastOrNull()?.id ?: ""
+        val dep = pts.firstOrNull()?.id ?: ""
+        val dest = pts.lastOrNull()?.id ?: ""
         val tail = Aircraft.all(this).getOrNull(VaultLock.prefs(this).getInt("wb_current", 0))?.name ?: ""
         val today = java.text.SimpleDateFormat("MMM d, yyyy", java.util.Locale.US).format(java.util.Date())
         val top = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; setPadding(dp(14), dp(10), dp(14), dp(4)) }
@@ -310,7 +347,7 @@ class NavlogActivity : BaseActivity() {
         wrap.addView(summary(r))
         // The route itself, written out.
         wrap.addView(EfbUi.text(this, "Route", 9.5f, 0xFF8FA3B8.toInt(), bold = true).apply { letterSpacing = 0.09f; setPadding(dp(14), dp(6), dp(14), 0) })
-        wrap.addView(EfbUi.ltr(EfbUi.text(this, plan.points.joinToString(" ") { it.id }, 12.5f, 0xFFD6DCE4.toInt(), mono = true))
+        wrap.addView(EfbUi.ltr(EfbUi.text(this, pts.joinToString(" ") { it.id }, 12.5f, 0xFFD6DCE4.toInt(), mono = true))
             .apply { setPadding(dp(14), 0, dp(14), dp(10)) })
         return wrap
     }
@@ -383,7 +420,7 @@ class NavlogActivity : BaseActivity() {
 
     /** The first line of the log: the departure, with nothing yet flown. */
     private fun departureRow(): View {
-        val p = plan.points.firstOrNull() ?: return View(this)
+        val p = pts.firstOrNull() ?: return View(this)
         val line = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL
             setPadding(dp(8), dp(7), dp(8), dp(7)); setBackgroundColor(0xFF18202B.toInt())
@@ -479,7 +516,7 @@ class NavlogActivity : BaseActivity() {
 
     /** The same route flown at every level, so the wind at each can be compared at a glance. */
     private fun windsBlock(): View? {
-        val mid = plan.points.let { p -> p.sumOf { it.lat } / p.size to p.sumOf { it.lon } / p.size }
+        val mid = pts.let { p -> p.sumOf { it.lat } / p.size to p.sumOf { it.lon } / p.size }
         val levels = listOf(3000, 6000, 9000, 12000)
         val found = levels.mapNotNull { a -> Winds.at(this, mid.first, mid.second, a)?.let { a to it } }
         if (found.isEmpty()) return null
@@ -490,7 +527,7 @@ class NavlogActivity : BaseActivity() {
             orientation = LinearLayout.HORIZONTAL; setBackgroundColor(0xFF141B24.toInt())
             setPadding(dp(8), dp(8), dp(8), dp(8))
         }
-        val tc = Nav.bearingTrue(plan.points.first().lat, plan.points.first().lon, plan.points.last().lat, plan.points.last().lon)
+        val tc = Nav.bearingTrue(pts.first().lat, pts.first().lon, pts.last().lat, pts.last().lon)
         for ((alt, w) in found) {
             val rel = Math.toRadians(w.dirTrue - tc)
             val comp = -Math.cos(rel) * w.kt
@@ -527,7 +564,7 @@ class NavlogActivity : BaseActivity() {
                 size = if (header) 9.5f else 11.5f, mono = !header))
         })
         row(listOf("", "AIRPORT", "ETA", "WX", "TWR/CTAF", "CLR", "GND", "ELEV", "LONGEST"), true)
-        for ((which, pt) in listOf("DEP" to plan.points.firstOrNull(), "DEST" to plan.points.lastOrNull())) {
+        for ((which, pt) in listOf("DEP" to pts.firstOrNull(), "DEST" to pts.lastOrNull())) {
             val p = pt ?: continue
             val a = airports.firstOrNull { it.icao == p.id || it.ident == p.id }
             val station = a?.let { it.icao.ifEmpty { if (it.ident.length == 3) "K" + it.ident else it.ident } } ?: p.id
@@ -718,14 +755,14 @@ class NavlogActivity : BaseActivity() {
     private fun toast(s: String) = Toast.makeText(this, s, Toast.LENGTH_SHORT).show()
 
     private fun winds() {
-        if (plan.points.size < 2) return
+        if (pts.size < 2) return
         toast("Getting the forecast winds…")
         lifecycleScope.launch {
             val got = withContext(Dispatchers.IO) {
                 var n = 0
                 val found = HashMap<Int, Triple<Int, Int, Int?>>()
-                for (i in 1 until plan.points.size) {
-                    val a = plan.points[i - 1]; val b = plan.points[i]
+                for (i in 1 until pts.size) {
+                    val a = pts[i - 1]; val b = pts[i]
                     val lat = (a.lat + b.lat) / 2; val lon = (a.lon + b.lon) / 2
                     val w = Winds.triple(this@NavlogActivity, lat, lon, plan.altitude, whenAt(i))
                         ?: AviationData.windAt(fbText(), lat, lon, plan.altitude)
@@ -757,7 +794,7 @@ class NavlogActivity : BaseActivity() {
 
     /** Every legal cruising altitude flown on paper, so the quickest and the leanest show themselves. */
     private fun altitudeAdvisor() {
-        if (plan.points.size < 2) return
+        if (pts.size < 2) return
         val box = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(dp(8), dp(8), dp(8), 0) }
         box.addView(EfbUi.text(this, "Reading the winds aloft…", 14f, EfbUi.DIM).apply { setPadding(dp(12), dp(10), dp(12), dp(10)) })
         val dlg = MaterialAlertDialogBuilder(this).setTitle("📈 Cruising altitude")
@@ -765,16 +802,16 @@ class NavlogActivity : BaseActivity() {
             .setNegativeButton(R.string.cancel, null).create()
         dlg.show()
         lifecycleScope.launch {
-            val mid = plan.points.let { p -> p.sumOf { it.lat } / p.size to p.sumOf { it.lon } / p.size }
+            val mid = pts.let { p -> p.sumOf { it.lat } / p.size to p.sumOf { it.lon } / p.size }
             val text = withContext(Dispatchers.IO) {
                 Winds.forecast(this@NavlogActivity, mid.first, mid.second, plan.altitude)
                 try { AviationData.windsAloft(6) } catch (e: Exception) { "" }
             }
             val opts = withContext(Dispatchers.Default) {
-                Navlog.altitudes(plan.points, profile, plan.fuelOnBoard, plan.reserveMin, false,
+                Navlog.altitudes(pts, profile, plan.fuelOnBoard, plan.reserveMin, false,
                     { alt -> Winds.at(this@NavlogActivity, mid.first, mid.second, alt)?.let { it.dirTrue to it.kt }
                         ?: (if (text.isBlank()) null else AviationData.windAt(text, mid.first, mid.second, alt)?.let { it.first to it.second }) },
-                    plan.points.firstOrNull()?.let { elevOf(it) }, plan.points.lastOrNull()?.let { elevOf(it) })
+                    pts.firstOrNull()?.let { elevOf(it) }, pts.lastOrNull()?.let { elevOf(it) })
             }
             box.removeAllViews()
             if (opts.isEmpty()) { box.addView(EfbUi.text(this@NavlogActivity, "Nothing to compare.", 14f, EfbUi.DIM)); return@launch }
@@ -851,7 +888,7 @@ class NavlogActivity : BaseActivity() {
     private fun text(): String {
         val r = result ?: return ""
         val sb = StringBuilder()
-        sb.append(plan.points.joinToString(" ") { it.id }).append("\n")
+        sb.append(pts.joinToString(" ") { it.id }).append("\n")
         sb.append("%,d ft · %s · %.1f gph cruise · %.1f gal on board\n\n".format(plan.altitude, profile.name, profile.cruiseGph, plan.fuelOnBoard))
         sb.append("%-14s %4s %6s %6s %6s %6s %6s %6s\n".format("LEG", "PH", "MH", "GS", "DIST", "ETE", "ETO", "LEFT"))
         for (x in r.rows) sb.append("%-14s %4s %6s %6d %6.1f %6s %6s %6.1f\n".format(

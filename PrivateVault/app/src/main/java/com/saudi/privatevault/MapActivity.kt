@@ -2010,19 +2010,58 @@ class MapActivity : BaseActivity(), NeonHost {
             .show()
     }
 
-    /** A tap on the line to the waypoint: take the Direct-To off, clear the whole route, or see the nav log. */
+    /**
+     * A tap on the band across the top: everything that can be done with the point being flown to.
+     * Going Direct-To is a flight in itself, so it is given the same sheet a waypoint gets — what
+     * the point is, how far and how long, and what can be done with it next.
+     */
     private fun routeMenu() {
-        val opts = arrayOf(getString(R.string.plan_cancel_direct), getString(R.string.plan_clear), getString(R.string.plan_title))
-        MaterialAlertDialogBuilder(this).setTitle(R.string.route_line).setItems(opts) { _, i ->
-            when (i) {
-                0 -> plan.direct = null
-                1 -> { plan.points.clear(); plan.direct = null; plan.active = 1 }
-                2 -> { navLog(); return@setItems }
-            }
-            plan.save(this)
-            updateNav()
-            map.invalidate()
-        }.show()
+        val t = plan.target() ?: return
+        val direct = plan.direct != null
+        val box = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setBackgroundColor(EfbUi.BG) }
+        val dlg = MaterialAlertDialogBuilder(this).setView(box).create()
+        box.addView(sheetHead(if (direct) "Direct to ${t.id}" else "Flying to ${t.id}", dlg))
+
+        val acts = ArrayList<Pair<String, () -> Unit>>()
+        acts.add("Nav Log" to { navLog() })
+        if (direct) acts.add("Add to Route" to { addToRoute(t); updateNav() })
+        acts.add("Profile" to { profile() })
+        acts.add((if (direct) "Cancel Direct" else "Clear Route") to {
+            if (direct) plan.direct = null else { plan.points.clear(); plan.direct = null; plan.active = 1 }
+            plan.save(this); updateNav(); routePanel?.refresh(true); map.invalidate()
+        })
+        box.addView(sheetActions(acts, dlg), LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(8) })
+
+        val apt = airports.firstOrNull { it.icao == t.id || it.ident == t.id }
+        box.addView(sheetHeader(if (direct) "DIRECT-TO" else "ACTIVE LEG"))
+        box.addView(sheetRow("Name", apt?.name ?: t.id))
+        box.addView(sheetRow("Type", if (apt != null) "Airport" else "Waypoint"))
+        apt?.let { box.addView(sheetRow("Elevation", "%,d ft".format(it.elevation))) }
+        val here = ownship.position()
+        if (here != null) {
+            val dist = Nav.distanceNm(here.latitude, here.longitude, t.lat, t.lon)
+            val brg = Nav.magnetic(Nav.bearingTrue(here.latitude, here.longitude, t.lat, t.lon), here.latitude, here.longitude)
+            val gs = ownship.speedKt()
+            box.addView(sheetRow("Bearing", Nav.deg(brg) + "M"))
+            box.addView(sheetRow("Distance", "%.1f nm".format(dist)))
+            box.addView(sheetRow("Ground Speed", if (gs > 1) "%d kts".format(Math.round(gs)) else "---"))
+            box.addView(sheetRow("ETE", if (gs > 20) FlightPlan.hm(dist / gs * 60) else "--:--"))
+            box.addView(sheetRow("ETA", if (gs > 20) java.text.SimpleDateFormat("HH:mm", java.util.Locale.US)
+                .format(java.util.Date(System.currentTimeMillis() + (dist / gs * 3600000).toLong())) else "--:--"))
+            // At the aircraft's own cruise figures, what the leg costs in fuel.
+            val prof = AircraftProfile.current(this)
+            if (prof.cruiseTas > 1) box.addView(sheetRow("Fuel at cruise",
+                "%.1f gal".format(dist / prof.cruiseTas * prof.cruiseGph)))
+        }
+        box.addView(sheetHeader("LOCATION INFO"))
+        val v = Nav.variation(t.lat, t.lon)
+        box.addView(sheetRow("Mag Var", "%.1f°%s".format(Math.abs(v), if (v >= 0) "W" else "E")))
+        box.addView(sheetRow("Coordinates", "%.4f, %.4f".format(t.lat, t.lon)))
+        if (plan.points.size > 1) {
+            box.addView(sheetHeader("ROUTE"))
+            box.addView(sheetRow("Points", plan.points.joinToString(" ") { it.id }))
+        }
+        dlg.show()
     }
 
     private var routePanel: RoutePanel? = null
