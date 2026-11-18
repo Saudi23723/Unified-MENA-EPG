@@ -105,6 +105,8 @@ object VaultStore {
         load()
     }
 
+    const val RECOVERED = "📦 Recovered"
+
     fun filesDir() = File(root, "vault_files")
     private fun thumbsDir() = File(root, "vault_thumbs")
     private fun indexFile() = File(root, "vault_index.json")
@@ -145,40 +147,88 @@ object VaultStore {
     }
     fun folder(id: String?) = folders.firstOrNull { it.id == id }
 
+    /**
+     * True when the index on disk could not be read in full. While it is set the list is never
+     * written back, because writing an empty list over a damaged index is what loses a library.
+     */
+    var damaged = false
+        private set
+
     private fun load() {
         folders.clear()
         items.clear()
+        damaged = false
         val f = indexFile()
-        if (!f.exists()) return
+        if (!f.exists()) { recover(); return }
         try {
             val json = JSONObject(f.readText())
             val fa = json.optJSONArray("folders") ?: JSONArray()
             for (i in 0 until fa.length()) {
-                val o = fa.getJSONObject(i)
-                folders.add(
-                    Folder(o.getString("id"), o.getString("name"), o.optStringOrNull("parent"), o.optLong("created"))
-                )
+                // One bad line must not cost the whole library: each is read on its own.
+                try {
+                    val o = fa.getJSONObject(i)
+                    folders.add(Folder(o.getString("id"), o.getString("name"), o.optStringOrNull("parent"), o.optLong("created")))
+                } catch (e: Exception) { damaged = true }
             }
             val ia = json.optJSONArray("items") ?: JSONArray()
             for (i in 0 until ia.length()) {
-                val o = ia.getJSONObject(i)
-                items.add(
-                    VaultItem(
-                        o.getString("id"), o.getString("name"), o.getString("file"),
-                        o.optString("mime"), o.optLong("size"), o.optLong("added"),
-                        o.optStringOrNull("folder"),
-                        o.optStringOrNull("url"),
+                try {
+                    val o = ia.getJSONObject(i)
+                    items.add(
+                        VaultItem(
+                            o.getString("id"), o.getString("name"), o.getString("file"),
+                            o.optString("mime"), o.optLong("size"), o.optLong("added"),
+                            o.optStringOrNull("folder"),
+                            o.optStringOrNull("url"),
+                        )
                     )
-                )
+                } catch (e: Exception) { damaged = true }
             }
         } catch (e: Exception) {
-            // Keep the broken index aside rather than overwrite it on the next save.
-            f.copyTo(File(root, "vault_index.broken.json"), overwrite = true)
+            // The whole file is unreadable. Keep it, and do not write over it.
+            damaged = true
+            try { f.copyTo(File(root, "vault_index.broken.json"), overwrite = true) } catch (x: Exception) { }
         }
+        recover()
+    }
+
+    /**
+     * Anything on disk the index does not know about is taken back into the library. A file is only
+     * ever lost by being deleted, never by a line of the index going bad.
+     */
+    fun recover(): Int {
+        val known = items.map { it.file }.toHashSet()
+        val dir = filesDir()
+        val loose = dir.listFiles()?.filter { it.isFile && it.length() > 0 && it.name !in known } ?: return 0
+        if (loose.isEmpty()) return 0
+        var folderId = folders.firstOrNull { it.name == RECOVERED }?.id
+        if (folderId == null) {
+            val d = Folder(java.util.UUID.randomUUID().toString(), RECOVERED, null, System.currentTimeMillis())
+            folders.add(d); folderId = d.id
+        }
+        for (file in loose) {
+            val ext = file.name.substringAfterLast('.', "")
+            val mime = when (ext.lowercase()) {
+                "pdf" -> "application/pdf"
+                "jpg", "jpeg" -> "image/jpeg"; "png" -> "image/png"; "webp" -> "image/webp"
+                "mp4" -> "video/mp4"; "mkv" -> "video/x-matroska"; "m4v" -> "video/x-m4v"
+                "mp3" -> "audio/mpeg"; "m4a" -> "audio/mp4"
+                "txt" -> "text/plain"; "json" -> "application/json"
+                else -> "application/octet-stream"
+            }
+            items.add(VaultItem(java.util.UUID.randomUUID().toString(), file.name, file.name, mime,
+                file.length(), file.lastModified(), folderId, null))
+        }
+        // The list is whole again, so it may be written.
+        damaged = false
+        save()
+        return loose.size
     }
 
     @Synchronized
     fun save() {
+        // Never write a short list over an index that could not be read: that is how a library goes.
+        if (damaged) return
         val fa = JSONArray()
         for (d in folders) {
             fa.put(JSONObject().put("id", d.id).put("name", d.name).put("parent", d.parentId ?: JSONObject.NULL)

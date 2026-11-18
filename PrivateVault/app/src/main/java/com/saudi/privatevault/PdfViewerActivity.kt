@@ -248,6 +248,33 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
         go(i)
     }
 
+    /** One page drawn before it is asked for, so turning the page is instant on a slow machine. */
+    private val ahead = HashMap<Int, Bitmap>()
+
+    private fun prefetch(index: Int, width: Int) {
+        val r = renderer ?: return
+        if (index < 0 || index >= r.pageCount || ahead.containsKey(index)) return
+        lifecycleScope.launch {
+            val bmp = withContext(pdfThread) {
+                try {
+                    if (renderer == null) return@withContext null
+                    val page = r.openPage(index)
+                    try {
+                        val h = (width.toFloat() * page.height / page.width).toInt().coerceIn(1, 6000)
+                        Bitmap.createBitmap(width, h, Bitmap.Config.ARGB_8888).also {
+                            it.eraseColor(Color.WHITE)
+                            page.render(it, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY)
+                        }
+                    } catch (e: Throwable) { null } finally { page.close() }
+                } catch (e: Exception) { null }
+            }
+            if (bmp != null) {
+                ahead.keys.toList().filter { it != index }.forEach { ahead.remove(it)?.recycle() }
+                ahead[index] = bmp
+            }
+        }
+    }
+
     private fun show() {
         val r = renderer ?: return
         val count = r.pageCount
@@ -260,9 +287,22 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
         // Render at twice the screen width so text stays sharp when zoomed in.
         // A TV (little memory, seen from afar) gets a page one and a half times its width; a phone twice.
         val tv = tvHint != null
-        val width = if (tv) (resources.displayMetrics.widthPixels * 1.5f).toInt().coerceAtMost(2400)
+        // A television has a slow processor: a page the size of its own screen turns in a moment
+        // instead of a second and a half. A phone keeps the sharper, double-size page.
+        val width = if (tv) resources.displayMetrics.widthPixels.coerceAtMost(1920)
             else (maxOf(b.page.width, resources.displayMetrics.widthPixels) * 2).coerceAtMost(3000)
         lifecycleScope.launch {
+            // The next page is drawn while this one is being read, so turning is instant.
+            ahead.remove(index)?.let { ready ->
+                if (!ready.isRecycled) {
+                    shownWidth = ready.width; shownIndex = index
+                    b.page.marks = marks.on(index)
+                    b.page.setImageBitmap(ready)
+                    refreshUndo(); refreshBookmark(); refreshBubbles()
+                    prefetch(index + 1, width)
+                    return@launch
+                }
+            }
             val bmp = withContext(pdfThread) {
                 try {
                     if (renderer == null) return@withContext null
@@ -291,6 +331,7 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
                 }
             }
             if (bmp != null && index == pageIndex) {
+                prefetch(index + 1, width)
                 shownWidth = bmp.width
                 shownIndex = index
                 b.page.marks = marks.on(index)
