@@ -349,12 +349,20 @@ class ChecklistActivity : BaseActivity() {
                 textSize = 15f
                 setTextColor(if (isDone) 0xFF30D158.toInt() else if (isHere) 0xFFFFFFFF.toInt() else grey)
             }, LinearLayout.LayoutParams(dp(26), -2))
-            line.addView(EfbUi.text(this, it.title, 14.5f,
-                if (isHere) 0xFFFFFFFF.toInt() else if (isDone || isSkip) 0xFF7C8794.toInt() else 0xFFE4EAF1.toInt(),
-                bold = isHere), LinearLayout.LayoutParams(0, -2, 1f))
-            if (it.action.isNotEmpty()) line.addView(EfbUi.text(this, it.action.uppercase(), 12.5f,
-                if (isHere) 0xFFFFFFFF.toInt() else if (isDone || isSkip) 0xFF7C8794.toInt() else 0xFF9FB4C8.toInt(), bold = true))
+            val titleCol = if (isHere) 0xFFFFFFFF.toInt() else if (isDone || isSkip) 0xFF7C8794.toInt() else 0xFFE4EAF1.toInt()
+            val actCol = if (isHere) 0xFFFFFFFF.toInt() else if (isDone || isSkip) 0xFF7C8794.toInt() else 0xFF9FB4C8.toInt()
+            // A short action sits on the same line as what it belongs to, the way a printed
+            // checklist prints it. A long one — a whole brief — goes on its own line underneath,
+            // because side by side it would squeeze the name into a column one letter wide and
+            // stretch the row down the page.
+            val stacked = it.action.length > 26 || it.title.length + it.action.length > 46
+            line.addView(EfbUi.text(this, it.title, 14.5f, titleCol, bold = isHere),
+                LinearLayout.LayoutParams(0, -2, 1f))
+            if (it.action.isNotEmpty() && !stacked) line.addView(EfbUi.text(this, it.action.uppercase(), 12.5f, actCol, bold = true))
             row.addView(line)
+            if (it.action.isNotEmpty() && stacked) row.addView(
+                EfbUi.text(this, it.action.uppercase(), 12.5f, actCol, bold = true)
+                    .apply { setPadding(dp(26), dp(3), 0, 0) })
             it.note?.let { n ->
                 row.addView(EfbUi.text(this, n, 11.5f, if (isHere) 0xFFDCEAF8.toInt() else grey).apply {
                     setPadding(dp(26), dp(3), 0, 0)
