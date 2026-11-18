@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-18T00:36:14.367Z",
+  "updated_at": "2026-11-18T00:41:20.275Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -434,13 +434,13 @@
       "latitude": 40.7128,
       "longitude": -74.006,
       "temperature_c": 9.0,
-      "humidity": 62,
+      "humidity": 61,
       "wind_speed": 7.6,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-11-17T19:30",
-      "feels_c": 6.1,
+      "feels_c": 6.0,
       "utc_offset": -18000,
       "days": [
         {
@@ -576,7 +576,7 @@
       "latitude": 41.8781,
       "longitude": -87.6298,
       "temperature_c": 6.2,
-      "humidity": 70,
+      "humidity": 71,
       "wind_speed": 10.5,
       "rain_chance": 0,
       "condition": "غائم جزئياً",
@@ -647,13 +647,13 @@
       "latitude": 36.1699,
       "longitude": -115.1398,
       "temperature_c": 14.1,
-      "humidity": 22,
+      "humidity": 21,
       "wind_speed": 6.2,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-11-17T16:30",
-      "feels_c": 10.2,
+      "feels_c": 10.1,
       "utc_offset": -28800,
       "days": [
         {
@@ -718,13 +718,13 @@
       "latitude": 32.7767,
       "longitude": -96.797,
       "temperature_c": 15.0,
-      "humidity": 46,
+      "humidity": 37,
       "wind_speed": 8.3,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-11-17T18:30",
-      "feels_c": 12.3,
+      "feels_c": 11.7,
       "utc_offset": -21600,
       "days": [
         {
@@ -789,13 +789,13 @@
       "latitude": 37.7749,
       "longitude": -122.4194,
       "temperature_c": 13.1,
-      "humidity": 72,
+      "humidity": 70,
       "wind_speed": 6.5,
       "rain_chance": 0,
-      "condition": "صافٍ غالباً",
-      "weather_code": 1,
+      "condition": "غائم جزئياً",
+      "weather_code": 2,
       "observed_at": "2026-11-17T16:30",
-      "feels_c": 11.6,
+      "feels_c": 11.5,
       "utc_offset": -28800,
       "days": [
         {
@@ -807,7 +807,7 @@
         },
         {
           "date": "2026-11-18",
-          "code": 63,
+          "code": 65,
           "max": 13.8,
           "min": 8.4,
           "rain": 100
