@@ -18,7 +18,9 @@ object OffAir {
 
     /** the check, on the live player's own connection only */
     val interceptor = Interceptor { chain ->
+        val t0 = android.os.SystemClock.elapsedRealtime()
         val r = chain.proceed(chain.request())
+        android.util.Log.d("SAUDI", "live answer ${r.code} in ${android.os.SystemClock.elapsedRealtime() - t0}ms (redirects ${generateSequence(r.priorResponse) { it.priorResponse }.count()})")
         val path = chain.request().url.encodedPath
         if (r.code == 200 && path.contains("/live/") && path.endsWith(".ts")) {
             val size = r.header("Content-Length")?.toLongOrNull() ?: -1L
@@ -63,30 +65,28 @@ object OffAir {
     }
 
     private val TAGS = Regex("""\b(UHD|FHD|HD|SD|LQ|HQ|HEVC|H265|4K|8K|RAW|60FPS|50FPS|BACKUP|VIP)\b""")
-    private fun plain(n: String) = n.uppercase()
-        .replace(Regex("[ᴬ-ᵛ⁰-⁹ʰᵉᵛᶜᴴᴰᴿᴬᵂ◉●★]+"), " ")
-        .replace(Regex("""^\s*(\|?[A-Z]{2,4}\|?\s*[:|]\s*)+"""), "")
-        .replace(TAGS, " ").replace(Regex("[^A-Z0-9\\u0600-\\u06FF]+"), "")
+    private val SUP = Regex("[ᴬ-ᵛ⁰-⁹ʰᵉᵛᶜᴴᴰᴿᴬᵂ◉●★]+")
+    private val PREFIX = Regex("""^\s*(\|?[A-Z]{2,4}\|?\s*[:|]\s*)+""")
+    private val OTHER = Regex("[^A-Z0-9\\u0600-\\u06FF]+")
+    private val LOW = Regex("""\b(SD|LQ)\b""")
+    private val BIG = Regex("""\b(4K|8K|UHD)\b""")
+    private val HDQ = Regex("""\b(HD|FHD)\b|ᴴᴰ""")
+    private fun plain(n: String) = OTHER.replace(TAGS.replace(PREFIX.replace(SUP.replace(n.uppercase(), " "), ""), " "), "")
 
     private fun rank(n: String): Int {
         val u = n.uppercase()
-        return when {
-            Regex("""\b(SD|LQ)\b""").containsMatchIn(u) -> 3
-            Regex("""\b(4K|8K|UHD)\b""").containsMatchIn(u) -> 2
-            Regex("""\b(HD|FHD)\b|ᴴᴰ""").containsMatchIn(u) -> 0
-            else -> 1
-        }
+        return when { LOW.containsMatchIn(u) -> 3; BIG.containsMatchIn(u) -> 2; HDQ.containsMatchIn(u) -> 0; else -> 1 }
     }
 
     /** the stream just played (id) of channel c was the off-air file: the next stream of the same channel, or null.
      *  Called off the main thread (it looks through every channel of the playlist). */
     fun next(c: Channel, played: Int): Int? {
         val dead = deadFor(c.id); dead.add(played)
-        val p = plain(c.name)
-        val alts = Api.byId.values.asSequence()
-            .filter { it.id != c.id && it.id !in dead && it.url.isEmpty() }
-            .filter { (c.epgId.isNotEmpty() && it.epgId.equals(c.epgId, true)) || (p.length >= 3 && plain(it.name) == p) }
-            .sortedBy { rank(it.name) }.toList()
+        val pool = Api.byId.values.filter { it.id != c.id && it.id !in dead && it.url.isEmpty() }
+        // the same guide first (a plain comparison, instant); the same name only when the channel has no guide match
+        var alts = if (c.epgId.isEmpty()) emptyList() else pool.filter { it.epgId.equals(c.epgId, true) }
+        if (alts.isEmpty()) { val p = plain(c.name); if (p.length >= 3) { val first = p.take(3); alts = pool.filter { it.name.uppercase().contains(first) && plain(it.name) == p } } }
+        alts = alts.sortedBy { rank(it.name) }
         val to = alts.firstOrNull()?.id
         if (to != null) keep(c.id, to, dead)
         Health.report("off-air", "${c.name} [${c.id}] stream $played is the provider's off-air file" +

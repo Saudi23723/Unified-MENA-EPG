@@ -115,6 +115,7 @@ class LiveActivity : BaseActivity() {
                 // the provider sent its off-air file instead of the channel: the same channel from its next stream
                 if (OffAir.isOffAir(error)) {
                     val played = playedId
+                    android.util.Log.w("SAUDI", "off air: ${c.name} stream $played after ${android.os.SystemClock.elapsedRealtime() - zapAt}ms")
                     lifecycleScope.launch {
                         val to = withContext(Dispatchers.Default) { OffAir.next(c, played) }
                         if (playing !== c) return@launch
