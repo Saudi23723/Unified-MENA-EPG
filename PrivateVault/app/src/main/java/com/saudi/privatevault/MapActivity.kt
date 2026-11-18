@@ -122,7 +122,7 @@ class MapActivity : BaseActivity(), NeonHost {
         // The bar an EFB puts over its chart, in place of a written-out menu.
         bar = MapToolbar(this, b.aeroBar).apply {
             onBack = { finish() }
-            onLayers = { layers() }
+            onLayers = { chooseLayer() }
             onFpl = { if (plan.points.size >= 2) navLog() else editPlan() }
             onSettings = { mapSettings() }
             onInstruments = {
@@ -1238,7 +1238,7 @@ class MapActivity : BaseActivity(), NeonHost {
             })
         }
         head(getString(R.string.map_layers))
-        row(getString(R.string.map_layers), getString(layer.label)) { layers() }
+        row(getString(R.string.map_layers), getString(layer.label)) { chooseLayer() }
         row(getString(R.string.map_track_up), null, trackUp) { trackUp = !trackUp
             prefs.edit().putBoolean("track_up_on", trackUp).apply()
             if (!trackUp) map.mapOrientation = 0f
@@ -1276,7 +1276,7 @@ class MapActivity : BaseActivity(), NeonHost {
         row(getString(R.string.pack_title)) { packFlight() }
         row(getString(R.string.map_download)) { downloadArea() }
         row(getString(R.string.cs_bulk)) { supplementsWest() }
-        row(getString(R.string.notes_title)) { Notebooks.open(this) }
+        row(getString(R.string.notes_title)) { Notebooks.choose(this, null) }
         dlg = MaterialAlertDialogBuilder(this)
             .setView(android.widget.ScrollView(this).apply { addView(box) })
             .setNegativeButton(R.string.cancel, null).create()
