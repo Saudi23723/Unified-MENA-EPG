@@ -292,17 +292,29 @@ object Resume {
     fun get(key: String): Long = App.prefs.getLong(pk(key), App.prefs.getLong("pos_$key", 0))
     fun done(key: String): Boolean = App.prefs.getBoolean(dk(key), App.prefs.getBoolean("done_$key", false))
     fun dur(key: String): Long = list().firstOrNull { it.optString("k") == key }?.optLong("dur") ?: 0
-    fun set(key: String, pos: Long, dur: Long, title: String, poster: String, url: String) {
+    /** next = the episodes after this one [[url, title, key], ...]: Continue watching goes on to them by itself */
+    fun set(key: String, pos: Long, dur: Long, title: String, poster: String, url: String, next: JSONArray? = null) {
         val e = App.prefs.edit()
-        if (dur > 0 && pos > dur - 90_000) { e.remove(pk(key)).remove("pos_$key").putBoolean(dk(key), true); e.apply(); drop(key); return }  // finished
+        if (dur > 0 && pos > dur - 90_000) {   // finished: off the list, and the next episode takes its place (owner, 17 Nov 2026)
+            e.remove(pk(key)).remove("pos_$key").putBoolean(dk(key), true); e.apply(); drop(key)
+            val n = next?.optJSONArray(0)
+            if (n != null) {
+                val rest = JSONArray(); for (i in 1 until next.length()) rest.put(next.get(i))
+                val a = list().filterNot { it.optString("k") == n.optString(2) }.toMutableList()
+                a.add(0, JSONObject().put("k", n.optString(2)).put("t", n.optString(1)).put("p", poster).put("u", n.optString(0)).put("pos", 0).put("dur", 0).put("n", rest))
+                App.prefs.edit().putString(lk(), JSONArray(a.take(30)).toString()).apply()
+            }
+            return
+        }
         else if (pos > 60_000) {
             e.putLong(pk(key), pos)
             val a = list().filterNot { it.optString("k") == key }.toMutableList()
-            a.add(0, JSONObject().put("k", key).put("t", title).put("p", poster).put("u", url).put("pos", pos).put("dur", dur))
+            a.add(0, JSONObject().put("k", key).put("t", title).put("p", poster).put("u", url).put("pos", pos).put("dur", dur).apply { if (next != null) put("n", next) })
             e.putString(lk(), JSONArray(a.take(30)).toString())
         }
         e.apply()
     }
+    fun entry(key: String): JSONObject? = list().firstOrNull { it.optString("k") == key }
     fun list(): List<JSONObject> = try {
         if (!App.prefs.contains(lk()) && App.prefs.contains("resume"))
             App.prefs.edit().putString(lk(), App.prefs.getString("resume", "[]")).remove("resume").apply()

@@ -242,8 +242,24 @@ class VodActivity : BaseActivity() {
             return
         }
         if (current == RESUME) {
-            startActivity(Intent(this, PlayerActivity::class.java).putExtra("url", it.ext).putExtra("title", it.name)
-                .putExtra("key", (if (series) "e" else "m") + it.id).putExtra("poster", it.poster))
+            val key = (if (series) "e" else "m") + it.id
+            val r = Resume.entry(key)
+            val n = r?.optJSONArray("n")
+            fun go(from: Long) {
+                val i = Intent(this, PlayerActivity::class.java).putExtra("url", it.ext).putExtra("title", it.name)
+                    .putExtra("key", key).putExtra("poster", it.poster).putExtra("from", from)
+                if (n != null && n.length() > 0) {
+                    val u = ArrayList<String>(); val t = ArrayList<String>(); val k = ArrayList<String>()
+                    for (j in 0 until n.length()) n.optJSONArray(j)?.let { a -> u += a.optString(0); t += a.optString(1); k += a.optString(2) }
+                    i.putExtra("nextUrls", u).putExtra("nextTitles", t).putExtra("nextKeys", k)
+                }
+                startActivity(i)
+            }
+            val pos = Resume.get(key)
+            // first OK: resume, or from the beginning (owner, 17 Nov 2026); an episode not started yet just plays
+            if (pos < 60_000) { go(0); return }
+            val hms = pos / 1000; val at = if (hms >= 3600) "%d:%02d:%02d".format(hms / 3600, hms / 60 % 60, hms % 60) else "%d:%02d".format(hms / 60, hms % 60)
+            AlertDialog.Builder(this).setTitle(it.name).setItems(arrayOf("▶  Resume from $at", "⟲  Start from the beginning")) { _, w -> go(if (w == 0) pos else 0) }.show()
             return
         }
         startActivity(Intent(this, VodDetailActivity::class.java).putExtra("series", series).putExtra("id", it.id)

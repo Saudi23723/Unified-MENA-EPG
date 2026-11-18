@@ -147,6 +147,12 @@ open class BaseActivity : AppCompatActivity() {
         @Volatile var cameBack = false
         private var wasHidden = false
     }
+    override fun onCreate(savedInstanceState: android.os.Bundle?) {
+        super.onCreate(savedInstanceState)
+        // phones and tablets: landscape, but the device's own rotation lock is respected (owner, 17 Nov 2026: on a tablet
+        // lying in bed the screens kept turning round by themselves); a TV never turns
+        if (isTouch) requestedOrientation = android.content.pm.ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE
+    }
     override fun onStart() { super.onStart(); if (started++ == 0 && wasHidden) cameBack = true; wasHidden = false }
     override fun onStop() { super.onStop(); if (--started == 0) wasHidden = true }
 

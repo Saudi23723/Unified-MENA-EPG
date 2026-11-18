@@ -29,6 +29,8 @@ class PlayerActivity : BaseActivity() {
     private lateinit var player: ExoPlayer
     private lateinit var view: PlayerView
     private lateinit var seekLabel: TextView
+    private lateinit var topTitle: TextView
+    private lateinit var topClock: TextView
     private var key = ""; private var title = ""; private var url = ""; private var poster = ""
     private val nextUrls = ArrayList<String>(); private val nextTitles = ArrayList<String>(); private val nextKeys = ArrayList<String>()
     private var pendingSeek: Long? = null
@@ -49,9 +51,27 @@ class PlayerActivity : BaseActivity() {
             textSize = 26f; setTypeface(typeface, android.graphics.Typeface.BOLD); setBackgroundResource(R.drawable.panel_bg)
             setPadding((26 * d).toInt(), (14 * d).toInt(), (26 * d).toInt(), (14 * d).toInt()); visibility = View.GONE
         }
+        // the top of the bar, as in TiviMate: the title (the episode, or the movie) and the time now
+        val topBar = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL; alpha = 0f
+            background = android.graphics.drawable.GradientDrawable(android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(0xCC000000.toInt(), 0x00000000))
+            setPadding((40 * d).toInt(), (22 * d).toInt(), (40 * d).toInt(), (46 * d).toInt())
+        }
+        topTitle = TextView(this).apply { textSize = 22f; setTextColor(0xFFFFFFFF.toInt()); typeface = android.graphics.Typeface.create("sans-serif-medium", android.graphics.Typeface.NORMAL); maxLines = 1; ellipsize = android.text.TextUtils.TruncateAt.END }
+        topClock = TextView(this).apply { textSize = 22f; setTextColor(0xFFFFFFFF.toInt()); typeface = android.graphics.Typeface.create("sans-serif-medium", android.graphics.Typeface.NORMAL) }
+        topBar.addView(topTitle, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
+        topBar.addView(topClock)
         setContentView(FrameLayout(this).apply {
             setBackgroundColor(0xFF000000.toInt()); addView(view)
+            addView(topBar, FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.TOP))
             addView(seekLabel, FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER))
+        })
+        view.setControllerVisibilityListener(androidx.media3.ui.PlayerView.ControllerVisibilityListener { v ->
+            if (v == View.VISIBLE) {
+                topTitle.text = title
+                topClock.text = java.text.SimpleDateFormat(if (android.text.format.DateFormat.is24HourFormat(this)) "HH:mm" else "h:mm a", Locale.getDefault()).format(java.util.Date())
+            }
+            topBar.animate().alpha(if (v == View.VISIBLE) 1f else 0f).setDuration(180).start()
         })
         player = Players.make(this, live = false)
         view.player = player
@@ -82,7 +102,10 @@ class PlayerActivity : BaseActivity() {
     }
 
     private fun save() {
-        if (player.duration > 0) Resume.set(key, player.currentPosition, player.duration, title, poster, url)
+        if (player.duration > 0) {
+            val n = org.json.JSONArray(); for (i in nextUrls.indices.take(60)) n.put(org.json.JSONArray().put(nextUrls[i]).put(nextTitles.getOrElse(i) { "" }).put(nextKeys.getOrElse(i) { "" }))
+            Resume.set(key, player.currentPosition, player.duration, title, poster, url, if (nextUrls.isEmpty()) null else n)
+        }
     }
 
     // ---------------- next episode ----------------
@@ -189,11 +212,12 @@ class PlayerActivity : BaseActivity() {
                 KeyEvent.KEYCODE_MEDIA_REWIND -> { if (down) { player.seekTo((player.currentPosition - 60_000).coerceAtLeast(0)); view.showController() }; return true }
                 KeyEvent.KEYCODE_MEDIA_NEXT -> { if (down && nextUrls.isNotEmpty()) playNext(); return true }
                 KeyEvent.KEYCODE_DPAD_CENTER, KeyEvent.KEYCODE_ENTER, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE -> {
-                    // short press: pause / play (and show the bar) · hold: options
+                    // short press: the first shows the bar (where it is, the time, the title) and keeps playing;
+                    // with the bar up it pauses / plays (owner, 17 Nov 2026) · hold: options
                     if (down && e.repeatCount == 1) options()
                     else if (!down && !e.isCanceled && e.eventTime - e.downTime < 500) {
-                        if (player.isPlaying) player.pause() else player.play()
-                        view.showController()
+                        if (e.keyCode != KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE && !view.isControllerFullyVisible && player.isPlaying) view.showController()
+                        else { if (player.isPlaying) player.pause() else player.play(); view.showController() }
                     }
                     return true
                 }
