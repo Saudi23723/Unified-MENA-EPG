@@ -19,9 +19,30 @@ object StudyParse {
 
     /** A question with its choices and its answer, or a passage of a book. */
     fun parse(raw: String): JSONObject {
-        val text = raw.replace("\r", "").replace(" ", " ").trim()
+        val text = strip(raw.replace("\r", "").replace(" ", " ")).trim()
         return question(text) ?: passage(text)
     }
+
+    /**
+     * The bank's own furniture, taken out before anything is read: the index of every question in
+     * the bank, the sitting instructions printed on every page, and the rest of the scaffolding
+     * that is not the lesson in front of the pilot.
+     */
+    private val JUNK_LINE = Regex(
+        """^(?:Question\s*\d+\s*\(\d+[.\d]*\)|Source\s+[\d ]+|Skip to Main Content|Spacer|Directions\b.*|.*Submit Testlet.*|.*Responding to Multiple-Choice.*|.*The Toolbar.*|.*Reminder flags.*|.*software malfunction.*)$""",
+        RegexOption.IGNORE_CASE)
+    private val INDEX_RUN = Regex("""Question\s*\d+\s*\(\d""")
+
+    private fun strip(t: String): String = t.lines().filter { line ->
+        val l = line.trim()
+        when {
+            l.isEmpty() -> false
+            JUNK_LINE.matches(l) -> false
+            // The index runs the whole bank together on one line; it is unmistakable by shape.
+            INDEX_RUN.findAll(l).count() > 2 -> false
+            else -> true
+        }
+    }.joinToString("\n")
 
     // ---- a question ----
 

@@ -249,6 +249,19 @@ class StudyBookActivity : BaseActivity() {
                         'Marked':1,'Incorrect':1,'No filters enabled':1,'Study Session':1,'Questions:':1,
                         'Correct First Try':1,'Currently Correct':1,'Contact Gleim':1};
             var out = [];
+            // Only what the page actually shows. A bank's page carries a great deal that is never
+            // on the screen — the whole directions text, the whole index of questions, skip links,
+            // spacers — hidden by its stylesheet. Walking the elements reaches all of it, which is
+            // how the directions and a list of every question in the bank ended up on a page. An
+            // element with no box on the screen is not read.
+            function shown(el){
+                if (!el.getClientRects || el.getClientRects().length === 0) return false;
+                if (el.getAttribute && el.getAttribute('aria-hidden') === 'true') return false;
+                var st = window.getComputedStyle ? window.getComputedStyle(el) : null;
+                if (!st) return true;
+                if (st.display === 'none' || st.visibility === 'hidden' || st.opacity === '0') return false;
+                return true;
+            }
             function push(t){
                 t = (t || '').replace(/\s+/g, ' ').trim();
                 if (!t || JUNK[t]) return;
@@ -258,6 +271,8 @@ class StudyBookActivity : BaseActivity() {
             function walk(el){
                 var tag = el.tagName ? el.tagName.toLowerCase() : '';
                 if (SKIP[tag]) return;
+                if (!shown(el)) return;
+                if (out.length > 400) return;
                 if (tag === 'ol' || tag === 'ul'){
                     var n = 1;
                     for (var i = 0; i < el.children.length; i++){
@@ -277,7 +292,7 @@ class StudyBookActivity : BaseActivity() {
             var sel = window.getSelection().toString();
             if (sel && sel.trim().length > 20) out.push(sel);
             else if (document.body) walk(document.body);
-            var res = { text: out.join('\n'), dpr: window.devicePixelRatio || 1,
+            var res = { text: out.join('\n').slice(0, 16000), dpr: window.devicePixelRatio || 1,
                         iw: window.innerWidth || 0, below: 0, figs: [] };
             var els = document.querySelectorAll('img,table,svg,canvas,figure');
             for (var i = 0; i < els.length; i++){
