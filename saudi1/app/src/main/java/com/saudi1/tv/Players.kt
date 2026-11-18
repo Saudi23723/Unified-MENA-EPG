@@ -25,11 +25,10 @@ object Players {
         if (maxHd) b.setTrackSelector(androidx.media3.exoplayer.trackselection.DefaultTrackSelector(ctx).apply {
             setParameters(buildUponParameters().setMaxVideoSize(1920, 1080).setMaxVideoBitrate(12_000_000))
         })
-        // live TV: starts after 1 s of picture (was 1.5 s; owner, 17 Nov 2026: "changing channels should be quicker" —
-        // measured 1.3-1.8 s a channel), keeps up to 50 s in reserve so short provider hiccups don't show, and after a
-        // hiccup still waits for 3 s before playing again (no stop-start-stop). Only this one number changes: the
-        // 1.0.89 freeze came with other changes at once (TS flags, keeping the picture between channels), not tried again.
-        if (live) b.setLoadControl(DefaultLoadControl.Builder().setBufferDurationsMs(15_000, 50_000, 1_000, 3_000)
+        // live TV: starts after 1.5 s of picture, keeps up to 50 s in reserve so short provider hiccups don't show,
+        // and after a hiccup waits for 3 s before playing again (no stop-start-stop). Staying close to live is
+        // done by LiveActivity's catch-up (plays 1.07x while it is behind).
+        if (live) b.setLoadControl(DefaultLoadControl.Builder().setBufferDurationsMs(15_000, 50_000, 1_500, 3_000)
             .setPrioritizeTimeOverSizeThresholds(true).build())
         return b.build()
     }
