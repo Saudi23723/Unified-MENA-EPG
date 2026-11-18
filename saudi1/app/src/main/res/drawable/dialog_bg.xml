@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- every remaining dialog in the app: TiviMate's dark rounded panel (owner, 17 Nov 2026: "from modern to basic??") -->
+<inset xmlns:android="http://schemas.android.com/apk/res/android" android:inset="16dp">
+    <shape android:shape="rectangle">
+        <solid android:color="#F2222327" />
+        <corners android:radius="22dp" />
+    </shape>
+</inset>

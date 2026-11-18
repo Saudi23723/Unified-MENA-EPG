@@ -27,19 +27,24 @@ object Health {
     private fun watch() {
         val main = Handler(Looper.getMainLooper())
         Thread({
-            var told = false
+            var postedAt = 0L; var logged = false; var sent = false
+            val tick = java.util.concurrent.atomic.AtomicBoolean(true)
             while (true) {
                 try {
-                    val tick = java.util.concurrent.atomic.AtomicBoolean(false)
-                    main.post { tick.set(true) }
-                    Thread.sleep(5000)
-                    if (!tick.get()) {
-                        if (!told) {
-                            told = true   // one report for one freeze, not one every 5 s
-                            val st = Looper.getMainLooper().thread.stackTrace.take(30).joinToString("\n") { "  at $it" }
-                            send("freeze", "main thread busy for 5 s or more\n$st")
-                        }
-                    } else told = false
+                    val now = android.os.SystemClock.uptimeMillis()
+                    if (tick.get()) {
+                        // the main thread answered: post the next tick
+                        tick.set(false); postedAt = now; logged = false; sent = false
+                        main.post { tick.set(true) }
+                    } else {
+                        val busy = now - postedAt
+                        val st by lazy { Looper.getMainLooper().thread.stackTrace.take(30).joinToString("\n") { "  at $it" } }
+                        // a stall the viewer feels (1.5 s): written to the device's log, to find its cause
+                        if (busy > 1500 && !logged) { logged = true; android.util.Log.w("SAUDI", "main thread busy ${busy} ms\n$st") }
+                        // a frozen screen (5 s, Android's "not responding"): sent to the admin site
+                        if (busy > 5000 && !sent) { sent = true; send("freeze", "main thread busy for 5 s or more\n$st") }
+                    }
+                    Thread.sleep(500)
                 } catch (e: Throwable) {
                     try { Thread.sleep(5000) } catch (x: Throwable) { }
                 }
