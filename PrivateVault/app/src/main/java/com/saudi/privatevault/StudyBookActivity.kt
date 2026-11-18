@@ -628,43 +628,6 @@ class StudyBookActivity : BaseActivity() {
         }
     }
 
-    /** Every figure the page reported, cut out of the page as it stands. Returns how many. */
-    private fun grabFigures(o: JSONObject?): Int {
-        val list = o?.optJSONArray("figs") ?: return 0
-        if (list.length() == 0) return 0
-        // How many pixels of the picture one pixel of the page is worth. The page's own
-        // devicePixelRatio is not it: a page laid out wide and then zoomed out to fit the screen
-        // is drawn much smaller than that, which is what put the frame in the wrong place and made
-        // it far too big. The view's width over the page's own width is the real factor, exactly.
-        val iw = o.optDouble("iw", 0.0)
-        val dpr = if (iw > 10) web.width / iw else (o.optDouble("dpr", 1.0).takeIf { it > 0.1 } ?: 1.0)
-        var n = 0
-        try {
-            val full = android.graphics.Bitmap.createBitmap(
-                web.width.coerceAtLeast(1), web.height.coerceAtLeast(1), android.graphics.Bitmap.Config.ARGB_8888)
-            web.draw(android.graphics.Canvas(full))
-            val dir = java.io.File(filesDir, "studybook")
-            dir.mkdirs()
-            for (i in 0 until list.length()) {
-                val r = list.optJSONObject(i) ?: continue
-                val x = (r.optDouble("x") * dpr).toInt().coerceIn(0, full.width - 1)
-                val y = (r.optDouble("y") * dpr).toInt().coerceIn(0, full.height - 1)
-                val w = (r.optDouble("w") * dpr).toInt().coerceAtMost(full.width - x)
-                val h = (r.optDouble("h") * dpr).toInt().coerceAtMost(full.height - y)
-                if (w < 40 || h < 30) continue
-                val cut = android.graphics.Bitmap.createBitmap(full, x, y, w, h)
-                val out = java.io.File(dir, "fig_" + System.currentTimeMillis() + "_" + i + ".png")
-                out.outputStream().use { cut.compress(android.graphics.Bitmap.CompressFormat.PNG, 100, it) }
-                cut.recycle()
-                figures.add(out.name)
-                n++
-            }
-            full.recycle()
-        } catch (e: Throwable) {
-            return n
-        }
-        return n
-    }
 
     /** The JavaScript string the WebView hands back, as plain text. */
     private fun unJs(raw: String?): String {
