@@ -287,19 +287,28 @@ class LiveActivity : BaseActivity() {
         channelsRv.post { channelsRv.findViewHolderForAdapterPosition(pos)?.itemView?.requestFocus() ?: channelsRv.requestFocus() }
     }
 
+    /** The picture never changes size: it is always full screen and, in the list, only drawn smaller over the
+     *  preview box (scale + move). Changing its real size made the TV rebuild the video surface each time, the lag
+     *  going to full screen and back (owner, 17 and 18 Nov 2026). */
     private fun place() {
         val lp = playerView.layoutParams as FrameLayout.LayoutParams
-        if (full) {
+        if (lp.width != ViewGroup.LayoutParams.MATCH_PARENT || lp.height != ViewGroup.LayoutParams.MATCH_PARENT || lp.leftMargin != 0 || lp.topMargin != 0) {
             lp.width = ViewGroup.LayoutParams.MATCH_PARENT; lp.height = ViewGroup.LayoutParams.MATCH_PARENT
             lp.leftMargin = 0; lp.topMargin = 0
-        } else {
-            val loc = IntArray(2); previewBox.getLocationInWindow(loc)
-            val root = IntArray(2); findViewById<View>(R.id.root).getLocationInWindow(root)
-            if (previewBox.width == 0 || previewBox.height == 0) { previewBox.post { place() }; return }
-            lp.width = previewBox.width; lp.height = previewBox.height
-            lp.leftMargin = loc[0] - root[0]; lp.topMargin = loc[1] - root[1]
+            playerView.layoutParams = lp
         }
-        playerView.layoutParams = lp
+        playerView.pivotX = 0f; playerView.pivotY = 0f
+        if (full) {
+            playerView.scaleX = 1f; playerView.scaleY = 1f; playerView.translationX = 0f; playerView.translationY = 0f
+        } else {
+            val rootV = findViewById<View>(R.id.root)
+            if (previewBox.width == 0 || previewBox.height == 0 || rootV.width == 0) { previewBox.post { place() }; return }
+            val loc = IntArray(2); previewBox.getLocationInWindow(loc)
+            val root = IntArray(2); rootV.getLocationInWindow(root)
+            playerView.scaleX = previewBox.width / rootV.width.toFloat()
+            playerView.scaleY = previewBox.height / rootV.height.toFloat()
+            playerView.translationX = (loc[0] - root[0]).toFloat(); playerView.translationY = (loc[1] - root[1]).toFloat()
+        }
     }
 
     private fun play(c: Channel) {
@@ -376,13 +385,16 @@ class LiveActivity : BaseActivity() {
     // ---------------- full screen ----------------
 
     private fun setFull(on: Boolean) {
+        val t0 = android.os.SystemClock.uptimeMillis()
+        android.view.Choreographer.getInstance().postFrameCallback { android.view.Choreographer.getInstance().postFrameCallback {
+            android.util.Log.w("SAUDI", "switch to ${if (on) "full" else "list"} drawn in ${android.os.SystemClock.uptimeMillis() - t0}ms") } }
         full = on; overlay = false
         hideTouch()
         epgPanel.visibility = View.GONE
         browse.background = ColorDrawable(getColor(R.color.bg))
         rightCol.visibility = View.VISIBLE
         channelCol.background = null
-        browse.visibility = if (on) View.GONE else View.VISIBLE
+        browse.visibility = if (on) View.INVISIBLE else View.VISIBLE
         fullClock.visibility = if (on && App.prefs.getBoolean("clock", true)) View.VISIBLE else View.GONE
         place()
         if (on) showBanner() else {
@@ -418,7 +430,7 @@ class LiveActivity : BaseActivity() {
     private fun hideOverlay() {
         overlay = false; overlayJob?.cancel()
         groupsPanel.visibility = View.GONE
-        browse.visibility = View.GONE
+        browse.visibility = View.INVISIBLE
         browse.background = ColorDrawable(getColor(R.color.bg))
         rightCol.visibility = View.VISIBLE
         channelCol.background = null
