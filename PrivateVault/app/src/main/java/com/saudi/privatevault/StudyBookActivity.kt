@@ -161,9 +161,7 @@ class StudyBookActivity : BaseActivity() {
     private fun takeClip(l: Int, t: Int, w: Int, h: Int) {
         if (w < 24 || h < 24) { Toast.makeText(this, "Too small — drag a bigger box", Toast.LENGTH_SHORT).show(); return }
         try {
-            val full = android.graphics.Bitmap.createBitmap(
-                web.width.coerceAtLeast(1), web.height.coerceAtLeast(1), android.graphics.Bitmap.Config.ARGB_8888)
-            web.draw(android.graphics.Canvas(full))
+            val full = pageShot() ?: run { Toast.makeText(this, "Could not take that picture", Toast.LENGTH_SHORT).show(); return }
             val x = l.coerceIn(0, full.width - 1)
             val y = t.coerceIn(0, full.height - 1)
             val cw = w.coerceAtMost(full.width - x)
@@ -394,6 +392,10 @@ class StudyBookActivity : BaseActivity() {
             // The page's own Copy / Share bar is left standing by a selection; put it away.
             web.evaluateJavascript("window.getSelection().removeAllRanges();", null)
             web.clearFocus()
+            // A fresh capture starts with nothing of the last one still attached to it: without
+            // this, taking one page and then another without keeping the first gave the second
+            // page the first page's figures as well.
+            dropFigures()
             val parsed = StudyParse.parse(text)
             // A lesson keeps the shape the page had it in, each point with its depth and marker.
             if (parsed.optString("kind") != "qa") o?.optJSONArray("pts")?.let { parsed.put("plist", it) }
@@ -409,6 +411,24 @@ class StudyBookActivity : BaseActivity() {
             }
         }
     }
+
+    /**
+     * A picture of the page as it is on the screen.
+     *
+     * A WebView draws itself on the graphics card, and a view drawn that way hands back an empty
+     * canvas when it is asked to draw into one — which is why figures came back as blank grey
+     * boxes. Asked to draw itself in software for the moment it takes, it hands back what is
+     * really there.
+     */
+    private fun pageShot(): android.graphics.Bitmap? = try {
+        val was = web.layerType
+        web.setLayerType(android.view.View.LAYER_TYPE_SOFTWARE, null)
+        val bmp = android.graphics.Bitmap.createBitmap(
+            web.width.coerceAtLeast(1), web.height.coerceAtLeast(1), android.graphics.Bitmap.Config.ARGB_8888)
+        web.draw(android.graphics.Canvas(bmp))
+        web.setLayerType(was, null)
+        bmp
+    } catch (e: Throwable) { null }
 
     /** The JavaScript that finds the figures and brings one of them, by number, into reach. */
     private fun figureJs(i: Int) = """(function(idx){
@@ -436,8 +456,11 @@ class StudyBookActivity : BaseActivity() {
             var e = all[k];
             if (!shown(e)) continue;
             var r = e.getBoundingClientRect();
-            if (r.width < 90 || r.height < 60) continue;
-            if (e.tagName.toLowerCase() === 'table' && !dataTable(e)) continue;
+            var tg = e.tagName.toLowerCase();
+            // A figure beside a question can be a small thumbnail; a table has to be a real one.
+            if (tg === 'img' || tg === 'svg' || tg === 'canvas'){ if (r.width < 60 || r.height < 45) continue; }
+            else if (r.width < 120 || r.height < 70) continue;
+            if (tg === 'table' && !dataTable(e)) continue;
             list.push(e);
             if (list.length >= 10) break;
         }
@@ -445,7 +468,10 @@ class StudyBookActivity : BaseActivity() {
         var e = list[idx];
         // Brings it into view through whatever scrolls it — the window, or a box inside the page
         // with a scrollbar of its own, which is how this bank lays its lessons out.
-        try { e.scrollIntoView({ block: 'center', inline: 'nearest' }); } catch (x) { try { e.scrollIntoView(); } catch (y) {} }
+        // Straight there, not gliding: a page that scrolls smoothly would still be moving when it
+        // was measured, and the rectangle would point at whatever was passing.
+        try { e.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'instant' }); }
+        catch (x) { try { e.scrollIntoView(); } catch (y) {} }
         // A picture can be copied exactly, pixel for pixel, with no cutting out at all.
         var data = '';
         if (e.tagName.toLowerCase() === 'img'){
@@ -497,9 +523,7 @@ class StudyBookActivity : BaseActivity() {
                 }
                 web.postDelayed({
                     try {
-                        val full = android.graphics.Bitmap.createBitmap(
-                            web.width.coerceAtLeast(1), web.height.coerceAtLeast(1), android.graphics.Bitmap.Config.ARGB_8888)
-                        web.draw(android.graphics.Canvas(full))
+                        val full = pageShot() ?: run { step(i + 1); return@postDelayed }
                         val x = (r.optDouble("x") * full.width).toInt().coerceIn(0, full.width - 1)
                         val y = (r.optDouble("y") * full.height).toInt().coerceIn(0, full.height - 1)
                         val w = (r.optDouble("w") * full.width).toInt().coerceAtMost(full.width - x)
