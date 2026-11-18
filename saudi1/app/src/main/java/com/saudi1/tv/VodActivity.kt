@@ -31,7 +31,11 @@ class VodActivity : BaseActivity() {
     private var current = ""
     private var loadJob: Job? = null
     private lateinit var catsRv: RecyclerView
-    private lateinit var grid: androidx.leanback.widget.VerticalGridView
+    // the TV grid (remote: one row at a time, the focused row stays at the same height); on a phone or tablet a
+    // plain touch grid: the TV grid lays each column out on its own while a finger scrolls, so the posters slid
+    // apart and left gaps (owner, 18 Nov 2026: "I move everything with my finger")
+    private lateinit var grid: RecyclerView
+    private val tvGrid get() = grid as? androidx.leanback.widget.VerticalGridView
     private val catAdapter = CatAdapter()
     private val gridAdapter = GridAdapter()
 
@@ -87,6 +91,16 @@ class VodActivity : BaseActivity() {
         series = intent.getBooleanExtra("series", false)
         findViewById<TextView>(R.id.title).text = if (series) "Series" else "Movies"
         catsRv = findViewById(R.id.cats); grid = findViewById(R.id.grid)
+        if (isTouch) {
+            val old = grid; val parent = old.parent as ViewGroup; val i = parent.indexOfChild(old)
+            grid = RecyclerView(this).apply {
+                id = R.id.grid; layoutParams = old.layoutParams; clipToPadding = false
+                setPadding(old.paddingLeft, old.paddingTop, old.paddingRight, old.paddingBottom)
+                layoutManager = androidx.recyclerview.widget.GridLayoutManager(this@VodActivity, COLS)
+                overScrollMode = View.OVER_SCROLL_NEVER
+            }
+            parent.removeViewAt(i); parent.addView(grid, i)
+        }
         // smooth ▲▼: the rows just off screen are always laid out, so the focus moves one row and the list glides
         // there (no jump to a far position); no change animations that make the focus hop while a list updates
         catsRv.layoutManager = object : LinearLayoutManager(this) {
@@ -95,11 +109,13 @@ class VodActivity : BaseActivity() {
         catsRv.adapter = catAdapter; catsRv.itemAnimator = null
         // Google TV's own grid: ▲▼ move the focus one row and the list glides so the focused row stays in view
         // at the same height; held keys move steadily (no jumps, no stalls)
-        grid.setNumColumns(COLS)
-        grid.windowAlignment = androidx.leanback.widget.BaseGridView.WINDOW_ALIGN_BOTH_EDGE
-        grid.windowAlignmentOffsetPercent = 30f
-        grid.itemAlignmentOffsetPercent = 0f
-        grid.focusScrollStrategy = androidx.leanback.widget.BaseGridView.FOCUS_SCROLL_ALIGNED
+        tvGrid?.apply {
+            setNumColumns(COLS)
+            windowAlignment = androidx.leanback.widget.BaseGridView.WINDOW_ALIGN_BOTH_EDGE
+            windowAlignmentOffsetPercent = 30f
+            itemAlignmentOffsetPercent = 0f
+            focusScrollStrategy = androidx.leanback.widget.BaseGridView.FOCUS_SCROLL_ALIGNED
+        }
         grid.adapter = gridAdapter; grid.itemAnimator = null
         findViewById<TextView>(R.id.vodSort).apply {
             setTextColor(getColorStateList(R.color.on_focus)); setOnClickListener { sortDialog() }; text = "⇅  " + sortNames[sort]
@@ -298,13 +314,13 @@ class VodActivity : BaseActivity() {
     private val glide = android.view.animation.DecelerateInterpolator(1.4f)
     private fun moveTo(pos: Int) {
         val v = grid.layoutManager?.findViewByPosition(pos)
-        if (v != null) v.requestFocus() else grid.setSelectedPositionSmooth(pos)
+        if (v != null) v.requestFocus() else tvGrid?.setSelectedPositionSmooth(pos) ?: grid.smoothScrollToPosition(pos)
     }
 
     /** the end of the list goes round to the first row (same column): the focus is held on the posters
      *  until that row is built, so it never falls to the groups on the left */
     private fun wrapGrid(pos: Int) {
-        grid.setSelectedPosition(pos)
+        tvGrid?.setSelectedPosition(pos) ?: grid.scrollToPosition(pos)
         fun tryFocus(n: Int) {
             val v = grid.findViewHolderForAdapterPosition(pos)?.itemView
             if (v != null) { v.requestFocus(); return }
