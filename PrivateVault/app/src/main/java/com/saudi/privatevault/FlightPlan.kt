@@ -177,6 +177,11 @@ class FlightPlan {
         .put("pts", JSONArray().apply { for (p in points) put(JSONArray().put(p.id).put(p.lat).put(p.lon)) })
         .put("alt", altitude).put("tas", tas).put("gph", gph).put("wd", windDir).put("ws", windKt).put("fob", fuelOnBoard)
         .put("etd", etdMin ?: JSONObject.NULL).put("res", reserveMin)
+        // Where the aeroplane is being flown to, and which leg of the route is the live one. Both
+        // belong to the plan, not to the map: every page that loads the plan has to see them, or a
+        // Direct-To looks like no flight at all to the nav log.
+        .put("act", active)
+        .put("dct", direct?.let { JSONArray().put(it.id).put(it.lat).put(it.lon) } ?: JSONObject.NULL)
         .put("lw", JSONObject().apply { for ((k, v) in legWinds) put(k.toString(), JSONArray().put(v.first).put(v.second).put(v.third ?: JSONObject.NULL)) })
 
     fun save(ctx: Context) = VaultLock.prefs(ctx).edit().putString("flight_plan", toJson().toString()).apply()
@@ -200,6 +205,8 @@ class FlightPlan {
             fuelOnBoard = o.optDouble("fob", 24.0)
             etdMin = if (o.isNull("etd")) null else o.optInt("etd")
             reserveMin = o.optInt("res", 30)
+            active = o.optInt("act", 1).coerceAtLeast(1)
+            o.optJSONArray("dct")?.let { direct = Waypoint(it.getString(0), it.getDouble(1), it.getDouble(2)) }
             o.optJSONObject("lw")?.let { w ->
                 for (k in w.keys()) w.optJSONArray(k)?.let { a -> legWinds[k.toInt()] = Triple(a.optInt(0), a.optInt(1), if (a.isNull(2)) null else a.optInt(2)) }
             }
