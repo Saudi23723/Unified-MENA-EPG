@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SAUDI.TV">
+<meta name="theme-color" content="#070a12">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="manifest" href="manifest.json">
+<title>SAUDI.TV</title>
+<!-- SAUDI.TV for iPhone and iPad (owner, 18 Nov 2026: "100% free"): a web app opened in Safari and added to the
+     Home Screen, no App Store. Same activation by device code and the same admin site as the Android TV app.
+     It is a separate app: nothing here touches the Android app. -->
+<style>
+:root{--bg:#070a12;--p:#111725;--p2:#182033;--line:#232c40;--t:#f2f4f8;--t2:#9aa3b5;--a:#10b981;--r:#ff4d5e;
+  --st:env(safe-area-inset-top);--sb:env(safe-area-inset-bottom);--sl:env(safe-area-inset-left);--sr:env(safe-area-inset-right)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--t);font:16px/1.4 -apple-system,system-ui,"SF Pro Text",Roboto,sans-serif;overscroll-behavior:none}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+.hide{display:none!important}
+.scr{position:fixed;inset:0;display:none;flex-direction:column;padding:calc(var(--st) + 10px) calc(var(--sr) + 14px) 0 calc(var(--sl) + 14px)}
+.scr.on{display:flex}
+header{display:flex;align-items:center;gap:10px;min-height:48px}
+header h1{flex:1;margin:0;font-size:20px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand{font-weight:800;letter-spacing:.12em}.brand b{color:var(--a)}
+.ib{width:42px;height:42px;border-radius:12px;background:var(--p);display:grid;place-items:center;font-size:20px;flex:none}
+.ib:active,.row:active,.card:active,.poster:active{opacity:.6}
+.search{width:100%;margin:6px 0 10px;padding:11px 14px;border-radius:12px;border:1px solid var(--line);background:var(--p);color:var(--t);font-size:16px;outline:none}
+.body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:calc(var(--sb) + 20px)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-top:12px}
+.card{border-radius:20px;background:linear-gradient(150deg,#16324a,#111725);padding:18px;min-height:120px;display:flex;flex-direction:column;justify-content:flex-end;font-size:21px;font-weight:700;text-align:left}
+.card small{font-size:13px;color:var(--t2);font-weight:400;margin-top:4px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:4px 0 10px;scrollbar-width:none;flex:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;padding:8px 14px;border-radius:20px;background:var(--p);color:var(--t2);font-size:14px;white-space:nowrap}
+.chip.on{background:var(--a);color:#04140d;font-weight:700}
+.row{display:flex;align-items:center;gap:12px;padding:9px 6px;border-bottom:1px solid var(--line);width:100%;text-align:left}
+.row img,.row .ph{width:54px;height:40px;object-fit:contain;border-radius:8px;background:#0c1220;flex:none}
+.row .n{color:var(--t2);font-size:13px;width:34px;text-align:right;flex:none}
+.row .tx{flex:1;min-width:0}.row .tx b{display:block;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .tx small{display:block;color:var(--t2);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .fav{font-size:20px;color:var(--t2);padding:6px}.row .fav.on{color:#ffb020}
+.posters{display:grid;grid-template-columns:repeat(auto-fill,minmax(108px,1fr));gap:10px}
+.poster{text-align:left;font-size:12px;color:var(--t2)}
+.poster img{width:100%;aspect-ratio:2/3;object-fit:cover;border-radius:10px;background:#0c1220;display:block;margin-bottom:4px}
+.poster span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#code{font:700 46px ui-monospace,Menlo,monospace;letter-spacing:.12em;color:var(--a);margin:26px 0 10px;text-align:center}
+.center{text-align:center;color:var(--t2)}
+/* the player */
+#s-play{padding:0;background:#000}
+#v{position:absolute;inset:0;width:100%;height:100%;background:#000}
+#bar{position:absolute;left:0;right:0;top:0;padding:calc(var(--st) + 8px) calc(var(--sr) + 12px) 26px calc(var(--sl) + 12px);background:linear-gradient(#000c,#0000);display:flex;align-items:center;gap:10px;transition:opacity .25s}
+#bar .tt{flex:1;min-width:0}#bar b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#bar small{display:block;color:#c9d0dd;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#zap{position:absolute;right:calc(var(--sr) + 12px);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:12px;transition:opacity .25s}
+#zap .ib{background:#0009;width:50px;height:50px}
+#s-play.calm #bar,#s-play.calm #zap{opacity:0;pointer-events:none}
+#msg{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:#000b;padding:12px 18px;border-radius:12px;color:#fff;text-align:center;max-width:80%}
+#toast{position:fixed;left:50%;bottom:calc(var(--sb) + 24px);transform:translateX(-50%);background:#1d2638;padding:11px 18px;border-radius:12px;display:none;z-index:9;max-width:90%;text-align:center}
+@media (min-width:820px){ .split{display:flex;gap:16px;flex:1;min-height:0} .split .side{width:300px;overflow-y:auto;padding-bottom:20px} .split .side .chip{display:block;width:100%;text-align:left;border-radius:12px;margin-bottom:6px} .split .chips{display:block;overflow:visible}}
+</style>
+</head>
+<body>
+
+<section class="scr" id="s-setup">
+  <header><h1 class="brand">SAUDI<b>.TV</b></h1></header>
+  <div class="body">
+    <p class="center" style="margin-top:40px">Give this code to your provider</p>
+    <div id="code">— — — —</div>
+    <p class="center" id="setup-st">Waiting for activation…</p>
+    <p class="center" id="a2hs" style="font-size:13px;margin-top:40px"></p>
+  </div>
+</section>
+
+<section class="scr" id="s-home">
+  <header><h1 class="brand">SAUDI<b>.TV</b></h1><button class="ib" id="reload" title="Reload">⟳</button></header>
+  <div class="body">
+    <div class="center" id="hello" style="text-align:left;font-size:22px;font-weight:700;margin-top:6px"></div>
+    <div class="cards" id="cards"></div>
+    <p class="center" id="foot" style="font-size:12px;margin-top:26px"></p>
+  </div>
+</section>
+
+<section class="scr" id="s-live">
+  <header><button class="ib" data-back>‹</button><h1>Live TV</h1></header>
+  <input class="search" id="live-q" placeholder="Search channels" autocomplete="off">
+  <div class="split"><div class="side"><div class="chips" id="groups"></div></div><div class="body" id="chans"></div></div>
+</section>
+
+<section class="scr" id="s-vod">
+  <header><button class="ib" data-back>‹</button><h1 id="vod-t">Movies</h1></header>
+  <input class="search" id="vod-q" placeholder="Search" autocomplete="off">
+  <div class="split"><div class="side"><div class="chips" id="cats"></div></div><div class="body"><div class="posters" id="posters"></div></div></div>
+</section>
+
+<section class="scr" id="s-eps">
+  <header><button class="ib" data-back>‹</button><h1 id="eps-t"></h1></header>
+  <div class="chips" id="seasons"></div>
+  <div class="body" id="eps"></div>
+</section>
+
+<section class="scr" id="s-play">
+  <video id="v" playsinline webkit-playsinline autoplay></video>
+  <div id="bar"><button class="ib" id="pback" style="background:#0009">‹</button><div class="tt"><b id="pt"></b><small id="ps"></small></div></div>
+  <div id="zap"><button class="ib" id="up">▲</button><button class="ib" id="down">▼</button></div>
+  <div id="msg" class="hide"></div>
+</section>
+
+<div id="toast"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.13/hls.min.js"></script>
+<script>
+(function () {
+  "use strict";
+  var SITE = "https://saudi1.1saifsaudi.workers.dev";
+  var $ = function (id) { return document.getElementById(id); };
+  var LS = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+             set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) { } },
+             del: function (k) { try { localStorage.removeItem(k); } catch (e) { } } };
+  var st = { lists: [], pl: null, groups: null, group: null, cats: null, cat: null, series: false, items: [], playing: null, chans: [] };
+  var iPad = /iPad|Macintosh/.test(navigator.userAgent) && "ontouchend" in document;
+  var model = iPad ? "iPad" : /iPhone/.test(navigator.userAgent) ? "iPhone" : "Web";
+
+  function toast(t) { var e = $("toast"); e.textContent = t; e.style.display = "block"; clearTimeout(e._t); e._t = setTimeout(function () { e.style.display = "none"; }, 2800); }
+  function get(u) { return fetch(u, { cache: "no-store" }).then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); }); }
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+  function code() {
+    var c = LS.get("code");
+    if (!c || c.length !== 8) { c = String(1 + Math.floor(Math.random() * 9)); for (var i = 0; i < 7; i++) c += Math.floor(Math.random() * 10); LS.set("code", c); }
+    return c;
+  }
+  function pretty(c) { return c.slice(0, 4) + " " + c.slice(4); }
+  function api(action, extra) { var p = st.pl; return p.server + "/player_api.php?username=" + encodeURIComponent(p.user) + "&password=" + encodeURIComponent(p.pass) + "&action=" + action + (extra || ""); }
+  function link(kind, id, ext) { var p = st.pl; return p.server + "/" + kind + "/" + encodeURIComponent(p.user) + "/" + encodeURIComponent(p.pass) + "/" + id + "." + ext; }
+  function b64(s) { try { return decodeURIComponent(escape(atob(s))); } catch (e) { return s || ""; } }
+
+  // ---------- screens (the phone's back swipe goes back too) ----------
+  var stack = [];
+  function show(s, push) {
+    var all = document.querySelectorAll(".scr");
+    for (var i = 0; i < all.length; i++) all[i].classList.toggle("on", all[i].id === "s-" + s);
+    if (push) { stack.push(s); history.pushState({ s: s }, ""); }
+    cur = s;
+  }
+  var cur = "";
+  function back() { history.back(); }
+  window.addEventListener("popstate", function () {
+    if (cur === "play") stopPlay();
+    stack.pop(); var s = stack[stack.length - 1] || "home"; show(s);
+  });
+  document.addEventListener("click", function (e) { if (e.target.closest("[data-back]")) back(); });
+
+  // ---------- activation ----------
+  function activate() {
+    return get(SITE + "/api/device?code=" + code() + "&model=" + encodeURIComponent(model)).then(function (o) {
+      if (o.status !== "active") {
+        $("code").textContent = pretty(code());
+        $("setup-st").textContent = o.status === "stopped" ? "This device is stopped. Contact your provider." : o.status === "expired" ? "Your subscription has ended." : "Waiting for activation…";
+        show("setup"); setTimeout(activate, 8000); return;
+      }
+      st.lists = o.playlists && o.playlists.length ? o.playlists : [{ name: "", server: o.server, user: o.user, pass: o.pass }];
+      var want = LS.get("pl");
+      st.pl = st.lists.filter(function (p) { return p.name === want; })[0] || st.lists[0];
+      st.name = o.welcome || o.name || "";
+      if (cur === "setup" || !cur) home();
+    }).catch(function () { $("code").textContent = pretty(code()); $("setup-st").textContent = "No internet connection — trying again…"; show("setup"); setTimeout(activate, 8000); });
+  }
+  function standalone() { return window.navigator.standalone || matchMedia("(display-mode: standalone)").matches; }
+  if (!standalone() && /iPhone|iPad|Macintosh/.test(navigator.userAgent)) $("a2hs").textContent = "Tip: tap Share ⬆︎ then “Add to Home Screen” to open SAUDI.TV like an app.";
+
+  function home() {
+    var who = (st.name || "").split(" ")[0], h = new Date().getHours();
+    $("hello").textContent = (h >= 5 && h < 12 ? "Good morning" : h < 17 ? "Good afternoon" : "Good evening") + (who ? ", " + who : "");
+    var cards = [["Live TV", "All your channels", "live"], ["Favorites", favs().length + " channels", "fav"], ["Movies", "Latest added first", "movies"], ["Series", "Seasons and episodes", "series"]];
+    if (st.lists.length > 1) cards.push(["Playlist", st.pl.name, "pl"]);
+    $("cards").innerHTML = cards.map(function (c) { return '<button class="card" data-c="' + c[2] + '">' + esc(c[0]) + "<small>" + esc(c[1]) + "</small></button>"; }).join("");
+    $("foot").textContent = "Playlist " + (st.pl.name || "—") + "  ·  Device " + pretty(code());
+    stack = ["home"]; show("home");
+  }
+  $("cards").addEventListener("click", function (e) {
+    var b = e.target.closest(".card"); if (!b) return;
+    var c = b.dataset.c;
+    if (c === "live") openLive(null);
+    else if (c === "fav") openLive("fav");
+    else if (c === "movies") openVod(false);
+    else if (c === "series") openVod(true);
+    else if (c === "pl") { var i = (st.lists.indexOf(st.pl) + 1) % st.lists.length; st.pl = st.lists[i]; LS.set("pl", st.pl.name); st.groups = null; st.cats = null; toast("Playlist: " + st.pl.name); home(); }
+  });
+  $("reload").onclick = function () { st.groups = null; st.cats = null; toast("Reloading…"); activate().then(home); };
+
+  // ---------- favorites ----------
+  function favs() { try { return JSON.parse(LS.get("fav_" + (st.pl ? st.pl.name : "")) || "[]"); } catch (e) { return []; } }
+  function setFavs(a) { LS.set("fav_" + st.pl.name, JSON.stringify(a)); }
+
+  // ---------- Live TV ----------
+  function openLive(which) {
+    show("live", true);
+    if (st.groups) { pickGroup(which === "fav" ? "fav" : (LS.get("group_" + st.pl.name) || st.groups[0].id)); return; }
+    $("chans").innerHTML = '<p class="center">Loading channels…</p>';
+    Promise.all([get(api("get_live_categories")), get(api("get_live_streams"))]).then(function (r) {
+      var by = {}, groups = [];
+      r[0].forEach(function (c) { by[c.category_id] = { id: String(c.category_id), name: c.category_name, ch: [] }; groups.push(by[c.category_id]); });
+      r[1].forEach(function (s, k) {
+        var g = by[s.category_id]; if (!g) { g = by[s.category_id] = { id: String(s.category_id), name: "Other", ch: [] }; groups.push(g); }
+        g.ch.push({ id: s.stream_id, num: s.num || k + 1, name: s.name, logo: s.stream_icon || "" });
+      });
+      st.groups = groups.filter(function (g) { return g.ch.length; });
+      st.all = []; st.groups.forEach(function (g) { st.all = st.all.concat(g.ch); });
+      drawGroups();
+      pickGroup(which === "fav" ? "fav" : (LS.get("group_" + st.pl.name) || (st.groups[0] && st.groups[0].id)));
+    }).catch(function () { $("chans").innerHTML = '<p class="center">Could not load the channels. Pull down or tap ⟳ on the home screen.</p>'; });
+  }
+  function drawGroups() {
+    $("groups").innerHTML = '<button class="chip" data-g="fav">★ Favorites</button>' + st.groups.map(function (g) { return '<button class="chip" data-g="' + esc(g.id) + '">' + esc(g.name) + " <span style='opacity:.6'>" + g.ch.length + "</span></button>"; }).join("");
+  }
+  $("groups").addEventListener("click", function (e) { var b = e.target.closest(".chip"); if (b) { $("live-q").value = ""; pickGroup(b.dataset.g); } });
+  function pickGroup(id) {
+    if (!st.groups) return;
+    var g = id === "fav" ? { id: "fav", ch: st.all.filter(function (c) { return favs().indexOf(c.id) >= 0; }) } : st.groups.filter(function (x) { return x.id === id; })[0] || st.groups[0];
+    st.group = g; if (g.id !== "fav") LS.set("group_" + st.pl.name, g.id);
+    var chips = $("groups").children;
+    for (var i = 0; i < chips.length; i++) { chips[i].classList.toggle("on", chips[i].dataset.g === g.id); if (chips[i].dataset.g === g.id) chips[i].scrollIntoView({ block: "nearest", inline: "center" }); }
+    drawChans(g.ch);
+  }
+  function drawChans(list) {
+    st.chans = list; var f = favs();
+    $("chans").innerHTML = list.length ? list.slice(0, 600).map(function (c, k) {
+      return '<div class="row" data-k="' + k + '"><span class="n">' + esc(c.num) + "</span>" + (c.logo ? '<img loading="lazy" src="' + esc(c.logo) + '" onerror="this.style.visibility=\'hidden\'">' : '<span class="ph"></span>') +
+        '<span class="tx"><b>' + esc(c.name) + '</b></span><button class="fav' + (f.indexOf(c.id) >= 0 ? " on" : "") + '" data-f="' + c.id + '">★</button></div>';
+    }).join("") : '<p class="center">' + (st.group && st.group.id === "fav" ? "No favorites yet — tap ★ next to a channel." : "Nothing here") + "</p>";
+    $("chans").scrollTop = 0;
+  }
+  $("chans").addEventListener("click", function (e) {
+    var f = e.target.closest("[data-f]");
+    if (f) { var id = Number(f.dataset.f), a = favs(), i = a.indexOf(id); if (i >= 0) a.splice(i, 1); else a.push(id); setFavs(a); f.classList.toggle("on", i < 0); return; }
+    var r = e.target.closest(".row"); if (r) playLive(Number(r.dataset.k));
+  });
+  var qT = 0;
+  $("live-q").addEventListener("input", function () {
+    clearTimeout(qT); var q = this.value.trim().toLowerCase();
+    qT = setTimeout(function () { if (!st.all) return; if (q.length < 2) { pickGroup(st.group ? st.group.id : null); return; } drawChans(st.all.filter(function (c) { return String(c.name).toLowerCase().indexOf(q) >= 0; })); }, 200);
+  });
+
+  function playLive(k) {
+    var c = st.chans[k]; if (!c) return;
+    st.idx = k; st.playing = c;
+    play(link("live", c.id, "m3u8"), c.num + "  " + c.name, "", 0, true);
+    $("ps").textContent = "";
+    get(api("get_short_epg", "&stream_id=" + c.id + "&limit=2")).then(function (o) {
+      if (st.playing !== c) return;
+      var l = (o && o.epg_listings) || [];
+      if (l[0]) $("ps").textContent = hm(l[0].start_timestamp) + "–" + hm(l[0].stop_timestamp) + "  " + b64(l[0].title) + (l[1] ? "   ·   Next " + hm(l[1].start_timestamp) + " " + b64(l[1].title) : "");
+    }).catch(function () { });
+  }
+  function hm(t) { var d = new Date(Number(t) * 1000); return d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }); }
+  $("up").onclick = function () { zap(-1); };
+  $("down").onclick = function () { zap(1); };
+  function zap(d) { if (!st.chans.length) return; var k = (st.idx + d + st.chans.length) % st.chans.length; playLive(k); }
+
+  // ---------- Movies / Series ----------
+  function openVod(series) {
+    st.series = series; $("vod-t").textContent = series ? "Series" : "Movies"; $("vod-q").value = "";
+    show("vod", true);
+    $("posters").innerHTML = '<p class="center">Loading…</p>';
+    get(api(series ? "get_series_categories" : "get_vod_categories")).then(function (cats) {
+      st.cats = cats;
+      $("cats").innerHTML = cats.map(function (c) { return '<button class="chip" data-c="' + esc(c.category_id) + '">' + esc(c.category_name) + "</button>"; }).join("");
+      var last = LS.get((series ? "scat_" : "vcat_") + st.pl.name);
+      pickCat(cats.filter(function (c) { return String(c.category_id) === last; })[0] ? last : cats[0] && String(cats[0].category_id));
+    }).catch(function () { $("posters").innerHTML = '<p class="center">Could not load the groups</p>'; });
+  }
+  $("cats").addEventListener("click", function (e) { var b = e.target.closest(".chip"); if (b) { $("vod-q").value = ""; pickCat(b.dataset.c); } });
+  function pickCat(id) {
+    if (id == null) return;
+    LS.set((st.series ? "scat_" : "vcat_") + st.pl.name, id);
+    var chips = $("cats").children;
+    for (var i = 0; i < chips.length; i++) { chips[i].classList.toggle("on", chips[i].dataset.c === id); if (chips[i].dataset.c === id) chips[i].scrollIntoView({ block: "nearest", inline: "center" }); }
+    $("posters").innerHTML = '<p class="center">Loading…</p>';
+    var want = id;
+    get(api(st.series ? "get_series" : "get_vod_streams", "&category_id=" + encodeURIComponent(id))).then(function (l) {
+      if (LS.get((st.series ? "scat_" : "vcat_") + st.pl.name) !== want) return;
+      l.sort(function (a, b) { return (Number(b.added || b.last_modified) || 0) - (Number(a.added || a.last_modified) || 0); });
+      st.items = l; drawPosters(l);
+    }).catch(function () { $("posters").innerHTML = '<p class="center">Could not load this group</p>'; });
+  }
+  function drawPosters(l) {
+    $("posters").innerHTML = l.length ? l.slice(0, 400).map(function (x, k) {
+      return '<button class="poster" data-k="' + k + '"><img loading="lazy" src="' + esc(x.stream_icon || x.cover || "") + '" onerror="this.style.visibility=\'hidden\'"><span>' + esc(x.name) + "</span></button>";
+    }).join("") : '<p class="center">Nothing here</p>';
+  }
+  $("posters").addEventListener("click", function (e) { var b = e.target.closest(".poster"); if (b) openItem(st.shown ? st.shown[Number(b.dataset.k)] : st.items[Number(b.dataset.k)]); });
+  $("vod-q").addEventListener("input", function () {
+    clearTimeout(qT); var q = this.value.trim().toLowerCase();
+    qT = setTimeout(function () { st.shown = q.length < 2 ? null : st.items.filter(function (x) { return String(x.name).toLowerCase().indexOf(q) >= 0; }); drawPosters(st.shown || st.items); }, 200);
+  });
+  function openItem(x) {
+    if (!x) return;
+    if (!st.series) {
+      var key = "m" + x.stream_id;
+      play(link("movie", x.stream_id, x.container_extension || "mp4"), x.name, key, Number(LS.get("pos_" + key)) || 0, false);
+      return;
+    }
+    $("eps-t").textContent = x.name; $("eps").innerHTML = '<p class="center">Loading episodes…</p>'; $("seasons").innerHTML = "";
+    show("eps", true);
+    get(api("get_series_info", "&series_id=" + x.series_id)).then(function (o) {
+      var e = o.episodes || {}, ss = Object.keys(e).sort(function (a, b) { return a - b; });
+      st.eps = e;
+      $("seasons").innerHTML = ss.map(function (s) { return '<button class="chip" data-s="' + esc(s) + '">Season ' + esc(s) + "</button>"; }).join("");
+      pickSeason(LS.get("season_" + x.series_id) || ss[0], x.series_id);
+    }).catch(function () { $("eps").innerHTML = '<p class="center">Could not load the episodes</p>'; });
+    st.seriesId = x.series_id;
+  }
+  $("seasons").addEventListener("click", function (e) { var b = e.target.closest(".chip"); if (b) pickSeason(b.dataset.s, st.seriesId); });
+  function pickSeason(s, sid) {
+    if (!st.eps || !st.eps[s]) return;
+    LS.set("season_" + sid, s);
+    var chips = $("seasons").children; for (var i = 0; i < chips.length; i++) chips[i].classList.toggle("on", chips[i].dataset.s === s);
+    st.season = st.eps[s];
+    $("eps").innerHTML = st.season.map(function (p, k) {
+      var pos = Number(LS.get("pos_e" + p.id)) || 0;
+      return '<div class="row" data-k="' + k + '"><span class="n">' + esc(p.episode_num) + '</span><span class="tx"><b>' + esc(p.title || ("Episode " + p.episode_num)) + "</b>" + (pos ? "<small>Resume from " + clock(pos / 1000) + "</small>" : "") + "</span></div>";
+    }).join("");
+  }
+  $("eps").addEventListener("click", function (e) {
+    var r = e.target.closest(".row"); if (!r) return;
+    var p = st.season[Number(r.dataset.k)]; st.epIdx = Number(r.dataset.k);
+    play(link("series", p.id, p.container_extension || "mp4"), $("eps-t").textContent + " · E" + p.episode_num, "e" + p.id, Number(LS.get("pos_e" + p.id)) || 0, false);
+  });
+  function clock(s) { s = Math.floor(s); var h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), x = s % 60; return (h ? h + ":" + String(m).padStart(2, "0") : m) + ":" + String(x).padStart(2, "0"); }
+
+  // ---------- the player: Safari plays HLS itself; other browsers use hls.js ----------
+  var v = $("v"), hls = null, live = false, key = "", calmT = 0, retry = 0;
+  function msg(t) { $("msg").textContent = t; $("msg").classList.toggle("hide", !t); }
+  function play(url, title, k, from, isLive) {
+    live = isLive; key = k || ""; retry = 0;
+    $("pt").textContent = title; $("ps").textContent = ""; $("zap").classList.toggle("hide", !live);
+    v.controls = !live;
+    if (cur !== "play") show("play", true);
+    load(url, from); wake();
+  }
+  function load(url, from) {
+    msg(""); st.url = url;
+    if (hls) { hls.destroy(); hls = null; }
+    v.removeAttribute("src");
+    var native = v.canPlayType("application/vnd.apple.mpegurl");
+    if (/\.m3u8$/.test(url) && !native && window.Hls && Hls.isSupported()) {
+      hls = new Hls({ liveSyncDurationCount: 3, maxBufferLength: 30 });
+      hls.on(Hls.Events.ERROR, function (e, d) { if (d.fatal) fail(); });
+      hls.loadSource(url); hls.attachMedia(v);
+    } else v.src = url;
+    v.onloadedmetadata = function () { if (from > 0 && !live) try { v.currentTime = from / 1000; } catch (e) { } };
+    var p = v.play(); if (p && p.catch) p.catch(function () { msg("Tap ▶ to play"); v.controls = true; });
+  }
+  function fail() {
+    // live: try again twice (a channel often answers on the second call); films that the phone cannot read say so
+    if (live && retry < 2) { retry++; msg("Reconnecting…"); setTimeout(function () { if (cur === "play") load(st.url, 0); }, 1500); return; }
+    msg(live ? "This channel is not available right now" : "This video cannot play on iPhone / iPad (its format is not supported by Safari)");
+  }
+  v.addEventListener("error", fail);
+  v.addEventListener("playing", function () { msg(""); retry = 0; });
+  v.addEventListener("waiting", function () { if (live) msg("Loading…"); });
+  v.addEventListener("timeupdate", function () { if (key && v.currentTime > 60 && Math.floor(v.currentTime) % 10 === 0) LS.set("pos_" + key, String(Math.floor(v.currentTime * 1000))); });
+  v.addEventListener("ended", function () { if (key) LS.del("pos_" + key); if (key.charAt(0) === "e" && st.season && st.season[st.epIdx + 1]) { $("eps").querySelectorAll(".row")[st.epIdx + 1].click(); } });
+  function stopPlay() { if (hls) { hls.destroy(); hls = null; } v.pause(); v.removeAttribute("src"); try { v.load(); } catch (e) { } msg(""); }
+  $("pback").onclick = back;
+  // the bar hides after 4 s; a tap shows it again; a swipe up / down changes the channel
+  function wake() { $("s-play").classList.remove("calm"); clearTimeout(calmT); calmT = setTimeout(function () { $("s-play").classList.add("calm"); }, 4000); }
+  var y0 = null;
+  $("s-play").addEventListener("touchstart", function (e) { y0 = e.touches[0].clientY; wake(); }, { passive: true });
+  $("s-play").addEventListener("touchend", function (e) { if (!live || y0 == null) return; var dy = e.changedTouches[0].clientY - y0; if (Math.abs(dy) > 80) zap(dy < 0 ? 1 : -1); y0 = null; });
+  $("s-play").addEventListener("click", wake);
+  document.addEventListener("visibilitychange", function () { if (!document.hidden && cur === "play" && live && v.paused) load(st.url, 0); });
+
+  $("code").textContent = pretty(code());
+  show("setup");
+  activate();
+})();
+</script>
+</body>
+</html>

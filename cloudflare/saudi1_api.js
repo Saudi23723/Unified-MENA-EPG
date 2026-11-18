@@ -230,6 +230,18 @@ a.btn{display:block;margin-top:22px;background:#10b981;color:#04130d;font-weight
     }
 
     // short link for Downloader: saudi1.1saifsaudi.workers.dev/apk
+    // the iPhone / iPad app (owner, 18 Nov 2026): a web app at /tv, its files read from the repo's ios/ folder, so a
+    // change to the app needs no new paste of this worker. Open https://saudi1.1saifsaudi.workers.dev/tv on the phone.
+    if (p === "/tv") return Response.redirect(url.origin + "/tv/", 301);
+    if (p.startsWith("/tv/")) {
+      const f = p.slice(4) || "index.html";
+      const types = { html: "text/html; charset=utf-8", json: "application/manifest+json", png: "image/png", js: "text/javascript" };
+      const ext = f.split(".").pop();
+      if (!/^[a-z0-9_-]+\.[a-z0-9]+$/.test(f) || !types[ext]) return new Response("not found", { status: 404 });
+      const r = await fetch("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/ios/" + f, { cf: { cacheTtl: 120, cacheEverything: true } });
+      if (!r.ok) return new Response("not found", { status: 404 });
+      return new Response(r.body, { headers: { "Content-Type": types[ext], "Cache-Control": "public, max-age=120" } });
+    }
     if (p === "/apk" || p === "/apk/") return Response.redirect("https://github.com/Saudi23723/Unified-MENA-EPG/releases/download/saudi1/SAUDI1.apk", 302);
 
     // ---- the owner's admin page ----
