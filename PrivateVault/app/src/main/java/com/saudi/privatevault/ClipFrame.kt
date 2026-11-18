@@ -24,7 +24,9 @@ class ClipFrame(ctx: Context) : FrameLayout(ctx) {
     private val edge = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.STROKE; strokeWidth = 2.5f * d; color = 0xFFFF9F0A.toInt()
     }
-    private val inside = Paint().apply { color = 0x22FF9F0A }
+    private val corner = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        style = Paint.Style.STROKE; strokeWidth = 5f * d; color = 0xFFFF9F0A.toInt(); strokeCap = Paint.Cap.ROUND
+    }
     private val hint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = 0xFFFFFFFF.toInt(); textSize = 14f * d; isFakeBoldText = true; textAlign = Paint.Align.CENTER
     }
@@ -66,18 +68,39 @@ class ClipFrame(ctx: Context) : FrameLayout(ctx) {
 
     override fun onDraw(c: Canvas) {
         if (!armed) return
-        c.drawRect(0f, 0f, width.toFloat(), height.toFloat(), shade)
+        val w = width.toFloat(); val h = height.toFloat()
         if (drawing) {
+            // Everything but the framed part is dimmed, so what will be cut out is the bright part.
             val r = RectF(Math.min(x0, x1), Math.min(y0, y1), Math.max(x0, x1), Math.max(y0, y1))
-            c.drawRect(r, inside)
+            c.drawRect(0f, 0f, w, r.top, shade)
+            c.drawRect(0f, r.bottom, w, h, shade)
+            c.drawRect(0f, r.top, r.left, r.bottom, shade)
+            c.drawRect(r.right, r.top, w, r.bottom, shade)
             c.drawRect(r, edge)
+            // The corners, so the box reads as a frame and not as a stray line.
+            val k = 18 * d
+            for (q in listOf(
+                Quad(r.left, r.top, 1f, 1f), Quad(r.right, r.top, -1f, 1f),
+                Quad(r.left, r.bottom, 1f, -1f), Quad(r.right, r.bottom, -1f, -1f))) {
+                c.drawLine(q.x, q.y, q.x + k * q.sx, q.y, corner)
+                c.drawLine(q.x, q.y, q.x, q.y + k * q.sy, corner)
+            }
+            val s = "%d × %d".format(Math.abs(x1 - x0).toInt(), Math.abs(y1 - y0).toInt())
+            val tw = hint.measureText(s)
+            val by = if (r.top > 46 * d) r.top - 12 * d else r.bottom + 32 * d
+            c.drawRoundRect(r.centerX() - tw / 2 - 10 * d, by - 20 * d, r.centerX() + tw / 2 + 10 * d, by + 6 * d,
+                8 * d, 8 * d, hintBg)
+            c.drawText(s, r.centerX(), by, hint)
         } else {
+            c.drawRect(0f, 0f, w, h, shade)
             val s = "Drag a box over the figure or the table"
-            val w = hint.measureText(s)
-            val cx = width / 2f
-            c.drawRoundRect(cx - w / 2 - 14 * d, height / 2f - 22 * d, cx + w / 2 + 14 * d, height / 2f + 10 * d,
-                10 * d, 10 * d, hintBg)
-            c.drawText(s, cx, height / 2f, hint)
+            val tw = hint.measureText(s)
+            val cx = w / 2f
+            val by = 54 * d
+            c.drawRoundRect(cx - tw / 2 - 14 * d, by - 24 * d, cx + tw / 2 + 14 * d, by + 8 * d, 10 * d, 10 * d, hintBg)
+            c.drawText(s, cx, by, hint)
         }
     }
+
+    private class Quad(val x: Float, val y: Float, val sx: Float, val sy: Float)
 }

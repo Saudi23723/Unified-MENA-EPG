@@ -142,7 +142,6 @@ class StudyBookActivity : BaseActivity() {
      * matters by dragging a box over it, and that rectangle is cut out and kept with the note.
      */
     private fun startClip() {
-        Toast.makeText(this, "Drag a box over the figure or the table", Toast.LENGTH_SHORT).show()
         clipper.arm { l, t, w, h -> takeClip(l, t, w, h) }
     }
 
@@ -163,12 +162,36 @@ class StudyBookActivity : BaseActivity() {
             val out = java.io.File(dir, "clip_" + System.currentTimeMillis() + ".png")
             out.outputStream().use { cut.compress(android.graphics.Bitmap.CompressFormat.PNG, 100, it) }
             cut.recycle()
-            clipFile = out.name
-            showClip()
-            Toast.makeText(this, "Figure kept — now press Add as a page", Toast.LENGTH_SHORT).show()
+            confirmClip(out)
         } catch (e: Throwable) {
             Toast.makeText(this, "Could not take that picture", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    /** The cut shown at the size it really is, to keep or to take again. */
+    private fun confirmClip(out: java.io.File) {
+        val bmp = android.graphics.BitmapFactory.decodeFile(out.path)
+        if (bmp == null) { out.delete(); Toast.makeText(this, "Could not take that picture", Toast.LENGTH_SHORT).show(); return }
+        val box = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL; setBackgroundColor(EfbUi.BG); setPadding(dp(14), dp(14), dp(14), dp(4))
+        }
+        box.addView(EfbUi.text(this, "%d × %d".format(bmp.width, bmp.height), 11.5f, 0xFF8E9BA8.toInt()))
+        box.addView(android.widget.ImageView(this).apply {
+            setImageBitmap(bmp)
+            adjustViewBounds = true
+            scaleType = android.widget.ImageView.ScaleType.FIT_CENTER
+            background = EfbUi.cardBg(this@StudyBookActivity, 0xFFFFFFFF.toInt(), 8)
+            setPadding(dp(4), dp(4), dp(4), dp(4))
+        }, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(8) })
+        MaterialAlertDialogBuilder(this).setView(ScrollView(this).apply { addView(box) })
+            .setPositiveButton("Keep it") { _, _ ->
+                clipFile?.let { old -> java.io.File(java.io.File(filesDir, "studybook"), old).delete() }
+                clipFile = out.name
+                showClip()
+            }
+            .setNeutralButton("Try again") { _, _ -> out.delete(); startClip() }
+            .setNegativeButton(R.string.cancel) { _, _ -> out.delete() }
+            .show()
     }
 
     /** The picture waiting to go onto the page, with the way to drop it again. */
@@ -179,17 +202,22 @@ class StudyBookActivity : BaseActivity() {
         val f = java.io.File(java.io.File(filesDir, "studybook"), name)
         if (!f.exists()) { clipFile = null; return }
         val row = LinearLayout(this).apply {
-            orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL
-            setBackgroundColor(0xFF1B222C.toInt()); setPadding(dp(8), dp(6), dp(8), dp(6))
+            orientation = LinearLayout.VERTICAL
+            setBackgroundColor(0xFF1B222C.toInt()); setPadding(dp(8), dp(6), dp(8), dp(8))
         }
+        val head = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
+        head.addView(EfbUi.text(this, "🖼  figure for this page", 12.5f, 0xFFFFD60A.toInt(), bold = true),
+            LinearLayout.LayoutParams(0, -2, 1f))
+        head.addView(chip("✕", 0xFF3A2A2A.toInt()) { f.delete(); clipFile = null; showClip() })
+        row.addView(head)
         row.addView(android.widget.ImageView(this).apply {
             setImageBitmap(android.graphics.BitmapFactory.decodeFile(f.path))
             adjustViewBounds = true
             scaleType = android.widget.ImageView.ScaleType.FIT_CENTER
-        }, LinearLayout.LayoutParams(dp(90), dp(56)).apply { marginEnd = dp(10) })
-        row.addView(EfbUi.text(this, "🖼  a figure is kept for this page", 12.5f, 0xFFFFD60A.toInt()),
-            LinearLayout.LayoutParams(0, -2, 1f))
-        row.addView(chip("✕", 0xFF3A2A2A.toInt()) { f.delete(); clipFile = null; showClip() })
+            background = EfbUi.cardBg(this@StudyBookActivity, 0xFFFFFFFF.toInt(), 6)
+            setPadding(dp(3), dp(3), dp(3), dp(3))
+            maxHeight = dp(150)
+        }, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(6) })
         pad.addView(row, 0)
         clipRow = row
     }
@@ -209,6 +237,9 @@ class StudyBookActivity : BaseActivity() {
                 Toast.makeText(this, "Nothing on this page to read", Toast.LENGTH_SHORT).show()
                 return@evaluateJavascript
             }
+            // The page's own Copy / Share bar is left standing by a selection; put it away.
+            web.evaluateJavascript("window.getSelection().removeAllRanges();", null)
+            web.clearFocus()
             val o = StudyParse.parse(text)
             pending = o
             question.setText(if (o.optString("kind") == "qa") o.optString("q") else o.optString("head").ifEmpty { o.optString("q") })
