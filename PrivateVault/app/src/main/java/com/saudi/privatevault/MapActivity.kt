@@ -1380,9 +1380,7 @@ class MapActivity : BaseActivity(), NeonHost {
         items.add("\u279C  Fly ${from.id} \u2192 ${to.id}" to {
             plan.active = i; plan.direct = null; plan.save(this); updateNav(); map.invalidate()
         })
-        items.add("\u2197  Direct to ${to.id}" to {
-            plan.direct = FlightPlan.Waypoint(to.id, to.lat, to.lon); plan.save(this); updateNav(); map.invalidate()
-        })
+        items.add("\u2197  Direct to ${to.id}" to { directTo(FlightPlan.Waypoint(to.id, to.lat, to.lon)) })
         if (plan.points.size > 2) items.add("\u2715  Remove ${to.id}" to {
             plan.points.removeAt(i); plan.legWinds.clear()
             plan.active = plan.active.coerceIn(1, maxOf(1, plan.points.size - 1))
@@ -1395,8 +1393,21 @@ class MapActivity : BaseActivity(), NeonHost {
             .setNegativeButton(R.string.cancel, null).show()
     }
 
+    /**
+     * Go Direct-To a point. Where the flight starts from is written down at the same moment — the
+     * aeroplane if the GPS has it, otherwise the middle of the chart on screen — because Direct-To
+     * with no route typed is still a flight, and the nav log needs somewhere to measure it from.
+     */
     private fun directTo(w: FlightPlan.Waypoint) {
         plan.direct = w
+        val here = ownship.position()
+        val from = here ?: map.mapCenter
+        prefs.edit()
+            .putString("dct_from_id", if (here != null) "PPOS" else "MAP")
+            .putFloat("dct_from_lat", from.latitude.toFloat())
+            .putFloat("dct_from_lon", from.longitude.toFloat())
+            .putLong("dct_from_at", System.currentTimeMillis())
+            .apply()
         plan.save(this)
         updateNav()
         map.invalidate()
@@ -2148,7 +2159,7 @@ class MapActivity : BaseActivity(), NeonHost {
             .apply { setPadding(dp(16), dp(10), dp(16), dp(2)) })
         val acts = ArrayList<Pair<String, () -> Unit>>()
         acts.add("Fly Leg" to { plan.active = i; plan.direct = null; plan.save(this); updateNav(); map.invalidate() })
-        acts.add("Direct Leg End" to { plan.direct = FlightPlan.Waypoint(bPt.id, bPt.lat, bPt.lon); plan.save(this); updateNav(); map.invalidate() })
+        acts.add("Direct Leg End" to { directTo(FlightPlan.Waypoint(bPt.id, bPt.lat, bPt.lon)) })
         if (plan.points.size > 2) acts.add("Remove Leg" to {
             plan.points.removeAt(i); plan.legWinds.clear()
             plan.active = plan.active.coerceIn(1, maxOf(1, plan.points.size - 1))
@@ -2429,6 +2440,11 @@ class MapActivity : BaseActivity(), NeonHost {
             }
         }
         ownship.update(l)
+        if (System.currentTimeMillis() - lastPosSaved > 30000L) {
+            lastPosSaved = System.currentTimeMillis()
+            prefs.edit().putFloat("last_lat", l.latitude.toFloat()).putFloat("last_lon", l.longitude.toFloat())
+                .putLong("last_fix_at", lastPosSaved).apply()
+        }
         val kt = if (l.hasSpeed()) l.speed * 1.943844 else 0.0
         b.hudGs.text = if (gotGps) "GS %d".format(Math.round(kt)) else getString(R.string.map_no_gps)
         b.hudTrk.text = if (l.hasBearing() && kt > 5) Nav.deg(Nav.magnetic(l.bearing.toDouble(), l.latitude, l.longitude)) + "M" else "---°"
@@ -3653,6 +3669,7 @@ class MapActivity : BaseActivity(), NeonHost {
         if (map.zoomLevelDouble > map.maxZoomLevel) map.controller.setZoom(map.maxZoomLevel)
     }
 
+    private var lastPosSaved = 0L
     private var tilted = false
 
     /** The chart laid down in perspective, the horizon ahead, the aircraft low on the screen. */

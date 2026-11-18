@@ -38,6 +38,7 @@ class NavlogActivity : BaseActivity() {
     private var mora = true
     /** The points this log is built from — the route, or the single Direct-To leg. */
     private var pts: List<FlightPlan.Waypoint> = emptyList()
+    private val prefs by lazy { VaultLock.prefs(this) }
     // What the GPS says, while the log is open: where we are, how fast, and which fix is next.
     private var fix: android.location.Location? = null
     private var live: TextView? = null
@@ -90,11 +91,27 @@ class NavlogActivity : BaseActivity() {
     private fun logPoints(): List<FlightPlan.Waypoint> {
         if (plan.points.size >= 2) return plan.points
         val to = plan.direct ?: return plan.points
-        val from = plan.points.firstOrNull()
-            ?: here()?.let { FlightPlan.Waypoint("PPOS", it.latitude, it.longitude) }
-            ?: return plan.points
-        if (from.id == to.id) return plan.points
+        val from = plan.points.firstOrNull() ?: directStart() ?: return plan.points
+        if (Nav.distanceNm(from.lat, from.lon, to.lat, to.lon) < 0.3) return plan.points
         return listOf(from, to)
+    }
+
+    /**
+     * Where a Direct-To leg is measured from. The map writes this down the moment Direct-To is
+     * pressed — the aeroplane if the GPS has it, else the middle of the chart that was on screen —
+     * so the log has a starting point even where the phone will not give one now. Failing that,
+     * the live fix, the last position the map saw, or whatever the phone still remembers.
+     */
+    private fun directStart(): FlightPlan.Waypoint? {
+        val id = prefs.getString("dct_from_id", null)
+        val lat = prefs.getFloat("dct_from_lat", 0f).toDouble()
+        val lon = prefs.getFloat("dct_from_lon", 0f).toDouble()
+        if (id != null && (lat != 0.0 || lon != 0.0)) return FlightPlan.Waypoint(id, lat, lon)
+        here()?.let { return FlightPlan.Waypoint("PPOS", it.latitude, it.longitude) }
+        val la = prefs.getFloat("last_lat", 0f).toDouble()
+        val lo = prefs.getFloat("last_lon", 0f).toDouble()
+        if (la != 0.0 || lo != 0.0) return FlightPlan.Waypoint("PPOS", la, lo)
+        return null
     }
 
     /** Where the aeroplane is: the live fix if the log has one, else the last the phone remembers. */
@@ -121,7 +138,7 @@ class NavlogActivity : BaseActivity() {
         body.addView(header())
         if (pts.size < 2) {
             val why = if (plan.direct != null)
-                "Going direct to ${plan.direct!!.id}, but the log needs a starting point and the GPS has not given one yet. Turn location on, or type a route — for example ${plan.direct!!.id} on the end of KBVU."
+                "Going direct to ${plan.direct!!.id}, but the log needs a point to measure the leg from and nothing has given one yet \u2014 no GPS fix, and the map has not been opened since. Open the map once, or type a route with ${plan.direct!!.id} on the end of it."
             else "No route yet. Open the map, tap Edit on the flight plan and type one — for example KBVU KHND KVGT. Or go Direct-To a point and the log will show that leg."
             body.addView(EfbUi.text(this, why, 15f, EfbUi.TEXT)
                 .apply { setPadding(dp(20), dp(30), dp(20), dp(20)) })
