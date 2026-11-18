@@ -1417,14 +1417,34 @@ class MapActivity : BaseActivity(), NeonHost {
     }
 
     /**
-     * Go Direct-To a point. Where the flight starts from is written down at the same moment — the
-     * aeroplane if the GPS has it, otherwise the middle of the chart on screen — because Direct-To
-     * with no route typed is still a flight, and the nav log needs somewhere to measure it from.
+     * Go Direct-To a point.
+     *
+     * With a route already typed, this is the usual Direct-To: the aeroplane leaves the route and
+     * flies to the point.
+     *
+     * With no route, Direct-To IS the flight, and it is written into the plan as one: a two-point
+     * route from where the aeroplane stands — or, with no fix yet, from the middle of the chart on
+     * screen — to the point. That is what makes everything downstream work with no special case at
+     * all: the nav log has a leg to compute, the winds have somewhere to ask about, the profile has
+     * ground to draw, the printed log has rows, and the leg can be bent afterwards like any other.
+     * Trying instead to carry a Direct-To with nothing behind it is what kept failing.
      */
     private fun directTo(w: FlightPlan.Waypoint) {
-        plan.direct = w
         val here = ownship.position()
         val from = here ?: map.mapCenter
+        if (plan.points.size < 2) {
+            val start = plan.points.firstOrNull()
+                ?: FlightPlan.Waypoint(if (here != null) "PPOS" else "MAP", from.latitude, from.longitude)
+            plan.points.clear()
+            plan.points.add(start)
+            plan.points.add(w)
+            plan.active = 1
+            plan.legWinds.clear()
+            plan.direct = null
+            routePanel?.refresh(true)
+        } else {
+            plan.direct = w
+        }
         prefs.edit()
             .putString("dct_from_id", if (here != null) "PPOS" else "MAP")
             .putFloat("dct_from_lat", from.latitude.toFloat())
