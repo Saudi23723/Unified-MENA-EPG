@@ -291,6 +291,17 @@ def _order(chans: list[dict], playlist: str | None = None) -> list[dict]:
                                           evk(c), lead_rank(c["name"]), group_lead(c["group"], c["name"]), sky_rank(c["name"]), c.get("sort", 999), channel_key(c["name"])))
 
 
+# A channel whose stream at the provider is only a black filler file, played from another stream of the SAME channel
+# (owner, 18 Nov 2026: "STARZPLAY SPORTS 1 (STC) and BBC PARLIAMENT black"). Checked on the TV that day: the STC
+# streams and BBC PARLIAMENT RAW are redirected to one static black file (ETag 64e3ca9d, Aug 2023); the streams below
+# showed the live picture (STARZPLAY SPORTS 1/2 logo, Serie A; BBC Parliament, House of Commons). The channel keeps
+# its name, logo, guide and place; only the stream behind it changes. playlist -> {dead stream id: live stream id}
+SWAP_STREAM = {
+    "strong": {2063055: 288268,    # STARZPLAY SPORTS 1 (STC)  -> AD SPORTS 1 PREMIUM HD (= STARZPLAY SPORTS 1)
+               2063054: 301908,    # STARZPLAY SPORTS 2 (STC)  -> AD SPORTS 2 PREMIUM HD (= STARZPLAY SPORTS 2)
+               1525676: 622075},   # BBC PARLIAMENT RAW        -> BBC PARLAMENT (UK NEWS)
+}
+
 # A channel shown in a second group too, at a set place (SAUDI.TV only, through hidden_live.json "copies"):
 # playlist -> [(channel name, group name, place from 1)]. The channel stays in its own group as well.
 # owner, 17 Nov 2026: FOX WEATHER also in the USA group, 4th.
