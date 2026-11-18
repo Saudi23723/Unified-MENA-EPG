@@ -212,7 +212,17 @@ class StudyBookReaderActivity : BaseActivity() {
      * A question as a question bank sets one out: where it comes from, the question, its lettered
      * choices with the right one marked, and why it is the right one. Never one block of prose.
      */
+    /** What this page is, said plainly at the top of it. */
+    private fun kindBadge(col: LinearLayout, t: String, colour: Int) {
+        col.addView(EfbUi.text(this, t, 10.5f, 0xFF0F141A.toInt(), bold = true).apply {
+            letterSpacing = 0.16f
+            background = EfbUi.cardBg(this@StudyBookReaderActivity, colour, 6)
+            setPadding(dp(9), dp(3), dp(9), dp(4))
+        }, LinearLayout.LayoutParams(-2, -2).apply { bottomMargin = dp(10) })
+    }
+
     private fun qaTemplate(col: LinearLayout, p: org.json.JSONObject) {
+        kindBadge(col, "QUESTION", 0xFF64D2FF.toInt())
         val where = listOf(p.optString("unit"), p.optString("sub")).filter { it.isNotEmpty() }
         if (where.isNotEmpty()) col.addView(EfbUi.text(this, where.joinToString("  ·  "), 11f, 0xFF8E9BA8.toInt()))
         val tags = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; setPadding(0, dp(8), 0, 0) }
@@ -234,24 +244,39 @@ class StudyBookReaderActivity : BaseActivity() {
             label(col, "CHOICES", 0xFF8E9BA8.toInt())
             for (i in 0 until ch.length()) {
                 val o = ch.optJSONObject(i) ?: continue
-                val right = o.optString("l").equals(ans, true)
-                val row = LinearLayout(this).apply {
-                    orientation = LinearLayout.HORIZONTAL
+                val letter = o.optString("l")
+                // Right, wrong, or simply not said — the bank marks it, and the page says which.
+                val right = if (o.has("ok")) o.optBoolean("ok") else letter.equals(ans, true)
+                val judged = o.has("ok") || ans.isNotEmpty()
+                val card = LinearLayout(this).apply {
+                    orientation = LinearLayout.VERTICAL
                     background = EfbUi.cardBg(this@StudyBookReaderActivity,
-                        if (right) 0xFF13301F.toInt() else 0xFF161D25.toInt(), 9)
+                        if (!judged) 0xFF161D25.toInt() else if (right) 0xFF13301F.toInt() else 0xFF2A161A.toInt(), 9)
                     setPadding(dp(11), dp(10), dp(11), dp(10))
                 }
-                row.addView(EfbUi.text(this, o.optString("l") + if (right) " ✓" else "", 14f,
-                    if (right) 0xFF30D158.toInt() else 0xFF8E9BA8.toInt(), bold = true),
-                    LinearLayout.LayoutParams(dp(34), -2))
-                row.addView(EfbUi.text(this, o.optString("t"), 14.5f,
-                    if (right) 0xFFE8F5EC.toInt() else 0xFFC2CBD6.toInt(), bold = right),
+                val line = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
+                line.addView(EfbUi.text(this, letter + if (!judged) "" else if (right) "  ✓" else "  ✗", 14f,
+                    if (!judged) 0xFF8E9BA8.toInt() else if (right) 0xFF30D158.toInt() else 0xFFFF6B6B.toInt(), bold = true),
+                    LinearLayout.LayoutParams(dp(42), -2))
+                line.addView(EfbUi.text(this, o.optString("t"), 14.5f,
+                    if (right && judged) 0xFFE8F5EC.toInt() else 0xFFC2CBD6.toInt(), bold = right && judged),
                     LinearLayout.LayoutParams(0, -2, 1f))
-                col.addView(row, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(7) })
+                card.addView(line)
+                val reason = o.optString("why")
+                if (reason.isNotEmpty()) {
+                    card.addView(EfbUi.text(this, (if (right) "WHY IT IS RIGHT" else "WHY IT IS WRONG"), 9.5f,
+                        if (right) 0xFF5BBF7A.toInt() else 0xFFC9757E.toInt(), bold = true).apply {
+                        letterSpacing = 0.12f; setPadding(dp(42), dp(8), 0, dp(3))
+                    })
+                    card.addView(EfbUi.text(this, reason, 13f,
+                        if (right) 0xFFB7D9C2.toInt() else 0xFFD9B7BC.toInt()).apply { setPadding(dp(42), 0, 0, 0) })
+                }
+                col.addView(card, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(7) })
             }
         }
         val why = p.optString("why")
-        if (why.isNotEmpty()) {
+        val carried = (0 until (ch?.length() ?: 0)).any { ch?.optJSONObject(it)?.optString("why")?.isNotEmpty() == true }
+        if (why.isNotEmpty() && !carried) {
             label(col, "WHY" + (if (ans.isNotEmpty()) "  ·  ($ans) IS CORRECT" else ""), 0xFF30D158.toInt())
             col.addView(EfbUi.text(this, why, 14.5f, 0xFFB7D9C2.toInt()))
         }
@@ -262,6 +287,7 @@ class StudyBookReaderActivity : BaseActivity() {
      * than run together into a wall of text.
      */
     private fun noteTemplate(col: LinearLayout, p: org.json.JSONObject) {
+        kindBadge(col, "LESSON", 0xFFFFD60A.toInt())
         val head = p.optString("head")
         if (head.isNotEmpty()) col.addView(EfbUi.text(this, head, 16.5f, 0xFFFFD60A.toInt(), bold = true))
         val pts = p.optJSONArray("pts")
@@ -370,7 +396,8 @@ class StudyBookReaderActivity : BaseActivity() {
                 val figure = if (p.optString("img").let { it.isNotEmpty() && it != "null" } ||
                     (p.optJSONArray("imgs")?.length() ?: 0) > 0) "  🖼" else ""
                 val sub = p.optString("sub").let { s2 -> RE_SUB_NO.find(s2)?.let { "§${it.groupValues[1]}  " } ?: "" }
-                box.addView(EfbUi.text(this, "${i + 1}.  $sub${p.optString("q").replace("\n", " ").take(64)}$mark$figure",
+                val kind = if (p.optString("kind") == "qa") "❓ " else "📖 "
+                box.addView(EfbUi.text(this, "${i + 1}.  $kind$sub${p.optString("q").replace("\n", " ").take(60)}$mark$figure",
                     13.5f, if (i == at) 0xFFFFFFFF.toInt() else 0xFFC2CBD6.toInt(), bold = i == at).apply {
                     setPadding(dp(20), dp(10), dp(16), dp(10))
                     setOnClickListener { dlg.dismiss(); go(i) }

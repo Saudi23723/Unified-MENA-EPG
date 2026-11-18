@@ -29,6 +29,11 @@ object StudyParse {
     private val RE_CHOICE = Regex("""^[ \t]*([A-E])[.)]\s*(.+?)(?=\n[ \t]*[A-E][.)]\s|\n[ \t]*Answer\b|\z)""",
         setOf(RegexOption.MULTILINE, RegexOption.DOT_MATCHES_ALL))
     private val RE_ANS = Regex("""Answer\s*\(?([A-E])\)?\s*is\s*correct""", RegexOption.IGNORE_CASE)
+    /** Every verdict the bank gives, right or wrong, with the reason it gives for it. */
+    private val RE_VERDICT = Regex(
+        """Answer\s*\(?([A-E])\)?\s*is\s*(correct|incorrect)\b[.:]?\s*(.*?)(?=Answer\s*\(?[A-E]\)?\s*is\s*(?:correct|incorrect)\b|How Can We Help|Contact Gleim|\z)""",
+        setOf(RegexOption.DOT_MATCHES_ALL, RegexOption.IGNORE_CASE))
+    private val RE_LEAD = Regex("""^\s*(\([^)]{0,40}\)\s*)+""")
     private val RE_ACS = Regex("""ACS Code:?\s*([A-Z]{2}\.[IVX]+\.[A-Z0-9.]+)""")
     private val RE_SRC = Regex("""Source:?\s*([^\n|]+)""")
     private val RE_UNIT = Regex("""Study Unit\s*(\d+)\s*:?\s*([^|\n]+)""")
@@ -45,15 +50,24 @@ object StudyParse {
             if (choices.length() >= 5) break
         }
         if (choices.length() < 2) return null
-        val ans = RE_ANS.find(body)?.groupValues?.get(1) ?: ""
-        val why = ans.takeIf { it.isNotEmpty() }?.let {
-            val i = RE_ANS.find(body)!!.range.last
-            clean(body.substring(i + 1)
-                .substringBefore("How Can We Help")
-                .substringBefore("Contact Gleim")
-                .replace(Regex("""^[^\n]*"""), "")   // the rest of the "is correct" line
-                .trim())
-        } ?: ""
+        // Each verdict the bank gives — this one is right, that one is wrong — with its reason,
+        // put against the choice it belongs to. A wrong answer explained is half the learning.
+        var ans = ""
+        var why = ""
+        for (v in RE_VERDICT.findAll(body)) {
+            val letter = v.groupValues[1]
+            val right = v.groupValues[2].equals("correct", true)
+            val reason = clean(RE_LEAD.replace(v.groupValues[3], ""))
+            if (right) { ans = letter; why = reason }
+            for (i in 0 until choices.length()) {
+                val c = choices.optJSONObject(i) ?: continue
+                if (c.optString("l") == letter) {
+                    c.put("ok", right)
+                    if (reason.isNotEmpty()) c.put("why", reason)
+                }
+            }
+        }
+        if (ans.isEmpty()) ans = RE_ANS.find(body)?.groupValues?.get(1) ?: ""
         return JSONObject()
             .put("kind", "qa")
             .put("n", q.groupValues[1])
@@ -107,7 +121,11 @@ object StudyParse {
     fun describe(o: JSONObject): String = when (o.optString("kind")) {
         "qa" -> {
             val n = o.optString("n").let { if (it.isEmpty()) "" else "Question $it · " }
-            val a = o.optString("ans").let { if (it.isEmpty()) "no answer marked" else "answer $it" }
+            val wrong = o.optJSONArray("ch")?.let { a2 ->
+                (0 until a2.length()).count { k -> a2.optJSONObject(k)?.has("why") == true && a2.optJSONObject(k)?.optBoolean("ok") == false }
+            } ?: 0
+            val a = o.optString("ans").let { if (it.isEmpty()) "no answer marked" else "answer $it" } +
+                (if (wrong > 0) " · $wrong explained wrong" else "")
             val acs = o.optString("acs").let { if (it.isEmpty()) "" else " · $it" }
             "$n${o.optJSONArray("ch")?.length() ?: 0} choices · $a$acs"
         }
