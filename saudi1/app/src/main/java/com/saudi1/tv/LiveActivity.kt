@@ -107,7 +107,7 @@ class LiveActivity : BaseActivity() {
         // fast start for live TV: small buffers, play as soon as there is a second of video
         player = Players.make(this, live = true)
         playerView.player = player
-        playerView.resizeMode = App.prefs.getInt("resize", AspectRatioFrameLayout.RESIZE_MODE_FIT)
+        applyMode()
         player.addListener(object : Player.Listener {
             override fun onPlayerError(error: PlaybackException) {
                 val c = playing ?: return
@@ -122,6 +122,7 @@ class LiveActivity : BaseActivity() {
                 }
             }
             override fun onVideoSizeChanged(videoSize: androidx.media3.common.VideoSize) {
+                applyMode()
                 // the banner opened before the picture: its line gets the real quality as soon as it is known
                 val c = playing ?: return
                 if (banner.visibility == View.VISIBLE) findViewById<TextView>(R.id.bName).text = c.name + qualityTag()
@@ -445,12 +446,8 @@ class LiveActivity : BaseActivity() {
     private fun recent() {
         val list = History.ids().filter { it != playing?.id }.mapNotNull { Api.byId[it] }.take(5)
         if (list.isEmpty()) { toast("No previous channel"); return }
-        val d = AlertDialog.Builder(this).setTitle("Last channels")
-            .setItems(list.map { "${it.num}   ${it.name}" }.toTypedArray()) { _, w -> jump(list[w]) }.create()
-        d.setOnKeyListener { dd, k, e ->
-            if (k == KeyEvent.KEYCODE_DPAD_LEFT && e.action == KeyEvent.ACTION_DOWN && e.repeatCount == 0) { dd.dismiss(); jump(list[0]); true } else false
-        }
-        d.show()
+        recentList = list
+        side("Last channels", list.map { "${it.num}   ${it.name}" }, -1) { w -> recentList = null; jump(list[w]) }
     }
 
     /** what the channel really sends (like TiviMate): "  ·  1080p50 HEVC" — empty until the picture is there */
@@ -477,31 +474,48 @@ class LiveActivity : BaseActivity() {
         applyDim()
     }
 
-    /** audio / subtitles / picture size / night dimming (MENU, or hold OK in full screen) */
+    // ---- the menus, TiviMate's way (owner, 17 Nov 2026): a bar of icons at the bottom, the choices on the right ----
+    private val menus by lazy { TvUi.Stack(this) }
+    private var recentList: List<Channel>? = null
+
+    /** live TV keeps one display mode for all channels (the old "Picture size" carried over) */
+    private fun mode(): Int {
+        val m = App.prefs.getInt("dm_live", -1)
+        if (m in TvUi.MODES.indices) return m
+        return when (App.prefs.getInt("resize", 0)) { AspectRatioFrameLayout.RESIZE_MODE_FILL -> 1; AspectRatioFrameLayout.RESIZE_MODE_ZOOM -> 2; else -> 0 }
+    }
+    private fun applyMode() = TvUi.applyMode(playerView, player.videoSize, mode())
+
+    private fun side(title: String, items: List<String>, checked: Int, pick: (Int) -> Unit) =
+        menus.push(TvUi.side(this, title, items, checked, { k -> menus.close(); pick(k) }))
+
+    private fun trackNow(type: Int): String {
+        val g = player.currentTracks.groups.firstOrNull { it.type == type && it.isSelected } ?: return if (type == C.TRACK_TYPE_TEXT) "Off" else ""
+        val f = (0 until g.length).firstOrNull { g.isTrackSelected(it) }?.let { g.getTrackFormat(it) } ?: return ""
+        return listOfNotNull(f.language?.takeIf { it != "und" && it.isNotBlank() }?.let { Locale(it).displayLanguage }, if (f.channelCount > 2) "${f.channelCount}ch" else null)
+            .joinToString(" ").ifEmpty { f.label ?: if (type == C.TRACK_TYPE_AUDIO) "Default" else "On" }
+    }
+
+    /** MENU, or hold OK in full screen: the bar of icons (the owner's order, 8 Nov 2026: what is used most first) */
     private fun options() {
+        if (menus.open) return
         val recording = Recorder.current != null
-        // the owner's order (8 Nov 2026): what is used most first
-        val items = arrayOf("Search", "Night mode", "Multiview", if (recording) "⏹ Stop recording" else "⏺ Record", "Last channels", "TV Guide",
-            "Quality", "Audio", "Subtitles", "Picture size")
-        AlertDialog.Builder(this).setTitle(playing?.name ?: "Options").setItems(items) { _, w0 ->
-            if (w0 == 6) { quality(); return@setItems }
-            if (w0 == 2) { startActivity(Intent(this, MultiviewActivity::class.java).putExtra("channel", playing?.id ?: -1)); return@setItems }
-            if (w0 == 0) { startActivity(Intent(this, SearchActivity::class.java)); return@setItems }
-            if (w0 == 3) { if (recording) { Recorder.stop(this); toast("Recording stopped") } else record(); return@setItems }
-            when (intArrayOf(-1, 3, -1, -1, 4, 5, -1, 0, 1, 2)[w0]) {
-                0 -> tracks(C.TRACK_TYPE_AUDIO)
-                1 -> tracks(C.TRACK_TYPE_TEXT)
-                2 -> {
-                    val modes = intArrayOf(AspectRatioFrameLayout.RESIZE_MODE_FIT, AspectRatioFrameLayout.RESIZE_MODE_FILL, AspectRatioFrameLayout.RESIZE_MODE_ZOOM)
-                    AlertDialog.Builder(this).setTitle("Picture size").setItems(arrayOf("Fit", "Stretch", "Zoom")) { _, m ->
-                        playerView.resizeMode = modes[m]; App.prefs.edit().putInt("resize", modes[m]).apply()
-                    }.show()
-                }
-                3 -> dimDialog()
-                4 -> recent()
-                5 -> startActivity(Intent(this, GuideActivity::class.java))
-            }
-        }.show()
+        val tiles = ArrayList<TvUi.Tile>()
+        tiles += TvUi.Tile("⌕", "Search", "") { menus.close(); startActivity(Intent(this, SearchActivity::class.java)) }
+        tiles += TvUi.Tile("☾", "Night mode", if (Dim.level > 0 || Dim.warm > 0) "On" else "Off") { menus.close(); dimDialog() }
+        tiles += TvUi.Tile("▦", "Multiview", "") { menus.close(); startActivity(Intent(this, MultiviewActivity::class.java).putExtra("channel", playing?.id ?: -1)) }
+        tiles += TvUi.Tile(if (recording) "■" else "●", if (recording) "Stop rec." else "Record", if (recording) "On" else "") {
+            menus.close(); if (recording) { Recorder.stop(this); toast("Recording stopped") } else record()
+        }
+        tiles += TvUi.Tile("↶", "Last channels", "") { menus.close(); recent() }
+        tiles += TvUi.Tile("☰", "TV Guide", "") { menus.close(); startActivity(Intent(this, GuideActivity::class.java)) }
+        tiles += TvUi.Tile("HD", "Quality", player.videoFormat?.height?.takeIf { it > 0 }?.let { if (it >= 2000) "4K" else "${it}p" } ?: "") { quality() }
+        tiles += TvUi.Tile("♫", "Audio", trackNow(C.TRACK_TYPE_AUDIO)) { tracks(C.TRACK_TYPE_AUDIO) }
+        tiles += TvUi.Tile("CC", "Subtitles", trackNow(C.TRACK_TYPE_TEXT)) { tracks(C.TRACK_TYPE_TEXT) }
+        tiles += TvUi.Tile("▭", "Display", TvUi.MODES[mode()]) {
+            side("Display mode", TvUi.MODES.toList(), mode()) { k -> App.prefs.edit().putInt("dm_live", k).apply(); applyMode() }
+        }
+        menus.push(TvUi.bar(this, (playing?.let { "${it.num}   ${it.name}" } ?: "Options"), tiles))
     }
 
     /** record the playing channel: until the program ends, or for a set time */
@@ -514,11 +528,10 @@ class LiveActivity : BaseActivity() {
             if (cur != null) opts.add("Until “${cur.title}” ends (${time.format(Date(cur.stop * 1000))})" to cur.stop * 1000 + 120_000)
             listOf(30, 60, 120, 180).forEach { m -> opts.add("$m minutes" to System.currentTimeMillis() + m * 60_000L) }
             val free = Recordings.free(this@LiveActivity) / (1024 * 1024 * 1024.0)
-            AlertDialog.Builder(this@LiveActivity).setTitle("Record ${c.name}  ·  %.1f GB free".format(free))
-                .setItems(opts.map { it.first }.toTypedArray()) { _, w ->
-                    Recorder.start(this@LiveActivity, c, opts[w].second)
-                    toast("⏺ Recording — find it in Settings › Recordings")
-                }.show()
+            side("Record ${c.name}  ·  %.1f GB free".format(free), opts.map { it.first }, -1) { w ->
+                Recorder.start(this@LiveActivity, c, opts[w].second)
+                toast("⏺ Recording — find it in Settings › Recordings")
+            }
         }
     }
 
@@ -528,10 +541,8 @@ class LiveActivity : BaseActivity() {
         lifecycleScope.launch {
             val same = withContext(Dispatchers.Default) { Api.qualities(c) }
             if (same.size < 2) { toast("This channel has one quality"); return@launch }
-            val labels = same.map { (if (it.id == c.id) "▶  " else "") + it.name + "   ·   " + (Api.group(it.group)?.name ?: "") }
-            AlertDialog.Builder(this@LiveActivity).setTitle("Quality").setItems(labels.toTypedArray()) { _, w ->
-                if (same[w].id != c.id) jump(same[w])
-            }.show()
+            val labels = same.map { it.name + "   ·   " + (Api.group(it.group)?.name ?: "") }
+            side("Quality", labels, same.indexOfFirst { it.id == c.id }) { w -> if (same[w].id != c.id) jump(same[w]) }
         }
     }
 
@@ -553,13 +564,14 @@ class LiveActivity : BaseActivity() {
             }
         }
         if (names.isEmpty() || (type == C.TRACK_TYPE_AUDIO && names.size < 2)) { toast(if (type == C.TRACK_TYPE_AUDIO) "This channel has one audio" else "No subtitles on this channel"); return }
-        AlertDialog.Builder(this).setTitle(if (type == C.TRACK_TYPE_AUDIO) "Audio" else "Subtitles").setItems(names.toTypedArray()) { _, w ->
+        val now = picks.indexOfFirst { (gi, t) -> if (gi < 0) player.currentTracks.groups.none { it.type == type && it.isSelected } else groups[gi].isTrackSelected(t) }
+        side(if (type == C.TRACK_TYPE_AUDIO) "Audio" else "Subtitles", names, now) { w ->
             val (gi, t) = picks[w]
             val b = player.trackSelectionParameters.buildUpon()
             if (gi < 0) b.setTrackTypeDisabled(C.TRACK_TYPE_TEXT, true)
             else b.setTrackTypeDisabled(type, false).setOverrideForType(TrackSelectionOverride(groups[gi].mediaTrackGroup, t))
             player.trackSelectionParameters = b.build()
-        }.show()
+        }
     }
 
     /** now / next of a channel into the given views (guide read in the background, cached for 30 minutes) */
@@ -598,6 +610,16 @@ class LiveActivity : BaseActivity() {
     }
 
     override fun dispatchKeyEvent(e: KeyEvent): Boolean {
+        if (menus.open) {
+            if (e.keyCode == KeyEvent.KEYCODE_BACK) { if (e.action == KeyEvent.ACTION_UP) { menus.pop(); if (!menus.open) recentList = null }; return true }
+            // Last channels: LEFT again goes straight to the one before
+            val r = recentList
+            if (r != null && e.keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
+                if (e.action == KeyEvent.ACTION_DOWN && e.repeatCount == 0) { menus.close(); recentList = null; jump(r[0]) }
+                return true
+            }
+            return super.dispatchKeyEvent(e)
+        }
         if (overlayOpen) return super.dispatchKeyEvent(e)
         val down = e.action == KeyEvent.ACTION_DOWN
         if (full && !overlay && epgPanel.visibility != View.VISIBLE) {
@@ -671,7 +693,7 @@ class LiveActivity : BaseActivity() {
     override fun onStop() { super.onStop(); player.pause() }
     override fun onStart() {
         super.onStart()
-        playerView.resizeMode = App.prefs.getInt("resize", AspectRatioFrameLayout.RESIZE_MODE_FIT)
+        applyMode()
         if (playing != null) player.play()
     }
     override fun onDestroy() { super.onDestroy(); player.release() }

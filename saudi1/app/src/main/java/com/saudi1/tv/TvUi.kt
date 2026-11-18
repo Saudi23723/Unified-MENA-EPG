@@ -18,6 +18,45 @@ import android.widget.TextView
 object TvUi {
     class Tile(val icon: String, val label: String, val value: String, val action: () -> Unit)
 
+    val MODES = arrayOf("Normal", "Full", "Zoom", "Zoom · 2.35:1", "Reduced", "4:3", "16:9", "2.35:1")
+
+    /** TiviMate's display modes on a PlayerView: the resize mode, then a scale of the picture's frame */
+    fun applyMode(pv: androidx.media3.ui.PlayerView, vs: androidx.media3.common.VideoSize, m: Int) {
+        val frame = pv.findViewById<View>(androidx.media3.ui.R.id.exo_content_frame) ?: return
+        frame.scaleX = 1f; frame.scaleY = 1f
+        pv.resizeMode = when (m) { 1 -> androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_FILL; 2 -> androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_ZOOM
+            else -> androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_FIT }
+        val v = if (vs.width > 0 && vs.height > 0) vs.width * vs.pixelWidthHeightRatio / vs.height else 16f / 9f
+        val sc = if (pv.width > 0 && pv.height > 0) pv.width.toFloat() / pv.height else 16f / 9f
+        fun fit(a: Float) = if (a >= sc) 1f to sc / a else a / sc to 1f
+        when (m) {
+            3 -> { val z = (2.35f / v).coerceAtLeast(1f); frame.scaleX = z; frame.scaleY = z }
+            4 -> { frame.scaleX = 0.85f; frame.scaleY = 0.85f }
+            5, 6, 7 -> {
+                val a = when (m) { 5 -> 4f / 3f; 6 -> 16f / 9f; else -> 2.35f }
+                val (wv, hv) = fit(v); val (wa, ha) = fit(a)
+                frame.scaleX = wa / wv; frame.scaleY = ha / hv
+            }
+        }
+    }
+
+    /** the open menus of a screen, top last: Back closes the top one */
+    class Stack(private val a: BaseActivity) {
+        private val list = ArrayList<View>()
+        val open get() = list.isNotEmpty()
+        val top get() = list.lastOrNull()
+        fun push(v: View) {
+            (a.window.decorView as ViewGroup).addView(v, ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
+            list.add(v); a.applyDim()
+        }
+        fun pop() {
+            val v = list.removeLastOrNull() ?: return
+            (a.window.decorView as ViewGroup).removeView(v)
+            list.lastOrNull()?.let { it.post { it.findFocus() ?: it.requestFocus(View.FOCUS_DOWN) } }
+        }
+        fun close() { while (list.isNotEmpty()) pop() }
+    }
+
     private fun dp(a: Activity, v: Float) = (v * a.resources.displayMetrics.density).toInt()
     private fun round(c: Int, r: Float) = GradientDrawable().apply { setColor(c); cornerRadius = r }
 
