@@ -113,17 +113,70 @@ class ProfileView(ctx: Context, private val plan: FlightPlan) : View(ctx) {
         }
         val total = samples.last().nm.coerceAtLeast(0.1)
         val alt = plan.altitude.toDouble()
+        run {
+            val room = clearanceFt
+            val col = when { room == null -> 0xFF8FA3B8.toInt(); room < warnFt -> 0xFFFF453A.toInt(); room < cautionFt -> 0xFFFFD60A.toInt(); else -> 0xFF4CD964.toInt() }
+            headTx.color = col
+            c.drawText("CLEARANCE " + (room?.let { "%,d'".format(it) } ?: "—"), 46 * d, 14 * d, headTx)
+            val fs = firstStrikeNm
+            headTx.color = if (fs != null) 0xFFFF453A.toInt() else 0xFF8FA3B8.toInt()
+            c.drawText(if (fs != null) "FIRST STRIKE %.1f nm".format(fs) else "NO STRIKE",
+                46 * d + headTx.measureText("CLEARANCE 00,000'") + 14 * d, 14 * d, headTx)
+            headTx.color = 0xFF8FA3B8.toInt()
+            val cw = "CORRIDOR %.0f nm".format(halfCorridorNm * 2)
+            c.drawText(cw, width - headTx.measureText(cw) - 10 * d, 14 * d, headTx)
+        }
         val top = maxOf(samples.maxOf { it.ft }.toDouble(), alt, aircraftFt ?: 0.0) + 2500
         val l = 44 * d; val r = w - 10 * d; val t = 26 * d; val b = h - 24 * d
         fun sx(nm: Double) = (l + nm / total * (r - l)).toFloat()
         fun sy(ft: Double) = (b - ft / top * (b - t)).toFloat()
 
+        // The planned height at a point along the route: the climb, the cruise, the descent.
+        fun plannedFt(nm: Double): Double {
+            val depFt = samples.firstOrNull()?.ft?.toDouble() ?: 0.0
+            val destFt = samples.lastOrNull()?.ft?.toDouble() ?: 0.0
+            val climbNm = ((alt - depFt) / 500.0 / 60.0 * 90).coerceAtLeast(0.0)
+            val descNm = ((alt - destFt - 1000) / 500.0 / 60.0 * 90).coerceAtLeast(0.0)
+            return when {
+                climbNm > 0.1 && nm < climbNm -> depFt + (alt - depFt) * (nm / climbNm)
+                descNm > 0.1 && nm > total - descNm -> alt - (alt - destFt - 1000) * ((nm - (total - descNm)) / descNm)
+                else -> alt
+            }.coerceAtLeast(0.0)
+        }
         var g = 0.0
         val step = if (top > 14000) 4000.0 else if (top > 7000) 2000.0 else 1000.0
         while (g <= top) {
             c.drawLine(l, sy(g), r, sy(g), grid)
             c.drawText("%,d".format(g.toInt()), 3 * d, sy(g) + 4 * d, label)
             g += step
+        }
+
+        // The towers in the corridor: green with room over them, amber close, red where the
+        // planned height would not clear them, and a star on anything that would be struck.
+        for (o in obstacles) {
+            if (o.alongNm > total) continue
+            val x = sx(o.alongNm)
+            val topY = sy(o.obstacle.topFt.toDouble().coerceAtMost(top))
+            val baseY = sy((o.obstacle.topFt - o.obstacle.aglFt).toDouble().coerceAtLeast(0.0))
+            val room = plannedFt(o.alongNm) - o.obstacle.topFt
+            tower.color = when {
+                room < warnFt -> 0xFFFF453A.toInt()
+                room < cautionFt -> 0xFFFFD60A.toInt()
+                else -> 0xFF4CD964.toInt()
+            }
+            c.drawLine(x, baseY, x, topY, tower)
+            c.drawCircle(x, topY, 2.5f * d, tower)
+            if (room < 0) {
+                val p = Path()
+                val rr = 6 * d
+                for (k in 0 until 10) {
+                    val ang = Math.toRadians(-90.0 + k * 36.0)
+                    val rad = if (k % 2 == 0) rr else rr * 0.45f
+                    p.let { if (k == 0) it.moveTo(x + (rad * Math.cos(ang)).toFloat(), topY + (rad * Math.sin(ang)).toFloat())
+                            else it.lineTo(x + (rad * Math.cos(ang)).toFloat(), topY + (rad * Math.sin(ang)).toFloat()) }
+                }
+                p.close(); c.drawPath(p, star)
+            }
         }
 
         // Airspace boxes, behind the ground.

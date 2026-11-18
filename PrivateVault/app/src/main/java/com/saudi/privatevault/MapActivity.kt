@@ -2852,12 +2852,52 @@ class MapActivity : BaseActivity(), NeonHost {
                 v.aircraftFt = ownship.fix?.takeIf { it.hasAltitude() }?.altitude?.times(3.28084)
             }
         }
-        MaterialAlertDialogBuilder(this)
+        // The corridor swept for hazards, as an EFB does it: a width either side of the line.
+        v.halfCorridorNm = prefs.getFloat("profile_corridor", 8f).toDouble() / 2
+        val dlg = MaterialAlertDialogBuilder(this)
             .setTitle(getString(R.string.map_profile) + " · %,d ft".format(plan.altitude))
             .setView(v)
+            .setNeutralButton("Corridor") { _, _ ->
+                val widths = listOf(4f, 8f, 10f, 20f, 40f)
+                MaterialAlertDialogBuilder(this)
+                    .setTitle("Corridor width")
+                    .setItems(widths.map { "%.0f nm  (%.0f nm either side)".format(it, it / 2) }.toTypedArray()) { _, i ->
+                        prefs.edit().putFloat("profile_corridor", widths[i]).apply(); profile()
+                    }.setNegativeButton(R.string.cancel, null).show()
+            }
             .setPositiveButton(android.R.string.ok, null)
             .show()
-        Thread { v.sample() }.start()
+        Thread {
+            v.sample()
+            // The towers along the route, and what they mean for the planned height.
+            val along = try { Obstacles.alongRoute(this, plan.points, v.halfCorridorNm) } catch (e: Throwable) { emptyList() }
+            val depFt = try { Terrain.elevationFt(plan.points.first().lat, plan.points.first().lon)?.toDouble() ?: 0.0 } catch (e: Throwable) { 0.0 }
+            val alt = plan.altitude.toDouble()
+            var room: Int? = null
+            var strike: Double? = null
+            val ground = v.samples
+            // The least room over anything in the corridor, tower or ground.
+            fun plannedAt(nm: Double): Double {
+                val climbNm = ((alt - depFt) / 500.0 / 60.0 * 90).coerceAtLeast(0.0)
+                return if (climbNm > 0.1 && nm < climbNm) depFt + (alt - depFt) * (nm / climbNm) else alt
+            }
+            for (o in along) {
+                val r = (plannedAt(o.alongNm) - o.obstacle.topFt).toInt()
+                if (room == null || r < room!!) room = r
+                if (r < 0 && (strike == null || o.alongNm < strike!!)) strike = o.alongNm
+            }
+            for (g in ground) {
+                val r = (plannedAt(g.nm) - g.ft).toInt()
+                if (room == null || r < room!!) room = r
+                if (r < 0 && (strike == null || g.nm < strike!!)) strike = g.nm
+            }
+            runOnUiThread {
+                v.obstacles = along
+                v.clearanceFt = room
+                v.firstStrikeNm = strike
+                v.invalidate()
+            }
+        }.start()
     }
 
     /** Every Chart Supplement page of Nevada and California, on the phone for good (about 50 MB). */
