@@ -32,6 +32,16 @@ class ProfileView(ctx: Context, private val plan: FlightPlan) : View(ctx) {
     var aircraftFt: Double? = null
     private var cursor: Double? = null
 
+    /** The towers standing in the corridor, and how wide that corridor is either side of the line. */
+    var obstacles: List<Obstacles.Along> = emptyList()
+    var halfCorridorNm = 4.0
+    /** The room below which a hazard turns amber, and below which it turns red. */
+    var cautionFt = 1000
+    var warnFt = 100
+    /** What the sweep found: the least room there is, and the first thing that would be struck. */
+    var clearanceFt: Int? = null
+    var firstStrikeNm: Double? = null
+
     private val d = ctx.resources.displayMetrics.density
     private val ground = Paint(Paint.ANTI_ALIAS_FLAG)
     private val groundEdge = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0xFFB08968.toInt(); style = Paint.Style.STROKE; strokeWidth = 1.5f * d }
@@ -44,6 +54,9 @@ class ProfileView(ctx: Context, private val plan: FlightPlan) : View(ctx) {
     private val box = Paint(Paint.ANTI_ALIAS_FLAG)
     private val boxEdge = Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.STROKE; strokeWidth = 1.6f * d }
     private val fill = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val tower = Paint(Paint.ANTI_ALIAS_FLAG).apply { strokeWidth = 2f * d; strokeCap = Paint.Cap.ROUND }
+    private val star = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0xFFFF453A.toInt() }
+    private val headTx = Paint(Paint.ANTI_ALIAS_FLAG).apply { textSize = 11f * d; isFakeBoldText = true }
 
     /** Reads the ground and the airspace along the route; call off the main thread. */
     fun sample() {
@@ -117,13 +130,13 @@ class ProfileView(ctx: Context, private val plan: FlightPlan) : View(ctx) {
             val room = clearanceFt
             val col = when { room == null -> 0xFF8FA3B8.toInt(); room < warnFt -> 0xFFFF453A.toInt(); room < cautionFt -> 0xFFFFD60A.toInt(); else -> 0xFF4CD964.toInt() }
             headTx.color = col
-            c.drawText("CLEARANCE " + (room?.let { "%,d'".format(it) } ?: "—"), 46 * d, 14 * d, headTx)
+            c.drawText("CLEARANCE " + (if (room == null) "\u2014" else String.format("%,d'", room)), 46 * d, 14 * d, headTx)
             val fs = firstStrikeNm
             headTx.color = if (fs != null) 0xFFFF453A.toInt() else 0xFF8FA3B8.toInt()
-            c.drawText(if (fs != null) "FIRST STRIKE %.1f nm".format(fs) else "NO STRIKE",
+            c.drawText(if (fs != null) String.format("FIRST STRIKE %.1f nm", fs) else "NO STRIKE",
                 46 * d + headTx.measureText("CLEARANCE 00,000'") + 14 * d, 14 * d, headTx)
             headTx.color = 0xFF8FA3B8.toInt()
-            val cw = "CORRIDOR %.0f nm".format(halfCorridorNm * 2)
+            val cw = String.format("CORRIDOR %.0f nm", halfCorridorNm * 2)
             c.drawText(cw, width - headTx.measureText(cw) - 10 * d, 14 * d, headTx)
         }
         val top = maxOf(samples.maxOf { it.ft }.toDouble(), alt, aircraftFt ?: 0.0) + 2500
