@@ -1,0 +1,26 @@
+name: SAUDI.TV keep master copy
+
+# Keeps a safe copy of a tested build that no later build overwrites (owner, 18 Nov 2026: "save the current one as the
+# master mind so we don't lose it ever"). Copies SAUDI1_test.apk of build N from "saudi1-test" to the release
+# "saudi1-master" as SAUDI1_master_N.apk. Source of that build: branch saudi1-master.
+on:
+  workflow_dispatch:
+    inputs:
+      build: { description: "tested build number to keep", required: true }
+
+permissions:
+  contents: write
+
+jobs:
+  keep:
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          gh release download saudi1-test -p test_version.txt -p SAUDI1_test.apk
+          test "$(cat test_version.txt)" = "build ${{ inputs.build }}" || { echo "saudi1-test holds $(cat test_version.txt), not build ${{ inputs.build }}"; exit 1; }
+          mv SAUDI1_test.apk SAUDI1_master_${{ inputs.build }}.apk
+          gh release view saudi1-master >/dev/null 2>&1 || gh release create saudi1-master --title "SAUDI.TV master copy" --notes "Tested builds kept safe (never overwritten). Source: branch saudi1-master." --latest=false
+          gh release upload saudi1-master SAUDI1_master_${{ inputs.build }}.apk --clobber
