@@ -153,7 +153,8 @@ class AirportDiagramActivity : BaseActivity() {
         // they are one picture. The runway names lean with it, which is what a pilot sees anyway.
         c3d = chip("🏔 3D") { tilt(!tilted); mark(c3d, tilted) }
         // Asked for from the airport page: it opens already leaning, with the pattern on it.
-        if (intent.getBooleanExtra(EXTRA_3D, false)) map.post { tilt(true); mark(c3d, true) }
+        // Opened in 3D from the airport page, once the field itself is drawn and measured.
+        if (intent.getBooleanExtra(EXTRA_3D, false)) map.postDelayed({ tilt(true); mark(c3d, true) }, 700)
         cTrack = chip("🧭 Track up") {
             trackUp = !trackUp
             mark(cTrack, trackUp)
@@ -510,10 +511,15 @@ class AirportDiagramActivity : BaseActivity() {
 
     /** The field laid down in perspective, the horizon beyond it. */
     private fun tilt(on: Boolean) {
+        val h = (holder?.height ?: map.height).toFloat()
+        // The lean turns the picture about its bottom edge, so it needs the picture's real height.
+        // Asked for before the screen has been measured, that height is nothing, the picture turns
+        // about its top edge instead and swings out of sight, leaving the sky behind it. So it
+        // waits until there is a screen to turn.
+        if (on && h < 10f) { map.postDelayed({ tilt(on) }, 120); return }
         tilted = on
-        val h = (holder?.height ?: map.height).toFloat().coerceAtLeast(1f)
         map.pivotX = map.width / 2f
-        map.pivotY = h
+        map.pivotY = h.coerceAtLeast(1f)
         map.cameraDistance = 12000 * resources.displayMetrics.density
         map.animate().rotationX(if (on) 45f else 0f).scaleX(if (on) 1.7f else 1f).scaleY(if (on) 1.45f else 1f)
             .setDuration(700).setInterpolator(DecelerateInterpolator()).start()
