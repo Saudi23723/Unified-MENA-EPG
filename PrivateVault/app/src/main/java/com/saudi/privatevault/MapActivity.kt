@@ -144,7 +144,8 @@ class MapActivity : BaseActivity(), NeonHost {
         }
         if (layer.key != "topo" && layer.key != "aero") map.overlays.add(chartOverlay)
         // The aeronautical map, drawn from the data rather than photographed from a printed sheet.
-        aero = AeroMap(this, map).apply { isEnabled = layer.key == "aero" }
+        aero = AeroMap(this, map)
+        aeroStyle()
         map.overlays.add(aero)
 
         // Where the map was left; the first time, over Boulder City (KBVU).
@@ -449,6 +450,9 @@ class MapActivity : BaseActivity(), NeonHost {
         val cTerrain = check(R.string.wx_terrain, map.overlays.contains(hazard))
         val cAirspace = check(R.string.wx_airspace, map.overlays.contains(airspace))
         val cTraffic = check(R.string.wx_traffic, map.overlays.contains(traffic))
+        // Drawn over whatever chart is showing: the FAA's towers, and the airspace limits upright.
+        val cObst = check(R.string.wx_obstacles, prefs.getBoolean("aero_obstacles", true))
+        val cAsLabels = check(R.string.wx_airspace_over, prefs.getBoolean("aero_airspace_over", false))
         val cAirports = check(R.string.map_airports, prefs.getBoolean("map_airports", true))
         val cPattern = check(R.string.tp_layer, prefs.getBoolean("tp_on", true))
         // One kind of data on the airports at a time: none, the weather (station model), or the winds aloft.
@@ -480,7 +484,7 @@ class MapActivity : BaseActivity(), NeonHost {
                     // The chart changes; the world map beneath it stays.
                     chartOverlay?.let { map.overlays.remove(it); it.onDetach(map) }
                     chartOverlay = null
-                    aero?.isEnabled = layer.key == "aero"
+                    aeroStyle()
                     if (layer.key != "topo" && layer.key != "aero") {
                         chartOverlay = org.osmdroid.views.overlay.TilesOverlay(
                             org.osmdroid.tileprovider.MapTileProviderBasic(applicationContext, layer.source()), applicationContext).apply {
@@ -493,6 +497,9 @@ class MapActivity : BaseActivity(), NeonHost {
                     zoomLimit()
                     setOfficial()
                 }
+                prefs.edit().putBoolean("aero_obstacles", cObst.isChecked)
+                    .putBoolean("aero_airspace_over", cAsLabels.isChecked).apply()
+                aeroStyle()
                 if (cRadar.isChecked != (radar != null)) setRadar(cRadar.isChecked)
                 weather.showAirmets = cAirmet.isChecked
                 weather.showTfrs = cTfr.isChecked
@@ -1184,6 +1191,21 @@ class MapActivity : BaseActivity(), NeonHost {
     private var rubber: RubberBandOverlay? = null
     private var chartOverlay: org.osmdroid.views.overlay.TilesOverlay? = null
     private var aero: AeroMap? = null
+
+    /**
+     * How the drawn map behaves with the chart that is showing. On its own it draws everything; over
+     * a printed chart it leaves the ground and the field symbols to the chart and adds what the
+     * chart cannot: the towers, and the airspace limits written upright.
+     */
+    private fun aeroStyle() {
+        val a = aero ?: return
+        val alone = layer.key == "aero"
+        a.isEnabled = true
+        a.showTerrain = alone
+        a.showFields = alone
+        a.showAirspace = alone || prefs.getBoolean("aero_airspace_over", false)
+        a.showObstacles = prefs.getBoolean("aero_obstacles", true)
+    }
 
     /**
      * The finger lifted after bending a leg: what should go there? The point itself, or a field, a

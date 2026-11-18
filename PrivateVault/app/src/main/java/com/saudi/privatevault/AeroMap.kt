@@ -36,9 +36,15 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
     var airspace: List<Airspace.Area> = emptyList()
     /** Runway ends by airport ident, so a field can be drawn as the runways it really has. */
     var runways: Map<String, Map<String, Pair<GeoPoint, GeoPoint>>> = emptyMap()
+    /**
+     * Drawn on its own, or laid over a printed chart. Over a chart the ground shading is left off —
+     * the chart has its own — but the towers, the airspace and the upright names are still drawn,
+     * so a sectional gets everything the drawn map knows and keeps what the printed sheet is good at.
+     */
     var showTerrain = true
     var showAirspace = true
     var showObstacles = true
+    var showFields = true
 
     // ---- the ground ----
 
@@ -309,7 +315,7 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
             if (showTerrain) drawGround(c, mv)
             if (showAirspace) drawAirspace(c, mv)
             drawObstacles(c, mv)
-            drawFields(c, mv)
+            if (showFields) drawFields(c, mv)
         } catch (e: Throwable) {
             // A map that cannot draw one thing still draws the rest.
         }
