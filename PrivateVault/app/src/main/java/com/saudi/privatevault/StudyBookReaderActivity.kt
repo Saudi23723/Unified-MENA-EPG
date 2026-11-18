@@ -279,19 +279,22 @@ class StudyBookReaderActivity : BaseActivity() {
 
     /** The figure or table framed off the page, at the width of the book's page, on white. */
     private fun figure(col: LinearLayout, p: org.json.JSONObject) {
-        val img = p.optString("img")
-        if (img.isEmpty() || img == "null") return
-        val f = java.io.File(java.io.File(filesDir, "studybook"), img)
-        if (!f.exists()) return
-        android.graphics.BitmapFactory.decodeFile(f.path)?.let { bmp ->
-            label(col, "FIGURE", 0xFFFF9F0A.toInt())
+        val names = ArrayList<String>()
+        p.optJSONArray("imgs")?.let { a -> for (i in 0 until a.length()) a.optString(i).takeIf { it.isNotEmpty() }?.let(names::add) }
+        p.optString("img").takeIf { it.isNotEmpty() && it != "null" && !names.contains(it) }?.let(names::add)
+        var first = true
+        for (name in names) {
+            val f = java.io.File(java.io.File(filesDir, "studybook"), name)
+            if (!f.exists()) continue
+            val bmp = android.graphics.BitmapFactory.decodeFile(f.path) ?: continue
+            if (first) { label(col, if (names.size > 1) "FIGURES" else "FIGURE", 0xFFFF9F0A.toInt()); first = false }
             col.addView(android.widget.ImageView(this).apply {
                 setImageBitmap(bmp)
                 adjustViewBounds = true
                 scaleType = android.widget.ImageView.ScaleType.FIT_CENTER
                 background = EfbUi.cardBg(this@StudyBookReaderActivity, 0xFFFFFFFF.toInt(), 8)
                 setPadding(dp(4), dp(4), dp(4), dp(4))
-            }, LinearLayout.LayoutParams(-1, -2))
+            }, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(8) })
         }
     }
 
@@ -364,7 +367,8 @@ class StudyBookReaderActivity : BaseActivity() {
             for (i in list) {
                 val p = pages.optJSONObject(i) ?: continue
                 val mark = if ((p.optJSONArray("ink")?.length() ?: 0) > 0) "  ✎" else ""
-                val figure = if (p.optString("img").let { it.isNotEmpty() && it != "null" }) "  🖼" else ""
+                val figure = if (p.optString("img").let { it.isNotEmpty() && it != "null" } ||
+                    (p.optJSONArray("imgs")?.length() ?: 0) > 0) "  🖼" else ""
                 val sub = p.optString("sub").let { s2 -> RE_SUB_NO.find(s2)?.let { "§${it.groupValues[1]}  " } ?: "" }
                 box.addView(EfbUi.text(this, "${i + 1}.  $sub${p.optString("q").replace("\n", " ").take(64)}$mark$figure",
                     13.5f, if (i == at) 0xFFFFFFFF.toInt() else 0xFFC2CBD6.toInt(), bold = i == at).apply {

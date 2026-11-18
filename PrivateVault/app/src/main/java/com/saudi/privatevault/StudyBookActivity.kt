@@ -37,6 +37,8 @@ class StudyBookActivity : BaseActivity() {
     private lateinit var pad: LinearLayout
     /** The picture taken for the page being written, if one has been taken. */
     private var clipFile: String? = null
+    /** Every figure and table found on the page and copied off it. */
+    private val figures = ArrayList<String>()
     private var clipRow: LinearLayout? = null
     /** What was read off the page, in the shape the page had it in. */
     private var pending: JSONObject? = null
@@ -91,7 +93,7 @@ class StudyBookActivity : BaseActivity() {
         val tools = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL; setBackgroundColor(0xFF161D25.toInt()); setPadding(dp(8), dp(7), dp(8), dp(7))
         }
-        tools.addView(chip("📋  Capture", 0xFF2D7FF9.toInt()) { capture() },
+        tools.addView(chip("📋  Capture page", 0xFF2D7FF9.toInt()) { capture() },
             LinearLayout.LayoutParams(0, -2, 1f).apply { marginEnd = dp(6) })
         tools.addView(chip("📷  Figure", 0xFFFF9F0A.toInt()) { startClip() },
             LinearLayout.LayoutParams(0, -2, 1f).apply { marginEnd = dp(6) })
@@ -168,6 +170,11 @@ class StudyBookActivity : BaseActivity() {
         }
     }
 
+    private fun dropFigures() {
+        for (n in figures) java.io.File(java.io.File(filesDir, "studybook"), n).delete()
+        figures.clear()
+    }
+
     /** The cut shown at the size it really is, to keep or to take again. */
     private fun confirmClip(out: java.io.File) {
         val bmp = android.graphics.BitmapFactory.decodeFile(out.path)
@@ -229,10 +236,29 @@ class StudyBookActivity : BaseActivity() {
      * it out properly instead of keeping a block of prose.
      */
     private fun capture() {
-        val js = "(function(){var s=window.getSelection().toString();" +
-            "return s && s.trim().length>0 ? s : (document.body ? document.body.innerText : '');})()"
+        // The page is asked for two things at once: everything it says, and where every picture,
+        // table, drawing and chart on it sits. Nothing has to be highlighted and no box has to be
+        // dragged — a lesson page is taken whole, the words read into their shape and every figure
+        // on it copied off it as it stands.
+        val js = """(function(){
+            var sel = window.getSelection().toString();
+            var out = { text: (sel && sel.trim().length > 20) ? sel : (document.body ? document.body.innerText : ''),
+                        dpr: window.devicePixelRatio || 1, vh: window.innerHeight, below: 0, figs: [] };
+            var els = document.querySelectorAll('img,table,svg,canvas,figure');
+            for (var i = 0; i < els.length; i++) {
+                var e = els[i];
+                var r = e.getBoundingClientRect();
+                if (r.width < 70 || r.height < 45) continue;
+                if (e.tagName.toLowerCase() === 'table' && e.querySelector('table')) continue;
+                if (r.top >= window.innerHeight || r.bottom <= 0) { out.below++; continue; }
+                out.figs.push({ x: r.left, y: r.top, w: r.width, h: r.height });
+                if (out.figs.length >= 8) break;
+            }
+            return JSON.stringify(out);
+        })()"""
         web.evaluateJavascript(js) { raw ->
-            val text = unJs(raw)
+            val o = try { JSONObject(unJs(raw)) } catch (e: Exception) { null }
+            val text = o?.optString("text").orEmpty()
             if (text.isBlank()) {
                 Toast.makeText(this, "Nothing on this page to read", Toast.LENGTH_SHORT).show()
                 return@evaluateJavascript
@@ -240,12 +266,51 @@ class StudyBookActivity : BaseActivity() {
             // The page's own Copy / Share bar is left standing by a selection; put it away.
             web.evaluateJavascript("window.getSelection().removeAllRanges();", null)
             web.clearFocus()
-            val o = StudyParse.parse(text)
-            pending = o
-            question.setText(if (o.optString("kind") == "qa") o.optString("q") else o.optString("head").ifEmpty { o.optString("q") })
+            val parsed = StudyParse.parse(text)
+            pending = parsed
+            question.setText(if (parsed.optString("kind") == "qa") parsed.optString("q")
+                else parsed.optString("head").ifEmpty { parsed.optString("q") })
+            val n = grabFigures(o)
             showPending()
-            Toast.makeText(this, StudyParse.describe(o), Toast.LENGTH_LONG).show()
+            val below = o?.optInt("below") ?: 0
+            Toast.makeText(this, StudyParse.describe(parsed) +
+                (if (n > 0) " · $n figure" + (if (n > 1) "s" else "") else "") +
+                (if (below > 0) " · $below more off screen — scroll and capture again" else ""),
+                Toast.LENGTH_LONG).show()
         }
+    }
+
+    /** Every figure the page reported, cut out of the page as it stands. Returns how many. */
+    private fun grabFigures(o: JSONObject?): Int {
+        val list = o?.optJSONArray("figs") ?: return 0
+        if (list.length() == 0) return 0
+        val dpr = o.optDouble("dpr", 1.0).takeIf { it > 0.1 } ?: 1.0
+        var n = 0
+        try {
+            val full = android.graphics.Bitmap.createBitmap(
+                web.width.coerceAtLeast(1), web.height.coerceAtLeast(1), android.graphics.Bitmap.Config.ARGB_8888)
+            web.draw(android.graphics.Canvas(full))
+            val dir = java.io.File(filesDir, "studybook")
+            dir.mkdirs()
+            for (i in 0 until list.length()) {
+                val r = list.optJSONObject(i) ?: continue
+                val x = (r.optDouble("x") * dpr).toInt().coerceIn(0, full.width - 1)
+                val y = (r.optDouble("y") * dpr).toInt().coerceIn(0, full.height - 1)
+                val w = (r.optDouble("w") * dpr).toInt().coerceAtMost(full.width - x)
+                val h = (r.optDouble("h") * dpr).toInt().coerceAtMost(full.height - y)
+                if (w < 40 || h < 30) continue
+                val cut = android.graphics.Bitmap.createBitmap(full, x, y, w, h)
+                val out = java.io.File(dir, "fig_" + System.currentTimeMillis() + "_" + i + ".png")
+                out.outputStream().use { cut.compress(android.graphics.Bitmap.CompressFormat.PNG, 100, it) }
+                cut.recycle()
+                figures.add(out.name)
+                n++
+            }
+            full.recycle()
+        } catch (e: Throwable) {
+            return n
+        }
+        return n
     }
 
     /** The JavaScript string the WebView hands back, as plain text. */
@@ -263,12 +328,33 @@ class StudyBookActivity : BaseActivity() {
         pendRow = null
         val o = pending ?: return
         val row = LinearLayout(this).apply {
-            orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL
-            setBackgroundColor(0xFF14301F.toInt()); setPadding(dp(10), dp(7), dp(8), dp(7))
+            orientation = LinearLayout.VERTICAL
+            setBackgroundColor(0xFF14301F.toInt()); setPadding(dp(10), dp(7), dp(8), dp(8))
         }
-        row.addView(EfbUi.text(this, (if (o.optString("kind") == "qa") "✅  " else "📄  ") + StudyParse.describe(o),
+        val top = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
+        top.addView(EfbUi.text(this, (if (o.optString("kind") == "qa") "✅  " else "📄  ") + StudyParse.describe(o) +
+            (if (figures.isNotEmpty()) "  ·  ${figures.size} figure" + (if (figures.size > 1) "s" else "") else ""),
             12.5f, 0xFF7BE495.toInt(), bold = true), LinearLayout.LayoutParams(0, -2, 1f))
-        row.addView(chip("✕", 0xFF3A2A2A.toInt()) { pending = null; showPending() })
+        top.addView(chip("✕", 0xFF3A2A2A.toInt()) { pending = null; dropFigures(); showPending() })
+        row.addView(top)
+        // The figures found, side by side, so it is plain what was copied off the page.
+        if (figures.isNotEmpty()) {
+            val strip = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
+            for (name in figures) {
+                val f = java.io.File(java.io.File(filesDir, "studybook"), name)
+                if (!f.exists()) continue
+                strip.addView(android.widget.ImageView(this).apply {
+                    setImageBitmap(android.graphics.BitmapFactory.decodeFile(f.path))
+                    adjustViewBounds = true
+                    scaleType = android.widget.ImageView.ScaleType.FIT_CENTER
+                    background = EfbUi.cardBg(this@StudyBookActivity, 0xFFFFFFFF.toInt(), 5)
+                    setPadding(dp(2), dp(2), dp(2), dp(2))
+                }, LinearLayout.LayoutParams(-2, dp(74)).apply { marginEnd = dp(6) })
+            }
+            row.addView(android.widget.HorizontalScrollView(this).apply {
+                isHorizontalScrollBarEnabled = false; addView(strip)
+            }, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(7) })
+        }
         pad.addView(row, 0)
         pendRow = row
     }
@@ -292,7 +378,7 @@ class StudyBookActivity : BaseActivity() {
     private fun addPage() {
         val q = question.text.toString().trim()
         val o = pending
-        if (q.isEmpty() && clipFile == null && o == null) {
+        if (q.isEmpty() && clipFile == null && o == null && figures.isEmpty()) {
             Toast.makeText(this, "Nothing for a page yet — press Capture, or take a figure", Toast.LENGTH_SHORT).show(); return
         }
         // The page keeps the shape it was read in, with the pilot's own wording of the question if
@@ -301,6 +387,7 @@ class StudyBookActivity : BaseActivity() {
         page.put("q", q.ifEmpty { page.optString("q").ifEmpty { "(a figure)" } })
             .put("e", mine.text.toString().trim())
             .put("img", clipFile ?: JSONObject.NULL)
+            .put("imgs", JSONArray().apply { for (n in figures) put(n) })
             .put("u", prefs.getString("study_last_url", "") ?: "")
             .put("at", System.currentTimeMillis())
         val topic = topicOf(q + " " + page.optString("why") + " " + page.optString("acs") + " " + mine.text.toString())
@@ -310,7 +397,7 @@ class StudyBookActivity : BaseActivity() {
         prefs.edit().putString(KEY, pages.toString()).apply()
         question.setText(""); mine.setText("")
         clipFile = null; showClip()
-        pending = null; showPending()
+        pending = null; figures.clear(); showPending()
         Toast.makeText(this, "Page ${pages.length()} · filed under $topic", Toast.LENGTH_SHORT).show()
     }
 
