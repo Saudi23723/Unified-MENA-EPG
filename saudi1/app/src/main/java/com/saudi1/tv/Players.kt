@@ -19,7 +19,12 @@ object Players {
             .setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
             .setEnableDecoderFallback(true)
         val b = ExoPlayer.Builder(ctx, renderers)
-            .setMediaSourceFactory(DefaultMediaSourceFactory(DefaultDataSource.Factory(ctx, OkHttpDataSource.Factory(if (offAir) App.http.newBuilder().addInterceptor(OffAir.interceptor).build() else App.http))))
+            .setMediaSourceFactory(DefaultMediaSourceFactory(DefaultDataSource.Factory(ctx, OkHttpDataSource.Factory(if (offAir) App.http.newBuilder().addInterceptor(OffAir.interceptor).build() else App.http)))
+                // the provider's off-air file is not asked for again 3 times (that took 6 s): the switch comes at once
+                .apply { if (offAir) setLoadErrorHandlingPolicy(object : androidx.media3.exoplayer.upstream.DefaultLoadErrorHandlingPolicy() {
+                    override fun getRetryDelayMsFor(info: androidx.media3.exoplayer.upstream.LoadErrorHandlingPolicy.LoadErrorInfo): Long =
+                        if (OffAir.isOffAir(info.exception)) C.TIME_UNSET else super.getRetryDelayMsFor(info)
+                }) })
             .setAudioAttributes(AudioAttributes.Builder().setUsage(C.USAGE_MEDIA).setContentType(C.AUDIO_CONTENT_TYPE_MOVIE).build(), audioFocus)
             .setSeekBackIncrementMs(seekMs).setSeekForwardIncrementMs(seekMs)
         // Multiview: never more than full HD per screen (two 4K pictures at once are too much for the TV's chip)
