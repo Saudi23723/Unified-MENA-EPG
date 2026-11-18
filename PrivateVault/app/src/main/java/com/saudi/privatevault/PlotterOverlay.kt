@@ -67,22 +67,15 @@ class PlotterOverlay(
         return "%.1f nm".format(Nav.distanceNm(p.latitude, p.longitude, q.latitude, q.longitude))
     }
 
-    private var measuring = false
-    private var downAt = 0L
-    private var startSpan = 0f
-    private var startCx = 0f
-    private var startCy = 0f
+    /** Waiting for the finger that will draw a ruler. Set by the ruler button on the chart. */
+    var arming = false
+        set(v) { field = v; map.invalidate(); onChange() }
+
+    private var drawing = false
     /** 0 none, 1 the first end, 2 the second. */
     private var dragEnd = 0
     private val pa = Point()
     private val pb = Point()
-
-    /** How long the fingers must rest before the ruler appears, and how far they may drift. */
-    private val holdMs = 260L
-    private val slopPx get() = 16 * d
-
-    private fun span(e: MotionEvent): Float =
-        Math.hypot((e.getX(0) - e.getX(1)).toDouble(), (e.getY(0) - e.getY(1)).toDouble()).toFloat()
 
     private fun near(x: Float, y: Float, p: Point) =
         Math.hypot((x - p.x).toDouble(), (y - p.y).toDouble()) < 26 * d
@@ -93,54 +86,46 @@ class PlotterOverlay(
         b?.let { pr.toPixels(it, pb) }
     }
 
+    /**
+     * Two fingers belong to the chart, always — moving it, turning it, zooming it. The ruler used
+     * to spring up whenever two fingers rested for a moment, which took the gesture away from the
+     * chart just as it was being moved slowly, and the chart would not go where it was pushed. So
+     * the ruler is asked for instead: the ruler button on the chart arms it, and the next finger
+     * drawn across the chart lays it down.
+     */
     override fun onTouchEvent(e: MotionEvent, mv: MapView): Boolean {
-        if (locked) return false
+        if (e.pointerCount > 1) { drawing = false; dragEnd = 0; return false }
         when (e.actionMasked) {
             MotionEvent.ACTION_DOWN -> {
-                // An end of a ruler already laid down can be picked up and carried.
-                if (up) {
+                if (arming) {
+                    val g = mv.projection.fromPixels(e.x.toInt(), e.y.toInt()) as GeoPoint
+                    a = g; b = g; drawing = true
+                    mv.invalidate(); onChange()
+                    return true
+                }
+                if (up && !locked) {
                     pin(mv)
                     dragEnd = if (near(e.x, e.y, pa)) 1 else if (near(e.x, e.y, pb)) 2 else 0
                     if (dragEnd != 0) return true
                 }
             }
-            MotionEvent.ACTION_POINTER_DOWN -> if (e.pointerCount == 2) {
-                dragEnd = 0
-                downAt = System.currentTimeMillis()
-                startSpan = span(e)
-                startCx = (e.getX(0) + e.getX(1)) / 2; startCy = (e.getY(0) + e.getY(1)) / 2
-            }
             MotionEvent.ACTION_MOVE -> {
-                if (dragEnd != 0 && e.pointerCount == 1) {
+                if (drawing) {
+                    b = mv.projection.fromPixels(e.x.toInt(), e.y.toInt()) as GeoPoint
+                    mv.invalidate(); onChange()
+                    return true
+                }
+                if (dragEnd != 0) {
                     val g = mv.projection.fromPixels(e.x.toInt(), e.y.toInt()) as GeoPoint
                     if (dragEnd == 1) a = g else b = g
                     mv.invalidate(); onChange()
                     return true
                 }
-                if (e.pointerCount != 2) return false
-                val s = span(e)
-                val cx = (e.getX(0) + e.getX(1)) / 2; val cy = (e.getY(0) + e.getY(1)) / 2
-                if (!measuring) {
-                    val moved = Math.abs(s - startSpan) > slopPx ||
-                        Math.hypot((cx - startCx).toDouble(), (cy - startCy).toDouble()) > slopPx
-                    // A pinch or a two-finger drag: leave it to the map.
-                    if (moved) { downAt = 0L; return false }
-                    if (downAt > 0L && System.currentTimeMillis() - downAt > holdMs) {
-                        measuring = true
-                        map.performHapticFeedback(android.view.HapticFeedbackConstants.LONG_PRESS)
-                    } else return false
-                }
-                val pr = mv.projection
-                a = pr.fromPixels(e.getX(0).toInt(), e.getY(0).toInt()) as GeoPoint
-                b = pr.fromPixels(e.getX(1).toInt(), e.getY(1).toInt()) as GeoPoint
-                mv.invalidate(); onChange()
-                return true
             }
-            MotionEvent.ACTION_POINTER_UP, MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-                downAt = 0L
-                val was = measuring || dragEnd != 0
-                // The ruler stays where it was put; the fingers are free to move the chart again.
-                measuring = false
+            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                val was = drawing || dragEnd != 0
+                if (drawing) arming = false
+                drawing = false
                 dragEnd = 0
                 if (was) { mv.invalidate(); onChange(); return true }
             }

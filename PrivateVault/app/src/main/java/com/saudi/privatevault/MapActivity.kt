@@ -290,7 +290,8 @@ class MapActivity : BaseActivity(), NeonHost {
         // Two fingers turn the chart; a long press on the position button puts north back up.
         // No free rotation by hand: a chart is read north-up, or track-up when it is ticked. A
         // chart left at some angle by a stray two-finger twist is unreadable, as it was.
-        if (prefs.getBoolean("map_free_rotate", false))
+        // Two fingers turn the chart as well as move and zoom it, so it can be read from any side.
+        if (prefs.getBoolean("map_free_rotate", true))
             map.overlays.add(org.osmdroid.views.overlay.gestures.RotationGestureOverlay(map).apply { isEnabled = true })
         else if (!trackUp) map.mapOrientation = 0f
         // The way out of anything: the chart flat, north up, free, and the pen put down.
@@ -1873,15 +1874,25 @@ class MapActivity : BaseActivity(), NeonHost {
         plotterBar = bar
     }
 
+    /** The ruler asked for: the next finger drawn across the chart lays one down. */
+    private fun armPlotter() {
+        val p = plotter ?: return
+        if (p.arming) { p.arming = false; Toast.makeText(this, "📏 off", Toast.LENGTH_SHORT).show(); return }
+        if (p.up) { p.clear(); return }
+        p.arming = true
+        Toast.makeText(this, "📏 draw a line across the chart to measure", Toast.LENGTH_SHORT).show()
+    }
+
     /** How the plotter is used, for anyone who has not found it by accident. */
     private fun plotterHint() {
         MaterialAlertDialogBuilder(this)
             .setTitle("📏 Plotter")
-            .setMessage("Put two fingers on the chart and hold them still for a moment. A ruler springs up between them " +
-                "with the distance — in feet too under three miles, for measuring a runway — the magnetic course out and " +
-                "back, the time at the speed being flown, and the fuel the leg costs. A tick every mile, as on a paper plotter.\n\n" +
-                "Slide the fingers to measure elsewhere, then lift them: the ruler stays where it was put, pinned to the " +
-                "ground, so the chart moves freely under it. Pick up either end to move it. Tap it to put it away.\n\n" +
+            .setMessage("Tap the ruler button, then draw a line across the chart with one finger. The ruler gives the " +
+                "distance — in feet too under three miles, for measuring a runway — the magnetic course out and back, the " +
+                "time at the speed being flown, and the fuel the leg costs. A tick every mile, as on a paper plotter.\n\n" +
+                "The ruler stays where it was put, pinned to the ground, so the chart moves freely under it. Pick up " +
+                "either end to move it. Tap it to put it away. Two fingers are always the chart's — moving it, turning " +
+                "it, zooming it — and never the ruler's.\n\n" +
                 "🔒 Lock makes it part of the chart: nothing moves it, nothing clears it, and every finger belongs to the " +
                 "map again. ✕ takes it off.\n\n" +
                 "To put a point into the route: hold one finger anywhere on the chart. To bend a leg around weather " +
@@ -2532,7 +2543,7 @@ class MapActivity : BaseActivity(), NeonHost {
         fun line() = col.addView(View(this).apply { setBackgroundColor(0x33FFFFFF) }, LinearLayout.LayoutParams(dp(30), 1).apply { gravity = android.view.Gravity.CENTER_HORIZONTAL; setMargins(0, dp(2), 0, dp(2)) })
         tool(R.drawable.ic_layers, click = { b.fabLayers.performClick() })
         tool(R.drawable.ic_fab_pencil, click = { b.fabDraw.performClick() })
-        tool(R.drawable.ic_remove, click = { plotterHint() }, long = { plotterHint() })
+        tool(R.drawable.ic_remove, click = { armPlotter() }, long = { plotterHint() })
         val locate = tool(R.drawable.ic_my_location, EfbUi.ACCENT, click = { b.fabLocate.performClick() }, long = { b.fabLocate.performLongClick() })
         locateTool = locate
         val north = tool(R.drawable.ic_compass, click = {
