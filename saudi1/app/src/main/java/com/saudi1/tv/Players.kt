@@ -13,12 +13,13 @@ import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 /** One way to make a player everywhere: the TV's own decoders first, and the built-in FFmpeg sound decoders
  *  (AC3, E-AC3, MP2, DTS...) when the TV has none, so channels with that sound are not silent. */
 object Players {
-    fun make(ctx: Context, live: Boolean, seekMs: Long = 10_000, audioFocus: Boolean = true, maxHd: Boolean = false): ExoPlayer {
+    fun make(ctx: Context, live: Boolean, seekMs: Long = 10_000, audioFocus: Boolean = true, maxHd: Boolean = false,
+             offAir: Boolean = false): ExoPlayer {
         val renderers = DefaultRenderersFactory(ctx)
             .setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
             .setEnableDecoderFallback(true)
         val b = ExoPlayer.Builder(ctx, renderers)
-            .setMediaSourceFactory(DefaultMediaSourceFactory(DefaultDataSource.Factory(ctx, OkHttpDataSource.Factory(App.http))))
+            .setMediaSourceFactory(DefaultMediaSourceFactory(DefaultDataSource.Factory(ctx, OkHttpDataSource.Factory(if (offAir) App.http.newBuilder().addInterceptor(OffAir.interceptor).build() else App.http))))
             .setAudioAttributes(AudioAttributes.Builder().setUsage(C.USAGE_MEDIA).setContentType(C.AUDIO_CONTENT_TYPE_MOVIE).build(), audioFocus)
             .setSeekBackIncrementMs(seekMs).setSeekForwardIncrementMs(seekMs)
         // Multiview: never more than full HD per screen (two 4K pictures at once are too much for the TV's chip)

@@ -61,6 +61,9 @@ object Health {
         if (send("crash", f.readText().take(6000))) App.prefs.edit().putLong("health_crash_sent", at).apply()
     }
 
+    /** something the app found and handled by itself (an off-air channel...), sent in the background */
+    fun report(kind: String, info: String) { Thread({ try { send(kind, info) } catch (e: Throwable) { } }, "health-report").apply { isDaemon = true }.start() }
+
     private fun send(kind: String, info: String): Boolean = try {
         val body = JSONObject().put("code", Device.code).put("kind", kind).put("ver", BuildConfig.VERSION_NAME).put("info", info).toString()
         App.http.newCall(Request.Builder().url(Device.SITE + "/api/health")

@@ -67,6 +67,7 @@ class LiveActivity : BaseActivity() {
     private var overlayJob: Job? = null
     private var tries = 0
     private var usingHls = false
+    private var playedId = 0
     private val time = SimpleDateFormat("h:mm", Locale.ENGLISH)
     private val clockF = SimpleDateFormat("h:mm a", Locale.ENGLISH)
     private val dayF = SimpleDateFormat("EEEE d MMMM", Locale.ENGLISH)
@@ -105,12 +106,22 @@ class LiveActivity : BaseActivity() {
         }
 
         // fast start for live TV: small buffers, play as soon as there is a second of video
-        player = Players.make(this, live = true)
+        player = Players.make(this, live = true, offAir = true)
         playerView.player = player
         applyMode()
         player.addListener(object : Player.Listener {
             override fun onPlayerError(error: PlaybackException) {
                 val c = playing ?: return
+                // the provider sent its off-air file instead of the channel: the same channel from its next stream
+                if (OffAir.isOffAir(error)) {
+                    val played = playedId
+                    lifecycleScope.launch {
+                        val to = withContext(Dispatchers.Default) { OffAir.next(c, played) }
+                        if (playing !== c) return@launch
+                        if (to != null) start(c) else toast("This channel is off at the provider right now")
+                    }
+                    return
+                }
                 // fell behind the live edge (HLS): jump back to live, no error for the viewer
                 if (error.errorCode == PlaybackException.ERROR_CODE_BEHIND_LIVE_WINDOW) { player.seekToDefaultPosition(); player.prepare(); return }
                 // 1st: the same link again (a provider "500" is often a busy moment); 2nd: the channel's HLS link
@@ -346,7 +357,9 @@ class LiveActivity : BaseActivity() {
 
     private fun start(c: Channel, hls: Boolean = Hls.has(c.id)) {
         zapAt = android.os.SystemClock.elapsedRealtime()
-        val u = Api.streamUrl(c)
+        // a channel switched off at the provider plays from another stream of the same channel (OffAir)
+        playedId = if (c.url.isEmpty()) OffAir.streamFor(c.id) else c.id
+        val u = if (playedId == c.id) Api.streamUrl(c) else Api.streamUrl(Channel(playedId, c.num, c.name, c.logo, c.epgId, c.group))
         usingHls = hls && u.endsWith(".ts")
         // HLS: the player itself stays 6 s from live, a little faster / slower to keep there
         val liveCfg = MediaItem.LiveConfiguration.Builder().setTargetOffsetMs(6_000).setMinOffsetMs(3_000).setMaxOffsetMs(20_000)
