@@ -158,6 +158,7 @@ class EfbHomeActivity : BaseActivity() {
         group(R.string.home_study, listOf(
             Item("🎓", 0xFF8E5CF7.toInt(), R.string.cr_title, R.string.cr_sub) { open(CheckrideActivity::class.java) },
             Item("📝", 0xFF30D158.toInt(), R.string.presolo_title, R.string.presolo_sub) { open(PreSoloActivity::class.java) },
+            Item("📖", 0xFF00A6A6.toInt(), R.string.study_title, R.string.study_sub) { open(StudyBookActivity::class.java) },
             Item("🛩", 0xFFFF2D9B.toInt(), R.string.man_title, R.string.man_sub) { open(ManeuversActivity::class.java) },
             Item("🎧", 0xFF5E5CE6.toInt(), R.string.tr_title, R.string.sub_trainer) { open(TrainerActivity::class.java) },
             Item("📚", 0xFF2D7FF9.toInt(), R.string.lib_title, R.string.sub_library) { open(LibraryActivity::class.java) },
