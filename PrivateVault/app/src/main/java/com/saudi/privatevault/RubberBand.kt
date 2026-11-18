@@ -33,6 +33,13 @@ class RubberBandOverlay(
     private val tagTx = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0xFFFFFFFF.toInt(); textSize = 12f * d; isFakeBoldText = true }
     private val pa = Point(); private val pb = Point()
 
+    /**
+     * The Direct-To line, when one is being flown: where it starts and where it goes. A Direct-To
+     * is a leg like any other and a pilot bends it round weather and high ground like any other,
+     * so it is offered to the finger too, as leg 0.
+     */
+    var directLine: Pair<GeoPoint, GeoPoint>? = null
+
     /** The leg being bent, or -1; and where the finger is now. */
     private var leg = -1
     private var at: GeoPoint? = null
@@ -43,10 +50,18 @@ class RubberBandOverlay(
     /** Which leg lies under a point on the screen, within about a fifth of an inch. */
     private fun legAt(x: Float, y: Float): Int {
         val p = plan()
-        if (p.points.size < 2) return -1
         val pr = map.projection
         var best = -1
         var bestD = 24 * d
+        directLine?.let { (s0, s1) ->
+            val a = pr.toPixels(s0, null); val b = pr.toPixels(s1, null)
+            val dx = (b.x - a.x).toFloat(); val dy = (b.y - a.y).toFloat()
+            val len2 = dx * dx + dy * dy
+            val u = if (len2 == 0f) 0f else (((x - a.x) * dx + (y - a.y) * dy) / len2).coerceIn(0f, 1f)
+            val dist = Math.hypot((x - (a.x + u * dx)).toDouble(), (y - (a.y + u * dy)).toDouble()).toFloat()
+            if (dist < bestD) { bestD = dist; best = 0 }
+        }
+        if (p.points.size < 2) return best
         for (i in 1 until p.points.size) {
             val a = pr.toPixels(GeoPoint(p.points[i - 1].lat, p.points[i - 1].lon), null)
             val b = pr.toPixels(GeoPoint(p.points[i].lat, p.points[i].lon), null)
@@ -101,10 +116,14 @@ class RubberBandOverlay(
         if (shadow || leg < 0) return
         val p = plan()
         val g = at ?: return
-        if (leg < 1 || leg >= p.points.size) return
         val pr = mv.projection
-        pr.toPixels(GeoPoint(p.points[leg - 1].lat, p.points[leg - 1].lon), pa)
-        pr.toPixels(GeoPoint(p.points[leg].lat, p.points[leg].lon), pb)
+        val ends: Pair<GeoPoint, GeoPoint> = if (leg == 0) (directLine ?: return)
+            else {
+                if (leg >= p.points.size) return
+                GeoPoint(p.points[leg - 1].lat, p.points[leg - 1].lon) to GeoPoint(p.points[leg].lat, p.points[leg].lon)
+            }
+        pr.toPixels(ends.first, pa)
+        pr.toPixels(ends.second, pb)
         val here = pr.toPixels(g, null)
         // The leg, bent through the finger.
         c.drawLine(pa.x.toFloat(), pa.y.toFloat(), here.x.toFloat(), here.y.toFloat(), band)
@@ -112,9 +131,9 @@ class RubberBandOverlay(
         c.drawCircle(here.x.toFloat(), here.y.toFloat(), 17 * d, ringFill)
         c.drawCircle(here.x.toFloat(), here.y.toFloat(), 17 * d, ring)
         // How much longer the route has become by bending it here.
-        val straight = Nav.distanceNm(p.points[leg - 1].lat, p.points[leg - 1].lon, p.points[leg].lat, p.points[leg].lon)
-        val bent = Nav.distanceNm(p.points[leg - 1].lat, p.points[leg - 1].lon, g.latitude, g.longitude) +
-            Nav.distanceNm(g.latitude, g.longitude, p.points[leg].lat, p.points[leg].lon)
+        val straight = Nav.distanceNm(ends.first.latitude, ends.first.longitude, ends.second.latitude, ends.second.longitude)
+        val bent = Nav.distanceNm(ends.first.latitude, ends.first.longitude, g.latitude, g.longitude) +
+            Nav.distanceNm(g.latitude, g.longitude, ends.second.latitude, ends.second.longitude)
         val s = "+%.1f nm".format((bent - straight).coerceAtLeast(0.0))
         val w = tagTx.measureText(s)
         c.save(); c.rotate(-mv.mapOrientation, here.x.toFloat(), here.y.toFloat())

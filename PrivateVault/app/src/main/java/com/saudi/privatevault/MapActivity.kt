@@ -252,7 +252,10 @@ class MapActivity : BaseActivity(), NeonHost {
         b.hud.visibility = View.GONE
         b.fabLayers.setOnClickListener { chooseLayer() }
         // One palette everywhere: the floating one, as on the other screens.
-        b.fabDraw.setOnClickListener { InkSheet.toggle(this) }
+        // With the pen down, this button puts it away; otherwise it opens the drawing tools.
+        b.fabDraw.setOnClickListener {
+            if (draw.tool != MapDrawOverlay.MapTool.PAN) pick(MapDrawOverlay.MapTool.PAN) else InkSheet.toggle(this)
+        }
         styleControls()
         foreflightLayout()
         b.root.post { wxBar() }
@@ -291,8 +294,9 @@ class MapActivity : BaseActivity(), NeonHost {
         // The way out of anything: the chart flat, north up, free, and the pen put down.
         b.fabLocate.setOnLongClickListener {
             freeChart()
-            draw.tool = MapDrawOverlay.MapTool.PAN
+            pick(MapDrawOverlay.MapTool.PAN)
             rubber?.release()
+            plotter?.locked = false
             Toast.makeText(this, "✋ N↑ — the chart is free", Toast.LENGTH_SHORT).show()
             true
         }
@@ -1332,14 +1336,21 @@ class MapActivity : BaseActivity(), NeonHost {
      * navaid or a fix near where it was dropped — the nearest first, with how far off the line each
      * one lies.
      */
+    /**
+     * A bend dropped on a leg. Leg 0 is the Direct-To line: bending that turns the Direct-To into
+     * a route — where it started, the bend, and where it was going — and from then on it is an
+     * ordinary route that can be bent again and again, round each piece of weather or high ground
+     * in turn, with every distance, heading, time and fuel figure worked afresh from the new shape.
+     */
     private fun insertInto(leg: Int, at: GeoPoint) {
+        if (leg == 0) { bendDirect(at); return }
         if (leg < 1 || leg > plan.points.size - 1) return
         val near = airports.map { it to Nav.distanceNm(at.latitude, at.longitude, it.lat, it.lon) }
             .filter { it.second < 12 }.sortedBy { it.second }.take(8)
         val labels = ArrayList<String>()
         val adds = ArrayList<() -> FlightPlan.Waypoint>()
         labels.add("%.4f, %.4f   ·   here".format(at.latitude, at.longitude))
-        adds.add { FlightPlan.Waypoint("WP%d".format(plan.points.size), at.latitude, at.longitude) }
+        adds.add { FlightPlan.Waypoint(nextPointName(), at.latitude, at.longitude) }
         for ((a, dist) in near) {
             val id = a.icao.ifEmpty { a.ident }
             labels.add("$id   ·   %.1f nm   ·   ${a.name.take(22)}".format(dist))
@@ -1385,7 +1396,7 @@ class MapActivity : BaseActivity(), NeonHost {
         val items = ArrayList<Pair<String, () -> Unit>>()
         items.add((snapName?.let { "\uFF0B  Put $it into the route here" } ?: "\uFF0B  Put a point here") to {
             val w = if (near != null) FlightPlan.Waypoint(snapName!!, near.lat, near.lon)
-            else FlightPlan.Waypoint("WP%d".format(plan.points.size), at.latitude, at.longitude)
+            else FlightPlan.Waypoint(nextPointName(), at.latitude, at.longitude)
             plan.points.add(i, w); plan.legWinds.clear(); plan.save(this); updateNav(); routePanel?.refresh(true); map.invalidate()
             Toast.makeText(this, "${w.id} in the route", Toast.LENGTH_SHORT).show()
         })
@@ -1745,6 +1756,49 @@ class MapActivity : BaseActivity(), NeonHost {
         Toast.makeText(this, getString(R.string.plan_added, w.id, plan.points.size), Toast.LENGTH_SHORT).show()
     }
 
+    /** The Direct-To, bent: it becomes a real route through the point the finger put down. */
+    private fun bendDirect(at: GeoPoint) {
+        val to = plan.direct ?: return
+        val start = plan.points.firstOrNull() ?: run {
+            val id = prefs.getString("dct_from_id", null)
+            val la = prefs.getFloat("dct_from_lat", 0f).toDouble()
+            val lo = prefs.getFloat("dct_from_lon", 0f).toDouble()
+            val here = ownship.position()
+            when {
+                here != null -> FlightPlan.Waypoint("PPOS", here.latitude, here.longitude)
+                id != null && (la != 0.0 || lo != 0.0) -> FlightPlan.Waypoint(id, la, lo)
+                else -> null
+            }
+        } ?: run { Toast.makeText(this, "No starting point for the Direct-To yet", Toast.LENGTH_SHORT).show(); return }
+        val near = airports.map { it to Nav.distanceNm(at.latitude, at.longitude, it.lat, it.lon) }
+            .filter { it.second < 12 }.sortedBy { it.second }.take(8)
+        val labels = ArrayList<String>()
+        val adds = ArrayList<() -> FlightPlan.Waypoint>()
+        labels.add("%.4f, %.4f   ·   here".format(at.latitude, at.longitude))
+        adds.add { FlightPlan.Waypoint(nextPointName(), at.latitude, at.longitude) }
+        for ((a, dist) in near) {
+            val id2 = a.icao.ifEmpty { a.ident }
+            labels.add("$id2   ·   %.1f nm   ·   ${a.name.take(22)}".format(dist))
+            adds.add { FlightPlan.Waypoint(id2, a.lat, a.lon) }
+        }
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Bend the Direct-To round this")
+            .setItems(labels.toTypedArray()) { _, i ->
+                val w = adds[i]()
+                plan.points.clear()
+                plan.points.add(start)
+                plan.points.add(w)
+                plan.points.add(to)
+                plan.direct = null
+                plan.active = 1
+                plan.legWinds.clear()
+                plan.save(this)
+                updateNav(); routePanel?.refresh(true); map.invalidate()
+                Toast.makeText(this, "${start.id} → ${w.id} → ${to.id}", Toast.LENGTH_SHORT).show()
+            }
+            .setNegativeButton(R.string.cancel, null).show()
+    }
+
     private var plotter: PlotterOverlay? = null
     private var plotterBar: LinearLayout? = null
     private var plotterText: TextView? = null
@@ -1813,9 +1867,19 @@ class MapActivity : BaseActivity(), NeonHost {
             .setPositiveButton(R.string.ok, null).show()
     }
 
+    /**
+     * The next free letter for a point the pilot puts down. A route reads A, B, C, D the way a
+     * hand-drawn one does, and every leg is then named by its two letters.
+     */
+    private fun nextPointName(): String {
+        val used = plan.points.map { it.id }.toHashSet()
+        for (c in 'A'..'Z') if (!used.contains(c.toString())) return c.toString()
+        for (c in 'A'..'Z') for (k in 'A'..'Z') if (!used.contains("$c$k")) return "$c$k"
+        return "WP%d".format(plan.points.size + 1)
+    }
+
     private fun pointMenu(g: GeoPoint) {
-        val n = plan.points.count { it.id.startsWith("WP") } + 1
-        val wp = FlightPlan.Waypoint("WP$n", g.latitude, g.longitude)
+        val wp = FlightPlan.Waypoint(nextPointName(), g.latitude, g.longitude)
         val from = ownship.position()
         val where = "%.4f, %.4f".format(g.latitude, g.longitude) + (from?.let {
             "\n${Nav.deg(Nav.magnetic(Nav.bearingTrue(it.latitude, it.longitude, g.latitude, g.longitude), it.latitude, it.longitude))}M · %.1f nm"
@@ -2303,6 +2367,16 @@ class MapActivity : BaseActivity(), NeonHost {
 
     private fun updateNav() {
         showRoutePanel()
+        rubber?.directLine = plan.direct?.let { t ->
+            val here = ownship.position()
+            val id = prefs.getString("dct_from_id", null)
+            val la = prefs.getFloat("dct_from_lat", 0f).toDouble()
+            val lo = prefs.getFloat("dct_from_lon", 0f).toDouble()
+            val from = plan.points.lastOrNull()?.let { GeoPoint(it.lat, it.lon) }
+                ?: here
+                ?: (if (id != null && (la != 0.0 || lo != 0.0)) GeoPoint(la, lo) else null)
+            from?.let { it to GeoPoint(t.lat, t.lon) }
+        }
         if (!b.hudNav.hasOnClickListeners()) b.hudNav.setOnClickListener { routeMenu() }
         val t = plan.target()
         val here = ownship.position()
@@ -3464,11 +3538,39 @@ class MapActivity : BaseActivity(), NeonHost {
         pick(if (on) MapDrawOverlay.MapTool.RULER else MapDrawOverlay.MapTool.PAN)
     }
 
+    private var penBar: TextView? = null
+
+    /**
+     * While a drawing tool is down, a finger dragged on the chart draws on it instead of moving
+     * it — and with nothing on screen saying so, the chart simply refuses to move in any direction
+     * and there is no way to guess why. So whenever the pen is down, it says so across the top of
+     * the chart, and a tap on that puts it away.
+     */
+    private fun penBanner() {
+        val on = draw.tool != MapDrawOverlay.MapTool.PAN
+        if (!on) { penBar?.visibility = View.GONE; return }
+        val v = penBar ?: TextView(this).apply {
+            textSize = 12.5f; setTextColor(0xFF0F141A.toInt()); gravity = Gravity.CENTER
+            typeface = EfbUi.MEDIUM
+            background = EfbUi.cardBg(this@MapActivity, 0xFFFFD60A.toInt(), 10)
+            setPadding(dp(14), dp(7), dp(14), dp(7))
+            setOnClickListener { pick(MapDrawOverlay.MapTool.PAN) }
+            b.root.addView(this, android.widget.FrameLayout.LayoutParams(-2, -2).apply {
+                gravity = Gravity.TOP or Gravity.CENTER_HORIZONTAL
+                topMargin = dp(104)
+            })
+        }.also { penBar = it }
+        v.text = "✏️  drawing — tap here to move the chart again"
+        v.visibility = View.VISIBLE
+        v.bringToFront()
+    }
+
     private fun pick(tool: MapDrawOverlay.MapTool) {
         draw.tool = tool
         if (tool != MapDrawOverlay.MapTool.SELECT) draw.selected = null
         if (tool != MapDrawOverlay.MapTool.RULER) draw.clearRuler()
         for ((t, btn) in toolButtons) btn.background = if (t == tool) getDrawable(R.drawable.tool_selected_bg) else null
+        penBanner()
         paintSwatches()
     }
 
