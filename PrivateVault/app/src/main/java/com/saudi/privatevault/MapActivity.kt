@@ -150,8 +150,8 @@ class MapActivity : BaseActivity(), NeonHost {
             override fun singleTapConfirmedHelper(p: GeoPoint?): Boolean = false
             override fun longPressHelper(p: GeoPoint?): Boolean {
                 if (p == null || draw.tool != MapDrawOverlay.MapTool.PAN) return false
-                // Held on the magenta line: the route is edited where the finger is, as on a chart.
-                legAt(p)?.let { i -> routeLegMenu(i, p); return true }
+                // A hold on the line is the rubber band's; this is a hold on open chart.
+                if (rubber?.dragging == true) return true
                 pointMenu(p)
                 return true
             }
@@ -235,6 +235,9 @@ class MapActivity : BaseActivity(), NeonHost {
             me = { ownship.position()?.takeIf { gotGps }?.let { g -> Triple(g, ownship.fix?.takeIf { it.hasAltitude() }?.altitude?.times(3.28084), ownship.speedKt()) } }
         }
         map.overlays.add(map.overlays.indexOf(insetOv).coerceAtLeast(0), procOv)
+        // Rubber-banding: hold the line and drag it where the route should go.
+        rubber = RubberBandOverlay(map, { plan }) { leg, at -> insertInto(leg, at) }
+        map.overlays.add(rubber)
         // The plotter: two fingers held still measure the chart, as a plotter on paper.
         map.overlays.add(PlotterOverlay(map) { ownship.speedKt() })
         b.root.postDelayed({ autoDiagrams() }, 2500)
@@ -1142,6 +1145,36 @@ class MapActivity : BaseActivity(), NeonHost {
     }
 
     // ---- the route ----
+
+    private var rubber: RubberBandOverlay? = null
+
+    /**
+     * The finger lifted after bending a leg: what should go there? The point itself, or a field, a
+     * navaid or a fix near where it was dropped — the nearest first, with how far off the line each
+     * one lies.
+     */
+    private fun insertInto(leg: Int, at: GeoPoint) {
+        if (leg < 1 || leg > plan.points.size - 1) return
+        val near = airports.map { it to Nav.distanceNm(at.latitude, at.longitude, it.lat, it.lon) }
+            .filter { it.second < 12 }.sortedBy { it.second }.take(8)
+        val labels = ArrayList<String>()
+        val adds = ArrayList<() -> FlightPlan.Waypoint>()
+        labels.add("%.4f, %.4f   ·   here".format(at.latitude, at.longitude))
+        adds.add { FlightPlan.Waypoint("WP%d".format(plan.points.size), at.latitude, at.longitude) }
+        for ((a, dist) in near) {
+            val id = a.icao.ifEmpty { a.ident }
+            labels.add("$id   ·   %.1f nm   ·   ${a.name.take(22)}".format(dist))
+            adds.add { FlightPlan.Waypoint(id, a.lat, a.lon) }
+        }
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Insert into Route")
+            .setItems(labels.toTypedArray()) { _, i ->
+                plan.points.add(leg, adds[i]())
+                plan.legWinds.clear()
+                plan.save(this); updateNav(); routePanel?.refresh(true); map.invalidate()
+            }
+            .setNegativeButton(R.string.cancel, null).show()
+    }
 
     /** Which leg of the route the finger is on, if any: within about a fifth of an inch of the line. */
     private fun legAt(p: GeoPoint): Int? {

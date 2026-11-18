@@ -51,6 +51,20 @@ class RoutePanel(
     var onWaypoint: ((Int) -> Unit)? = null
     var onLeg: ((Int) -> Unit)? = null
 
+    /**
+     * The colour a route element is drawn in, by what it is: fields one colour, airways another,
+     * navaids another again, and anything the app could not place in red — so a bad entry shows
+     * itself at a glance instead of failing quietly.
+     */
+    private fun chipColour(id: String, known: Boolean): Int = when {
+        !known -> 0xFFE05A5A.toInt()                                  // not found
+        Regex("^[A-Z]{1,2}\\d{1,3}[A-Z]?$").matches(id) -> 0xFFE0A354.toInt()   // airway, V6 / J121
+        id.length == 3 && Regex("^[A-Z]{3}$").matches(id) -> 0xFF8E7CE0.toInt()   // navaid
+        id.length >= 5 && Regex("^[A-Z]{5}$").matches(id) -> 0xFF6E8BE0.toInt()   // a named fix
+        Regex("^[A-Z]?\\d{2,}").containsMatchIn(id) -> 0xFF5C8DBE.toInt()        // a point by its numbers
+        else -> 0xFF4A90D9.toInt()                                    // an airport
+    }
+
     private fun tv(s: CharSequence, size: Float, color: Int = white, bold: Boolean = false, mono: Boolean = false) = TextView(act).apply {
         text = s; textSize = size; setTextColor(color)
         typeface = when { mono && bold -> Typeface.create(Typeface.MONOSPACE, Typeface.BOLD); mono -> Typeface.MONOSPACE; bold -> EfbUi.MEDIUM; else -> Typeface.DEFAULT }
@@ -137,8 +151,11 @@ class RoutePanel(
                 setOnClickListener { onLeg?.invoke(i) }
             })
             val lit = activeTo != null && p.direct == null && w.id == activeTo.id && i == p.active
-            chips.addView(tv(w.id, 13f, if (lit) white else 0xFFD6DCE4.toInt(), bold = lit).apply {
-                background = box(if (lit) blue else 0xFF232A33.toInt(), 13)
+            val known = w.lat != 0.0 || w.lon != 0.0
+            val colour = chipColour(w.id, known)
+            chips.addView(tv(w.id, 13f, if (lit) white else 0xFF0E1419.toInt(), bold = true).apply {
+                background = box(if (lit) white else colour, 13)
+                if (lit) setTextColor(0xFF0E1419.toInt())
                 setPadding(dp(11), dp(6), dp(11), dp(6))
                 maxLines = 1
                 setOnClickListener { onWaypoint?.invoke(i) }
@@ -161,10 +178,25 @@ class RoutePanel(
             setOnClickListener { go() }
         }, LinearLayout.LayoutParams(dp(86), -2).apply { topMargin = dp(4) })
         sideBtn("Procedure") { onProcedure?.invoke() }
-        sideBtn("Reverse") { actions.getOrNull(2)?.second?.invoke() }
+        sideBtn("Routes (${p.points.size})") { onEdit?.invoke() }
         sideBtn(p.etdMin?.let { "ETD %02d:%02d".format(it / 60, it % 60) } ?: "ETD") { onEtd?.invoke() }
         top.addView(right)
         c.addView(top)
+
+        // Turn the route round, or clear it: the two the route editor keeps beside the chips.
+        val tools = LinearLayout(act).apply {
+            orientation = LinearLayout.HORIZONTAL; gravity = Gravity.END
+            setPadding(0, dp(5), dp(90), 0)
+        }
+        fun tool(label: String, go: () -> Unit) = tools.addView(tv(label, 12f, white, bold = true).apply {
+            gravity = Gravity.CENTER
+            background = box(0xFF20262E.toInt())
+            setPadding(dp(14), dp(5), dp(14), dp(5))
+            setOnClickListener { go() }
+        }, LinearLayout.LayoutParams(-2, -2).apply { marginStart = dp(6) })
+        tool("⇄") { actions.getOrNull(2)?.second?.invoke() }
+        tool("Clear") { actions.getOrNull(5)?.second?.invoke() }
+        c.addView(tools)
 
         if (!folded) {
             c.addView(View(act).apply { setBackgroundColor(0xFF2B323C.toInt()) },
