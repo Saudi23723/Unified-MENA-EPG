@@ -247,13 +247,11 @@ class StudyBookActivity : BaseActivity() {
                         'Session Tools':1,'Tools':1,'Session':1,'Mark For Review':1,'How Can We Help?':1,
                         'Main Page':1,'Personal Classroom':1,'Logout':1,'Question Filters':1,'Unanswered':1,
                         'Marked':1,'Incorrect':1,'No filters enabled':1,'Study Session':1,'Questions:':1,
-                        'Correct First Try':1,'Currently Correct':1,'Contact Gleim':1};
+                        'Correct First Try':1,'Currently Correct':1,'Contact Gleim':1,'Opens in new window':1,
+                        'Privacy Policy':1,'Employment':1,'Terms and Conditions of Service':1};
             var out = [];
-            // Only what the page actually shows. A bank's page carries a great deal that is never
-            // on the screen — the whole directions text, the whole index of questions, skip links,
-            // spacers — hidden by its stylesheet. Walking the elements reaches all of it, which is
-            // how the directions and a list of every question in the bank ended up on a page. An
-            // element with no box on the screen is not read.
+            // Only what the page actually shows: a bank's page carries directions, skip links,
+            // spacers and an index of every question in it, none of it ever on the screen.
             function shown(el){
                 if (!el.getClientRects || el.getClientRects().length === 0) return false;
                 if (el.getAttribute && el.getAttribute('aria-hidden') === 'true') return false;
@@ -265,23 +263,48 @@ class StudyBookActivity : BaseActivity() {
             function push(t){
                 t = (t || '').replace(/\s+/g, ' ').trim();
                 if (!t || JUNK[t]) return;
-                if (/^(Copyright|Terms and Conditions|Phone:|Fax:|Elapsed Time|Average Time)/.test(t)) return;
+                if (/^(Copyright|Terms and Conditions|Phone:|Fax:|Elapsed Time|Average Time|©)/.test(t)) return;
                 out.push(t);
+            }
+            // A list keeps its shape: 1. then a. then i., each one step in, as the book prints it.
+            function mark(depth, n){
+                if (depth === 0) return n + '.';
+                if (depth === 1) return String.fromCharCode(96 + ((n - 1) % 26) + 1) + '.';
+                var r = ['i','ii','iii','iv','v','vi','vii','viii','ix','x'];
+                return (r[n - 1] || n) + '.';
+            }
+            function pad(depth){ return depth === 0 ? '' : (depth === 1 ? '    ' : '        '); }
+            function list(el, depth){
+                var ordered = el.tagName.toLowerCase() === 'ol';
+                var n = 1;
+                for (var i = 0; i < el.children.length; i++){
+                    var li = el.children[i];
+                    if (li.tagName.toLowerCase() !== 'li' || !shown(li)) continue;
+                    var own = '';
+                    for (var k = 0; k < li.childNodes.length; k++){
+                        var c = li.childNodes[k];
+                        if (c.nodeType === 3) own += c.textContent + ' ';
+                        else if (c.nodeType === 1){
+                            var ct = c.tagName.toLowerCase();
+                            if (ct === 'ol' || ct === 'ul' || ct === 'table' || SKIP[ct]) continue;
+                            if (!shown(c)) continue;
+                            own += (c.innerText || '') + ' ';
+                        }
+                    }
+                    push(pad(depth) + (ordered ? mark(depth, n++) : '•') + ' ' + own);
+                    for (var k = 0; k < li.children.length; k++){
+                        var c = li.children[k];
+                        var ct = c.tagName.toLowerCase();
+                        if ((ct === 'ol' || ct === 'ul') && shown(c)) list(c, depth + 1);
+                    }
+                }
             }
             function walk(el){
                 var tag = el.tagName ? el.tagName.toLowerCase() : '';
                 if (SKIP[tag]) return;
                 if (!shown(el)) return;
-                if (out.length > 400) return;
-                if (tag === 'ol' || tag === 'ul'){
-                    var n = 1;
-                    for (var i = 0; i < el.children.length; i++){
-                        var li = el.children[i];
-                        if (li.tagName.toLowerCase() !== 'li') continue;
-                        push((tag === 'ol' ? (n++) + '. ' : '- ') + (li.innerText || ''));
-                    }
-                    return;
-                }
+                if (out.length > 500) return;
+                if (tag === 'ol' || tag === 'ul'){ list(el, 0); return; }
                 if (!el.children || el.children.length === 0){ push(el.innerText || el.textContent); return; }
                 for (var k = 0; k < el.childNodes.length; k++){
                     var c = el.childNodes[k];
@@ -292,17 +315,38 @@ class StudyBookActivity : BaseActivity() {
             var sel = window.getSelection().toString();
             if (sel && sel.trim().length > 20) out.push(sel);
             else if (document.body) walk(document.body);
-            var res = { text: out.join('\n').slice(0, 16000), dpr: window.devicePixelRatio || 1,
-                        iw: window.innerWidth || 0, below: 0, figs: [] };
-            var els = document.querySelectorAll('img,table,svg,canvas,figure');
+
+            // A table of data is a figure. A table used to lay the page out is not: this bank is
+            // built out of those, and one of them wraps the toolbar and the top of the lesson —
+            // which is the picture that kept coming back instead of the diagram.
+            function dataTable(t){
+                if (t.querySelector('table,input,button,select,textarea,iframe,form')) return false;
+                var rows = t.rows ? t.rows.length : 0;
+                if (rows < 3) return false;
+                var cells = t.querySelectorAll('td,th').length;
+                if (cells < 6) return false;
+                var imgs = t.querySelectorAll('img');
+                for (var i = 0; i < imgs.length; i++){
+                    var ir = imgs[i].getBoundingClientRect();
+                    if (ir.width > 120 || ir.height > 90) return false;
+                }
+                return true;
+            }
+            var vw = window.innerWidth || 1, vh = window.innerHeight || 1;
+            var sy = window.pageYOffset || document.documentElement.scrollTop || 0;
+            var res = { text: out.join('\n').slice(0, 20000), vw: vw, vh: vh,
+                        scrollY: sy, docH: Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
+                        figs: [] };
+            var els = document.querySelectorAll('img,table,svg,canvas');
             for (var i = 0; i < els.length; i++){
                 var e = els[i];
+                if (!shown(e)) continue;
                 var r = e.getBoundingClientRect();
-                if (r.width < 70 || r.height < 45) continue;
-                if (e.tagName.toLowerCase() === 'table' && e.querySelector('table')) continue;
-                if (r.top >= window.innerHeight || r.bottom <= 0) { res.below++; continue; }
-                res.figs.push({ x: r.left, y: r.top, w: r.width, h: r.height });
-                if (res.figs.length >= 8) break;
+                if (r.width < 90 || r.height < 60) continue;
+                if (e.tagName.toLowerCase() === 'table' && !dataTable(e)) continue;
+                // Where it sits on the whole page, not just on the screen, so it can be scrolled to.
+                res.figs.push({ x: r.left / vw, y: (r.top + sy), w: r.width / vw, h: r.height, ch: r.height / vh });
+                if (res.figs.length >= 10) break;
             }
             return JSON.stringify(res);
         })()"""
@@ -320,13 +364,267 @@ class StudyBookActivity : BaseActivity() {
             pending = parsed
             question.setText(if (parsed.optString("kind") == "qa") parsed.optString("q")
                 else parsed.optString("head").ifEmpty { parsed.optString("q") })
-            val n = grabFigures(o)
             showPending()
-            val below = o?.optInt("below") ?: 0
-            Toast.makeText(this, StudyParse.describe(parsed) +
-                (if (n > 0) " · $n figure" + (if (n > 1) "s" else "") else "") +
-                (if (below > 0) " · $below more off screen — scroll and capture again" else ""),
-                Toast.LENGTH_LONG).show()
+            grabFigures(o) { n ->
+                showPending()
+                Toast.makeText(this, StudyParse.describe(parsed) +
+                    (if (n > 0) " · $n figure" + (if (n > 1) "s" else "") else ""),
+                    Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    /**
+     * Every figure the page reported, cut out of the page one by one.
+     *
+     * A lesson is longer than the screen, and its diagrams and tables are scattered down it. So
+     * the page is scrolled to each figure in turn, drawn, and that one rectangle cut from the
+     * drawing — then it is put back where it was. Positions come back as fractions of the screen
+     * across and as a position down the whole page, so nothing depends on guessing the zoom.
+     */
+    private fun grabFigures(o: JSONObject?, done: (Int) -> Unit) {
+        val list = o?.optJSONArray("figs")
+        val vw = o?.optDouble("vw", 0.0) ?: 0.0
+        val vh = o?.optDouble("vh", 0.0) ?: 0.0
+        if (list == null || list.length() == 0 || vw < 10 || vh < 10 || web.width < 10) { done(0); return }
+        val kY = web.height / vh
+        val back = web.scrollY
+        val dir = java.io.File(filesDir, "studybook")
+        dir.mkdirs()
+        var made = 0
+        fun step(i: Int) {
+            if (i >= list.length()) { web.scrollTo(0, back); done(made); return }
+            val r = list.optJSONObject(i)
+            if (r == null) { step(i + 1); return }
+            val topDoc = r.optDouble("y") * kY
+            val hPx = r.optDouble("ch") * web.height
+            web.scrollTo(0, (topDoc - 40).toInt().coerceAtLeast(0))
+            web.postDelayed({
+                try {
+                    val full = android.graphics.Bitmap.createBitmap(
+                        web.width.coerceAtLeast(1), web.height.coerceAtLeast(1), android.graphics.Bitmap.Config.ARGB_8888)
+                    web.draw(android.graphics.Canvas(full))
+                    val x = (r.optDouble("x") * web.width).toInt().coerceIn(0, full.width - 1)
+                    val w = (r.optDouble("w") * web.width).toInt().coerceAtMost(full.width - x)
+                    val y = (topDoc - web.scrollY).toInt().coerceIn(0, full.height - 1)
+                    val h = hPx.toInt().coerceAtMost(full.height - y)
+                    if (w >= 60 && h >= 40) {
+                        val cut = android.graphics.Bitmap.createBitmap(full, x, y, w, h)
+                        val out = java.io.File(dir, "fig_" + System.currentTimeMillis() + "_" + i + ".png")
+                        out.outputStream().use { cut.compress(android.graphics.Bitmap.CompressFormat.PNG, 100, it) }
+                        cut.recycle()
+                        figures.add(out.name)
+                        made++
+                    }
+                    full.recycle()
+                } catch (e: Throwable) { }
+                step(i + 1)
+            }, 240)
+        }
+        step(0)
+    }
+
+    private fun dropFigures() {
+        for (n in figures) java.io.File(java.io.File(filesDir, "studybook"), n).delete()
+        figures.clear()
+    }
+
+    /** The cut shown at the size it really is, to keep or to take again. */
+    private fun confirmClip(out: java.io.File) {
+        val bmp = android.graphics.BitmapFactory.decodeFile(out.path)
+        if (bmp == null) { out.delete(); Toast.makeText(this, "Could not take that picture", Toast.LENGTH_SHORT).show(); return }
+        val box = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL; setBackgroundColor(EfbUi.BG); setPadding(dp(14), dp(14), dp(14), dp(4))
+        }
+        box.addView(EfbUi.text(this, "%d × %d".format(bmp.width, bmp.height), 11.5f, 0xFF8E9BA8.toInt()))
+        box.addView(android.widget.ImageView(this).apply {
+            setImageBitmap(bmp)
+            adjustViewBounds = true
+            scaleType = android.widget.ImageView.ScaleType.FIT_CENTER
+            background = EfbUi.cardBg(this@StudyBookActivity, 0xFFFFFFFF.toInt(), 8)
+            setPadding(dp(4), dp(4), dp(4), dp(4))
+        }, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(8) })
+        MaterialAlertDialogBuilder(this).setView(ScrollView(this).apply { addView(box) })
+            .setPositiveButton("Keep it") { _, _ ->
+                clipFile?.let { old -> java.io.File(java.io.File(filesDir, "studybook"), old).delete() }
+                clipFile = out.name
+                showClip()
+            }
+            .setNeutralButton("Try again") { _, _ -> out.delete(); startClip() }
+            .setNegativeButton(R.string.cancel) { _, _ -> out.delete() }
+            .show()
+    }
+
+    /** The picture waiting to go onto the page, with the way to drop it again. */
+    private fun showClip() {
+        clipRow?.let { (it.parent as? android.view.ViewGroup)?.removeView(it) }
+        clipRow = null
+        val name = clipFile ?: return
+        val f = java.io.File(java.io.File(filesDir, "studybook"), name)
+        if (!f.exists()) { clipFile = null; return }
+        val row = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            setBackgroundColor(0xFF1B222C.toInt()); setPadding(dp(8), dp(6), dp(8), dp(8))
+        }
+        val head = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
+        head.addView(EfbUi.text(this, "🖼  figure for this page", 12.5f, 0xFFFFD60A.toInt(), bold = true),
+            LinearLayout.LayoutParams(0, -2, 1f))
+        head.addView(chip("✕", 0xFF3A2A2A.toInt()) { f.delete(); clipFile = null; showClip() })
+        row.addView(head)
+        row.addView(android.widget.ImageView(this).apply {
+            setImageBitmap(android.graphics.BitmapFactory.decodeFile(f.path))
+            adjustViewBounds = true
+            scaleType = android.widget.ImageView.ScaleType.FIT_CENTER
+            background = EfbUi.cardBg(this@StudyBookActivity, 0xFFFFFFFF.toInt(), 6)
+            setPadding(dp(3), dp(3), dp(3), dp(3))
+            maxHeight = dp(150)
+        }, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(6) })
+        pad.addView(row, 0)
+        clipRow = row
+    }
+
+    /**
+     * The page read as it stands, with nothing to highlight first. Whatever is selected is used if
+     * anything is; otherwise the whole page is taken, and either way it is read into its own shape
+     * — a question with its choices and its answer, or a passage of the book — so the book can set
+     * it out properly instead of keeping a block of prose.
+     */
+    private fun capture() {
+        // The page is asked for two things at once: everything it says, and where every picture,
+        // table, drawing and chart on it sits. Nothing has to be highlighted and no box has to be
+        // dragged — a lesson page is taken whole, the words read into their shape and every figure
+        // on it copied off it as it stands.
+        val js = """(function(){
+            var SKIP = {script:1,style:1,button:1,input:1,select:1,textarea:1,noscript:1,svg:1,table:1};
+            var JUNK = {'Back':1,'Forward':1,'Contents':1,'Print':1,'Done':1,'Hide':1,'Next':1,'Previous':1,
+                        'Grade':1,'Discard':1,'Pause':1,'Calculator':1,'Question Properties':1,'Image Viewer':1,
+                        'Session Tools':1,'Tools':1,'Session':1,'Mark For Review':1,'How Can We Help?':1,
+                        'Main Page':1,'Personal Classroom':1,'Logout':1,'Question Filters':1,'Unanswered':1,
+                        'Marked':1,'Incorrect':1,'No filters enabled':1,'Study Session':1,'Questions:':1,
+                        'Correct First Try':1,'Currently Correct':1,'Contact Gleim':1,'Opens in new window':1,
+                        'Privacy Policy':1,'Employment':1,'Terms and Conditions of Service':1};
+            var out = [];
+            // Only what the page actually shows: a bank's page carries directions, skip links,
+            // spacers and an index of every question in it, none of it ever on the screen.
+            function shown(el){
+                if (!el.getClientRects || el.getClientRects().length === 0) return false;
+                if (el.getAttribute && el.getAttribute('aria-hidden') === 'true') return false;
+                var st = window.getComputedStyle ? window.getComputedStyle(el) : null;
+                if (!st) return true;
+                if (st.display === 'none' || st.visibility === 'hidden' || st.opacity === '0') return false;
+                return true;
+            }
+            function push(t){
+                t = (t || '').replace(/\s+/g, ' ').trim();
+                if (!t || JUNK[t]) return;
+                if (/^(Copyright|Terms and Conditions|Phone:|Fax:|Elapsed Time|Average Time|©)/.test(t)) return;
+                out.push(t);
+            }
+            // A list keeps its shape: 1. then a. then i., each one step in, as the book prints it.
+            function mark(depth, n){
+                if (depth === 0) return n + '.';
+                if (depth === 1) return String.fromCharCode(96 + ((n - 1) % 26) + 1) + '.';
+                var r = ['i','ii','iii','iv','v','vi','vii','viii','ix','x'];
+                return (r[n - 1] || n) + '.';
+            }
+            function pad(depth){ return depth === 0 ? '' : (depth === 1 ? '    ' : '        '); }
+            function list(el, depth){
+                var ordered = el.tagName.toLowerCase() === 'ol';
+                var n = 1;
+                for (var i = 0; i < el.children.length; i++){
+                    var li = el.children[i];
+                    if (li.tagName.toLowerCase() !== 'li' || !shown(li)) continue;
+                    var own = '';
+                    for (var k = 0; k < li.childNodes.length; k++){
+                        var c = li.childNodes[k];
+                        if (c.nodeType === 3) own += c.textContent + ' ';
+                        else if (c.nodeType === 1){
+                            var ct = c.tagName.toLowerCase();
+                            if (ct === 'ol' || ct === 'ul' || ct === 'table' || SKIP[ct]) continue;
+                            if (!shown(c)) continue;
+                            own += (c.innerText || '') + ' ';
+                        }
+                    }
+                    push(pad(depth) + (ordered ? mark(depth, n++) : '•') + ' ' + own);
+                    for (var k = 0; k < li.children.length; k++){
+                        var c = li.children[k];
+                        var ct = c.tagName.toLowerCase();
+                        if ((ct === 'ol' || ct === 'ul') && shown(c)) list(c, depth + 1);
+                    }
+                }
+            }
+            function walk(el){
+                var tag = el.tagName ? el.tagName.toLowerCase() : '';
+                if (SKIP[tag]) return;
+                if (!shown(el)) return;
+                if (out.length > 500) return;
+                if (tag === 'ol' || tag === 'ul'){ list(el, 0); return; }
+                if (!el.children || el.children.length === 0){ push(el.innerText || el.textContent); return; }
+                for (var k = 0; k < el.childNodes.length; k++){
+                    var c = el.childNodes[k];
+                    if (c.nodeType === 3) push(c.textContent);
+                    else if (c.nodeType === 1) walk(c);
+                }
+            }
+            var sel = window.getSelection().toString();
+            if (sel && sel.trim().length > 20) out.push(sel);
+            else if (document.body) walk(document.body);
+
+            // A table of data is a figure. A table used to lay the page out is not: this bank is
+            // built out of those, and one of them wraps the toolbar and the top of the lesson —
+            // which is the picture that kept coming back instead of the diagram.
+            function dataTable(t){
+                if (t.querySelector('table,input,button,select,textarea,iframe,form')) return false;
+                var rows = t.rows ? t.rows.length : 0;
+                if (rows < 3) return false;
+                var cells = t.querySelectorAll('td,th').length;
+                if (cells < 6) return false;
+                var imgs = t.querySelectorAll('img');
+                for (var i = 0; i < imgs.length; i++){
+                    var ir = imgs[i].getBoundingClientRect();
+                    if (ir.width > 120 || ir.height > 90) return false;
+                }
+                return true;
+            }
+            var vw = window.innerWidth || 1, vh = window.innerHeight || 1;
+            var sy = window.pageYOffset || document.documentElement.scrollTop || 0;
+            var res = { text: out.join('\n').slice(0, 20000), vw: vw, vh: vh,
+                        scrollY: sy, docH: Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
+                        figs: [] };
+            var els = document.querySelectorAll('img,table,svg,canvas');
+            for (var i = 0; i < els.length; i++){
+                var e = els[i];
+                if (!shown(e)) continue;
+                var r = e.getBoundingClientRect();
+                if (r.width < 90 || r.height < 60) continue;
+                if (e.tagName.toLowerCase() === 'table' && !dataTable(e)) continue;
+                // Where it sits on the whole page, not just on the screen, so it can be scrolled to.
+                res.figs.push({ x: r.left / vw, y: (r.top + sy), w: r.width / vw, h: r.height, ch: r.height / vh });
+                if (res.figs.length >= 10) break;
+            }
+            return JSON.stringify(res);
+        })()"""
+        web.evaluateJavascript(js) { raw ->
+            val o = try { JSONObject(unJs(raw)) } catch (e: Exception) { null }
+            val text = o?.optString("text").orEmpty()
+            if (text.isBlank()) {
+                Toast.makeText(this, "Nothing on this page to read", Toast.LENGTH_SHORT).show()
+                return@evaluateJavascript
+            }
+            // The page's own Copy / Share bar is left standing by a selection; put it away.
+            web.evaluateJavascript("window.getSelection().removeAllRanges();", null)
+            web.clearFocus()
+            val parsed = StudyParse.parse(text)
+            pending = parsed
+            question.setText(if (parsed.optString("kind") == "qa") parsed.optString("q")
+                else parsed.optString("head").ifEmpty { parsed.optString("q") })
+            showPending()
+            grabFigures(o) { n ->
+                showPending()
+                Toast.makeText(this, StudyParse.describe(parsed) +
+                    (if (n > 0) " · $n figure" + (if (n > 1) "s" else "") else ""),
+                    Toast.LENGTH_LONG).show()
+            }
         }
     }
 
