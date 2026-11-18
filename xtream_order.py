@@ -299,6 +299,7 @@ def _order(chans: list[dict], playlist: str | None = None) -> list[dict]:
 SWAP_STREAM = {
     "strong": {2063055: 288268,    # STARZPLAY SPORTS 1 (STC)  -> AD SPORTS 1 PREMIUM HD (= STARZPLAY SPORTS 1)
                2063054: 301908,    # STARZPLAY SPORTS 2 (STC)  -> AD SPORTS 2 PREMIUM HD (= STARZPLAY SPORTS 2)
+               2063053: 301909,    # STARZPLAY SPORTS 3 (STC)  -> AD SPORTS 3 HD (STARZPLAY SPORTS 3 logo on the picture)
                1525676: 622075},   # BBC PARLIAMENT RAW        -> BBC PARLAMENT (UK NEWS)
 }
 
