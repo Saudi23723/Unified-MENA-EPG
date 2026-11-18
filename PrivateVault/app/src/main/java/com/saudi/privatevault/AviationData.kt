@@ -18,58 +18,10 @@ import java.net.URLEncoder
 object AviationData {
 
     /** A chart or base map, as tiles in the z/y/x order ArcGIS uses. */
-    class Layer(val key: String, val label: Int, private val base: String, val maxZoom: Int, val paper: Boolean = false) {
+    class Layer(val key: String, val label: Int, private val base: String, val maxZoom: Int) {
         fun source() = object : OnlineTileSourceBase(key, 3, maxZoom, 256, "", arrayOf(base)) {
             override fun getTileURLString(index: Long): String =
                 "$base/tile/${MapTileIndex.getZoom(index)}/${MapTileIndex.getY(index)}/${MapTileIndex.getX(index)}"
-
-            /**
-             * A printed chart is a photograph of a paper sheet, and a paper sheet has a margin: the
-             * white border where the chart's legend and its edge are printed. Where two sheets meet
-             * on screen those margins show as a broad white band across the map, which is the thing
-             * that has made this chart look wrong.
-             *
-             * A tile that is almost entirely white, and has next to no colour anywhere in it, cannot
-             * be a piece of chart — the chart always carries its terrain tint, its blue water, its
-             * magenta and blue airspace somewhere. Such a tile is the margin, and it is dropped, so
-             * the map underneath shows through and the picture runs on without a seam.
-             */
-            override fun getDrawable(aFilePath: String): android.graphics.drawable.Drawable? {
-                val dr = super.getDrawable(aFilePath)
-                return if (paper && isMargin(dr)) null else dr
-            }
-
-            override fun getDrawable(aTileInputStream: java.io.InputStream): android.graphics.drawable.Drawable? {
-                val dr = super.getDrawable(aTileInputStream)
-                return if (paper && isMargin(dr)) null else dr
-            }
-        }
-
-        /** Whether a tile is the printed sheet's blank margin rather than a piece of the chart. */
-        private fun isMargin(dr: android.graphics.drawable.Drawable?): Boolean {
-            val bmp = (dr as? android.graphics.drawable.BitmapDrawable)?.bitmap ?: return false
-            if (bmp.isRecycled || bmp.width < 16 || bmp.height < 16) return false
-            var white = 0
-            var colourful = 0
-            var n = 0
-            val step = maxOf(1, bmp.width / 24)
-            var y = step / 2
-            while (y < bmp.height) {
-                var x = step / 2
-                while (x < bmp.width) {
-                    val p = bmp.getPixel(x, y)
-                    val r = (p shr 16) and 0xFF; val g = (p shr 8) and 0xFF; val b = p and 0xFF
-                    val hi = maxOf(r, maxOf(g, b)); val lo = minOf(r, minOf(g, b))
-                    if (r > 238 && g > 238 && b > 238) white++
-                    if (hi - lo > 28) colourful++
-                    n++
-                    x += step
-                }
-                y += step
-            }
-            if (n == 0) return false
-            // Four fifths of it blank paper, and almost nothing on it with any colour at all.
-            return white * 100 / n >= 80 && colourful * 100 / n <= 2
         }
     }
 
@@ -78,9 +30,9 @@ object AviationData {
 
     val LAYERS = listOf(
         Layer("aero", R.string.map_aero, "$ESRI/World_Topo_Map/MapServer", 17),
-        Layer("sectional", R.string.map_sectional, "$FAA_TILES/VFR_Sectional/MapServer", 12, paper = true),
-        Layer("tac", R.string.map_tac, "$FAA_TILES/VFR_Terminal/MapServer", 13, paper = true),
-        Layer("ifrlow", R.string.map_ifr_low, "$FAA_TILES/IFR_AreaLow/MapServer", 12, paper = true),
+        Layer("sectional", R.string.map_sectional, "$FAA_TILES/VFR_Sectional/MapServer", 12),
+        Layer("tac", R.string.map_tac, "$FAA_TILES/VFR_Terminal/MapServer", 13),
+        Layer("ifrlow", R.string.map_ifr_low, "$FAA_TILES/IFR_AreaLow/MapServer", 12),
         Layer("topo", R.string.map_topo, "$ESRI/World_Topo_Map/MapServer", 17),
         Layer("imagery", R.string.map_imagery, "$ESRI/World_Imagery/MapServer", 18),
     )

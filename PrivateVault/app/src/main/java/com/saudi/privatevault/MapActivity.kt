@@ -1207,7 +1207,6 @@ class MapActivity : BaseActivity(), NeonHost {
     private fun setChartLayer() {
         val want = when {
             layer.key == "topo" || layer.key == "aero" -> ""
-            layer.key == "sectional" && map.zoomLevelDouble >= 11.3 && prefs.getBoolean("chart_auto", true) -> "tac"
             else -> layer.key
         }
         if (want == shownChart) return
@@ -1225,8 +1224,7 @@ class MapActivity : BaseActivity(), NeonHost {
                 map.overlays.add(0, chartOverlay)
             }
         }
-        bar?.setLayerName(
-            if (want == "tac" && layer.key == "sectional") getString(R.string.map_tac) else getString(layer.label))
+        bar?.setLayerName(getString(layer.label))
     }
     private var aero: AeroMap? = null
     private var bar: MapToolbar? = null
@@ -3650,8 +3648,7 @@ class MapActivity : BaseActivity(), NeonHost {
     /** How far in a chart can be read: two to three steps past its printed scale. */
     private fun zoomLimit() {
         // A scanned chart holds about one step of enlargement before its print goes soft; closer in, the airport diagram takes over.
-        val best = if (layer.key == "sectional" && prefs.getBoolean("chart_auto", true))
-            maxOf(layer.maxZoom, AviationData.LAYERS.first { it.key == "tac" }.maxZoom) else layer.maxZoom
+        val best = layer.maxZoom
         map.maxZoomLevel = best + if (best >= 16) 1.5 else if (map.isTilesScaledToDpi) 0.3 else 1.0
         if (map.zoomLevelDouble > map.maxZoomLevel) map.controller.setZoom(map.maxZoomLevel)
     }
