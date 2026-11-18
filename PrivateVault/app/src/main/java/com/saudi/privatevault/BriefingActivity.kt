@@ -108,7 +108,7 @@ class BriefingActivity : BaseActivity() {
                 val areas = try { AviationData.airspaceWeather() } catch (e: Exception) { emptyList() }
                 val tfrs = try { AviationData.tfrs() } catch (e: Exception) { emptyList() }
                 val pireps = try { AviationData.pireps(lats.min() - 1.5, lons.min() - 1.5, lats.max() + 1.5, lons.max() + 1.5) } catch (e: Exception) { emptyList() }
-                plan.points.let { p -> Winds.forecast(this@BriefingActivity, p.sumOf { it.lat } / p.size, p.sumOf { it.lon } / p.size) }
+                plan.points.let { p -> Winds.forecast(this@BriefingActivity, p.sumOf { it.lat } / p.size, p.sumOf { it.lon } / p.size, plan.altitude) }
                 val fb = try { AviationData.windsAloft(6) } catch (e: Exception) { "" }
                 Triple(metars, tafs, listOf(areas, tfrs, pireps, listOf(fb)))
             }

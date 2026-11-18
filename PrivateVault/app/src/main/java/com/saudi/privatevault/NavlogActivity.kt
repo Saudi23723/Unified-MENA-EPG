@@ -718,7 +718,7 @@ class NavlogActivity : BaseActivity() {
         lifecycleScope.launch {
             val mid = plan.points.let { p -> p.sumOf { it.lat } / p.size to p.sumOf { it.lon } / p.size }
             val text = withContext(Dispatchers.IO) {
-                Winds.forecast(this@NavlogActivity, mid.first, mid.second)
+                Winds.forecast(this@NavlogActivity, mid.first, mid.second, plan.altitude)
                 try { AviationData.windsAloft(6) } catch (e: Exception) { "" }
             }
             val opts = withContext(Dispatchers.Default) {

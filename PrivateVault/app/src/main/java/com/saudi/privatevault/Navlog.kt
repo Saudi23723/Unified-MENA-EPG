@@ -204,11 +204,14 @@ object Navlog {
             }
             val tas = when (phase) { Phase.CLIMB -> profile.climbTas; Phase.DESCENT -> profile.descentTas; else -> profile.cruiseTas }
             val gph = when (phase) { Phase.CLIMB -> profile.climbGph; Phase.DESCENT -> profile.descentGph; else -> profile.cruiseGph }
-            val alt = when (phase) {
-                Phase.CLIMB -> ((depElev + cruiseAltFt) / 2).toInt()
-                Phase.DESCENT -> ((destElev + 1000 + cruiseAltFt) / 2).toInt()
+            // The height crossing this point, as a log states it — not the average of the leg.
+            val endNm = runDist + d
+            val alt = when {
+                tocNm > 0.05 && endNm < tocNm -> (depElev + (cruiseAltFt - depElev) * (endNm / tocNm)).toInt()
+                todNm > 0.05 && endNm > total - todNm ->
+                    (cruiseAltFt - (cruiseAltFt - (destElev + 1000)) * ((endNm - (total - todNm)) / todNm)).toInt()
                 else -> cruiseAltFt
-            }
+            }.coerceAtLeast(Math.round(minOf(depElev, destElev)).toInt())
             val (wd, wk) = windFor(s.srcLeg)
             val tc = Nav.bearingTrue(s.a.lat, s.a.lon, s.b.lat, s.b.lon)
             // The wind triangle: the angle to hold the line, and what is left over the ground.

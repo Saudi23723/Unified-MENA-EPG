@@ -26,9 +26,10 @@ object Winds {
 
     private val memory = HashMap<String, JSONObject>()
 
-    private fun key(lat: Double, lon: Double) = "%.1f_%.1f".format(lat, lon)
+    private fun key(lat: Double, lon: Double, altFt: Int) = "%.1f_%.1f_%d".format(lat, lon, bracket(altFt).let { it.first })
 
-    private fun file(ctx: Context, lat: Double, lon: Double) = File(ctx.filesDir, "aviation/winds/${key(lat, lon)}.json")
+    private fun file(ctx: Context, lat: Double, lon: Double, altFt: Int) =
+        File(ctx.filesDir, "aviation/winds/${key(lat, lon, altFt)}.json")
 
     /** The two levels around an altitude, and how far between them it sits. */
     private fun bracket(altFt: Int): Triple<Int, Int, Double> {
@@ -43,17 +44,20 @@ object Winds {
      * Fetches (or re-reads) the forecast around a point. Call off the main thread. The answer is
      * kept for six hours; an older one is still used when the fetch fails, so planning never stops.
      */
-    fun forecast(ctx: Context, lat: Double, lon: Double): JSONObject? {
-        val k = key(lat, lon)
+    fun forecast(ctx: Context, lat: Double, lon: Double, altFt: Int = 6000): JSONObject? {
+        val k = key(lat, lon, altFt)
         memory[k]?.let { if (System.currentTimeMillis() - it.optLong("got") < 6 * 3600_000L) return it }
-        val f = file(ctx, lat, lon)
+        val f = file(ctx, lat, lon, altFt)
         val cached = try { JSONObject(f.readText()) } catch (e: Exception) { null }
         if (cached != null && System.currentTimeMillis() - cached.optLong("got") < 6 * 3600_000L) {
             memory[k] = cached; return cached
         }
-        val levels = LEVELS.joinToString(",") { l ->
-            "wind_speed_${l.first}hPa,wind_direction_${l.first}hPa,temperature_${l.first}hPa"
-        }
+        // Only the levels around the height asked for: asking for all of them makes a request the
+        // service will not answer, which is why the winds used to come back empty.
+        val (lo, hi, _) = bracket(altFt)
+        val want = LEVELS.map { it.first }.filter { it == lo || it == hi }
+            .ifEmpty { listOf(850) }
+        val levels = want.joinToString(",") { l -> "wind_speed_${l}hPa,wind_direction_${l}hPa,temperature_${l}hPa" }
         val url = "https://api.open-meteo.com/v1/forecast?latitude=%.3f&longitude=%.3f&hourly=$levels".format(lat, lon) +
             "&forecast_days=2&wind_speed_unit=kn&timeformat=unixtime&timezone=UTC"
         return try {
@@ -93,7 +97,7 @@ object Winds {
 
     /** The wind at a point and a height, at a time (now by default). Null when nothing could be read. */
     fun at(ctx: Context, lat: Double, lon: Double, altFt: Int, whenMs: Long = System.currentTimeMillis()): At? {
-        val o = forecast(ctx, lat, lon) ?: return null
+        val o = forecast(ctx, lat, lon, altFt) ?: return null
         val i = hourIndex(o, whenMs)
         if (i < 0) return null
         val (lo, hi, f) = bracket(altFt)
