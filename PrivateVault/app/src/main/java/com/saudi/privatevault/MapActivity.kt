@@ -258,7 +258,11 @@ class MapActivity : BaseActivity(), NeonHost {
             map.controller.zoomIn()
         }
         // Two fingers turn the chart; a long press on the position button puts north back up.
-        map.overlays.add(org.osmdroid.views.overlay.gestures.RotationGestureOverlay(map).apply { isEnabled = true })
+        // No free rotation by hand: a chart is read north-up, or track-up when it is ticked. A
+        // chart left at some angle by a stray two-finger twist is unreadable, as it was.
+        if (prefs.getBoolean("map_free_rotate", false))
+            map.overlays.add(org.osmdroid.views.overlay.gestures.RotationGestureOverlay(map).apply { isEnabled = true })
+        else if (!trackUp) map.mapOrientation = 0f
         b.fabLocate.setOnLongClickListener {
             trackUp = false; ahead = false
             map.mapOrientation = 0f
@@ -2163,7 +2167,13 @@ class MapActivity : BaseActivity(), NeonHost {
         tool(R.drawable.ic_fab_pencil, click = { b.fabDraw.performClick() })
         val locate = tool(R.drawable.ic_my_location, EfbUi.ACCENT, click = { b.fabLocate.performClick() }, long = { b.fabLocate.performLongClick() })
         locateTool = locate
-        val north = tool(R.drawable.ic_compass, click = { b.northUp.performClick() })
+        val north = tool(R.drawable.ic_compass, click = {
+            trackUp = false
+            prefs.edit().putBoolean("track_up_on", false).apply()
+            map.mapOrientation = 0f
+            map.invalidate()
+            b.northUp.performClick()
+        })
         northTool = north
         line()
         tool(R.drawable.ic_add, click = { b.zoomIn.performClick() })
