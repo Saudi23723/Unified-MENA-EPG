@@ -60,16 +60,16 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
      * olive and tan, to bare rock and snow high up.
      */
     private fun tint(ft: Float): Int = when {
-        ft <= 0f -> 0xFF0B1A2A.toInt()          // sea
-        ft < 500 -> 0xFF14261B.toInt()
-        ft < 1500 -> 0xFF1B3122.toInt()
-        ft < 3000 -> 0xFF28382239.toInt() or 0xFF000000.toInt()
-        ft < 4500 -> 0xFF3A3A24.toInt()
-        ft < 6000 -> 0xFF4A3C27.toInt()
-        ft < 8000 -> 0xFF5A422B.toInt()
-        ft < 10000 -> 0xFF6B4D33.toInt()
-        ft < 12000 -> 0xFF7E6148.toInt()
-        else -> 0xFF9A8B7A.toInt()
+        ft <= 0f -> 0xFF13233A.toInt()          // water
+        ft < 500 -> 0xFF1C3326.toInt()
+        ft < 1500 -> 0xFF26402C.toInt()
+        ft < 3000 -> 0xFF36492F.toInt()
+        ft < 4500 -> 0xFF4A5233.toInt()
+        ft < 6000 -> 0xFF5E5536.toInt()
+        ft < 8000 -> 0xFF6E543A.toInt()
+        ft < 10000 -> 0xFF7D5C44.toInt()
+        ft < 12000 -> 0xFF8E7059.toInt()
+        else -> 0xFFA99683.toInt()
     }
 
     /** Builds the shaded picture of a tile: its colours by height, lit from the north-west. */
@@ -169,9 +169,12 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
         else -> null
     }
 
+    private val labelled = ArrayList<android.graphics.RectF>()
+
     private fun drawAirspace(c: Canvas, mv: MapView) {
         val zoom = mv.zoomLevelDouble
         if (zoom < 6.5) return
+        labelled.clear()
         val bb = mv.boundingBox
         val pr = mv.projection
         val p = Point()
@@ -198,11 +201,15 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
                 c.drawPath(path, asFill)
                 c.drawPath(path, asLine)
             }
-            // Its ceiling over its floor, as a chart prints them, upright whatever the map's turn.
+            // Its ceiling over its floor, as a chart prints them, upright whatever the map's turn,
+            // and only where there is clear room — a label on a label reads as neither.
             if (zoom >= 8.5 && a.lowFt != null) {
                 pr.toPixels(GeoPoint((a.minLat + a.maxLat) / 2, (a.minLon + a.maxLon) / 2), p)
                 val top = a.highFt?.let { "%d".format(it / 100) } ?: "—"
                 val bot = if (a.lowFt == 0) "SFC" else "%d".format(a.lowFt!! / 100)
+                val box = android.graphics.RectF(p.x - 20 * d, p.y - 14 * d, p.x + 20 * d, p.y + 16 * d)
+                if (labelled.any { android.graphics.RectF.intersects(it, box) }) continue
+                labelled.add(box)
                 asText.color = colour
                 c.save(); c.rotate(-mv.mapOrientation, p.x.toFloat(), p.y.toFloat())
                 val w = asText.measureText(top)
@@ -267,10 +274,13 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
                 c.drawCircle(x, y, r, fieldEdge.apply { style = Paint.Style.STROKE })
                 if (a.icao.isNotEmpty()) c.drawCircle(x, y, r * 0.45f, fieldFill.apply { style = Paint.Style.FILL })
             }
-            // Its name, upright however the map is turned.
+            // Its name, upright however the map is turned, where there is room for it.
             if (zoom >= 8) {
-                c.save(); c.rotate(-mv.mapOrientation, x, y)
                 val id = a.icao.ifEmpty { a.ident }
+                val nbox = android.graphics.RectF(x + 6 * d, y - 14 * d, x + 8 * d + nameTx.measureText(id), y + 10 * d)
+                if (labelled.any { android.graphics.RectF.intersects(it, nbox) }) continue
+                labelled.add(nbox)
+                c.save(); c.rotate(-mv.mapOrientation, x, y)
                 c.drawText(id, x + 8 * d, y - 4 * d, nameHalo)
                 c.drawText(id, x + 8 * d, y - 4 * d, nameTx)
                 if (zoom >= 10.5) {

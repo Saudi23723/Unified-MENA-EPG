@@ -33,6 +33,8 @@ class NavlogActivity : BaseActivity() {
     private var result: Navlog.Result? = null
     private var airports: List<AviationData.Airport> = emptyList()
     private val atos = HashMap<String, String>()
+    /** What the pilot writes in as the flight goes: the actual ground speed, times and fuel. */
+    private val actual = HashMap<String, String>()
     private var mora = true
     // What the GPS says, while the log is open: where we are, how fast, and which fix is next.
     private var fix: android.location.Location? = null
@@ -49,6 +51,7 @@ class NavlogActivity : BaseActivity() {
         plan = FlightPlan.load(this)
         profile = AircraftProfile.current(this)
         mora = VaultLock.prefs(this).getBoolean("nav_mora", true)
+        loadActuals()
         root = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setBackgroundColor(0xFF0F141A.toInt()); layoutDirection = View.LAYOUT_DIRECTION_LTR }
         body = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
         val scroll = ScrollView(this).apply { addView(body); isFillViewport = true }
@@ -104,7 +107,7 @@ class NavlogActivity : BaseActivity() {
         }
         table.addView(totalRow(r))
         body.addView(HorizontalScrollView(this).apply { isHorizontalScrollBarEnabled = false; addView(table) })
-        body.addView(EfbUi.text(this, "a tap on a line opens the leg · a tap under ACT stamps the time overhead", 10.5f, 0xFF6E7681.toInt())
+        body.addView(EfbUi.text(this, "a tap on a line opens the leg · a tap under ACT stamps the time overhead · hold ACT or GS to type the real figure in", 10.5f, 0xFF6E7681.toInt())
             .apply { setPadding(dp(14), dp(6), dp(14), dp(2)) })
         windsBlock()?.let { body.addView(it) }
         body.addView(summaryBoxes(r))
@@ -121,6 +124,48 @@ class NavlogActivity : BaseActivity() {
     }
 
     private fun key(r: Navlog.Row) = "${r.from.id}>${r.to.id}#${r.index}"
+
+    /** The figures written in while flying are kept with the plan, so they survive the screen closing. */
+    private fun saveActuals() {
+        val o = org.json.JSONObject()
+        for ((k, v) in atos) o.put("a|$k", v)
+        for ((k, v) in actual) o.put("v|$k", v)
+        VaultLock.prefs(this).edit().putString("navlog_actuals", o.toString()).apply()
+    }
+
+    private fun loadActuals() {
+        atos.clear(); actual.clear()
+        try {
+            val o = org.json.JSONObject(VaultLock.prefs(this).getString("navlog_actuals", "{}")!!)
+            for (k in o.keys()) {
+                if (k.startsWith("a|")) atos[k.drop(2)] = o.getString(k)
+                else if (k.startsWith("v|")) actual[k.drop(2)] = o.getString(k)
+            }
+        } catch (e: Exception) { }
+    }
+
+    /** One figure typed in by hand, against one leg of the log. */
+    private fun typeIn(r: Navlog.Row, what: String, title: String) {
+        val k = if (what == "ato") key(r) else "${key(r)}|$what"
+        val input = EditText(this).apply {
+            setText(if (what == "ato") atos[k] ?: "" else actual[k] ?: "")
+            setSingleLine(); setPadding(dp(20), dp(12), dp(20), dp(12))
+        }
+        MaterialAlertDialogBuilder(this)
+            .setTitle("$title · ${r.from.id} → ${r.to.id}")
+            .setView(input)
+            .setPositiveButton(R.string.ok) { _, _ ->
+                val v = input.text.toString().trim()
+                if (what == "ato") { if (v.isEmpty()) atos.remove(k) else atos[k] = v }
+                else { if (v.isEmpty()) actual.remove(k) else actual[k] = v }
+                saveActuals(); rebuild()
+            }
+            .setNeutralButton("Clear") { _, _ ->
+                if (what == "ato") atos.remove(k) else actual.remove(k)
+                saveActuals(); rebuild()
+            }
+            .setNegativeButton(R.string.cancel, null).show()
+    }
 
     /**
      * The aeroplane's weight and where its balance sits, at take-off and again on landing with the
@@ -393,8 +438,10 @@ class NavlogActivity : BaseActivity() {
         val isa = plan.legWinds[r.index]?.third?.let { it - Math.round(15 - 2.0 * r.altFt / 1000).toInt() }
         line.addView(cell(isa?.let { "%+d".format(it) } ?: "—", W_ISA, 0xFF8FA3B8.toInt(), size = 11f))
         line.addView(cell("%d".format(Math.round(r.tas).toInt()), W_TAS, 0xFF8FA3B8.toInt(), size = 11f))
-        line.addView(cell("%d".format(Math.round(r.gs).toInt()), W_GS,
-            if (r.gs < r.tas - 5) 0xFFFF9F0A.toInt() else 0xFFE6EAF0.toInt(), bold = true))
+        val gsAct = actual["${key(r)}|gs"]
+        line.addView(cell(gsAct ?: "%d".format(Math.round(r.gs).toInt()), W_GS,
+            if (gsAct != null) 0xFF69F0AE.toInt() else if (r.gs < r.tas - 5) 0xFFFF9F0A.toInt() else 0xFFE6EAF0.toInt(),
+            bold = true).apply { setOnLongClickListener { typeIn(r, "gs", "Ground speed flown"); true } })
         line.addView(cell("%.1f".format(r.distNm), W_DL))
         line.addView(cell("%.1f".format(r.remainNm), W_DR, 0xFF8FA3B8.toInt(), size = 11f))
         line.addView(cell(Navlog.hm(r.minutes), W_TL))
@@ -409,8 +456,9 @@ class NavlogActivity : BaseActivity() {
             layoutParams = LinearLayout.LayoutParams(dp(W_ACT), -2)
             setOnClickListener {
                 if (r.atoUtc == null) atos[key(r)] = Navlog.utcNow() else atos.remove(key(r))
-                rebuild()
+                saveActuals(); rebuild()
             }
+            setOnLongClickListener { typeIn(r, "ato", "Time over (ATO)"); true }
         })
         return line
     }
@@ -922,10 +970,10 @@ class NavlogActivity : BaseActivity() {
             rows.append("<td>${"%.1f".format(x.distNm)}</td>")
             rows.append("<td>${"%.1f".format(x.remainNm)}</td>")
             rows.append("<td>${Math.round(x.gs).toInt()}</td>")        // GS estimated
-            rows.append("<td class='w'></td>")                         // GS actual
+            rows.append("<td class='w'>${actual["${key(x)}|gs"] ?: ""}</td>")   // GS actual
             rows.append("<td>${Navlog.hm(x.minutes)}</td>")            // ETE
             rows.append("<td>${plan.clock(x.cumMinutes)}</td>")        // ETA
-            rows.append("<td class='w'></td><td class='w'></td>")      // ATE, ATA
+            rows.append("<td class='w'></td><td class='w'>${x.atoUtc ?: ""}</td>")   // ATE, ATA
             rows.append("<td>${"%.1f".format(x.fuelLeftGal)}</td>")    // Fuel remaining
             rows.append("</tr>")
         }
