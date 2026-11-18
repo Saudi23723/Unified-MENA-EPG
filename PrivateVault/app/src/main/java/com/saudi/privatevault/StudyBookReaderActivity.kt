@@ -113,6 +113,20 @@ class StudyBookReaderActivity : BaseActivity() {
         val sheet = android.widget.FrameLayout(this)
         val col = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(dp(16), dp(16), dp(16), dp(24)) }
         col.addView(EfbUi.text(this, p.optString("q"), 15.5f, 0xFFFFFFFF.toInt(), bold = true))
+        // The figure or table taken from the page, at the width of the book's page.
+        val img = p.optString("img")
+        if (img.isNotEmpty() && img != "null") {
+            val f = java.io.File(java.io.File(filesDir, "studybook"), img)
+            if (f.exists()) android.graphics.BitmapFactory.decodeFile(f.path)?.let { bmp ->
+                col.addView(android.widget.ImageView(this).apply {
+                    setImageBitmap(bmp)
+                    adjustViewBounds = true
+                    scaleType = android.widget.ImageView.ScaleType.FIT_CENTER
+                    background = EfbUi.cardBg(this@StudyBookReaderActivity, 0xFFFFFFFF.toInt(), 8)
+                    setPadding(dp(4), dp(4), dp(4), dp(4))
+                }, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(12) })
+            }
+        }
         val mineTx = p.optString("e")
         col.addView(EfbUi.text(this, if (mineTx.isBlank()) "— nothing written yet —" else "💡  $mineTx",
             14.5f, if (mineTx.isBlank()) 0xFF6E7681.toInt() else 0xFFA5D6A7.toInt())

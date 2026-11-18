@@ -33,6 +33,11 @@ class StudyBookActivity : BaseActivity() {
     override val alwaysDark = true
 
     private lateinit var web: WebView
+    private lateinit var clipper: ClipFrame
+    private lateinit var pad: LinearLayout
+    /** The picture taken for the page being written, if one has been taken. */
+    private var clipFile: String? = null
+    private var clipRow: LinearLayout? = null
     private lateinit var question: EditText
     private lateinit var mine: EditText
     private val prefs by lazy { VaultLock.prefs(this) }
@@ -61,6 +66,7 @@ class StudyBookActivity : BaseActivity() {
         head.addView(chip("📖 Book", 0xFF8E5CF7.toInt()) { readBook() })
         root.addView(head)
 
+        clipper = ClipFrame(this)
         web = WebView(this)
         web.settings.apply {
             javaScriptEnabled = true
@@ -76,18 +82,21 @@ class StudyBookActivity : BaseActivity() {
                 if (!url.isNullOrEmpty()) prefs.edit().putString("study_last_url", url).apply()
             }
         }
-        root.addView(web, LinearLayout.LayoutParams(-1, 0, 0.58f))
+        clipper.addView(web, android.widget.FrameLayout.LayoutParams(-1, -1))
+        root.addView(clipper, LinearLayout.LayoutParams(-1, 0, 0.58f))
 
         val tools = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL; setBackgroundColor(0xFF161D25.toInt()); setPadding(dp(8), dp(7), dp(8), dp(7))
         }
-        tools.addView(chip("📋  Capture what I highlighted", 0xFF2D7FF9.toInt()) { capture() },
+        tools.addView(chip("📋  Text", 0xFF2D7FF9.toInt()) { capture() },
+            LinearLayout.LayoutParams(0, -2, 1f).apply { marginEnd = dp(6) })
+        tools.addView(chip("📷  Figure", 0xFFFF9F0A.toInt()) { startClip() },
             LinearLayout.LayoutParams(0, -2, 1f).apply { marginEnd = dp(6) })
         tools.addView(chip("➕  Add as a page", 0xFF30D158.toInt()) { addPage() },
             LinearLayout.LayoutParams(0, -2, 1f))
         root.addView(tools)
 
-        val pad = LinearLayout(this).apply {
+        pad = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL; setBackgroundColor(0xFF121820.toInt()); setPadding(dp(10), dp(8), dp(10), dp(10))
         }
         question = box("The question, as you highlighted it", 0xFFFFFFFF.toInt())
@@ -123,6 +132,65 @@ class StudyBookActivity : BaseActivity() {
             android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE or android.text.InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
     }
 
+    /**
+     * A figure or a table cannot be highlighted: selecting text leaves the picture behind, and the
+     * light-gun signal table, the airspace diagram and every chart excerpt are exactly the things
+     * worth keeping. So they are taken as a picture instead — frame the part of the page that
+     * matters by dragging a box over it, and that rectangle is cut out and kept with the note.
+     */
+    private fun startClip() {
+        Toast.makeText(this, "Drag a box over the figure or the table", Toast.LENGTH_SHORT).show()
+        clipper.arm { l, t, w, h -> takeClip(l, t, w, h) }
+    }
+
+    private fun takeClip(l: Int, t: Int, w: Int, h: Int) {
+        if (w < 24 || h < 24) { Toast.makeText(this, "Too small — drag a bigger box", Toast.LENGTH_SHORT).show(); return }
+        try {
+            val full = android.graphics.Bitmap.createBitmap(
+                web.width.coerceAtLeast(1), web.height.coerceAtLeast(1), android.graphics.Bitmap.Config.ARGB_8888)
+            web.draw(android.graphics.Canvas(full))
+            val x = l.coerceIn(0, full.width - 1)
+            val y = t.coerceIn(0, full.height - 1)
+            val cw = w.coerceAtMost(full.width - x)
+            val ch = h.coerceAtMost(full.height - y)
+            val cut = android.graphics.Bitmap.createBitmap(full, x, y, cw, ch)
+            full.recycle()
+            val dir = java.io.File(filesDir, "studybook")
+            dir.mkdirs()
+            val out = java.io.File(dir, "clip_" + System.currentTimeMillis() + ".png")
+            out.outputStream().use { cut.compress(android.graphics.Bitmap.CompressFormat.PNG, 100, it) }
+            cut.recycle()
+            clipFile = out.name
+            showClip()
+            Toast.makeText(this, "Figure kept — now press Add as a page", Toast.LENGTH_SHORT).show()
+        } catch (e: Throwable) {
+            Toast.makeText(this, "Could not take that picture", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    /** The picture waiting to go onto the page, with the way to drop it again. */
+    private fun showClip() {
+        clipRow?.let { (it.parent as? android.view.ViewGroup)?.removeView(it) }
+        clipRow = null
+        val name = clipFile ?: return
+        val f = java.io.File(java.io.File(filesDir, "studybook"), name)
+        if (!f.exists()) { clipFile = null; return }
+        val row = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL
+            setBackgroundColor(0xFF1B222C.toInt()); setPadding(dp(8), dp(6), dp(8), dp(6))
+        }
+        row.addView(android.widget.ImageView(this).apply {
+            setImageBitmap(android.graphics.BitmapFactory.decodeFile(f.path))
+            adjustViewBounds = true
+            scaleType = android.widget.ImageView.ScaleType.FIT_CENTER
+        }, LinearLayout.LayoutParams(dp(90), dp(56)).apply { marginEnd = dp(10) })
+        row.addView(EfbUi.text(this, "🖼  a figure is kept for this page", 12.5f, 0xFFFFD60A.toInt()),
+            LinearLayout.LayoutParams(0, -2, 1f))
+        row.addView(chip("✕", 0xFF3A2A2A.toInt()) { f.delete(); clipFile = null; showClip() })
+        pad.addView(row, 0)
+        clipRow = row
+    }
+
     /** Whatever is highlighted up in the page, brought down into the box. */
     private fun capture() {
         web.evaluateJavascript("(function(){return window.getSelection().toString();})()") { raw ->
@@ -155,17 +223,21 @@ class StudyBookActivity : BaseActivity() {
 
     private fun addPage() {
         val q = question.text.toString().trim()
-        if (q.isEmpty()) { Toast.makeText(this, "The question box is empty", Toast.LENGTH_SHORT).show(); return }
+        if (q.isEmpty() && clipFile == null) {
+            Toast.makeText(this, "Nothing for a page yet — capture some text or a figure", Toast.LENGTH_SHORT).show(); return
+        }
         val topic = topicOf(q + " " + mine.text.toString())
         val pages = load()
         pages.put(JSONObject()
-            .put("q", q)
+            .put("q", q.ifEmpty { "(a figure)" })
             .put("e", mine.text.toString().trim())
+            .put("img", clipFile ?: JSONObject.NULL)
             .put("t", topic)
             .put("u", prefs.getString("study_last_url", "") ?: "")
             .put("at", System.currentTimeMillis()))
         prefs.edit().putString(KEY, pages.toString()).apply()
         question.setText(""); mine.setText("")
+        clipFile = null; showClip()
         Toast.makeText(this, "Page ${pages.length()} · filed under $topic", Toast.LENGTH_SHORT).show()
     }
 

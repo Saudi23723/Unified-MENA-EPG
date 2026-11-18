@@ -153,6 +153,8 @@ class MapActivity : BaseActivity(), NeonHost {
         map.minZoomLevel = 5.0
         map.isTilesScaledToDpi = prefs.getBoolean("map_big", false)
         chartFine()
+        // Whatever the chart was left leaning at, it opens flat: a leaning chart cannot be dragged.
+        b.root.post { flatten() }
         zoomLimit()
         map.overlayManager.tilesOverlay.setLoadingBackgroundColor(0xFFEDE8DA.toInt())
         map.overlayManager.tilesOverlay.setLoadingLineColor(0xFFEDE8DA.toInt())
@@ -3417,8 +3419,25 @@ class MapActivity : BaseActivity(), NeonHost {
      * moment a finger drags the chart, all three let go at once and the chart lies flat and north
      * up, where it moves exactly with the finger. The buttons put any of them back.
      */
+    /** The lean put back to nothing outright, animation and all. */
+    private fun flatten() {
+        map.animate().cancel()
+        map.rotationX = 0f
+        map.scaleX = 1f
+        map.scaleY = 1f
+        map.translationY = 0f
+        map.setMapCenterOffset(0, 0)
+        b.mapHolder.background = null
+        tilted = false
+    }
+
     private fun freeChart() {
-        if (ahead) tilt(false)
+        // The forward lean is a turn and a stretch of the whole map view, done by the view itself.
+        // The map underneath knows nothing about it, so under that transform a finger drags the
+        // chart by the wrong amount and in the wrong direction — the chart moves, but never where
+        // it was pushed. Flattening it is therefore not optional and not conditional: the transform
+        // is put back to nothing outright, animation and all, every time the chart is freed.
+        flatten()
         following = false; trackUp = false; ahead = false
         map.mapOrientation = 0f
         b.fabLocate.alpha = 0.6f

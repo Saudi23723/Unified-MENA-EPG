@@ -148,7 +148,10 @@ class AirportDiagramActivity : BaseActivity() {
         lateinit var c3d: TextView
         lateinit var cTrack: TextView
         lateinit var cFollow: TextView
-        c3d = chip("3D") { tilt(!tilted); mark(c3d, tilted) }.apply { visibility = View.GONE }   // a tilted flat picture is not 3D
+        // The airport seen from the circuit height rather than from straight above: the photograph,
+        // the FAA diagram on it, the runways and the traffic pattern all lean away together, because
+        // they are one picture. The runway names lean with it, which is what a pilot sees anyway.
+        c3d = chip("🏔 3D") { tilt(!tilted); mark(c3d, tilted) }
         cTrack = chip("🧭 Track up") {
             trackUp = !trackUp
             mark(cTrack, trackUp)
@@ -166,7 +169,7 @@ class AirportDiagramActivity : BaseActivity() {
         pauseChip = cPause
         chips.addView(cPause)
         chips.addView(chip("🛫 Pattern") { choosePattern() })
-        // (The 3D tilt is gone: the tilted picture and the labels drawn on it did not agree.)
+        chips.addView(c3d)
         chips.addView(cTrack)
         chips.addView(cFollow)
         chips.addView(chip("📄 FAA diagram") { faaDiagram() }, 0)
