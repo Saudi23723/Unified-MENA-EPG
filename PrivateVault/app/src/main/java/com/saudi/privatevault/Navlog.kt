@@ -146,11 +146,26 @@ object Navlog {
         }
         if (tocNm + todNm > total && total > 0) warn.add("The route is shorter than the climb and the descent together: the cruise never happens.")
 
-        // Cut points: the top of the climb and the top of the descent, placed along the line.
+        // Cut points: the top of the climb, the top of the descent, and — as a printed log does —
+        // a mark every hundred miles on a long leg, named by the miles still to run to its end.
         class Cut(val at: Double, val id: String)
         val cuts = ArrayList<Cut>()
         if (tocNm > 0.2 && tocNm < total - 0.2) cuts.add(Cut(tocNm, "TOC"))
         if (todNm > 0.2 && total - todNm > 0.2 && total - todNm > tocNm + 0.2) cuts.add(Cut(total - todNm, "TOD"))
+        run {
+            var walk = 0.0
+            for (i in 0 until points.size - 1) {
+                val len = legDist[i]
+                if (len > 100) {
+                    var left = Math.floor(len / 100).toInt() * 100
+                    while (left > 0) {
+                        cuts.add(Cut(walk + len - left, "$left-${points[i + 1].id}"))
+                        left -= 100
+                    }
+                }
+                walk += len
+            }
+        }
 
         // Walk the route, breaking a leg where a cut falls inside it.
         class Seg(val a: FlightPlan.Waypoint, val b: FlightPlan.Waypoint, val srcLeg: Int, val startAt: Double, val virtual: Boolean)
