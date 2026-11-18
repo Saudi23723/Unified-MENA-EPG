@@ -630,6 +630,9 @@ class LiveActivity : BaseActivity() {
         }
         if (overlayOpen) return super.dispatchKeyEvent(e)
         val down = e.action == KeyEvent.ACTION_DOWN
+        // after a held Back has put the picture full screen, the rest of that press (its repeats and the release)
+        // belongs to it: before, the release reached the full-screen Back and went straight back to the list
+        if (backHeld && e.keyCode == KeyEvent.KEYCODE_BACK) { if (!down) backHeld = false; return true }
         if (full && !overlay && epgPanel.visibility != View.VISIBLE) {
             when (e.keyCode) {
                 KeyEvent.KEYCODE_DPAD_UP, KeyEvent.KEYCODE_CHANNEL_UP -> { if (down) zap(if (App.prefs.getBoolean("zap_invert", false)) -1 else 1); return true }
@@ -660,8 +663,14 @@ class LiveActivity : BaseActivity() {
         }
         // hold Back in the list: back to full screen on the channel playing (owner, 17 Nov 2026)
         if (!full && e.keyCode == KeyEvent.KEYCODE_BACK && playing != null) {
-            if (down && e.repeatCount == 1) { backHeld = true; if (groupsPanel.visibility == View.VISIBLE) closeGroups(); setFull(true); return true }
-            if (backHeld) { if (!down) backHeld = false; return true }
+            if (down && e.repeatCount >= 1) {
+                backHeld = true
+                if (groupsPanel.visibility == View.VISIBLE) { groupsPanel.animate().cancel(); closeGroups() }
+                setFull(true); return true
+            }
+            // the groups panel closes when Back is let go, not when it goes down, so a held Back goes
+            // straight to the picture without first closing the panel
+            if (groupsPanel.visibility == View.VISIBLE) { if (!down && !e.isCanceled) closeGroups(); return true }
         }
         if (down && !full) {
             when (e.keyCode) {
