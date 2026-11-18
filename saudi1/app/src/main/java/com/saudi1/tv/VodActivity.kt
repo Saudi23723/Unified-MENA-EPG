@@ -201,11 +201,9 @@ class VodActivity : BaseActivity() {
                 withContext(Dispatchers.IO) { for (x in stale) Vod.latestEpisodeAt(x.id) }   // one after another, not to press the provider
                 if (current != FAV) return@launch
                 val o = raw.sortedByDescending { at(it) }
-                val pos = grid.focusedChild?.let { grid.getChildAdapterPosition(it) } ?: -1
-                if (o.indices.any { o[it].id != items[it].id } && pos <= 0) {
-                    items = o; show()
-                    if (pos == 0) grid.post { grid.findViewHolderForAdapterPosition(0)?.itemView?.requestFocus() }
-                }
+                // only while the viewer is not on the posters: rebuilding the grid under the focus threw it onto
+                // the "Latest added" button (owner, 17 Nov 2026); otherwise the new order is there next time
+                if (o.indices.any { o[it].id != items[it].id } && grid.focusedChild == null && !grid.hasFocus()) { items = o; show() }
             }
             return
         }
