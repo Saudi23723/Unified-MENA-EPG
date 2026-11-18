@@ -71,8 +71,13 @@ class RubberBandOverlay(
         return true
     }
 
+    /** Let go of the leg, whatever is happening. */
+    fun release() { leg = -1; at = null; armed = false; map.invalidate() }
+
     override fun onTouchEvent(e: MotionEvent, mv: MapView): Boolean {
         if (leg < 0) return false
+        // A second finger is a map gesture, never a bend: let the leg go and let the map have it.
+        if (e.pointerCount > 1) { leg = -1; at = null; armed = false; mv.invalidate(); return false }
         when (e.actionMasked) {
             MotionEvent.ACTION_MOVE -> {
                 at = mv.projection.fromPixels(e.x.toInt(), e.y.toInt()) as GeoPoint

@@ -223,7 +223,7 @@ class MapActivity : BaseActivity(), NeonHost {
         draw.cruiseKt = prefs.getFloat("cruise_kt", 100f).toDouble()
         draw.showMeasures = prefs.getBoolean("map_measures", true)
         map.overlays.add(draw)
-        ownship = OwnshipOverlay(map, airplane()).apply { onUserPan = { if (following) follow() } }
+        ownship = OwnshipOverlay(map, airplane()).apply { onUserPan = { if (following || trackUp || ahead) freeChart() } }
         glide = GlideRing(map, { if (gotGps) ownship.position() else null }, { if (lastAlt.isNaN()) null else lastAlt })
         glide.ratio = prefs.getString("glide_ratio", "10")?.toDoubleOrNull() ?: 10.0
         map.overlays.add(glide)
@@ -284,15 +284,18 @@ class MapActivity : BaseActivity(), NeonHost {
         if (prefs.getBoolean("map_free_rotate", false))
             map.overlays.add(org.osmdroid.views.overlay.gestures.RotationGestureOverlay(map).apply { isEnabled = true })
         else if (!trackUp) map.mapOrientation = 0f
+        // The way out of anything: the chart flat, north up, free, and the pen put down.
         b.fabLocate.setOnLongClickListener {
-            trackUp = false; ahead = false
-            map.mapOrientation = 0f
-            Toast.makeText(this, "N↑", Toast.LENGTH_SHORT).show()
+            freeChart()
+            draw.tool = MapDrawOverlay.MapTool.PAN
+            rubber?.release()
+            Toast.makeText(this, "✋ N↑ — the chart is free", Toast.LENGTH_SHORT).show()
             true
         }
-        // Any finger on the chart lets go of the aircraft, so the chart moves freely.
+        // A finger dragging the chart takes the chart back, whole: see freeChart.
         map.setOnTouchListener { _, e ->
-            if (e.actionMasked == android.view.MotionEvent.ACTION_MOVE && following && draw.tool == MapDrawOverlay.MapTool.PAN) follow()
+            if (e.actionMasked == android.view.MotionEvent.ACTION_MOVE && draw.tool == MapDrawOverlay.MapTool.PAN &&
+                (following || trackUp || ahead)) freeChart()
             false
         }
         b.zoomOut.setOnClickListener { map.controller.zoomOut() }
@@ -3245,6 +3248,25 @@ class MapActivity : BaseActivity(), NeonHost {
     /** The way the chart was being flown, kept: back from notes, the radio or traffic, it is the same. */
     private fun keepView() = prefs.edit().putBoolean("view_follow", following).putBoolean("view_track", trackUp).putBoolean("view_ahead", ahead)
         .putBoolean("track_up_on", trackUp).apply()
+
+    /**
+     * The chart handed back to the hand that is dragging it.
+     *
+     * Following, track up and the forward lean each move the chart by themselves: following pulls
+     * it back to the aeroplane thirty times a second, and the lean is a turn and a squeeze of the
+     * whole view, under which a drag no longer carries the chart the way the finger went. So the
+     * moment a finger drags the chart, all three let go at once and the chart lies flat and north
+     * up, where it moves exactly with the finger. The buttons put any of them back.
+     */
+    private fun freeChart() {
+        if (ahead) tilt(false)
+        following = false; trackUp = false; ahead = false
+        map.mapOrientation = 0f
+        b.fabLocate.alpha = 0.6f
+        b.fabLocate.setImageResource(viewIcon())
+        bar?.setCentred(false)
+        keepView()
+    }
 
     private fun follow(quiet: Boolean = false) {
         following = !following
