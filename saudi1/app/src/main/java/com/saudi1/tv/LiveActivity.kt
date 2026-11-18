@@ -67,6 +67,7 @@ class LiveActivity : BaseActivity() {
     private var overlayJob: Job? = null
     private var tries = 0
     private var usingHls = false
+    @Volatile private var softNow = false
     private val time = SimpleDateFormat("h:mm", Locale.ENGLISH)
     private val clockF = SimpleDateFormat("h:mm a", Locale.ENGLISH)
     private val dayF = SimpleDateFormat("EEEE d MMMM", Locale.ENGLISH)
@@ -105,7 +106,7 @@ class LiveActivity : BaseActivity() {
         }
 
         // fast start for live TV: small buffers, play as soon as there is a second of video
-        player = Players.make(this, live = true)
+        player = Players.make(this, live = true, softVideo = { softNow })
         playerView.player = player
         applyMode()
         player.addAnalyticsListener(object : androidx.media3.exoplayer.analytics.AnalyticsListener {
@@ -215,6 +216,12 @@ class LiveActivity : BaseActivity() {
                 val n = player.videoDecoderCounters?.let { it.ensureUpdated(); it.renderedOutputBufferCount } ?: -1
                 player.videoDecoderCounters?.let { android.util.Log.d("SAUDI", "frames: ${c.name}: shown=${it.renderedOutputBufferCount} dropped=${it.droppedBufferCount} skipped=${it.skippedOutputBufferCount} in=${it.queuedInputBufferCount}") }
                 if (player.isPlaying && player.videoFormat != null && n >= 0 && n == frames) {
+                    // the sound plays but the TV's video chip gives no new picture: this channel gets the software
+                    // decoder, now and every next time
+                    if (!SoftVideo.has(c.id)) {
+                        frozen = 0; frames = -1; android.util.Log.w("SAUDI", "video chip stuck: software decoder for ${c.name}")
+                        SoftVideo.add(c.id); player.setPlaybackSpeed(1f); start(c); continue
+                    }
                     if (++frozen >= 2) { frozen = 0; frames = -1; android.util.Log.w("SAUDI", "picture frozen: restart ${c.name}"); player.setPlaybackSpeed(1f); start(c); continue }
                 } else frozen = 0
                 frames = n
@@ -364,6 +371,9 @@ class LiveActivity : BaseActivity() {
         zapAt = android.os.SystemClock.elapsedRealtime()
         val u = Api.streamUrl(c)
         usingHls = hls && u.endsWith(".ts")
+        // the video decoder this channel needs (see Players.make): changing it needs a fresh start of the player
+        val soft = SoftVideo.has(c.id)
+        if (soft != softNow) { softNow = soft; player.stop() }
         // HLS: the player itself stays 6 s from live, a little faster / slower to keep there
         val liveCfg = MediaItem.LiveConfiguration.Builder().setTargetOffsetMs(6_000).setMinOffsetMs(3_000).setMaxOffsetMs(20_000)
             .setMinPlaybackSpeed(0.97f).setMaxPlaybackSpeed(1.06f).build()

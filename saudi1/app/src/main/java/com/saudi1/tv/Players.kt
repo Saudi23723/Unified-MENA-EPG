@@ -13,10 +13,19 @@ import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 /** One way to make a player everywhere: the TV's own decoders first, and the built-in FFmpeg sound decoders
  *  (AC3, E-AC3, MP2, DTS...) when the TV has none, so channels with that sound are not silent. */
 object Players {
-    fun make(ctx: Context, live: Boolean, seekMs: Long = 10_000, audioFocus: Boolean = true, maxHd: Boolean = false): ExoPlayer {
+    fun make(ctx: Context, live: Boolean, seekMs: Long = 10_000, audioFocus: Boolean = true, maxHd: Boolean = false,
+             softVideo: () -> Boolean = { false }): ExoPlayer {
+        // some satellite channels (STARZPLAY SPORTS, BBC PARLIAMENT…) stop the TV's own video chip after a few
+        // pictures: the sound goes on, the picture stays black (owner, 18 Nov 2026). For those channels the
+        // phone-style software decoder is asked first (the chip stays as the fallback).
+        val selector = androidx.media3.exoplayer.mediacodec.MediaCodecSelector { mime, secure, tunneling ->
+            val list = androidx.media3.exoplayer.mediacodec.MediaCodecUtil.getDecoderInfos(mime, secure, tunneling)
+            if (mime.startsWith("video/") && softVideo()) list.sortedBy { it.hardwareAccelerated } else list
+        }
         val renderers = DefaultRenderersFactory(ctx)
             .setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
             .setEnableDecoderFallback(true)
+            .setMediaCodecSelector(selector)
         // .ts channels taken straight from satellite (BBC PARLIAMENT, STARZPLAY SPORTS…) often never send the
         // "IDR" key picture this player waited for: sound played, the picture stayed black (owner, 18 Nov 2026).
         // Any key picture (I-frame) now starts the picture, and pictures are found even without access-unit
