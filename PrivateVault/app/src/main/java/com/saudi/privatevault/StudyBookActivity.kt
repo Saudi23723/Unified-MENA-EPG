@@ -175,84 +175,15 @@ class StudyBookActivity : BaseActivity() {
     // ---- the book ----
 
     private fun readBook() {
-        val pages = load()
-        if (pages.length() == 0) {
-            MaterialAlertDialogBuilder(this).setTitle("📖 The book is empty")
+        if (load().length() == 0) {
+            MaterialAlertDialogBuilder(this).setTitle("\ud83d\udcd6 The book is empty")
                 .setMessage("Highlight a question in the page above, press Capture, write your explanation under it, " +
-                    "and press Add as a page. Every page you add is kept here and filed by subject.")
+                    "and press Add as a page. Every page you add is kept in the book, filed by subject, and can be " +
+                    "drawn on in colour and put in whatever order you want to read it in.")
                 .setPositiveButton(R.string.ok, null).show()
             return
         }
-        var at = prefs.getInt(KEY_AT, 0).coerceIn(0, pages.length() - 1)
-        val body = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setBackgroundColor(EfbUi.BG) }
-        val dlg = MaterialAlertDialogBuilder(this).setView(ScrollView(this).apply { addView(body) }).create()
-        fun paint() {
-            prefs.edit().putInt(KEY_AT, at).apply()
-            val p = pages.optJSONObject(at) ?: return
-            body.removeAllViews()
-            val top = LinearLayout(this).apply {
-                orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL
-                setBackgroundColor(0xFF1B222C.toInt()); setPadding(dp(8), dp(8), dp(8), dp(8))
-            }
-            top.addView(chip("‹", 0xFF2A3B4D.toInt()) { if (at > 0) { at--; paint() } })
-            top.addView(EfbUi.text(this, "page ${at + 1} of ${pages.length()}  ·  ${p.optString("t")}",
-                12.5f, 0xFFD6DCE4.toInt(), bold = true).apply { gravity = Gravity.CENTER },
-                LinearLayout.LayoutParams(0, -2, 1f))
-            top.addView(chip("›", 0xFF2A3B4D.toInt()) { if (at < pages.length() - 1) { at++; paint() } })
-            body.addView(top)
-
-            body.addView(EfbUi.text(this, p.optString("q"), 15f, 0xFFFFFFFF.toInt(), bold = true)
-                .apply { setPadding(dp(16), dp(16), dp(16), dp(6)) })
-            val mineTx = p.optString("e")
-            body.addView(EfbUi.text(this, if (mineTx.isBlank()) "— nothing written yet —" else "💡  $mineTx",
-                14f, if (mineTx.isBlank()) 0xFF6E7681.toInt() else 0xFFA5D6A7.toInt())
-                .apply { setPadding(dp(16), dp(4), dp(16), dp(12)) })
-
-            val acts = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; setPadding(dp(12), 0, dp(12), dp(10)) }
-            Maneuvers.byId(maneuverFor(p.optString("t")))?.let { m ->
-                acts.addView(chip("▶  ${m.title}", 0xFF2D7FF9.toInt()) { dlg.dismiss(); ManeuversActivity.open(this, m.id) },
-                    LinearLayout.LayoutParams(0, -2, 1f).apply { marginEnd = dp(6) })
-            }
-            acts.addView(chip("📚 Library", 0xFF2A3B4D.toInt()) {
-                dlg.dismiss(); startActivity(Intent(this, LibraryActivity::class.java))
-            }, LinearLayout.LayoutParams(0, -2, 1f).apply { marginEnd = dp(6) })
-            acts.addView(chip("✎ Edit", 0xFF2A3B4D.toInt()) { dlg.dismiss(); editPage(pages, at) },
-                LinearLayout.LayoutParams(-2, -2).apply { marginEnd = dp(6) })
-            acts.addView(chip("✕", 0xFF3A2A2A.toInt()) {
-                MaterialAlertDialogBuilder(this).setMessage("Take this page out of the book?")
-                    .setPositiveButton(R.string.delete) { _, _ ->
-                        pages.remove(at)
-                        prefs.edit().putString(KEY, pages.toString()).apply()
-                        dlg.dismiss()
-                        if (pages.length() > 0) readBook()
-                    }
-                    .setNegativeButton(R.string.cancel, null).show()
-            })
-            body.addView(acts)
-            val src = p.optString("u")
-            if (src.isNotEmpty()) body.addView(EfbUi.text(this, src, 10.5f, 0xFF6E7681.toInt()).apply {
-                maxLines = 1; setPadding(dp(16), 0, dp(16), dp(12))
-                setOnClickListener { dlg.dismiss(); web.loadUrl(src) }
-            })
-        }
-        paint()
-        dlg.show()
-    }
-
-    private fun editPage(pages: JSONArray, at: Int) {
-        val p = pages.optJSONObject(at) ?: return
-        val col = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(dp(16), dp(8), dp(16), 0) }
-        val q = box("The question", 0xFFFFFFFF.toInt()).apply { setText(p.optString("q")); minLines = 3 }
-        val e = box("Your explanation", 0xFFA5D6A7.toInt()).apply { setText(p.optString("e")); minLines = 3 }
-        col.addView(q); col.addView(e, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(8) })
-        MaterialAlertDialogBuilder(this).setView(col)
-            .setPositiveButton(R.string.ok) { _, _ ->
-                p.put("q", q.text.toString().trim()).put("e", e.text.toString().trim())
-                    .put("t", topicOf(q.text.toString() + " " + e.text.toString()))
-                prefs.edit().putString(KEY, pages.toString()).apply()
-                readBook()
-            }
-            .setNegativeButton(R.string.cancel) { _, _ -> readBook() }.show()
+        StudyBookReaderActivity.open(this)
     }
 
     companion object {
