@@ -265,13 +265,26 @@ class LogbookActivity : BaseActivity() {
                 }.show()
         }, LinearLayout.LayoutParams(-2, -2).apply { marginStart = dp(8) })
         body.addView(top)
+        // ENTRIES: the periods a logbook is read by, each with the hours flown in it.
+        val periods = listOf("All" to 0L, "Last 7 Days" to 7L, "Last 30 Days" to 30L,
+            "Last 90 Days" to 90L, "Last 6 Months" to 182L, "Last 12 Months" to 365L)
+        val periodRow = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; setPadding(0, dp(10), 0, 0) }
+        body.addView(android.widget.HorizontalScrollView(this).apply { isHorizontalScrollBarEnabled = false; addView(periodRow) })
         val filters = listOf("All" to "", "🛰 GPS track" to "gps", "XC" to "xc", "Dual" to "dual",
             "Solo" to "solo", "Night" to "night", "Instrument" to "inst", "Signed" to "signed")
         val chips = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; setPadding(0, dp(8), 0, 0) }
         body.addView(android.widget.HorizontalScrollView(this).apply { isHorizontalScrollBarEnabled = false; addView(chips) })
+        // The head of the list: how many entries are being shown, and their hours.
+        val counted = EfbUi.text(this, "", 12.5f, EfbUi.DIM, bold = true).apply { setPadding(dp(4), dp(10), dp(4), dp(2)) }
+        body.addView(counted)
+        if (entries.isNotEmpty()) body.addView(currencySummary())
         val list = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
         body.addView(list)
         lateinit var paintChips: () -> Unit
+        fun inPeriod(e: LogEntry): Boolean {
+            if (periodDays == 0L) return true
+            return System.currentTimeMillis() - e.dateMillis() <= periodDays * 86400000L
+        }
         fun keep(e: LogEntry): Boolean = when (filter) {
             "gps" -> e.track.isNotEmpty()
             "xc" -> e.xc > 0
@@ -287,9 +300,10 @@ class LogbookActivity : BaseActivity() {
             val q = query.trim().uppercase()
             val shown = (if (q.isEmpty()) entries else entries.filter { e ->
                 listOf(e.date, e.aircraft, e.tail, e.from, e.to, e.route, e.remarks, e.instructor).any { it.uppercase().contains(q) }
-            }).filter { keep(it) }
-            val lessons = if (filter.isNotEmpty()) emptyList() else
+            }).filter { keep(it) && inPeriod(it) }
+            val lessons = if (filter.isNotEmpty() || periodDays > 0) emptyList() else
                 Logbook.ground(this).filter { g -> q.isEmpty() || listOf(g.date, g.kind, g.topics, g.instructor, g.remarks).any { it.uppercase().contains(q) } }
+            counted.text = "%d %s · %.1f total time".format(shown.size, if (shown.size == 1) "entry" else "entries", shown.sumOf { it.total })
             if (filter == "gps" && shown.isNotEmpty()) {
                 val nm = shown.sumOf { it.distanceNm }
                 list.addView(EfbUi.text(this, "%d flights recorded by the GPS  ·  %.1f h  ·  %,.0f nm".format(shown.size, shown.sumOf { it.total }, nm),
@@ -314,6 +328,18 @@ class LogbookActivity : BaseActivity() {
             }
         }
         paintChips = {
+            periodRow.removeAllViews()
+            for ((label, days) in periods) {
+                val hrs = entries.filter { days == 0L || System.currentTimeMillis() - it.dateMillis() <= days * 86400000L }.sumOf { it.total }
+                periodRow.addView(LinearLayout(this).apply {
+                    orientation = LinearLayout.VERTICAL
+                    background = EfbUi.cardBg(this@LogbookActivity, if (periodDays == days) EfbUi.ACCENT else EfbUi.CARD, 12).apply { setStroke(0, 0) }
+                    setPadding(dp(12), dp(7), dp(12), dp(7))
+                    addView(EfbUi.text(this@LogbookActivity, label, 11f, if (periodDays == days) EfbUi.BG else EfbUi.DIM, bold = true))
+                    addView(EfbUi.text(this@LogbookActivity, "%.1f".format(hrs), 16f, if (periodDays == days) EfbUi.BG else EfbUi.TEXT, bold = true, mono = true))
+                    setOnClickListener { periodDays = days; paintChips(); fill() }
+                }, LinearLayout.LayoutParams(-2, -2).apply { marginEnd = dp(6) })
+            }
             chips.removeAllViews()
             for ((label, kee) in filters) chips.addView(EfbUi.text(this, label, 12.5f,
                 if (filter == kee) EfbUi.BG else EfbUi.TEXT, bold = filter == kee).apply {
@@ -332,6 +358,7 @@ class LogbookActivity : BaseActivity() {
     }
 
     private var filter = ""
+    private var periodDays = 0L
 
     private fun monthName(ym: String): String = try {
         val c = Calendar.getInstance().apply { time = LogEntry.FMT.parse("$ym-01")!! }
@@ -385,8 +412,21 @@ class LogbookActivity : BaseActivity() {
             addView(EfbUi.text(this@LogbookActivity, monthName(e.date.take(7)).take(3).uppercase(), 10f, EfbUi.DIM).apply { gravity = Gravity.CENTER })
         }, LinearLayout.LayoutParams(dp(54), -2))
         val mid = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(dp(12), 0, dp(8), 0) }
-        mid.addView(EfbUi.text(this, "${e.from.ifEmpty { "—" }} → ${e.to.ifEmpty { "—" }}", 17f, EfbUi.TEXT, bold = true))
-        mid.addView(EfbUi.text(this, listOf(e.aircraft, e.tail, listOf(e.timeOut, e.timeIn).filter { it.isNotEmpty() }.joinToString("–")).filter { it.isNotEmpty() }.joinToString("  ·  "), 12f, EfbUi.DIM))
+        mid.addView(EfbUi.text(this, "${e.from.ifEmpty { "—" }} - ${e.to.ifEmpty { "—" }}", 17f, EfbUi.TEXT, bold = true))
+        // The aeroplane as the logbook names it: its tail, then its type in brackets.
+        mid.addView(EfbUi.text(this, (e.tail.ifEmpty { "No tail number" }) +
+            (if (e.aircraft.isNotEmpty()) " (${e.aircraft})" else "") +
+            (listOf(e.timeOut, e.timeIn).filter { it.isNotEmpty() }.joinToString("–").takeIf { it.isNotEmpty() }?.let { "  ·  $it" } ?: ""),
+            12f, EfbUi.DIM))
+        // The marks a logbook entry carries: its track, its people, its signature.
+        val marks = listOfNotNull(
+            e.track.takeIf { it.isNotEmpty() }?.let { "🛰" },
+            e.instructor.takeIf { it.isNotEmpty() }?.let { "👤 ${e.instructor.split(" ").first()}" },
+            if (e.signed) "✍ signed" else null,
+            prefs.getString("sigreq_${e.id}", null)?.let { "Requested Signature" },
+        )
+        if (marks.isNotEmpty()) mid.addView(EfbUi.text(this, marks.joinToString("   "), 11.5f,
+            if (e.signed) 0xFF30D158.toInt() else if (prefs.getString("sigreq_${e.id}", null) != null) 0xFFFF9F0A.toInt() else 0xFF7FB2E5.toInt()))
         val tags = listOfNotNull(
             if (e.track.isNotEmpty()) "🛰 GPS" else null,
             if (e.dual > 0) "DUAL" else null, if (e.solo > 0) "SOLO" else null, if (e.xc > 0) "XC" else null,
@@ -950,7 +990,70 @@ class LogbookActivity : BaseActivity() {
 
     // ---- currency ----
 
+    /**
+     * The currency summary a logbook opens with: each thing that runs out, with the days left on it
+     * — green while there is room, amber inside a month, red once it has gone.
+     */
+    private fun currencySummary(): View {
+        val wrap = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
+        wrap.addView(header("Currency summary"))
+        val card = EfbUi.card(this)
+        wrap.addView(card)
+        val now = System.currentTimeMillis()
+        fun daysLeft(from: Long, months: Int): Long {
+            val c = Calendar.getInstance().apply { timeInMillis = from; add(Calendar.MONTH, months) }
+            return (c.timeInMillis - now) / 86400000L
+        }
+        val items = ArrayList<Triple<String, Long, String>>()
+        // 61.57(a): three take-offs and landings in the ninety days behind you.
+        val day90 = now - 90L * 86400000
+        val recent = entries.filter { it.dateMillis() >= day90 }
+        val ldg = recent.sumOf { it.dayLdg + it.nightLdg }
+        val lastThird = entries.filter { it.dayLdg + it.nightLdg > 0 }.sortedByDescending { it.dateMillis() }
+            .let { list -> var n = 0; list.firstOrNull { e -> n += e.dayLdg + e.nightLdg; n >= 3 } }
+        items.add(Triple("Passengers (day)", if (ldg >= 3 && lastThird != null) daysLeft(lastThird.dateMillis(), 3) else -1L,
+            "61.57(a) · $ldg of 3 landings in 90 days"))
+        val nightRecent = recent.sumOf { it.nightLdg }
+        val lastNight = entries.filter { it.nightLdg > 0 }.sortedByDescending { it.dateMillis() }
+            .let { list -> var n = 0; list.firstOrNull { e -> n += e.nightLdg; n >= 3 } }
+        items.add(Triple("Passengers (night)", if (nightRecent >= 3 && lastNight != null) daysLeft(lastNight.dateMillis(), 3) else -1L,
+            "61.57(b) · $nightRecent of 3 night landings in 90 days"))
+        // A flight review is good for twenty-four calendar months.
+        entries.filter { it.remarks.contains("flight review", true) || it.remarks.contains("61.56", true) }
+            .maxByOrNull { it.dateMillis() }?.let { items.add(Triple("Flight Review", daysLeft(it.dateMillis(), 24), "61.56 · last on ${it.date}")) }
+            ?: items.add(Triple("Flight Review", -1L, "61.56 · none found in the remarks"))
+        prefs.getString("medical_date", null)?.takeIf { it.isNotEmpty() }?.let { d ->
+            try {
+                val t = LogEntry.FMT.parse(d)!!.time
+                items.add(Triple("Medical", daysLeft(t, prefs.getInt("medical_months", 60)), "issued $d"))
+            } catch (e: Exception) { }
+        }
+        for ((label, days, detail) in items) {
+            val colour = when { days < 0 -> 0xFFFF453A.toInt(); days < 30 -> 0xFFFF9F0A.toInt(); else -> 0xFF30D158.toInt() }
+            card.addView(LinearLayout(this).apply {
+                orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL
+                layoutDirection = View.LAYOUT_DIRECTION_LTR
+                setPadding(0, dp(9), 0, dp(9))
+                addView(LinearLayout(this@LogbookActivity).apply {
+                    orientation = LinearLayout.VERTICAL
+                    addView(EfbUi.text(this@LogbookActivity, label, 15f, EfbUi.TEXT, bold = true))
+                    addView(EfbUi.text(this@LogbookActivity, detail, 11.5f, EfbUi.DIM))
+                }, LinearLayout.LayoutParams(0, -2, 1f))
+                addView(LinearLayout(this@LogbookActivity).apply {
+                    orientation = LinearLayout.VERTICAL; gravity = Gravity.END
+                    addView(EfbUi.text(this@LogbookActivity, if (days < 0) "NOT CURRENT" else "$days Days", 14f, colour, bold = true)
+                        .apply { gravity = Gravity.END })
+                    addView(EfbUi.text(this@LogbookActivity, if (days < 0) "" else "REMAINING", 9.5f, EfbUi.DIM)
+                        .apply { gravity = Gravity.END; letterSpacing = 0.08f })
+                })
+            })
+            card.addView(View(this).apply { setBackgroundColor(0x15FFFFFF) }, LinearLayout.LayoutParams(-1, 1))
+        }
+        return wrap
+    }
+
     private fun currency() {
+        body.addView(currencySummary())
         val day90 = System.currentTimeMillis() - 90L * 86400000
         val recent = entries.filter { it.dateMillis() >= day90 }
         val c = EfbUi.card(this)
