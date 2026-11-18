@@ -282,6 +282,8 @@ class StudyBookActivity : BaseActivity() {
                 if (!t || JUNK[t]) return;
                 if (/^(Copyright|Terms and Conditions|Phone:|Fax:|Elapsed Time|Average Time|©)/.test(t)) return;
                 if (/^\(?\d{3}\)?[ -]?\d{3}-\d{4}$/.test(t)) return;
+                if (/^Source(\s+\d+)+$/.test(t)) return;
+                if (/^\d+\s*\(\d+\.\d+\.\d+\)$/.test(t)) return;
                 if (t.length < 2) return;
                 pts.push({ d: depth || 0, m: marker || '', t: t });
                 out.push((marker ? marker + ' ' : '') + t);
@@ -324,11 +326,17 @@ class StudyBookActivity : BaseActivity() {
                 if (SKIP[tag]) return;
                 if (!shown(el)) return;
                 if (out.length > 500) return;
-                // The list of every question in the bank sits beside the lesson, each entry marked
-                // (3.7.71). A box with a handful of those in it is that index, not the lesson.
+                // The list of every question in the bank sits beside the lesson. On the screen each
+                // entry reads "5 (3.7.69)", but the text behind it reads "Question" and then
+                // "Source 3 7 69" with no brackets at all — so looking for the bracketed form alone
+                // let the whole index through. Either form, half a dozen times over in one box,
+                // means that box is the index and not the lesson.
                 if (el.children && el.children.length > 0){
                     var it = el.innerText || '';
-                    if (it.length < 20000 && (it.match(/\(\d+\.\d+\.\d+\)/g) || []).length >= 6) return;
+                    if (it.length < 20000 &&
+                        (((it.match(/\(\d+\.\d+\.\d+\)/g) || []).length >= 6) ||
+                         ((it.match(/Source\s+\d+\s+\d+\s+\d+/g) || []).length >= 4) ||
+                         ((it.match(/\bQuestion\b/g) || []).length >= 8))) return;
                 }
                 if (tag === 'ol' || tag === 'ul'){ list(el, 0); return; }
                 if (!el.children || el.children.length === 0){ push(el.innerText || el.textContent, 0, ''); return; }
