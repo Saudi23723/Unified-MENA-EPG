@@ -5,135 +5,102 @@ import android.text.InputType
 import android.view.Gravity
 import android.view.View
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.LinearLayout
+import android.widget.ScrollView
 import android.widget.TextView
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 /**
- * Checklists, one item at a time: a tap ticks the item and lights the next,
- * each section shows how far it has gone, and the text is the pilot's to
- * edit so it matches the aircraft's own POH.
+ * Checklists as an electronic flight bag keeps them: two panels.
+ *
+ * On the left the pilot moves about — the three groups across the top (Normal, Abnormal,
+ * Emergency), the subgroups under them as grey headings (PREFLIGHT, IN FLIGHT…), and the lists
+ * themselves, each with a dot showing how far through it is. On the right are that list's own
+ * items: the grey detail lines that name a part of the aeroplane, and under them the check items,
+ * each with what to do written on its right. The item in hand is lit; a tick fills it in and the
+ * next one lights. Along the bottom: Reset, Speak, Skip, Check.
+ *
+ * On a narrow screen the two panels take turns: the lists, then the items with a way back.
  */
 class ChecklistActivity : BaseActivity() {
 
-    private lateinit var col: LinearLayout
+    /** One line of a list: a detail (a heading inside the list) or a check item with its action. */
+    private class Item(val title: String, val action: String, val detail: Boolean, val note: String? = null)
+
+    /** One list: its name, the subgroup and group it belongs to, and its items. */
+    private class Lst(val name: String, val sub: String, val group: Int, val items: List<Item>) {
+        val key get() = "$group|$sub|$name"
+    }
+
     private val prefs get() = VaultLock.prefs(this)
     private var aircraft = "SportStar MAX"
     private val done = HashSet<String>()
-    private var emergency: View? = null
+    private val skipped = HashSet<String>()
+    private var group = 0
+    private var open: Lst? = null
+    private var lists: List<Lst> = emptyList()
+    private var speaking = false
+    private var tts: android.speech.tts.TextToSpeech? = null
+
+    private lateinit var rootBox: LinearLayout
+    private lateinit var leftPanel: LinearLayout
+    private lateinit var rightPanel: LinearLayout
+    private var wide = false
+
     private fun dp(v: Int) = EfbUi.dp(this, v)
+
+    private val navy = 0xFF1B2A3A.toInt()
+    private val panelBg = 0xFF0E1419.toInt()
+    private val rowBg = 0xFF161D25.toInt()
+    private val lit = 0xFF0A84FF.toInt()
+    private val grey = 0xFF8A94A0.toInt()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // The school's checklist, once, the first time it is there; then whichever the pilot picks.
+        window.statusBarColor = navy
+        window.navigationBarColor = panelBg
         if (!prefs.getBoolean("ck_athene_shown", false)) prefs.edit().putBoolean("ck_athene_shown", true).putString("ck_aircraft", ATHENE).apply()
         aircraft = prefs.getString("ck_aircraft", ATHENE)!!.let { if (it == "SportStar") "SportStar MAX" else it }
-        col = EfbUi.screen(this, getString(R.string.ck_title)) { bar ->
-            bar.menu.add(R.string.ck_reset).setOnMenuItemClickListener { askReset(); true }
-            bar.menu.add(R.string.ck_edit).setOnMenuItemClickListener { edit(); true }
-            bar.menu.add(R.string.ck_restore).setOnMenuItemClickListener { prefs.edit().remove("ck_$aircraft").apply(); done.clear(); keep(); build(); true }
-        }
         load()
-        build()
-        if (intent.getBooleanExtra("emergency", false)) col.postDelayed({ emergency?.let { v -> (col.parent as? android.widget.ScrollView)?.scrollTo(0, v.top) } }, 600)
-        else resume()
-    }
-
-    /** The sections, in order, with their cards: for the side tabs. */
-    private val sections = ArrayList<Pair<String, View>>()
-    private var rail: LinearLayout? = null
-
-    /**
-     * Side tabs down the edge, as a printed tabbed checklist: one per section, emergencies red,
-     * reference pages green, the rest graphite; a tap and you are there.
-     */
-    private fun tabs() {
-        val scroll = col.parent as? android.widget.ScrollView ?: return
-        val r = rail ?: run {
-            val root = scroll.parent as? LinearLayout ?: return
-            val i = root.indexOfChild(scroll)
-            root.removeView(scroll)
-            val row = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; layoutDirection = View.LAYOUT_DIRECTION_LTR }
-            val railBox = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(dp(4), dp(6), dp(2), dp(6)) }
-            row.addView(android.widget.ScrollView(this).apply { isVerticalScrollBarEnabled = false; addView(railBox) }, LinearLayout.LayoutParams(dp(92), -1))
-            row.addView(scroll, LinearLayout.LayoutParams(0, -1, 1f))
-            root.addView(row, i, LinearLayout.LayoutParams(-1, 0, 1f))
-            rail = railBox
-            railBox
+        wide = resources.configuration.screenWidthDp >= 680
+        rootBox = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; setBackgroundColor(panelBg); layoutDirection = View.LAYOUT_DIRECTION_LTR }
+        leftPanel = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setBackgroundColor(0xFF121A22.toInt()) }
+        rightPanel = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setBackgroundColor(panelBg) }
+        if (wide) {
+            rootBox.addView(leftPanel, LinearLayout.LayoutParams(dp(300), -1))
+            rootBox.addView(View(this).apply { setBackgroundColor(0xFF263340.toInt()) }, LinearLayout.LayoutParams(1, -1))
+            rootBox.addView(rightPanel, LinearLayout.LayoutParams(0, -1, 1f))
+        } else {
+            rootBox.addView(leftPanel, LinearLayout.LayoutParams(0, -1, 1f))
+            rootBox.addView(rightPanel, LinearLayout.LayoutParams(0, -1, 1f).apply { })
         }
-        r.removeAllViews()
-        for ((name, card) in sections) {
-            val emergency = name.contains("EMERGENCY", true) || name.contains("FIRE", true) || name.contains("FAILURE", true)
-            val reference = name.startsWith("📋")
-            val bg = when { emergency -> 0xFFC62828.toInt(); reference -> 0xFF2E7D32.toInt(); else -> EfbUi.BAND }
-            val label = name.replace(Regex("^[^A-Za-z0-9]+"), "").substringBefore(" · ").substringBefore(" (").take(28)
-            r.addView(EfbUi.text(this, label, 11f, if (emergency || reference) 0xFFFFFFFF.toInt() else EfbUi.TEXT, bold = true).apply {
-                gravity = Gravity.CENTER; maxLines = 3
-                background = EfbUi.cardBg(this@ChecklistActivity, bg, 8).apply { setStroke(0, 0) }
-                setPadding(dp(4), dp(10), dp(4), dp(10))
-                setOnClickListener { scroll.smoothScrollTo(0, (card.top - dp(6)).coerceAtLeast(0)) }
-            }, LinearLayout.LayoutParams(-1, -2).apply { bottomMargin = dp(4) })
+        setContentView(rootBox)
+        androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(rootBox) { _, ins ->
+            val bars = ins.getInsets(androidx.core.view.WindowInsetsCompat.Type.systemBars())
+            rootBox.setPadding(0, bars.top, 0, bars.bottom); ins
         }
-    }
-
-    // ---- Speak mode: the next item read aloud, ticked with a tap anywhere on it, the next one read ----
-
-    private var tts: android.speech.tts.TextToSpeech? = null
-    private var speaking = false
-    private var speakRows: List<Triple<String, View, String>> = emptyList()
-
-    private fun say(text: String) {
-        val t = tts ?: android.speech.tts.TextToSpeech(this) { st ->
-            if (st == android.speech.tts.TextToSpeech.SUCCESS) { tts?.language = java.util.Locale.US; tts?.setSpeechRate(0.95f); say(text) }
-        }.also { tts = it; return }
-        t.speak(text, android.speech.tts.TextToSpeech.QUEUE_FLUSH, null, "ck")
-    }
-
-    /** The first open item, spoken as a checklist is read: "Fuel selector, ON". */
-    private fun speakNext() {
-        if (!speaking) return
-        val next = speakRows.firstOrNull { it.first !in done && !it.third.contains("EMERGENCY", true) }
-        if (next == null) { say("Checklist complete."); return }
-        val line = next.first.substringAfter('|')
-        say(line.replace(Regex("\\s*(\\.{2,}|—|-{2,}|\\|)\\s*"), ", "))
-        (col.parent as? android.widget.ScrollView)?.let { sc ->
-            var top = next.second.top; var p = next.second.parent as? View
-            while (p != null && p !== col) { top += p.top; p = p.parent as? View }
-            sc.smoothScrollTo(0, (top - dp(140)).coerceAtLeast(0))
-        }
+        parse()
+        if (intent.getBooleanExtra("emergency", false)) {
+            group = 2
+            open = lists.firstOrNull { it.group == 2 }
+        } else open = lists.firstOrNull { it.group == group && !allDone(it) } ?: lists.firstOrNull { it.group == group }
+        paint()
     }
 
     override fun onDestroy() {
-        tts?.shutdown()
         super.onDestroy()
+        try { tts?.stop(); tts?.shutdown() } catch (e: Exception) { }
     }
 
-    // Ticks stay until the pilot resets them: leaving the screen or the app keeps the place.
-    private fun load() {
-        done.clear()
-        try { val a = org.json.JSONArray(prefs.getString("ck_done_$aircraft", "[]")); for (i in 0 until a.length()) done.add(a.getString(i)) } catch (e: Exception) {}
+    override fun onBackPressed() {
+        if (!wide && rightShown) { rightShown = false; paint() } else @Suppress("DEPRECATION") super.onBackPressed()
     }
 
-    private fun keep() = prefs.edit().putString("ck_done_$aircraft", org.json.JSONArray(done.toList()).toString()).apply()
+    private var rightShown = false
 
-    private fun askReset() {
-        com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.ck_reset).setMessage(R.string.ck_reset_q)
-            .setPositiveButton(R.string.ck_reset) { _, _ -> done.clear(); keep(); build(); (col.parent as? android.widget.ScrollView)?.smoothScrollTo(0, 0) }
-            .setNegativeButton(R.string.cancel, null).show()
-    }
-
-    /** Back where the pilot stopped: the first item not yet ticked, in view. */
-    private var firstOpen: View? = null
-    private fun resume() {
-        if (done.isEmpty()) return
-        col.postDelayed({
-            val v = firstOpen ?: return@postDelayed
-            var top = v.top; var p = v.parent as? View
-            while (p != null && p !== col) { top += p.top; p = p.parent as? View }
-            (col.parent as? android.widget.ScrollView)?.smoothScrollTo(0, (top - dp(120)).coerceAtLeast(0))
-        }, 450)
-    }
+    // ---- the checklist text, turned into groups, subgroups and lists ----
 
     private fun text(): String = prefs.getString("ck_$aircraft", null) ?: when (aircraft) {
         "C172" -> C172
@@ -141,169 +108,388 @@ class ChecklistActivity : BaseActivity() {
         else -> SPORTSTAR
     }
 
-    private fun build() {
-        col.removeAllViews()
-        val chips = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; setPadding(0, dp(4), 0, dp(4)) }
-        for (a in listOf(ATHENE, "SportStar MAX", "C172")) {
-            chips.addView(EfbUi.text(this, a, 15f, EfbUi.TEXT, bold = true).apply {
-                background = EfbUi.cardBg(this@ChecklistActivity, if (a == aircraft) 0xFF00838F.toInt() else EfbUi.CARD, 20)
-                setPadding(dp(16), dp(8), dp(16), dp(8))
-                EfbUi.pressable(this) {
-                    aircraft = a
-                    prefs.edit().putString("ck_aircraft", a).apply()
-                    load()
-                    build()
-                    resume()
-                }
-            }, LinearLayout.LayoutParams(-2, -2).apply { marginEnd = dp(8) })
+    /** Which of the three groups a list belongs to, by what its name says. */
+    private fun groupOf(name: String): Int {
+        val u = name.uppercase()
+        return when {
+            u.contains("EMERGENC") || u.contains("ENGINE FAILURE") || u.contains("FIRE") || u.contains("SPIN") ||
+                u.contains("FORCED") || u.contains("DITCH") || u.contains("EVACUAT") -> 2
+            u.contains("ABNORMAL") || u.contains("MALFUNCTION") || u.contains("FAILURE") || u.contains("ICING") ||
+                u.contains("ALTERNATOR") || u.contains("VOLTAGE") || u.contains("ROUGH") -> 1
+            else -> 0
         }
-        chips.addView(EfbUi.text(this, "🆘 EMERGENCY", 15f, 0xFFFFFFFF.toInt(), bold = true).apply {
-            background = EfbUi.cardBg(this@ChecklistActivity, 0xFFC62828.toInt(), 20)
-            setPadding(dp(16), dp(8), dp(16), dp(8))
-            EfbUi.pressable(this) { emergency?.let { v -> (col.parent as? android.widget.ScrollView)?.smoothScrollTo(0, v.top) } }
-        })
-        chips.addView(EfbUi.text(this, if (speaking) "🔊 Speak ON" else "🔈 Speak", 15f, if (speaking) 0xFFFFFFFF.toInt() else EfbUi.TEXT, bold = true).apply {
-            background = EfbUi.cardBg(this@ChecklistActivity, if (speaking) EfbUi.ACCENT else EfbUi.CARD, 20)
-            setPadding(dp(16), dp(8), dp(16), dp(8))
-            EfbUi.pressable(this) {
-                speaking = !speaking
-                text = if (speaking) "🔊 Speak ON" else "🔈 Speak"
-                setTextColor(if (speaking) 0xFFFFFFFF.toInt() else EfbUi.TEXT)
-                background = EfbUi.cardBg(this@ChecklistActivity, if (speaking) EfbUi.ACCENT else EfbUi.CARD, 20)
-                if (speaking) speakNext() else tts?.stop()
-            }
-        }, LinearLayout.LayoutParams(-2, -2).apply { marginStart = dp(8) })
-        chips.addView(EfbUi.text(this, getString(R.string.ck_reset), 15f, EfbUi.TEXT, bold = true).apply {
-            background = EfbUi.cardBg(this@ChecklistActivity, EfbUi.CARD, 20)
-            setPadding(dp(16), dp(8), dp(16), dp(8))
-            EfbUi.pressable(this) { askReset() }
-        }, LinearLayout.LayoutParams(-2, -2).apply { marginStart = dp(8) })
-        col.addView(android.widget.HorizontalScrollView(this).apply { isHorizontalScrollBarEnabled = false; addView(chips) })
-        col.addView(EfbUi.text(this, getString(R.string.ck_note), 11f, EfbUi.DIM).apply { setPadding(dp(2), dp(4), dp(2), dp(4)) })
-        var card: LinearLayout? = null
-        var section = ""
-        var progress: TextView? = null
-        val rows = ArrayList<Triple<String, View, String>>()   // key, row, section
-        val counters = HashMap<String, TextView?>()
-        emergency = null
-        sections.clear()
+    }
+
+    /** Which part of the flight a list sits in, so the left panel can gather them under headings. */
+    private fun subOf(name: String): String {
+        val u = name.uppercase()
+        return when {
+            u.contains("SPEED") || u.contains("REFERENCE") || u.contains("LIMIT") || u.contains("WEIGHT") -> "REFERENCE"
+            u.contains("PREFLIGHT") || u.contains("WALK") || u.contains("BEFORE START") || u.contains("BEFORE ENGINE") ||
+                u.contains("START") || u.contains("COCKPIT") -> "PREFLIGHT"
+            u.contains("TAXI") || u.contains("RUN-UP") || u.contains("RUNUP") || u.contains("BEFORE TAKEOFF") ||
+                u.contains("TAKEOFF") || u.contains("DEPART") -> "TAKEOFF"
+            u.contains("CLIMB") || u.contains("CRUISE") || u.contains("ENROUTE") || u.contains("EN ROUTE") -> "IN FLIGHT"
+            u.contains("DESCEN") || u.contains("APPROACH") || u.contains("LANDING") || u.contains("PATTERN") -> "ARRIVAL"
+            u.contains("AFTER LANDING") || u.contains("SHUT") || u.contains("POST") || u.contains("SECUR") || u.contains("PARK") -> "POST FLIGHT"
+            else -> "OTHER"
+        }
+    }
+
+    /**
+     * The text, read into lists. A line beginning with # opens a list; a line beginning with > is a
+     * detail heading inside it; "item .. action" is a check item; an indented line is a note on the
+     * item above it. Anything written for the older format still reads the same way.
+     */
+    private fun parse() {
+        val out = ArrayList<Lst>()
+        var name = ""
+        var items = ArrayList<Item>()
+        fun flush() {
+            if (name.isNotEmpty() && items.isNotEmpty()) out.add(Lst(name, subOf(name), groupOf(name), items))
+        }
         for (raw in text().lines()) {
-            val line = raw.trim()
-            if (line.isEmpty()) continue
-            if (line.startsWith("#")) {
-                section = line.trimStart('#').trim()
-                card = EfbUi.card(this)
-                val head = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
-                head.addView(EfbUi.text(this, section, 17f, if (section.contains("EMERGENCY", true)) EfbUi.BAD else EfbUi.ACCENT, bold = true), LinearLayout.LayoutParams(0, -2, 1f))
-                progress = EfbUi.text(this, "", 13f, EfbUi.DIM, mono = true)
-                head.addView(progress)
-                counters[section] = progress
-                card.addView(head)
-                col.addView(card)
-                if (emergency == null && section.contains("EMERGENCY", true)) emergency = card
-                sections.add(section to card!!)
-                if (section.startsWith("📋")) card.background = EfbUi.cardBg(this, EfbUi.pick(0xFF0F2236.toInt(), 0xFFEAF2FF.toInt()))
-                continue
+            val line = raw.trimEnd()
+            if (line.isBlank()) continue
+            val t = line.trim()
+            when {
+                t.startsWith("#") -> { flush(); name = t.trimStart('#').trim(); items = ArrayList() }
+                t.startsWith(">") -> items.add(Item(t.trimStart('>').trim(), "", true))
+                t.contains("..") -> {
+                    val title = t.substringBefore("..").trim(' ', '·')
+                    val action = t.substringAfter("..").trim()
+                    items.add(Item(title, action, false))
+                }
+                raw.startsWith("  ") && items.isNotEmpty() -> {
+                    val last = items.removeAt(items.size - 1)
+                    items.add(Item(last.title, last.action, last.detail, ((last.note ?: "") + " " + t).trim()))
+                }
+                else -> items.add(Item(t, "", true))
             }
-            val c = card ?: EfbUi.card(this).also { card = it; col.addView(it) }
-            // Warnings, cautions and notes as printed, not ticked.
-            if (line.startsWith("!")) {
-                val t = line.drop(1).trim()
-                c.addView(EfbUi.text(this, t, 13f, if (t.startsWith("WARNING")) EfbUi.BAD else EfbUi.WARN, bold = true).apply {
-                    setPadding(dp(10), dp(8), dp(10), dp(8))
-                    background = EfbUi.cardBg(this@ChecklistActivity, EfbUi.pick(0xFF2A1A12.toInt(), 0xFFFFF3E0.toInt()), 10)
-                    layoutDirection = View.LAYOUT_DIRECTION_LTR
-                    textDirection = View.TEXT_DIRECTION_LTR
-                }, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(6); bottomMargin = dp(6) })
-                continue
-            }
-            val reference = section.startsWith("📋")
-            val key = "$section|$line"
-            val (item, action) = line.split(Regex("\\s*(\\.{2,}|—|-{2,}|\\|)\\s*"), 2).let { it[0] to it.getOrElse(1) { "" } }
-            val row = LinearLayout(this).apply {
-                orientation = LinearLayout.HORIZONTAL
-                gravity = Gravity.CENTER_VERTICAL
-                setPadding(dp(4), dp(9), dp(4), dp(9))
-                layoutDirection = View.LAYOUT_DIRECTION_LTR
-            }
-            val mark = EfbUi.text(this, if (reference) "•" else "○", 20f, if (reference) EfbUi.ACCENT else EfbUi.DIM)
-            row.addView(mark, LinearLayout.LayoutParams(dp(32), -2))
-            if (action.length > 22) {
-                // A long action goes under its item, full width, instead of squeezing the item to nothing.
-                val both = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
-                both.addView(EfbUi.text(this, item, 15f, EfbUi.TEXT, bold = true))
-                both.addView(EfbUi.text(this, action, 14f, EfbUi.WARN).apply { setPadding(0, dp(3), 0, 0); setLineSpacing(0f, 1.15f) })
-                row.addView(both, LinearLayout.LayoutParams(0, -2, 1f))
-            } else {
-                row.addView(EfbUi.text(this, item, 15f, EfbUi.TEXT), LinearLayout.LayoutParams(0, -2, 1f))
-                row.addView(EfbUi.text(this, action, 15f, EfbUi.WARN, bold = true).apply {
-                    gravity = Gravity.END
-                    maxWidth = (resources.displayMetrics.widthPixels * 0.5).toInt()
+        }
+        flush()
+        lists = out
+    }
+
+    private fun itemKey(l: Lst, i: Int) = "${l.key}#$i"
+    private fun allDone(l: Lst) = l.items.withIndex().filter { !it.value.detail }
+        .all { done.contains(itemKey(l, it.index)) || skipped.contains(itemKey(l, it.index)) }
+
+    private fun progress(l: Lst): Pair<Int, Int> {
+        val checks = l.items.withIndex().filter { !it.value.detail }
+        return checks.count { done.contains(itemKey(l, it.index)) } to checks.size
+    }
+
+    private fun load() {
+        done.clear(); skipped.clear()
+        try {
+            val a = org.json.JSONArray(prefs.getString("ck2_done_$aircraft", "[]"))
+            for (i in 0 until a.length()) done.add(a.getString(i))
+            val b = org.json.JSONArray(prefs.getString("ck2_skip_$aircraft", "[]"))
+            for (i in 0 until b.length()) skipped.add(b.getString(i))
+        } catch (e: Exception) { }
+    }
+
+    private fun keep() = prefs.edit()
+        .putString("ck2_done_$aircraft", org.json.JSONArray(done.toList()).toString())
+        .putString("ck2_skip_$aircraft", org.json.JSONArray(skipped.toList()).toString()).apply()
+
+    // ---- the panels ----
+
+    private fun paint() {
+        paintLeft()
+        paintRight()
+        if (!wide) {
+            (leftPanel.layoutParams as LinearLayout.LayoutParams).weight = if (rightShown) 0f else 1f
+            (rightPanel.layoutParams as LinearLayout.LayoutParams).weight = if (rightShown) 1f else 0f
+            leftPanel.visibility = if (rightShown) View.GONE else View.VISIBLE
+            rightPanel.visibility = if (rightShown) View.VISIBLE else View.GONE
+            rootBox.requestLayout()
+        }
+    }
+
+    private fun barButton(label: String, bg: Int, go: () -> Unit) = TextView(this).apply {
+        text = label; textSize = 12.5f; setTextColor(0xFFFFFFFF.toInt()); gravity = Gravity.CENTER
+        typeface = EfbUi.MEDIUM
+        background = EfbUi.cardBg(this@ChecklistActivity, bg, 7)
+        setPadding(dp(10), dp(7), dp(10), dp(7))
+        setOnClickListener { go() }
+    }
+
+    private fun paintLeft() {
+        leftPanel.removeAllViews()
+        // The bar at the top: back, share, edit, and the red button that jumps to the emergencies.
+        val top = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL
+            setBackgroundColor(navy); setPadding(dp(6), dp(6), dp(6), dp(6))
+        }
+        top.addView(barButton("‹ Back", 0xFF2A3B4D.toInt()) { finish() })
+        top.addView(View(this), LinearLayout.LayoutParams(0, 1, 1f))
+        top.addView(barButton("⤴", 0xFF2A3B4D.toInt()) { share() }, LinearLayout.LayoutParams(-2, -2).apply { marginEnd = dp(5) })
+        top.addView(barButton("Edit", 0xFF2A3B4D.toInt()) { edit() }, LinearLayout.LayoutParams(-2, -2).apply { marginEnd = dp(5) })
+        top.addView(barButton("▲", 0xFFC62828.toInt()) {
+            group = 2; open = lists.firstOrNull { it.group == 2 }; rightShown = true; paint()
+        })
+        leftPanel.addView(top)
+        // The aeroplane this checklist is for; a tap changes it.
+        leftPanel.addView(TextView(this).apply {
+            text = aircraft; textSize = 14f; setTextColor(0xFFFFFFFF.toInt()); gravity = Gravity.CENTER
+            typeface = EfbUi.MEDIUM; setBackgroundColor(navy); setPadding(dp(8), 0, dp(8), dp(8))
+            setOnClickListener { pickAircraft() }
+        })
+        // The three groups.
+        val tabs = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL; setBackgroundColor(navy); setPadding(dp(8), 0, dp(8), dp(8))
+        }
+        for ((i, n) in listOf("Normal", "Abnormal", "Emergency").withIndex()) {
+            tabs.addView(TextView(this).apply {
+                text = n; textSize = 12.5f; gravity = Gravity.CENTER
+                setTextColor(if (i == group) 0xFF10161D.toInt() else 0xFFD7DEE6.toInt())
+                typeface = EfbUi.MEDIUM
+                background = EfbUi.cardBg(this@ChecklistActivity, if (i == group) 0xFFFFFFFF.toInt() else 0xFF2A3B4D.toInt(), 6)
+                setPadding(dp(4), dp(6), dp(4), dp(6))
+                setOnClickListener {
+                    group = i
+                    open = lists.firstOrNull { it.group == i }
+                    paint()
+                }
+            }, LinearLayout.LayoutParams(0, -2, 1f).apply { marginEnd = if (i < 2) dp(4) else 0 })
+        }
+        leftPanel.addView(tabs)
+        // The lists, gathered under their subgroups.
+        val col = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
+        val mine = lists.filter { it.group == group }
+        if (mine.isEmpty()) col.addView(EfbUi.text(this, "Nothing in this group.", 14f, grey).apply { setPadding(dp(14), dp(16), dp(14), 0) })
+        var sub = ""
+        for (l in mine) {
+            if (l.sub != sub) {
+                sub = l.sub
+                col.addView(TextView(this).apply {
+                    text = sub; textSize = 10.5f; setTextColor(grey); typeface = EfbUi.MEDIUM
+                    letterSpacing = 0.1f
+                    setBackgroundColor(0xFF1A232C.toInt()); setPadding(dp(14), dp(7), dp(14), dp(7))
                 })
             }
-            c.addView(row)
-            if (reference) continue
-            val sec = section
-            val p = progress
-            rows.add(Triple(key, row, sec))
-            row.setOnClickListener {
-                if (!done.add(key)) done.remove(key)
-                keep()
-                paint(rows, p, sec)
-                firstOpen = rows.firstOrNull { it.first !in done && !it.third.contains("EMERGENCY", true) }?.second
-                if (speaking && key in done) speakNext()
-                row.animate().scaleX(0.97f).scaleY(0.97f).setDuration(70).withEndAction { row.animate().scaleX(1f).scaleY(1f).setDuration(120).start() }.start()
-            }
-            row.tag = mark
+            val (dn, all) = progress(l)
+            val here = open?.key == l.key
+            col.addView(LinearLayout(this).apply {
+                orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL
+                setBackgroundColor(if (here) lit else 0x00000000)
+                setPadding(dp(14), dp(12), dp(12), dp(12))
+                // The dot: empty, part-filled, or full, as the list is worked through.
+                addView(TextView(this@ChecklistActivity).apply {
+                    text = if (all > 0 && dn >= all) "●" else if (dn > 0) "◐" else "○"
+                    textSize = 14f
+                    setTextColor(if (all > 0 && dn >= all) 0xFF30D158.toInt() else if (here) 0xFFFFFFFF.toInt() else grey)
+                }, LinearLayout.LayoutParams(dp(22), -2))
+                addView(EfbUi.text(this@ChecklistActivity, l.name, 14.5f, if (here) 0xFFFFFFFF.toInt() else 0xFFD7DEE6.toInt(), bold = here),
+                    LinearLayout.LayoutParams(0, -2, 1f))
+                if (all > 0) addView(EfbUi.text(this@ChecklistActivity, "$dn/$all", 11.5f, if (here) 0xFFD9E7F5.toInt() else grey, mono = true))
+                setOnClickListener { open = l; rightShown = true; paint() }
+            })
+            col.addView(View(this).apply { setBackgroundColor(0xFF222C36.toInt()) }, LinearLayout.LayoutParams(-1, 1))
         }
-        for (s in rows.map { it.third }.distinct()) paint(rows, counters[s], s)
-        firstOpen = rows.firstOrNull { it.first !in done && !it.third.contains("EMERGENCY", true) }?.second
-        speakRows = rows
-        EfbUi.stagger(col)
-        tabs()
+        leftPanel.addView(ScrollView(this).apply { addView(col) }, LinearLayout.LayoutParams(-1, 0, 1f))
+        leftPanel.addView(TextView(this).apply {
+            text = "Reset All"; textSize = 13f; setTextColor(0xFFFFFFFF.toInt()); gravity = Gravity.CENTER
+            typeface = EfbUi.MEDIUM; setBackgroundColor(navy); setPadding(dp(10), dp(13), dp(10), dp(13))
+            setOnClickListener { askReset() }
+        })
     }
 
-    /** Ticked items dim and strike through; the first unticked one in each section is lit. */
-    private fun paint(rows: List<Triple<String, View, String>>, progress: TextView?, section: String) {
-        val inSection = rows.filter { it.third == section }
-        var next = true
-        for ((key, row, _) in inSection) {
-            val ticked = key in done
-            val mark = row.tag as TextView
-            mark.text = if (ticked) "✓" else "○"
-            mark.setTextColor(if (ticked) EfbUi.GOOD else EfbUi.DIM)
-            row.alpha = if (ticked) 0.45f else 1f
-            val lit = !ticked && next
-            if (!ticked) next = false
-            row.background = if (lit) EfbUi.cardBg(this, EfbUi.pick(0xFF1E3358.toInt(), 0xFFDCE9FF.toInt()), 10) else null
+    /** The first item not yet ticked or skipped: the one in hand. */
+    private fun current(l: Lst): Int =
+        l.items.indices.firstOrNull { !l.items[it].detail && !done.contains(itemKey(l, it)) && !skipped.contains(itemKey(l, it)) } ?: -1
+
+    private fun paintRight() {
+        rightPanel.removeAllViews()
+        val l = open
+        if (l == null) {
+            rightPanel.addView(EfbUi.text(this, "Pick a checklist.", 15f, grey).apply { setPadding(dp(20), dp(24), dp(20), 0) })
+            return
         }
-        val n = inSection.count { it.first in done }
-        progress?.text = "$n/${inSection.size}"
-        progress?.setTextColor(if (n == inSection.size) EfbUi.GOOD else EfbUi.DIM)
+        val head = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL
+            setBackgroundColor(navy); setPadding(dp(6), dp(6), dp(8), dp(6))
+        }
+        if (!wide) head.addView(barButton("‹", 0xFF2A3B4D.toInt()) { rightShown = false; paint() },
+            LinearLayout.LayoutParams(-2, -2).apply { marginEnd = dp(6) })
+        head.addView(LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL; gravity = Gravity.CENTER
+            addView(EfbUi.text(this@ChecklistActivity, l.name, 15f, 0xFFFFFFFF.toInt(), bold = true).apply { gravity = Gravity.CENTER; maxLines = 1 })
+            addView(EfbUi.text(this@ChecklistActivity, aircraft, 11f, 0xFFA9B6C3.toInt()).apply { gravity = Gravity.CENTER })
+        }, LinearLayout.LayoutParams(0, -2, 1f))
+        head.addView(barButton("Edit", 0xFF2A3B4D.toInt()) { edit() })
+        rightPanel.addView(head)
+
+        val cur = current(l)
+        val col = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
+        for ((i, it) in l.items.withIndex()) {
+            if (it.detail) {
+                col.addView(TextView(this).apply {
+                    text = it.title.uppercase(); textSize = 10.5f; setTextColor(grey); typeface = EfbUi.MEDIUM
+                    letterSpacing = 0.1f; gravity = Gravity.CENTER
+                    setBackgroundColor(0xFF1A232C.toInt()); setPadding(dp(14), dp(8), dp(14), dp(8))
+                })
+                continue
+            }
+            val k = itemKey(l, i)
+            val isDone = done.contains(k)
+            val isSkip = skipped.contains(k)
+            val isHere = i == cur
+            val row = LinearLayout(this).apply {
+                orientation = LinearLayout.VERTICAL
+                setBackgroundColor(if (isHere) lit else rowBg)
+                setPadding(dp(14), dp(11), dp(14), dp(11))
+                setOnClickListener { check(l, i) }
+            }
+            val line = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
+            line.addView(TextView(this).apply {
+                text = if (isDone) "✓" else if (isSkip) "–" else "○"
+                textSize = 15f
+                setTextColor(if (isDone) 0xFF30D158.toInt() else if (isHere) 0xFFFFFFFF.toInt() else grey)
+            }, LinearLayout.LayoutParams(dp(26), -2))
+            line.addView(EfbUi.text(this, it.title, 14.5f,
+                if (isHere) 0xFFFFFFFF.toInt() else if (isDone || isSkip) 0xFF7C8794.toInt() else 0xFFE4EAF1.toInt(),
+                bold = isHere), LinearLayout.LayoutParams(0, -2, 1f))
+            if (it.action.isNotEmpty()) line.addView(EfbUi.text(this, it.action.uppercase(), 12.5f,
+                if (isHere) 0xFFFFFFFF.toInt() else if (isDone || isSkip) 0xFF7C8794.toInt() else 0xFF9FB4C8.toInt(), bold = true))
+            row.addView(line)
+            it.note?.let { n ->
+                row.addView(EfbUi.text(this, n, 11.5f, if (isHere) 0xFFDCEAF8.toInt() else grey).apply {
+                    setPadding(dp(26), dp(3), 0, 0)
+                })
+            }
+            col.addView(row)
+            col.addView(View(this).apply { setBackgroundColor(0xFF222C36.toInt()) }, LinearLayout.LayoutParams(-1, 1))
+        }
+        val sc = ScrollView(this).apply { addView(col) }
+        rightPanel.addView(sc, LinearLayout.LayoutParams(-1, 0, 1f))
+
+        // The bottom bar: reset this list, read it aloud, skip the item, tick it.
+        val bar = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; setBackgroundColor(0xFF10161D.toInt()) }
+        fun wide(label: String, bg: Int, go: () -> Unit) = bar.addView(TextView(this).apply {
+            text = label; textSize = 14f; setTextColor(0xFFFFFFFF.toInt()); gravity = Gravity.CENTER
+            typeface = EfbUi.MEDIUM; setBackgroundColor(bg); setPadding(dp(6), dp(15), dp(6), dp(15))
+            setOnClickListener { go() }
+        }, LinearLayout.LayoutParams(0, -2, if (label == "Reset") 0.7f else 1f))
+        wide("Reset", 0xFF39434E.toInt()) { resetList(l) }
+        wide(if (speaking) "Speaking" else "Speak", if (speaking) 0xFF0060CC.toInt() else lit) { speak(l) }
+        wide("Skip", 0xFFE08A16.toInt()) { skip(l, cur) }
+        wide("Check", 0xFF2E9E4F.toInt()) { check(l, cur) }
+        rightPanel.addView(bar)
+        // The item in hand is brought into view.
+        sc.post {
+            val idx = current(l)
+            if (idx > 0) sc.smoothScrollTo(0, (idx * dp(46) - sc.height / 3).coerceAtLeast(0))
+        }
     }
+
+    private fun check(l: Lst, i: Int) {
+        if (i < 0 || i >= l.items.size || l.items[i].detail) return
+        val k = itemKey(l, i)
+        if (done.contains(k)) { done.remove(k); skipped.remove(k) } else { done.add(k); skipped.remove(k) }
+        keep()
+        paint()
+        if (speaking) speakItem(l)
+        if (allDone(l)) {
+            val next = lists.filter { it.group == l.group }.firstOrNull { !allDone(it) }
+            if (next != null) com.google.android.material.snackbar.Snackbar
+                .make(rightPanel, "${l.name} complete", 4000)
+                .setAction("Next: ${next.name}") { open = next; paint() }.show()
+        }
+    }
+
+    private fun skip(l: Lst, i: Int) {
+        if (i < 0 || i >= l.items.size) return
+        skipped.add(itemKey(l, i)); done.remove(itemKey(l, i)); keep(); paint()
+        if (speaking) speakItem(l)
+    }
+
+    private fun resetList(l: Lst) {
+        for (i in l.items.indices) { done.remove(itemKey(l, i)); skipped.remove(itemKey(l, i)) }
+        keep(); paint()
+    }
+
+    private fun askReset() {
+        MaterialAlertDialogBuilder(this).setTitle(getString(R.string.ck_reset))
+            .setMessage("Every list in this checklist starts again.")
+            .setPositiveButton(R.string.ok) { _, _ -> done.clear(); skipped.clear(); keep(); paint() }
+            .setNegativeButton(R.string.cancel, null).show()
+    }
+
+    private fun pickAircraft() {
+        val names = listOf(ATHENE, "SportStar MAX", "C172")
+        MaterialAlertDialogBuilder(this).setTitle(getString(R.string.ck_title))
+            .setItems(names.toTypedArray()) { _, i ->
+                aircraft = names[i]
+                prefs.edit().putString("ck_aircraft", aircraft).apply()
+                load(); parse()
+                open = lists.firstOrNull { it.group == group }
+                paint()
+            }.setNegativeButton(R.string.cancel, null).show()
+    }
+
+    private fun share() {
+        val sb = StringBuilder("$aircraft · ${getString(R.string.ck_title)}\n\n")
+        for (l in lists) {
+            sb.append("# ${l.name}\n")
+            for (it in l.items) sb.append(if (it.detail) "> ${it.title}\n" else "${it.title} .. ${it.action}\n")
+            sb.append("\n")
+        }
+        startActivity(android.content.Intent.createChooser(android.content.Intent(android.content.Intent.ACTION_SEND).apply {
+            type = "text/plain"; putExtra(android.content.Intent.EXTRA_TEXT, sb.toString())
+        }, null))
+    }
+
+    // ---- reading the list aloud ----
+
+    private fun speak(l: Lst) {
+        speaking = !speaking
+        if (!speaking) { try { tts?.stop() } catch (e: Exception) { }; paint(); return }
+        if (tts == null) tts = android.speech.tts.TextToSpeech(this) { st ->
+            if (st == android.speech.tts.TextToSpeech.SUCCESS) { tts?.language = java.util.Locale.US; runOnUiThread { speakItem(l) } }
+        } else speakItem(l)
+        paint()
+    }
+
+    private fun speakItem(l: Lst) {
+        val i = current(l)
+        if (i < 0) { try { tts?.speak("Checklist complete", android.speech.tts.TextToSpeech.QUEUE_FLUSH, null, "ck") } catch (e: Exception) { }; return }
+        val it = l.items[i]
+        val say = it.title + if (it.action.isNotEmpty()) ", ${it.action}" else ""
+        try { tts?.speak(say, android.speech.tts.TextToSpeech.QUEUE_FLUSH, null, "ck") } catch (e: Exception) { }
+    }
+
+    // ---- the text behind it all, the pilot's to change ----
 
     private fun edit() {
-        col.removeAllViews()
-        col.addView(EfbUi.text(this, getString(R.string.ck_edit_help), 13f, EfbUi.DIM))
         val e = EditText(this).apply {
             inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE
-            setText(text())
-            setTextColor(EfbUi.TEXT)
+            setText(text()); setTextColor(EfbUi.TEXT)
             typeface = android.graphics.Typeface.MONOSPACE
-            textSize = 13f
-            gravity = Gravity.TOP
-            layoutDirection = View.LAYOUT_DIRECTION_LTR
-            textDirection = View.TEXT_DIRECTION_LTR
+            textSize = 12.5f; gravity = Gravity.TOP
+            layoutDirection = View.LAYOUT_DIRECTION_LTR; textDirection = View.TEXT_DIRECTION_LTR
+            setPadding(dp(14), dp(10), dp(14), dp(10))
         }
-        col.addView(e, LinearLayout.LayoutParams(-1, -2))
-        col.addView(MaterialButton(this).apply {
-            text = getString(R.string.log_save)
-            setOnClickListener {
+        val box = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
+        box.addView(EfbUi.text(this, "# opens a list · > is a heading inside it · \"item .. action\" is a check item · an indented line is a note", 11.5f, grey)
+            .apply { setPadding(dp(14), dp(10), dp(14), dp(4)) })
+        box.addView(ScrollView(this).apply { addView(e) }, LinearLayout.LayoutParams(-1, dp(420)))
+        MaterialAlertDialogBuilder(this).setTitle(getString(R.string.ck_edit)).setView(box)
+            .setPositiveButton(R.string.log_save) { _, _ ->
                 prefs.edit().putString("ck_$aircraft", e.text.toString()).apply()
-                done.clear(); keep()
-                build()
+                done.clear(); skipped.clear(); keep(); parse()
+                open = lists.firstOrNull { it.group == group }
+                paint()
             }
-        })
+            .setNeutralButton(R.string.ck_restore) { _, _ ->
+                prefs.edit().remove("ck_$aircraft").apply()
+                done.clear(); skipped.clear(); keep(); parse()
+                open = lists.firstOrNull { it.group == group }
+                paint()
+            }
+            .setNegativeButton(R.string.cancel, null).show()
     }
 
     companion object {
