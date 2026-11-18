@@ -27,7 +27,7 @@ object TvUi {
         val box = LinearLayout(a).apply {
             orientation = LinearLayout.VERTICAL
             background = GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(0x00000000, 0xCC000000.toInt(), 0xF2000000.toInt()))
-            setPadding(dp(a, 48f), dp(a, 70f), dp(a, 48f), dp(a, 36f))
+            setPadding(dp(a, 32f), dp(a, 70f), dp(a, 32f), dp(a, 36f))
         }
         box.addView(TextView(a).apply {
             text = title; textSize = 20f; setTextColor(0xFFFFFFFF.toInt()); typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
@@ -38,7 +38,7 @@ object TvUi {
         tiles.forEach { t ->
             val v = LinearLayout(a).apply {
                 orientation = LinearLayout.VERTICAL; gravity = Gravity.CENTER_HORIZONTAL
-                isFocusable = true; isClickable = true; setPadding(dp(a, 10f), dp(a, 12f), dp(a, 10f), dp(a, 12f))
+                isFocusable = true; isClickable = true; setPadding(dp(a, 4f), dp(a, 12f), dp(a, 4f), dp(a, 12f))
             }
             val ic = TextView(a).apply {
                 text = t.icon; textSize = 26f; gravity = Gravity.CENTER; setTextColor(0xFFFFFFFF.toInt())
@@ -46,7 +46,7 @@ object TvUi {
                 background = GradientDrawable().apply { shape = GradientDrawable.OVAL; setColor(0x26FFFFFF) }
             }
             v.addView(ic, LinearLayout.LayoutParams(dp(a, 58f), dp(a, 58f)))
-            val lb = TextView(a).apply { text = t.label; textSize = 14f; gravity = Gravity.CENTER; setTextColor(0xFFFFFFFF.toInt()); maxLines = 1 }
+            val lb = TextView(a).apply { text = t.label; textSize = 13f; gravity = Gravity.CENTER; setTextColor(0xFFFFFFFF.toInt()); maxLines = 1 }
             v.addView(lb, LinearLayout.LayoutParams(-2, -2).apply { topMargin = dp(a, 8f) })
             val vl = TextView(a).apply { text = t.value; textSize = 12f; gravity = Gravity.CENTER; setTextColor(0x99FFFFFF.toInt()); maxLines = 1 }
             if (t.value.isNotEmpty()) v.addView(vl)
@@ -57,7 +57,8 @@ object TvUi {
                 v.animate().scaleX(if (f) 1.08f else 1f).scaleY(if (f) 1.08f else 1f).setDuration(120).start()
             }
             v.setOnClickListener { t.action() }
-            row.addView(v, LinearLayout.LayoutParams(dp(a, 132f), -2))
+            val avail = a.resources.displayMetrics.widthPixels - dp(a, 64f)
+            row.addView(v, LinearLayout.LayoutParams(minOf(dp(a, 132f), avail / tiles.size.coerceAtLeast(1)), -2))
             views += v
         }
         box.addView(row, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(a, 18f) })

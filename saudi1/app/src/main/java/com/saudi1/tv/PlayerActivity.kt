@@ -309,7 +309,7 @@ class PlayerActivity : BaseActivity() {
     private fun trackNow(type: Int): String {
         val g = player.currentTracks.groups.firstOrNull { it.type == type && it.isSelected } ?: return if (type == C.TRACK_TYPE_TEXT) "Off" else ""
         val f = (0 until g.length).firstOrNull { g.isTrackSelected(it) }?.let { g.getTrackFormat(it) } ?: return ""
-        return listOfNotNull(f.language?.let { Locale(it).displayLanguage }, if (f.channelCount > 2) "${f.channelCount}ch" else null).joinToString(" ").ifEmpty { f.label ?: "On" }
+        return listOfNotNull(f.language?.takeIf { it != "und" && it.isNotBlank() }?.let { Locale(it).displayLanguage }, if (f.channelCount > 2) "${f.channelCount}ch" else null).joinToString(" ").ifEmpty { f.label ?: if (type == C.TRACK_TYPE_AUDIO) "Default" else "On" }
     }
 
     private var sleepAt = 0L
