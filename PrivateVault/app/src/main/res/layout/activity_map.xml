@@ -20,11 +20,19 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="0dp"
+            android:visibility="gone"
             android:background="?attr/colorSurface"
-            android:elevation="4dp"
-            app:navigationIcon="@drawable/ic_back"
             app:title="@string/map_title" />
+
+        <!-- The bar an electronic flight bag puts across the top of its chart. -->
+        <LinearLayout
+            android:id="@+id/aeroBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FF10161D"
+            android:elevation="4dp"
+            android:orientation="horizontal" />
 
         <!-- Ground speed, track and altitude from the GPS. -->
         <LinearLayout

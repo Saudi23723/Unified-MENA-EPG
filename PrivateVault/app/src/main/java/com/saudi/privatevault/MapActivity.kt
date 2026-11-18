@@ -119,7 +119,25 @@ class MapActivity : BaseActivity(), NeonHost {
         setContentView(b.root)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         setSupportActionBar(b.toolbar)
-        b.toolbar.setNavigationOnClickListener { finish() }
+        // The bar an EFB puts over its chart, in place of a written-out menu.
+        bar = MapToolbar(this, b.aeroBar).apply {
+            onBack = { finish() }
+            onLayers = { layers() }
+            onFpl = { if (plan.points.size >= 2) navLog() else editPlan() }
+            onSettings = { mapSettings() }
+            onInstruments = {
+                val on = b.hud.visibility != View.VISIBLE
+                b.hud.visibility = if (on) View.VISIBLE else View.GONE
+                prefs.edit().putBoolean("map_instruments", on).apply()
+                setInstruments(on)
+            }
+            onRoutes = { routeMenu() }
+            onSearch = { q -> searchGo(q) }
+            onCentre = { follow() }
+        }
+        bar?.build(getString(layer.label))
+        b.hud.visibility = if (prefs.getBoolean("map_instruments", true)) View.VISIBLE else View.GONE
+        bar?.setInstruments(b.hud.visibility == View.VISIBLE)
         cockpitLook()
 
         layer = AviationData.LAYERS.firstOrNull { it.key == prefs.getString("map_layer", "sectional") } ?: AviationData.LAYERS[0]
@@ -485,6 +503,7 @@ class MapActivity : BaseActivity(), NeonHost {
                     chartOverlay?.let { map.overlays.remove(it); it.onDetach(map) }
                     chartOverlay = null
                     aeroStyle()
+                    bar?.setLayerName(getString(layer.label))
                     if (layer.key != "topo" && layer.key != "aero") {
                         chartOverlay = org.osmdroid.views.overlay.TilesOverlay(
                             org.osmdroid.tileprovider.MapTileProviderBasic(applicationContext, layer.source()), applicationContext).apply {
@@ -1191,6 +1210,78 @@ class MapActivity : BaseActivity(), NeonHost {
     private var rubber: RubberBandOverlay? = null
     private var chartOverlay: org.osmdroid.views.overlay.TilesOverlay? = null
     private var aero: AeroMap? = null
+    private var bar: MapToolbar? = null
+
+    /**
+     * What used to be a long list of lines is now one sheet, in the groups a pilot thinks in:
+     * what is shown on the chart, what the flight needs, and what the app keeps for later.
+     */
+    private fun mapSettings() {
+        val box = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(0, dp(4), 0, dp(8)) }
+        fun head(t: String) = box.addView(EfbUi.text(this, t.uppercase(), 11f, EfbUi.DIM, bold = true)
+            .apply { letterSpacing = 0.09f; setPadding(dp(18), dp(14), dp(18), dp(6)) })
+        lateinit var dlg: androidx.appcompat.app.AlertDialog
+        fun row(label: String, sub: String? = null, checked: Boolean? = null, go: () -> Unit) {
+            box.addView(LinearLayout(this).apply {
+                orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL
+                setPadding(dp(18), dp(12), dp(18), dp(12))
+                setBackgroundResource(R.drawable.item_focus_bg)
+                addView(LinearLayout(this@MapActivity).apply {
+                    orientation = LinearLayout.VERTICAL
+                    addView(EfbUi.text(this@MapActivity, label, 15f, EfbUi.TEXT))
+                    sub?.let { addView(EfbUi.text(this@MapActivity, it, 11.5f, EfbUi.DIM)) }
+                }, LinearLayout.LayoutParams(0, -2, 1f))
+                checked?.let {
+                    addView(EfbUi.text(this@MapActivity, if (it) "✓" else "", 17f, EfbUi.ACCENT, bold = true))
+                }
+                setOnClickListener { dlg.dismiss(); go() }
+            })
+        }
+        head(getString(R.string.map_layers))
+        row(getString(R.string.map_layers), getString(layer.label)) { layers() }
+        row(getString(R.string.map_track_up), null, trackUp) { trackUp = !trackUp
+            prefs.edit().putBoolean("track_up_on", trackUp).apply()
+            if (!trackUp) map.mapOrientation = 0f
+            map.invalidate() }
+        row(getString(R.string.map_airports), null, prefs.getBoolean("map_airports", true)) {
+            val on = !prefs.getBoolean("map_airports", true)
+            prefs.edit().putBoolean("map_airports", on).apply()
+            airportsLayer.airports = if (on) airports else emptyList(); map.invalidate()
+        }
+        row(getString(R.string.map_sharp), null, prefs.getBoolean("map_big", false)) {
+            val on = !prefs.getBoolean("map_big", false)
+            prefs.edit().putBoolean("map_big", on).apply(); map.isTilesScaledToDpi = on; map.invalidate()
+        }
+        head("Flight")
+        row(getString(R.string.plan_title)) { navLog() }
+        row("Approaches") { approachMenu() }
+        row("Weather briefing for the route") { BriefingActivity.open(this) }
+        row(getString(R.string.map_profile)) { profile() }
+        row(getString(R.string.wx_winds)) { windsAloft() }
+        row(getString(R.string.wb_title)) { openWb() }
+        row(getString(R.string.brief_title)) { briefing() }
+        head("In the air")
+        row("Traffic around me") { trafficList() }
+        row("Range rings", null, prefs.getBoolean("rings", true)) {
+            val on = !prefs.getBoolean("rings", true)
+            prefs.edit().putBoolean("rings", on).apply()
+            if (on) map.overlays.add(rings) else map.overlays.remove(rings); map.invalidate()
+        }
+        row(getString(R.string.glide_menu)) { askGlide() }
+        row("Share live tracking", null, LiveTrack.on(this)) { liveTrackMenu() }
+        row(getString(R.string.freq_title)) { startActivity(android.content.Intent(this, FrequenciesActivity::class.java)) }
+        row(getString(R.string.pos_report)) { positionReport() }
+        row(getString(R.string.timer_title)) { timerStart = if (timerStart == 0L) android.os.SystemClock.elapsedRealtime() else 0L }
+        head("Kept on the phone")
+        row(getString(R.string.pack_title)) { packFlight() }
+        row(getString(R.string.map_download)) { downloadArea() }
+        row(getString(R.string.cs_bulk)) { supplementsWest() }
+        row(getString(R.string.notes_title)) { Notebooks.open(this) }
+        dlg = MaterialAlertDialogBuilder(this)
+            .setView(android.widget.ScrollView(this).apply { addView(box) })
+            .setNegativeButton(R.string.cancel, null).create()
+        dlg.show()
+    }
 
     /**
      * How the drawn map behaves with the chart that is showing. On its own it draws everything; over
@@ -3076,6 +3167,7 @@ class MapActivity : BaseActivity(), NeonHost {
         if (following && map.zoomLevelDouble < 9) map.controller.setZoom(10.0)
         if (!following) map.mapOrientation = 0f
         b.fabLocate.alpha = if (following) 1f else 0.6f
+        bar?.setCentred(following)
         // Track up, once ticked, stays: panning the chart lets go of the aircraft, not of the track.
         if (!following && !prefs.getBoolean("track_up_on", false)) { trackUp = false; ahead = false }
         b.fabLocate.setImageResource(viewIcon())
@@ -3537,6 +3629,16 @@ class MapActivity : BaseActivity(), NeonHost {
     /** Search by FAA identifier, ICAO code, name or city; the map flies there and opens the airport. */
     private fun findAirport() {
         AirportSearch.show(this, airports, ownship.position() ?: map.mapCenter as GeoPoint) { a -> flyTo(a) }
+    }
+
+    /** A name typed into the bar: the field it names, or the search list when it names none. */
+    private fun searchGo(q: String) {
+        if (q.isEmpty()) { findAirport(); return }
+        val t = q.trim().uppercase()
+        val a = airports.firstOrNull { it.icao == t || it.ident == t }
+            ?: airports.firstOrNull { t.length == 4 && t.startsWith("K") && it.ident == t.drop(1) }
+            ?: airports.firstOrNull { it.name.uppercase().contains(t) }
+        if (a != null) flyTo(a) else findAirport()
     }
 
     private fun flyTo(a: AviationData.Airport) {
