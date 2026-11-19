@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-19T11:22:40.198Z",
+  "updated_at": "2026-11-19T11:28:10.872Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -291,21 +291,21 @@
       "country": "بريطانيا",
       "latitude": 51.5074,
       "longitude": -0.1278,
-      "temperature_c": 8.0,
+      "temperature_c": 7.8,
       "humidity": 89,
       "wind_speed": 6.8,
       "rain_chance": 21,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-11-19T11:15",
-      "feels_c": 6.1,
+      "feels_c": 5.9,
       "utc_offset": 0,
       "days": [
         {
           "date": "2026-11-19",
           "code": 63,
           "max": 9.4,
-          "min": 6.7,
+          "min": 6.5,
           "rain": 100
         },
         {
@@ -352,7 +352,7 @@
         }
       ],
       "today_max": 9.4,
-      "today_min": 6.7,
+      "today_min": 6.5,
       "sunrise": "07:25",
       "sunset": "16:06",
       "uv": 0
@@ -362,14 +362,14 @@
       "country": "بريطانيا",
       "latitude": 53.4808,
       "longitude": -2.2426,
-      "temperature_c": 7.5,
-      "humidity": 93,
-      "wind_speed": 9.4,
+      "temperature_c": 7.4,
+      "humidity": 88,
+      "wind_speed": 15.5,
       "rain_chance": 25,
       "condition": "رذاذ خفيف",
       "weather_code": 51,
       "observed_at": "2026-11-19T11:15",
-      "feels_c": 5.3,
+      "feels_c": 4.0,
       "utc_offset": 0,
       "days": [
         {
@@ -466,21 +466,21 @@
         },
         {
           "date": "2026-11-22",
-          "code": 63,
+          "code": 81,
           "max": 14.7,
           "min": 10.6,
           "rain": 62
         },
         {
           "date": "2026-11-23",
-          "code": 63,
+          "code": 82,
           "max": 15.5,
           "min": 6.3,
           "rain": 62
         },
         {
           "date": "2026-11-24",
-          "code": 0,
+          "code": 2,
           "max": 6.3,
           "min": 0.6,
           "rain": 2
@@ -537,7 +537,7 @@
         },
         {
           "date": "2026-11-22",
-          "code": 1,
+          "code": 2,
           "max": 19.2,
           "min": 13.8,
           "rain": 13
@@ -551,14 +551,14 @@
         },
         {
           "date": "2026-11-24",
-          "code": 81,
+          "code": 3,
           "max": 20.3,
           "min": 14.7,
           "rain": 18
         },
         {
           "date": "2026-11-25",
-          "code": 81,
+          "code": 63,
           "max": 18.8,
           "min": 13.8,
           "rain": 26
@@ -568,7 +568,7 @@
       "today_min": 9.4,
       "sunrise": "06:29",
       "sunset": "16:46",
-      "uv": 3
+      "uv": 1
     },
     {
       "city": "شيكاغو",
@@ -608,7 +608,7 @@
         },
         {
           "date": "2026-11-22",
-          "code": 55,
+          "code": 61,
           "max": 14.9,
           "min": 6.0,
           "rain": 71
@@ -639,7 +639,7 @@
       "today_min": 5.7,
       "sunrise": "06:45",
       "sunset": "16:26",
-      "uv": 3
+      "uv": 2
     },
     {
       "city": "لاس فيغاس",
@@ -710,7 +710,7 @@
       "today_min": 7.6,
       "sunrise": "06:21",
       "sunset": "16:30",
-      "uv": 4
+      "uv": 3
     },
     {
       "city": "دالاس",
@@ -743,21 +743,21 @@
         },
         {
           "date": "2026-11-21",
-          "code": 51,
+          "code": 53,
           "max": 23.9,
           "min": 16.0,
           "rain": 13
         },
         {
           "date": "2026-11-22",
-          "code": 55,
+          "code": 51,
           "max": 19.8,
           "min": 13.7,
           "rain": 26
         },
         {
           "date": "2026-11-23",
-          "code": 3,
+          "code": 2,
           "max": 17.6,
           "min": 10.6,
           "rain": 0
@@ -814,14 +814,14 @@
         },
         {
           "date": "2026-11-21",
-          "code": 61,
+          "code": 80,
           "max": 13.4,
           "min": 8.5,
           "rain": 77
         },
         {
           "date": "2026-11-22",
-          "code": 3,
+          "code": 51,
           "max": 13.6,
           "min": 10.7,
           "rain": 21
@@ -835,14 +835,14 @@
         },
         {
           "date": "2026-11-24",
-          "code": 80,
+          "code": 81,
           "max": 15.7,
           "min": 10.2,
           "rain": 82
         },
         {
           "date": "2026-11-25",
-          "code": 53,
+          "code": 51,
           "max": 15.2,
           "min": 11.2,
           "rain": 82
