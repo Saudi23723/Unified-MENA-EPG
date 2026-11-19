@@ -367,17 +367,21 @@ class StudyBookActivity : BaseActivity() {
                 }
                 if (!shown(el)) return;
                 if (out.length > 500) return;
-                // The list of every question in the bank sits beside the lesson. On the screen each
-                // entry reads "5 (3.7.69)", but the text behind it reads "Question" and then
-                // "Source 3 7 69" with no brackets at all — so looking for the bracketed form alone
-                // let the whole index through. Either form, half a dozen times over in one box,
-                // means that box is the index and not the lesson.
+                // The list of every question in the bank sits beside the lesson, each entry
+                // reading "5 (3.7.69)" on the screen and "Source 3 7 69" in the text behind it.
+                //
+                // Counting those marks alone is not enough to call a box the index: the box that
+                // holds the lesson holds the list beside it too, so counting threw the question
+                // away along with the index and left only the heading above them. A box is the
+                // index only when it is almost nothing else — when its marks account for very
+                // nearly all of its text.
                 if (el.children && el.children.length > 0){
                     var it = el.innerText || '';
-                    if (it.length < 20000 &&
-                        (((it.match(/\(\d+\.\d+\.\d+\)/g) || []).length >= 6) ||
-                         ((it.match(/Source\s+\d+\s+\d+\s+\d+/g) || []).length >= 4) ||
-                         ((it.match(/\bQuestion\b/g) || []).length >= 8))) return;
+                    if (it.length < 20000){
+                        var marks = (it.match(/\(\d+\.\d+\.\d+\)/g) || []).length +
+                                    (it.match(/Source\s+\d+\s+\d+\s+\d+/g) || []).length;
+                        if (marks >= 6 && it.length / marks < 25) return;
+                    }
                 }
                 if (tag === 'ol' || tag === 'ul'){ list(el, 0); return; }
                 if (!el.children || el.children.length === 0){ push(el.innerText || el.textContent, 0, ''); return; }
@@ -522,9 +526,9 @@ class StudyBookActivity : BaseActivity() {
             if (!shown(e)) continue;
             var r = e.getBoundingClientRect();
             var tg = e.tagName.toLowerCase();
-            // The masthead across the top of every page is not a figure: wide, shallow, and the
-            // same on every page of the bank.
-            if (tg === 'img' && r.width > vw * 0.7 && r.height < 110) continue;
+            // The masthead is a word-mark: a strip of lettering far wider than it is tall, the
+            // same on every page of the bank. A diagram is never that shape.
+            if (tg === 'img' && r.height < 90 && r.width / r.height > 3.5) continue;
             // A figure beside a question can be a small thumbnail; a table has to be a real one.
             if (tg === 'img' || tg === 'svg' || tg === 'canvas'){ if (r.width < 60 || r.height < 45) continue; }
             else if (r.width < 120 || r.height < 70) continue;
