@@ -15,6 +15,10 @@ import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -488,6 +492,41 @@ class StudyBookActivity : BaseActivity() {
     }
 
     /**
+     * The better of two copies of a picture: the one the page drew on the screen, and the one at
+     * the address the page gives for it. A figure beside a question is printed as a thumbnail, so
+     * the copy from the screen carries the thumbnail's blur; the file behind the link is the
+     * original. Whichever comes back with more pixels in it is the one kept, so a page that gives
+     * no better address loses nothing.
+     */
+    private fun bestPicture(dir: java.io.File, i: Int, data: String, url: String): String? {
+        var best: ByteArray? = null
+        var bestW = 0
+        fun consider(bytes: ByteArray?) {
+            if (bytes == null || bytes.size < 200) return
+            val o = android.graphics.BitmapFactory.Options().apply { inJustDecodeBounds = true }
+            android.graphics.BitmapFactory.decodeByteArray(bytes, 0, bytes.size, o)
+            if (o.outWidth > bestW) { bestW = o.outWidth; best = bytes }
+        }
+        if (data.startsWith("data:image")) {
+            consider(try { android.util.Base64.decode(data.substringAfter("base64,"), android.util.Base64.DEFAULT) } catch (e: Throwable) { null })
+        }
+        if (url.startsWith("http")) consider(fetchBytes(url))
+        val bytes = best ?: return null
+        val out = java.io.File(dir, "fig_" + System.currentTimeMillis() + "_" + i + ".png")
+        return try { out.writeBytes(bytes); out.name } catch (e: Throwable) { null }
+    }
+
+    /** The picture's own file, asked for as the page itself would ask — signed in, and from the page. */
+    private fun fetchBytes(url: String): ByteArray? = try {
+        val c = java.net.URL(url).openConnection() as java.net.HttpURLConnection
+        c.connectTimeout = 15000; c.readTimeout = 20000
+        c.setRequestProperty("User-Agent", android.webkit.WebSettings.getDefaultUserAgent(this))
+        c.setRequestProperty("Referer", prefs.getString("study_last_url", "") ?: "")
+        android.webkit.CookieManager.getInstance().getCookie(url)?.let { c.setRequestProperty("Cookie", it) }
+        try { if (c.responseCode != 200) null else c.inputStream.use { it.readBytes() } } finally { c.disconnect() }
+    } catch (e: Throwable) { null }
+
+    /**
      * A picture of the page as it is on the screen.
      *
      * A WebView draws itself on the graphics card, and a view drawn that way hands back an empty
@@ -559,7 +598,24 @@ class StudyBookActivity : BaseActivity() {
         // was measured, and the rectangle would point at whatever was passing.
         try { e.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'instant' }); }
         catch (x) { try { e.scrollIntoView(); } catch (y) {} }
-        // A picture can be copied exactly, pixel for pixel, with no cutting out at all.
+        // Where the full-size picture lives, if the page says. A figure beside a question is
+        // printed as a small thumbnail; copying what is on the screen copies the thumbnail and
+        // its blur with it. The page usually knows a bigger one: the link the thumbnail sits in,
+        // a large source named on it, or the last and biggest of its srcset.
+        var url = '';
+        if (e.tagName.toLowerCase() === 'img'){
+            var a2 = e.closest ? e.closest('a') : null;
+            if (a2 && a2.href && /\.(png|jpe?g|gif|webp)(\?|#|$)/i.test(a2.href)) url = a2.href;
+            if (!url) url = e.getAttribute('data-large') || e.getAttribute('data-src') || e.getAttribute('data-original') || '';
+            if (!url && e.srcset){
+                var cands = e.srcset.split(',');
+                var last = (cands[cands.length - 1] || '').trim().split(/\s+/)[0];
+                if (last) url = last;
+            }
+            if (!url) url = e.currentSrc || e.src || '';
+            try { url = new URL(url, location.href).href; } catch (x) { }
+        }
+        // A picture can also be copied exactly, pixel for pixel, as it stands.
         var data = '';
         if (e.tagName.toLowerCase() === 'img'){
             try {
@@ -573,7 +629,7 @@ class StudyBookActivity : BaseActivity() {
         }
         var r2 = e.getBoundingClientRect();
         return JSON.stringify({ n: list.length, x: r2.left / vw, y: r2.top / vh,
-                                w: r2.width / vw, h: r2.height / vh, data: data });
+                                w: r2.width / vw, h: r2.height / vh, data: data, url: url });
     })($i)"""
 
     /**
@@ -596,15 +652,13 @@ class StudyBookActivity : BaseActivity() {
                 val r = try { JSONObject(unJs(raw)) } catch (e: Exception) { null }
                 if (r == null || r.optBoolean("done")) { done(made); return@evaluateJavascript }
                 val data = r.optString("data")
-                if (data.startsWith("data:image")) {
-                    try {
-                        val bytes = android.util.Base64.decode(data.substringAfter("base64,"), android.util.Base64.DEFAULT)
-                        val out = java.io.File(dir, "fig_" + System.currentTimeMillis() + "_" + i + ".png")
-                        out.writeBytes(bytes)
-                        figures.add(out.name)
-                        made++
-                    } catch (e: Throwable) { }
-                    step(i + 1)
+                val url = r.optString("url")
+                if (data.startsWith("data:image") || url.startsWith("http")) {
+                    lifecycleScope.launch {
+                        val keptName = withContext(Dispatchers.IO) { bestPicture(dir, i, data, url) }
+                        if (keptName != null) { figures.add(keptName); made++ }
+                        step(i + 1)
+                    }
                     return@evaluateJavascript
                 }
                 web.postDelayed({
