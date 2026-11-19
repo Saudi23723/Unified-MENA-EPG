@@ -405,9 +405,16 @@ class StudyBookActivity : BaseActivity() {
                 }
                 return true;
             }
+            // Which kind of page this is, asked of the page itself rather than guessed from its
+            // words. A question is sat in a session, with its Mark For Review and its timer; a
+            // lesson is a numbered section of the book, with Back, Forward, Contents and Print.
+            var all = (document.body ? document.body.innerText : '') || '';
+            var looksQa = /Mark For Review|Average Time Per Question|Answer\s*\(?[A-E]\)?\s*is\s*(correct|incorrect)|Question:\s*\d/i.test(all);
+            var looksLesson = /eBook\s*[-–]\s*Contents|^\s*\d+\.\d+\s+[A-Z]/m.test(all);
+            var kind = looksQa ? 'qa' : (looksLesson ? 'note' : '');
             var vw = window.innerWidth || 1, vh = window.innerHeight || 1;
             var sy = window.pageYOffset || document.documentElement.scrollTop || 0;
-            var res = { text: out.join('\n').slice(0, 20000), pts: pts.slice(0, 400), vw: vw, vh: vh,
+            var res = { text: out.join('\n').slice(0, 20000), pts: pts.slice(0, 400), kind: kind, vw: vw, vh: vh,
                         scrollY: sy, docH: Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
                         figs: [] };
             var els = document.querySelectorAll('img,table,svg,canvas');
@@ -437,7 +444,7 @@ class StudyBookActivity : BaseActivity() {
             // this, taking one page and then another without keeping the first gave the second
             // page the first page's figures as well.
             dropFigures()
-            val parsed = StudyParse.parse(text)
+            val parsed = StudyParse.parse(text, o?.optString("kind").orEmpty())
             // A lesson keeps the shape the page had it in, each point with its depth and marker.
             if (parsed.optString("kind") != "qa") o?.optJSONArray("pts")?.let { parsed.put("plist", it) }
             pending = parsed

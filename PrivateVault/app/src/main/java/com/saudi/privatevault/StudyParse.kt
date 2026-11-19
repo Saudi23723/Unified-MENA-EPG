@@ -17,10 +17,51 @@ import org.json.JSONObject
  */
 object StudyParse {
 
-    /** A question with its choices and its answer, or a passage of a book. */
-    fun parse(raw: String): JSONObject {
+    /**
+     * A question with its choices and its answer, or a passage of a book.
+     *
+     * Which of the two it is comes from the page itself where the page can say — a question is sat
+     * in a session, with its Mark For Review and its timer; a lesson is a numbered section of the
+     * book. Reading the shape out of the words is the fallback, not the first resort, because a
+     * page whose question did not parse used to be filed as a lesson and come out as nonsense.
+     */
+    fun parse(raw: String, hint: String = ""): JSONObject {
         val text = strip(raw.replace("\r", "").replace(" ", " ")).trim()
-        return question(text) ?: passage(text)
+        if (hint == "note") return passage(text)
+        val q = question(text) ?: looseQuestion(text)
+        if (q != null) return q
+        return passage(text).also { if (hint == "qa") it.put("kind", "qa").put("partial", true) }
+    }
+
+    /**
+     * A question whose wording the strict reading missed. Where a page has lettered choices and a
+     * verdict on one of them, it is a question whatever else it says — what comes before the first
+     * choice is the question, and the rest is read as usual.
+     */
+    private fun looseQuestion(text: String): JSONObject? {
+        val first = Regex("""^[ \t]*([A-E])[.)]\s""", setOf(RegexOption.MULTILINE)).find(text) ?: return null
+        val body = text.substring(first.range.first)
+        val choices = JSONArray()
+        for (m in RE_CHOICE.findAll(body)) {
+            val t = clean(m.groupValues[2])
+            if (t.isNotEmpty()) choices.put(JSONObject().put("l", m.groupValues[1]).put("t", t))
+            if (choices.length() >= 5) break
+        }
+        if (choices.length() < 2) return null
+        if (!RE_ANS.containsMatchIn(body) && !RE_VERDICT.containsMatchIn(body)) return null
+        val head = clean(text.substring(0, first.range.first))
+            .lines().filter { it.isNotBlank() }.takeLast(3).joinToString(" ")
+        val o = JSONObject()
+            .put("kind", "qa")
+            .put("n", "")
+            .put("q", head.ifEmpty { "(question)" })
+            .put("ch", choices)
+            .put("acs", RE_ACS.find(text)?.groupValues?.get(1) ?: "")
+            .put("src", RE_SRC.find(text)?.groupValues?.get(1)?.trim() ?: "")
+            .put("unit", RE_UNIT.find(text)?.let { "Unit ${it.groupValues[1]} · ${it.groupValues[2].trim()}" } ?: "")
+            .put("sub", RE_SUB.find(text)?.let { "Subunit ${it.groupValues[1]} · ${it.groupValues[2].trim()}" } ?: "")
+        verdicts(body, choices, o)
+        return o
     }
 
     /**
@@ -75,8 +116,28 @@ object StudyParse {
             if (choices.length() >= 5) break
         }
         if (choices.length() < 2) return null
-        // Each verdict the bank gives — this one is right, that one is wrong — with its reason,
-        // put against the choice it belongs to. A wrong answer explained is half the learning.
+        val holder = JSONObject()
+        verdicts(body, choices, holder)
+        val ans = holder.optString("ans")
+        val why = holder.optString("why")
+        return JSONObject()
+            .put("kind", "qa")
+            .put("n", number)
+            .put("q", clean(q.groupValues[3]))
+            .put("ch", choices)
+            .put("ans", ans)
+            .put("why", why)
+            .put("acs", RE_ACS.find(text)?.groupValues?.get(1) ?: "")
+            .put("src", RE_SRC.find(text)?.groupValues?.get(1)?.trim() ?: "")
+            .put("unit", RE_UNIT.find(text)?.let { "Unit ${it.groupValues[1]} · ${it.groupValues[2].trim()}" } ?: "")
+            .put("sub", RE_SUB.find(text)?.let { "Subunit ${it.groupValues[1]} · ${it.groupValues[2].trim()}" } ?: "")
+    }
+
+    /**
+     * Each verdict the bank gives — this one is right, that one is wrong — with its reason, put
+     * against the choice it belongs to. A wrong answer explained is half the learning.
+     */
+    private fun verdicts(body: String, choices: JSONArray, into: JSONObject) {
         var ans = ""
         var why = ""
         for (v in RE_VERDICT.findAll(body)) {
@@ -93,17 +154,7 @@ object StudyParse {
             }
         }
         if (ans.isEmpty()) ans = RE_ANS.find(body)?.groupValues?.get(1) ?: ""
-        return JSONObject()
-            .put("kind", "qa")
-            .put("n", number)
-            .put("q", clean(q.groupValues[3]))
-            .put("ch", choices)
-            .put("ans", ans)
-            .put("why", why)
-            .put("acs", RE_ACS.find(text)?.groupValues?.get(1) ?: "")
-            .put("src", RE_SRC.find(text)?.groupValues?.get(1)?.trim() ?: "")
-            .put("unit", RE_UNIT.find(text)?.let { "Unit ${it.groupValues[1]} · ${it.groupValues[2].trim()}" } ?: "")
-            .put("sub", RE_SUB.find(text)?.let { "Subunit ${it.groupValues[1]} · ${it.groupValues[2].trim()}" } ?: "")
+        into.put("ans", ans).put("why", why)
     }
 
     // ---- a passage of a book ----
