@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-19T03:33:55.271Z",
+  "updated_at": "2026-11-19T03:43:07.637Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -292,7 +292,7 @@
       "latitude": 51.5074,
       "longitude": -0.1278,
       "temperature_c": 9.0,
-      "humidity": 94,
+      "humidity": 93,
       "wind_speed": 7.9,
       "rain_chance": 78,
       "condition": "غائم جزئياً",
@@ -433,9 +433,9 @@
       "country": "أمريكا",
       "latitude": 40.7128,
       "longitude": -74.006,
-      "temperature_c": 8.8,
+      "temperature_c": 8.7,
       "humidity": 54,
-      "wind_speed": 8.0,
+      "wind_speed": 7.6,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
@@ -454,7 +454,7 @@
           "date": "2026-11-19",
           "code": 0,
           "max": 17.9,
-          "min": 4.1,
+          "min": 3.9,
           "rain": 0
         },
         {
@@ -504,14 +504,14 @@
       "country": "أمريكا",
       "latitude": 34.0522,
       "longitude": -118.2437,
-      "temperature_c": 15.3,
+      "temperature_c": 16.0,
       "humidity": 61,
-      "wind_speed": 2.8,
+      "wind_speed": 4.5,
       "rain_chance": 1,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-11-18T19:30",
-      "feels_c": 14.3,
+      "feels_c": 15.0,
       "utc_offset": -28800,
       "days": [
         {
@@ -523,7 +523,7 @@
         },
         {
           "date": "2026-11-19",
-          "code": 65,
+          "code": 63,
           "max": 17.1,
           "min": 9.7,
           "rain": 92
@@ -575,14 +575,14 @@
       "country": "أمريكا",
       "latitude": 41.8781,
       "longitude": -87.6298,
-      "temperature_c": 7.0,
+      "temperature_c": 6.9,
       "humidity": 63,
       "wind_speed": 12.2,
       "rain_chance": 0,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-11-18T21:30",
-      "feels_c": 3.2,
+      "feels_c": 3.1,
       "utc_offset": -21600,
       "days": [
         {
@@ -596,7 +596,7 @@
           "date": "2026-11-19",
           "code": 3,
           "max": 18.4,
-          "min": 6.0,
+          "min": 5.9,
           "rain": 0
         },
         {
@@ -646,14 +646,14 @@
       "country": "أمريكا",
       "latitude": 36.1699,
       "longitude": -115.1398,
-      "temperature_c": 10.3,
+      "temperature_c": 10.7,
       "humidity": 42,
-      "wind_speed": 9.3,
+      "wind_speed": 9.4,
       "rain_chance": 0,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-11-18T19:30",
-      "feels_c": 6.6,
+      "feels_c": 7.0,
       "utc_offset": -28800,
       "days": [
         {
@@ -666,7 +666,7 @@
         {
           "date": "2026-11-19",
           "code": 55,
-          "max": 14.4,
+          "max": 15.3,
           "min": 6.6,
           "rain": 41
         },
@@ -719,12 +719,12 @@
       "longitude": -96.797,
       "temperature_c": 14.0,
       "humidity": 73,
-      "wind_speed": 6.5,
+      "wind_speed": 7.2,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-11-18T21:30",
-      "feels_c": 12.9,
+      "feels_c": 12.7,
       "utc_offset": -21600,
       "days": [
         {
@@ -738,7 +738,7 @@
           "date": "2026-11-19",
           "code": 3,
           "max": 22.1,
-          "min": 10.2,
+          "min": 9.7,
           "rain": 1
         },
         {
@@ -788,14 +788,14 @@
       "country": "أمريكا",
       "latitude": 37.7749,
       "longitude": -122.4194,
-      "temperature_c": 11.5,
+      "temperature_c": 11.3,
       "humidity": 94,
-      "wind_speed": 5.8,
+      "wind_speed": 6.2,
       "rain_chance": 37,
-      "condition": "رذاذ",
-      "weather_code": 53,
+      "condition": "غائم",
+      "weather_code": 3,
       "observed_at": "2026-11-18T19:30",
-      "feels_c": 10.8,
+      "feels_c": 10.5,
       "utc_offset": -28800,
       "days": [
         {
@@ -807,7 +807,7 @@
         },
         {
           "date": "2026-11-19",
-          "code": 63,
+          "code": 71,
           "max": 12.6,
           "min": 8.2,
           "rain": 86
