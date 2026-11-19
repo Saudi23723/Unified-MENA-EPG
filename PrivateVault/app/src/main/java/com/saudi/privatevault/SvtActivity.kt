@@ -93,14 +93,21 @@ class SvtActivity : BaseActivity(), SensorEventListener {
             if (!ahrs) { view.pitch = 0f; view.roll = 0f }
         }
         chip(getString(R.string.svt_level)) { pitch0 = rawPitch; roll0 = rawRoll }
+        // While a field is being looked at, this brings the view back to the aeroplane.
+        chip("✈ Aircraft") {
+            preview = false
+            view.field = ""
+            Toast.makeText(this, "Following the aircraft", Toast.LENGTH_SHORT).show()
+            startGps()
+        }
         chip("✕") { finish() }
         root.addView(bar, FrameLayout.LayoutParams(-1, -2, Gravity.TOP))
         setContentView(root)
         Terrain.onTile = { view.postInvalidate() }
         Thread { airports = AviationData.airports(this); view.airports = airports }.start()
         sensors = getSystemService(Context.SENSOR_SERVICE) as? SensorManager
-        startGps()
         showField()
+        startGps()
     }
 
     /**
@@ -129,8 +136,12 @@ class SvtActivity : BaseActivity(), SensorEventListener {
             speed = 0f
             time = System.currentTimeMillis()
         }
+        preview = true
+        view.field = if (ident.isNotEmpty()) "$ident · from 3 nm, 1,000 ft above" else ""
         view.update(l)
-        if (ident.isNotEmpty()) title = ident
+        // The ground is fetched a tile at a time; the picture is drawn again as each one lands.
+        Terrain.onTile = { view.postInvalidate() }
+        for (ms in listOf(400L, 1200L, 2500L, 4000L)) view.postDelayed({ view.invalidate() }, ms)
     }
 
     override fun onResume() {
@@ -167,14 +178,22 @@ class SvtActivity : BaseActivity(), SensorEventListener {
 
     override fun onAccuracyChanged(s: Sensor?, a: Int) {}
 
-    private val gps = LocationListener { l -> view.update(l) }
+    /**
+     * Looking at a field, the aeroplane's own position is not wanted: it would put the view back
+     * on the ground where the phone is standing, which is what it did — a flat brown field and a
+     * red line, from a thousand feet below where the picture was meant to be taken. The GPS waits
+     * until the pilot asks for it.
+     */
+    private var preview = false
+
+    private val gps = LocationListener { l -> if (!preview) view.update(l) }
 
     @SuppressLint("MissingPermission")
     private fun startGps() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) return
         val m = getSystemService(LocationManager::class.java) ?: return
         try {
-            m.getLastKnownLocation(LocationManager.GPS_PROVIDER)?.let { view.update(it) }
+            if (!preview) m.getLastKnownLocation(LocationManager.GPS_PROVIDER)?.let { view.update(it) }
             m.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0f, gps, mainLooper)
         } catch (e: Exception) {
         }
@@ -185,6 +204,8 @@ class SvtActivity : BaseActivity(), SensorEventListener {
 class SvtView(ctx: Context) : View(ctx) {
     var pitch = 0f
     var roll = 0f
+    /** What is being looked at, when it is a field rather than the aeroplane. */
+    var field = ""
     var airports: List<AviationData.Airport> = emptyList()
 
     private var fix: Location? = null
@@ -344,5 +365,12 @@ class SvtView(ctx: Context) : View(ctx) {
         }
         text.textSize = 10 * d
         c.drawText(context.getString(R.string.svt_note), w / 2, h - 14 * d, text)
+        // What is being looked at, when it is a field rather than the aeroplane.
+        if (field.isNotEmpty()) {
+            text.textSize = 13 * d
+            val tw = text.measureText(field)
+            c.drawRoundRect(w / 2 - tw / 2 - 12 * d, h - 52 * d, w / 2 + tw / 2 + 12 * d, h - 28 * d, 8 * d, 8 * d, box)
+            c.drawText(field, w / 2, h - 35 * d, text)
+        }
     }
 }
