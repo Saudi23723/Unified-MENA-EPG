@@ -357,6 +357,14 @@ class StudyBookActivity : BaseActivity() {
                 if (SKIP[tag]) return;
                 // A table of data is kept as a picture, so its text is not written out as well.
                 if (tag === 'table' && dataTable(el)) return;
+                // A row of a table is one line. This bank writes a choice as two cells — "A." in
+                // one and its words in the next — and a question as "Question: 10" in one cell and
+                // the question in another. Read cell by cell they fall onto separate lines and
+                // stop being a choice or a question at all; read row by row they read as written.
+                if (tag === 'tr'){
+                    var rt = (el.innerText || '').replace(/\s+/g, ' ').trim();
+                    if (rt.length > 0 && rt.length < 600){ push(rt, 0, ''); return; }
+                }
                 if (!shown(el)) return;
                 if (out.length > 500) return;
                 // The list of every question in the bank sits beside the lesson. On the screen each
@@ -506,6 +514,7 @@ class StudyBookActivity : BaseActivity() {
             }
             return true;
         }
+        var vw = window.innerWidth || 1, vh = window.innerHeight || 1;
         var all = document.querySelectorAll('img,table,svg,canvas');
         var list = [];
         for (var k = 0; k < all.length; k++){
@@ -513,6 +522,9 @@ class StudyBookActivity : BaseActivity() {
             if (!shown(e)) continue;
             var r = e.getBoundingClientRect();
             var tg = e.tagName.toLowerCase();
+            // The masthead across the top of every page is not a figure: wide, shallow, and the
+            // same on every page of the bank.
+            if (tg === 'img' && r.width > vw * 0.7 && r.height < 110) continue;
             // A figure beside a question can be a small thumbnail; a table has to be a real one.
             if (tg === 'img' || tg === 'svg' || tg === 'canvas'){ if (r.width < 60 || r.height < 45) continue; }
             else if (r.width < 120 || r.height < 70) continue;
@@ -541,7 +553,6 @@ class StudyBookActivity : BaseActivity() {
             } catch (x) { data = ''; }
         }
         var r2 = e.getBoundingClientRect();
-        var vw = window.innerWidth || 1, vh = window.innerHeight || 1;
         return JSON.stringify({ n: list.length, x: r2.left / vw, y: r2.top / vh,
                                 w: r2.width / vw, h: r2.height / vh, data: data });
     })($i)"""
