@@ -254,10 +254,11 @@ class MapActivity : BaseActivity(), NeonHost {
         b.hud.visibility = View.GONE
         b.fabLayers.setOnClickListener { chooseLayer() }
         // One palette everywhere: the floating one, as on the other screens.
-        // With the pen down, this button puts it away; otherwise it opens the drawing tools.
-        b.fabDraw.setOnClickListener {
-            if (draw.tool != MapDrawOverlay.MapTool.PAN) pick(MapDrawOverlay.MapTool.PAN) else InkSheet.toggle(this)
-        }
+        // This button is the floating palette's, and nothing else. Putting the pen down belongs to
+        // the band across the top of the chart that appears while it is down — a button that
+        // cancelled instead of opening the palette left no way back to the palette at all.
+        b.fabDraw.setOnClickListener { InkSheet.toggle(this) }
+        b.fabDraw.setOnLongClickListener { pick(MapDrawOverlay.MapTool.PAN); true }
         styleControls()
         foreflightLayout()
         b.root.post { wxBar() }
