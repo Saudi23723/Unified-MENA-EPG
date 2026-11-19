@@ -426,7 +426,12 @@ class StudyBookActivity : BaseActivity() {
             var kind = looksQa ? 'qa' : (looksLesson ? 'note' : '');
             var vw = window.innerWidth || 1, vh = window.innerHeight || 1;
             var sy = window.pageYOffset || document.documentElement.scrollTop || 0;
-            var res = { text: out.join('\n').slice(0, 20000), pts: pts.slice(0, 400), kind: kind, vw: vw, vh: vh,
+            // The page's own rendered text, kept beside the walked text. The walk gives a lesson
+            // its numbering and its shape, which plain text has not got; plain text gives whatever
+            // the walk's own rules have turned away. Whichever of the two actually holds the
+            // question is the one used, instead of trusting either to be right every time.
+            var res = { text: out.join('\n').slice(0, 20000), plain: all.slice(0, 20000),
+                        pts: pts.slice(0, 400), kind: kind, vw: vw, vh: vh,
                         scrollY: sy, docH: Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
                         figs: [] };
             var els = document.querySelectorAll('img,table,svg,canvas');
@@ -456,7 +461,17 @@ class StudyBookActivity : BaseActivity() {
             // this, taking one page and then another without keeping the first gave the second
             // page the first page's figures as well.
             dropFigures()
-            val parsed = StudyParse.parse(text, o?.optString("kind").orEmpty())
+            val hint = o?.optString("kind").orEmpty()
+            var parsed = StudyParse.parse(text, hint)
+            // Whichever reading actually found the question and its choices is the one kept.
+            fun choices(p: JSONObject) = p.optJSONArray("ch")?.length() ?: 0
+            if (choices(parsed) < 2) {
+                val plain = o?.optString("plain").orEmpty()
+                if (plain.isNotBlank()) {
+                    val alt = StudyParse.parse(plain, hint)
+                    if (choices(alt) > choices(parsed)) parsed = alt
+                }
+            }
             // A lesson keeps the shape the page had it in, each point with its depth and marker.
             if (parsed.optString("kind") != "qa") o?.optJSONArray("pts")?.let { parsed.put("plist", it) }
             pending = parsed
