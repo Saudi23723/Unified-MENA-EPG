@@ -1324,20 +1324,6 @@
     <display-name lang="ar">الرابعة قرآن</display-name>
     <icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/alrabiaa_quran.png" />
   </channel>
-  <programme start="20261118082200 +0000" stop="20261118100800 +0000" channel="beIN4K.qa">
-    <title lang="en">Lens vs Marseille - French Ligue 1 2026/2027</title>
-    <desc lang="en">All 306 matches from the Ligue 1 2026 – 2027 season are live and exclusive only on beIN SPORTS. Paris Saint-Germain are the defending Champions having secured their historic 14th top-flight title last season.</desc>
-    <category lang="ar">الدوري الفرنسي</category>
-    <category lang="en">French League - Ligue 1</category>
-  </programme>
-  <programme start="20261118100800 +0000" stop="20261118115500 +0000" channel="beIN4K.qa">
-    <title lang="en">Leeds United vs Tottenham Hotspur - English Premier League 2026/2027</title>
-    <desc lang="en">All 380 fixtures from the English premier league are live and exclusive only on beIN SPORTS with a choice of Arabic or English commentary.
-The 2026–27 season consists of 33 weekend and five midweek rounds of matches.
-Arsenal are the defending Champions.</desc>
-    <category lang="ar">الدوري الإنجليزي الممتاز</category>
-    <category lang="en">English Premier League</category>
-  </programme>
   <programme start="20261118115500 +0000" stop="20261118140100 +0000" channel="beIN4K.qa">
     <title lang="en">F1 Sao Paolo Grand Prix - 2026 - Main Race - FIA Formula 1 World Championship 2026</title>
     <desc lang="en">24 Grand Prix from the Formula 1 Season are live and exclusive only on beIN.
@@ -1609,12 +1595,6 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
     <category lang="en">Live</category>
     <category lang="en">English Premier League</category>
   </programme>
-  <programme start="20261118090000 +0000" stop="20261118121500 +0000" channel="beINSports.qa">
-    <title lang="en">Evening Session - World Athletics Indoor Champions 2026</title>
-    <desc lang="en">The World Athletics Indoor Championships bring together the world’s leading male and female athletes, representing over 100 nations, including Olympic and world medalists. Over three days of elite indoor competition, athletes compete for world titles while aiming to deliver outstanding performances and challenge global records.</desc>
-    <category lang="ar">ألعاب القوى</category>
-    <category lang="en">Athletics</category>
-  </programme>
   <programme start="20261118121500 +0000" stop="20261118133000 +0000" channel="beINSports.qa">
     <title lang="en">Swimming - 2026 Youth Olympic Games – Dakar</title>
     <desc lang="en">The Dakar 2026 Summer Youth Olympic Games take place from 31 October to 13 November 2026 in Senegal. The Dakar 2026 Summer Youth Olympic Games will be the first-ever Olympic event hosted in Africa.</desc>
@@ -1687,28 +1667,52 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
     <category lang="ar">ألعاب القوى</category>
     <category lang="en">Athletics</category>
   </programme>
-  <programme start="20261119103000 +0000" stop="20261119123000 +0000" channel="beINSports.qa">
+  <programme start="20261119103000 +0000" stop="20261119121500 +0000" channel="beINSports.qa">
     <title lang="en">Chaumont vs Toulouse - Alterna Volstar Volleyball French league 2026</title>
     <category lang="ar">الكرة الطائرة</category>
     <category lang="en">Volleyball</category>
   </programme>
-  <programme start="20261119123000 +0000" stop="20261119161500 +0000" channel="beINSports.qa">
+  <programme start="20261119121500 +0000" stop="20261119160000 +0000" channel="beINSports.qa">
     <title lang="en">T100 Triathlon World Tour - 2026 - Dubai Round</title>
     <desc lang="en">The Dubai event marks the sixth round of the 2026 T100 Championship Series, building towards the Grand Final in Qatar next December, with fierce competition expected in both the men's and women's categories.</desc>
     <category lang="ar">ترفيه</category>
     <category lang="en">Entertainment</category>
   </programme>
-  <programme start="20261119161500 +0000" stop="20261119172000 +0000" channel="beINSports.qa">
-    <title lang="en">Italy vs Netherlands - Beach Volleyball Gold Medal - 2026 Youth Olympic Games – Dakar</title>
-    <desc lang="en">The Dakar 2026 Summer Youth Olympic Games take place from 31 October to 13 November 2026 in Senegal. The Dakar 2026 Summer Youth Olympic Games will be the first-ever Olympic event hosted in Africa.</desc>
-    <category lang="ar">ترفيه</category>
-    <category lang="en">Entertainment</category>
+  <programme start="20261119160000 +0000" stop="20261119161500 +0000" channel="beINSports.qa">
+    <title lang="en">Qatar in FIFA World Cup U17 (2026)</title>
+    <desc lang="en">"What are the ambitions of Qatar for the FIFA World Cup 2026 U17"</desc>
+    <category lang="ar">كأس العالم تحت 17 سنة</category>
+    <category lang="en">FIFA U-17 World Cup</category>
   </programme>
-  <programme start="20261119172000 +0000" stop="20261119190000 +0000" channel="beINSports.qa">
+  <programme start="20261119161500 +0000" stop="20261119163000 +0000" channel="beINSports.qa">
+    <title lang="en">Ksa in FIFA World Cup U17 (2026)</title>
+    <desc lang="en">"What are the ambitions of KSA for the FIFA World Cup 2026 U17"</desc>
+    <category lang="ar">كأس العالم تحت 17 سنة</category>
+    <category lang="en">FIFA U-17 World Cup</category>
+  </programme>
+  <programme start="20261119163000 +0000" stop="20261119164600 +0000" channel="beINSports.qa">
+    <title lang="en">Morocco in FIFA World Cup U17 (2026)</title>
+    <desc lang="en">"What are the ambitions of Morocco for the FIFA World Cup 2026 U17"</desc>
+    <category lang="ar">كأس العالم تحت 17 سنة</category>
+    <category lang="en">FIFA U-17 World Cup</category>
+  </programme>
+  <programme start="20261119164600 +0000" stop="20261119182500 +0000" channel="beINSports.qa">
     <title lang="en">Germany vs Austria - Beach Volleyball Gold Medal - 2026 Youth Olympic Games – Dakar</title>
     <desc lang="en">The Dakar 2026 Summer Youth Olympic Games take place from 31 October to 13 November 2026 in Senegal. The Dakar 2026 Summer Youth Olympic Games will be the first-ever Olympic event hosted in Africa.</desc>
     <category lang="ar">ترفيه</category>
     <category lang="en">Entertainment</category>
+  </programme>
+  <programme start="20261119182500 +0000" stop="20261119184000 +0000" channel="beINSports.qa">
+    <title lang="en">Egypt in FIFA World Cup U17 (2026)</title>
+    <desc lang="en">"What are the ambitions of Egypt for the FIFA World Cup 2026 U17"</desc>
+    <category lang="ar">كأس العالم تحت 17 سنة</category>
+    <category lang="en">FIFA U-17 World Cup</category>
+  </programme>
+  <programme start="20261119184000 +0000" stop="20261119190000 +0000" channel="beINSports.qa">
+    <title lang="en">Algeria in FIFA World Cup U17 (2026)</title>
+    <desc lang="en">"What are the ambitions of Algeria for the FIFA World Cup 2026 U17"</desc>
+    <category lang="ar">كأس العالم تحت 17 سنة</category>
+    <category lang="en">FIFA U-17 World Cup</category>
   </programme>
   <programme start="20261119190000 +0000" stop="20261119214000 +0000" channel="beINSports.qa">
     <title lang="en">Montpellier vs Chaumont - Alterna Volstar Volleyball French league 2026 ‎• Live 🔵‎</title>
@@ -2071,11 +2075,11 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
     <category lang="ar">ترفيه</category>
     <category lang="en">Entertainment</category>
   </programme>
-  <programme start="20261118073000 +0000" stop="20261118101200 +0000" channel="beINSports1.qa">
-    <title lang="en">Malawi vs Egypt - Africa Cup of Nations ( AFCON ) Qualification 2026/2027- MD4</title>
-    <desc lang="en">The 2027 Africa Cup of Nations qualification group stage kicks off in September 2026 to decide the 24 teams for the tournament in Kenya, Uganda, and Tanzania taking place June 19 to July 17, 2027.</desc>
-    <category lang="ar">تصفيات كأس الأمم الأفريقية</category>
-    <category lang="en">AFCON Qualifiers</category>
+  <programme start="20261125094500 +0000" stop="20261125140000 +0000" channel="beINSports.qa">
+    <title lang="en">Day 3 - Evening Session - World Athletics U20 Championships - Oregon 26</title>
+    <desc lang="en">150 countries, including 12 Arab countries, are competing over five consecutive days, with morning and evening sessions, for the titles of the World Athletics Junior Championships from August 5th to 9th, 2026.</desc>
+    <category lang="ar">ألعاب القوى</category>
+    <category lang="en">Athletics</category>
   </programme>
   <programme start="20261118101200 +0000" stop="20261118134300 +0000" channel="beINSports1.qa">
     <title lang="en">Libya vs Tunisia - Africa Cup of Nations ( AFCON ) Qualification 2026/2027- MD4</title>
@@ -2272,29 +2276,47 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261119140000 +0000" stop="20261119143000 +0000" channel="beINSports1.qa">
+  <programme start="20261119140000 +0000" stop="20261119141500 +0000" channel="beINSports1.qa">
+    <title lang="en">Qatar in FIFA World Cup U17 (2026)</title>
+    <desc lang="en">"What are the ambitions of Qatar for the FIFA World Cup 2026 U17"</desc>
+    <category lang="ar">كأس العالم تحت 17 سنة</category>
+    <category lang="en">FIFA U-17 World Cup</category>
+  </programme>
+  <programme start="20261119141500 +0000" stop="20261119143000 +0000" channel="beINSports1.qa">
+    <title lang="en">Ksa in FIFA World Cup U17 (2026)</title>
+    <desc lang="en">"What are the ambitions of KSA for the FIFA World Cup 2026 U17"</desc>
+    <category lang="ar">كأس العالم تحت 17 سنة</category>
+    <category lang="en">FIFA U-17 World Cup</category>
+  </programme>
+  <programme start="20261119143000 +0000" stop="20261119150100 +0000" channel="beINSports1.qa">
     <title lang="en">Mauritania vs Burkina Faso - Africa Cup of Nations ( AFCON ) Qualification 2026/2027- MD4</title>
     <desc lang="en">The 2027 Africa Cup of Nations qualification group stage kicks off in September 2026 to decide the 24 teams for the tournament in Kenya, Uganda, and Tanzania taking place June 19 to July 17, 2027.</desc>
     <category lang="ar">تصفيات كأس الأمم الأفريقية</category>
     <category lang="en">AFCON Qualifiers</category>
   </programme>
-  <programme start="20261119143000 +0000" stop="20261119153000 +0000" channel="beINSports1.qa">
-    <title lang="en">Eight Flags and one Passion</title>
-    <desc lang="en">This programme explores the eight Arab teams that qualified for the 2026 FIFA World Cup, examining the role football plays in everyday life across the Arab world and how fans followed and experienced the tournament. It also looks back at the defining moments and highlights of the World Cup.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261119153000 +0000" stop="20261119154500 +0000" channel="beINSports1.qa">
+  <programme start="20261119150100 +0000" stop="20261119151600 +0000" channel="beINSports1.qa">
     <title lang="en">La Liga Rookies</title>
     <desc lang="en">"An authentic documentary-style seriefollowingemerging players as they prepare for, experience and reflect on their first-team debut.Will allow fans to go behind the scenes with the future stars of LALIGA."</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261119154500 +0000" stop="20261119160000 +0000" channel="beINSports1.qa">
+  <programme start="20261119151600 +0000" stop="20261119152700 +0000" channel="beINSports1.qa">
     <title lang="en">Wales vs Portugal - UEFA Nations League 2026/2027 - MD6</title>
     <desc lang="en">The 2026–27 UEFA Nations League will be the fifth season of the UEFA Nations League. The competition will be held from September 2026 through until June 2027.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20261119152700 +0000" stop="20261119154300 +0000" channel="beINSports1.qa">
+    <title lang="en">Morocco in FIFA World Cup U17 (2026)</title>
+    <desc lang="en">"What are the ambitions of Morocco for the FIFA World Cup 2026 U17"</desc>
+    <category lang="ar">كأس العالم تحت 17 سنة</category>
+    <category lang="en">FIFA U-17 World Cup</category>
+  </programme>
+  <programme start="20261119154300 +0000" stop="20261119160000 +0000" channel="beINSports1.qa">
+    <title lang="en">Algeria in FIFA World Cup U17 (2026)</title>
+    <desc lang="en">"What are the ambitions of Algeria for the FIFA World Cup 2026 U17"</desc>
+    <category lang="ar">كأس العالم تحت 17 سنة</category>
+    <category lang="en">FIFA U-17 World Cup</category>
   </programme>
   <programme start="20261119160000 +0000" stop="20261119163000 +0000" channel="beINSports1.qa">
     <title lang="en">UEFA UCL  Magazine2026/2027 - Special</title>
@@ -2333,10 +2355,10 @@ For the first time 11 Teams and 22 Drivers will compete to win the World Formula
     <category lang="en">English Premier League</category>
   </programme>
   <programme start="20261119190000 +0000" stop="20261119192300 +0000" channel="beINSports1.qa">
-    <title lang="en">La Liga Rookies</title>
-    <desc lang="en">"An authentic documentary-style seriefollowingemerging players as they prepare for, experience and reflect on their first-team debut.Will allow fans to go behind the scenes with the future stars of LALIGA."</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
+    <title lang="en">Egypt in FIFA World Cup U17 (2026)</title>
+    <desc lang="en">"What are the ambitions of Egypt for the FIFA World Cup 2026 U17"</desc>
+    <category lang="ar">كأس العالم تحت 17 سنة</category>
+    <category lang="en">FIFA U-17 World Cup</category>
   </programme>
   <programme start="20261119192300 +0000" stop="20261119195000 +0000" channel="beINSports1.qa">
     <title lang="en">Libya vs Tunisia - Africa Cup of Nations ( AFCON ) Qualification 2026/2027- MD4</title>
@@ -3256,17 +3278,11 @@ Seeb Stadium Stadium</desc>
     <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
     <category lang="en">UEFA Champions League</category>
   </programme>
-  <programme start="20261118073300 +0000" stop="20261118110000 +0000" channel="beINSports2.qa">
-    <title lang="en">Wales vs Portugal - UEFA Nations League 2026/2027 - MD6</title>
-    <desc lang="en">The 2026–27 UEFA Nations League will be the fifth season of the UEFA Nations League. The competition will be held from September 2026 through until June 2027.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261118110000 +0000" stop="20261118113000 +0000" channel="beINSports2.qa">
-    <title lang="en">Germany vs Netherlands - UEFA Nations League 2026/2027 - MD6</title>
-    <desc lang="en">The 2026–27 UEFA Nations League will be the fifth season of the UEFA Nations League. The competition will be held from September 2026 through until June 2027.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
+  <programme start="20261125120000 +0000" stop="20261125130000 +0000" channel="beINSports1.qa">
+    <title lang="en">beIN Champions - UEFA Champions League 2026-2027</title>
+    <desc lang="en">beIN Champions is a look through the best of the action and the unusual stories and stats and facts from the UEFA Champions League.</desc>
+    <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
+    <category lang="en">UEFA Champions League</category>
   </programme>
   <programme start="20261118113000 +0000" stop="20261118131500 +0000" channel="beINSports2.qa">
     <title lang="en">Tanzania vs Nigeria - Africa Cup of Nations ( AFCON ) Qualification 2026/2027- MD4</title>
@@ -3843,17 +3859,24 @@ GMHBA Stadium Stadium</desc>
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261118073300 +0000" stop="20261118092300 +0000" channel="beINSports3.qa">
-    <title lang="en">South Sudan vs Angola - Africa Cup of Nations ( AFCON ) Qualification 2026/2027- MD4</title>
-    <desc lang="en">The 2027 Africa Cup of Nations qualification group stage kicks off in September 2026 to decide the 24 teams for the tournament in Kenya, Uganda, and Tanzania taking place June 19 to July 17, 2027.</desc>
-    <category lang="ar">تصفيات كأس الأمم الأفريقية</category>
-    <category lang="en">AFCON Qualifiers</category>
+  <programme start="20261125100000 +0000" stop="20261125120500 +0000" channel="beINSports2.qa">
+    <title lang="en">Shabab Al Ahli vs Al Qadsiah - AFC Champions League Elite 2026/2027 - MD 5</title>
+    <desc lang="en">This will be the first AFC Champions League Elite meeting between Shabab Al Ahli and Al-Qadsiah; the former have lost two of their last three games against opponents from Saudi Arabia  in the competition, while Al-Qadsiah have won their only clash against an opponent from UAE. Shabab Al Ahli are unbeaten in their last six AFC Champions League Elite</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261118092300 +0000" stop="20261118111500 +0000" channel="beINSports3.qa">
-    <title lang="en">Gambia vs Côte d'Ivoire - Africa Cup of Nations ( AFCON ) Qualification 2026/2027- MD4</title>
-    <desc lang="en">The 2027 Africa Cup of Nations qualification group stage kicks off in September 2026 to decide the 24 teams for the tournament in Kenya, Uganda, and Tanzania taking place June 19 to July 17, 2027.</desc>
-    <category lang="ar">تصفيات كأس الأمم الأفريقية</category>
-    <category lang="en">AFCON Qualifiers</category>
+  <programme start="20261125120500 +0000" stop="20261125143000 +0000" channel="beINSports2.qa">
+    <title lang="en">Persib Bandung vs Seoul - AFC Champions League Two 2026/2027 - MD 5 ‎• Live 🔵‎</title>
+    <desc lang="en">Persib Bandung vs Seoul
+At 25-11-2026, MECCA 15:15, GMT 12:15
+AFC Champions League Two
+Season 2026/2027
+Qualifier Round
+Group E
+Gelora Bandung Lautan Api Stadium Stadium</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Live</category>
+    <category lang="en">Sports General</category>
   </programme>
   <programme start="20261118111500 +0000" stop="20261118130500 +0000" channel="beINSports3.qa">
     <title lang="en">Denmark vs Norway - UEFA Nations League 2026/2027 - MD6</title>
@@ -4475,23 +4498,18 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261118072700 +0000" stop="20261118091500 +0000" channel="beINSports4.qa">
-    <title lang="en">Republic of Ireland vs Kosovo - UEFA Nations League 2026/2027 - MD6</title>
-    <desc lang="en">The 2026–27 UEFA Nations League will be the fifth season of the UEFA Nations League. The competition will be held from September 2026 through until June 2027.</desc>
+  <programme start="20261125095000 +0000" stop="20261125120000 +0000" channel="beINSports3.qa">
+    <title lang="en">Kashima Antlers vs Jeonbuk Motors - AFC Champions League Elite 2026/2027 - MD 5 ‎• Live 🔵‎</title>
+    <desc lang="en">Kashima Antlers have won both their AFC Champions League Elite meetings with Jeonbuk Motors, both by a 2-1 margin; meanwhile, following their 0-2 loss to Vissel Kobe in MD2 of the ongoing season, Jeonbuk Motors are at the risk of failing to score in back-to-back games against opponents from Japan for the first time in the competition. Jeonbuk Motor</desc>
     <category lang="ar">الرياضة العام</category>
+    <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261118091500 +0000" stop="20261118095000 +0000" channel="beINSports4.qa">
-    <title lang="en">France vs Türkiye - UEFA Nations League 2026/2027 - MD6</title>
-    <desc lang="en">The 2026–27 UEFA Nations League will be the fifth season of the UEFA Nations League. The competition will be held from September 2026 through until June 2027.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261118095000 +0000" stop="20261118113700 +0000" channel="beINSports4.qa">
-    <title lang="en">Guinea-Bissau vs Madagascar - Africa Cup of Nations ( AFCON ) Qualification 2026/2027- MD4</title>
-    <desc lang="en">The 2027 Africa Cup of Nations qualification group stage kicks off in September 2026 to decide the 24 teams for the tournament in Kenya, Uganda, and Tanzania taking place June 19 to July 17, 2027.</desc>
-    <category lang="ar">تصفيات كأس الأمم الأفريقية</category>
-    <category lang="en">AFCON Qualifiers</category>
+  <programme start="20261125120000 +0000" stop="20261125134500 +0000" channel="beINSports3.qa">
+    <title lang="en">Galatasaray vs Aston Villa - UEFA Champions League MD5</title>
+    <desc lang="en">Europe's premier club football tournament, featuring a 36-team league phase and concluding with the final on June 5, 2027 at the Metropolitano Stadium in Madrid, Spain, on June 5t, 2027. Paris Saint-Germain are the two-time champions, having secured back-to-back European titles in 2025 and 2026.</desc>
+    <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
+    <category lang="en">UEFA Champions League</category>
   </programme>
   <programme start="20261118113700 +0000" stop="20261118132500 +0000" channel="beINSports4.qa">
     <title lang="en">Ethiopia vs Mozambique - Africa Cup of Nations ( AFCON ) Qualification 2026/2027- MD4</title>
@@ -5149,17 +5167,18 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
     <category lang="en">UEFA Champions League</category>
   </programme>
-  <programme start="20261118080000 +0000" stop="20261118100000 +0000" channel="beINSports5.qa">
-    <title lang="en">Exeter City vs Cheltenham Town - EFL - English Football League  SkyBet - League Two 2026/2027</title>
-    <desc lang="en">EFL - English Football League  SkyBet - League Two 2026/2027</desc>
-    <category lang="ar">الدوري الإنجليزي الدرجة الثالثة</category>
-    <category lang="en">English League - League Two</category>
+  <programme start="20261125091500 +0000" stop="20261125113000 +0000" channel="beINSports4.qa">
+    <title lang="en">Arsenal vs Borussia Dortmund - UEFA Champions League MD5</title>
+    <desc lang="en">Europe's premier club football tournament, featuring a 36-team league phase and concluding with the final on June 5, 2027 at the Metropolitano Stadium in Madrid, Spain, on June 5t, 2027. Paris Saint-Germain are the two-time champions, having secured back-to-back European titles in 2025 and 2026.</desc>
+    <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
+    <category lang="en">UEFA Champions League</category>
   </programme>
-  <programme start="20261118100000 +0000" stop="20261118120000 +0000" channel="beINSports5.qa">
-    <title lang="en">Kazakhstan vs Slovakia - UEFA Nations League 2026/2027 - MD6</title>
-    <desc lang="en">The 2026–27 UEFA Nations League will be the fifth season of the UEFA Nations League. The competition will be held from September 2026 through until June 2027.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
+  <programme start="20261125113000 +0000" stop="20261125131500 +0000" channel="beINSports4.qa">
+    <title lang="en">Levante vs Elche - Spanish LaLiga 2026/2027 - Week 13</title>
+    <desc lang="en">The Spanish 2026–27 La Liga season is live and exclusive only on beIN SPORTS. All 380 matches across 38 matchdays are available with a choice of Arabic and English commentary.
+Barcelona are the two-time defending champions, having won their 29th title last season.</desc>
+    <category lang="ar">الدوري الإسباني لكرة القدم</category>
+    <category lang="en">Spanish League - Primera División</category>
   </programme>
   <programme start="20261118120000 +0000" stop="20261118140000 +0000" channel="beINSports5.qa">
     <title lang="en">Gibraltar vs Malta - UEFA Nations League 2026/2027 - MD6</title>
@@ -5686,17 +5705,17 @@ Seeb Stadium Stadium</desc>
     <category lang="ar">دوري أبطال أوروبا للشباب</category>
     <category lang="en">UEFA Youth League</category>
   </programme>
-  <programme start="20261118072500 +0000" stop="20261118091500 +0000" channel="beINSports6.qa">
-    <title lang="en">Lens vs Marseille - French Ligue 1 2026/2027 - Week 10</title>
-    <desc lang="en">All 306 matches from the Ligue 1 2026 – 2027 season are live and exclusive only on beIN SPORTS. Paris Saint-Germain are the defending Champions having secured their historic 14th top-flight title last season.</desc>
-    <category lang="ar">الدوري الفرنسي</category>
-    <category lang="en">French League - Ligue 1</category>
+  <programme start="20261125101500 +0000" stop="20261125120000 +0000" channel="beINSports5.qa">
+    <title lang="en">Como vs Aek Athens - UEFA Champions League MD5</title>
+    <desc lang="en">Europe's premier club football tournament, featuring a 36-team league phase and concluding with the final on June 5, 2027 at the Metropolitano Stadium in Madrid, Spain, on June 5t, 2027. Paris Saint-Germain are the two-time champions, having secured back-to-back European titles in 2025 and 2026.</desc>
+    <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
+    <category lang="en">UEFA Champions League</category>
   </programme>
-  <programme start="20261118091500 +0000" stop="20261118114000 +0000" channel="beINSports6.qa">
-    <title lang="en">Mamelodi Sundowns vs ASFAR - Final - CAF TotalEnergies Women's Champions League Egypt 2026</title>
-    <desc lang="en">Taking place in Egypt from the 1st to 15th November, The 2026 CAF Women's Champions League will be the sixth edition of the annual African premier women's association football club tournament.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
+  <programme start="20261125120000 +0000" stop="20261125134500 +0000" channel="beINSports5.qa">
+    <title lang="en">Celta Fortuna vs Valladolid - LaLiga Hypermotion 2026/2027</title>
+    <desc lang="en">La Liga 2 is the men's second professional association football division of the Spanish football league system. It is contested by 22 teams, with the top two teams plus the winner of a play-off promoted to La Liga and replaced by the three lowest-placed teams in that division.</desc>
+    <category lang="ar">الدوري الأسباني للدرجة الثانية</category>
+    <category lang="en">Spanish League - Segunda Division</category>
   </programme>
   <programme start="20261118114000 +0000" stop="20261118132500 +0000" channel="beINSports6.qa">
     <title lang="en">Hungary vs Northern Ireland - UEFA Nations League 2026/2027 - MD6</title>
@@ -6092,12 +6111,6 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <desc lang="en">Europe's premier club football tournament, featuring a 36-team league phase and concluding with the final on June 5, 2027 at the Metropolitano Stadium in Madrid, Spain, on June 5t, 2027. Paris Saint-Germain are the two-time champions, having secured back-to-back European titles in 2025 and 2026.</desc>
     <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
     <category lang="en">UEFA Champions League</category>
-  </programme>
-  <programme start="20261118083300 +0000" stop="20261118104500 +0000" channel="beINSports7.qa">
-    <title lang="en">Arthur Fils (FRA) vs Rafael Jodar (ESP) - Nitto ATP Finals Turin 2026</title>
-    <desc lang="en">The Nitto ATP Finals brings together the world’s top eight singles players and doubles teams for the prestigious season-ending championship in Turin, Italy. Competing on indoor hard courts, players battle through a round-robin format before the top two in each group advance to the semi-finals and final. The tournament offers a thrilling conclusion</desc>
-    <category lang="ar">تنس</category>
-    <category lang="en">Tennis</category>
   </programme>
   <programme start="20261118104500 +0000" stop="20261118130000 +0000" channel="beINSports7.qa">
     <title lang="en">Alexander Zverev (GER) vs Ben Shelton (USA)- Nitto ATP Finals Turin 2026</title>
@@ -6622,18 +6635,6 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <title lang="en">Czechia vs Canada - QF - Davis Cup Final 8 - 2026</title>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261118081800 +0000" stop="20261118100000 +0000" channel="beINSports8.qa">
-    <title lang="en">Estonia vs Bulgaria - UEFA Nations League 2026/2027 - MD6</title>
-    <desc lang="en">The 2026–27 UEFA Nations League will be the fifth season of the UEFA Nations League. The competition will be held from September 2026 through until June 2027.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261118100000 +0000" stop="20261118113200 +0000" channel="beINSports8.qa">
-    <title lang="en">Detroit vs San Antonio - NBA Season - 2026</title>
-    <desc lang="en">The 2026–27 NBA season is the 81st season of the National Basketball Association. The current NBA champions are the New York Knicks. The regular season runs from October 20, 2026, to April 11, 2027.</desc>
-    <category lang="ar">الدوري الأميركي لكرة السلة</category>
-    <category lang="en">Basketball - NBA</category>
   </programme>
   <programme start="20261118113200 +0000" stop="20261118140000 +0000" channel="beINSports8.qa">
     <title lang="en">Charlotte vs L.A Lakers  - NBA Season - 2026</title>
@@ -7364,11 +7365,17 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
     <category lang="en">UEFA Champions League</category>
   </programme>
-  <programme start="20261118084500 +0000" stop="20261118110000 +0000" channel="beINSports9.qa">
-    <title lang="en">Longines Global Champions Tour - Shanghai  Jumping - Against The Clock With Jump Off</title>
-    <desc lang="en">Held at the Shanghai Juss International Equestrian Centre, featuring CSI5* show jumping with fences up to 1.60m. The schedule includes the Global Champions League team competition and the Grand Prix, with riders earning points toward the season standings. Technical courses emphasize combinations and time allowed on a compact arena.</desc>
-    <category lang="ar">الفروسية</category>
-    <category lang="en">Equestrian</category>
+  <programme start="20261125104500 +0000" stop="20261125123000 +0000" channel="beINSports8.qa">
+    <title lang="en">S.Bratislava vs Betis - UEFA Champions League MD5</title>
+    <desc lang="en">Europe's premier club football tournament, featuring a 36-team league phase and concluding with the final on June 5, 2027 at the Metropolitano Stadium in Madrid, Spain, on June 5t, 2027. Paris Saint-Germain are the two-time champions, having secured back-to-back European titles in 2025 and 2026.</desc>
+    <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
+    <category lang="en">UEFA Champions League</category>
+  </programme>
+  <programme start="20261125123000 +0000" stop="20261125130000 +0000" channel="beINSports8.qa">
+    <title lang="en">The talented Isack Hadjar</title>
+    <desc lang="en">Isack Hadjar, first Arab driver in Formula 1, impressed everybody for his first season in F1 with his team. . Rookie of the year 2025, beIN followed him during his season.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
   </programme>
   <programme start="20261118110000 +0000" stop="20261118140000 +0000" channel="beINSports9.qa">
     <title lang="en">Longines Global Champions Tour - Shanghai  Jumping - Grand Prix</title>
@@ -7900,48 +7907,6 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="en">Live</category>
     <category lang="en">Padel</category>
   </programme>
-  <programme start="20261118090000 +0000" stop="20261118093000 +0000" channel="beINSportsEn1.qa">
-    <title lang="en">Portugal vs Denmark - UEFA Nations League 2026/2027 - MD5</title>
-    <desc lang="en">The 2026–27 UEFA Nations League will be the fifth season of the UEFA Nations League. The competition will be held from September 2026 through until June 2027.
-Portugal are the defending champions.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261118093000 +0000" stop="20261118100000 +0000" channel="beINSportsEn1.qa">
-    <title lang="en">UEFA Women's Champions League Highlights 26/27 | MD4</title>
-    <desc lang="en">Highlights of the latest round from the UEFA Women's Champions League.</desc>
-    <category lang="ar">مسلسلات</category>
-    <category lang="en">Series</category>
-  </programme>
-  <programme start="20261118100000 +0000" stop="20261118103000 +0000" channel="beINSportsEn1.qa">
-    <title lang="en">EN Ligue 1 Show 2026/27 | E11</title>
-    <category lang="ar">مسلسلات</category>
-    <category lang="en">Series</category>
-  </programme>
-  <programme start="20261118103000 +0000" stop="20261118110000 +0000" channel="beINSportsEn1.qa">
-    <title lang="en">Belgium vs Italy - UEFA Nations League 2026/2027 - MD6</title>
-    <desc lang="en">The 2026–27 UEFA Nations League will be the fifth season of the UEFA Nations League. The competition will be held from September 2026 through until June 2027.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261118110000 +0000" stop="20261118113000 +0000" channel="beINSportsEn1.qa">
-    <title lang="en">France vs Türkiye - UEFA Nations League 2026/2027 - MD6</title>
-    <desc lang="en">The 2026–27 UEFA Nations League will be the fifth season of the UEFA Nations League. The competition will be held from September 2026 through until June 2027.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261118113000 +0000" stop="20261118120000 +0000" channel="beINSportsEn1.qa">
-    <title lang="en">EN UCL Magazine 2026/27 | E11</title>
-    <desc lang="en">A recap of the best of the action, plus a look forward to the next Match Day in Europe’s premium football competition, the UEFA Champions League. All matches from the UEFA Champions League are live and exclusive only on beIN.</desc>
-    <category lang="ar">مسلسلات</category>
-    <category lang="en">Series</category>
-  </programme>
-  <programme start="20261118120000 +0000" stop="20261118123000 +0000" channel="beINSportsEn1.qa">
-    <title lang="en">EN This is Paris 2026/27 | E12</title>
-    <desc lang="en">A weekly Magazine that provides unique access inside the Paris Saint Germain world.</desc>
-    <category lang="ar">مسلسلات</category>
-    <category lang="en">Series</category>
-  </programme>
   <programme start="20261118123000 +0000" stop="20261118130000 +0000" channel="beINSportsEn1.qa">
     <title lang="en">Spain vs England - UEFA Nations League 2026/2027 - MD6</title>
     <desc lang="en">The 2026–27 UEFA Nations League will be the fifth season of the UEFA Nations League. The competition will be held from September 2026 through until June 2027.</desc>
@@ -8156,34 +8121,14 @@ Portugal are the defending champions.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261119113000 +0000" stop="20261119120000 +0000" channel="beINSportsEn1.qa">
-    <title lang="en">EN Ligue 1 Show 2026/27 | E11</title>
-    <category lang="ar">مسلسلات</category>
-    <category lang="en">Series</category>
-  </programme>
-  <programme start="20261119120000 +0000" stop="20261119123000 +0000" channel="beINSportsEn1.qa">
-    <title lang="en">EN EPL Stories 2026/27 | E24</title>
-    <desc lang="en">Showcasing the personalities who have shaped the Premier League era, in each episode we tell their unique story that will be sure to engage and entertain all fans.</desc>
-    <category lang="ar">مسلسلات</category>
-    <category lang="en">Series</category>
-  </programme>
-  <programme start="20261119123000 +0000" stop="20261119130000 +0000" channel="beINSportsEn1.qa">
-    <title lang="en">Belgium vs Italy - UEFA Nations League 2026/2027 - MD6</title>
-    <desc lang="en">The 2026–27 UEFA Nations League will be the fifth season of the UEFA Nations League. The competition will be held from September 2026 through until June 2027.</desc>
+  <programme start="20261119113000 +0000" stop="20261119140000 +0000" channel="beINSportsEn1.qa">
+    <title lang="en">Special Coverage :  AFC Awards Bangkok 2026. ‎• Live 🔵‎</title>
+    <desc lang="en">Asia’s premier footballers will be recognized on Thursday, November 19, at the AFC Awards Bangkok 2026, held at the Aksra Theatre King Power. 
+Marking the event’s 30th edition, the prestigious gala returns to the Thai capital for the first time since 2017. Six players are in contention for the evening's top honors. 
+The nominees for the AFC Player</desc>
     <category lang="ar">الرياضة العام</category>
+    <category lang="en">Live</category>
     <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261119130000 +0000" stop="20261119133000 +0000" channel="beINSportsEn1.qa">
-    <title lang="en">France vs Türkiye - UEFA Nations League 2026/2027 - MD6</title>
-    <desc lang="en">The 2026–27 UEFA Nations League will be the fifth season of the UEFA Nations League. The competition will be held from September 2026 through until June 2027.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261119133000 +0000" stop="20261119140000 +0000" channel="beINSportsEn1.qa">
-    <title lang="en">EN UCL Magazine 2026/27 | E11</title>
-    <desc lang="en">A recap of the best of the action, plus a look forward to the next Match Day in Europe’s premium football competition, the UEFA Champions League. All matches from the UEFA Champions League are live and exclusive only on beIN.</desc>
-    <category lang="ar">مسلسلات</category>
-    <category lang="en">Series</category>
   </programme>
   <programme start="20261119140000 +0000" stop="20261119143000 +0000" channel="beINSportsEn1.qa">
     <title lang="en">EN This is Paris 2026/27 | E12</title>
@@ -8996,17 +8941,17 @@ Barcelona are the two-time defending champions, having won their 29th title last
     <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
     <category lang="en">UEFA Champions League</category>
   </programme>
-  <programme start="20261118080000 +0000" stop="20261118094500 +0000" channel="beINSportsEn2.qa">
-    <title lang="en">Detroit vs San Antonio - NBA Season - 2026</title>
-    <desc lang="en">The 2026–27 NBA season is the 81st season of the National Basketball Association. The current NBA champions are the New York Knicks. The regular season runs from October 20, 2026, to April 11, 2027.</desc>
-    <category lang="ar">الدوري الأميركي لكرة السلة</category>
-    <category lang="en">Basketball - NBA</category>
+  <programme start="20261125093000 +0000" stop="20261125123000 +0000" channel="beINSportsEn1.qa">
+    <title lang="en">Galatasaray vs Aston Villa - UEFA Champions League MD5</title>
+    <desc lang="en">Europe's premier club football tournament, featuring a 36-team league phase and concluding with the final on June 5, 2027 at the Metropolitano Stadium in Madrid, Spain, on June 5t, 2027. Paris Saint-Germain are the two-time champions, having secured back-to-back European titles in 2025 and 2026.</desc>
+    <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
+    <category lang="en">UEFA Champions League</category>
   </programme>
-  <programme start="20261118094500 +0000" stop="20261118120000 +0000" channel="beINSportsEn2.qa">
-    <title lang="en">Charlotte vs L.A Lakers  - NBA Season - 2026</title>
-    <desc lang="en">The 2026–27 NBA season is the 81st season of the National Basketball Association. The current NBA champions are the New York Knicks. The regular season runs from October 20, 2026, to April 11, 2027.</desc>
-    <category lang="ar">الدوري الأميركي لكرة السلة</category>
-    <category lang="en">Basketball - NBA</category>
+  <programme start="20261125123000 +0000" stop="20261125170000 +0000" channel="beINSportsEn1.qa">
+    <title lang="en">Real Madrid vs PSV Eindhoven - UEFA Champions League MD5</title>
+    <desc lang="en">Europe's premier club football tournament, featuring a 36-team league phase and concluding with the final on June 5, 2027 at the Metropolitano Stadium in Madrid, Spain, on June 5t, 2027. Paris Saint-Germain are the two-time champions, having secured back-to-back European titles in 2025 and 2026.</desc>
+    <category lang="ar">دوري أبطال أوروبا لكرة القدم</category>
+    <category lang="en">UEFA Champions League</category>
   </programme>
   <programme start="20261118120000 +0000" stop="20261118125500 +0000" channel="beINSportsEn2.qa">
     <title lang="en">Wimbledon 2026 Official Film</title>
@@ -9804,24 +9749,24 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261118081500 +0000" stop="20261118094500 +0000" channel="beINSportsFr1.qa">
-    <title lang="en">Top But - Coupe du monde - Football 2026</title>
-    <desc lang="en">Sport.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261118094500 +0000" stop="20261118114500 +0000" channel="beINSportsFr1.qa">
-    <title lang="en">Detroit Pistons vs San Antonio Spurs - NBA - BASKETBALL 2026-2027</title>
-    <desc lang="en">Sport.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261118114500 +0000" stop="20261118123000 +0000" channel="beINSportsFr1.qa">
-    <title lang="en">NBA Extra - Magazine 2026-2027 ‎• Live 🔵‎</title>
-    <desc lang="en">Sport.</desc>
-    <category lang="ar">الرياضة العام</category>
+  <programme start="20261125095000 +0000" stop="20261125120000 +0000" channel="beINSportsEn2.qa">
+    <title lang="en">Gamba Osaka vs Port - AFC Champions League Elite 2026/2027 - MD 5 ‎• Live 🔵‎</title>
+    <desc lang="en">This will be the first AFC Champions League Elite meeting between Gamba Osaka and Port FC; the latter are winless against teams from Japan in the competition, while Gamba Osaka are unbeaten against teams from Thailand. Port FC won their most recent AFC Champions League Elite game by a 7-4 margin, snapping a three-game losing streak; they will aim t</desc>
+    <category lang="ar">ترفيه</category>
     <category lang="en">Live</category>
+    <category lang="en">Entertainment</category>
+  </programme>
+  <programme start="20261125120000 +0000" stop="20261125123000 +0000" channel="beINSportsEn2.qa">
+    <title lang="en">Spirit Of Sport Season 12 Ep.1</title>
+    <desc lang="en">This month on Spirit of Sport, Rory McIlroy looks back at his historic 2025 Masters victory and the moment he finally completed the career Grand Slam. We head to St Andrews for the Alfred Dunhill Links Championship, where some of golf’s biggest names take on the iconic Old Course. Real Madrid and England star Jude Bellingham reflects on his rise to</desc>
+    <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20261125123000 +0000" stop="20261125130000 +0000" channel="beINSportsEn2.qa">
+    <title lang="en">Premier Padel Highlights 2026 - Dubai P1</title>
+    <desc lang="en">Highlights from the Miami P1, held in Miami, USA, from 22–29 March. Staged at the Miami Beach Convention Center, this Premier Padel P1 event features men’s and women’s main-draw action through to the finals. As a P1 tournament, it offers 1,000 ranking points to the winners and a total prize fund of €479,068.</desc>
+    <category lang="ar">ترفيه</category>
+    <category lang="en">Entertainment</category>
   </programme>
   <programme start="20261118123000 +0000" stop="20261118143000 +0000" channel="beINSportsFr1.qa">
     <title lang="en">Lens vs Marseille - Ligue 1 - FOOTBALL 2026-2027</title>
@@ -10228,24 +10173,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261118090000 +0000" stop="20261118093000 +0000" channel="beINSportsFr2.qa">
-    <title lang="en">Ep 12 Inside Fra - This is Paris - Football 2026-2027</title>
-    <desc lang="en">Sport.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261118093000 +0000" stop="20261118103000 +0000" channel="beINSportsFr2.qa">
-    <title lang="en">L2 Extra - Football 2026-2027</title>
-    <desc lang="en">Sport.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261118103000 +0000" stop="20261118110000 +0000" channel="beINSportsFr2.qa">
-    <title lang="en">Salon VIP - Magazine 2026-2027</title>
-    <desc lang="en">Sport.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20261118110000 +0000" stop="20261118130000 +0000" channel="beINSportsFr2.qa">
     <title lang="en">Algérie vs Togo - AFCON  Qualifications - FOOTBALL 2027</title>
     <desc lang="en">Sport.</desc>
@@ -10645,12 +10572,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261118090000 +0000" stop="20261118110000 +0000" channel="beINSportsMax1.qa">
-    <title lang="en">beIN SPORTS MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20261118110000 +0000" stop="20261118130000 +0000" channel="beINSportsMax1.qa">
     <title lang="en">beIN SPORTS MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
@@ -10892,12 +10813,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20261121190000 +0000" stop="20261121205959 +0000" channel="beINSportsMax1.qa">
-    <title lang="en">beIN SPORTS MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261118090000 +0000" stop="20261118110000 +0000" channel="beINSportsMax2.qa">
     <title lang="en">beIN SPORTS MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
@@ -11149,12 +11064,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261118090000 +0000" stop="20261118110000 +0000" channel="beINSportsMax3.qa">
-    <title lang="en">beIN SPORTS MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20261118110000 +0000" stop="20261118130000 +0000" channel="beINSportsMax3.qa">
     <title lang="en">beIN SPORTS MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
@@ -11396,12 +11305,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20261121190000 +0000" stop="20261121205959 +0000" channel="beINSportsMax3.qa">
-    <title lang="en">beIN SPORTS MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261118090000 +0000" stop="20261118110000 +0000" channel="beINSportsMax4.qa">
     <title lang="en">beIN SPORTS MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
@@ -11653,12 +11556,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261118090000 +0000" stop="20261118110000 +0000" channel="beINSportsMax5.qa">
-    <title lang="en">beIN SPORTS MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
   <programme start="20261118110000 +0000" stop="20261118130000 +0000" channel="beINSportsMax5.qa">
     <title lang="en">beIN SPORTS MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
@@ -11900,12 +11797,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20261121190000 +0000" stop="20261121205959 +0000" channel="beINSportsMax5.qa">
-    <title lang="en">beIN SPORTS MAX</title>
-    <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261118090000 +0000" stop="20261118110000 +0000" channel="beINSportsMax6.qa">
     <title lang="en">beIN SPORTS MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
     <category lang="ar">الرياضة العام</category>
@@ -12154,36 +12045,6 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
   <programme start="20261121190000 +0000" stop="20261121205959 +0000" channel="beINSportsMax6.qa">
     <title lang="en">beIN SPORTS MAX</title>
     <desc lang="en">beIN SPORTS MAX Channel for exclusive coverage of major sporting tournaments.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261118090000 +0000" stop="20261118100000 +0000" channel="beINSportsNews.qa">
-    <title lang="en">Al Hassad</title>
-    <desc lang="en">Al Hassad is a nighltly studio from beIN Sports News that looks at the stories that have made the headlines in the world of sport and those stories that will be making the headlines tomorrow morning.</desc>
-    <category lang="ar">الأخبار الرياضية</category>
-    <category lang="en">Sports News</category>
-  </programme>
-  <programme start="20261118100000 +0000" stop="20261118103000 +0000" channel="beINSportsNews.qa">
-    <title lang="en">News Bulletin</title>
-    <desc lang="en">Latest news from the beIn SPORTS News room, previewing and reviewing developments and scores with contribution from around the world from beIN's reporters.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261118103000 +0000" stop="20261118110000 +0000" channel="beINSportsNews.qa">
-    <title lang="en">beIN Action | E367</title>
-    <desc lang="en">A weekly round up on the highlights presented and produced by our channel as series, movies, sports leagues, entertainment programs and interviews with actors and celebrities.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261118110000 +0000" stop="20261118113000 +0000" channel="beINSportsNews.qa">
-    <title lang="en">News Bulletin</title>
-    <desc lang="en">Latest news from the beIn SPORTS News room, previewing and reviewing developments and scores with contribution from around the world from beIN's reporters.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261118113000 +0000" stop="20261118120000 +0000" channel="beINSportsNews.qa">
-    <title lang="en">Al Hassila   - 18/11/26</title>
-    <desc lang="en">"Al Hassila" provides a concise recap of the latest sports matches, highlighting key goals and noteworthy moments from around the world of sports.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
@@ -12480,19 +12341,7 @@ Covering everything from prototypes to endurance racing, karting to airplanes an
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261119113000 +0000" stop="20261119120000 +0000" channel="beINSportsNews.qa">
-    <title lang="en">Al Hassila   - 19/11/26</title>
-    <desc lang="en">"Al Hassila" provides a concise recap of the latest sports matches, highlighting key goals and noteworthy moments from around the world of sports.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261119120000 +0000" stop="20261119123000 +0000" channel="beINSportsNews.qa">
-    <title lang="en">News Bulletin</title>
-    <desc lang="en">Latest news from the beIn SPORTS News room, previewing and reviewing developments and scores with contribution from around the world from beIN's reporters.</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
-  </programme>
-  <programme start="20261119123000 +0000" stop="20261119144500 +0000" channel="beINSportsNews.qa">
+  <programme start="20261119113000 +0000" stop="20261119134500 +0000" channel="beINSportsNews.qa">
     <title lang="en">Special Coverage :  AFC Awards Bangkok 2026. ‎• Live 🔵‎</title>
     <desc lang="en">Asia’s premier footballers will be recognized on Thursday, November 19, at the AFC Awards Bangkok 2026, held at the Aksra Theatre King Power. 
 Marking the event’s 30th edition, the prestigious gala returns to the Thai capital for the first time since 2017. Six players are in contention for the evening's top honors. 
@@ -12501,11 +12350,29 @@ The nominees for the AFC Player</desc>
     <category lang="en">Live</category>
     <category lang="en">Sports General</category>
   </programme>
+  <programme start="20261119134500 +0000" stop="20261119140000 +0000" channel="beINSportsNews.qa">
+    <title lang="en">Qatar in FIFA World Cup U17 (2026)</title>
+    <desc lang="en">"What are the ambitions of Qatar for the FIFA World Cup 2026 U17"</desc>
+    <category lang="ar">كأس العالم تحت 17 سنة</category>
+    <category lang="en">FIFA U-17 World Cup</category>
+  </programme>
+  <programme start="20261119140000 +0000" stop="20261119143000 +0000" channel="beINSportsNews.qa">
+    <title lang="en">News Bulletin</title>
+    <desc lang="en">Latest news from the beIn SPORTS News room, previewing and reviewing developments and scores with contribution from around the world from beIN's reporters.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20261119143000 +0000" stop="20261119144500 +0000" channel="beINSportsNews.qa">
+    <title lang="en">The summary 1 - 19/11/26</title>
+    <desc lang="en">'"Daily Highlights" is a brief highlight of the previous days action. A look at the goals and talking points that have taken place in the world of sport.</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
   <programme start="20261119144500 +0000" stop="20261119150000 +0000" channel="beINSportsNews.qa">
-    <title lang="en">Football Legends - News</title>
-    <desc lang="en">In the world of sports, few debates ignite passion and enthusiasm quite like the discussion surrounding the greatest football players of all time. This topic transcends generations, cultures, and nationalities, as fans passionately defend their favorites and recount unforgettable moments on the pitch. From legendary goal scorers to masterful playma</desc>
-    <category lang="ar">الأخبار الرياضية</category>
-    <category lang="en">Sports News</category>
+    <title lang="en">Ksa in FIFA World Cup U17 (2026)</title>
+    <desc lang="en">"What are the ambitions of KSA for the FIFA World Cup 2026 U17"</desc>
+    <category lang="ar">كأس العالم تحت 17 سنة</category>
+    <category lang="en">FIFA U-17 World Cup</category>
   </programme>
   <programme start="20261119150000 +0000" stop="20261119160000 +0000" channel="beINSportsNews.qa">
     <title lang="en">Six O'Clock bulletin ‎• Live 🔵‎</title>
@@ -13826,23 +13693,29 @@ The knockout stage ultimately determines the tournament champion. The competitio
     <category lang="ar">الأخبار الرياضية</category>
     <category lang="en">Sports News</category>
   </programme>
-  <programme start="20261118090000 +0000" stop="20261118100000 +0000" channel="beINSportsXtra1.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20261125100000 +0000" stop="20261125110000 +0000" channel="beINSportsNews.qa">
+    <title lang="en">Al Hassad</title>
+    <desc lang="en">Al Hassad is a nighltly studio from beIN Sports News that looks at the stories that have made the headlines in the world of sport and those stories that will be making the headlines tomorrow morning.</desc>
+    <category lang="ar">الأخبار الرياضية</category>
+    <category lang="en">Sports News</category>
+  </programme>
+  <programme start="20261125110000 +0000" stop="20261125113000 +0000" channel="beINSportsNews.qa">
+    <title lang="en">News Bulletin</title>
+    <desc lang="en">Latest news from the beIn SPORTS News room, previewing and reviewing developments and scores with contribution from around the world from beIN's reporters.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261118100000 +0000" stop="20261118110000 +0000" channel="beINSportsXtra1.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+  <programme start="20261125113000 +0000" stop="20261125120000 +0000" channel="beINSportsNews.qa">
+    <title lang="en">Al Hassila   - 25/11/26</title>
+    <desc lang="en">"Al Hassila" provides a concise recap of the latest sports matches, highlighting key goals and noteworthy moments from around the world of sports.</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261118110000 +0000" stop="20261118120000 +0000" channel="beINSportsXtra1.qa">
-    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
-    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
-    <category lang="ar">الرياضة العام</category>
-    <category lang="en">Sports General</category>
+  <programme start="20261125120000 +0000" stop="20261125130000 +0000" channel="beINSportsNews.qa">
+    <title lang="en">The Issue of The Day</title>
+    <desc lang="en">The Issue Of The Day, from the beIn Sports News Team, takes an in depth look at the the main story form the world of sport from the last 24 hours.</desc>
+    <category lang="ar">الأخبار الرياضية</category>
+    <category lang="en">Sports News</category>
   </programme>
   <programme start="20261118120000 +0000" stop="20261118130000 +0000" channel="beINSportsXtra1.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
@@ -14859,19 +14732,19 @@ The knockout stage ultimately determines the tournament champion. The competitio
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261118090000 +0000" stop="20261118100000 +0000" channel="beINSportsXtra2.qa">
+  <programme start="20261125100000 +0000" stop="20261125110000 +0000" channel="beINSportsXtra1.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261118100000 +0000" stop="20261118110000 +0000" channel="beINSportsXtra2.qa">
+  <programme start="20261125110000 +0000" stop="20261125120000 +0000" channel="beINSportsXtra1.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261118110000 +0000" stop="20261118120000 +0000" channel="beINSportsXtra2.qa">
+  <programme start="20261125120000 +0000" stop="20261125130000 +0000" channel="beINSportsXtra1.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -15868,19 +15741,19 @@ The knockout stage ultimately determines the tournament champion. The competitio
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261118090000 +0000" stop="20261118100000 +0000" channel="beINSportsXtra3.qa">
+  <programme start="20261125100000 +0000" stop="20261125110000 +0000" channel="beINSportsXtra2.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261118100000 +0000" stop="20261118110000 +0000" channel="beINSportsXtra3.qa">
+  <programme start="20261125110000 +0000" stop="20261125120000 +0000" channel="beINSportsXtra2.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261118110000 +0000" stop="20261118120000 +0000" channel="beINSportsXtra3.qa">
+  <programme start="20261125120000 +0000" stop="20261125130000 +0000" channel="beINSportsXtra2.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -16867,19 +16740,19 @@ The knockout stage ultimately determines the tournament champion. The competitio
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261118090000 +0000" stop="20261118100000 +0000" channel="beINSportsXtra4.qa">
+  <programme start="20261125100000 +0000" stop="20261125110000 +0000" channel="beINSportsXtra3.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261118100000 +0000" stop="20261118110000 +0000" channel="beINSportsXtra4.qa">
+  <programme start="20261125110000 +0000" stop="20261125120000 +0000" channel="beINSportsXtra3.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261118110000 +0000" stop="20261118120000 +0000" channel="beINSportsXtra4.qa">
+  <programme start="20261125120000 +0000" stop="20261125130000 +0000" channel="beINSportsXtra3.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -17866,19 +17739,19 @@ The knockout stage ultimately determines the tournament champion. The competitio
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261118090000 +0000" stop="20261118100000 +0000" channel="beINSportsXtra5.qa">
+  <programme start="20261125100000 +0000" stop="20261125110000 +0000" channel="beINSportsXtra4.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261118100000 +0000" stop="20261118110000 +0000" channel="beINSportsXtra5.qa">
+  <programme start="20261125110000 +0000" stop="20261125120000 +0000" channel="beINSportsXtra4.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261118110000 +0000" stop="20261118120000 +0000" channel="beINSportsXtra5.qa">
+  <programme start="20261125120000 +0000" stop="20261125130000 +0000" channel="beINSportsXtra4.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -18880,19 +18753,19 @@ The knockout stage ultimately determines the tournament champion. The competitio
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261118090000 +0000" stop="20261118100000 +0000" channel="beINSportsXtra6.qa">
+  <programme start="20261125100000 +0000" stop="20261125110000 +0000" channel="beINSportsXtra5.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261118100000 +0000" stop="20261118110000 +0000" channel="beINSportsXtra6.qa">
+  <programme start="20261125110000 +0000" stop="20261125120000 +0000" channel="beINSportsXtra5.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261118110000 +0000" stop="20261118120000 +0000" channel="beINSportsXtra6.qa">
+  <programme start="20261125120000 +0000" stop="20261125130000 +0000" channel="beINSportsXtra5.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -19894,19 +19767,19 @@ The knockout stage ultimately determines the tournament champion. The competitio
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261118090000 +0000" stop="20261118100000 +0000" channel="beINSportsXtra7.qa">
+  <programme start="20261125100000 +0000" stop="20261125110000 +0000" channel="beINSportsXtra6.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261118100000 +0000" stop="20261118110000 +0000" channel="beINSportsXtra7.qa">
+  <programme start="20261125110000 +0000" stop="20261125120000 +0000" channel="beINSportsXtra6.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261118110000 +0000" stop="20261118120000 +0000" channel="beINSportsXtra7.qa">
+  <programme start="20261125120000 +0000" stop="20261125130000 +0000" channel="beINSportsXtra6.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -20908,19 +20781,19 @@ The knockout stage ultimately determines the tournament champion. The competitio
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261118090000 +0000" stop="20261118100000 +0000" channel="beINSportsXtra8.qa">
+  <programme start="20261125100000 +0000" stop="20261125110000 +0000" channel="beINSportsXtra7.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261118100000 +0000" stop="20261118110000 +0000" channel="beINSportsXtra8.qa">
+  <programme start="20261125110000 +0000" stop="20261125120000 +0000" channel="beINSportsXtra7.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261118110000 +0000" stop="20261118120000 +0000" channel="beINSportsXtra8.qa">
+  <programme start="20261125120000 +0000" stop="20261125130000 +0000" channel="beINSportsXtra7.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -21922,19 +21795,19 @@ The knockout stage ultimately determines the tournament champion. The competitio
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261118090000 +0000" stop="20261118100000 +0000" channel="beINSportsXtra9.qa">
+  <programme start="20261125100000 +0000" stop="20261125110000 +0000" channel="beINSportsXtra8.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261118100000 +0000" stop="20261118110000 +0000" channel="beINSportsXtra9.qa">
+  <programme start="20261125110000 +0000" stop="20261125120000 +0000" channel="beINSportsXtra8.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20261118110000 +0000" stop="20261118120000 +0000" channel="beINSportsXtra9.qa">
+  <programme start="20261125120000 +0000" stop="20261125130000 +0000" channel="beINSportsXtra8.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -22931,6 +22804,24 @@ The knockout stage ultimately determines the tournament champion. The competitio
     <category lang="en">Sports General</category>
   </programme>
   <programme start="20261125090000 +0000" stop="20261125100000 +0000" channel="beINSportsXtra9.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20261125100000 +0000" stop="20261125110000 +0000" channel="beINSportsXtra9.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20261125110000 +0000" stop="20261125120000 +0000" channel="beINSportsXtra9.qa">
+    <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
+    <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
+    <category lang="ar">الرياضة العام</category>
+    <category lang="en">Sports General</category>
+  </programme>
+  <programme start="20261125120000 +0000" stop="20261125130000 +0000" channel="beINSportsXtra9.qa">
     <title lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events - November - 2026</title>
     <desc lang="en">beIN SPORTS XTRA For Live And Exclusive Coverage of Premium Sporting Events</desc>
     <category lang="ar">الرياضة العام</category>
@@ -25421,12 +25312,12 @@ Director: Cameron Crowe.</desc>
   </programme>
   <programme start="20261122053500 +0000" stop="20261122070500 +0000" channel="beINStarAction.qa">
     <title lang="ar">تيكن</title>
-    <desc lang="ar">فيلم, حركة, إثارة, جريمة. (فرنسا, المملكة المتحدة, الولايات المتحدة الأمريكية 2008, 90 دقيقة). عندما تٝختطف ابنته وصديقتها على يد عصابة تهريب خلال رحلتهما إلى باريس، يستعين عميل متقاعد من وكالة المخابرات المركزية بخبرته الفتاكة لإعادتهما إلى الوطن. تمثيل: ليام نيسون, ماجي جريس, فامكي جانسن, ليلاند أورسير, جون جريز. تأليف: لوك بيسون. إخراج: بيير مور</desc>
+    <desc lang="ar">فيلم, حركة, إثارة, جريمة. (فرنسا, المملكة المتحدة, الولايات المتحدة الأمريكية 2008, 90 دقيقة). عندما تٝختطف ابنته وصديقتها على يد عصابة تهريب خلال رحلتهما إلى باريس، يستعين عميل متقاعد من وكالة المخابرات المركزية بخبرته الفتاكة لإعادتهما إلى الوطن. تمثيل: ليام نيسون, ماجي جريس, فامكي جانسن, ليلاند أورسر, جون جريز. تأليف: لوك بيسون. إخراج: بيير موري</desc>
     <category lang="ar">أفلام</category>
   </programme>
   <programme start="20261122070500 +0000" stop="20261122084000 +0000" channel="beINStarAction.qa">
     <title lang="ar">تيكين 2</title>
-    <desc lang="ar">فيلم, حركة, إثارة, جريمة. (فرنسا 2012, 92 دقيقة). بعد الانتقام لاختطاف ابنته، يحاول بريان الهروب من ماضيه المؤلم بقضاء إجازة في إسطنبول بصحبة أسرته. لكن هروبه لم يدم طويلأً؛ حيث يسعى والد الرجل الذي قتله للانتقام، فيختطف بريان وزوجته. تمثيل: ليام نيسون, ماجي جريس, فامكي جانسن, ليلاند أورسير, جون جريز. إخراج: أوليفر ميجاتون. تأليف: لوك بيسون.</desc>
+    <desc lang="ar">فيلم, حركة, إثارة, جريمة. (فرنسا 2012, 92 دقيقة). بعد الانتقام لاختطاف ابنته، يحاول بريان الهروب من ماضيه المؤلم بقضاء إجازة في إسطنبول بصحبة أسرته. لكن هروبه لم يدم طويلأً؛ حيث يسعى والد الرجل الذي قتله للانتقام، فيختطف بريان وزوجته. تمثيل: ليام نيسون, ماجي جريس, فامكي جانسن, ليلاند أورسر, جون جريز. إخراج: أوليفر ميجاتون. تأليف: لوك بيسون.</desc>
     <category lang="ar">أفلام</category>
   </programme>
   <programme start="20261122084000 +0000" stop="20261122102500 +0000" channel="beINStarAction.qa">
