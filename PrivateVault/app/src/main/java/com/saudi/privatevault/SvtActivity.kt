@@ -41,6 +41,22 @@ import kotlin.math.tan
 class SvtActivity : BaseActivity(), SensorEventListener {
     override val alwaysDark = true
 
+    companion object {
+        const val EXTRA_IDENT = "ident"
+        const val EXTRA_LAT = "lat"
+        const val EXTRA_LON = "lon"
+        const val EXTRA_ELEV = "elev"
+        const val EXTRA_BRG = "brg"
+
+        /** The field in three dimensions, seen from three miles out on the given heading. */
+        fun field(ctx: Context, a: AviationData.Airport, bearingToField: Double) =
+            ctx.startActivity(android.content.Intent(ctx, SvtActivity::class.java)
+                .putExtra(EXTRA_IDENT, a.icao.ifEmpty { a.ident })
+                .putExtra(EXTRA_LAT, a.lat).putExtra(EXTRA_LON, a.lon)
+                .putExtra(EXTRA_ELEV, a.elevation.toDouble())
+                .putExtra(EXTRA_BRG, bearingToField))
+    }
+
     private lateinit var view: SvtView
     private var airports: List<AviationData.Airport> = emptyList()
     private var sensors: SensorManager? = null
@@ -84,6 +100,37 @@ class SvtActivity : BaseActivity(), SensorEventListener {
         Thread { airports = AviationData.airports(this); view.airports = airports }.start()
         sensors = getSystemService(Context.SENSOR_SERVICE) as? SensorManager
         startGps()
+        showField()
+    }
+
+    /**
+     * The airport seen in three dimensions, from the air.
+     *
+     * Asked for from an airport's page, the view is put where a pilot would see the field from:
+     * three miles out on the runway's heading, at a thousand feet above it, looking at it. The
+     * terrain is the real terrain around it, drawn from the elevation the app already carries, so
+     * the hills either side of the field stand where they really stand. A GPS fix, if one comes,
+     * takes over at once — this is the picture until the aeroplane itself has something to say.
+     */
+    private fun showField() {
+        val lat = intent.getDoubleExtra(EXTRA_LAT, Double.NaN)
+        val lon = intent.getDoubleExtra(EXTRA_LON, Double.NaN)
+        if (lat.isNaN() || lon.isNaN()) return
+        val ident = intent.getStringExtra(EXTRA_IDENT).orEmpty()
+        val elev = intent.getDoubleExtra(EXTRA_ELEV, 0.0)
+        val brgToField = intent.getDoubleExtra(EXTRA_BRG, 0.0)
+        // Three miles the other way from the field, so the field lies straight ahead.
+        val from = Nav.destination(lat, lon, (brgToField + 180) % 360, 3.0)
+        val l = Location("field").apply {
+            latitude = from.latitude
+            longitude = from.longitude
+            altitude = (elev + 1000.0) / 3.28084
+            bearing = brgToField.toFloat()
+            speed = 0f
+            time = System.currentTimeMillis()
+        }
+        view.update(l)
+        if (ident.isNotEmpty()) title = ident
     }
 
     override fun onResume() {
