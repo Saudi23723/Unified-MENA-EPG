@@ -9,7 +9,19 @@ import org.osmdroid.util.GeoPoint
  */
 object FaaDiagram {
     fun build(ctx: Context, ident: String): Triple<android.graphics.Bitmap, GeoPoint, GeoPoint>? = try {
-        val res = AviationData.plates(ctx, ident)
+        // The FAA's plate index is keyed by the identifier it prints, which for some fields is
+        // the three-letter one and for others the four-letter one. Asking under only one of them
+        // finds nothing at the fields that use the other, and the airport is then written off as
+        // having no diagram at all. Both are tried.
+        val tries = LinkedHashSet<String>()
+        tries.add(ident)
+        if (ident.length == 3) tries.add("K$ident") else if (ident.length == 4 && ident.startsWith("K")) tries.add(ident.substring(1))
+        var res: Pair<String, List<AviationData.Plate>>? = null
+        for (t in tries) {
+            val r = AviationData.plates(ctx, t)
+            if (r != null && r.second.isNotEmpty()) { res = r; break }
+            if (res == null) res = r
+        }
         val apd = res?.second?.firstOrNull { it.code == "APD" }
         val f = apd?.let { AviationData.platePdf(ctx, res.first, it.pdf) }
         val geo = f?.let { PdfLinks.open(ctx, it)?.use { l -> l.georef(0) } }

@@ -91,12 +91,16 @@ object StudyParse {
     // written "Question: 5" or "Question 5", so the colon or the number is required.
     private val RE_Q = Regex("""\bQuestion\b(?::\s*(\d+)?|\s+(\d+))[ \t]*\n?\s*(.+?)(?=\n\s*[A-E][.)]\s)""",
         RegexOption.DOT_MATCHES_ALL)
-    private val RE_CHOICE = Regex("""^[ \t]*([A-E])[.)]\s*(.+?)(?=\n[ \t]*[A-E][.)]\s|\n[ \t]*Answer\b|\z)""",
+    /** Where a choice or an explanation ends: the next choice, the next verdict, or the page's furniture. */
+    private const val STOP =
+        """(?=\n[ \t]*[A-E][.)]\s|\n[ \t]*Answer\s*\(?[A-E]\)?\s*is\b|How Can We Help|Contact Gleim|Mark For Review|Questions:|Opens in a new window|\z)"""
+
+    private val RE_CHOICE = Regex("""^[ \t]*([A-E])[.)]\s*(.+?)$STOP""",
         setOf(RegexOption.MULTILINE, RegexOption.DOT_MATCHES_ALL))
     private val RE_ANS = Regex("""Answer\s*\(?([A-E])\)?\s*is\s*correct""", RegexOption.IGNORE_CASE)
     /** Every verdict the bank gives, right or wrong, with the reason it gives for it. */
     private val RE_VERDICT = Regex(
-        """Answer\s*\(?([A-E])\)?\s*is\s*(correct|incorrect)\b[.:]?\s*(.*?)(?=Answer\s*\(?[A-E]\)?\s*is\s*(?:correct|incorrect)\b|How Can We Help|Contact Gleim|\z)""",
+        """Answer\s*\(?([A-E])\)?\s*is\s*(correct|incorrect)\b[.:]?\s*(.*?)$STOP""",
         setOf(RegexOption.DOT_MATCHES_ALL, RegexOption.IGNORE_CASE))
     private val RE_LEAD = Regex("""^\s*(\([^)]{0,40}\)\s*)+""")
     private val RE_ACS = Regex("""ACS Code:?\s*([A-Z]{2}\.[IVX]+\.[A-Z0-9.]+)""")
@@ -190,7 +194,19 @@ object StudyParse {
             .put("q", head.ifEmpty { clean(body).take(90) })
     }
 
-    private fun clean(s: String) = s.replace(Regex("""[ \t]+"""), " ")
+    /**
+     * Everything from the page's furniture onward, cut away. The last choice on a page has nothing
+     * after it to stop at, so without this it ran on through the Mark For Review, the index of
+     * every question in the bank and all the rest of it.
+     */
+    private val TAIL = Regex(
+        """\s*(How Can We Help|Contact Gleim|Mark For Review|Questions:|Opens in a new window|Question Filters|Elapsed Time|Average Time)[\s\S]*$""",
+        RegexOption.IGNORE_CASE)
+    /** A choice or a reason never contains the choice that follows it. */
+    private val NEXT_CHOICE = Regex("""\n[ \t]*[A-E][.)]\s[\s\S]*$""")
+
+    private fun clean(s: String) = NEXT_CHOICE.replace(TAIL.replace(s, ""), "")
+        .replace(Regex("""[ \t]+"""), " ")
         .replace(Regex("""\n{3,}"""), "\n\n").trim()
 
     /** A short line naming what was found, for the pilot to check before it is kept. */

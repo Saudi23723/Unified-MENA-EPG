@@ -2957,9 +2957,19 @@ class MapActivity : BaseActivity(), NeonHost {
     }
 
     /** Lays the diagrams of the airports now on the screen, a few at a time, nearest the centre first. */
+    private var noDiagramAt = 0L
+
     private fun autoDiagrams() {
         // (Whether a diagram shows on the chart or as the card is settled by the card's overlay, frame by frame.)
         if (!prefs.getBoolean("auto_diagrams", true) || diagramsBusy || map.zoomLevelDouble < 9.0) return
+        // A field that could not be drawn is remembered so it is not asked for over and over. But a
+        // plate that would not download because there was no signal for a moment is not a field
+        // without a diagram, and it was being written off for the rest of the session. The list is
+        // forgotten every few minutes, so those fields come back.
+        if (System.currentTimeMillis() - noDiagramAt > 180_000L) {
+            noDiagramAt = System.currentTimeMillis()
+            noDiagram.clear()
+        }
         val bb = map.boundingBox; val c = map.mapCenter
         val want = airports.filter { it.lat in bb.latSouth..bb.latNorth && it.lon in bb.lonWest..bb.lonEast && it.ident !in diagrams && it.ident !in noDiagram }
             .sortedBy { Nav.distanceNm(c.latitude, c.longitude, it.lat, it.lon) }.take(if (map.zoomLevelDouble >= 13.0) 3 else 2)
