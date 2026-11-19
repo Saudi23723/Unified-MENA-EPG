@@ -31,12 +31,23 @@ class HazardOverlay(private val map: MapView) : Overlay() {
     private val se = Point()
     private val rect = RectF()
 
+    /**
+     * The height the colours are worked out against, rounded to the nearest hundred feet.
+     *
+     * Worked out against the raw GPS height, every foot of its jitter — and it jitters constantly —
+     * threw away the whole cache and recoloured sixty-five thousand pixels of every tile on the
+     * screen, over and over. That is why the red and the yellow shook, and a great deal of why the
+     * chart was slow. A hundred feet is finer than the bands themselves need.
+     */
+    private val band: Double get() = Math.round(altitudeFt / 100.0) * 100.0
+
     private fun colored(t: Terrain.Tile): Bitmap {
-        val key = "${t.x}/${t.y}/${altitudeFt.toInt()}"
+        val a = band
+        val key = "${t.x}/${t.y}/${a.toInt()}"
         cache.get(key)?.let { return it }
         val px = IntArray(256 * 256)
-        val red = altitudeFt - 100
-        val yellow = altitudeFt - 1000
+        val red = a - 100
+        val yellow = a - 1000
         for (i in px.indices) {
             val e = t.ft[i]
             px[i] = when {

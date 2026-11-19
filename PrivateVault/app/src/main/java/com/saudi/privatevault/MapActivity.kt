@@ -2723,7 +2723,11 @@ class MapActivity : BaseActivity(), NeonHost {
                     map.mapOrientation = -heading
                 }
             }
-            b.root.postDelayed(this, if (moving || following) 33L else 250L)
+            // Thirty frames a second only while the chart is actually moving. Following the
+            // aeroplane at a walking pace does not need it, and a chart standing still needs it
+            // less still — every one of those frames redraws the terrain, the weather, the traffic
+            // and their labels over the whole screen.
+            b.root.postDelayed(this, if (moving) 33L else if (following) 120L else 400L)
         }
     }
 
