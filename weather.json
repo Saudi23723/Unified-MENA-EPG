@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-19T19:04:43.258Z",
+  "updated_at": "2026-11-19T19:13:10.759Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -149,63 +149,63 @@
       "country": "الإمارات",
       "latitude": 24.4539,
       "longitude": 54.3773,
-      "temperature_c": 26.0,
-      "humidity": 50,
-      "wind_speed": 10.0,
+      "temperature_c": 26.2,
+      "humidity": 52,
+      "wind_speed": 11.4,
       "rain_chance": 0,
-      "condition": "صافٍ",
-      "weather_code": 0,
+      "condition": "صافٍ غالباً",
+      "weather_code": 1,
       "observed_at": "2026-11-19T23:00",
-      "feels_c": 26.2,
+      "feels_c": 26.4,
       "utc_offset": 14400,
       "days": [
         {
           "date": "2026-11-19",
-          "code": 0,
+          "code": 1,
           "max": 29.6,
           "min": 23.3,
           "rain": 0
         },
         {
           "date": "2026-11-20",
-          "code": 3,
-          "max": 29.5,
+          "code": 2,
+          "max": 29.2,
           "min": 22.5,
           "rain": 0
         },
         {
           "date": "2026-11-21",
           "code": 1,
-          "max": 28.7,
-          "min": 23.6,
+          "max": 28.6,
+          "min": 24.0,
           "rain": 6
         },
         {
           "date": "2026-11-22",
-          "code": 1,
-          "max": 29.2,
-          "min": 24.1,
+          "code": 2,
+          "max": 29.3,
+          "min": 24.3,
           "rain": 0
         },
         {
           "date": "2026-11-23",
           "code": 0,
-          "max": 29.3,
-          "min": 22.9,
+          "max": 29.9,
+          "min": 23.1,
           "rain": 8
         },
         {
           "date": "2026-11-24",
           "code": 0,
-          "max": 29.5,
-          "min": 23.4,
+          "max": 29.4,
+          "min": 23.3,
           "rain": 0
         },
         {
           "date": "2026-11-25",
-          "code": 1,
+          "code": 0,
           "max": 28.7,
-          "min": 23.6,
+          "min": 23.7,
           "rain": 4
         }
       ],
