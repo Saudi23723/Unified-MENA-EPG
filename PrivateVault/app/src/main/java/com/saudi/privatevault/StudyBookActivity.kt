@@ -250,7 +250,10 @@ class StudyBookActivity : BaseActivity() {
         // dragged — a lesson page is taken whole, the words read into their shape and every figure
         // on it copied off it as it stands.
         val js = """(function(){
-            var SKIP = {script:1,style:1,button:1,input:1,select:1,textarea:1,noscript:1,svg:1,table:1};
+            // Tables are NOT skipped. This bank lays the question, its choices and the answer's
+            // explanation inside tables, so walking past every table threw away the very thing
+            // being captured and left only the numbers down the side of the page.
+            var SKIP = {script:1,style:1,button:1,input:1,select:1,textarea:1,noscript:1,svg:1};
             var JUNK = {'Back':1,'Forward':1,'Contents':1,'Print':1,'Done':1,'Hide':1,'Next':1,'Previous':1,
                         'Grade':1,'Discard':1,'Pause':1,'Calculator':1,'Question Properties':1,'Image Viewer':1,
                         'Session Tools':1,'Tools':1,'Session':1,'Mark For Review':1,'How Can We Help?':1,
@@ -296,6 +299,17 @@ class StudyBookActivity : BaseActivity() {
 
             function list(el, depth){
                 var ordered = el.tagName.toLowerCase() === 'ol';
+                // A long list whose items are bare numbers is the index of the bank's questions
+                // running down the side of the page, not anything the lesson says.
+                var kids = 0, bare = 0;
+                for (var q = 0; q < el.children.length; q++){
+                    var li0 = el.children[q];
+                    if (li0.tagName.toLowerCase() !== 'li') continue;
+                    kids++;
+                    var t0 = (li0.innerText || '').trim();
+                    if (t0.length <= 6 && /^[\d.\s()]*$/.test(t0)) bare++;
+                }
+                if (kids >= 12 && bare * 2 >= kids) return;
                 var n = 1;
                 for (var i = 0; i < el.children.length; i++){
                     var li = el.children[i];
@@ -319,9 +333,30 @@ class StudyBookActivity : BaseActivity() {
                     }
                 }
             }
+            function dataTable(t){
+                if (t.querySelector('table,input,button,select,textarea,iframe,form')) return false;
+                var rows = t.rows ? t.rows.length : 0;
+                if (rows < 3) return false;
+                // A grid, not a box of prose: three columns across as well as three rows down, and short
+                // entries in them. The box a question and its choices sit in is two columns of paragraphs,
+                // and it belongs in the words, not in the pictures.
+                var cols = 0, cells = t.querySelectorAll('td,th'), total = 0;
+                for (var i = 0; i < rows; i++) if (t.rows[i].cells.length > cols) cols = t.rows[i].cells.length;
+                if (cols < 3 || cells.length < 9) return false;
+                for (var i = 0; i < cells.length; i++) total += (cells[i].innerText || '').length;
+                if (total / cells.length > 90) return false;
+                var im = t.querySelectorAll('img');
+                for (var i = 0; i < im.length; i++){
+                    var ir = im[i].getBoundingClientRect();
+                    if (ir.width > 120 || ir.height > 90) return false;
+                }
+                return true;
+            }
             function walk(el){
                 var tag = el.tagName ? el.tagName.toLowerCase() : '';
                 if (SKIP[tag]) return;
+                // A table of data is kept as a picture, so its text is not written out as well.
+                if (tag === 'table' && dataTable(el)) return;
                 if (!shown(el)) return;
                 if (out.length > 500) return;
                 // The list of every question in the bank sits beside the lesson. On the screen each
@@ -355,11 +390,17 @@ class StudyBookActivity : BaseActivity() {
                 if (t.querySelector('table,input,button,select,textarea,iframe,form')) return false;
                 var rows = t.rows ? t.rows.length : 0;
                 if (rows < 3) return false;
-                var cells = t.querySelectorAll('td,th').length;
-                if (cells < 6) return false;
-                var imgs = t.querySelectorAll('img');
-                for (var i = 0; i < imgs.length; i++){
-                    var ir = imgs[i].getBoundingClientRect();
+                // A grid, not a box of prose: three columns across as well as three rows down, and short
+                // entries in them. The box a question and its choices sit in is two columns of paragraphs,
+                // and it belongs in the words, not in the pictures.
+                var cols = 0, cells = t.querySelectorAll('td,th'), total = 0;
+                for (var i = 0; i < rows; i++) if (t.rows[i].cells.length > cols) cols = t.rows[i].cells.length;
+                if (cols < 3 || cells.length < 9) return false;
+                for (var i = 0; i < cells.length; i++) total += (cells[i].innerText || '').length;
+                if (total / cells.length > 90) return false;
+                var im = t.querySelectorAll('img');
+                for (var i = 0; i < im.length; i++){
+                    var ir = im[i].getBoundingClientRect();
                     if (ir.width > 120 || ir.height > 90) return false;
                 }
                 return true;
@@ -441,8 +482,16 @@ class StudyBookActivity : BaseActivity() {
         }
         function dataTable(t){
             if (t.querySelector('table,input,button,select,textarea,iframe,form')) return false;
-            if ((t.rows ? t.rows.length : 0) < 3) return false;
-            if (t.querySelectorAll('td,th').length < 6) return false;
+            var rows = t.rows ? t.rows.length : 0;
+            if (rows < 3) return false;
+            // A grid, not a box of prose: three columns across as well as three rows down, and short
+            // entries in them. The box a question and its choices sit in is two columns of paragraphs,
+            // and it belongs in the words, not in the pictures.
+            var cols = 0, cells = t.querySelectorAll('td,th'), total = 0;
+            for (var i = 0; i < rows; i++) if (t.rows[i].cells.length > cols) cols = t.rows[i].cells.length;
+            if (cols < 3 || cells.length < 9) return false;
+            for (var i = 0; i < cells.length; i++) total += (cells[i].innerText || '').length;
+            if (total / cells.length > 90) return false;
             var im = t.querySelectorAll('img');
             for (var i = 0; i < im.length; i++){
                 var ir = im[i].getBoundingClientRect();
