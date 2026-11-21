@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-21T11:52:09.402Z",
+  "updated_at": "2026-11-21T11:59:24.368Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -8,8 +8,8 @@
       "latitude": 31.9454,
       "longitude": 35.9284,
       "temperature_c": 24.8,
-      "humidity": 27,
-      "wind_speed": 13.4,
+      "humidity": 28,
+      "wind_speed": 14.3,
       "rain_chance": 0,
       "condition": "غائم",
       "weather_code": 3,
@@ -78,28 +78,28 @@
       "country": "الأردن",
       "latitude": 29.532,
       "longitude": 35.006,
-      "temperature_c": 31.4,
-      "humidity": 25,
-      "wind_speed": 13.1,
+      "temperature_c": 31.6,
+      "humidity": 26,
+      "wind_speed": 10.5,
       "rain_chance": 0,
       "condition": "صافٍ غالباً",
       "weather_code": 1,
       "observed_at": "2026-11-21T14:45",
-      "feels_c": 29.2,
+      "feels_c": 30.0,
       "utc_offset": 10800,
       "days": [
         {
           "date": "2026-11-21",
           "code": 3,
-          "max": 31.8,
+          "max": 31.9,
           "min": 21.2,
           "rain": 0
         },
         {
           "date": "2026-11-22",
-          "code": 2,
-          "max": 28.8,
-          "min": 20.3,
+          "code": 3,
+          "max": 29.0,
+          "min": 20.4,
           "rain": 0
         },
         {
@@ -138,7 +138,7 @@
           "rain": 0
         }
       ],
-      "today_max": 31.8,
+      "today_max": 31.9,
       "today_min": 21.2,
       "sunrise": "07:09",
       "sunset": "17:42",
@@ -220,9 +220,9 @@
       "country": "الإمارات",
       "latitude": 25.2048,
       "longitude": 55.2708,
-      "temperature_c": 28.4,
+      "temperature_c": 28.5,
       "humidity": 60,
-      "wind_speed": 14.4,
+      "wind_speed": 14.9,
       "rain_chance": 3,
       "condition": "صافٍ",
       "weather_code": 0,
@@ -233,7 +233,7 @@
         {
           "date": "2026-11-21",
           "code": 0,
-          "max": 28.9,
+          "max": 28.8,
           "min": 26.6,
           "rain": 20
         },
@@ -241,7 +241,7 @@
           "date": "2026-11-22",
           "code": 0,
           "max": 29.8,
-          "min": 23.6,
+          "min": 23.8,
           "rain": 0
         },
         {
@@ -280,7 +280,7 @@
           "rain": 0
         }
       ],
-      "today_max": 28.9,
+      "today_max": 28.8,
       "today_min": 26.6,
       "sunrise": "06:39",
       "sunset": "17:29",
