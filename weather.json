@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-21T11:00:12.893Z",
+  "updated_at": "2026-11-21T11:05:46.259Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -152,7 +152,7 @@
       "temperature_c": 28.4,
       "humidity": 55,
       "wind_speed": 15.1,
-      "rain_chance": 0,
+      "rain_chance": 3,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-11-21T15:00",
@@ -164,7 +164,7 @@
           "code": 0,
           "max": 28.8,
           "min": 25.3,
-          "rain": 2
+          "rain": 4
         },
         {
           "date": "2026-11-22",
@@ -206,7 +206,7 @@
           "code": 0,
           "max": 27.5,
           "min": 21.9,
-          "rain": 0
+          "rain": 2
         }
       ],
       "today_max": 28.8,
@@ -306,49 +306,49 @@
           "code": 3,
           "max": 8.1,
           "min": 3.6,
-          "rain": 2
+          "rain": 0
         },
         {
           "date": "2026-11-22",
           "code": 3,
           "max": 9.5,
           "min": 5.1,
-          "rain": 8
+          "rain": 2
         },
         {
           "date": "2026-11-23",
           "code": 3,
           "max": 8.3,
           "min": 3.5,
-          "rain": 9
+          "rain": 4
         },
         {
           "date": "2026-11-24",
           "code": 51,
           "max": 7.8,
           "min": 5.1,
-          "rain": 20
+          "rain": 14
         },
         {
           "date": "2026-11-25",
           "code": 53,
           "max": 5.2,
           "min": 4.0,
-          "rain": 18
+          "rain": 10
         },
         {
           "date": "2026-11-26",
           "code": 51,
           "max": 4.0,
           "min": 3.4,
-          "rain": 4
+          "rain": 2
         },
         {
           "date": "2026-11-27",
           "code": 3,
           "max": 4.0,
           "min": 2.2,
-          "rain": 24
+          "rain": 32
         }
       ],
       "today_max": 8.1,
@@ -391,35 +391,35 @@
           "code": 3,
           "max": 7.1,
           "min": 1.1,
-          "rain": 16
+          "rain": 15
         },
         {
           "date": "2026-11-24",
           "code": 53,
           "max": 7.8,
           "min": 5.1,
-          "rain": 41
+          "rain": 39
         },
         {
           "date": "2026-11-25",
           "code": 51,
           "max": 6.1,
           "min": 4.6,
-          "rain": 27
+          "rain": 18
         },
         {
           "date": "2026-11-26",
           "code": 3,
           "max": 6.0,
           "min": 4.0,
-          "rain": 7
+          "rain": 1
         },
         {
           "date": "2026-11-27",
           "code": 3,
           "max": 5.0,
           "min": 1.9,
-          "rain": 36
+          "rain": 46
         }
       ],
       "today_max": 7.0,
