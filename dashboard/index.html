@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Sports Dashboard - IPTV Manager</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>🎬 AI Sports Dashboard</h1>
+                <p class="subtitle">Professional IPTV Playlist Manager</p>
+            </div>
+            <div class="status-indicator">
+                <span id="status-dot" class="status-dot online"></span>
+                <span id="status-text">System Online</span>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav class="tabs">
+            <button class="tab-btn active" onclick="switchTab('channels')">📺 Channels</button>
+            <button class="tab-btn" onclick="switchTab('monitor')">📊 Monitor</button>
+            <button class="tab-btn" onclick="switchTab('epg')">📅 EPG Guide</button>
+            <button class="tab-btn" onclick="switchTab('settings')">⚙️ Settings</button>
+        </nav>
+
+        <!-- Channels Tab -->
+        <section id="channels" class="tab-content active">
+            <h2>Active Channels</h2>
+            <div class="channels-grid" id="channels-grid">
+                <!-- Dynamically populated -->
+            </div>
+        </section>
+
+        <!-- Monitor Tab -->
+        <section id="monitor" class="tab-content">
+            <h2>System Health & Updates</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Last Update</h3>
+                    <p id="last-update" class="stat-value">--:--:--</p>
+                    <p class="stat-label">UTC</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Update Frequency</h3>
+                    <p class="stat-value">Every 60 min</p>
+                    <p class="stat-label">Auto-refresh</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Channels</h3>
+                    <p id="total-channels" class="stat-value">3</p>
+                    <p class="stat-label">Active</p>
+                </div>
+                <div class="stat-card">
+                    <h3>System Status</h3>
+                    <p id="system-status" class="stat-value">✅ Healthy</p>
+                    <p class="stat-label">All systems nominal</p>
+                </div>
+            </div>
+
+            <h3>Update History</h3>
+            <div class="update-history" id="update-history">
+                <!-- Dynamically populated -->
+            </div>
+        </section>
+
+        <!-- EPG Guide Tab -->
+        <section id="epg" class="tab-content">
+            <h2>Program Guide</h2>
+            <div class="epg-container">
+                <div class="epg-controls">
+                    <input type="date" id="epg-date" class="epg-date-picker">
+                    <select id="channel-filter" class="channel-filter">
+                        <option value="">All Channels</option>
+                    </select>
+                </div>
+                <div class="epg-grid" id="epg-grid">
+                    <!-- Dynamically populated -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Settings Tab -->
+        <section id="settings" class="tab-content">
+            <h2>Configuration</h2>
+            
+            <div class="settings-section">
+                <h3>Playlist URL</h3>
+                <div class="input-group">
+                    <input type="text" id="playlist-url" class="settings-input" readonly value="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/ai_sports_dashboard.m3u">
+                    <button class="btn-copy" onclick="copyToClipboard('playlist-url')">📋 Copy</button>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3>EPG Source</h3>
+                <div class="input-group">
+                    <input type="text" id="epg-url" class="settings-input" readonly value="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/unified_mena_epg.xml">
+                    <button class="btn-copy" onclick="copyToClipboard('epg-url')">📋 Copy</button>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3>Update Settings</h3>
+                <div class="setting-item">
+                    <label>Auto-refresh Interval (minutes)</label>
+                    <input type="number" id="refresh-interval" class="settings-input" value="60" min="5" max="1440">
+                </div>
+                <div class="setting-item">
+                    <label>
+                        <input type="checkbox" id="notifications-enabled" checked>
+                        Enable Notifications
+                    </label>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3>Player Setup</h3>
+                <div class="player-guide">
+                    <p><strong>VLC Media Player:</strong></p>
+                    <ol>
+                        <li>Open VLC</li>
+                        <li>Media → Open Network Stream</li>
+                        <li>Paste the Playlist URL</li>
+                        <li>Click Play</li>
+                    </ol>
+                    
+                    <p style="margin-top: 20px;"><strong>Kodi:</strong></p>
+                    <ol>
+                        <li>Settings → Media → Libraries</li>
+                        <li>Add the Playlist URL</li>
+                        <li>Enable automatic updates</li>
+                    </ol>
+                </div>
+            </div>
+
+            <button class="btn-primary" onclick="saveSettings()">💾 Save Settings</button>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>🚀 AI Sports Dashboard v1.0 | Last Updated: <span id="footer-time">--</span></p>
+        <p>⚡ Updates every 60 minutes | Next update: <span id="next-update">--</span></p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

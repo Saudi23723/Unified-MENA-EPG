@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Home (4 Nov 2026): deep navy background with soft colour glows; top bar (logo, greeting, clock);
+     a big Live TV card on the left with a 2×2 grid beside it; a row of shortcuts below.
+     The cards are built in HomeActivity. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:background="#070A12">
+    <!-- the glow background on its own view, drawn once into a GPU layer (HomeActivity), not again with every focus move -->
+    <View android:id="@+id/homeBg" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/home_bg2"/>
+    <ScrollView android:layout_width="match_parent" android:layout_height="match_parent" android:fillViewport="true"
+        android:scrollbars="none" android:clipChildren="false">
+    <LinearLayout android:id="@+id/homeCol" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:clipChildren="false" android:clipToPadding="false"
+        android:paddingStart="64dp" android:paddingEnd="64dp" android:paddingTop="30dp" android:paddingBottom="44dp">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <LinearLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:orientation="vertical">
+                <TextView android:id="@+id/logo" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:textSize="28sp" android:textStyle="bold" android:letterSpacing="0.08" android:textColor="@color/text"/>
+                <TextView android:id="@+id/hello" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:textColor="#8B95A9" android:textSize="15sp" android:layout_marginTop="2dp"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="vertical"
+                android:gravity="end">
+                <TextView android:id="@+id/clock" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:textColor="@color/text" android:textSize="36sp" android:fontFamily="sans-serif-light" android:includeFontPadding="false"/>
+                <TextView android:id="@+id/date" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:textColor="#8B95A9" android:textSize="14sp" android:layout_marginTop="2dp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/mainRow" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="26dp" android:orientation="horizontal" android:clipChildren="false"/>
+
+        <LinearLayout android:id="@+id/smallRow" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="18dp" android:orientation="horizontal" android:clipChildren="false"/>
+    </LinearLayout>
+    </ScrollView>
+    <TextView android:id="@+id/footer" android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start" android:layout_marginStart="64dp" android:layout_marginBottom="14dp" android:textColor="#5E6880" android:textSize="12sp"/>
+    <TextView android:id="@+id/status" android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end" android:layout_marginEnd="64dp" android:layout_marginBottom="14dp" android:textColor="#5E6880" android:textSize="12sp"/>
+</FrameLayout>

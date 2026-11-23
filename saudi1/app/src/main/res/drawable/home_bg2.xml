@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- deep navy with two soft glows (emerald top-left, violet bottom-right) -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item><shape><gradient android:angle="315" android:startColor="#0B1222" android:endColor="#070A12"/></shape></item>
+    <item><shape><gradient android:type="radial" android:centerX="0.08" android:centerY="0.05" android:gradientRadius="70%p"
+        android:startColor="#2610B981" android:endColor="#0010B981"/></shape></item>
+    <item><shape><gradient android:type="radial" android:centerX="0.95" android:centerY="1.0" android:gradientRadius="75%p"
+        android:startColor="#228B5CF6" android:endColor="#008B5CF6"/></shape></item>
+</layer-list>

@@ -1,0 +1,328 @@
+package com.saudi1.tv
+
+import android.content.Intent
+import android.graphics.Typeface
+import android.os.Bundle
+import android.view.Gravity
+import android.view.View
+import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.ScrollView
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.FileProvider
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import okhttp3.Request
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+
+/** Settings: account, picture, night dimming, clock, update, about. */
+class SettingsActivity : BaseActivity() {
+    private lateinit var list: LinearLayout
+    private val d by lazy { resources.displayMetrics.density }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val scroll = ScrollView(this)
+        list = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding((60 * d).toInt(), (34 * d).toInt(), (60 * d).toInt(), (60 * d).toInt()) }
+        scroll.addView(list)
+        setContentView(scroll)
+        build()
+    }
+
+    override fun onResume() { super.onResume(); build() }
+
+    private fun build() {
+        list.removeAllViews()
+        list.addView(TextView(this).apply { text = "Settings"; textSize = 30f; setTypeface(typeface, Typeface.BOLD) })
+        section("Account")
+        val exp = if (Device.expires > 0) SimpleDateFormat("d MMM yyyy", Locale.ENGLISH).format(Date(Device.expires)) else "—"
+        row("Device code", Device.pretty, null)
+        row("Customer", Device.name.ifEmpty { "—" }, null)
+        row("Playlist", Prefs.server.substringAfter("://").substringBefore('.').ifEmpty { "—" }, null)
+        row("Subscription ends", exp, null)
+        row("Change playlist / login", "Device code or Xtream login") { startActivity(Intent(this, SetupActivity::class.java)) }
+        row("Reload channels", "Get the newest lists now") { reload() }
+
+        section("Picture")
+        val sizes = arrayOf("Fit", "Stretch", "Zoom"); val modes = intArrayOf(0, 3, 4)  // AspectRatioFrameLayout modes
+        row("Picture size", sizes[modes.indexOf(App.prefs.getInt("resize", 0)).coerceAtLeast(0)]) {
+            AlertDialog.Builder(this).setTitle("Picture size").setItems(sizes) { _, w -> App.prefs.edit().putInt("resize", modes[w]).apply(); build() }.show()
+        }
+        row("Night mode", (if (Dim.level == 0) "Dimming off" else "Dimming ${Dim.level} %") + " · Eye comfort " + Dim.warmNames[Dim.warm]) {
+            nightDialog()
+        }
+        row("Night mode at a set time", if (Dim.scheduled) "On · every day " + Dim.clock(Dim.from) + " – " + Dim.clock(Dim.to) else "Off") { nightSchedule() }
+        val sc = App.prefs.getBoolean("showcase", true)
+        row("Showcase on Home", if (sc) "On · new and top rated titles when the remote rests" else "Off") { App.prefs.edit().putBoolean("showcase", !sc).apply(); build() }
+        val aq = App.prefs.getBoolean("auto_quality", true)
+        row("Lower the quality when the connection is slow", if (aq) "On · 4K → FHD → HD by itself after repeated waits" else "Off") { App.prefs.edit().putBoolean("auto_quality", !aq).apply(); build() }
+        val clock = App.prefs.getBoolean("clock", true)
+        row("Clock on the picture", if (clock) "On" else "Off") { App.prefs.edit().putBoolean("clock", !clock).apply(); build() }
+        val openLast = App.prefs.getBoolean("open_last", false)
+        row("Start on the last channel", if (openLast) "On" else "Off") { App.prefs.edit().putBoolean("open_last", !openLast).apply(); build() }
+        val zapInvert = App.prefs.getBoolean("zap_invert", false)
+        val zm = App.zoneMode
+        row("Time zone", when (zm) { "manual" -> "Chosen: " + App.zoneManual; "net" -> "Where the internet is · " + java.util.TimeZone.getDefault().id; else -> "This device's own · " + java.util.TimeZone.getDefault().id } +
+            "  ·  " + java.text.SimpleDateFormat("h:mm a", java.util.Locale.US).format(Date())) { zoneDialog() }
+        row("Channel change with ▲ / ▼", if (zapInvert) "▲ previous · ▼ next" else "▲ next · ▼ previous") {
+            App.prefs.edit().putBoolean("zap_invert", !zapInvert).apply(); build()
+        }
+
+        // only on a device the owner gave a VPN on the admin site (owner, 11 Nov 2026)
+        if (Vpn.conf.isNotBlank()) {
+            section("VPN")
+            row("VPN", if (Vpn.up) "🛡 On · " + Vpn.endpoint() else "Off · " + Vpn.endpoint()) { vpnToggle() }
+        }
+
+        section("Backup")
+        val bf = SimpleDateFormat("d MMM, h:mm a", Locale.ENGLISH)
+        row("Back up now", "Favorites, continue watching, reminders and settings · " + (if (Backup.at > 0) "last " + bf.format(Date(Backup.at)) else "not yet") + " · daily by itself") {
+            Thread { val ok = Backup.save(); runOnUiThread { android.widget.Toast.makeText(this, if (ok) "Backed up ✓" else "Could not back up (no connection?)", android.widget.Toast.LENGTH_LONG).show(); build() } }.start()
+        }
+        row("Restore", "Put back the last backup of this device") {
+            AlertDialog.Builder(this).setTitle("Restore the last backup?").setMessage("Favorites, continue watching, reminders and settings go back to how they were at the last backup.")
+                .setPositiveButton("Restore") { _, _ ->
+                    Thread { val t = Backup.restore(); runOnUiThread {
+                        android.widget.Toast.makeText(this, if (t != null) "Restored ✓ (backup of " + bf.format(Date(t)) + ")" else "No backup found for this device", android.widget.Toast.LENGTH_LONG).show()
+                        Api.groups = emptyList(); applyDim(); build() } }.start()
+                }.setNegativeButton("Cancel", null).show()
+        }
+
+        section("Arrange")
+        row("Arrange groups and channels", if (Arrange.any) "Your own order · ${Arrange.hiddenGroups.size} groups and ${Arrange.hiddenChannels.size} channels hidden" else "Live TV, Movies and Series: move or hide groups, hide channels") { startActivity(android.content.Intent(this, ArrangeActivity::class.java)) }
+
+        section("Parental lock")
+        row("PIN lock", if (Parental.on) "On · adult groups are locked" else "Off") { pinDialog() }
+        if (Parental.on) row("Lock / unlock groups", "${Parental.locked.size} chosen groups") {
+            Parental.ask(this) {
+                val gs = Api.groups.filter { it.id != Api.FAV && it.id != Api.ALL && it.id != Api.SEARCH }
+                val chk = gs.map { it.id in Parental.locked }.toBooleanArray()
+                AlertDialog.Builder(this).setTitle("Locked groups").setMultiChoiceItems(gs.map { it.name }.toTypedArray(), chk) { _, w, c -> chk[w] = c }
+                    .setPositiveButton("Save") { _, _ -> Parental.locked = gs.filterIndexed { i, _ -> chk[i] }.map { it.id }.toSet(); build() }.show()
+            }
+        }
+
+        section("Reminders")
+        val rs = Reminders.all()
+        row("Reminders", if (rs.isEmpty()) "None" else "${rs.size} set") {
+            if (rs.isEmpty()) return@row
+            val f = SimpleDateFormat("EEE h:mm a", Locale.ENGLISH)
+            AlertDialog.Builder(this).setTitle("Tap to remove").setItems(rs.map { f.format(Date(it.start * 1000)) + "  " + it.title + "  ·  " + it.channelName }.toTypedArray()) { _, w ->
+                Reminders.remove(rs[w]); build()
+            }.show()
+        }
+
+        section("Recordings")
+        val recs = Recordings.all(this)
+        row("Recordings", (if (Recorder.current != null) "⏺ recording now · " else "") + if (recs.isEmpty()) "None" else "${recs.size}") {
+            if (recs.isEmpty()) return@row
+            AlertDialog.Builder(this).setTitle("Recordings").setItems(recs.map { it.nameWithoutExtension + "   ·   %.1f GB".format(it.length() / 1e9) }.toTypedArray()) { _, w ->
+                val f = recs[w]
+                AlertDialog.Builder(this).setTitle(f.nameWithoutExtension).setItems(arrayOf("▶ Play", "🗑 Delete")) { _, a ->
+                    if (a == 0) startActivity(Intent(this, PlayerActivity::class.java).putExtra("url", android.net.Uri.fromFile(f).toString()).putExtra("title", f.nameWithoutExtension).putExtra("key", "r" + f.name))
+                    else { f.delete(); build() }
+                }.show()
+            }.show()
+        }
+        if (Recorder.current != null) row("Stop recording", Recorder.current ?: "") { Recorder.stop(this); build() }
+
+        section("App")
+        row("Version", BuildConfig.VERSION_NAME + "   ·   Check for update") { update() }
+        row("Picture decoder", if (Players.softwareVideo) "Software (the TV's processor)" else "Hardware (the TV's video chip · fastest)") {
+            Players.softwareVideo = !Players.softwareVideo; build() }
+        row("User-Agent", App.userAgent + if (App.userAgent == App.DEFAULT_UA) "  ·  default" else "") { uaDialog() }
+        val err = try { java.io.File(filesDir, "last_error.txt").takeIf { it.isFile }?.readText() } catch (e: Exception) { null }
+        if (err != null) row("Last error", err.lineSequence().take(2).joinToString("  ·  ").take(90)) {
+            AlertDialog.Builder(this).setTitle("Last error").setMessage(err.take(2500)).setPositiveButton("OK", null)
+                .setNegativeButton("Clear") { _, _ -> java.io.File(filesDir, "last_error.txt").delete(); build() }.show()
+        }
+        row("Clear the cache", "Pictures and temporary files · also done by itself every day") {
+            App.app.tidy(true) { freed -> runOnUiThread { android.widget.Toast.makeText(this, "Cache cleared · ${freed / 1048576} MB", android.widget.Toast.LENGTH_SHORT).show() } }
+        }
+        row("How to use", "The welcome and a short tour of the remote") { Intro.show(this) }
+        row("Download link", "saudi1.1saifsaudi.workers.dev/apk", null)
+    }
+
+    private fun vpnToggle() {
+        if (Vpn.conf.isBlank()) return
+        if (Vpn.up) {
+            Vpn.wanted = false
+            lifecycleScope.launch { withContext(Dispatchers.IO) { Vpn.stop(this@SettingsActivity) }; build() }
+            return
+        }
+        val ask = android.net.VpnService.prepare(this)
+        if (ask != null) startActivityForResult(ask, 10) else vpnStart()
+    }
+
+    private fun vpnStart() {
+        android.widget.Toast.makeText(this, "Connecting the VPN…", android.widget.Toast.LENGTH_SHORT).show()
+        lifecycleScope.launch {
+            val err = withContext(Dispatchers.IO) { Vpn.start(this@SettingsActivity) }
+            Vpn.wanted = err == null
+            android.widget.Toast.makeText(this@SettingsActivity, if (err == null) "🛡 VPN on" else "VPN failed: $err", android.widget.Toast.LENGTH_LONG).show()
+            build()
+        }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(req: Int, res: Int, data: Intent?) {
+        super.onActivityResult(req, res, data)
+        if (req == 10 && res == RESULT_OK) vpnStart()
+    }
+
+    /** the app's clock: the device's own zone, where the internet is, or one chosen here (the TV's clock and the
+     *  prayer times keep the device's own time either way) */
+    private fun zoneDialog() {
+        val opts = arrayOf("This device's own time zone", "Where the internet is (for TVs that do not know their zone)", "Choose one…")
+        val now = when (App.zoneMode) { "net" -> 1; "manual" -> 2; else -> 0 }
+        AlertDialog.Builder(this).setTitle("Time zone of the app").setSingleChoiceItems(opts, now) { d, w ->
+            d.dismiss()
+            when (w) {
+                0 -> { App.zoneMode = "device"; build() }
+                1 -> { App.zoneMode = "net"; build() }
+                else -> {
+                    val zones = listOf("Asia/Riyadh", "Asia/Dubai", "Asia/Kuwait", "Asia/Qatar", "Asia/Bahrain", "Asia/Muscat", "Asia/Amman",
+                        "Asia/Baghdad", "Asia/Beirut", "Asia/Damascus", "Africa/Cairo", "Europe/Istanbul", "Europe/London", "Europe/Berlin",
+                        "America/New_York", "America/Chicago", "America/Denver", "America/Phoenix", "America/Los_Angeles", "America/Toronto", "Australia/Sydney")
+                    val fmt = java.text.SimpleDateFormat("h:mm a", java.util.Locale.US)
+                    val labels = zones.map { z -> fmt.timeZone = java.util.TimeZone.getTimeZone(z); z.substringAfter('/').replace('_', ' ') + "   ·   " + fmt.format(Date()) }
+                    AlertDialog.Builder(this).setTitle("Choose the time zone").setItems(labels.toTypedArray()) { _, k ->
+                        App.zoneManual = zones[k]; App.zoneMode = "manual"; build()
+                    }.show()
+                }
+            }
+        }.show()
+    }
+
+    /** the name the app gives itself to the servers (default Lavf/60.3.100); kept on every redirect */
+    private fun uaDialog() {
+        val e = android.widget.EditText(this).apply { setText(App.userAgent); setSingleLine(); selectAll() }
+        AlertDialog.Builder(this).setTitle("User-Agent").setView(e)
+            .setPositiveButton("Save") { _, _ -> App.userAgent = e.text.toString(); build() }
+            .setNeutralButton("Default (" + App.DEFAULT_UA + ")") { _, _ -> App.userAgent = ""; build() }
+            .setNegativeButton("Cancel", null).show()
+    }
+
+    private fun pinDialog() {
+        val e = android.widget.EditText(this).apply {
+            inputType = android.text.InputType.TYPE_CLASS_NUMBER or android.text.InputType.TYPE_NUMBER_VARIATION_PASSWORD
+            filters = arrayOf(android.text.InputFilter.LengthFilter(4)); hint = "4 digits"; gravity = Gravity.CENTER; textSize = 26f
+        }
+        val set = { AlertDialog.Builder(this).setTitle("New PIN (4 digits)").setView(e).setPositiveButton("Save") { _, _ ->
+            val p = e.text.toString(); if (p.length == 4) { Parental.pin = p; Parental.unlocked = false; build() } }.setNeutralButton("Turn off") { _, _ -> Parental.pin = ""; build() }.show() }
+        if (Parental.on) Parental.ask(this) { set() } else set()
+    }
+
+    /** the viewer's own order: pick a group, then move it, hide it, or hide channels inside it */
+    private fun arrange(at: Int = 0) {
+        if (Api.rawGroups.isEmpty()) { android.widget.Toast.makeText(this, "Open Live TV once first", android.widget.Toast.LENGTH_SHORT).show(); return }
+        val gs = Arrange.apply(Api.rawGroups, all = true)
+        val hg = Arrange.hiddenGroups; val hc = Arrange.hiddenChannels
+        val names = gs.map { g -> (if (g.id in hg) "✕  " else "") + g.name + g.channels.count { it.id.toString() in hc }.let { n -> if (n > 0) "   ($n hidden)" else "" } } + listOf("↺  Back to the playlist's own order (show everything)")
+        val dlg = AlertDialog.Builder(this).setTitle("Arrange · pick a group").setItems(names.toTypedArray()) { _, w ->
+            if (w == gs.size) { Arrange.reset(); Api.groups = emptyList(); build(); return@setItems }
+            val g = gs[w]; val hidden = g.id in hg
+            fun move(to: Int) {
+                val ids = gs.map { it.id }.toMutableList(); ids.removeAt(w); ids.add(to.coerceIn(0, ids.size), g.id)
+                Arrange.order = ids; Api.groups = emptyList(); arrange(to.coerceIn(0, ids.size - 1))
+            }
+            AlertDialog.Builder(this).setTitle(g.name).setItems(arrayOf("▲  Move up", "▼  Move down", "⤒  Move to the top", "⤓  Move to the end",
+                if (hidden) "👁  Show this group" else "✕  Hide this group", "Hide / show channels in this group…")) { _, a ->
+                when (a) {
+                    0 -> move(w - 1); 1 -> move(w + 1); 2 -> move(0); 3 -> move(gs.size - 1)
+                    4 -> { Arrange.hiddenGroups = if (hidden) hg - g.id else hg + g.id; Api.groups = emptyList(); arrange(w) }
+                    5 -> {
+                        val chk = g.channels.map { it.id.toString() in hc }.toBooleanArray()
+                        AlertDialog.Builder(this).setTitle("Tick the channels to hide").setMultiChoiceItems(g.channels.map { it.name }.toTypedArray(), chk) { _, i, c -> chk[i] = c }
+                            .setPositiveButton("Save") { _, _ ->
+                                val ids = g.channels.map { it.id.toString() }
+                                Arrange.hiddenChannels = (hc - ids.toSet()) + ids.filterIndexed { i, _ -> chk[i] }
+                                Api.groups = emptyList(); arrange(w)
+                            }.setNegativeButton("Cancel", null).show()
+                    }
+                }
+            }.show()
+        }.setOnDismissListener { build() }.create()
+        dlg.show()
+        dlg.listView?.setSelection(at)
+    }
+
+    private fun section(t: String) {
+        list.addView(TextView(this).apply {
+            text = t; textSize = 15f; setTextColor(getColor(R.color.accent)); setTypeface(typeface, Typeface.BOLD)
+            setPadding((6 * d).toInt(), (24 * d).toInt(), 0, (8 * d).toInt())
+        })
+    }
+
+    private fun row(title: String, value: String, go: (() -> Unit)?) {
+        val r = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL
+            setBackgroundResource(R.drawable.item_bg); isFocusable = go != null; isClickable = go != null
+            setPadding((18 * d).toInt(), 0, (18 * d).toInt(), 0)
+            if (go != null) setOnClickListener { go() }
+        }
+        val a = TextView(this).apply { text = title; textSize = 17f; setTypeface(typeface, Typeface.BOLD); setTextColor(getColorStateList(R.color.on_focus)); isDuplicateParentStateEnabled = true }
+        // On / Off settings show a switch: green ON, grey OFF (owner, 11 Nov 2026); the rest of the text stays beside it
+        val on = value == "On" || value.startsWith("On ·") || value.startsWith("On  ·")
+        val off = value == "Off" || value.startsWith("Off ·")
+        val detail = if (on || off) value.substringAfter("·", "").trim() else value
+        val b = TextView(this).apply { text = detail; textSize = 15f; setTextColor(getColorStateList(R.color.on_focus2)); isDuplicateParentStateEnabled = true; gravity = Gravity.END }
+        r.addView(a, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
+        r.addView(b, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1.3f))
+        if (on || off) {
+            val sw = TextView(this).apply {
+                text = if (on) "ON" else "OFF"; textSize = 13f; setTypeface(typeface, Typeface.BOLD); gravity = Gravity.CENTER
+                setTextColor(if (on) 0xFF04140D.toInt() else 0xFFE5E7EB.toInt())
+                background = android.graphics.drawable.GradientDrawable().apply { cornerRadius = 20 * d; setColor(if (on) 0xFF10B981.toInt() else 0xFF4B5563.toInt()) }
+            }
+            r.addView(sw, LinearLayout.LayoutParams((64 * d).toInt(), (30 * d).toInt()).apply { marginStart = (14 * d).toInt() })
+        }
+        list.addView(r, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (58 * d).toInt()).apply { bottomMargin = (6 * d).toInt() })
+        if (list.findFocus() == null && go != null) r.post { if (list.findFocus() == null) r.requestFocus() }
+    }
+
+    private fun reload() {
+        android.widget.Toast.makeText(this, "Loading…", android.widget.Toast.LENGTH_SHORT).show()
+        lifecycleScope.launch {
+            val ok = withContext(Dispatchers.IO) {
+                if (!Device.manual) Device.check()
+                try { Prefs.ready && Api.load(cached = false) } catch (e: Exception) { false }
+            }
+            val n = Api.groups.firstOrNull { it.id == Api.ALL }?.channels?.size ?: 0
+            android.widget.Toast.makeText(this@SettingsActivity, if (ok) "Updated · $n channels" else "Could not reach the server", android.widget.Toast.LENGTH_LONG).show()
+        }
+    }
+
+    /** newest build from the release (same link as Downloader); Android asks once to allow installing it */
+    private fun update() {
+        lifecycleScope.launch {
+            val toast = { s: String -> android.widget.Toast.makeText(this@SettingsActivity, s, android.widget.Toast.LENGTH_LONG).show() }
+            val newest = withContext(Dispatchers.IO) {
+                try {
+                    App.http.newCall(Request.Builder().url("https://github.com/Saudi23723/Unified-MENA-EPG/releases/download/saudi1/version.txt").build()).execute()
+                        .use { it.body!!.string().trim().substringAfter("build ").toIntOrNull() ?: 0 }
+                } catch (e: Exception) { -1 }
+            }
+            if (newest < 0) { toast("Could not check for updates"); return@launch }
+            if (newest <= BuildConfig.VERSION_CODE) { toast("You have the newest version"); return@launch }
+            toast("Downloading version 1.0.$newest…")
+            val f = File(cacheDir, "update.apk")
+            val ok = withContext(Dispatchers.IO) {
+                try {
+                    App.http.newCall(Request.Builder().url("https://github.com/Saudi23723/Unified-MENA-EPG/releases/download/saudi1/SAUDI1.apk").build()).execute()
+                        .use { r -> if (!r.isSuccessful) false else { f.outputStream().use { o -> r.body!!.byteStream().copyTo(o) }; true } }
+                } catch (e: Exception) { false }
+            }
+            if (!ok) { toast("Download failed"); return@launch }
+            val uri = FileProvider.getUriForFile(this@SettingsActivity, "$packageName.files", f)
+            startActivity(Intent(Intent.ACTION_VIEW).setDataAndType(uri, "application/vnd.android.package-archive")
+                .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_ACTIVITY_NEW_TASK))
+        }
+    }
+}

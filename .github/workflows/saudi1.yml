@@ -1,0 +1,58 @@
+name: SAUDI.TV app
+
+# Builds the SAUDI.TV app. It does NOT go to the viewers' TVs: it is put on the pre-release "saudi1-test", installed on
+# ONE TV and watched there (no freeze, no "not responding", channels play). Only then saudi1_promote.yml copies that
+# same file to the "saudi1" release that every TV updates from (owner, 13 Nov 2026: "make sure these errors never happen again").
+#   https://github.com/Saudi23723/Unified-MENA-EPG/releases/download/saudi1/SAUDI1.apk  (the Downloader link)
+on:
+  push:
+    branches: [main]
+    paths: ["saudi1/**", ".github/workflows/saudi1.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: saudi1
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: "17" }
+      - uses: gradle/actions/setup-gradle@v4
+        with: { gradle-version: "8.7" }
+      - name: Find the FFmpeg sound decoder for this Media3 version
+        run: |
+          M=$(grep -o 'media3-exoplayer:[0-9.]*' saudi1/app/build.gradle.kts | head -1 | cut -d: -f2)
+          curl -s https://repo1.maven.org/maven2/org/jellyfin/media3/media3-ffmpeg-decoder/maven-metadata.xml | grep -o '<version>[^<]*' | sed 's/<version>//' | tee /tmp/ff.txt
+          V=$(grep "^$M+" /tmp/ff.txt | tail -1)
+          echo "media3 $M -> ffmpeg decoder '$V'"
+          echo "FFMPEG_VER=$V" >> $GITHUB_ENV
+      - name: Build
+        env:
+          BUILD_NUMBER: ${{ github.run_number }}
+        run: gradle -p saudi1 assembleRelease --no-daemon --console=plain
+      - name: Publish for the test TV (not for the viewers)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cp saudi1/app/build/outputs/apk/release/app-release.apk SAUDI1_test.apk
+          ls -la SAUDI1_test.apk
+          gh release view saudi1-test >/dev/null 2>&1 || gh release create saudi1-test --title "SAUDI.TV test build" --notes "Tested on one TV before it goes to the viewers (saudi1_promote.yml). Not for viewers." --prerelease --latest=false
+          gh release upload saudi1-test SAUDI1_test.apk --clobber
+          echo "build ${{ github.run_number }}" > test_version.txt
+          gh release upload saudi1-test test_version.txt --clobber
+      # R8's name list, to read a crash report of this build (kept with the run, not published)
+      - name: Keep the R8 mapping
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mapping-${{ github.run_number }}
+          path: saudi1/app/build/outputs/mapping/release/mapping.txt
+          if-no-files-found: ignore
