@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-24T17:21:08.446Z",
+  "updated_at": "2026-11-24T17:26:19.001Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -292,13 +292,13 @@
       "latitude": 51.5074,
       "longitude": -0.1278,
       "temperature_c": 5.7,
-      "humidity": 77,
+      "humidity": 78,
       "wind_speed": 14.4,
       "rain_chance": 0,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-11-24T17:15",
-      "feels_c": 1.8,
+      "feels_c": 1.9,
       "utc_offset": 0,
       "days": [
         {
@@ -363,13 +363,13 @@
       "latitude": 53.4808,
       "longitude": -2.2426,
       "temperature_c": 5.9,
-      "humidity": 84,
-      "wind_speed": 14.4,
+      "humidity": 85,
+      "wind_speed": 13.7,
       "rain_chance": 8,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-11-24T17:15",
-      "feels_c": 2.2,
+      "feels_c": 2.4,
       "utc_offset": 0,
       "days": [
         {
@@ -757,7 +757,7 @@
         },
         {
           "date": "2026-11-28",
-          "code": 3,
+          "code": 1,
           "max": 21.7,
           "min": 10.9,
           "rain": 1
@@ -781,7 +781,7 @@
       "today_min": 5.1,
       "sunrise": "07:05",
       "sunset": "17:22",
-      "uv": 2
+      "uv": 1
     },
     {
       "city": "سان فرانسيسكو",
