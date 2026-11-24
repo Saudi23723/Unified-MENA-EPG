@@ -20,11 +20,38 @@
     <display-name lang="ar">ON Sport PLUS</display-name>
     <display-name>ON SPORT PLUS</display-name><display-name>ON SPORT PLUS 4K</display-name><display-name>ON SPORT PLUS HD</display-name><display-name>SPO: ON SPORT PLUS</display-name><display-name>SPO: ON SPORT PLUS 4K</display-name><display-name>SPO: ON SPORT PLUS HD</display-name><icon src="https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/logos/onsportplus.png" />
   </channel>
-  <programme start="20261122220000 +0000" stop="20261123220000 +0000" channel="ONSport1">
-    <title lang="ar">⏰ التالي غداً · المصري - بترول أسيوط</title>
-    <desc lang="ar">ON Sport 1 | 2026-11-23
+  <programme start="20261122220000 +0000" stop="20261123180000 +0000" channel="ONSport1">
+    <title lang="ar">⏰ التالي اليوم · الأهلي - بيراميدز</title>
+    <desc lang="ar">جدول ON Sport 1 | 2026-11-23
 
-لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
+• 20:00 — الأهلي - بيراميدز
+  Egyptian league | الدوري المصري
+
+التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
+لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261123180000 +0000" stop="20261123200000 +0000" channel="ONSport1">
+    <title lang="ar">الأهلي - بيراميدز ‎• Live 🔵‎</title>
+    <desc lang="ar">جدول ON Sport 1 | 2026-11-23
+
+• 20:00 — الأهلي - بيراميدز
+  Egyptian league | الدوري المصري
+
+التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
+لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
+    <category lang="en">Sports</category>
+    <category lang="ar">Egyptian league | الدوري المصري</category>
+  </programme>
+  <programme start="20261123200000 +0000" stop="20261123220000 +0000" channel="ONSport1">
+    <title lang="ar">⏰ التالي غداً · المصري - بترول أسيوط</title>
+    <desc lang="ar">جدول ON Sport 1 | 2026-11-23
+
+• 20:00 — الأهلي - بيراميدز
+  Egyptian league | الدوري المصري
+
+التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
+لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20261123220000 +0000" stop="20261124190000 +0000" channel="ONSport1">
@@ -352,11 +379,38 @@
 لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261122220000 +0000" stop="20261123220000 +0000" channel="ONSportMAX">
-    <title lang="ar">⏰ التالي غداً · سموحة - البنك الأهلي</title>
-    <desc lang="ar">ON Sport MAX | 2026-11-23
+  <programme start="20261122220000 +0000" stop="20261123150000 +0000" channel="ONSportMAX">
+    <title lang="ar">⏰ التالي اليوم · الجونة - الزمالك</title>
+    <desc lang="ar">جدول ON Sport MAX | 2026-11-23
 
-لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
+• 17:00 — الجونة - الزمالك
+  Egyptian league | الدوري المصري
+
+التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
+لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261123150000 +0000" stop="20261123170000 +0000" channel="ONSportMAX">
+    <title lang="ar">الجونة - الزمالك ‎• Live 🔵‎</title>
+    <desc lang="ar">جدول ON Sport MAX | 2026-11-23
+
+• 17:00 — الجونة - الزمالك
+  Egyptian league | الدوري المصري
+
+التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
+لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
+    <category lang="en">Sports</category>
+    <category lang="ar">Egyptian league | الدوري المصري</category>
+  </programme>
+  <programme start="20261123170000 +0000" stop="20261123220000 +0000" channel="ONSportMAX">
+    <title lang="ar">⏰ التالي غداً · سموحة - البنك الأهلي</title>
+    <desc lang="ar">جدول ON Sport MAX | 2026-11-23
+
+• 17:00 — الجونة - الزمالك
+  Egyptian league | الدوري المصري
+
+التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
+لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20261123220000 +0000" stop="20261124160000 +0000" channel="ONSportMAX">
@@ -365,6 +419,8 @@
 
 • 18:00 — سموحة - البنك الأهلي
   Egyptian Premier League
+• 20:00 — المقاولون العرب - القناة
+  Egyptian league | الدوري المصري
 
 التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
 لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
@@ -376,18 +432,36 @@
 
 • 18:00 — سموحة - البنك الأهلي
   Egyptian Premier League
+• 20:00 — المقاولون العرب - القناة
+  Egyptian league | الدوري المصري
 
 التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
 لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
     <category lang="en">Sports</category>
     <category lang="en">Egyptian Premier League</category>
   </programme>
-  <programme start="20261124180000 +0000" stop="20261124220000 +0000" channel="ONSportMAX">
+  <programme start="20261124180000 +0000" stop="20261124200000 +0000" channel="ONSportMAX">
+    <title lang="ar">المقاولون العرب - القناة ‎• Live 🔵‎</title>
+    <desc lang="ar">جدول ON Sport MAX | 2026-11-24
+
+• 18:00 — سموحة - البنك الأهلي
+  Egyptian Premier League
+• 20:00 — المقاولون العرب - القناة
+  Egyptian league | الدوري المصري
+
+التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
+لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
+    <category lang="en">Sports</category>
+    <category lang="ar">Egyptian league | الدوري المصري</category>
+  </programme>
+  <programme start="20261124200000 +0000" stop="20261124220000 +0000" channel="ONSportMAX">
     <title lang="ar">⏰ التالي غداً · المقاولون العرب - القناة</title>
     <desc lang="ar">جدول ON Sport MAX | 2026-11-24
 
 • 18:00 — سموحة - البنك الأهلي
   Egyptian Premier League
+• 20:00 — المقاولون العرب - القناة
+  Egyptian league | الدوري المصري
 
 التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
 لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
@@ -605,11 +679,38 @@
 لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261122220000 +0000" stop="20261123220000 +0000" channel="ONSportPLUS">
-    <title lang="ar">⏰ التالي غداً · زد - أبو قير للأسمدة</title>
-    <desc lang="ar">ON Sport PLUS | 2026-11-23
+  <programme start="20261122220000 +0000" stop="20261123150000 +0000" channel="ONSportPLUS">
+    <title lang="ar">⏰ التالي اليوم · وادي دجلة - الاتحاد السكندري</title>
+    <desc lang="ar">جدول ON Sport PLUS | 2026-11-23
 
-لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
+• 17:00 — وادي دجلة - الاتحاد السكندري
+  Egyptian league | الدوري المصري
+
+التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
+لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261123150000 +0000" stop="20261123170000 +0000" channel="ONSportPLUS">
+    <title lang="ar">وادي دجلة - الاتحاد السكندري ‎• Live 🔵‎</title>
+    <desc lang="ar">جدول ON Sport PLUS | 2026-11-23
+
+• 17:00 — وادي دجلة - الاتحاد السكندري
+  Egyptian league | الدوري المصري
+
+التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
+لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
+    <category lang="en">Sports</category>
+    <category lang="ar">Egyptian league | الدوري المصري</category>
+  </programme>
+  <programme start="20261123170000 +0000" stop="20261123220000 +0000" channel="ONSportPLUS">
+    <title lang="ar">⏰ التالي غداً · زد - أبو قير للأسمدة</title>
+    <desc lang="ar">جدول ON Sport PLUS | 2026-11-23
+
+• 17:00 — وادي دجلة - الاتحاد السكندري
+  Egyptian league | الدوري المصري
+
+التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
+لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20261123220000 +0000" stop="20261124160000 +0000" channel="ONSportPLUS">
@@ -667,7 +768,7 @@
     <category lang="en">Egyptian Premier League</category>
   </programme>
   <programme start="20261124210000 +0000" stop="20261124220000 +0000" channel="ONSportPLUS">
-    <title lang="ar">⏰ التالي بعد 3 أيام · FC Masar - Malyet Kafr El Zayat</title>
+    <title lang="ar">⏰ التالي غداً · الأهلي - الاتحاد السكندري</title>
     <desc lang="ar">جدول ON Sport PLUS | 2026-11-24
 
 • 18:00 — زد - أبو قير للأسمدة
@@ -679,11 +780,38 @@
 لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
     <category lang="en">Sports</category>
   </programme>
-  <programme start="20261124220000 +0000" stop="20261125220000 +0000" channel="ONSportPLUS">
-    <title lang="ar">⏰ التالي بعد يومين · FC Masar - Malyet Kafr El Zayat</title>
-    <desc lang="ar">ON Sport PLUS | 2026-11-25
+  <programme start="20261124220000 +0000" stop="20261125170000 +0000" channel="ONSportPLUS">
+    <title lang="ar">⏰ التالي اليوم · الأهلي - الاتحاد السكندري</title>
+    <desc lang="ar">جدول ON Sport PLUS | 2026-11-25
 
-لا توجد مباراة مؤكدة مجدولة في المصادر الحالية.</desc>
+• 19:00 — الأهلي - الاتحاد السكندري
+  Basketball | كرة السلة
+
+التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
+لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
+    <category lang="en">Sports</category>
+  </programme>
+  <programme start="20261125170000 +0000" stop="20261125190000 +0000" channel="ONSportPLUS">
+    <title lang="ar">الأهلي - الاتحاد السكندري ‎• Live 🔵‎</title>
+    <desc lang="ar">جدول ON Sport PLUS | 2026-11-25
+
+• 19:00 — الأهلي - الاتحاد السكندري
+  Basketball | كرة السلة
+
+التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
+لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
+    <category lang="en">Sports</category>
+    <category lang="ar">Basketball | كرة السلة</category>
+  </programme>
+  <programme start="20261125190000 +0000" stop="20261125220000 +0000" channel="ONSportPLUS">
+    <title lang="ar">⏰ التالي بعد يومين · FC Masar - Malyet Kafr El Zayat</title>
+    <desc lang="ar">جدول ON Sport PLUS | 2026-11-25
+
+• 19:00 — الأهلي - الاتحاد السكندري
+  Basketball | كرة السلة
+
+التوقيت كما ورد في المصدر (القاهرة) ويُبَث بصيغة UTC.
+لا يتم تخمين القناة؛ التوزيع مأخوذ من مصدر بث يذكر القناة.</desc>
     <category lang="en">Sports</category>
   </programme>
   <programme start="20261125220000 +0000" stop="20261126220000 +0000" channel="ONSportPLUS">
