@@ -295,15 +295,29 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
     private val minorLine = Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.STROKE; color = 0x8C78542F.toInt() }
     private val indexLine = Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.STROKE; color = 0xCC78542F.toInt() }
 
+    // The view the picture is being drawn for. The picture is drawn on a worker thread while the chart
+    // may already be moving on the main one, so the drawing reads the view as it was when the picture
+    // was asked for, not the live one; on the main thread there is no frozen view and the live one is read.
+    private class Frame(val pr: org.osmdroid.views.Projection, val bb: org.osmdroid.util.BoundingBox,
+                        val zoom: Double, val orient: Float, val ctr: org.osmdroid.api.IGeoPoint)
+    private val frozen = ThreadLocal<Frame?>()
+    private fun prOf(mv: MapView) = frozen.get()?.pr ?: mv.projection
+    private fun bbOf(mv: MapView) = frozen.get()?.bb ?: mv.boundingBox
+    private fun zOf(mv: MapView) = frozen.get()?.zoom ?: mv.zoomLevelDouble
+    private fun oOf(mv: MapView) = frozen.get()?.orient ?: mv.mapOrientation
+    private fun ctrOf(mv: MapView) = frozen.get()?.ctr ?: mv.mapCenter
+
     private fun drawGround(c: Canvas, mv: MapView, bitmaps: Boolean = true, lines: Boolean = true) {
+        val tileMatrix = Matrix(); val src = FloatArray(8); val dst = FloatArray(8)
+        val pa = Point(); val pb = Point(); val pc = Point(); val pd = Point()
         val z = Terrain.Z
-        val bb = mv.boundingBox
+        val bb = bbOf(mv)
         val x0 = Terrain.tileX(bb.lonWest, z); val x1 = Terrain.tileX(bb.lonEast, z)
         val y0 = Terrain.tileY(bb.latNorth, z); val y1 = Terrain.tileY(bb.latSouth, z)
         // Far out there would be hundreds of tiles: the ground is only drawn where it can be seen.
         if ((x1 - x0 + 1).toLong() * (y1 - y0 + 1) > 90) return
-        val pr = mv.projection
-        val step = interval(mv.zoomLevelDouble)
+        val pr = prOf(mv)
+        val step = interval(zOf(mv))
         for (ty in y0..y1) for (tx in x0..x1) {
             val key = "$z/$tx/$ty"
             val bmp = shaded.get(key)
@@ -378,10 +392,10 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
 
     /** Lines every thirty minutes, with a tick for every minute along them, as the sectional is ruled. */
     private fun drawGrid(c: Canvas, mv: MapView) {
-        val zoom = mv.zoomLevelDouble
+        val zoom = zOf(mv)
         if (!showGrid || zoom < 7.5 || zoom > 14) return
-        val bb = mv.boundingBox
-        val pr = mv.projection
+        val bb = bbOf(mv)
+        val pr = prOf(mv)
         val p1 = Point(); val p2 = Point()
         gridLine.strokeWidth = 0.9f * d
         gridText.textSize = 10.5f * d
@@ -395,7 +409,7 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
             if (zoom >= 9.5) ticksAlong(c, pr, lat, true, bb.lonWest, bb.lonEast)
             val ex = bb.lonWest + spanLon * 0.05
             pr.toPixels(GeoPoint(lat, ex), p1)
-            c.save(); c.rotate(-mv.mapOrientation, p1.x.toFloat(), p1.y.toFloat())
+            c.save(); c.rotate(-oOf(mv), p1.x.toFloat(), p1.y.toFloat())
             text(c, dm(lat, if (lat >= 0) "N" else "S"), p1.x + 3 * d, p1.y - 4 * d, gridText)
             c.restore()
             lat += 0.5
@@ -408,7 +422,7 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
             if (zoom >= 9.5) ticksAlong(c, pr, lon, false, bb.latSouth, bb.latNorth)
             val ey = bb.latNorth - spanLat * 0.05
             pr.toPixels(GeoPoint(ey, lon), p1)
-            c.save(); c.rotate(-mv.mapOrientation, p1.x.toFloat(), p1.y.toFloat())
+            c.save(); c.rotate(-oOf(mv), p1.x.toFloat(), p1.y.toFloat())
             text(c, dm(lon, if (lon >= 0) "E" else "W"), p1.x + 4 * d, p1.y + 12 * d, gridText)
             c.restore()
             lon += 0.5
@@ -477,10 +491,10 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
     }
 
     private fun drawMef(c: Canvas, mv: MapView) {
-        val zoom = mv.zoomLevelDouble
+        val zoom = zOf(mv)
         if (!showMef || zoom < 7.0 || zoom > 11.8) return
-        val bb = mv.boundingBox
-        val pr = mv.projection
+        val bb = bbOf(mv)
+        val pr = prOf(mv)
         val p = Point()
         val la0 = Math.floor(bb.latSouth * 2).toInt(); val la1 = Math.floor(bb.latNorth * 2).toInt()
         val lo0 = Math.floor(bb.lonWest * 2).toInt(); val lo1 = Math.floor(bb.lonEast * 2).toInt()
@@ -509,7 +523,7 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
             pr.toPixels(GeoPoint((cs + cn) / 2, (cw + ce) / 2), p)
             val th = (v / 1000).toString(); val hu = ((v % 1000) / 100).toString()
             val tw = mefBig.measureText(th)
-            c.save(); c.rotate(-mv.mapOrientation, p.x.toFloat(), p.y.toFloat())
+            c.save(); c.rotate(-oOf(mv), p.x.toFloat(), p.y.toFloat())
             mefBig.alpha = 215; mefSmall.alpha = 215
             text(c, th, p.x - tw / 2, p.y + big * 0.35f, mefBig, 3f)
             text(c, hu, p.x + tw / 2 + 1.5f * d, p.y + big * 0.35f, mefSmall, 2.4f)
@@ -540,10 +554,10 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
     private val labelled = ArrayList<RectF>()
 
     private fun drawAirspace(c: Canvas, mv: MapView) {
-        val zoom = mv.zoomLevelDouble
+        val zoom = zOf(mv)
         if (zoom < 6.5) return
-        val bb = mv.boundingBox
-        val pr = mv.projection
+        val bb = bbOf(mv)
+        val pr = prOf(mv)
         val p = Point()
         for (a in airspace) {
             if (a.maxLat < bb.latSouth || a.minLat > bb.latNorth || a.maxLon < bb.lonWest || a.minLon > bb.lonEast) continue
@@ -588,7 +602,7 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
                 if (labelled.any { RectF.intersects(it, box) }) continue
                 labelled.add(box)
                 asText.color = colour
-                c.save(); c.rotate(-mv.mapOrientation, p.x.toFloat(), p.y.toFloat())
+                c.save(); c.rotate(-oOf(mv), p.x.toFloat(), p.y.toFloat())
                 val w = asText.measureText(top)
                 text(c, top, p.x - w / 2, p.y.toFloat(), asText, 2.2f)
                 asLine.pathEffect = null
@@ -609,11 +623,11 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
     private val navName = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0xFF2A62C4.toInt(); typeface = Typeface.DEFAULT_BOLD }
 
     private fun drawNavaids(c: Canvas, mv: MapView) {
-        val zoom = mv.zoomLevelDouble
+        val zoom = zOf(mv)
         if (!showNavaids || zoom < 7.5) return
-        val bb = mv.boundingBox
+        val bb = bbOf(mv)
         val list = Navaids.inView(bb.latSouth, bb.lonWest, bb.latNorth, bb.lonEast)
-        val pr = mv.projection
+        val pr = prOf(mv)
         val p = Point()
         navName.textSize = 9.5f * d
         for (n in list) {
@@ -672,7 +686,7 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
                 val box = RectF(x + reach * 0.55f, y + reach * 0.35f, x + reach * 0.55f + w, y + reach * 0.35f + 24 * d)
                 if (labelled.any { RectF.intersects(it, box) }) continue
                 labelled.add(box)
-                c.save(); c.rotate(-mv.mapOrientation, x, y)
+                c.save(); c.rotate(-oOf(mv), x, y)
                 text(c, l1, box.left, box.top + 9 * d, navName, 2.4f)
                 text(c, l2, box.left, box.top + 20 * d, navName, 2.4f)
                 c.restore()
@@ -689,11 +703,11 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
     private val subTx = Paint(Paint.ANTI_ALIAS_FLAG).apply { textSize = 9f * d; color = 0xFF3A4660.toInt() }
 
     private fun drawFields(c: Canvas, mv: MapView) {
-        val zoom = mv.zoomLevelDouble
-        val bb = mv.boundingBox
-        val pr = mv.projection
+        val zoom = zOf(mv)
+        val bb = bbOf(mv)
+        val pr = prOf(mv)
         val p = Point()
-        val centre = mv.mapCenter
+        val centre = ctrOf(mv)
         // Fewer fields the further out you are, nearest the middle first, so the picture stays clear.
         val limit = when { zoom >= 11 -> 220; zoom >= 9 -> 120; zoom >= 7.5 -> 60; zoom >= 6 -> 28; else -> 12 }
         val inView = airports.asSequence()
@@ -739,7 +753,7 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
                 val nbox = RectF(x + 8 * d, y - 14 * d, x + 10 * d + nameTx.measureText(l1), y + 12 * d)
                 if (labelled.any { RectF.intersects(it, nbox) }) continue
                 labelled.add(nbox)
-                c.save(); c.rotate(-mv.mapOrientation, x, y)
+                c.save(); c.rotate(-oOf(mv), x, y)
                 text(c, l1, x + 9 * d, y - 4 * d, nameTx, 2.8f)
                 if (zoom >= 10) text(c, "$id  %,d'".format(a.elevation), x + 9 * d, y + 7 * d, subTx, 2.4f)
                 c.restore()
@@ -753,13 +767,13 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
     private val obsTx = Paint(Paint.ANTI_ALIAS_FLAG).apply { textSize = 8.5f * d; color = 0xFF55486B.toInt() }
 
     private fun drawObstacles(c: Canvas, mv: MapView) {
-        val zoom = mv.zoomLevelDouble
+        val zoom = zOf(mv)
         if (!showObstacles || zoom < 10.5) return
-        val bb = mv.boundingBox
+        val bb = bbOf(mv)
         val list = try {
             Obstacles.inBox(ctx, bb.latSouth, bb.lonWest, bb.latNorth, bb.lonEast, 400)
         } catch (e: Throwable) { return }
-        val pr = mv.projection
+        val pr = prOf(mv)
         val p = Point()
         // As the sectional charts them: 200 ft above the ground and taller, and no more than the 150
         // tallest in view. Over a city there are hundreds of short masts that only bury the chart.
@@ -776,7 +790,7 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
                 val box = RectF(x + 4 * d, y - h - 9 * d, x + 6 * d + obsTx.measureText(s), y - h + 3 * d)
                 if (labelled.any { RectF.intersects(it, box) }) continue
                 labelled.add(box)
-                c.save(); c.rotate(-mv.mapOrientation, x, y)
+                c.save(); c.rotate(-oOf(mv), x, y)
                 text(c, s, x + 5 * d, y - h + 1 * d, obsTx, 2.2f)
                 c.restore()
             }
@@ -803,8 +817,8 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
     fun markDirty() { dirty = true; map.postInvalidate() }
 
     fun <T> host(o: T) where T : Overlay, T : SnapChild { hosted.add(Hosted(o, o)); o.hosted = true; dirty = true }
-    private var snap: Bitmap? = null
-    private var snapCanvas: Canvas? = null
+    @Volatile private var snap: Bitmap? = null
+    @Volatile private var back: Bitmap? = null
     private var snapView: DoubleArray? = null
     private var snapSig = 0
     private var snapAt = 0L
@@ -816,6 +830,8 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
     private val snapDst = FloatArray(6)
     private val snapPaint = Paint(Paint.FILTER_BITMAP_FLAG)
     private val sp = Point()
+    private val snapWork = Executors.newSingleThreadExecutor()
+    @Volatile private var rendering = false
 
     private fun signature(): Int {
         var h = airspace.size
@@ -827,42 +843,71 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
         return h * 1031 + f
     }
 
-    private fun renderSnap(mv: MapView, now: DoubleArray, sig: Int) {
-        val t0 = android.os.SystemClock.uptimeMillis()
+    /**
+     * Asks for the picture to be drawn afresh for the view as it is now. It is drawn on a worker
+     * thread into the second of two pictures, while the main thread keeps placing the first, and the
+     * two change places when it is done: the main thread never waits for the lines to be drawn.
+     */
+    private fun requestRender(mv: MapView, now: DoubleArray, sig: Int) {
+        if (rendering) return
         val w = mv.width; val h = mv.height
-        // Turned, the screen's corners reach further than its width and height, so the picture is a
-        // square as long as the screen's diagonal.
-        val diag = Math.ceil(Math.hypot(w.toDouble(), h.toDouble())).toInt()
-        val turned = mv.mapOrientation != 0f
-        val sw = if (turned) diag else w; val sh = if (turned) diag else h
-        var b = snap
-        if (b == null || b.width != sw || b.height != sh) {
-            b?.recycle()
-            b = Bitmap.createBitmap(sw, sh, Bitmap.Config.ARGB_8888)
-            snap = b; snapCanvas = Canvas(b)
+        if (w == 0 || h == 0) return
+        val pr0 = mv.projection
+        val frame = Frame(pr0, mv.boundingBox, mv.zoomLevelDouble, mv.mapOrientation, mv.mapCenter)
+        val ga = pr0.fromPixels(w / 2, h / 2); val gb = pr0.fromPixels(w / 2 + 100, h / 2); val gc = pr0.fromPixels(w / 2, h / 2 + 100)
+        val geo = doubleArrayOf(ga.latitude, ga.longitude, gb.latitude, gb.longitude, gc.latitude, gc.longitude)
+        rendering = true
+        dirty = false
+        snapWork.execute {
+            val t0 = android.os.SystemClock.uptimeMillis()
+            // Turned, the screen's corners reach further than its width and height, so the picture is a
+            // square as long as the screen's diagonal.
+            val diag = Math.ceil(Math.hypot(w.toDouble(), h.toDouble())).toInt()
+            val turned = frame.orient != 0f
+            val sw = if (turned) diag else w; val sh = if (turned) diag else h
+            var out: Bitmap? = null
+            try {
+                var b = back
+                if (b == null || b.isRecycled || b.width != sw || b.height != sh) b = Bitmap.createBitmap(sw, sh, Bitmap.Config.ARGB_8888)
+                b.eraseColor(0)
+                val sc = Canvas(b)
+                sc.translate((sw - w) / 2f, (sh - h) / 2f)
+                frozen.set(frame)
+                labelled.clear()
+                try {
+                    if (showTerrain) { drawGround(sc, mv, false, true); drawGrid(sc, mv); drawMef(sc, mv) }
+                    if (showAirspace) drawAirspace(sc, mv)
+                    drawNavaids(sc, mv)
+                    drawObstacles(sc, mv)
+                    if (showFields) drawFields(sc, mv)
+                    for (hd in hosted) if (map.overlays.contains(hd.overlay)) try { hd.child.drawInto(sc, mv) } catch (e: Throwable) { }
+                } catch (e: Throwable) {
+                    // A map that cannot draw one thing still draws the rest.
+                }
+                out = b
+            } catch (e: Throwable) {
+                // Out of memory for the picture: the old one stays.
+            } finally {
+                frozen.set(null)
+            }
+            val ms = android.os.SystemClock.uptimeMillis() - t0
+            val result = out
+            mv.post {
+                rendering = false
+                if (result != null) {
+                    // The overlays taken into the picture read the live view: if the chart moved while
+                    // they were drawn, draw it again once it is still.
+                    if (mv.projection !== pr0) dirty = true
+                    back = snap
+                    snap = result
+                    snapGeo = geo
+                    snapSrc = floatArrayOf(sw / 2f, sh / 2f, sw / 2f + 100f, sh / 2f, sw / 2f, sh / 2f + 100f)
+                    snapView = now; snapSig = sig; snapAt = android.os.SystemClock.uptimeMillis()
+                    lastRenderMs = ms; renders++
+                }
+                mv.invalidate()
+            }
         }
-        val sc = snapCanvas ?: return
-        b.eraseColor(0)
-        sc.save()
-        sc.translate((sw - w) / 2f, (sh - h) / 2f)
-        labelled.clear()
-        try {
-            if (showTerrain) { drawGround(sc, mv, false, true); drawGrid(sc, mv); drawMef(sc, mv) }
-            if (showAirspace) drawAirspace(sc, mv)
-            drawNavaids(sc, mv)
-            drawObstacles(sc, mv)
-            if (showFields) drawFields(sc, mv)
-            for (hd in hosted) if (map.overlays.contains(hd.overlay)) try { hd.child.drawInto(sc, mv) } catch (e: Throwable) { }
-        } catch (e: Throwable) {
-            // A map that cannot draw one thing still draws the rest.
-        }
-        sc.restore()
-        val pr = mv.projection
-        val ga = pr.fromPixels(w / 2, h / 2); val gb = pr.fromPixels(w / 2 + 100, h / 2); val gc = pr.fromPixels(w / 2, h / 2 + 100)
-        snapGeo = doubleArrayOf(ga.latitude, ga.longitude, gb.latitude, gb.longitude, gc.latitude, gc.longitude)
-        snapSrc = floatArrayOf(sw / 2f, sh / 2f, sw / 2f + 100f, sh / 2f, sw / 2f, sh / 2f + 100f)
-        snapView = now; snapSig = sig; snapAt = android.os.SystemClock.uptimeMillis(); dirty = false
-        lastRenderMs = android.os.SystemClock.uptimeMillis() - t0; renders++
     }
 
     override fun draw(c: Canvas, mv: MapView, shadow: Boolean) {
@@ -875,19 +920,19 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
         lastView = now
         try {
             if (showTerrain) drawGround(c, mv, true, false)
+            val t = android.os.SystemClock.uptimeMillis()
             if (moving) {
                 settle?.let { mv.removeCallbacks(it) }
                 settle = Runnable { mv.postInvalidate() }.also { mv.postDelayed(it, 140L) }
-                // A chart that keeps moving (following the aeroplane) still has its lines redrawn about once a second.
-                if (snap == null || android.os.SystemClock.uptimeMillis() - snapAt > 2500L) renderSnap(mv, now, signature())
+                // A chart that keeps moving (following the aeroplane) still has its lines redrawn now and then.
+                if (snap == null || t - snapAt > 2500L) requestRender(mv, now, signature())
             } else {
                 val sig = signature()
-                val t = android.os.SystemClock.uptimeMillis()
                 val sv = snapView
-                if (snap == null || sv == null || !sv.contentEquals(now) || sig != snapSig || dirty || t - snapAt > 6000L) renderSnap(mv, now, sig)
+                if (snap == null || sv == null || !sv.contentEquals(now) || sig != snapSig || dirty || t - snapAt > 6000L) requestRender(mv, now, sig)
             }
             val b = snap
-            if (b != null) {
+            if (b != null && !b.isRecycled) {
                 val pr = mv.projection
                 for (k in 0 until 3) {
                     pr.toPixels(GeoPoint(snapGeo[k * 2], snapGeo[k * 2 + 1]), sp)
@@ -902,7 +947,8 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
     }
 
     fun release() {
-        snap?.recycle(); snap = null; snapCanvas = null; snapView = null
+        // Not recycled: the worker may still be drawing into one; they go with the garbage.
+        snap = null; back = null; snapView = null
         shaded.evictAll()
         contourCache.evictAll()
     }
