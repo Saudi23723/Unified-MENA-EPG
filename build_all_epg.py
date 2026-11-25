@@ -277,7 +277,7 @@ def stop_of(programme) -> datetime | None:
     return stop.astimezone(UTC)
 
 
-def count(root) -> tuple[int, int, int]:
+def count(root, own_only: bool = False) -> tuple[int, int, int]:
     """(programmes, rows that say the guide does not know, real broadcasts).
 
     One function, so a rebuild and the file it is compared against are
@@ -296,6 +296,11 @@ def count(root) -> tuple[int, int, int]:
     now = datetime.now(UTC)
     per: dict[str, list] = {}
     for programme in root.findall("programme"):
+        # own_only: the playlist-guide rows a file only carries along (Playlist.Guide. ids) are left out of the
+        # count, so their size changing (25 Nov 2026: the coverage list came back, 12,110 channels down to the
+        # 1,102 no other link guides) is never mistaken for the file's own guide collapsing
+        if own_only and (programme.get("channel") or "").startswith("Playlist.Guide."):
+            continue
         stop = stop_of(programme)
         if stop is not None and stop <= now:
             continue
@@ -319,12 +324,16 @@ def count(root) -> tuple[int, int, int]:
             sum(v[3] for v in per.values()))
 
 
+# files that carry the owner's playlist guide beside their own (alkass_epg.py: add_playlist_guide_to)
+CARRIES_PLAYLIST_GUIDE = {"alkass_epg.xml"}
+
+
 def measure(path: str) -> tuple[int, int, int]:
     """Count a file on disk."""
     if not os.path.exists(path):
         return 0, 0, 0
     try:
-        return count(ET.parse(path).getroot())
+        return count(ET.parse(path).getroot(), path in CARRIES_PLAYLIST_GUIDE)
     except Exception:
         return 0, 0, 0
 
@@ -336,7 +345,7 @@ def committed(path: str) -> tuple[int, int, int]:
     if done.returncode != 0 or not done.stdout:
         return 0, 0, 0
     try:
-        return count(ET.fromstring(done.stdout))
+        return count(ET.fromstring(done.stdout), path in CARRIES_PLAYLIST_GUIDE)
     except Exception:
         return 0, 0, 0
 
