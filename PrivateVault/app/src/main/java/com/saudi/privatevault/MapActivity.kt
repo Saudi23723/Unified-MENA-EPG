@@ -474,8 +474,9 @@ class MapActivity : BaseActivity(), NeonHost {
         class Tile(val v: android.widget.TextView) { var isChecked = false
             fun paint() { v.setTextColor(if (isChecked) EfbUi.ACCENT else EfbUi.TEXT); v.text = (if (isChecked) "✓  " else "     ") + (v.tag as String)
                 v.background = EfbUi.cardBg(this@MapActivity, if (isChecked) 0x221E88E5 else EfbUi.CARD, 10).apply { setStroke(dp(1), if (isChecked) EfbUi.ACCENT else EfbUi.CARD_LINE) } } }
-        fun check(label: Int, on: Boolean): Tile {
-            val v = android.widget.TextView(this).apply { tag = getString(label); textSize = 14f; setPadding(dp(10), dp(12), dp(10), dp(12)); maxLines = 2 }
+        fun check(label: Int, on: Boolean): Tile = checkS(getString(label), on)
+        fun checkS(label: String, on: Boolean): Tile {
+            val v = android.widget.TextView(this).apply { tag = label; textSize = 14f; setPadding(dp(10), dp(12), dp(10), dp(12)); maxLines = 2 }
             val t = Tile(v); t.isChecked = on; t.paint()
             v.setOnClickListener { t.isChecked = !t.isChecked; t.paint() }
             grid.addView(v, android.widget.GridLayout.LayoutParams().apply {
@@ -495,6 +496,12 @@ class MapActivity : BaseActivity(), NeonHost {
         val cAsLabels = check(R.string.wx_airspace_over, prefs.getBoolean("aero_airspace_over", false))
         val cAirports = check(R.string.map_airports, prefs.getBoolean("map_airports", true))
         val cPattern = check(R.string.tp_layer, prefs.getBoolean("tp_on", true))
+        // The drawn sheet's own options, in the same grid as everything else.
+        val cContours = checkS("Contour lines", prefs.getBoolean("aero_contours", true))
+        val cMef = checkS("Grid and max elevation figures", prefs.getBoolean("aero_mef", true))
+        val cNav = checkS("Radio beacons", prefs.getBoolean("aero_navaids", true))
+        val cRoads = checkS("Roads and places", prefs.getBoolean("aero_roads", true))
+        val cPerf = checkS("Performance readout", prefs.getBoolean("perf_hud", false))
         // One kind of data on the airports at a time: none, the weather (station model), or the winds aloft.
         box.addView(android.widget.TextView(this).apply {
             text = getString(R.string.map_station_data); setPadding(0, dp(14), 0, dp(4)); setTypeface(typeface, android.graphics.Typeface.BOLD)
@@ -529,7 +536,10 @@ class MapActivity : BaseActivity(), NeonHost {
                     setOfficial()
                 }
                 prefs.edit().putBoolean("aero_obstacles", cObst.isChecked)
-                    .putBoolean("aero_airspace_over", cAsLabels.isChecked).apply()
+                    .putBoolean("aero_airspace_over", cAsLabels.isChecked)
+                    .putBoolean("aero_contours", cContours.isChecked).putBoolean("aero_mef", cMef.isChecked)
+                    .putBoolean("aero_grid", cMef.isChecked).putBoolean("aero_navaids", cNav.isChecked)
+                    .putBoolean("aero_roads", cRoads.isChecked).putBoolean("perf_hud", cPerf.isChecked).apply()
                 aeroStyle()
                 if (cRadar.isChecked != (radar != null)) setRadar(cRadar.isChecked)
                 weather.showAirmets = cAirmet.isChecked
