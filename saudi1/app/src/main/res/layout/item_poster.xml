@@ -10,6 +10,9 @@
         <ProgressBar android:id="@+id/progress" style="?android:attr/progressBarStyleHorizontal" android:layout_width="match_parent"
             android:layout_height="4dp" android:layout_gravity="bottom" android:max="1000" android:progressDrawable="@drawable/progress_resume" android:visibility="gone"/>
     </FrameLayout>
-    <TextView android:id="@+id/name" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="5dp"
+    <!-- every poster is EXACTLY the same height: the TV's grid puts the next poster in the shortest column, so a title a
+         pixel taller (Arabic letters, a star) sent the 5th favourite to column 3 of the next row where ▼ could not reach it
+         (owner, 22 Nov 2026) -->
+    <TextView android:id="@+id/name" android:layout_width="match_parent" android:layout_height="26dp" android:gravity="center_vertical" android:layout_marginTop="5dp"
         android:singleLine="true" android:ellipsize="marquee" android:marqueeRepeatLimit="marquee_forever" android:textSize="16sp" android:textStyle="bold" android:textColor="@color/on_focus" android:duplicateParentState="true"/>
 </LinearLayout>
