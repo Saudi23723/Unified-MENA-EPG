@@ -3554,7 +3554,7 @@ class MapActivity : BaseActivity(), NeonHost {
         for ((tool, icon, label) in tools) toolButtons[tool] = button(icon, getString(label)) { pick(tool) }
         // The pen: a long press, or a tap when it is in hand, picks the kind of pen.
         draw.penStyle = prefs.getInt("map_pen_style", 0)
-        fun penKinds() = PenInk.choose(this, draw.penStyle, onNeon = { NeonLayer.start(this) }) { i ->
+        fun penKinds() = PenInk.choose(this, draw.penStyle, onNeon = { NeonLayer.start(this, fade = true) }) { i ->
             draw.penStyle = i
             prefs.edit().putInt("map_pen_style", i).apply()
             pick(MapDrawOverlay.MapTool.PEN)

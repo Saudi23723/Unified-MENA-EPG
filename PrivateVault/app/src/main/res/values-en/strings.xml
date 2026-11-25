@@ -710,7 +710,7 @@ or tap an airport → Add to route, or long-press anywhere on the chart.</string
     <string name="route_settings">TAS %1$d kt · wind %2$03d°/%3$d kt · %4$.1f gph</string>
     <string name="route_edit">✎ Edit</string>
     <string name="route_navlog">📋 Nav log</string>
-    <string name="tv_keys">◀ ▶ pages · OK zoom · OK twice: laser · zoomed: the arrows move, at an edge press again to turn · long OK: menu · Back: whole page</string>
+    <string name="tv_keys">◀ ▶ pages · OK zoom · zoomed: the arrows move, at an edge press again to turn · long OK: menu · Back: whole page</string>
     <string name="tv_video_keys">OK: play/pause · ◀ 15 s · ▶ 30 s · ▼ picture size · ▲ controls</string>
     <string name="tv_continue">Continue reading</string>
     <string name="tv_page">page %1$d</string>
@@ -742,9 +742,9 @@ or tap an airport → Add to route, or long-press anywhere on the chart.</string
     <string name="cloud_link_now">Link the cloud</string>
     <string name="vault_cloud">☁️ Cloud</string>
     <string name="vault_laptop">💻 Laptop</string>
-    <string name="laser">◉ Laser</string>
-    <string name="qt_laser_t">Laser pointer</string>
-    <string name="qt_laser_s">A glowing dot that follows you and fades</string>
+    <string name="neon_fade">✨ Neon that fades</string>
+    <string name="qt_neon_t">Neon that fades</string>
+    <string name="qt_neon_s">Write over anything — it glows, then goes by itself</string>
     <string name="ck_reset_q">Clear every tick and start the checklist from the top?</string>
     <string name="log_saved_auto">Saved to the logbook with its track — edit it any time.</string>
     <string name="map_view_free">Free chart</string>
@@ -770,7 +770,6 @@ or tap an airport → Add to route, or long-press anywhere on the chart.</string
     <string name="cc_size">Text size</string>
     <string name="pen_straighten">📏 Straighten lines</string>
     <string name="pen_opacity">Highlighter opacity</string>
-    <string name="tv_laser_on">🔴 Laser: arrows move it · OK or Back puts it away</string>
     <string name="send_compressing">🎞 Compressing the video to 720p before upload (%1$d of %2$d)…</string>
     <string name="log_sign_remote">✉ Ask the CFI to sign remotely</string>
     <string name="log_sign_waiting">⏳ Waiting for the CFI to sign from the link — it arrives by itself.</string>

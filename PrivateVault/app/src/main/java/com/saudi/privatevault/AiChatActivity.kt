@@ -172,7 +172,6 @@ class AiChatActivity : BaseActivity() {
         langChip = pill("", bubble) { Gemini.setEnglish(this, !Gemini.english(this)); showLang() }
         bar.addView(langChip, LinearLayout.LayoutParams(-2, -2).apply { marginStart = dp(8) })
         // Neon over the answer, written with a finger and gone by itself a moment later.
-        bar.addView(pill("✨", bubble) { NeonLayer.start(this) }, LinearLayout.LayoutParams(-2, -2).apply { marginStart = dp(8) })
         bar.addView(pill("✨", bubble) { NeonLayer.start(this, fade = true) }, LinearLayout.LayoutParams(-2, -2).apply { marginStart = dp(8) })
         bar.addView(pill("🔑", bubble) { AiKey.ask(this) }, LinearLayout.LayoutParams(-2, -2).apply { marginStart = dp(8) })
         root.addView(bar)
