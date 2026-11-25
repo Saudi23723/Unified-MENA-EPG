@@ -505,7 +505,7 @@ class MapActivity : BaseActivity(), NeonHost {
         val cContours = checkS("Contour lines", prefs.getBoolean("aero_contours", true))
         val cMef = checkS("Grid and max elevation figures", prefs.getBoolean("aero_mef", true))
         val cNav = checkS("Radio beacons", prefs.getBoolean("aero_navaids", true))
-        val cRoads = checkS("Roads and places", prefs.getBoolean("aero_roads", true))
+        val cRoads = checkS("Roads and places", prefs.getBoolean("aero_places", false))
         val cPerf = checkS("Performance readout", prefs.getBoolean("perf_on", true))
         val cOfficial = checkS("Downloaded FAA chart (Las Vegas)", prefs.getBoolean("official_on", true))
         // One kind of data on the airports at a time: none, the weather (station model), or the winds aloft.
@@ -545,7 +545,7 @@ class MapActivity : BaseActivity(), NeonHost {
                     .putBoolean("aero_airspace_over", cAsLabels.isChecked)
                     .putBoolean("aero_contours", cContours.isChecked).putBoolean("aero_mef", cMef.isChecked)
                     .putBoolean("aero_grid", cMef.isChecked).putBoolean("aero_navaids", cNav.isChecked)
-                    .putBoolean("aero_roads", cRoads.isChecked).putBoolean("perf_on", cPerf.isChecked)
+                    .putBoolean("aero_places", cRoads.isChecked).putBoolean("perf_on", cPerf.isChecked)
                     .putBoolean("official_on", cOfficial.isChecked).apply()
                 setOfficial()
                 aeroStyle()
@@ -1331,7 +1331,7 @@ class MapActivity : BaseActivity(), NeonHost {
         row("Grid and maximum elevation figures", "Worked out from the ground and the obstacles in each quadrangle; where a printed figure differs, the printed one rules",
             prefs.getBoolean("aero_mef", true)) { flip("aero_mef", true); flip("aero_grid", true) }
         row("Radio beacons", "VOR, VORTAC, TACAN and NDB with their compass roses", prefs.getBoolean("aero_navaids", true)) { flip("aero_navaids", true) }
-        row("Roads and places", "From a map service laid over the drawn sheet; needs a connection", prefs.getBoolean("aero_roads", true)) { flip("aero_roads", true) }
+        row("Roads and places", "From a map service laid over the drawn sheet; needs a connection", prefs.getBoolean("aero_places", false)) { flip("aero_places", false) }
         row("Performance readout", "Frames per second and how long the map takes to draw, on the map itself; send a screenshot of it if the map is slow",
             prefs.getBoolean("perf_on", true)) { prefs.edit().putBoolean("perf_on", !prefs.getBoolean("perf_on", true)).apply(); setPerf() }
         head("Flight")
@@ -1378,11 +1378,14 @@ class MapActivity : BaseActivity(), NeonHost {
         a.showTerrain = alone
         a.showFields = alone
         a.showAirspace = alone || prefs.getBoolean("aero_airspace_over", false)
-        if (::airspace.isInitialized) airspace.quiet = a.showAirspace
+        val printed = layer.key == "sectional" || layer.key == "tac" || layer.key == "ifrlow"
+        // Over a printed chart the airspace is already printed; drawn again it is a mess of names.
+        if (::airspace.isInitialized) airspace.quiet = a.showAirspace || printed
         // Where the printed chart leaves a white margin or gap between its sheets, the page shows
         // through it as the chart's own paper colour instead of a white band.
         map.setBackgroundColor(if (layer.key == "sectional" || layer.key == "tac" || layer.key == "ifrlow") 0xFFF1EAD0.toInt() else android.graphics.Color.TRANSPARENT)
-        a.showObstacles = prefs.getBoolean("aero_obstacles", true)
+        // The printed chart prints its own towers: drawing them again only buries it.
+        a.showObstacles = alone && prefs.getBoolean("aero_obstacles", true)
         a.showContours = prefs.getBoolean("aero_contours", true)
         a.showGrid = prefs.getBoolean("aero_grid", true)
         a.showMef = prefs.getBoolean("aero_mef", true)
@@ -1417,7 +1420,7 @@ class MapActivity : BaseActivity(), NeonHost {
      * drawn sheet is the one showing.
      */
     private fun setPlaces() {
-        val want = prefs.getBoolean("aero_roads", true) && layer.key == "aero"
+        val want = prefs.getBoolean("aero_places", false) && layer.key == "aero"
         fun make(base: String): org.osmdroid.views.overlay.TilesOverlay {
             val src = AviationData.Layer("ref", R.string.map_aero, base, 15).source()
             return org.osmdroid.views.overlay.TilesOverlay(

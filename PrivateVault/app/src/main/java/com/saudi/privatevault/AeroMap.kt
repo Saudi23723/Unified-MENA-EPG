@@ -761,8 +761,9 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
         } catch (e: Throwable) { return }
         val pr = mv.projection
         val p = Point()
-        for (o in list) {
-            if (o.aglFt < 200 && zoom < 12) continue
+        // As the sectional charts them: 200 ft above the ground and taller, and no more than the 150
+        // tallest in view. Over a city there are hundreds of short masts that only bury the chart.
+        for (o in list.filter { it.aglFt >= 200 }.sortedByDescending { it.topFt }.take(150)) {
             pr.toPixels(GeoPoint(o.lat, o.lon), p)
             val x = p.x.toFloat(); val y = p.y.toFloat()
             val h = (if (o.aglFt >= 1000) 11f else 8f) * d
