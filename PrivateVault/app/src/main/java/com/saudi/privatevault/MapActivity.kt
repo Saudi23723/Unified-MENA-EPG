@@ -2482,6 +2482,24 @@ class MapActivity : BaseActivity(), NeonHost {
             .format(java.util.Date(System.currentTimeMillis() + (ete * 60000).toLong()))
         b.hudNav.text = "→ %s  BRG %sM  %.1f nm  ETE %s  ETA %s   ✕".format(t.id, Nav.deg(brg), dist,
             if (ete.isNaN()) "--:--" else FlightPlan.hm(ete), eta)
+        // The turn at the waypoint ahead: which way, to what course, and how long until it.
+        if (plan.direct == null && gs > 30) {
+            val nxt = plan.points.getOrNull(plan.active.coerceAtLeast(1) + 1)
+            if (nxt != null) {
+                val outTrue = Nav.bearingTrue(t.lat, t.lon, nxt.lat, nxt.lon)
+                val inTrue = Nav.bearingTrue(here.latitude, here.longitude, t.lat, t.lon)
+                var turn = outTrue - inTrue
+                while (turn > 180) turn -= 360
+                while (turn < -180) turn += 360
+                val secs = dist / gs * 3600
+                if (Math.abs(turn) >= 10 && secs < 120) {
+                    val crs = Nav.magnetic(outTrue, t.lat, t.lon)
+                    b.hudNav.text = b.hudNav.text.toString() + "\nTurn %s to %s°M at %s · %d s".format(
+                        if (turn > 0) "right" else "left", Nav.deg(crs).trimEnd('°'), t.id, secs.toInt())
+                    if (secs < 20) Voice.say(this, "turn" + t.id, "Turn ${if (turn > 0) "right" else "left"} in ${secs.toInt()} seconds.", 600)
+                }
+            }
+        }
         b.hudNav.visibility = View.VISIBLE
         if (dist < 2 && gs > 30) Voice.say(this, "wp" + t.id, "Approaching ${t.id.toCharArray().joinToString(" ")}, two miles.", 600)
     }

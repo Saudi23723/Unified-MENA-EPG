@@ -63,7 +63,24 @@ class OwnshipOverlay(map: MapView, private val plane: Bitmap) : Overlay() {
     private val pt = Point()
     private val pt2 = Point()
 
+    /** Degrees per second the track is turning, smoothed; positive is to the right. */
+    var turnRate = 0.0
+        private set
+    private var prevBearing = Float.NaN
+    private var prevAt = 0L
+
     fun update(l: Location) {
+        val nowT = SystemClock.elapsedRealtime()
+        if (l.hasBearing() && l.hasSpeed() && l.speed * 1.943844 > 30) {
+            if (!prevBearing.isNaN() && nowT > prevAt && nowT - prevAt < 5000) {
+                var dd = (l.bearing - prevBearing).toDouble()
+                while (dd > 180) dd -= 360
+                while (dd < -180) dd += 360
+                val rate = (dd / ((nowT - prevAt) / 1000.0)).coerceIn(-6.0, 6.0)
+                turnRate = turnRate * 0.7 + rate * 0.3
+            }
+            prevBearing = l.bearing; prevAt = nowT
+        } else { turnRate = 0.0; prevBearing = Float.NaN }
         fix = l
         fixAt = SystemClock.elapsedRealtime()
         val g = GeoPoint(l.latitude, l.longitude)
@@ -110,14 +127,25 @@ class OwnshipOverlay(map: MapView, private val plane: Bitmap) : Overlay() {
         }
         val kt = speedKt()
         if (kt > 20 && l.hasBearing()) {
-            // One, two and three minutes ahead along the track.
-            val ahead = Nav.destination(here.latitude, here.longitude, l.bearing.toDouble(), kt * 3 / 60.0)
-            pr.toPixels(ahead, pt2)
-            c.drawLine(pt.x.toFloat(), pt.y.toFloat(), pt2.x.toFloat(), pt2.y.toFloat(), vectorHalo)
-            c.drawLine(pt.x.toFloat(), pt.y.toFloat(), pt2.x.toFloat(), pt2.y.toFloat(), vector)
-            for (m in 1..3) {
-                val tick = Nav.destination(here.latitude, here.longitude, l.bearing.toDouble(), kt * m / 60.0)
-                pr.toPixels(tick, pt2)
+            // The track three minutes ahead: straight when wings are level, a curve when turning,
+            // stepped every ten seconds with the turn rate measured from the last fixes.
+            val curve = Path()
+            curve.moveTo(pt.x.toFloat(), pt.y.toFloat())
+            var cur = here
+            var hdg = l.bearing.toDouble()
+            val rate = if (Math.abs(turnRate) > 0.4) turnRate else 0.0
+            val marks = ArrayList<GeoPoint>()
+            for (sec in 10..180 step 10) {
+                hdg += rate * 10
+                cur = Nav.destination(cur.latitude, cur.longitude, hdg, kt * 10 / 3600.0)
+                pr.toPixels(cur, pt2)
+                curve.lineTo(pt2.x.toFloat(), pt2.y.toFloat())
+                if (sec % 60 == 0) marks.add(cur)
+            }
+            c.drawPath(curve, vectorHalo)
+            c.drawPath(curve, vector)
+            for (m in marks) {
+                pr.toPixels(m, pt2)
                 c.drawCircle(pt2.x.toFloat(), pt2.y.toFloat(), 3.5f * d, vectorHalo)
                 c.drawCircle(pt2.x.toFloat(), pt2.y.toFloat(), 2.5f * d, vector)
             }
