@@ -111,6 +111,8 @@ class App : Application(), ImageLoaderFactory {
                 // every request, and every hop of a redirect, names the app with the User-Agent set in Settings
                 // (default Lavf/60.3.100, what providers know from VLC / FFmpeg players: owner, 21 Nov 2026)
                 .addNetworkInterceptor { c -> c.proceed(c.request().newBuilder().header("User-Agent", userAgent).build()) }
+                // the provider's own address, learnt from the relay's redirect (Api.direct: faster channel changes)
+                .addInterceptor { c -> c.proceed(c.request()).also { r -> try { Api.learnDirect(generateSequence(r) { it.priorResponse }.last()) } catch (_: Exception) { } } }
                 .build()
         }
     }

@@ -38,7 +38,23 @@ object Api {
 
     private fun enc(s: String) = java.net.URLEncoder.encode(s, "UTF-8")
 
-    fun streamUrl(c: Channel) = c.url.ifEmpty { "${Prefs.server}/live/${enc(Prefs.user)}/${enc(Prefs.pass)}/${c.id}.ts" }
+    fun streamUrl(c: Channel) = c.url.ifEmpty { "${direct?.takeIf { directFor == Prefs.server } ?: Prefs.server}/live/${enc(Prefs.user)}/${enc(Prefs.pass)}/${c.id}.ts" }
+
+    /** Faster channel changes (owner, 25 Nov 2026): the relay only answers every video link with a redirect to the
+     *  provider, so once that address is known the player goes there straight and skips one round trip per channel.
+     *  Learnt from the first redirect; forgotten on any play error (the next try goes through the relay again). */
+    @Volatile var direct: String? = null
+    private var directFor = ""
+    fun learnDirect(first: okhttp3.Response) {
+        val req = first.request.url
+        if (!first.isRedirect || !req.encodedPath.startsWith("/live/")) return
+        val server = Prefs.server
+        if (server.isEmpty() || !req.toString().startsWith(server)) return
+        val to = first.header("Location")?.let { req.resolve(it) } ?: return
+        val origin = to.scheme + "://" + to.host + (if (to.port != okhttp3.HttpUrl.defaultPort(to.scheme)) ":" + to.port else "")
+        if (direct != origin || directFor != server) { direct = origin; directFor = server }
+    }
+    fun forgetDirect() { direct = null }
 
     const val DASH = "__dash"
     const val SEARCH = "__search_live"

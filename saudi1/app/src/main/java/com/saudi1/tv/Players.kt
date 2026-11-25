@@ -40,10 +40,10 @@ object Players {
         if (maxHd) b.setTrackSelector(androidx.media3.exoplayer.trackselection.DefaultTrackSelector(ctx).apply {
             setParameters(buildUponParameters().setMaxVideoSize(1920, 1080).setMaxVideoBitrate(12_000_000))
         })
-        // live TV: starts after 1.5 s of picture, keeps up to 50 s in reserve so short provider hiccups don't show,
+        // live TV: starts after 1 s of picture (was 1.5 s; owner, 25 Nov 2026: channels felt slower), keeps up to 50 s in reserve so short provider hiccups don't show,
         // and after a hiccup waits for 3 s before playing again (no stop-start-stop). Staying close to live is
         // done by LiveActivity's catch-up (plays 1.07x while it is behind).
-        if (live) b.setLoadControl(DefaultLoadControl.Builder().setBufferDurationsMs(15_000, 50_000, 1_500, 3_000)
+        if (live) b.setLoadControl(DefaultLoadControl.Builder().setBufferDurationsMs(15_000, 50_000, 1_000, 3_000)
             .setPrioritizeTimeOverSizeThresholds(true).build())
         // films and episodes (owner, 21 Nov 2026: long episodes waited and stopped to load): start after 1.5 s of
         // picture like TiviMate, then keep up to 2 minutes loaded ahead (at most 100 MB, fine for small TVs too), so

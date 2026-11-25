@@ -131,7 +131,7 @@ class LiveActivity : BaseActivity() {
                 val why = error.errorCodeName + (generateSequence(error as Throwable?) { it.cause }.lastOrNull()?.let { " · " + it.javaClass.simpleName + ": " + (it.message ?: "").take(80) } ?: "")
                 android.util.Log.w("SAUDI", "play error: $why")
                 when (tries++) {
-                    0 -> lifecycleScope.launch { delay(1200); if (playing === c) start(c) }
+                    0 -> { Api.forgetDirect(); lifecycleScope.launch { delay(300); if (playing === c) start(c) } }
                     1 -> lifecycleScope.launch { delay(500); if (playing === c) start(c, hls = !Hls.has(c.id)) }
                     else -> toast("This channel is not available right now")
                 }
