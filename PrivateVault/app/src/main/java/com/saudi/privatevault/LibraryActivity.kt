@@ -140,6 +140,35 @@ class LibraryActivity : BaseActivity() {
 
     private fun read(item: VaultItem) = startActivity(Intent(this, PdfViewerActivity::class.java).putExtra(Viewers.EXTRA_ID, item.id))
 
+    /** The Chart Supplement's index: an airport's identifier opens the book at the page its entry starts. */
+    private fun findInSupplement(book: VaultItem, sub: TextView) {
+        sub.text = "Reading the book's index…"
+        lifecycleScope.launch {
+            val idx = withContext(Dispatchers.IO) {
+                try { ChartSupplementBook.index(this@LibraryActivity, book) { done, all -> runOnUiThread { sub.text = "Indexing the book: page $done of $all" } } }
+                catch (e: Throwable) { emptyMap() }
+            }
+            sub.text = if (idx.isEmpty()) "The index could not be made from this book." else "✓ Index: ${idx.size} airports"
+            if (idx.isEmpty()) return@launch
+            val input = android.widget.EditText(this@LibraryActivity).apply { hint = "Identifier, e.g. KBVU or BVU, or a name" }
+            com.google.android.material.dialog.MaterialAlertDialogBuilder(this@LibraryActivity).setTitle("Find an airport").setView(input)
+                .setPositiveButton("Find") { _, _ ->
+                    val q = input.text.toString().trim().uppercase()
+                    val hits = idx.entries.filter { it.key == q || it.key == "K$q" || (q.length >= 3 && it.value.second.contains(q)) }
+                        .distinctBy { it.value.first }.take(30)
+                    when {
+                        hits.isEmpty() -> Toast.makeText(this@LibraryActivity, "Not in this volume: $q", Toast.LENGTH_LONG).show()
+                        hits.size == 1 -> openAt(book, hits[0].value.first)
+                        else -> com.google.android.material.dialog.MaterialAlertDialogBuilder(this@LibraryActivity).setTitle(q)
+                            .setItems(hits.map { "${it.key}  ${it.value.second}  · p.${it.value.first + 1}" }.toTypedArray()) { _, i -> openAt(book, hits[i].value.first) }.show()
+                    }
+                }.setNegativeButton(R.string.cancel, null).show()
+        }
+    }
+
+    private fun openAt(item: VaultItem, page: Int) =
+        startActivity(Intent(this, PdfViewerActivity::class.java).putExtra(Viewers.EXTRA_ID, item.id).putExtra("start_page", page))
+
     /** The Chart Supplement, a region at a time: chosen, fetched page by page, and bound into one book. */
     private fun supplementBook(sub: TextView) {
         val folder = VaultStore.childFolders(null).firstOrNull { it.name == SupplementShelf.FOLDER }
@@ -153,7 +182,13 @@ class LibraryActivity : BaseActivity() {
             .setMessage("The FAA publishes it only as hundreds of separate pages. Pick a volume and the app will fetch them all and bind them into one book — about 30 MB, once every 56 days.")
             .setItems(labels.toTypedArray()) { _, i ->
                 val region = ChartSupplementBook.REGIONS[i].first
-                have.firstOrNull { it.name.startsWith("Chart Supplement · $region · ") }?.let { read(it); return@setItems }
+                have.firstOrNull { it.name.startsWith("Chart Supplement · $region · ") }?.let { book ->
+                    com.google.android.material.dialog.MaterialAlertDialogBuilder(this).setTitle(book.name)
+                        .setItems(arrayOf("📖 Read the book", "🔎 Find an airport (index)")) { _, k ->
+                            if (k == 0) read(book) else findInSupplement(book, sub)
+                        }.show()
+                    return@setItems
+                }
                 sub.text = "Starting…"
                 lifecycleScope.launch {
                     val item = withContext(Dispatchers.IO) {

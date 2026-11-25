@@ -30,6 +30,47 @@ object ChartSupplementBook {
 
     private const val BASE = "https://aeronav.faa.gov/afd"
 
+    // ---- the book's index: every airport and the page its entry starts on ----
+
+    private fun indexFile(ctx: Context, bookName: String) =
+        File(ctx.filesDir, "supplement/index/" + bookName.replace(Regex("[^A-Za-z0-9]+"), "_") + ".json")
+
+    /**
+     * Reads the bound book page by page and notes where each airport's entry starts. An entry opens
+     * with the airport's name and its identifier in brackets, then the ICAO code and its distance and
+     * direction from the city: "BOULDER CITY MUNI (BVU)(KBVU) 2 SW". Call off the main thread.
+     */
+    fun index(ctx: Context, item: VaultItem, progress: (Int, Int) -> Unit = { _, _ -> }): Map<String, Pair<Int, String>> {
+        val f = indexFile(ctx, item.name)
+        if (f.length() > 2) try {
+            val o = org.json.JSONObject(f.readText())
+            return o.keys().asSequence().associateWith { k -> o.getJSONArray(k).let { it.getInt(0) to it.getString(1) } }
+        } catch (e: Exception) { }
+        PDFBoxResourceLoader.init(ctx.applicationContext)
+        val out = LinkedHashMap<String, Pair<Int, String>>()
+        val re = Regex("([A-Z][A-Z0-9 .'/&-]{2,48}?)\\s*\\(([A-Z0-9]{3,4})\\)(?:\\s*\\(([A-Z][A-Z0-9]{3})\\))?\\s+(?:\\d+|UTC)")
+        com.tom_roush.pdfbox.pdmodel.PDDocument.load(VaultStore.fileOf(item), MemoryUsageSetting.setupTempFileOnly()).use { doc ->
+            val n = doc.numberOfPages
+            val strip = com.tom_roush.pdfbox.text.PDFTextStripper()
+            for (pg in 1..n) {
+                strip.startPage = pg; strip.endPage = pg
+                val text = try { strip.getText(doc) } catch (e: Throwable) { "" }
+                for (m in re.findAll(text)) {
+                    val id = m.groupValues[2]; val icao = m.groupValues[3]
+                    val name = m.groupValues[1].trim()
+                    if (id !in out) out[id] = (pg - 1) to name
+                    if (icao.isNotEmpty() && icao !in out) out[icao] = (pg - 1) to name
+                }
+                if (pg % 10 == 0) progress(pg, n)
+            }
+        }
+        f.parentFile?.mkdirs()
+        val o = org.json.JSONObject()
+        for ((k, v) in out) o.put(k, org.json.JSONArray().put(v.first).put(v.second))
+        f.writeText(o.toString())
+        return out
+    }
+
     private fun listing(edition: String): String {
         val c = URL("$BASE/$edition/").openConnection() as HttpURLConnection
         c.connectTimeout = 25000; c.readTimeout = 40000

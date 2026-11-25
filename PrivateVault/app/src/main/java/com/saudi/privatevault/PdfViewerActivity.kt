@@ -144,6 +144,7 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
         }
         // Reopening a document goes back to the page it was left on.
         pageIndex = savedInstanceState?.getInt("page")
+            ?: intent.getIntExtra("start_page", -1).takeIf { it >= 0 }
             ?: VaultLock.prefs(this).getInt("pdf_$itemId", 0)
         savedInstanceState?.getIntegerArrayList("history")?.let { history.addAll(it) }
         backToLink.isEnabled = history.isNotEmpty()
