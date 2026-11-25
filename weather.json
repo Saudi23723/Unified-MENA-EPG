@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-25T12:21:45.136Z",
+  "updated_at": "2026-11-25T12:27:28.116Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -149,14 +149,14 @@
       "country": "الإمارات",
       "latitude": 24.4539,
       "longitude": 54.3773,
-      "temperature_c": 27.0,
-      "humidity": 63,
+      "temperature_c": 27.1,
+      "humidity": 64,
       "wind_speed": 9.2,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-11-25T16:15",
-      "feels_c": 29.2,
+      "feels_c": 29.5,
       "utc_offset": 14400,
       "days": [
         {
@@ -170,42 +170,42 @@
           "date": "2026-11-26",
           "code": 2,
           "max": 28.3,
-          "min": 24.1,
+          "min": 24.4,
           "rain": 4
         },
         {
           "date": "2026-11-27",
           "code": 1,
           "max": 28.4,
-          "min": 22.4,
+          "min": 23.7,
           "rain": 2
         },
         {
           "date": "2026-11-28",
           "code": 0,
           "max": 28.0,
-          "min": 21.9,
+          "min": 22.0,
           "rain": 2
         },
         {
           "date": "2026-11-29",
           "code": 45,
           "max": 28.5,
-          "min": 20.7,
+          "min": 20.3,
           "rain": 8
         },
         {
           "date": "2026-11-30",
           "code": 3,
           "max": 29.2,
-          "min": 22.5,
+          "min": 22.2,
           "rain": 4
         },
         {
           "date": "2026-12-01",
           "code": 0,
           "max": 30.0,
-          "min": 22.0,
+          "min": 21.8,
           "rain": 0
         }
       ],
