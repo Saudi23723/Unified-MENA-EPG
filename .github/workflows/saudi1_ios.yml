@@ -1,0 +1,55 @@
+name: SAUDI1 iPhone app
+
+# Builds the iPhone / iPad app (iphone/) on a Mac (owner, 25 Nov 2026): an unsigned SAUDI1.ipa on the release
+# "saudi1-ios" (to be signed when installed: Sideloadly / AltStore with the customer's Apple ID, or TestFlight later),
+# and a check in the iPhone simulator that the app opens and shows the SAUDI.TV screens.
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ["iphone/**", ".github/workflows/saudi1_ios.yml"]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: saudi1-ios
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Project
+        run: |
+          brew install xcodegen >/dev/null
+          cd iphone && xcodegen generate
+          sed -i '' "s/CURRENT_PROJECT_VERSION: \"1\"/CURRENT_PROJECT_VERSION: \"$GITHUB_RUN_NUMBER\"/" project.yml && xcodegen generate
+      - name: Build for the simulator and open it
+        run: |
+          cd iphone
+          xcodebuild -project SAUDI1.xcodeproj -scheme SAUDI1 -configuration Release -sdk iphonesimulator -derivedDataPath sim \
+            CODE_SIGNING_ALLOWED=NO -quiet build
+          UDID=$(xcrun simctl list devices available -j | python3 -c 'import json,sys; d=json.load(sys.stdin)["devices"]; print([x["udid"] for k,v in d.items() if "iOS" in k for x in v if x["name"].startswith("iPhone")][-1])')
+          xcrun simctl boot "$UDID"; xcrun simctl bootstatus "$UDID" -b >/dev/null
+          xcrun simctl install "$UDID" sim/Build/Products/Release-iphonesimulator/SAUDI1.app
+          xcrun simctl launch "$UDID" com.saudi1.tv
+          sleep 25
+          xcrun simctl io "$UDID" screenshot ../ios_sim.png
+          echo "running: $(xcrun simctl spawn "$UDID" launchctl list | grep -c com.saudi1.tv) process(es)"
+      - name: Build for iPhones (unsigned .ipa)
+        run: |
+          cd iphone
+          xcodebuild -project SAUDI1.xcodeproj -scheme SAUDI1 -configuration Release -sdk iphoneos -derivedDataPath dev \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" -quiet build
+          mkdir -p Payload && cp -R dev/Build/Products/Release-iphoneos/SAUDI1.app Payload/
+          zip -qry ../SAUDI1.ipa Payload
+          ls -l ../SAUDI1.ipa
+      - name: Publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          echo "build $GITHUB_RUN_NUMBER" > ios_version.txt
+          gh release view saudi1-ios >/dev/null 2>&1 || gh release create saudi1-ios --prerelease --title "SAUDI.TV for iPhone" --notes "Unsigned iPhone app: install with Sideloadly or AltStore."
+          gh release upload saudi1-ios SAUDI1.ipa ios_version.txt ios_sim.png --clobber

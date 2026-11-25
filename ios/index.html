@@ -333,7 +333,13 @@ header h1{flex:1;margin:0;font-size:20px;font-weight:700;white-space:nowrap;over
   // ---------- the player: Safari plays HLS itself; other browsers use hls.js ----------
   var v = $("v"), stallT = 0, hls = null, live = false, key = "", calmT = 0, retry = 0;
   function msg(t) { $("msg").textContent = t; $("msg").classList.toggle("hide", !t); }
+  // inside the iPhone app (iphone/): the phone's own player plays the provider's http link directly (owner, 25 Nov 2026)
+  var NATIVE = window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.play;
+  window.nativeFail = function (why) { toast((live ? "This channel is not available right now" : "This video cannot play") + " (" + why + ")"); };
+  window.nativePos = function (k, ms) { if (k) LS.set("pos_" + k, String(ms)); };
+  window.nativeEnded = function (k) { if (k) LS.del("pos_" + k); };
   function play(url, title, k, from, isLive) {
+    if (NATIVE) { live = isLive; NATIVE.postMessage({ url: url, title: title, live: !!isLive, from: from || 0, key: k || "" }); return; }
     live = isLive; key = k || ""; retry = 0;
     // every provider link is http (probe, 25 Nov 2026: all 7 relays send the player to http port 80/8080), and a page
     // opened over https may not play http video (Safari just keeps loading): so the video always comes through our server
