@@ -203,6 +203,8 @@ class MapActivity : BaseActivity(), NeonHost {
         Terrain.init(this)
         Navaids.init(this)
         Navaids.onData = { map.postInvalidate() }
+        Srtm.init(this)
+        TerrainRouter.appContext = applicationContext
         Voice.init(this)
         hazard = HazardOverlay(map).apply { altitudeFt = prefs.getInt("hazard_alt", 5500).toDouble() }
         if (prefs.getBoolean("wx_terrain", false)) map.overlays.add(hazard)
@@ -3316,6 +3318,7 @@ class MapActivity : BaseActivity(), NeonHost {
             return
         }
         val v = ProfileView(this, plan).apply { minimumHeight = dp(340) }
+        v.smartAirspace = prefs.getBoolean("profile_smart_airspace", true)
         ownship.position()?.let { here ->
             // Where along the route the aircraft is: distance flown to the nearest point of it.
             var best = Double.MAX_VALUE; var along = 0.0; var at = 0.0
@@ -3338,48 +3341,139 @@ class MapActivity : BaseActivity(), NeonHost {
         }
         // The corridor swept for hazards, as an EFB does it: a width either side of the line.
         v.halfCorridorNm = prefs.getFloat("profile_corridor", 8f).toDouble() / 2
+
+        // ---- the bypass banner: shown only when the route would strike the ground ----
+        val banner = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL; visibility = View.GONE
+            setBackgroundColor(0xFF12301F.toInt()); setPadding(dp(12), dp(8), dp(12), dp(10))
+        }
+        val bannerHead = EfbUi.text(this, "", 13f, 0xFF69F0AE.toInt(), bold = true)
+        val bannerText = EfbUi.text(this, "", 12f, 0xFFB9F6CA.toInt())
+        val bannerBtns = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
+        banner.addView(bannerHead); banner.addView(bannerText)
+        banner.addView(bannerBtns, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(7) })
+        val holder = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
+        holder.addView(banner, LinearLayout.LayoutParams(-1, -2))
+        holder.addView(v, LinearLayout.LayoutParams(-1, -2))
+
+        fun title(alt: Int) = getString(R.string.map_profile) + " · %,d ft".format(alt)
         val dlg = MaterialAlertDialogBuilder(this)
-            .setTitle(getString(R.string.map_profile) + " · %,d ft".format(plan.altitude))
-            .setView(v)
-            .setNeutralButton("Corridor") { _, _ ->
-                val widths = listOf(4f, 8f, 10f, 20f, 40f)
-                MaterialAlertDialogBuilder(this)
-                    .setTitle("Corridor width")
-                    .setItems(widths.map { "%.0f nm  (%.0f nm either side)".format(it, it / 2) }.toTypedArray()) { _, i ->
-                        prefs.edit().putFloat("profile_corridor", widths[i]).apply(); profile()
-                    }.setNegativeButton(R.string.cancel, null).show()
-            }
+            .setTitle(title(plan.altitude))
+            .setView(holder)
+            .setNeutralButton("Options", null)
             .setPositiveButton(android.R.string.ok, null)
-            .show()
+            .create()
+
+        fun btn(label: String, colour: Int, go: () -> Unit) = TextView(this).apply {
+            text = label; textSize = 12.5f; setTextColor(0xFFFFFFFF.toInt()); gravity = Gravity.CENTER
+            typeface = EfbUi.MEDIUM
+            background = EfbUi.cardBg(this@MapActivity, colour, 8)
+            setPadding(dp(12), dp(7), dp(12), dp(7))
+            setOnClickListener { go() }
+        }
+
+        var token = 0
+        fun showBanner(ans: TerrainRouter.Answer, strikeNm: Double) {
+            bannerBtns.removeAllViews()
+            val byp = ans.bypass
+            bannerHead.text = if (byp != null) "Terrain bypass available" else "No short detour clears at %,d ft".format(plan.altitude)
+            bannerText.text = (if (byp != null)
+                "Strike at %.0f nm. Going %s, round via a new point: +%.0f nm, highest ground then %,d ft — %,d ft clear.".format(
+                    strikeNm, byp.side, byp.addedNm, byp.maxGroundFt, plan.altitude - byp.maxGroundFt)
+            else "Strike at %.0f nm; the highest ground in the corridor is %,d ft.".format(strikeNm, ans.worstGroundFt))
+            if (byp != null) bannerBtns.addView(btn("Apply bypass", 0xFF00A152.toInt()) {
+                val wp = FlightPlan.Waypoint(nextPointName(), byp.lat, byp.lon)
+                plan.points.add(byp.legIndex + 1, wp)
+                plan.legWinds.clear()
+                plan.active = plan.active.coerceIn(1, maxOf(1, plan.points.size - 1))
+                plan.save(this); updateNav(); routePanel?.refresh(true); map.invalidate()
+                dlg.dismiss(); profile()
+            }, LinearLayout.LayoutParams(-2, -2).apply { marginEnd = dp(8) })
+            ans.climbFt?.let { up ->
+                if (up != plan.altitude) bannerBtns.addView(btn("Climb to %,d ft".format(up), 0xFF2D7FF9.toInt()) {
+                    plan.altitude = up; v.analyse(); plan.save(this); routePanel?.refresh(true); updateNav()
+                    dlg.setTitle(title(up)); v.invalidate(); banner.visibility = View.GONE
+                }, LinearLayout.LayoutParams(-2, -2))
+            }
+            banner.visibility = View.VISIBLE
+        }
+
+        /** Looks again for a way round whenever the picture changes. */
+        fun refreshBanner() {
+            val room = v.clearanceFt; val strike = v.firstStrikeNm
+            if (strike == null || room == null || room >= v.cautionFt) { banner.visibility = View.GONE; return }
+            val mine = ++token
+            val worst = v.highestFt
+            Thread {
+                val areas = try { Airspace.load(this) } catch (e: Throwable) { emptyList() }
+                val ans = try {
+                    TerrainRouter.suggest(plan.points.toList(), plan.altitude, v.halfCorridorNm, strike, worst, areas) { la, lo -> Srtm.best(la, lo) }
+                } catch (e: Throwable) { null }
+                runOnUiThread { if (mine == token && ans != null && dlg.isShowing) showBanner(ans, strike) }
+            }.start()
+        }
+
+        v.onAltitude = { alt -> dlg.setTitle(title(alt)) }
+        v.onAltitudeDone = { plan.save(this); routePanel?.refresh(true); updateNav(); refreshBanner() }
+
+        dlg.show()
+        dlg.getButton(androidx.appcompat.app.AlertDialog.BUTTON_NEUTRAL).setOnClickListener { profileOptions(v, dlg) }
+
         Thread {
             v.sample()
             // The towers along the route, and what they mean for the planned height.
             val along = try { Obstacles.alongRoute(this, plan.points, v.halfCorridorNm) } catch (e: Throwable) { emptyList() }
-            val depFt = try { Terrain.elevationFt(plan.points.first().lat, plan.points.first().lon)?.toDouble() ?: 0.0 } catch (e: Throwable) { 0.0 }
-            val alt = plan.altitude.toDouble()
-            var room: Int? = null
-            var strike: Double? = null
-            val ground = v.samples
-            // The least room over anything in the corridor, tower or ground.
-            fun plannedAt(nm: Double): Double {
-                val climbNm = ((alt - depFt) / 500.0 / 60.0 * 90).coerceAtLeast(0.0)
-                return if (climbNm > 0.1 && nm < climbNm) depFt + (alt - depFt) * (nm / climbNm) else alt
-            }
-            for (o in along) {
-                val r = (plannedAt(o.alongNm) - o.obstacle.topFt).toInt()
-                if (room == null || r < room!!) room = r
-                if (r < 0 && (strike == null || o.alongNm < strike!!)) strike = o.alongNm
-            }
-            for (g in ground) {
-                val r = (plannedAt(g.nm) - g.ft).toInt()
-                if (room == null || r < room!!) room = r
-                if (r < 0 && (strike == null || g.nm < strike!!)) strike = g.nm
+            v.obstacles = along
+            v.analyse()
+            runOnUiThread { v.invalidate(); refreshBanner() }
+        }.start()
+    }
+
+    /** What can be set on the profile: how wide a corridor, whether far-off airspace shows, and the finer ground. */
+    private fun profileOptions(v: ProfileView, parent: androidx.appcompat.app.AlertDialog) {
+        val missing = Srtm.missingFor(plan.points, v.halfCorridorNm)
+        val total = Srtm.tilesFor(plan.points, v.halfCorridorNm).size
+        val items = ArrayList<Pair<String, () -> Unit>>()
+        items.add("Corridor width…" to {
+            val widths = listOf(4f, 8f, 10f, 20f, 40f)
+            MaterialAlertDialogBuilder(this)
+                .setTitle("Corridor width")
+                .setItems(widths.map { "%.0f nm  (%.0f nm either side)".format(it, it / 2) }.toTypedArray()) { _, i ->
+                    prefs.edit().putFloat("profile_corridor", widths[i]).apply(); parent.dismiss(); profile()
+                }.setNegativeButton(R.string.cancel, null).show()
+        })
+        items.add((if (v.smartAirspace) "✓  " else "    ") + "Smart airspace (hide what starts far above you)" to {
+            val on = !v.smartAirspace
+            prefs.edit().putBoolean("profile_smart_airspace", on).apply()
+            v.smartAirspace = on; v.invalidate()
+        })
+        items.add((if (missing.isEmpty() && total > 0) "✓  Detailed terrain is on the phone"
+            else "⬇  Detailed terrain (30 m): ${missing.size} of $total tiles to fetch, about ${missing.size * Srtm.MB_PER_TILE} MB") to {
+            if (missing.isEmpty()) Toast.makeText(this, "Already here — the profile uses it", Toast.LENGTH_SHORT).show()
+            else downloadSrtm(missing) { parent.dismiss(); profile() }
+        })
+        MaterialAlertDialogBuilder(this).setTitle("Profile")
+            .setItems(items.map { it.first }.toTypedArray()) { _, i -> items[i].second() }
+            .setNegativeButton(R.string.cancel, null).show()
+    }
+
+    /** Fetches the thirty-metre ground tiles a route needs, with the progress on the screen, then carries on. */
+    private fun downloadSrtm(tiles: List<Pair<Int, Int>>, then: () -> Unit) {
+        val msg = EfbUi.text(this, "", 14f, EfbUi.TEXT).apply { setPadding(dp(20), dp(14), dp(20), dp(6)) }
+        val dlg = MaterialAlertDialogBuilder(this).setTitle("Detailed terrain").setView(msg).setCancelable(false).show()
+        Thread {
+            var done = 0; var failed = 0
+            for ((la, lo) in tiles) {
+                var lastShown = -10
+                val ok = Srtm.download(la, lo) { pct ->
+                    if (pct - lastShown >= 5) { lastShown = pct; runOnUiThread { msg.text = "${Srtm.name(la, lo)}  $pct %   (${done + 1} of ${tiles.size})" } }
+                }
+                if (ok) done++ else failed++
             }
             runOnUiThread {
-                v.obstacles = along
-                v.clearanceFt = room
-                v.firstStrikeNm = strike
-                v.invalidate()
+                dlg.dismiss()
+                Toast.makeText(this, if (failed == 0) "✓ $done tiles on the phone" else "$done fetched, $failed not available (open water has none)", Toast.LENGTH_LONG).show()
+                then()
             }
         }.start()
     }
