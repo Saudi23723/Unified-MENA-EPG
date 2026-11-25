@@ -501,7 +501,7 @@ class MapActivity : BaseActivity(), NeonHost {
         val cMef = checkS("Grid and max elevation figures", prefs.getBoolean("aero_mef", true))
         val cNav = checkS("Radio beacons", prefs.getBoolean("aero_navaids", true))
         val cRoads = checkS("Roads and places", prefs.getBoolean("aero_roads", true))
-        val cPerf = checkS("Performance readout", prefs.getBoolean("perf_hud", false))
+        val cPerf = checkS("Performance readout", prefs.getBoolean("perf_hud", true))
         // One kind of data on the airports at a time: none, the weather (station model), or the winds aloft.
         box.addView(android.widget.TextView(this).apply {
             text = getString(R.string.map_station_data); setPadding(0, dp(14), 0, dp(4)); setTypeface(typeface, android.graphics.Typeface.BOLD)
@@ -1321,7 +1321,7 @@ class MapActivity : BaseActivity(), NeonHost {
         row("Radio beacons", "VOR, VORTAC, TACAN and NDB with their compass roses", prefs.getBoolean("aero_navaids", true)) { flip("aero_navaids", true) }
         row("Roads and places", "From a map service laid over the drawn sheet; needs a connection", prefs.getBoolean("aero_roads", true)) { flip("aero_roads", true) }
         row("Performance readout", "Frames per second and how long the map takes to draw, on the map itself; send a screenshot of it if the map is slow",
-            prefs.getBoolean("perf_hud", false)) { prefs.edit().putBoolean("perf_hud", !prefs.getBoolean("perf_hud", false)).apply(); setPerf() }
+            prefs.getBoolean("perf_hud", true)) { prefs.edit().putBoolean("perf_hud", !prefs.getBoolean("perf_hud", true)).apply(); setPerf() }
         head("Flight")
         row(getString(R.string.plan_title)) { navLog() }
         row("Approaches") { approachMenu() }
@@ -1387,7 +1387,7 @@ class MapActivity : BaseActivity(), NeonHost {
     private fun setPerf() {
         perfFirst?.let { map.overlays.remove(it) }; perfLast?.let { map.overlays.remove(it) }
         perfFirst = null; perfLast = null
-        if (prefs.getBoolean("perf_hud", false)) {
+        if (prefs.getBoolean("perf_hud", true)) {
             perfFirst = PerfOverlay(map, true); perfLast = PerfOverlay(map, false)
             map.overlays.add(0, perfFirst)
             map.overlays.add(perfLast)
