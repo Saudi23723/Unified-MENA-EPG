@@ -508,7 +508,7 @@ class MapActivity : BaseActivity(), NeonHost {
         val cMef = checkS("Grid and max elevation figures", prefs.getBoolean("aero_mef", true))
         val cNav = checkS("Radio beacons", prefs.getBoolean("aero_navaids", true))
         val cRoads = checkS("Roads and places", prefs.getBoolean("aero_places", false))
-        val cPerf = checkS("Performance readout", prefs.getBoolean("perf_on", true))
+        val cPerf = checkS("Performance readout", prefs.getBoolean("perf_show", false))
         val cOfficial = checkS("Downloaded FAA chart (Las Vegas)", prefs.getBoolean("official_on", true))
         // One kind of data on the airports at a time: none, the weather (station model), or the winds aloft.
         box.addView(android.widget.TextView(this).apply {
@@ -547,7 +547,7 @@ class MapActivity : BaseActivity(), NeonHost {
                     .putBoolean("aero_airspace_over", cAsLabels.isChecked)
                     .putBoolean("aero_contours", cContours.isChecked).putBoolean("aero_mef", cMef.isChecked)
                     .putBoolean("aero_grid", cMef.isChecked).putBoolean("aero_navaids", cNav.isChecked)
-                    .putBoolean("aero_places", cRoads.isChecked).putBoolean("perf_on", cPerf.isChecked)
+                    .putBoolean("aero_places", cRoads.isChecked).putBoolean("perf_show", cPerf.isChecked)
                     .putBoolean("official_on", cOfficial.isChecked).apply()
                 setOfficial()
                 aeroStyle()
@@ -636,12 +636,19 @@ class MapActivity : BaseActivity(), NeonHost {
             }
             officialFile = f
             provider.setTileRequestCompleteHandler(map.tileRequestCompleteHandler)
-            map.overlays.add(0, official)
+            map.overlays.add((chartOverlay?.let { map.overlays.indexOf(it) + 1 } ?: 0).coerceAtLeast(0), official)
             // Weather stays above the chart.
-            radar?.let { map.overlays.remove(it); map.overlays.add(1, it) }
+            radar?.let { map.overlays.remove(it); map.overlays.add(chartTop(), it) }
         } catch (e: Exception) {
         }
         map.invalidate()
+    }
+
+    /** The place just above the chart layers (the ground under it, the chart service, the downloaded chart). */
+    private fun chartTop(): Int {
+        var i = -1
+        for (o in listOf<org.osmdroid.views.overlay.Overlay?>(groundUnder, chartOverlay, official)) { if (o != null) i = maxOf(i, map.overlays.indexOf(o)) }
+        return i + 1
     }
 
     private fun setRadar(on: Boolean) {
@@ -651,7 +658,7 @@ class MapActivity : BaseActivity(), NeonHost {
             // Over the chart (and the official chart), under everything drawn on it.
             val r = RadarOverlay(map)
             radar = r
-            map.overlays.add(if (official != null) 1 else 0, r)
+            map.overlays.add(chartTop(), r)
         }
         map.invalidate()
         if (::weather.isInitialized) wxBar()
@@ -1243,6 +1250,10 @@ class MapActivity : BaseActivity(), NeonHost {
 
     private var rubber: RubberBandOverlay? = null
     private var chartOverlay: org.osmdroid.views.overlay.TilesOverlay? = null
+    /** The drawn ground under a printed chart, so the gaps between its sheets show ground, not paper. */
+    private val groundUnder = object : org.osmdroid.views.overlay.Overlay() {
+        override fun draw(c: android.graphics.Canvas, mv: MapView, shadow: Boolean) { if (!shadow) aero?.drawGroundUnder(c, mv) }
+    }
     private var shownChart = "?"
 
     /**
@@ -1266,6 +1277,7 @@ class MapActivity : BaseActivity(), NeonHost {
         map.setUseDataConnection(want.isEmpty())
         chartOverlay?.let { map.overlays.remove(it); try { it.onDetach(map) } catch (e: Throwable) { } }
         chartOverlay = null
+        map.overlays.remove(groundUnder)
         if (want.isNotEmpty()) {
             val src = AviationData.LAYERS.firstOrNull { it.key == want }?.source()
             if (src != null) {
@@ -1275,6 +1287,7 @@ class MapActivity : BaseActivity(), NeonHost {
                     loadingLineColor = android.graphics.Color.TRANSPARENT
                 }
                 map.overlays.add(0, chartOverlay)
+                map.overlays.add(0, groundUnder)
             }
         }
         bar?.setLayerName(getString(layer.label))
@@ -1337,7 +1350,7 @@ class MapActivity : BaseActivity(), NeonHost {
         row("Radio beacons", "VOR, VORTAC, TACAN and NDB with their compass roses", prefs.getBoolean("aero_navaids", true)) { flip("aero_navaids", true) }
         row("Roads and places", "From a map service laid over the drawn sheet; needs a connection", prefs.getBoolean("aero_places", false)) { flip("aero_places", false) }
         row("Performance readout", "Frames per second and how long the map takes to draw, on the map itself; send a screenshot of it if the map is slow",
-            prefs.getBoolean("perf_on", true)) { prefs.edit().putBoolean("perf_on", !prefs.getBoolean("perf_on", true)).apply(); setPerf() }
+            prefs.getBoolean("perf_show", false)) { prefs.edit().putBoolean("perf_show", !prefs.getBoolean("perf_show", false)).apply(); setPerf() }
         head("Flight")
         row(getString(R.string.plan_title)) { navLog() }
         row("Approaches") { approachMenu() }
@@ -1406,7 +1419,7 @@ class MapActivity : BaseActivity(), NeonHost {
     private fun setPerf() {
         perfFirst?.let { map.overlays.remove(it) }; perfLast?.let { map.overlays.remove(it) }
         perfFirst = null; perfLast = null
-        if (prefs.getBoolean("perf_on", true)) {
+        if (prefs.getBoolean("perf_show", false)) {
             perfFirst = PerfOverlay(map, true); perfLast = PerfOverlay(map, false)
             map.overlays.add(0, perfFirst)
             map.overlays.add(perfLast)

@@ -813,6 +813,12 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
     private val hosted = ArrayList<Hosted>()
 
     /** Takes an overlay's drawing into this sheet's picture, so it moves with it and costs nothing per frame. */
+    /**
+     * The ground alone (tints and hill shading), for drawing under a printed chart: where the chart's
+     * sheets leave a margin, the ground shows through in the chart's own colours instead of blank paper.
+     */
+    fun drawGroundUnder(c: Canvas, mv: MapView) { try { drawGround(c, mv, true, false) } catch (e: Throwable) { } }
+
     /** Something drawn in the picture has new data: draw the picture again at the next frame. */
     fun markDirty() { dirty = true; map.postInvalidate() }
 
