@@ -766,10 +766,23 @@ class NavlogActivity : BaseActivity() {
         btn(l2, "📄 VFR Log", 0xFF8E6CC4.toInt()) { vfrNavLog() }
         btn(l2, "📋 ICAO", 0xFF48484A.toInt()) { icao() }
         btn(l2, "↗ Share", 0xFF48484A.toInt()) { share() }
+        val l3 = line()
+        btn(l3, "📤 Flight plan PDF (profile + log)", 0xFF0A84FF.toInt()) { planPdf() }
         return wrap
     }
 
     private fun toast(s: String) = Toast.makeText(this, s, Toast.LENGTH_SHORT).show()
+
+    /** The one-page flight plan: summary, the ground along the route under the planned height, and the log. */
+    private fun planPdf() {
+        val r = result ?: return
+        toast("Making the flight plan PDF…")
+        lifecycleScope.launch {
+            val f = withContext(Dispatchers.IO) { try { FlightPlanPdf.build(this@NavlogActivity, plan, r, profile.name) } catch (e: Throwable) { null } }
+            if (f == null) { toast("The PDF could not be made."); return@launch }
+            FlightPlanPdf.share(this@NavlogActivity, f)
+        }
+    }
 
     private fun winds() {
         if (pts.size < 2) return

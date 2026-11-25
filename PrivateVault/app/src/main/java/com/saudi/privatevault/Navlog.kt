@@ -92,7 +92,7 @@ object Navlog {
         val tocNm: Double, val todNm: Double, val warnings: List<String>,
     )
 
-    /** The ground's highest point within about 4 nm of a line, rounded up with 1,000 ft to spare. */
+    /** The ground's highest point within about 4 nm of a line, with 1,000 ft to spare (2,000 ft above 5,000 ft), rounded up. */
     fun mora(aLat: Double, aLon: Double, bLat: Double, bLon: Double): Int? {
         val d = Nav.distanceNm(aLat, aLon, bLat, bLon)
         val steps = (d / 2.0).toInt().coerceIn(1, 24)
@@ -113,7 +113,8 @@ object Navlog {
             }
         }
         if (!any) return null
-        return (Math.ceil((high + 1000) / 100.0) * 100).toInt()
+        // As Jeppesen sets it: 1,000 ft over the highest ground, 2,000 ft where that ground is above 5,000 ft.
+        return (Math.ceil((high + (if (high > 5000) 2000 else 1000)) / 100.0) * 100).toInt()
     }
 
     /**
