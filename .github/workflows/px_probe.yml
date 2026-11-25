@@ -1,0 +1,50 @@
+name: Probe the web player route (temporary)
+
+# Manual only (owner, 25 Nov 2026: "make sure Safari works"). Reads the saudi1 worker's settings, then puts up a
+# throw-away worker (saudi1-probe) to see whether a worker can reach the playlist relays, with and without the
+# global_fetch_strictly_public flag, and where the relays' video links lead (scheme and port only). The provider
+# itself is never contacted. The throw-away worker is deleted at the end, whatever happened.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    env:
+      CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      ACC: 6ebea2f90132db027f0713f5ca1ffa01
+    steps:
+      - uses: actions/checkout@v4
+      - name: saudi1 settings
+        run: |
+          curl -sS "https://api.cloudflare.com/client/v4/accounts/$ACC/workers/scripts/saudi1/settings" -H "Authorization: Bearer $CF_TOKEN" \
+            | python3 -c 'import json,sys; r=json.load(sys.stdin)["result"]; print("date", r.get("compatibility_date"), "flags", r.get("compatibility_flags"), "bindings", [b.get("type") for b in r.get("bindings",[])])'
+      - name: relays seen from outside Cloudflare
+        run: |
+          for n in strong dream4k argon hydra family4k aroma up1; do
+            loc=$(curl -sS -o /dev/null -w "%{http_code} %{redirect_url}" "https://$n.1saifsaudi.workers.dev/live/test/test/1.m3u8")
+            echo "$n $(echo "$loc" | python3 -c 'import sys,urllib.parse as u; c,_,l=sys.stdin.read().strip().partition(" "); p=u.urlparse(l); print(c, p.scheme, "port", p.port or (443 if p.scheme=="https" else 80) if l else "")')"
+          done
+      - name: throw-away worker, without and with the flag
+        run: |
+          put() {
+            curl -sS -o put.json -w "%{http_code}\n" -X PUT "https://api.cloudflare.com/client/v4/accounts/$ACC/workers/scripts/saudi1-probe" \
+              -H "Authorization: Bearer $CF_TOKEN" \
+              -F "metadata=$1;type=application/json" \
+              -F 'worker.js=@tools/probe/px_probe.js;type=application/javascript+module;filename=worker.js'
+          }
+          put '{"main_module":"worker.js","compatibility_date":"2024-09-01"}'
+          curl -sS -o /dev/null -w "subdomain %{http_code}\n" -X POST "https://api.cloudflare.com/client/v4/accounts/$ACC/workers/scripts/saudi1-probe/subdomain" \
+            -H "Authorization: Bearer $CF_TOKEN" -H "Content-Type: application/json" --data '{"enabled":true,"previews_enabled":false}'
+          for i in $(seq 1 20); do c=$(curl -s -o a.json -w "%{http_code}" https://saudi1-probe.1saifsaudi.workers.dev/); [ "$c" = 200 ] && break; sleep 5; done
+          echo "=== WITHOUT flag (HTTP $c)"; cat a.json; echo
+          put '{"main_module":"worker.js","compatibility_date":"2024-09-01","compatibility_flags":["global_fetch_strictly_public"]}'
+          sleep 15
+          curl -s -o b.json -w "=== WITH flag (HTTP %{http_code})\n" https://saudi1-probe.1saifsaudi.workers.dev/; cat b.json; echo
+      - name: remove the throw-away worker
+        if: always()
+        run: |
+          curl -sS -o /dev/null -w "delete %{http_code}\n" -X DELETE "https://api.cloudflare.com/client/v4/accounts/$ACC/workers/scripts/saudi1-probe?force=true" -H "Authorization: Bearer $CF_TOKEN"
