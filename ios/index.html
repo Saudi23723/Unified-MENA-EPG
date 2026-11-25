@@ -331,7 +331,7 @@ header h1{flex:1;margin:0;font-size:20px;font-weight:700;white-space:nowrap;over
   function clock(s) { s = Math.floor(s); var h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), x = s % 60; return (h ? h + ":" + String(m).padStart(2, "0") : m) + ":" + String(x).padStart(2, "0"); }
 
   // ---------- the player: Safari plays HLS itself; other browsers use hls.js ----------
-  var v = $("v"), hls = null, live = false, key = "", calmT = 0, retry = 0;
+  var v = $("v"), stallT = 0, hls = null, live = false, key = "", calmT = 0, retry = 0;
   function msg(t) { $("msg").textContent = t; $("msg").classList.toggle("hide", !t); }
   function play(url, title, k, from, isLive) {
     live = isLive; key = k || ""; retry = 0; st.viaPx = false;
@@ -355,6 +355,8 @@ header h1{flex:1;margin:0;font-size:20px;font-weight:700;white-space:nowrap;over
     } else v.src = url;
     v.onloadedmetadata = function () { if (from > 0 && !live) try { v.currentTime = from / 1000; } catch (e) { } };
     var p = v.play(); if (p && p.catch) p.catch(function () { msg("Tap ▶ to play"); v.controls = true; });
+    // Safari can hang on a link without any error (owner, 25 Nov 2026: "only loading"): nothing playing after 9 s counts as a failure, so the retry / our-server route start
+    clearTimeout(stallT); stallT = setTimeout(function () { if (cur === "play" && st.url === raw && v.paused !== undefined && (v.readyState < 3 || v.currentTime === 0) && !v.error) fail("no data after 9 s"); }, 9000);
   }
   function fail(why) {
     // the reason is shown (owner, 25 Nov 2026: "not available" alone says nothing): HLS error, HTTP code or the video element's code
@@ -366,11 +368,11 @@ header h1{flex:1;margin:0;font-size:20px;font-weight:700;white-space:nowrap;over
     msg((live ? "This channel is not available right now" : "This video cannot play on iPhone / iPad (its format is not supported by Safari)") + (why ? "\n(" + why + ")" : ""));
   }
   v.addEventListener("error", function () { fail(); });
-  v.addEventListener("playing", function () { msg(""); retry = 0; });
+  v.addEventListener("playing", function () { clearTimeout(stallT); msg(""); retry = 0; });
   v.addEventListener("waiting", function () { if (live) msg("Loading…"); });
   v.addEventListener("timeupdate", function () { if (key && v.currentTime > 60 && Math.floor(v.currentTime) % 10 === 0) LS.set("pos_" + key, String(Math.floor(v.currentTime * 1000))); });
   v.addEventListener("ended", function () { if (key) LS.del("pos_" + key); if (key.charAt(0) === "e" && st.season && st.season[st.epIdx + 1]) { $("eps").querySelectorAll(".row")[st.epIdx + 1].click(); } });
-  function stopPlay() { if (hls) { hls.destroy(); hls = null; } v.pause(); v.removeAttribute("src"); try { v.load(); } catch (e) { } msg(""); }
+  function stopPlay() { clearTimeout(stallT); if (hls) { hls.destroy(); hls = null; } v.pause(); v.removeAttribute("src"); try { v.load(); } catch (e) { } msg(""); }
   $("pback").onclick = back;
   // the bar hides after 4 s; a tap shows it again; a swipe up / down changes the channel
   function wake() { $("s-play").classList.remove("calm"); clearTimeout(calmT); calmT = setTimeout(function () { $("s-play").classList.add("calm"); }, 4000); }
