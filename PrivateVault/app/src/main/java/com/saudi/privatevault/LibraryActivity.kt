@@ -33,6 +33,7 @@ class LibraryActivity : BaseActivity() {
         Book("🎓", "Checkride & Knowledge Test Prep", "Everything to know, by ACS area, with flash cards", null, "cr:", null),
         Book("📘", "Jeppesen · Private Pilot Maneuvers", "Your copy as an app book: 33 maneuvers, figures, search", null, "jepp:", null),
         Book("🛩", "Private Pilot Maneuvers", "Every maneuver animated · SportStar speeds · ACS standards", null, "man:", null),
+        Book("🗓", "Private Pilot Syllabus", "22 lessons in three stages, ticked off with dates and notes · 61.109", null, "syl:", null),
         Book("📄", "AC 91-78A · Use of Electronic Flight Bags", "FAA, 23 Feb 2024 · in the app", "AC 91-78A · Use of Electronic Flight Bags.pdf", "", null, "library/AC_91-78A_EFB.pdf"),
         Book("📨", "AC 00-46F · Aviation Safety Reporting Program", "NASA ASRS · FAA, 2 Apr 2021 · in the app", "AC 00-46F · Aviation Safety Reporting Program.pdf", "", null, "library/AC_00-46F_ASRS.pdf"),
         Book("🧑‍✈️", "Conducting an Effective Flight Review", "FAA guide for 61.56 · in the app", "Conducting an Effective Flight Review.pdf", "", null, "library/Effective_Flight_Review.pdf"),
@@ -207,6 +208,7 @@ class LibraryActivity : BaseActivity() {
         if (b.page == "cr:") { startActivity(Intent(this, CheckrideActivity::class.java)); return }
         if (b.page == "jepp:") { JeppBookActivity.open(this); return }
         if (b.page == "man:") { ManeuversActivity.open(this); return }
+        if (b.page == "syl:") { SyllabusActivity.open(this); return }
         if (b.page == "cs:") { supplementBook(sub); return }
         if (b.page.startsWith("cfr:")) { CfrBrowseActivity.open(this, b.page.removePrefix("cfr:").toInt()); return }
         if (b.page.startsWith("hb:")) { HandbookActivity.open(this, b.title, b.page.removePrefix("hb:")); return }
