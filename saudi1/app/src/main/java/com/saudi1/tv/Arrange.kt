@@ -34,7 +34,16 @@ object Arrange {
     fun vodOrder(series: Boolean): List<String> = try { val a = JSONArray(App.prefs.getString("vo_" + vk(series), "[]")); (0 until a.length()).map { a.getString(it) } } catch (e: Exception) { emptyList() }
     fun setVodOrder(series: Boolean, v: List<String>) = App.prefs.edit().putString("vo_" + vk(series), JSONArray(v).toString()).apply()
     fun vod(series: Boolean, cats: List<VodCat>, all: Boolean = false): List<VodCat> {
-        val o = vodOrder(series); val pos = HashMap<String, Int>(); o.forEachIndexed { i, id -> pos[id] = i }
+        var o = vodOrder(series); val pos = HashMap<String, Int>(); o.forEachIndexed { i, id -> pos[id] = i }
+        // a category the provider added after the viewer arranged this list goes to the END and comes hidden (owner,
+        // 21 Nov 2026); the viewer shows it from Arrange like any hidden group
+        if (o.isNotEmpty() && cats.size > 3) {
+            val fresh = cats.filter { it.id !in pos }.map { it.id }
+            if (fresh.isNotEmpty()) {
+                o = o + fresh; fresh.forEachIndexed { i, id -> pos[id] = o.size - fresh.size + i }
+                setVodOrder(series, o); setVodHidden(series, vodHidden(series) + fresh)
+            }
+        }
         val sorted = if (o.isEmpty()) cats else {
             val known = cats.filter { it.id in pos }.sortedBy { pos[it.id] }
             val out = ArrayList<VodCat>(); var k = 0
