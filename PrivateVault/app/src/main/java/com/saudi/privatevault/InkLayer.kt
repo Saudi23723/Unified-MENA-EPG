@@ -14,23 +14,23 @@ import java.io.File
 
 /**
  * Writing over a page of text: a pen and a highlighter that stay (kept in
- * [file], relative to the width so they fit any screen), and a neon laser
+ * [file], relative to the width so they fit any screen), and a neon that fades
  * that glows while drawn and fades away after four seconds, for explaining.
  */
 @SuppressLint("ViewConstructor")
 class InkLayer(ctx: Context, private val file: File) : View(ctx) {
-    enum class Tool { NONE, PEN, HIGHLIGHT, LASER, ERASER }
+    enum class Tool { NONE, PEN, HIGHLIGHT, NEON, ERASER }
 
     private class Stroke(val tool: Tool, val color: Int, val pts: FloatArray)
-    private class Laser(val color: Int, val pts: ArrayList<Float>, var ended: Long = 0L)
+    private class Neon(val color: Int, val pts: ArrayList<Float>, var ended: Long = 0L)
 
     var tool = Tool.NONE
     var color = 0xFF4DA3FF.toInt()
 
     private val strokes = ArrayList<Stroke>()
-    private val lasers = ArrayList<Laser>()
+    private val neons = ArrayList<Neon>()
     private var current: ArrayList<Float>? = null
-    private var laser: Laser? = null
+    private var neon: Neon? = null
     private val d = ctx.resources.displayMetrics.density
     private val hl = Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.STROKE; strokeCap = Paint.Cap.ROUND; strokeJoin = Paint.Join.ROUND }
     private val glow = Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.STROKE; strokeCap = Paint.Cap.ROUND; strokeJoin = Paint.Join.ROUND }
@@ -73,10 +73,10 @@ class InkLayer(ctx: Context, private val file: File) : View(ctx) {
     override fun onDraw(c: Canvas) {
         for (s in strokes) drawStroke(c, s.tool, s.color, screen(s.pts))
         current?.let { drawStroke(c, tool, color, screen(it.toFloatArray())) }
-        // The laser: full while drawn and for three seconds, then gone within the fourth.
+        // The neon: full while written and for three seconds, then gone within the fourth.
         val now = SystemClock.uptimeMillis()
-        lasers.removeAll { it.ended > 0 && now - it.ended > 4000 }
-        for (l in lasers) {
+        neons.removeAll { it.ended > 0 && now - it.ended > 4000 }
+        for (l in neons) {
             val age = if (l.ended == 0L) 0L else now - l.ended
             val a = if (age < 3000) 1f else 1f - (age - 3000) / 1000f
             val xy = l.pts.toFloatArray()
@@ -86,7 +86,7 @@ class InkLayer(ctx: Context, private val file: File) : View(ctx) {
             glow.alpha = (150 * a).toInt(); glow.strokeWidth = 6 * d; c.drawPath(p, glow)
             glow.color = 0xFFFFFFFF.toInt(); glow.alpha = (230 * a).toInt(); glow.strokeWidth = 2 * d; c.drawPath(p, glow)
         }
-        if (lasers.isNotEmpty()) postInvalidateOnAnimation()
+        if (neons.isNotEmpty()) postInvalidateOnAnimation()
     }
 
     private fun drawStroke(c: Canvas, t: Tool, color: Int, xy: FloatArray) {
@@ -115,17 +115,17 @@ class InkLayer(ctx: Context, private val file: File) : View(ctx) {
         val x = e.x; val y = e.y
         when (e.actionMasked) {
             MotionEvent.ACTION_DOWN -> when (tool) {
-                Tool.LASER -> laser = Laser(color, arrayListOf(x, y)).also { lasers.add(it) }
+                Tool.NEON -> neon = Neon(color, arrayListOf(x, y)).also { neons.add(it) }
                 Tool.ERASER -> erase(x, y)
                 else -> current = arrayListOf(x / width, y / width)
             }
             MotionEvent.ACTION_MOVE -> when (tool) {
-                Tool.LASER -> laser?.pts?.apply { add(x); add(y) }
+                Tool.NEON -> neon?.pts?.apply { add(x); add(y) }
                 Tool.ERASER -> erase(x, y)
                 else -> current?.apply { add(x / width); add(y / width) }
             }
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-                laser?.ended = SystemClock.uptimeMillis(); laser = null
+                neon?.ended = SystemClock.uptimeMillis(); neon = null
                 current?.let { if (it.size >= 4) { strokes.add(Stroke(tool, color, it.toFloatArray())); save() } }
                 current = null
             }

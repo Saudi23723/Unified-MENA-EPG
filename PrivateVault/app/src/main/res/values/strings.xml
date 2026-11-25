@@ -724,7 +724,7 @@
     <string name="route_settings">TAS %1$d kt · ريح %2$03d°/%3$d kt · %4$.1f gph</string>
     <string name="route_edit">✎ تعديل</string>
     <string name="route_navlog">📋 Nav log</string>
-    <string name="tv_keys">◀ ▶ الصفحات · OK تكبير · OK مرتين: ليزر · بالتكبير: الأسهم بتحرّك، وبالطرف كبسة كمان بتقلب · OK طويلة: القائمة · Back: الصفحة كاملة</string>
+    <string name="tv_keys">◀ ▶ الصفحات · OK تكبير · بالتكبير: الأسهم بتحرّك، وبالطرف كبسة كمان بتقلب · OK طويلة: القائمة · Back: الصفحة كاملة</string>
     <string name="tv_video_keys">OK: تشغيل/إيقاف · ◀ 15 ث · ▶ 30 ث · ▼ حجم الصورة · ▲ التحكم</string>
     <string name="tv_continue">كمّل القراءة</string>
     <string name="tv_page">صفحة %1$d</string>
@@ -756,9 +756,9 @@
     <string name="cloud_link_now">اربط الـ Cloud</string>
     <string name="vault_cloud">☁️ الـ Cloud</string>
     <string name="vault_laptop">💻 اللابتوب</string>
-    <string name="laser">◉ ليزر</string>
-    <string name="qt_laser_t">ليزر</string>
-    <string name="qt_laser_s">نقطة مضوية بتلحقك وبتختفي</string>
+    <string name="neon_fade">✨ نيون بيختفي</string>
+    <string name="qt_neon_t">نيون بيختفي</string>
+    <string name="qt_neon_s">اكتب فوق أي اشي — بيضوّي وبيروح لحاله</string>
     <string name="ck_reset_q">تمسح كل العلامات وتبدأ القائمة من أولها؟</string>
     <string name="log_saved_auto">انحفظت بالـ logbook تلقائياً مع مسارها — عدّلها متى بدك.</string>
     <string name="map_view_free">خريطة حرّة</string>
@@ -784,8 +784,7 @@
     <string name="cc_size">حجم الخط</string>
     <string name="pen_straighten">📏 خطوط مستقيمة تلقائياً (Straighten lines)</string>
     <string name="pen_opacity">شفافية الهايلايتر</string>
-    <string name="tv_laser_on">🔴 الليزر: الأسهم بتحركه · OK أو رجوع لإخفائه</string>
-    <string name="send_compressing">🎞 تصغير الفيديو لـ 720p قبل الرفع (%1$d من %2$d)…</string>
+        <string name="send_compressing">🎞 تصغير الفيديو لـ 720p قبل الرفع (%1$d من %2$d)…</string>
     <string name="log_sign_remote">✉ طلب توقيع المدرّب عن بُعد</string>
     <string name="log_sign_waiting">⏳ بانتظار توقيع المدرّب من رابطه — بيوصل لحاله.</string>
     <string name="log_sign_subject">توقيع رحلة بالـ logbook — %s</string>

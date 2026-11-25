@@ -20,12 +20,12 @@ import android.widget.TextView
 /**
  * Ink over any screen, with a floating tool palette as iPadOS has it: a dark rounded capsule that
  * can be dragged anywhere, holding the tools (hand, pen, marker, pencil, eraser, ruler, airplane
- * stamp, laser), the colour, undo, clear and done. The hand lets the screen underneath work; any
+ * stamp, fading neon), the colour, undo, clear and done. The hand lets the screen underneath work; any
  * other tool writes on a clear sheet over it.
  */
 @SuppressLint("ViewConstructor", "ClickableViewAccessibility")
 class InkSheet(ctx: Context) : View(ctx) {
-    enum class Tool { HAND, PEN, MARKER, PENCIL, ERASER, RULER, PLANE, NEON, LASER }
+    enum class Tool { HAND, PEN, MARKER, PENCIL, ERASER, RULER, PLANE, NEON, NEON_FADE }
 
     private class Mark(val tool: Tool, val color: Int, val pts: ArrayList<Float>, var t: Long = 0L, val w: Float = 1f)
 
@@ -93,7 +93,7 @@ class InkSheet(ctx: Context) : View(ctx) {
                 }
             }
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-                cur?.let { if (it.tool == Tool.LASER) it.t = SystemClock.uptimeMillis() }
+                cur?.let { if (it.tool == Tool.NEON_FADE) it.t = SystemClock.uptimeMillis() }
                 cur = null
                 wasLevel = false
             }
@@ -114,8 +114,8 @@ class InkSheet(ctx: Context) : View(ctx) {
         val it = marks.iterator()
         while (it.hasNext()) {
             val m = it.next()
-            // The laser stays bright two seconds after the finger lifts, then fades over two more.
-            if (m.tool == Tool.LASER && m.t > 0 && now - m.t > 4000) { it.remove(); continue }
+            // Fading neon stays bright two seconds after the finger lifts, then fades over two more.
+            if (m.tool == Tool.NEON_FADE && m.t > 0 && now - m.t > 4000) { it.remove(); continue }
             when (m.tool) {
                 Tool.PLANE -> plane(c, m.pts[0], m.pts[1], m.pts[2], m.color, m.w)
                 else -> {
@@ -130,9 +130,9 @@ class InkSheet(ctx: Context) : View(ctx) {
                     when (m.tool) {
                         Tool.MARKER -> { p.color = (m.color and 0x00FFFFFF) or 0x66000000; p.strokeWidth = 16 * d * m.w; p.strokeCap = Paint.Cap.SQUARE }
                         Tool.PENCIL -> { p.color = (m.color and 0x00FFFFFF) or 0xCC000000.toInt(); p.strokeWidth = 1.8f * d * m.w; p.strokeCap = Paint.Cap.ROUND }
-                        Tool.LASER, Tool.NEON -> {
+                        Tool.NEON_FADE, Tool.NEON -> {
                             val fade = if (m.tool == Tool.NEON || m.t == 0L) 1f else (1f - (now - m.t - 2000) / 2000f).coerceIn(0f, 1f)
-                            if (m.tool == Tool.LASER) live = true
+                            if (m.tool == Tool.NEON_FADE) live = true
                             p.strokeCap = Paint.Cap.ROUND
                             // Neon as a sign glows: a wide soft halo, a strong coloured tube, a white-hot core.
                             p.color = (m.color and 0x00FFFFFF) or ((0x50 * fade).toInt() shl 24); p.strokeWidth = 24 * d * m.w
@@ -205,7 +205,7 @@ class InkSheet(ctx: Context) : View(ctx) {
                 setOnClickListener { onClick(this) }
             }
             for ((t, g) in listOf(Tool.HAND to "✋", Tool.PEN to "🖊", Tool.MARKER to "🖍", Tool.ERASER to "",
-                Tool.RULER to "📏", Tool.PLANE to "✈️", Tool.NEON to "✨", Tool.LASER to "🔴")) {
+                Tool.RULER to "📏", Tool.PLANE to "✈️", Tool.NEON to "✨", Tool.NEON_FADE to "💫")) {
                 val v = btn(g, 18f) { ink.tool = t; mark() }
                 if (t == Tool.ERASER) {
                     // A real eraser, drawn, not a delete key.

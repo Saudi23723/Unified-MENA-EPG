@@ -117,7 +117,7 @@ object QuickTools {
         row(R.drawable.ic_fab_pencil, null, 0xFF2E9BFF.toInt(), R.string.qt_note_t, R.string.qt_note_s) {
             if (NotePad.isOpen()) NotePad.close(act) else Notebooks.choose(act, null)
         }
-        row(null, "◉", 0xFFFF2D2D.toInt(), R.string.qt_laser_t, R.string.qt_laser_s) { LaserLayer.start(act) }
+        row(null, "✨", 0xFFFF2D9B.toInt(), R.string.qt_neon_t, R.string.qt_neon_s) { NeonLayer.start(act) }
         row(null, "✎", 0xFF30D158.toInt(), R.string.qt_neon_stay_t, R.string.qt_neon_stay_s) {
             if (act is NeonHost) act.neonPen() else NeonLayer.start(act, fade = false)
         }

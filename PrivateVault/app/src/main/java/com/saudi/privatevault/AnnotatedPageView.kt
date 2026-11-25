@@ -266,7 +266,7 @@ class AnnotatedPageView @JvmOverloads constructor(
     var straighten = false
 
     /** Neon that fades: what is written is not kept, and is gone four and a half seconds after the pen lifts. */
-    var laser = false
+    var neonFade = false
     private val fading = ArrayList<Pair<Mark, Long>>()
 
     // Held still at the end of a stroke: the stroke becomes the shape it looks like.
@@ -499,7 +499,7 @@ class AnnotatedPageView @JvmOverloads constructor(
                     }
                     val m = current
                     current = null
-                    if (m != null && laser) {
+                    if (m != null && neonFade) {
                         fading.add(m to System.currentTimeMillis())
                     } else if (m != null && worthKeeping(m)) {
                         marks.add(m)

@@ -524,27 +524,12 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
         }
         if (tvHint != null && !chromeShown) {
             val ok = event.keyCode == android.view.KeyEvent.KEYCODE_DPAD_CENTER || event.keyCode == android.view.KeyEvent.KEYCODE_ENTER
-            // The laser takes the arrows while it is out: they move the dot; OK or Back puts it away.
-            tvLaser?.let { las ->
-                if (event.action == android.view.KeyEvent.ACTION_DOWN) when (event.keyCode) {
-                    android.view.KeyEvent.KEYCODE_DPAD_LEFT -> las.move(-1, 0, event.repeatCount)
-                    android.view.KeyEvent.KEYCODE_DPAD_RIGHT -> las.move(1, 0, event.repeatCount)
-                    android.view.KeyEvent.KEYCODE_DPAD_UP -> las.move(0, -1, event.repeatCount)
-                    android.view.KeyEvent.KEYCODE_DPAD_DOWN -> las.move(0, 1, event.repeatCount)
-                    android.view.KeyEvent.KEYCODE_DPAD_CENTER, android.view.KeyEvent.KEYCODE_ENTER, android.view.KeyEvent.KEYCODE_BACK -> laserTv(false)
-                    else -> return super.dispatchKeyEvent(event)
-                }
-                return true
-            }
             if (ok) {
-                // OK: one press steps the zoom, two quick presses bring out the laser, a long press opens the menu.
+                // OK steps the zoom; a long press opens the menu. There is no pointer on the
+                // television: a reading screen across the room has no use for one.
                 if (event.action == android.view.KeyEvent.ACTION_DOWN && event.repeatCount == 0) okLong = false
                 if (event.action == android.view.KeyEvent.ACTION_DOWN && event.repeatCount >= 2 && !okLong) { okLong = true; b.root.removeCallbacks(okSingle); setChrome(true); b.toolbar.showOverflowMenu() }
-                if (event.action == android.view.KeyEvent.ACTION_UP && !okLong) {
-                    val now = android.os.SystemClock.uptimeMillis()
-                    if (now - okUpAt < 380) { b.root.removeCallbacks(okSingle); okUpAt = 0L; laserTv(true) }
-                    else { okUpAt = now; b.root.removeCallbacks(okSingle); b.root.postDelayed(okSingle, 380) }
-                }
+                if (event.action == android.view.KeyEvent.ACTION_UP && !okLong) stepZoom()
                 return true
             }
             if (event.action == android.view.KeyEvent.ACTION_DOWN && tvKey(event.keyCode)) return true
@@ -560,51 +545,6 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
 
     private var okUpAt = 0L
     private val okSingle = Runnable { stepZoom() }
-
-    // ---- the laser pointer, with the remote ----
-
-    private inner class TvLaser(ctx: android.content.Context) : View(ctx) {
-        var lx = -1f; var ly = -1f
-        private val trail = ArrayList<Triple<Float, Float, Long>>()
-        private val glow = android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG)
-        private val core = android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG).apply { color = 0xFFFFFFFF.toInt() }
-        private val line = android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG).apply { style = android.graphics.Paint.Style.STROKE; strokeCap = android.graphics.Paint.Cap.ROUND; color = 0xFFFF2D2D.toInt() }
-        fun move(dx: Int, dy: Int, repeat: Int) {
-            if (lx < 0) { lx = width / 2f; ly = height / 2f }
-            // Faster the longer the arrow is held.
-            val step = dp(18) * (1f + minOf(repeat, 12) * 0.35f)
-            lx = (lx + dx * step).coerceIn(0f, width.toFloat()); ly = (ly + dy * step).coerceIn(0f, height.toFloat())
-            trail.add(Triple(lx, ly, android.os.SystemClock.uptimeMillis()))
-            postInvalidateOnAnimation()
-        }
-        override fun onDraw(c: android.graphics.Canvas) {
-            if (lx < 0) { lx = width / 2f; ly = height / 2f }
-            val now = android.os.SystemClock.uptimeMillis()
-            trail.removeAll { now - it.third > 600 }
-            for (i in 1 until trail.size) {
-                val f = 1f - (now - trail[i].third) / 600f
-                line.alpha = (200 * f).toInt().coerceIn(0, 255); line.strokeWidth = dp(3) + dp(6) * f
-                c.drawLine(trail[i - 1].first, trail[i - 1].second, trail[i].first, trail[i].second, line)
-            }
-            val r = dp(30).toFloat()
-            glow.shader = android.graphics.RadialGradient(lx, ly, r, intArrayOf(0xFFFF2D2D.toInt(), 0x00FF2D2D), floatArrayOf(0.15f, 1f), android.graphics.Shader.TileMode.CLAMP)
-            c.drawCircle(lx, ly, r, glow)
-            c.drawCircle(lx, ly, dp(6).toFloat(), core)
-            if (trail.isNotEmpty()) postInvalidateOnAnimation()
-        }
-    }
-
-    private var tvLaser: TvLaser? = null
-
-    private fun laserTv(on: Boolean) {
-        val root = b.root as? FrameLayout ?: return
-        tvLaser?.let { v -> root.post { root.removeView(v) } }
-        tvLaser = null
-        if (on) {
-            tvLaser = TvLaser(this).also { root.addView(it, FrameLayout.LayoutParams(-1, -1)); it.elevation = dp(20).toFloat() }
-            flashTv(getString(R.string.tv_laser_on))
-        }
-    }
 
     private fun stepZoom() {
         val levels = tvLevels()
@@ -779,7 +719,7 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
         p.roundMarker = VaultLock.prefs(this).getBoolean("round_marker", false)
         // The pen: a long press, or a tap when it is already in hand, picks the kind of pen.
         p.penStyle = VaultLock.prefs(this).getInt("pen_style", 0)
-        fun penKinds() = PenInk.choose(this, p.penStyle, onLaser = { LaserLayer.start(this) }) { i ->
+        fun penKinds() = PenInk.choose(this, p.penStyle, onNeon = { NeonLayer.start(this) }) { i ->
             p.penStyle = i
             VaultLock.prefs(this).edit().putInt("pen_style", i).apply()
             pick(Tool.PEN)
@@ -825,7 +765,7 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
     /** Neon that fades after four seconds: the neon pen, with nothing kept; the pen bar stays in reach. */
     override fun neonFade() {
         neonPen()
-        b.page.laser = true
+        b.page.neonFade = true
         Toast.makeText(this, R.string.neon_fade_on, Toast.LENGTH_LONG).show()
     }
 
@@ -852,7 +792,7 @@ class PdfViewerActivity : BaseActivity(), NeonHost {
     }
 
     private fun pick(tool: Tool, quiet: Boolean = false) {
-        b.page.laser = false
+        b.page.neonFade = false
         val p = b.page
         p.tool = tool
         if (tool != Tool.SELECT && !(tool == Tool.LINE || tool == Tool.ARROW || tool == Tool.RECT || tool == Tool.OVAL)) p.selected = null
