@@ -30,6 +30,8 @@ async function schema(db) {
     db.prepare("DROP TABLE IF EXISTS vpnpool"),
     db.prepare("CREATE TABLE IF NOT EXISTS place (code TEXT PRIMARY KEY, t INTEGER, country TEXT, city TEXT, vpn INTEGER)"),
     db.prepare("CREATE TABLE IF NOT EXISTS backup (code TEXT PRIMARY KEY, t INTEGER, data TEXT)"),
+    // devices of one customer share favorites + continue watching (owner, 24 Nov 2026): one slice per customer name
+    db.prepare("CREATE TABLE IF NOT EXISTS sync (name TEXT PRIMARY KEY, t INTEGER, h TEXT, data TEXT)"),
     // promo codes (owner, 9 Nov 2026): made on the admin page, each opens ONE device ONCE
     // the name on the welcome screen (owner, 11 Nov 2026): typed by the owner for each device
     db.prepare("CREATE TABLE IF NOT EXISTS welcome (code TEXT PRIMARY KEY, name TEXT)"),
@@ -181,6 +183,26 @@ export default {
       const code = (url.searchParams.get("code") || "").replace(/\D/g, "");
       const r = await env.DB.prepare("SELECT t, data FROM backup WHERE code=?").bind(code).first();
       return r ? json({ t: r.t, data: r.data }) : json({ error: "no backup" }, 404);
+    }
+
+    // cloud sync per customer: the devices that carry the same customer name (set by the owner) see the same favorites
+    // and continue-watching. POST {code, data, h} stores the slice, GET ?code=&h= gives it only when it differs from h
+    if (p === "/api/sync") {
+      const code = String((req.method === "POST" ? (await req.clone().json().catch(() => ({}))).code : url.searchParams.get("code")) || "").replace(/\D/g, "");
+      const d = code.length === 8 ? await env.DB.prepare("SELECT name FROM devices WHERE code=?").bind(code).first() : null;
+      const nm = d && String(d.name || "").trim().toLowerCase();
+      if (!nm) return json({ error: "no customer" }, 404);
+      if (req.method === "POST") {
+        const b = await req.json().catch(() => ({}));
+        const data = String(b.data || "");
+        if (!data || data.length > 300000) return json({ error: "bad data" }, 400);
+        await env.DB.prepare("INSERT OR REPLACE INTO sync (name, t, h, data) VALUES (?,?,?,?)").bind(nm, Date.now(), String(b.h || ""), data).run();
+        return json({ ok: true });
+      }
+      const r = await env.DB.prepare("SELECT t, h, data FROM sync WHERE name=?").bind(nm).first();
+      if (!r) return json({ none: true });
+      if (r.h && r.h === (url.searchParams.get("h") || "")) return json({ same: true });
+      return json({ t: r.t, h: r.h, data: r.data });
     }
 
     // ---- paying for access (owner, 10 Nov 2026): someone outside the owner's circle pays through the owner's own

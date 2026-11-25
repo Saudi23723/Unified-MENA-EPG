@@ -223,7 +223,7 @@ class HomeActivity : BaseActivity() {
     override fun onPause() { super.onPause(); idleJob?.cancel() }
 
     override fun onResume() {
-        super.onResume()
+        super.onResume(); Backup.syncSoon()
         armIdle()
         // only when "Start on the last channel" is on: straight to the channel that was on
         val fresh = !resumedOnce; resumedOnce = true
