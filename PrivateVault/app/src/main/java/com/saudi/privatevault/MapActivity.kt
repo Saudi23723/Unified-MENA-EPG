@@ -1309,7 +1309,9 @@ class MapActivity : BaseActivity(), NeonHost {
         row("Grid and maximum elevation figures", "Worked out from the ground and the obstacles in each quadrangle; where a printed figure differs, the printed one rules",
             prefs.getBoolean("aero_mef", true)) { flip("aero_mef", true); flip("aero_grid", true) }
         row("Radio beacons", "VOR, VORTAC, TACAN and NDB with their compass roses", prefs.getBoolean("aero_navaids", true)) { flip("aero_navaids", true) }
-        row("Roads and places", "From a map service laid over the drawn sheet; needs a connection", prefs.getBoolean("aero_roads", false)) { flip("aero_roads", false) }
+        row("Roads and places", "From a map service laid over the drawn sheet; needs a connection", prefs.getBoolean("aero_roads", true)) { flip("aero_roads", true) }
+        row("Performance readout", "Frames per second and how long the map takes to draw, on the map itself; send a screenshot of it if the map is slow",
+            prefs.getBoolean("perf_hud", false)) { prefs.edit().putBoolean("perf_hud", !prefs.getBoolean("perf_hud", false)).apply(); setPerf() }
         head("Flight")
         row(getString(R.string.plan_title)) { navLog() }
         row("Approaches") { approachMenu() }
@@ -1366,6 +1368,21 @@ class MapActivity : BaseActivity(), NeonHost {
         // them too, but only this draws their rose upright and turned to magnetic north.
         a.showNavaids = prefs.getBoolean("aero_navaids", true)
         setPlaces()
+        setPerf()
+    }
+
+    private var perfFirst: PerfOverlay? = null
+    private var perfLast: PerfOverlay? = null
+
+    private fun setPerf() {
+        perfFirst?.let { map.overlays.remove(it) }; perfLast?.let { map.overlays.remove(it) }
+        perfFirst = null; perfLast = null
+        if (prefs.getBoolean("perf_hud", false)) {
+            perfFirst = PerfOverlay(map, true); perfLast = PerfOverlay(map, false)
+            map.overlays.add(0, perfFirst)
+            map.overlays.add(perfLast)
+        }
+        map.invalidate()
     }
 
     private var roadsOverlay: org.osmdroid.views.overlay.TilesOverlay? = null

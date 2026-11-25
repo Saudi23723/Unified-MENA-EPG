@@ -54,6 +54,11 @@ interface SnapChild {
 }
 
 class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
+    companion object {
+        @Volatile var lastRenderMs = 0L
+        @Volatile var renders = 0
+    }
+
 
     private val d = ctx.resources.displayMetrics.density
 
@@ -819,6 +824,7 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
     }
 
     private fun renderSnap(mv: MapView, now: DoubleArray, sig: Int) {
+        val t0 = android.os.SystemClock.uptimeMillis()
         val w = mv.width; val h = mv.height
         // Turned, the screen's corners reach further than its width and height, so the picture is a
         // square as long as the screen's diagonal.
@@ -852,6 +858,7 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
         snapGeo = doubleArrayOf(ga.latitude, ga.longitude, gb.latitude, gb.longitude, gc.latitude, gc.longitude)
         snapSrc = floatArrayOf(sw / 2f, sh / 2f, sw / 2f + 100f, sh / 2f, sw / 2f, sh / 2f + 100f)
         snapView = now; snapSig = sig; snapAt = android.os.SystemClock.uptimeMillis(); dirty = false
+        lastRenderMs = android.os.SystemClock.uptimeMillis() - t0; renders++
     }
 
     override fun draw(c: Canvas, mv: MapView, shadow: Boolean) {

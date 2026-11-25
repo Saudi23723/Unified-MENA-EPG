@@ -111,9 +111,13 @@ class OwnshipOverlay(map: MapView, private val plane: Bitmap) : Overlay() {
         val pr = mapView.projection
         if (trail.size > 1) {
             val path = Path()
-            for ((i, g) in trail.withIndex()) {
-                pr.toPixels(g, pt)
-                if (i == 0) path.moveTo(pt.x.toFloat(), pt.y.toFloat()) else path.lineTo(pt.x.toFloat(), pt.y.toFloat())
+            // Thousands of points would be worked out on every frame: about five hundred show the same line.
+            val stepT = Math.max(1, trail.size / 500)
+            var k = 0
+            while (k < trail.size) {
+                pr.toPixels(trail[k], pt)
+                if (k == 0) path.moveTo(pt.x.toFloat(), pt.y.toFloat()) else path.lineTo(pt.x.toFloat(), pt.y.toFloat())
+                k += stepT
             }
             position()?.let { pr.toPixels(it, pt); path.lineTo(pt.x.toFloat(), pt.y.toFloat()) }
             c.drawPath(path, crumbsHalo)

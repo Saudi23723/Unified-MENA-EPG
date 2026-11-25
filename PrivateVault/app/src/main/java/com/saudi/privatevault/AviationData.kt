@@ -47,6 +47,11 @@ object AviationData {
             val px = IntArray(w * h)
             bmp.getPixels(px, 0, w, 0, 0, w, h)
             fun white(v: Int, lo: Int) = ((v shr 16) and 0xFF) >= lo && ((v shr 8) and 0xFF) >= lo && (v and 0xFF) >= lo
+            // Most tiles have no margin at all: a single pass counting white settles that before the
+            // row and column scans, which only a tile with a real white area goes through.
+            var whites = 0
+            for (v in px) if (white(v, 0xFC)) whites++
+            if (whites < 64) return
             // A pixel belongs to the margin when white runs at least eight pixels both along its row and
             // down its column (a band, not a line), or runs forty or more either way (a band that
             // fills the tile). Lines, text halos and symbol interiors are never both.
