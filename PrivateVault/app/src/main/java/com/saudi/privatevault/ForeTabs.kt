@@ -37,7 +37,7 @@ object ForeTabs {
         Tab(R.drawable.ic_tab_plates, R.string.ff_plates, { it is PlatesActivity }) { a -> open(a, PlatesActivity::class.java) },
         Tab(R.drawable.ic_doc, R.string.ff_documents, { it is LibraryActivity || it is ManeuversActivity || it is JeppBookActivity || it is CheckrideActivity || it is RegsActivity || it is HandbookActivity || it is CfrBrowseActivity }) { a -> open(a, LibraryActivity::class.java) },
         Tab(R.drawable.ic_tab_imagery, R.string.ff_imagery, { it is ImageryActivity }) { a -> open(a, ImageryActivity::class.java) },
-        Tab(R.drawable.ic_tab_flights, R.string.ff_flights, { it is WeightBalanceActivity || it is E6bActivity || it is PerformanceActivity }) { a -> open(a, MapActivity::class.java) { it.putExtra(MapActivity.EXTRA_NAVLOG, true) } },
+        Tab(R.drawable.ic_tab_flights, R.string.ff_flights, { it is FlightsActivity || it is WeightBalanceActivity || it is E6bActivity || it is PerformanceActivity }) { a -> open(a, FlightsActivity::class.java) },
         // A small pad over whatever is on the screen, as ForeFlight's floating scratchpad; again to put it away.
         Tab(R.drawable.ic_fab_pencil, R.string.ff_scratchpads, { it is ScratchPadActivity }) { a -> Notebooks.scratch(a) },
         Tab(R.drawable.ic_check, R.string.ff_checklist, { it is ChecklistActivity }) { a -> open(a, ChecklistActivity::class.java) },
@@ -56,7 +56,7 @@ object ForeTabs {
 
     /** Screens that carry the bar: the flight bag's, not the reader, the player or the vault. */
     fun wants(a: Activity) = !Tv.isTv(a) && (a is EfbHomeActivity || a is MapActivity || a is LogbookActivity || a is ChecklistActivity ||
-        a is ScratchPadActivity || a is LibraryActivity || a is SettingsActivity || a is FrequenciesActivity || a is E6bActivity ||
+        a is ScratchPadActivity || a is FlightsActivity || a is LibraryActivity || a is SettingsActivity || a is FrequenciesActivity || a is E6bActivity ||
         a is WeightBalanceActivity || a is RegsActivity || a is EfbCheckActivity || a is TrainerActivity || a is AirportDiagramActivity ||
         a is HandbookActivity || a is CfrBrowseActivity || a is ImageryActivity || a is PlatesActivity || a is AirportsActivity || a is PerformanceActivity || a is ManeuversActivity || a is JeppBookActivity || a is CheckrideActivity || a is WebActivity)
 
