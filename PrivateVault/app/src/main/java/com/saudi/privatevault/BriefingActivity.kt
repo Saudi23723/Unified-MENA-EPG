@@ -125,7 +125,10 @@ class BriefingActivity : BaseActivity() {
             body.removeAllViews()
             summary(fields, metars, areas, tfrs)
             hazards(areas, tfrs)
-            conditions(fields, metars, tafs)
+            minimumsCard(fields, metars)
+            // Worst first: a field that breaks a limit or is IFR leads, a quiet one comes last.
+            val ranked = fields.sortedByDescending { f -> severity(metars.firstOrNull { it.station == stationOf(f) }) }
+            conditions(ranked, metars, tafs)
             winds(fb)
             pilotReports(pireps)
             footer()
@@ -168,6 +171,86 @@ class BriefingActivity : BaseActivity() {
         ).joinToString("\n"), 13.5f, EfbUi.TEXT).apply { setLineSpacing(0f, 1.25f); setPadding(0, dp(8), 0, 0) })
         c.addView(EfbUi.text(this, "This is not an official briefing. Get one, and the NOTAMs, before you fly.", 11f, EfbUi.DIM)
             .apply { setPadding(0, dp(10), 0, 0) })
+    }
+
+    private fun stationOf(f: AviationData.Airport) = f.icao.ifEmpty { if (f.ident.length == 3) "K" + f.ident else f.ident }
+
+    // ---- the pilot's own limits ----
+    private val lim get() = getSharedPreferences("minimums", Context.MODE_PRIVATE)
+    private fun minCeiling() = lim.getInt("ceiling", 3000)
+    private fun minVis() = lim.getFloat("vis", 5f)
+    private fun maxWind() = lim.getInt("wind", 20)
+    private fun maxGust() = lim.getInt("gust", 25)
+    private fun num(f: Float) = if (f == Math.floor(f.toDouble()).toFloat()) f.toInt().toString() else f.toString()
+
+    /** Which of the pilot's limits a report breaks, in words. */
+    private fun breaches(m: AviationData.Metar?): List<String> {
+        val j = m?.json ?: return emptyList()
+        val out = ArrayList<String>()
+        var ceil = Int.MAX_VALUE
+        j.optJSONArray("clouds")?.let { a ->
+            for (i in 0 until a.length()) {
+                val c = a.optJSONObject(i) ?: continue
+                val cover = c.optString("cover")
+                val base = c.opt("base")?.toString()?.toIntOrNull() ?: continue
+                if ((cover == "BKN" || cover == "OVC" || cover == "OVX") && base < ceil) ceil = base
+            }
+        }
+        if (ceil < minCeiling()) out.add("ceiling %,d ft is under your %,d".format(ceil, minCeiling()))
+        val vis = j.opt("visib")?.toString()?.replace("+", "")?.toFloatOrNull()
+        if (vis != null && vis < minVis()) out.add("visibility " + num(vis) + " sm is under your " + num(minVis()))
+        val w = j.opt("wspd")?.toString()?.toIntOrNull()
+        if (w != null && w > maxWind()) out.add("wind " + w + " kt is over your " + maxWind())
+        val g = j.opt("wgst")?.toString()?.toIntOrNull()
+        if (g != null && g > maxGust()) out.add("gusts " + g + " kt are over your " + maxGust())
+        return out
+    }
+
+    private fun severity(m: AviationData.Metar?): Int {
+        if (m == null) return 1
+        val cat = when (m.category) { "LIFR" -> 40; "IFR" -> 30; "MVFR" -> 15; else -> 0 }
+        return cat + breaches(m).size * 10
+    }
+
+    private fun minimumsCard(fields: List<AviationData.Airport>, metars: List<AviationData.Metar>) {
+        head("Your minimums")
+        val c = card()
+        c.addView(EfbUi.text(this, "Ceiling at least %,d ft · visibility at least %s sm · wind up to %d kt · gusts up to %d kt".format(
+            minCeiling(), num(minVis()), maxWind(), maxGust()), 13.5f, EfbUi.TEXT))
+        var any = false
+        for (f in fields) {
+            val br = breaches(metars.firstOrNull { it.station == stationOf(f) })
+            if (br.isNotEmpty()) {
+                any = true
+                c.addView(EfbUi.text(this, "✗ " + stationOf(f) + ": " + br.joinToString("; "), 13.5f, 0xFFFF453A.toInt(), bold = true).apply { setPadding(0, dp(6), 0, 0) })
+            }
+        }
+        if (!any) c.addView(EfbUi.text(this, "✓ No field on the route breaks them in the latest reports.", 13.5f, 0xFF30D158.toInt()).apply { setPadding(0, dp(6), 0, 0) })
+        c.addView(EfbUi.text(this, "Edit your limits", 13.5f, 0xFF4FA3FF.toInt(), bold = true).apply {
+            setPadding(0, dp(10), 0, 0)
+            setOnClickListener { editLimits() }
+        })
+    }
+
+    private fun editLimits() {
+        val box = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(dp(20), dp(8), dp(20), 0) }
+        fun field(label: String, value: String): android.widget.EditText {
+            box.addView(TextView(this).apply { text = label; textSize = 12f })
+            return android.widget.EditText(this).apply {
+                setText(value); inputType = android.text.InputType.TYPE_CLASS_NUMBER or android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL
+                box.addView(this)
+            }
+        }
+        val c = field("Lowest ceiling (ft)", minCeiling().toString())
+        val v = field("Lowest visibility (sm)", num(minVis()))
+        val w = field("Highest wind (kt)", maxWind().toString())
+        val g = field("Highest gusts (kt)", maxGust().toString())
+        android.app.AlertDialog.Builder(this).setTitle("Your minimums").setView(box)
+            .setPositiveButton("Save") { _, _ ->
+                lim.edit().putInt("ceiling", c.text.toString().toIntOrNull() ?: 3000).putFloat("vis", v.text.toString().toFloatOrNull() ?: 5f)
+                    .putInt("wind", w.text.toString().toIntOrNull() ?: 20).putInt("gust", g.text.toString().toIntOrNull() ?: 25).apply()
+                load()
+            }.setNegativeButton("Cancel", null).show()
     }
 
     private fun hazards(areas: List<AviationData.Area>, tfrs: List<AviationData.Area>) {
