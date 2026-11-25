@@ -17,8 +17,6 @@ UA = {"User-Agent": "Unified-MENA-EPG logo fetch (github.com/Saudi23723/Unified-
 
 # key: (how, what)
 LOGOS = {
-    "looloo_kids": ("appstore", "1441645173"),     # LooLoo Kids - Nursery Rhymes (the channel's own app)
-    "ytn_radio": ("appstore", "695481841"),        # YTN 라디오 (YTN's own radio app)
     "tvp3_bialystok": ("wiki", "pl:TVP3 Białystok"),
     "kabel_eins_doku": ("wiki", "de:Kabel Eins Doku"),
 }
@@ -35,20 +33,26 @@ def source(how: str, what: str) -> str:
         r = o["results"][0]
         return r.get("artworkUrl512") or r["artworkUrl100"]
     lang, title = what.split(":", 1)
-    q = urllib.parse.urlencode({"action": "query", "prop": "pageimages", "piprop": "original", "titles": title,
+    api = f"https://{lang}.wikipedia.org/w/api.php?"
+    q = urllib.parse.urlencode({"action": "query", "prop": "pageimages", "piprop": "name", "titles": title,
                                 "format": "json", "redirects": 1})
-    pages = json.loads(get(f"https://{lang}.wikipedia.org/w/api.php?{q}"))["query"]["pages"]
-    page = next(iter(pages.values()))
-    if "original" not in page:
-        raise RuntimeError("no logo on the article")
-    src = page["original"]["source"]
-    if src.lower().endswith(".svg"):     # the rendered PNG of an SVG logo
-        name = src.rsplit("/", 1)[1]
-        q = urllib.parse.urlencode({"action": "query", "prop": "imageinfo", "iiprop": "url", "iiurlwidth": 512,
-                                    "titles": "File:" + urllib.parse.unquote(name), "format": "json"})
-        p = next(iter(json.loads(get(f"https://{lang}.wikipedia.org/w/api.php?{q}"))["query"]["pages"].values()))
-        src = p["imageinfo"][0]["thumburl"]
-    return src
+    page = next(iter(json.loads(get(api + q))["query"]["pages"].values()))
+    name = page.get("pageimage")
+    if not name:  # no logo on the article: the channel's logo file on Wikimedia Commons
+        api = "https://commons.wikimedia.org/w/api.php?"
+        q = urllib.parse.urlencode({"action": "query", "list": "search", "srsearch": title + " logo",
+                                    "srnamespace": 6, "srlimit": 5, "format": "json"})
+        hits = [h["title"] for h in json.loads(get(api + q))["query"]["search"]]
+        words = [w.lower() for w in title.split() if len(w) > 2]
+        hits = [h for h in hits if all(w in h.lower() for w in words)]
+        if not hits:
+            raise RuntimeError("no logo file found")
+        name = hits[0].split(":", 1)[1]
+    # always the PNG render (SVG logos included), 512 px wide
+    q = urllib.parse.urlencode({"action": "query", "prop": "imageinfo", "iiprop": "url", "iiurlwidth": 512,
+                                "titles": "File:" + name, "format": "json"})
+    p = next(iter(json.loads(get(api + q))["query"]["pages"].values()))
+    return p["imageinfo"][0]["thumburl"]
 
 
 def square(raw: bytes) -> Image.Image:
