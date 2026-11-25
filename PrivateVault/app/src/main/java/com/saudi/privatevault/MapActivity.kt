@@ -115,6 +115,7 @@ class MapActivity : BaseActivity(), NeonHost {
         }
         b = ActivityMapBinding.inflate(layoutInflater)
         CrashReport.showIfAny(this)
+        ChartUpdates.dropOldEdition(this)
         ChartUpdates.autoUpdate(this)
         setContentView(b.root)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)

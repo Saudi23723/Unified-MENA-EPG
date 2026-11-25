@@ -94,6 +94,31 @@ object ChartUpdates {
         return caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) && caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED)
     }
 
+    /**
+     * The FAA charts kept on the phone from an earlier edition are thrown away the day a new one
+     * takes effect, so a tile is never older than the edition in force. (Tiles are otherwise kept for
+     * up to a week.) Areas saved for offline use are refetched by autoUpdate straight after.
+     */
+    fun dropOldEdition(ctx: Context) {
+        val prefs = VaultLock.prefs(ctx)
+        val ed = vfrEdition()
+        val was = prefs.getString("faa_tiles_ed", null)
+        if (was == ed) return
+        if (was == null) { prefs.edit().putString("faa_tiles_ed", ed).apply(); return }
+        // Never clear what was saved for flying without signal unless the new edition can be fetched now.
+        val cm = ctx.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val caps = cm.getNetworkCapabilities(cm.activeNetwork) ?: return
+        if (!caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)) return
+        try {
+            val w = SqlTileWriter()
+            for (name in CYCLE_LAYERS) {
+                try { SqlTileWriter::class.java.getMethod("purgeCache", String::class.java).invoke(w, name) } catch (e: Throwable) { }
+            }
+            try { w.onDetach() } catch (e: Throwable) { }
+        } catch (e: Throwable) { }
+        prefs.edit().putString("faa_tiles_ed", ed).apply()
+    }
+
     /** On opening the app: if anything saved is from an old cycle and the phone is on Wi-Fi, update it now. */
     fun autoUpdate(act: Activity) {
         val prefs = VaultLock.prefs(act)

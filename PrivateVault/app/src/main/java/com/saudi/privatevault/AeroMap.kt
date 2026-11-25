@@ -305,7 +305,7 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
             tileMatrix.setPolyToPoly(src, 0, dst, 0, 4)
             c.drawBitmap(bmp, tileMatrix, groundPaint)
 
-            if (showContours && step > 0) {
+            if (showContours && step > 0 && !light) {
                 val ck = "$key/$step"
                 val cs = contourCache.get(ck)
                 if (cs == null) { buildContours(tx, ty, z, step, ck); continue }
@@ -768,22 +768,39 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
 
     // ================================================================ the whole picture
 
+    // While the chart is being dragged or zoomed the heavy detail (contour lines, the maximum
+    // elevation figures, the tower labels) is left out, and put back a moment after it stops, so
+    // the chart keeps up with the finger. A frame that is slow switches the lighter drawing on.
+    private var lastView = DoubleArray(4)
+    private var lastCost = 0L
+    private var settle: Runnable? = null
+    private var light = false
+
     override fun draw(c: Canvas, mv: MapView, shadow: Boolean) {
         if (shadow || !isEnabled) return
+        val t0 = android.os.SystemClock.uptimeMillis()
+        val ctr = mv.mapCenter
+        val now = doubleArrayOf(ctr.latitude, ctr.longitude, mv.zoomLevelDouble, mv.mapOrientation.toDouble())
+        val moving = now[0] != lastView[0] || now[1] != lastView[1] || now[2] != lastView[2] || now[3] != lastView[3]
+        lastView = now
+        light = moving && (lastCost > 24L || light)
+        if (light) {
+            settle?.let { mv.removeCallbacks(it) }
+            settle = Runnable { light = false; lastCost = 0L; mv.postInvalidate() }.also { mv.postDelayed(it, 280L) }
+        }
         try {
             labelled.clear()
             if (showTerrain) {
                 drawGround(c, mv)
-                drawGrid(c, mv)
-                drawMef(c, mv)
+                if (!light) { drawGrid(c, mv); drawMef(c, mv) }
             }
             if (showAirspace) drawAirspace(c, mv)
-            drawNavaids(c, mv)
-            drawObstacles(c, mv)
+            if (!light) { drawNavaids(c, mv); drawObstacles(c, mv) }
             if (showFields) drawFields(c, mv)
         } catch (e: Throwable) {
             // A map that cannot draw one thing still draws the rest.
         }
+        lastCost = android.os.SystemClock.uptimeMillis() - t0
     }
 
     fun release() {
