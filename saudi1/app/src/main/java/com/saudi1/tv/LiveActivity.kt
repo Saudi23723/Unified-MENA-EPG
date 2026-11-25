@@ -127,6 +127,10 @@ class LiveActivity : BaseActivity() {
                 if (error.errorCode == PlaybackException.ERROR_CODE_BEHIND_LIVE_WINDOW) { player.seekToDefaultPosition(); player.prepare(); return }
                 // 1st: the same link again (a provider "500" is often a busy moment); 2nd: the channel's HLS link
                 // (some channels are sent as HLS on the .ts address: "no extractor could read the stream"); then give up
+                // the reason is shown (owner, 25 Nov 2026: black screen on every channel after the update, no way to tell why)
+                val why = error.errorCodeName + (generateSequence(error as Throwable?) { it.cause }.lastOrNull()?.let { " · " + it.javaClass.simpleName + ": " + (it.message ?: "").take(80) } ?: "")
+                android.util.Log.w("SAUDI", "play error: $why")
+                toast(why)
                 when (tries++) {
                     0 -> lifecycleScope.launch { delay(1200); if (playing === c) start(c) }
                     1 -> lifecycleScope.launch { delay(500); if (playing === c) start(c, hls = !Hls.has(c.id)) }
