@@ -339,6 +339,7 @@ class BriefingActivity : BaseActivity() {
             try { startActivity(Intent(Intent.ACTION_VIEW, android.net.Uri.parse("https://www.1800wxbrief.com/"))) }
             catch (e: Exception) { Toast.makeText(this, "No browser", Toast.LENGTH_SHORT).show() }
         }
+        btn("🌬  Wind cross-section along the route") { WindSectionActivity.open(this) }
         body.addView(b)
     }
 

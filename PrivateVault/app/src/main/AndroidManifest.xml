@@ -84,6 +84,9 @@
             android:name=".BriefingActivity"
             android:exported="false" />
         <activity
+            android:name=".WindSectionActivity"
+            android:exported="false" />
+        <activity
             android:name=".NavlogActivity"
             android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden"
             android:exported="false" />

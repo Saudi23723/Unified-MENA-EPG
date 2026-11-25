@@ -1307,6 +1307,7 @@ class MapActivity : BaseActivity(), NeonHost {
         row(getString(R.string.plan_title)) { navLog() }
         row("Approaches") { approachMenu() }
         row("Weather briefing for the route") { BriefingActivity.open(this) }
+        row("Wind cross-section along the route") { WindSectionActivity.open(this) }
         row(getString(R.string.map_profile)) { profile() }
         row(getString(R.string.wx_winds)) { windsAloft() }
         row(getString(R.string.wb_title)) { openWb() }
