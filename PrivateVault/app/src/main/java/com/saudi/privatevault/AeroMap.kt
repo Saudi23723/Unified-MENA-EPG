@@ -281,7 +281,7 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
     private val minorLine = Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.STROKE; color = 0x8C78542F.toInt() }
     private val indexLine = Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.STROKE; color = 0xCC78542F.toInt() }
 
-    private fun drawGround(c: Canvas, mv: MapView) {
+    private fun drawGround(c: Canvas, mv: MapView, bitmaps: Boolean = true, lines: Boolean = true) {
         val z = Terrain.Z
         val bb = mv.boundingBox
         val x0 = Terrain.tileX(bb.lonWest, z); val x1 = Terrain.tileX(bb.lonEast, z)
@@ -305,9 +305,9 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
             dst[4] = pc.x.toFloat(); dst[5] = pc.y.toFloat(); dst[6] = pd.x.toFloat(); dst[7] = pd.y.toFloat()
             tileMatrix.reset()
             tileMatrix.setPolyToPoly(src, 0, dst, 0, 4)
-            c.drawBitmap(bmp, tileMatrix, groundPaint)
+            if (bitmaps) c.drawBitmap(bmp, tileMatrix, groundPaint)
 
-            if (showContours && step > 0 && !light) {
+            if (lines && showContours && step > 0) {
                 val ck = "$key/$step"
                 val cs = contourCache.get(ck)
                 if (cs == null) { buildContours(tx, ty, z, step, ck); continue }
@@ -330,7 +330,7 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
         val t = Terrain.tile(tx, ty, z)
         if (t == null) { busy.remove("s$key"); return }          // asked for; it redraws when it lands
         work.execute {
-            try { shaded.put(key, shade(t)); map.postInvalidate() } finally { busy.remove("s$key") }
+            try { shaded.put(key, shade(t)); dirty = true; map.postInvalidate() } finally { busy.remove("s$key") }
         }
     }
 
@@ -339,7 +339,7 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
         val t = Terrain.tile(tx, ty, z)
         if (t == null) { busy.remove("c$ck"); return }
         work.execute {
-            try { contourCache.put(ck, contoursOf(t, step)); map.postInvalidate() } finally { busy.remove("c$ck") }
+            try { contourCache.put(ck, contoursOf(t, step)); dirty = true; map.postInvalidate() } finally { busy.remove("c$ck") }
         }
     }
 
@@ -482,7 +482,7 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
                     slowWork.execute {
                         try {
                             val r = mefOf(la, lo)
-                            if (r != null) { mefCache[key] = r; map.postInvalidate() } else mefFailedAt[key] = System.currentTimeMillis()
+                            if (r != null) { mefCache[key] = r; dirty = true; map.postInvalidate() } else mefFailedAt[key] = System.currentTimeMillis()
                         } finally { busy.remove("m$key") }
                     }
                 }
@@ -770,42 +770,112 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
 
     // ================================================================ the whole picture
 
-    // While the chart is being dragged or zoomed the heavy detail (contour lines, the maximum
-    // elevation figures, the tower labels) is left out, and put back a moment after it stops, so
-    // the chart keeps up with the finger. A frame that is slow switches the lighter drawing on.
-    private var lastView = DoubleArray(4)
-    private var lastCost = 0L
-    private var settle: Runnable? = null
-    private var light = false
+    // ---- smooth moving ----
+    //
+    // The ground is drawn live, because it is a handful of pictures. Everything made of lines and
+    // words (contours, graticule, maximum elevations, airspace, beacons, towers, fields) is drawn
+    // once onto a picture the size of the screen when the chart is still, and while the chart is
+    // dragged, zoomed or turned that picture is moved into place instead of the lines being worked
+    // out again: so the cost of a frame no longer depends on how much airspace is in view. A
+    // moment after the finger lifts, the picture is drawn afresh at the new place.
 
-    override fun draw(c: Canvas, mv: MapView, shadow: Boolean) {
-        if (shadow || !isEnabled) return
-        val t0 = android.os.SystemClock.uptimeMillis()
-        val ctr = mv.mapCenter
-        val now = doubleArrayOf(ctr.latitude, ctr.longitude, mv.zoomLevelDouble, mv.mapOrientation.toDouble())
-        val moving = now[0] != lastView[0] || now[1] != lastView[1] || now[2] != lastView[2] || now[3] != lastView[3]
-        lastView = now
-        light = moving && (lastCost > 24L || light)
-        if (light) {
-            settle?.let { mv.removeCallbacks(it) }
-            settle = Runnable { light = false; lastCost = 0L; mv.postInvalidate() }.also { mv.postDelayed(it, 280L) }
+    @Volatile private var dirty = true
+    private var snap: Bitmap? = null
+    private var snapCanvas: Canvas? = null
+    private var snapView: DoubleArray? = null
+    private var snapSig = 0
+    private var snapAt = 0L
+    private var snapGeo = DoubleArray(6)
+    private var snapSrc = FloatArray(6)
+    private var lastView = DoubleArray(6)
+    private var settle: Runnable? = null
+    private val snapMatrix = Matrix()
+    private val snapDst = FloatArray(6)
+    private val snapPaint = Paint(Paint.FILTER_BITMAP_FLAG)
+    private val sp = Point()
+
+    private fun signature(): Int {
+        var h = airspace.size
+        h = h * 31 + airports.size
+        h = h * 31 + runways.size
+        var f = 0
+        for (b in booleanArrayOf(showTerrain, showAirspace, showObstacles, showFields, showContours, showGrid, showMef, showNavaids)) f = f * 2 + (if (b) 1 else 0)
+        return h * 1031 + f
+    }
+
+    private fun renderSnap(mv: MapView, now: DoubleArray, sig: Int) {
+        val w = mv.width; val h = mv.height
+        // Turned, the screen's corners reach further than its width and height, so the picture is a
+        // square as long as the screen's diagonal.
+        val diag = Math.ceil(Math.hypot(w.toDouble(), h.toDouble())).toInt()
+        val turned = mv.mapOrientation != 0f
+        val sw = if (turned) diag else w; val sh = if (turned) diag else h
+        var b = snap
+        if (b == null || b.width != sw || b.height != sh) {
+            b?.recycle()
+            b = Bitmap.createBitmap(sw, sh, Bitmap.Config.ARGB_8888)
+            snap = b; snapCanvas = Canvas(b)
         }
+        val sc = snapCanvas ?: return
+        b.eraseColor(0)
+        sc.save()
+        sc.translate((sw - w) / 2f, (sh - h) / 2f)
+        labelled.clear()
         try {
-            labelled.clear()
-            if (showTerrain) {
-                drawGround(c, mv)
-                if (!light) { drawGrid(c, mv); drawMef(c, mv) }
-            }
-            if (showAirspace) drawAirspace(c, mv)
-            if (!light) { drawNavaids(c, mv); drawObstacles(c, mv) }
-            if (showFields) drawFields(c, mv)
+            if (showTerrain) { drawGround(sc, mv, false, true); drawGrid(sc, mv); drawMef(sc, mv) }
+            if (showAirspace) drawAirspace(sc, mv)
+            drawNavaids(sc, mv)
+            drawObstacles(sc, mv)
+            if (showFields) drawFields(sc, mv)
         } catch (e: Throwable) {
             // A map that cannot draw one thing still draws the rest.
         }
-        lastCost = android.os.SystemClock.uptimeMillis() - t0
+        sc.restore()
+        val pr = mv.projection
+        val ga = pr.fromPixels(w / 2, h / 2); val gb = pr.fromPixels(w / 2 + 100, h / 2); val gc = pr.fromPixels(w / 2, h / 2 + 100)
+        snapGeo = doubleArrayOf(ga.latitude, ga.longitude, gb.latitude, gb.longitude, gc.latitude, gc.longitude)
+        snapSrc = floatArrayOf(sw / 2f, sh / 2f, sw / 2f + 100f, sh / 2f, sw / 2f, sh / 2f + 100f)
+        snapView = now; snapSig = sig; snapAt = android.os.SystemClock.uptimeMillis(); dirty = false
+    }
+
+    override fun draw(c: Canvas, mv: MapView, shadow: Boolean) {
+        if (shadow || !isEnabled) return
+        val w = mv.width; val h = mv.height
+        if (w == 0 || h == 0) return
+        val ctr = mv.mapCenter
+        val now = doubleArrayOf(ctr.latitude, ctr.longitude, mv.zoomLevelDouble, mv.mapOrientation.toDouble(), w.toDouble(), h.toDouble())
+        val moving = !now.contentEquals(lastView)
+        lastView = now
+        try {
+            if (showTerrain) drawGround(c, mv, true, false)
+            if (moving) {
+                settle?.let { mv.removeCallbacks(it) }
+                settle = Runnable { mv.postInvalidate() }.also { mv.postDelayed(it, 140L) }
+                // A chart that keeps moving (following the aeroplane) still has its lines redrawn about once a second.
+                if (snap == null || android.os.SystemClock.uptimeMillis() - snapAt > 1200L) renderSnap(mv, now, signature())
+            } else {
+                val sig = signature()
+                val t = android.os.SystemClock.uptimeMillis()
+                val sv = snapView
+                if (snap == null || sv == null || !sv.contentEquals(now) || sig != snapSig || dirty || t - snapAt > 1500L) renderSnap(mv, now, sig)
+            }
+            val b = snap
+            if (b != null) {
+                val pr = mv.projection
+                for (k in 0 until 3) {
+                    pr.toPixels(GeoPoint(snapGeo[k * 2], snapGeo[k * 2 + 1]), sp)
+                    snapDst[k * 2] = sp.x.toFloat(); snapDst[k * 2 + 1] = sp.y.toFloat()
+                }
+                snapMatrix.setPolyToPoly(snapSrc, 0, snapDst, 0, 3)
+                c.drawBitmap(b, snapMatrix, snapPaint)
+            }
+        } catch (e: Throwable) {
+            // A map that cannot draw one thing still draws the rest.
+        }
     }
 
     fun release() {
+        snap?.recycle(); snap = null; snapCanvas = null; snapView = null
         shaded.evictAll()
         contourCache.evictAll()
     }
