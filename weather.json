@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-25T11:53:06.218Z",
+  "updated_at": "2026-11-25T11:58:46.580Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -8,19 +8,19 @@
       "latitude": 31.9454,
       "longitude": 35.9284,
       "temperature_c": 18.7,
-      "humidity": 61,
-      "wind_speed": 13.7,
+      "humidity": 60,
+      "wind_speed": 14.0,
       "rain_chance": 0,
       "condition": "غائم جزئياً",
       "weather_code": 2,
       "observed_at": "2026-11-25T14:45",
-      "feels_c": 17.0,
+      "feels_c": 16.8,
       "utc_offset": 10800,
       "days": [
         {
           "date": "2026-11-25",
           "code": 2,
-          "max": 18.8,
+          "max": 18.7,
           "min": 10.8,
           "rain": 0
         },
@@ -28,7 +28,7 @@
           "date": "2026-11-26",
           "code": 3,
           "max": 20.5,
-          "min": 11.0,
+          "min": 10.8,
           "rain": 0
         },
         {
@@ -67,7 +67,7 @@
           "rain": 24
         }
       ],
-      "today_max": 18.8,
+      "today_max": 18.7,
       "today_min": 10.8,
       "sunrise": "07:13",
       "sunset": "17:32",
@@ -80,12 +80,12 @@
       "longitude": 35.006,
       "temperature_c": 26.0,
       "humidity": 38,
-      "wind_speed": 30.9,
+      "wind_speed": 30.2,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-11-25T14:45",
-      "feels_c": 21.6,
+      "feels_c": 21.7,
       "utc_offset": 10800,
       "days": [
         {
@@ -98,7 +98,7 @@
         {
           "date": "2026-11-26",
           "code": 3,
-          "max": 27.0,
+          "max": 27.2,
           "min": 19.1,
           "rain": 0
         },
@@ -220,14 +220,14 @@
       "country": "الإمارات",
       "latitude": 25.2048,
       "longitude": 55.2708,
-      "temperature_c": 28.0,
-      "humidity": 54,
-      "wind_speed": 10.8,
+      "temperature_c": 28.1,
+      "humidity": 53,
+      "wind_speed": 11.3,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-11-25T15:45",
-      "feels_c": 29.3,
+      "feels_c": 29.2,
       "utc_offset": 14400,
       "days": [
         {
@@ -240,8 +240,8 @@
         {
           "date": "2026-11-26",
           "code": 0,
-          "max": 27.9,
-          "min": 23.2,
+          "max": 27.7,
+          "min": 23.0,
           "rain": 13
         },
         {
@@ -590,7 +590,7 @@
           "code": 3,
           "max": 4.9,
           "min": 0.7,
-          "rain": 4
+          "rain": 3
         },
         {
           "date": "2026-11-26",
