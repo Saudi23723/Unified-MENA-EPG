@@ -26,11 +26,18 @@ object TerrainRouter {
         val addedNm: Double,
         val maxGroundFt: Int,
         val side: String,
+        /** The room it keeps over the highest ground: a thousand feet if it can, five hundred if that is the best there is. */
+        val marginFt: Int,
     )
 
-    class Answer(val bypass: Bypass?, val climbFt: Int?, val worstGroundFt: Int)
+    /**
+     * @param climbFt    the next legal VFR height that clears the ground by a thousand feet
+     * @param climbMinFt the next legal VFR height that clears it by five hundred, when that is a lower one
+     */
+    class Answer(val bypass: Bypass?, val climbFt: Int?, val climbMinFt: Int?, val worstGroundFt: Int)
 
     private const val MARGIN_FT = 1000
+    private const val MARGIN_MIN_FT = 500
 
     /** The highest ground in the corridor either side of a leg, swept every mile. */
     private fun worstOnLeg(a: GeoPoint, b: GeoPoint, half: Double, ground: (Double, Double) -> Float): Float {
@@ -71,8 +78,8 @@ object TerrainRouter {
      * The next legal VFR height at least a margin above the ground: odd thousands and five
      * hundred going east (magnetic course 0 to 179), even thousands and five hundred going west.
      */
-    fun climbTo(maxGroundFt: Float, magneticCourse: Double, minimum: Int): Int {
-        val need = maxOf(maxGroundFt + MARGIN_FT, minimum.toFloat())
+    fun climbTo(maxGroundFt: Float, magneticCourse: Double, minimum: Int, margin: Int = MARGIN_FT): Int {
+        val need = maxOf(maxGroundFt + margin, minimum.toFloat())
         val east = magneticCourse % 360 < 180
         var alt = if (east) 3500 else 4500
         while (alt < need) alt += 2000
@@ -99,12 +106,13 @@ object TerrainRouter {
             if (strikeNm <= run + len || i == points.size - 1) { leg = i; along = (strikeNm - run).coerceIn(0.0, len); legLen = len; break }
             run += len
         }
-        if (leg == 0 || legLen < 3.0) return Answer(null, null, worstGroundFt.toInt())
+        if (leg == 0 || legLen < 3.0) return Answer(null, null, null, worstGroundFt.toInt())
         val a = GeoPoint(points[leg - 1].lat, points[leg - 1].lon)
         val b = GeoPoint(points[leg].lat, points[leg].lon)
         val crs = Nav.bearingTrue(a.latitude, a.longitude, b.latitude, b.longitude)
         val direct = legLen
         val limit = altFt - MARGIN_FT
+        val limitMin = altFt - MARGIN_MIN_FT
 
         // Have the ground the candidates will be swept through, so it is not fetched one tile at a
         // time in the middle of the search.
@@ -114,7 +122,13 @@ object TerrainRouter {
                 Math.max(a.latitude, b.latitude) + pad, Math.max(a.longitude, b.longitude) + pad)
         } catch (e: Throwable) { }
 
+        // Two tiers are kept as the search goes: the shortest detour that clears by a thousand feet,
+        // and the shortest that clears by five hundred. The first is offered if there is one; the
+        // second, marked as the lesser, when there is not — better a way round that keeps five
+        // hundred feet than the word "none" when the pilot is looking at a ridge.
         var best: Bypass? = null
+        var bestMin: Bypass? = null
+        val ctx = appContext
         val fractions = listOf(-0.2, -0.1, 0.0, 0.1, 0.2).map { (along / legLen + it).coerceIn(0.12, 0.9) }.distinct()
         val offsets = listOf(3.0, 5.0, 8.0, 12.0, 16.0, 22.0, 30.0)
         for (f in fractions) {
@@ -123,27 +137,36 @@ object TerrainRouter {
                 val w = Nav.destination(pivot.latitude, pivot.longitude, crs + 90.0 * side, off)
                 val added = Nav.distanceNm(a.latitude, a.longitude, w.latitude, w.longitude) +
                     Nav.distanceNm(w.latitude, w.longitude, b.latitude, b.longitude) - direct
-                if (best != null && added >= best.addedNm) continue          // cannot beat what is held
+                // Nothing can beat a thousand-foot detour that is already shorter than this.
+                if (best != null && added >= best.addedNm) continue
+                if (best == null && bestMin != null && added >= bestMin.addedNm && added > bestMin.addedNm + 40.0) continue
                 val worst1 = worstOnLeg(a, w, halfCorridorNm, ground)
-                if (worst1 > limit) continue
+                if (worst1 > limitMin) continue
                 val worst2 = worstOnLeg(w, b, halfCorridorNm, ground)
-                if (worst2 > limit) continue
+                if (worst2 > limitMin) continue
+                val worst = Math.max(worst1, worst2)
+                val tier = if (worst <= limit) MARGIN_FT else MARGIN_MIN_FT
+                if (tier == MARGIN_MIN_FT && bestMin != null && added >= bestMin.addedNm) continue
                 if (throughForbidden(a, w, altFt, areas) || throughForbidden(w, b, altFt, areas)) continue
                 // The towers on the two new legs, except close to the ends where the climb and the
                 // descent take care of them.
-                val tw = try {
-                    Obstacles.alongRoute(appContext ?: return Answer(null, null, worstGroundFt.toInt()),
+                val tw: List<Obstacles.Along> = if (ctx == null) emptyList() else try {
+                    Obstacles.alongRoute(ctx,
                         listOf(points[leg - 1], FlightPlan.Waypoint("W", w.latitude, w.longitude), points[leg]), halfCorridorNm)
                 } catch (e: Throwable) { emptyList() }
                 val total = Nav.distanceNm(a.latitude, a.longitude, w.latitude, w.longitude) +
                     Nav.distanceNm(w.latitude, w.longitude, b.latitude, b.longitude)
-                if (tw.any { it.obstacle.topFt > limit && it.alongNm > 3.0 && it.alongNm < total - 3.0 }) continue
-                best = Bypass(leg - 1, w.latitude, w.longitude, added, Math.max(worst1, worst2).toInt(),
-                    if (side < 0) "left of the course" else "right of the course")
+                val lim = if (tier == MARGIN_FT) limit else limitMin
+                if (tw.any { it.obstacle.topFt > lim && it.alongNm > 3.0 && it.alongNm < total - 3.0 }) continue
+                val cand = Bypass(leg - 1, w.latitude, w.longitude, added, worst.toInt(),
+                    if (side < 0) "left of the course" else "right of the course", tier)
+                if (tier == MARGIN_FT) best = cand else bestMin = cand
             }
         }
         val course = Nav.magnetic(crs, a.latitude, a.longitude)
-        return Answer(best, climbTo(worstGroundFt, course, 3500), worstGroundFt.toInt())
+        val climb = climbTo(worstGroundFt, course, 3500)
+        val climbMin = climbTo(worstGroundFt, course, 3500, MARGIN_MIN_FT).takeIf { it < climb }
+        return Answer(best ?: bestMin, climb, climbMin, worstGroundFt.toInt())
     }
 
     /** Set once by the map, so the obstacle list can be read from here. */

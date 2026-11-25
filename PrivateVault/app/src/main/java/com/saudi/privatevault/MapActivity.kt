@@ -3376,12 +3376,18 @@ class MapActivity : BaseActivity(), NeonHost {
         fun showBanner(ans: TerrainRouter.Answer, strikeNm: Double) {
             bannerBtns.removeAllViews()
             val byp = ans.bypass
-            bannerHead.text = if (byp != null) "Terrain bypass available" else "No short detour clears at %,d ft".format(plan.altitude)
+            val lesser = byp != null && byp.marginFt < 1000
+            bannerHead.text = when {
+                byp == null -> "No short detour clears at %,d ft".format(plan.altitude)
+                lesser -> "Closest bypass keeps ${byp.marginFt} ft clear"
+                else -> "Terrain bypass available"
+            }
+            bannerHead.setTextColor(if (lesser) 0xFFFFD60A.toInt() else 0xFF69F0AE.toInt())
             bannerText.text = (if (byp != null)
                 "Strike at %.0f nm. Going %s, round via a new point: +%.0f nm, highest ground then %,d ft — %,d ft clear.".format(
                     strikeNm, byp.side, byp.addedNm, byp.maxGroundFt, plan.altitude - byp.maxGroundFt)
             else "Strike at %.0f nm; the highest ground in the corridor is %,d ft.".format(strikeNm, ans.worstGroundFt))
-            if (byp != null) bannerBtns.addView(btn("Apply bypass", 0xFF00A152.toInt()) {
+            if (byp != null) bannerBtns.addView(btn("Apply bypass", if (lesser) 0xFFB8860B.toInt() else 0xFF00A152.toInt()) {
                 val wp = FlightPlan.Waypoint(nextPointName(), byp.lat, byp.lon)
                 plan.points.add(byp.legIndex + 1, wp)
                 plan.legWinds.clear()
@@ -3389,11 +3395,14 @@ class MapActivity : BaseActivity(), NeonHost {
                 plan.save(this); updateNav(); routePanel?.refresh(true); map.invalidate()
                 dlg.dismiss(); profile()
             }, LinearLayout.LayoutParams(-2, -2).apply { marginEnd = dp(8) })
-            ans.climbFt?.let { up ->
-                if (up != plan.altitude) bannerBtns.addView(btn("Climb to %,d ft".format(up), 0xFF2D7FF9.toInt()) {
+            // The ways up: the lowest legal height that keeps five hundred feet, where that is lower
+            // than the one that keeps a thousand, then the one that keeps a thousand.
+            for ((up, c) in listOfNotNull(ans.climbMinFt?.let { it to 0xFFB8860B.toInt() }, ans.climbFt?.let { it to 0xFF2D7FF9.toInt() })) {
+                if (up == plan.altitude) continue
+                bannerBtns.addView(btn("Climb to %,d ft  (+%,d)".format(up, up - ans.worstGroundFt), c) {
                     plan.altitude = up; v.analyse(); plan.save(this); routePanel?.refresh(true); updateNav()
                     dlg.setTitle(title(up)); v.invalidate(); banner.visibility = View.GONE
-                }, LinearLayout.LayoutParams(-2, -2))
+                }, LinearLayout.LayoutParams(-2, -2).apply { marginEnd = dp(8) })
             }
             banner.visibility = View.VISIBLE
         }
