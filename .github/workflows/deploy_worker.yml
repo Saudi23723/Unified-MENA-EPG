@@ -35,6 +35,16 @@ jobs:
           echo "Cloudflare answered $code"
           head -c 300 resp.json | sed -E 's/"(token|secret)[^"]*":"[^"]*"/"\1":"***"/g'; echo
           [ "$code" = "200" ]
+      - name: Turn on the fetch flag
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          # the code upload above does not change the worker's settings: the flag is set here (Cloudflare's settings call)
+          code=$(curl -sS -o s.json -w "%{http_code}" -X PATCH "https://api.cloudflare.com/client/v4/accounts/6ebea2f90132db027f0713f5ca1ffa01/workers/scripts/saudi1/settings" \
+            -H "Authorization: Bearer $CF_TOKEN" \
+            -F 'settings={"compatibility_date":"2024-09-01","compatibility_flags":["global_fetch_strictly_public"]};type=application/json')
+          echo "settings answered $code"; python3 -c 'import json; r=json.load(open("s.json")); print("success", r.get("success"), "errors", r.get("errors"))'
+          [ "$code" = "200" ]
       - name: Check what is live
         env:
           CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
