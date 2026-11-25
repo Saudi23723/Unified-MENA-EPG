@@ -87,6 +87,37 @@ export default {
     await schema(env.DB);
 
     // ---- the app ----
+    // the web app's way round a provider that sends the browser somewhere it may not go (an http edge server, no CORS):
+    // the page asks for the stream through here ONLY after playing it directly failed. Only a working (active, not
+    // expired) device may use it; a playlist's links are rewritten so the segments come through here too
+    if (p === "/api/px") {
+      const CORS = { "Access-Control-Allow-Origin": "*", "Access-Control-Expose-Headers": "Content-Length,Content-Range,Accept-Ranges", "Cache-Control": "no-store" };
+      const code = (url.searchParams.get("code") || "").replace(/\D/g, "");
+      const target = url.searchParams.get("u") || "";
+      const d = code.length === 8 ? await env.DB.prepare("SELECT active, expires, login FROM devices WHERE code=?").bind(code).first() : null;
+      if (!d || !d.active || !d.login || (d.expires && d.expires < Date.now())) return new Response("not allowed", { status: 403, headers: CORS });
+      let t; try { t = new URL(target); } catch (e) { return new Response("bad link", { status: 400, headers: CORS }); }
+      if (!/^https?:$/.test(t.protocol) || /^(localhost|127\.|10\.|192\.168\.|169\.254\.|0\.)/.test(t.hostname)) return new Response("bad link", { status: 400, headers: CORS });
+      const h = { "User-Agent": "Lavf/60.3.100" };
+      const rg = req.headers.get("Range"); if (rg) h.Range = rg;
+      let r; try { r = await fetch(t.toString(), { headers: h, redirect: "follow" }); } catch (e) { return new Response("provider unreachable", { status: 502, headers: CORS }); }
+      const ct = r.headers.get("content-type") || "";
+      const path = new URL(r.url || t.toString()).pathname.toLowerCase();
+      if (r.ok && !/\.(ts|m4s|aac|mp4|mkv|avi|mp3)$/.test(path) && (/mpegurl/i.test(ct) || /\.m3u8$/.test(path))) {
+        const base = r.url || t.toString();
+        const via = (u) => url.origin + "/api/px?code=" + code + "&u=" + encodeURIComponent(new URL(u, base).toString());
+        const body = (await r.text()).split(/\r?\n/).map((ln) => {
+          if (!ln.trim()) return ln;
+          if (ln[0] === "#") return ln.replace(/URI="([^"]+)"/g, (m, u) => 'URI="' + via(u) + '"');
+          return via(ln.trim());
+        }).join("\n");
+        return new Response(body, { headers: { ...CORS, "Content-Type": "application/vnd.apple.mpegurl" } });
+      }
+      const out = new Headers(CORS);
+      for (const k of ["content-type", "content-length", "content-range", "accept-ranges"]) if (r.headers.get(k)) out.set(k, r.headers.get(k));
+      return new Response(r.body, { status: r.status, headers: out });
+    }
+
     // GET /api/device?code=12345678&model=Chromecast  -> {status:"pending"} | {status:"active", server, user, pass, name, expires}
     if (p === "/api/device") {
       const code = (url.searchParams.get("code") || "").replace(/\D/g, "");
