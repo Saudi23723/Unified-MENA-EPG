@@ -798,6 +798,9 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
     private val hosted = ArrayList<Hosted>()
 
     /** Takes an overlay's drawing into this sheet's picture, so it moves with it and costs nothing per frame. */
+    /** Something drawn in the picture has new data: draw the picture again at the next frame. */
+    fun markDirty() { dirty = true; map.postInvalidate() }
+
     fun <T> host(o: T) where T : Overlay, T : SnapChild { hosted.add(Hosted(o, o)); o.hosted = true; dirty = true }
     private var snap: Bitmap? = null
     private var snapCanvas: Canvas? = null
@@ -880,7 +883,7 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
                 val sig = signature()
                 val t = android.os.SystemClock.uptimeMillis()
                 val sv = snapView
-                if (snap == null || sv == null || !sv.contentEquals(now) || sig != snapSig || dirty || t - snapAt > 1500L) renderSnap(mv, now, sig)
+                if (snap == null || sv == null || !sv.contentEquals(now) || sig != snapSig || dirty || t - snapAt > 6000L) renderSnap(mv, now, sig)
             }
             val b = snap
             if (b != null) {

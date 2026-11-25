@@ -112,6 +112,10 @@ class MapActivity : BaseActivity(), NeonHost {
             setTileDownloadThreads(8.toShort())
             setTileFileSystemThreads(8.toShort())
             setCacheMapTileCount(128.toShort())
+            // Room in the queues for a whole screen of tiles: a full queue drops requests, and the
+            // dropped tiles are asked for again and again while the chart moves.
+            setTileDownloadMaxQueueSize(120.toShort())
+            setTileFileSystemMaxQueueSize(120.toShort())
             // A chart tile is kept for three weeks, not re-asked for the moment its server's header says so;
             // the FAA tiles are cleared when a new edition takes effect (ChartUpdates.dropOldEdition).
             expirationOverrideDuration = 21L * 24 * 3600 * 1000
@@ -206,7 +210,7 @@ class MapActivity : BaseActivity(), NeonHost {
         // Terrain awareness under everything else drawn on the chart.
         Terrain.init(this)
         Navaids.init(this)
-        Navaids.onData = { map.postInvalidate() }
+        Navaids.onData = { aero?.markDirty() ?: map.postInvalidate() }
         Srtm.init(this)
         TerrainRouter.appContext = applicationContext
         Voice.init(this)
