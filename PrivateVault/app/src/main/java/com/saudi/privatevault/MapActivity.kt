@@ -65,6 +65,7 @@ class MapActivity : BaseActivity(), NeonHost {
     private lateinit var draw: MapDrawOverlay
     private lateinit var airportsLayer: AirportsOverlay
     private lateinit var ownship: OwnshipOverlay
+    private lateinit var marksOv: MarksOverlay
     private lateinit var weather: WeatherOverlay
     private lateinit var rings: RangeRingsOverlay
     private lateinit var insetOv: DiagramInsetOverlay
@@ -248,6 +249,10 @@ class MapActivity : BaseActivity(), NeonHost {
         glide.ratio = prefs.getString("glide_ratio", "10")?.toDoubleOrNull() ?: 10.0
         windTimer.run()
         map.overlays.add(glide)
+        marksOv = MarksOverlay(map).apply { marks = Marks.all(this@MapActivity) }
+        map.overlays.add(marksOv)
+        ownship.showTrail = prefs.getBoolean("crumbs_on", true)
+        ownship.restoreTrail(loadCrumbs())
         map.overlays.add(ownship)
         traffic = TrafficOverlay(map) { ownship.fix?.takeIf { it.hasAltitude() && gotGps }?.altitude?.times(3.28084) }.apply {
             near = { t -> trafficClose(t) != null }
@@ -434,6 +439,7 @@ class MapActivity : BaseActivity(), NeonHost {
     override fun onPause() {
         super.onPause()
         map.onPause()
+        saveCrumbs()
         b.root.removeCallbacks(frame)
         b.root.removeCallbacks(weatherTimer)
         plan.save(this)
@@ -1352,6 +1358,13 @@ class MapActivity : BaseActivity(), NeonHost {
         row("Performance readout", "Frames per second and how long the map takes to draw, on the map itself; send a screenshot of it if the map is slow",
             prefs.getBoolean("perf_show", false)) { prefs.edit().putBoolean("perf_show", !prefs.getBoolean("perf_show", false)).apply(); setPerf() }
         head("Flight")
+        row("📍 Mark this position", "Where the aeroplane is now (the middle of the chart without GPS), with the time and height") { markHere() }
+        row("Marked positions (${Marks.all(this).size})") { marksList() }
+        row("Breadcrumbs", "The line the aeroplane has flown, kept when the app is closed", prefs.getBoolean("crumbs_on", true)) {
+            val on = !prefs.getBoolean("crumbs_on", true); prefs.edit().putBoolean("crumbs_on", on).apply()
+            ownship.showTrail = on; map.invalidate()
+        }
+        row("Clear breadcrumbs") { ownship.clearTrail(); saveCrumbs(); map.invalidate() }
         row(getString(R.string.plan_title)) { navLog() }
         row("Approaches") { approachMenu() }
         row("Weather briefing for the route") { BriefingActivity.open(this) }
@@ -1560,6 +1573,53 @@ class MapActivity : BaseActivity(), NeonHost {
      * ground to draw, the printed log has rows, and the leg can be bent afterwards like any other.
      * Trying instead to carry a Direct-To with nothing behind it is what kept failing.
      */
+    // ---- breadcrumbs and marked positions ----
+
+    private fun crumbsFile() = java.io.File(filesDir, "breadcrumbs.csv")
+
+    private fun loadCrumbs(): List<GeoPoint> = try {
+        crumbsFile().readLines().mapNotNull { l -> l.split(',').takeIf { it.size >= 2 }?.let { GeoPoint(it[0].toDouble(), it[1].toDouble()) } }
+    } catch (e: Exception) { emptyList() }
+
+    private fun saveCrumbs() {
+        if (!::ownship.isInitialized) return
+        val pts = ownship.trailCopy()
+        val f = crumbsFile()
+        Thread { try { f.writeText(pts.joinToString("\n") { "%.6f,%.6f".format(java.util.Locale.US, it.latitude, it.longitude) }) } catch (e: Exception) { } }.start()
+    }
+
+    private fun markHere() {
+        val g = (if (gotGps) ownship.position() else null) ?: (map.mapCenter as GeoPoint)
+        val alt = if (gotGps && !lastAlt.isNaN()) Math.round(lastAlt).toInt() else null
+        val m = Marks.add(this, g.latitude, g.longitude, alt)
+        marksOv.marks = Marks.all(this); map.invalidate()
+        Toast.makeText(this, "${m.label} marked · ${Marks.dm(g.latitude, g.longitude)}" + (alt?.let { " · %,d ft".format(it) } ?: ""), Toast.LENGTH_LONG).show()
+    }
+
+    private fun marksList() {
+        val list = Marks.all(this).sortedByDescending { it.n }
+        if (list.isEmpty()) { Toast.makeText(this, "No marked positions yet", Toast.LENGTH_SHORT).show(); return }
+        val names = list.map { m -> "${m.label} · ${Marks.timeOf(m)} · ${Marks.dm(m.lat, m.lon)}" + (m.altFt?.let { " · %,d ft".format(it) } ?: "") }.toTypedArray()
+        MaterialAlertDialogBuilder(this).setTitle("Marked positions")
+            .setItems(names) { _, i ->
+                val m = list[i]
+                val acts = arrayOf("Show on the chart", "Direct to", "Add to the route", "Send", "Delete")
+                MaterialAlertDialogBuilder(this).setTitle(names[i]).setItems(acts) { _, k ->
+                    when (k) {
+                        0 -> { freeChart(); map.controller.animateTo(GeoPoint(m.lat, m.lon)) }
+                        1 -> directTo(FlightPlan.Waypoint(m.label, m.lat, m.lon))
+                        2 -> { plan.points.add(FlightPlan.Waypoint(m.label, m.lat, m.lon)); plan.save(this); updateNav(); routePanel?.refresh(true) }
+                        3 -> startActivity(android.content.Intent.createChooser(android.content.Intent(android.content.Intent.ACTION_SEND).apply {
+                            type = "text/plain"; putExtra(android.content.Intent.EXTRA_TEXT, names[i] + "\nhttps://maps.google.com/?q=%.6f,%.6f".format(java.util.Locale.US, m.lat, m.lon))
+                        }, null))
+                        4 -> { Marks.remove(this, m.n); marksOv.marks = Marks.all(this); map.invalidate() }
+                    }
+                }.show()
+            }
+            .setNeutralButton("Delete all") { _, _ -> Marks.clear(this); marksOv.marks = emptyList(); map.invalidate() }
+            .setNegativeButton("Close", null).show()
+    }
+
     private fun directTo(w: FlightPlan.Waypoint) {
         val here = ownship.position()
         val from = here ?: map.mapCenter

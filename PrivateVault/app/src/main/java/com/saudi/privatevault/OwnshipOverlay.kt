@@ -93,6 +93,20 @@ class OwnshipOverlay(map: MapView, private val plane: Bitmap) : Overlay() {
 
     fun clearTrail() = trail.clear()
 
+    /** Whether the breadcrumbs are drawn; they are recorded either way. */
+    var showTrail = true
+
+    /** The breadcrumbs, to keep across a restart of the app. */
+    fun trailCopy(): List<GeoPoint> = ArrayList(trail)
+
+    /** Puts back the breadcrumbs kept from before, under any already flown since. */
+    fun restoreTrail(old: List<GeoPoint>) {
+        if (old.isEmpty()) return
+        val now = ArrayList(trail)
+        trail.clear(); trail.addAll(old); trail.addAll(now)
+        if (trail.size > 4000) trail.subList(0, trail.size - 4000).clear()
+    }
+
     /** Knots, or 0 when standing still. */
     fun speedKt(): Double = fix?.takeIf { it.hasSpeed() }?.let { it.speed * 1.943844 } ?: 0.0
 
@@ -109,7 +123,7 @@ class OwnshipOverlay(map: MapView, private val plane: Bitmap) : Overlay() {
         if (shadow) return
         val l = fix ?: return
         val pr = mapView.projection
-        if (trail.size > 1) {
+        if (showTrail && trail.size > 1) {
             val path = Path()
             // Thousands of points would be worked out on every frame: about five hundred show the same line.
             val stepT = Math.max(1, trail.size / 500)
