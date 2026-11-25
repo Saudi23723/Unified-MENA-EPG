@@ -233,6 +233,7 @@ class MapActivity : BaseActivity(), NeonHost {
         ownship = OwnshipOverlay(map, airplane()).apply { onUserPan = { if (following || trackUp || ahead) freeChart() } }
         glide = GlideRing(map, { if (gotGps) ownship.position() else null }, { if (lastAlt.isNaN()) null else lastAlt })
         glide.ratio = prefs.getString("glide_ratio", "10")?.toDoubleOrNull() ?: 10.0
+        windTimer.run()
         map.overlays.add(glide)
         map.overlays.add(ownship)
         traffic = TrafficOverlay(map) { ownship.fix?.takeIf { it.hasAltitude() && gotGps }?.altitude?.times(3.28084) }.apply {
@@ -2516,6 +2517,23 @@ class MapActivity : BaseActivity(), NeonHost {
     private var gotGps = false
     private var lastAlt = Double.NaN
     private lateinit var glide: GlideRing
+    private var windAt = 0L
+    /** The wind where the aeroplane is, asked for every ten minutes off the main thread, for the glide. */
+    private val windTimer = object : Runnable {
+        override fun run() {
+            val g = if (gotGps) ownship.position() else null
+            val alt = lastAlt
+            if (g != null && !alt.isNaN() && System.currentTimeMillis() - windAt > 600000L) {
+                windAt = System.currentTimeMillis()
+                val appCtx = applicationContext
+                Thread {
+                    val w = try { Winds.at(appCtx, g.latitude, g.longitude, alt.toInt().coerceIn(1000, 18000)) } catch (e: Throwable) { null }
+                    if (w != null) { glide.wind = w.dirTrue to w.kt; map.postInvalidate() }
+                }.start()
+            }
+            map.postDelayed(this, 30000L)
+        }
+    }
     private var lastAltAt = 0L
     private var vs = 0.0
     private val listener = LocationListener { l -> onFix(l) }

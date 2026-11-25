@@ -18,6 +18,20 @@ import org.osmdroid.views.overlay.Overlay
  */
 class GlideRing(private val map: MapView, private val where: () -> GeoPoint?, private val altFt: () -> Double?) : Overlay() {
     var ratio = 10.0
+    /** Wind at the glide's height: the direction it blows FROM (true) and its speed in knots; null means still air. */
+    @Volatile var wind: Pair<Int, Int>? = null
+    private val bestGlideKt = 59.0
+
+    /** The ratio over the ground on a bearing: the still-air ratio scaled by ground speed over airspeed. */
+    private fun ratioOn(brg: Double): Double {
+        val w = wind ?: return ratio
+        val rel = Math.toRadians(brg - w.first)
+        val tail = -w.second * Math.cos(rel)
+        val cross = w.second * Math.sin(rel)
+        if (Math.abs(cross) >= bestGlideKt) return 0.01
+        val gs = tail + Math.sqrt(bestGlideKt * bestGlideKt - cross * cross)
+        return (ratio * gs / bestGlideKt).coerceAtLeast(0.01)
+    }
     private val d = map.resources.displayMetrics.density
     private val edge = Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.STROKE; strokeWidth = 3f * d; color = 0xFF30D158.toInt(); strokeJoin = Paint.Join.ROUND }
     private val edgeHalo = Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.STROKE; strokeWidth = 6.5f * d; color = 0x99000000.toInt(); strokeJoin = Paint.Join.ROUND }
@@ -44,7 +58,7 @@ class GlideRing(private val map: MapView, private val where: () -> GeoPoint?, pr
         val pts = ArrayList<GeoPoint>()
         var far = 0.0
         val ground0 = Terrain.elevationFt(g.latitude, g.longitude) ?: 0f
-        val max = (alt - ground0) * ratio / 6076.12
+        val max = (alt - ground0) * (ratio * 2) / 6076.12
         for (k in 0 until 48) {
             val brg = k * 7.5
             var dist = 0.0
@@ -52,7 +66,7 @@ class GlideRing(private val map: MapView, private val where: () -> GeoPoint?, pr
             while (dist < max + 0.5) {
                 val next = dist + 0.5
                 val here = Nav.destination(g.latitude, g.longitude, brg, next)
-                val h = alt - next * 6076.12 / ratio
+                val h = alt - next * 6076.12 / ratioOn(brg)
                 val ground = Terrain.elevationFt(here.latitude, here.longitude) ?: ground0
                 if (h < ground + 300) break
                 dist = next; last = GeoPoint(here.latitude, here.longitude)
@@ -83,7 +97,9 @@ class GlideRing(private val map: MapView, private val where: () -> GeoPoint?, pr
         c.drawPath(path, edge)
         // The tag at the shape's northern edge, upright whatever the chart's turn.
         mapView.projection.toPixels(shape[0], pt)
-        val s = "Glide %.1f nm · 59 KIAS · %.0f:1".format(reach, ratio)
+        val wv = wind
+        val s = "Glide %.1f nm · 59 KIAS · %.0f:1".format(reach, ratio) +
+            (if (wv != null) " · wind %03d/%d".format(wv.first, wv.second) else " · still air")
         val w = tagTx.measureText(s)
         c.save(); c.rotate(-mapView.mapOrientation, pt.x.toFloat(), pt.y.toFloat())
         c.drawRoundRect(pt.x - w / 2 - 8 * d, pt.y - 26 * d, pt.x + w / 2 + 8 * d, pt.y - 6 * d, 6 * d, 6 * d, tagBg)
