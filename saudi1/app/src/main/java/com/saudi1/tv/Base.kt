@@ -151,7 +151,10 @@ open class BaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         // phones and tablets: landscape, but the device's own rotation lock is respected (owner, 17 Nov 2026: on a tablet
         // lying in bed the screens kept turning round by themselves); a TV never turns
-        if (isTouch) requestedOrientation = android.content.pm.ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE
+        // phones (owner, 25 Nov 2026): turn to either landscape side as the phone is turned, even with the rotation lock on;
+        // tablets keep following the lock
+        if (isTouch) requestedOrientation = if (resources.configuration.smallestScreenWidthDp < 600)
+            android.content.pm.ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE else android.content.pm.ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE
     }
     override fun onStart() { super.onStart(); if (started++ == 0 && wasHidden) cameBack = true; wasHidden = false }
     override fun onStop() { super.onStop(); if (--started == 0) wasHidden = true }
