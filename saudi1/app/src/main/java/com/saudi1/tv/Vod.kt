@@ -85,8 +85,19 @@ object Vod {
         .replace(Regex("[أإآ]"), "ا").replace('ى', 'ي').replace('ة', 'ه')
         .replace(Regex("[^a-z0-9\\u0600-\\u06ff]+"), "")
 
+    /** a provider's category name shown the same clean way for every playlist (owner, 21 Nov 2026): no emoji or
+     *  decoration and no "AR| " / "[EN] " / "FR - " code in front; a name that would end up empty stays as it came */
+    private fun stripDecor(n: String): String {
+        var t = n.replace(Regex("[\\p{So}\\p{Cs}\\p{Sk}\\u200B-\\u200F\\uFE0F]"), " ")
+        t = t.replace(Regex("^\\s*[\\[(|]?\\s*[A-Za-z]{2,3}\\s*[\\])|]\\s*[-:|]?\\s*"), "")
+        t = t.replace(Regex("^[\\s|\\-:•·]+|[\\s|\\-:•·]+$"), "").replace(Regex("\\s+"), " ")
+        if (t.length > 3 && t.none { it.isLowerCase() } && t.any { it in 'A'..'Z' })
+            t = t.lowercase().split(' ').joinToString(" ") { w -> w.replaceFirstChar { it.uppercase() } }
+        return if (t.isBlank()) n.trim() else t
+    }
+
     /** group names some providers send glued together ("أفلامأجنبية2025/2026"): words and years apart */
-    fun tidyName(n: String): String = n.trim()
+    fun tidyName(n: String): String = stripDecor(n)
         .replace(Regex("(أفلام|افلام|مسلسلات|برامج)(?=[\\u0621-\\u064A])"), "$1 ")
         .replace(Regex("([\\u0621-\\u064A])(?=\\d)"), "$1 ").replace(Regex("(\\d)(?=[\\u0621-\\u064A])"), "$1 ")
         .replace(Regex("\\s{2,}"), " ")
