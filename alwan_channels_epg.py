@@ -450,6 +450,13 @@ PLAYLIST_GUIDE = ("https://raw.githubusercontent.com/Saudi23723/"
 PLAYLIST_EXTRA = ("https://raw.githubusercontent.com/Saudi23723/"
                   "Unified-MENA-EPG/att-epg/alkass_extra.json")
 PLAYLIST_PREFIX = "Playlist.Guide."
+# official logos (tools/official_logos.py) for playlist-guide channels that come without one
+OFFICIAL_LOGOS = {
+    "Playlist.Guide.loolookidstv.us": "looloo_kids.png",
+    "Playlist.Guide.ytnradiokorea.us": "ytn_radio.png",
+    "Playlist.Guide.Playlist.PL1TVP3Biaystokpl": "tvp3_bialystok.png",
+    "Playlist.Guide.Playlist.AT1KABEL1DOKUat": "kabel_eins_doku.png",
+}
 
 
 def _playlist_guide_root():
@@ -570,6 +577,9 @@ def add_playlist_guide_to(root, published: str) -> int:
                 el = ET.Element("display-name")
                 el.text = name
                 ch.insert(at_icon + i, el)
+        # a channel the playlist guide gives no logo: its official one, when we have it (logos/, owner 25 Nov 2026)
+        if ch.find("icon") is None and cid in OFFICIAL_LOGOS:
+            ET.SubElement(ch, "icon", {"src": LOGO_FILE.format(name=OFFICIAL_LOGOS[cid])})
         ch.set("id", cid)
         root.insert(at, ch)
         at += 1
