@@ -201,6 +201,8 @@ class MapActivity : BaseActivity(), NeonHost {
         }
         // Terrain awareness under everything else drawn on the chart.
         Terrain.init(this)
+        Navaids.init(this)
+        Navaids.onData = { map.postInvalidate() }
         Voice.init(this)
         hazard = HazardOverlay(map).apply { altitudeFt = prefs.getInt("hazard_alt", 5500).toDouble() }
         if (prefs.getBoolean("wx_terrain", false)) map.overlays.add(hazard)
@@ -1289,6 +1291,15 @@ class MapActivity : BaseActivity(), NeonHost {
             prefs.edit().putBoolean("chart_fine", !prefs.getBoolean("chart_fine", true)).apply()
             chartFine()
         }
+        head("Drawn sectional")
+        fun flip(key: String, default: Boolean) {
+            prefs.edit().putBoolean(key, !prefs.getBoolean(key, default)).apply(); aeroStyle(); map.invalidate()
+        }
+        row("Contour lines", null, prefs.getBoolean("aero_contours", true)) { flip("aero_contours", true) }
+        row("Grid and maximum elevation figures", "Worked out from the ground and the obstacles in each quadrangle; where a printed figure differs, the printed one rules",
+            prefs.getBoolean("aero_mef", true)) { flip("aero_mef", true); flip("aero_grid", true) }
+        row("Radio beacons", "VOR, VORTAC, TACAN and NDB with their compass roses", prefs.getBoolean("aero_navaids", true)) { flip("aero_navaids", true) }
+        row("Roads and places", "From a map service laid over the drawn sheet; needs a connection", prefs.getBoolean("aero_roads", false)) { flip("aero_roads", false) }
         head("Flight")
         row(getString(R.string.plan_title)) { navLog() }
         row("Approaches") { approachMenu() }
@@ -1333,6 +1344,48 @@ class MapActivity : BaseActivity(), NeonHost {
         a.showFields = alone
         a.showAirspace = alone || prefs.getBoolean("aero_airspace_over", false)
         a.showObstacles = prefs.getBoolean("aero_obstacles", true)
+        a.showContours = prefs.getBoolean("aero_contours", true)
+        a.showGrid = prefs.getBoolean("aero_grid", true)
+        a.showMef = prefs.getBoolean("aero_mef", true)
+        // The beacons are shown on their own sheet and over a printed chart alike: the chart prints
+        // them too, but only this draws their rose upright and turned to magnetic north.
+        a.showNavaids = prefs.getBoolean("aero_navaids", true)
+        setPlaces()
+    }
+
+    private var roadsOverlay: org.osmdroid.views.overlay.TilesOverlay? = null
+    private var placesOverlay: org.osmdroid.views.overlay.TilesOverlay? = null
+
+    /**
+     * Roads and place names over the drawn sectional. The drawn map has the ground, the airspace,
+     * the beacons and the fields; the roads, rivers' crossings and towns a pilot also navigates by
+     * come from a transparent map service laid over it, and only while it is asked for and the
+     * drawn sheet is the one showing.
+     */
+    private fun setPlaces() {
+        val want = prefs.getBoolean("aero_roads", false) && layer.key == "aero"
+        fun make(base: String): org.osmdroid.views.overlay.TilesOverlay {
+            val src = AviationData.Layer("ref", R.string.map_aero, base, 15).source()
+            return org.osmdroid.views.overlay.TilesOverlay(
+                org.osmdroid.tileprovider.MapTileProviderBasic(applicationContext, src), applicationContext).apply {
+                loadingBackgroundColor = android.graphics.Color.TRANSPARENT
+                loadingLineColor = android.graphics.Color.TRANSPARENT
+            }
+        }
+        if (!want) {
+            roadsOverlay?.let { map.overlays.remove(it) }; placesOverlay?.let { map.overlays.remove(it) }
+            roadsOverlay = null; placesOverlay = null
+            map.invalidate()
+            return
+        }
+        if (roadsOverlay == null) {
+            val at = (map.overlays.indexOf(aero) + 1).coerceAtLeast(0)
+            roadsOverlay = make("https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer")
+            placesOverlay = make("https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer")
+            map.overlays.add(at, roadsOverlay)
+            map.overlays.add(at + 1, placesOverlay)
+            map.invalidate()
+        }
     }
 
     /**

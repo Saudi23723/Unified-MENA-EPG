@@ -97,7 +97,33 @@ object Terrain {
             val m = ((p shr 16) and 0xFF) * 256.0 + ((p shr 8) and 0xFF) + (p and 0xFF) / 256.0 - 32768
             ft[i] = (m * 3.28084).toFloat().coerceAtLeast(0f)
         }
+        despike(ft)
         return Tile(z, x, y, ft)
+    }
+
+    /**
+     * Takes out the bad pixels the source data is known to carry. A single pixel standing 1,500 feet
+     * clear above all eight of its neighbours is not a mountain, it is a fault in the data — and left
+     * in, it is a terrain strike that does not exist, a maximum elevation figure that is wrong, and
+     * a spike on the profile. Found in the real tiles: a lone 15,479 ft pixel in the middle of
+     * Arizona desert whose neighbours stood at about 1,200. The same goes for a pit.
+     */
+    private fun despike(ft: FloatArray) {
+        val n = 256
+        val src = ft.copyOf()
+        for (y in 1 until n - 1) for (x in 1 until n - 1) {
+            val i = y * n + x
+            val v = src[i]
+            var hi = -1f; var lo = Float.MAX_VALUE; var sum = 0f
+            for (dy in -1..1) for (dx in -1..1) {
+                if (dy == 0 && dx == 0) continue
+                val w = src[i + dy * n + dx]
+                if (w > hi) hi = w
+                if (w < lo) lo = w
+                sum += w
+            }
+            if (v - hi > 1500f || lo - v > 1500f) ft[i] = sum / 8f
+        }
     }
 
     /** Ground elevation in feet, or null while its tile is not at hand. */
