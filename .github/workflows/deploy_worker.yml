@@ -1,0 +1,35 @@
+name: Deploy the saudi1 worker to Cloudflare
+
+# Manual only (owner, 25 Nov 2026): publishes cloudflare/saudi1_api.js as the worker "saudi1" without anyone pasting it in
+# the dashboard. The bindings (the database and the secret keys) are kept as they are. It needs one repository secret,
+# CLOUDFLARE_API_TOKEN, made by the owner (a token that may edit Workers scripts); nobody else sees it.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-worker
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Publish the worker
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          if [ -z "$CF_TOKEN" ]; then echo "the secret CLOUDFLARE_API_TOKEN is not set: nothing published"; exit 1; fi
+          node --check cloudflare/saudi1_api.js
+          cp cloudflare/saudi1_api.js worker.js
+          code=$(curl -sS -o resp.json -w "%{http_code}" -X PUT \
+            "https://api.cloudflare.com/client/v4/accounts/6ebea2f90132db027f0713f5ca1ffa01/workers/scripts/saudi1/content" \
+            -H "Authorization: Bearer $CF_TOKEN" \
+            -F 'metadata={"main_module":"worker.js","keep_bindings":["d1","secret_text"]};type=application/json' \
+            -F 'worker.js=@worker.js;type=application/javascript+module;filename=worker.js')
+          echo "Cloudflare answered $code"
+          head -c 300 resp.json | sed -E 's/"(token|secret)[^"]*":"[^"]*"/"\1":"***"/g'; echo
+          [ "$code" = "200" ]
