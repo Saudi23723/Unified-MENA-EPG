@@ -47,15 +47,18 @@ object AviationData {
             val px = IntArray(w * h)
             bmp.getPixels(px, 0, w, 0, 0, w, h)
             fun white(v: Int, lo: Int) = ((v shr 16) and 0xFF) >= lo && ((v shr 8) and 0xFF) >= lo && (v and 0xFF) >= lo
-            val mark = BooleanArray(w * h)
-            val RUN = 16
+            // A pixel belongs to the margin when white runs at least eight pixels both along its row and
+            // down its column (a band, not a line), or runs forty or more either way (a band that
+            // fills the tile). Lines, text halos and symbol interiors are never both.
+            val hShort = BooleanArray(w * h); val hLong = BooleanArray(w * h)
+            val vShort = BooleanArray(w * h); val vLong = BooleanArray(w * h)
             for (y in 0 until h) {
                 var x = 0
                 while (x < w) {
-                    if (white(px[y * w + x], 0xFA)) {
+                    if (white(px[y * w + x], 0xFC)) {
                         var e = x
-                        while (e < w && white(px[y * w + e], 0xFA)) e++
-                        if (e - x >= RUN) for (k in x until e) mark[y * w + k] = true
+                        while (e < w && white(px[y * w + e], 0xFC)) e++
+                        if (e - x >= 8) for (k in x until e) { hShort[y * w + k] = true; if (e - x >= 40) hLong[y * w + k] = true }
                         x = e
                     } else x++
                 }
@@ -63,14 +66,16 @@ object AviationData {
             for (x in 0 until w) {
                 var y = 0
                 while (y < h) {
-                    if (white(px[y * w + x], 0xFA)) {
+                    if (white(px[y * w + x], 0xFC)) {
                         var e = y
-                        while (e < h && white(px[e * w + x], 0xFA)) e++
-                        if (e - y >= RUN) for (k in y until e) mark[k * w + x] = true
+                        while (e < h && white(px[e * w + x], 0xFC)) e++
+                        if (e - y >= 8) for (k in y until e) { vShort[k * w + x] = true; if (e - y >= 40) vLong[k * w + x] = true }
                         y = e
                     } else y++
                 }
             }
+            val mark = BooleanArray(w * h)
+            for (i in mark.indices) mark[i] = (hShort[i] && vShort[i]) || hLong[i] || vLong[i]
             var any = false
             val out = BooleanArray(w * h)
             for (y in 0 until h) for (x in 0 until w) {
