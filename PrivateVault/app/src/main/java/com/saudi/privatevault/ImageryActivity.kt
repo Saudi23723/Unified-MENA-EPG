@@ -12,25 +12,29 @@ import android.widget.LinearLayout
  * zoom, the loops moving. Straight from the NWS, NOAA and the Aviation Weather Center.
  */
 class ImageryActivity : BaseActivity() {
-    private class Product(val icon: String, val name: String, val sub: String, val url: String, val page: Boolean = false)
+    private class Product(val icon: String, val name: String, val sub: String, val url: String, val page: Boolean = false,
+                          val legend: String = "", val loop: String? = null)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val col = EfbUi.screen(this, getString(R.string.ff_imagery))
         group(col, "Radar", listOf(
-            Product("📡", "Las Vegas radar (KESX) · loop", "Base reflectivity, the nearest NEXRAD to KBVU", "https://radar.weather.gov/ridge/standard/KESX_loop.gif"),
-            Product("📡", "Southwest radar · loop", "Pacific Southwest mosaic", "https://radar.weather.gov/ridge/standard/PACSOUTHWEST_loop.gif"),
-            Product("📡", "US radar · loop", "Continental mosaic", "https://radar.weather.gov/ridge/standard/CONUS_loop.gif"),
+            Product("📡", "Las Vegas radar (KESX) · loop", "Base reflectivity, the nearest NEXRAD to KBVU", "https://radar.weather.gov/ridge/standard/KESX_loop.gif", legend = "radar"),
+            Product("📡", "Southwest radar · loop", "Pacific Southwest mosaic", "https://radar.weather.gov/ridge/standard/PACSOUTHWEST_loop.gif", legend = "radar"),
+            Product("📡", "US radar · loop", "Continental mosaic", "https://radar.weather.gov/ridge/standard/CONUS_loop.gif", legend = "radar"),
         ))
         group(col, "Satellite", listOf(
-            Product("🛰", "Southwest · visible colour", "GOES-West GeoColor", "https://cdn.star.nesdis.noaa.gov/GOES18/ABI/SECTOR/psw/GEOCOLOR/1200x1200.jpg"),
-            Product("🛰", "Southwest · infrared", "Cloud tops by temperature (band 13)", "https://cdn.star.nesdis.noaa.gov/GOES18/ABI/SECTOR/psw/13/1200x1200.jpg"),
-            Product("🛰", "Southwest · water vapour", "Moisture aloft (band 9)", "https://cdn.star.nesdis.noaa.gov/GOES18/ABI/SECTOR/psw/09/1200x1200.jpg"),
+            Product("🛰", "Southwest · visible colour", "GOES-West GeoColor", "https://cdn.star.nesdis.noaa.gov/GOES18/ABI/SECTOR/psw/GEOCOLOR/1200x1200.jpg", legend = "vis",
+                loop = "https://cdn.star.nesdis.noaa.gov/GOES18/ABI/SECTOR/psw/GEOCOLOR/GOES18-PSW-GEOCOLOR-600x600.gif"),
+            Product("🛰", "Southwest · infrared", "Cloud tops by temperature (band 13)", "https://cdn.star.nesdis.noaa.gov/GOES18/ABI/SECTOR/psw/13/1200x1200.jpg", legend = "ir",
+                loop = "https://cdn.star.nesdis.noaa.gov/GOES18/ABI/SECTOR/psw/13/GOES18-PSW-13-600x600.gif"),
+            Product("🛰", "Southwest · water vapour", "Moisture aloft (band 9)", "https://cdn.star.nesdis.noaa.gov/GOES18/ABI/SECTOR/psw/09/1200x1200.jpg", legend = "wv",
+                loop = "https://cdn.star.nesdis.noaa.gov/GOES18/ABI/SECTOR/psw/09/GOES18-PSW-09-600x600.gif"),
         ))
         group(col, "Prognostic charts", listOf(
-            Product("🗺", "Surface analysis", "Fronts and pressure now", "https://www.wpc.ncep.noaa.gov/sfc/namussfcwbg.gif"),
-            Product("🗺", "12-hour prog", "Fronts, pressure and weather in 12 h", "https://www.wpc.ncep.noaa.gov/basicwx/92fwbg.gif"),
-            Product("🗺", "24-hour prog", "In 24 h", "https://www.wpc.ncep.noaa.gov/basicwx/94fwbg.gif"),
+            Product("🗺", "Surface analysis", "Fronts and pressure now", "https://www.wpc.ncep.noaa.gov/sfc/namussfcwbg.gif", legend = "sfc"),
+            Product("🗺", "12-hour prog", "Fronts, pressure and weather in 12 h", "https://www.wpc.ncep.noaa.gov/basicwx/92fwbg.gif", legend = "prog"),
+            Product("🗺", "24-hour prog", "In 24 h", "https://www.wpc.ncep.noaa.gov/basicwx/94fwbg.gif", legend = "prog"),
         ))
         group(col, "Aviation weather (AWC)", listOf(
             Product("☁️", "Graphical forecasts (GFA)", "Clouds, weather, ceilings and visibility, by hour", "https://aviationweather.gov/gfa/", page = true),
@@ -124,9 +128,12 @@ class ImageryActivity : BaseActivity() {
             card.addView(EfbUi.text(this, p.sub, 11.5f, EfbUi.DIM).apply { maxLines = 2; setPadding(dp(10), dp(2), dp(10), dp(10)) })
             card.setOnClickListener {
                 if (p.url.startsWith("data:")) { showData(p); return@setOnClickListener }
-                val i2 = Intent(this, WebActivity::class.java).putExtra("title", p.name)
-                if (p.page) i2.putExtra("url", p.url) else i2.putExtra("image", p.url)
-                startActivity(i2)
+                if (!p.page) {
+                    // The picture with its time slider (loops) and the key to its colours and symbols.
+                    ImageryViewerActivity.open(this, p.name, p.loop ?: p.url, p.legend, still = if (p.loop != null) p.url else null)
+                    return@setOnClickListener
+                }
+                startActivity(Intent(this, WebActivity::class.java).putExtra("title", p.name).putExtra("url", p.url))
             }
             grid.addView(card, android.widget.GridLayout.LayoutParams().apply { width = cellW; setMargins(dp(4), dp(4), dp(4), dp(4)) })
         }
