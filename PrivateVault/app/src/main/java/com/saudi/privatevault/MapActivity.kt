@@ -237,6 +237,8 @@ class MapActivity : BaseActivity(), NeonHost {
         // The airspace, the weather areas and the airport dots are drawn inside the drawn sheet's picture,
         // so they move with it for nothing instead of being worked out again on every frame.
         aero?.let { it.host(airspace); it.host(weather); it.host(airportsLayer) }
+        // The layer style was first set before the airspace overlay existed: set it again now that it does.
+        aeroStyle()
         draw = MapDrawOverlay(map)
         draw.cruiseKt = prefs.getFloat("cruise_kt", 100f).toDouble()
         draw.showMeasures = prefs.getBoolean("map_measures", true)
@@ -618,7 +620,9 @@ class MapActivity : BaseActivity(), NeonHost {
      * covers (under the weather and everything drawn).
      */
     private fun setOfficial() {
-        val f = if (prefs.getBoolean("official_on", true)) OfficialCharts.fileFor(this, layer.key) else null
+        // A downloaded chart of an old edition, or an old build with the white sheet margins, is not
+        // shown: the chart service (always the edition in force) is shown instead until the new one is on the phone.
+        val f = if (prefs.getBoolean("official_on", true) && OfficialCharts.current(this)) OfficialCharts.fileFor(this, layer.key) else null
         if (f != null && f == officialFile && official != null) return
         official?.let { map.overlays.remove(it) }
         officialProvider?.detach()

@@ -879,7 +879,7 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
                 settle?.let { mv.removeCallbacks(it) }
                 settle = Runnable { mv.postInvalidate() }.also { mv.postDelayed(it, 140L) }
                 // A chart that keeps moving (following the aeroplane) still has its lines redrawn about once a second.
-                if (snap == null || android.os.SystemClock.uptimeMillis() - snapAt > 1200L) renderSnap(mv, now, signature())
+                if (snap == null || android.os.SystemClock.uptimeMillis() - snapAt > 2500L) renderSnap(mv, now, signature())
             } else {
                 val sig = signature()
                 val t = android.os.SystemClock.uptimeMillis()
