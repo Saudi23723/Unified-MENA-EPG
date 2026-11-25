@@ -334,7 +334,10 @@ header h1{flex:1;margin:0;font-size:20px;font-weight:700;white-space:nowrap;over
   var v = $("v"), stallT = 0, hls = null, live = false, key = "", calmT = 0, retry = 0;
   function msg(t) { $("msg").textContent = t; $("msg").classList.toggle("hide", !t); }
   function play(url, title, k, from, isLive) {
-    live = isLive; key = k || ""; retry = 0; st.viaPx = false;
+    live = isLive; key = k || ""; retry = 0;
+    // every provider link is http (probe, 25 Nov 2026: all 7 relays send the player to http port 80/8080), and a page
+    // opened over https may not play http video (Safari just keeps loading): so the video always comes through our server
+    st.viaPx = location.protocol === "https:";
     $("pt").textContent = title; $("ps").textContent = ""; $("zap").classList.toggle("hide", !live);
     v.controls = !live;
     if (cur !== "play") show("play", true);

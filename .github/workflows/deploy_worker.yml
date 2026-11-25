@@ -3,6 +3,8 @@ name: Deploy the saudi1 worker to Cloudflare
 # Manual only (owner, 25 Nov 2026): publishes cloudflare/saudi1_api.js as the worker "saudi1" without anyone pasting it in
 # the dashboard. The bindings (the database and the secret keys) are kept as they are. It needs one repository secret,
 # CLOUDFLARE_API_TOKEN, made by the owner (a token that may edit Workers scripts); nobody else sees it.
+# global_fetch_strictly_public: without it the worker cannot fetch the playlist relays on the same workers.dev
+# address (Cloudflare error 1042, seen by the probe on 25 Nov 2026), so /api/px could never work.
 on:
   workflow_dispatch:
 
@@ -28,8 +30,17 @@ jobs:
           code=$(curl -sS -o resp.json -w "%{http_code}" -X PUT \
             "https://api.cloudflare.com/client/v4/accounts/6ebea2f90132db027f0713f5ca1ffa01/workers/scripts/saudi1/content" \
             -H "Authorization: Bearer $CF_TOKEN" \
-            -F 'metadata={"main_module":"worker.js","keep_bindings":["d1","secret_text"]};type=application/json' \
+            -F 'metadata={"main_module":"worker.js","compatibility_date":"2024-09-01","compatibility_flags":["global_fetch_strictly_public"],"keep_bindings":["d1","secret_text"]};type=application/json' \
             -F 'worker.js=@worker.js;type=application/javascript+module;filename=worker.js')
           echo "Cloudflare answered $code"
           head -c 300 resp.json | sed -E 's/"(token|secret)[^"]*":"[^"]*"/"\1":"***"/g'; echo
           [ "$code" = "200" ]
+      - name: Check what is live
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          curl -sS "https://api.cloudflare.com/client/v4/accounts/6ebea2f90132db027f0713f5ca1ffa01/workers/scripts/saudi1/settings" -H "Authorization: Bearer $CF_TOKEN" \
+            | python3 -c 'import json,sys; r=json.load(sys.stdin)["result"]; print("date", r.get("compatibility_date"), "flags", r.get("compatibility_flags"), "bindings", [b.get("type") for b in r.get("bindings",[])])'
+          sleep 10
+          echo "px with a made-up device (must be 403):"; curl -sS -o /dev/null -w "%{http_code}\n" "https://saudi1.1saifsaudi.workers.dev/api/px?code=00000000&u=https%3A%2F%2Fexample.com"
+          echo "device API still answers:"; curl -sS "https://saudi1.1saifsaudi.workers.dev/api/device?code=1" ; echo
