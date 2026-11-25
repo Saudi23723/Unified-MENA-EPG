@@ -18,10 +18,73 @@ import java.net.URLEncoder
 object AviationData {
 
     /** A chart or base map, as tiles in the z/y/x order ArcGIS uses. */
-    class Layer(val key: String, val label: Int, private val base: String, val maxZoom: Int) {
+    class Layer(val key: String, val label: Int, private val base: String, val maxZoom: Int, private val keyWhite: Boolean = false) {
         fun source() = object : OnlineTileSourceBase(key, 3, maxZoom, 256, "", arrayOf(base)) {
             override fun getTileURLString(index: Long): String =
                 "$base/tile/${MapTileIndex.getZoom(index)}/${MapTileIndex.getY(index)}/${MapTileIndex.getX(index)}"
+
+            override fun getDrawable(aFileInputStream: java.io.InputStream): android.graphics.drawable.Drawable? {
+                if (!keyWhite) return super.getDrawable(aFileInputStream)
+                val bytes = aFileInputStream.readBytes()
+                return try {
+                    val o = android.graphics.BitmapFactory.Options().apply { inMutable = true; inPreferredConfig = android.graphics.Bitmap.Config.ARGB_8888 }
+                    val bmp = android.graphics.BitmapFactory.decodeByteArray(bytes, 0, bytes.size, o)
+                    if (bmp == null) super.getDrawable(java.io.ByteArrayInputStream(bytes))
+                    else { clearMargins(bmp); android.graphics.drawable.BitmapDrawable(android.content.res.Resources.getSystem(), bmp) }
+                } catch (e: Throwable) { super.getDrawable(java.io.ByteArrayInputStream(bytes)) }
+            }
+        }
+
+        /**
+         * The FAA's sheets are mosaicked with their white margins, and where two meet a white band
+         * runs across the chart. Pure white in a run of sixteen pixels or more, along a row or down
+         * a column, is margin, not chart (text halos and symbols are never that long), and is made
+         * clear so the page's paper colour shows through; a two-pixel fringe of near-white round it
+         * goes too.
+         */
+        private fun clearMargins(bmp: android.graphics.Bitmap) {
+            val w = bmp.width; val h = bmp.height
+            val px = IntArray(w * h)
+            bmp.getPixels(px, 0, w, 0, 0, w, h)
+            fun white(v: Int, lo: Int) = ((v shr 16) and 0xFF) >= lo && ((v shr 8) and 0xFF) >= lo && (v and 0xFF) >= lo
+            val mark = BooleanArray(w * h)
+            val RUN = 16
+            for (y in 0 until h) {
+                var x = 0
+                while (x < w) {
+                    if (white(px[y * w + x], 0xFA)) {
+                        var e = x
+                        while (e < w && white(px[y * w + e], 0xFA)) e++
+                        if (e - x >= RUN) for (k in x until e) mark[y * w + k] = true
+                        x = e
+                    } else x++
+                }
+            }
+            for (x in 0 until w) {
+                var y = 0
+                while (y < h) {
+                    if (white(px[y * w + x], 0xFA)) {
+                        var e = y
+                        while (e < h && white(px[e * w + x], 0xFA)) e++
+                        if (e - y >= RUN) for (k in y until e) mark[k * w + x] = true
+                        y = e
+                    } else y++
+                }
+            }
+            var any = false
+            val out = BooleanArray(w * h)
+            for (y in 0 until h) for (x in 0 until w) {
+                if (!mark[y * w + x]) continue
+                any = true
+                for (dy in -2..2) for (dx in -2..2) {
+                    val yy = y + dy; val xx = x + dx
+                    if (yy < 0 || yy >= h || xx < 0 || xx >= w) continue
+                    if (mark[yy * w + xx] || white(px[yy * w + xx], 0xE6)) out[yy * w + xx] = true
+                }
+            }
+            if (!any) return
+            for (i in px.indices) if (out[i]) px[i] = 0
+            bmp.setPixels(px, 0, w, 0, 0, w, h)
         }
     }
 
@@ -30,9 +93,9 @@ object AviationData {
 
     val LAYERS = listOf(
         Layer("aero", R.string.map_aero, "$ESRI/World_Topo_Map/MapServer", 17),
-        Layer("sectional", R.string.map_sectional, "$FAA_TILES/VFR_Sectional/MapServer", 12),
-        Layer("tac", R.string.map_tac, "$FAA_TILES/VFR_Terminal/MapServer", 13),
-        Layer("ifrlow", R.string.map_ifr_low, "$FAA_TILES/IFR_AreaLow/MapServer", 12),
+        Layer("sectional", R.string.map_sectional, "$FAA_TILES/VFR_Sectional/MapServer", 12, true),
+        Layer("tac", R.string.map_tac, "$FAA_TILES/VFR_Terminal/MapServer", 13, true),
+        Layer("ifrlow", R.string.map_ifr_low, "$FAA_TILES/IFR_AreaLow/MapServer", 12, true),
         Layer("topo", R.string.map_topo, "$ESRI/World_Topo_Map/MapServer", 17),
         Layer("imagery", R.string.map_imagery, "$ESRI/World_Imagery/MapServer", 18),
     )

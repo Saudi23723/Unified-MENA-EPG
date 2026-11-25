@@ -1348,6 +1348,10 @@ class MapActivity : BaseActivity(), NeonHost {
         a.showTerrain = alone
         a.showFields = alone
         a.showAirspace = alone || prefs.getBoolean("aero_airspace_over", false)
+        if (::airspace.isInitialized) airspace.quiet = a.showAirspace
+        // Where the printed chart leaves a white margin or gap between its sheets, the page shows
+        // through it as the chart's own paper colour instead of a white band.
+        map.setBackgroundColor(if (layer.key == "sectional" || layer.key == "tac" || layer.key == "ifrlow") 0xFFF1EAD0.toInt() else android.graphics.Color.TRANSPARENT)
         a.showObstacles = prefs.getBoolean("aero_obstacles", true)
         a.showContours = prefs.getBoolean("aero_contours", true)
         a.showGrid = prefs.getBoolean("aero_grid", true)
@@ -1368,7 +1372,7 @@ class MapActivity : BaseActivity(), NeonHost {
      * drawn sheet is the one showing.
      */
     private fun setPlaces() {
-        val want = prefs.getBoolean("aero_roads", false) && layer.key == "aero"
+        val want = prefs.getBoolean("aero_roads", true) && layer.key == "aero"
         fun make(base: String): org.osmdroid.views.overlay.TilesOverlay {
             val src = AviationData.Layer("ref", R.string.map_aero, base, 15).source()
             return org.osmdroid.views.overlay.TilesOverlay(

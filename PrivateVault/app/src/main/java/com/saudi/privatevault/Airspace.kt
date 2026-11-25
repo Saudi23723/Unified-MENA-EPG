@@ -223,6 +223,8 @@ object Airspace {
 /** The airspace drawn as charts draw it, with floors and ceilings; a tap names what is underneath. */
 class AirspaceOverlay(map: MapView) : Overlay() {
     var onPick: ((List<String>) -> Unit)? = null
+    /** True when the drawn sheet already draws the airspace: this then only answers taps. */
+    var quiet = false
     private val d = map.resources.displayMetrics.density
     private val edge = Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.STROKE }
     private val fill = Paint(Paint.ANTI_ALIAS_FLAG)
@@ -232,7 +234,7 @@ class AirspaceOverlay(map: MapView) : Overlay() {
     private val pt = Point()
 
     override fun draw(c: Canvas, mapView: MapView, shadow: Boolean) {
-        if (shadow || mapView.zoomLevelDouble < 7) return
+        if (shadow || quiet || mapView.zoomLevelDouble < 7) return
         val box = mapView.boundingBox
         val pr = mapView.projection
         for (a in Airspace.areas) {

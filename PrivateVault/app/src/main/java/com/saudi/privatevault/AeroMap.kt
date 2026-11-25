@@ -90,9 +90,11 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
 
     /** The sectional's tint ladder: feet, and the colour of the ground at that height. */
     private val stopsFt = floatArrayOf(0f, 1000f, 2000f, 3000f, 4000f, 5000f, 6000f, 7000f, 8000f, 9000f, 10000f, 12000f, 14000f)
+    // Taken from a real sectional's tints: pale green low down, cream through the middle heights,
+    // then a pinkish tan to grey at the top. Saturated colours here made it look nothing like the chart.
     private val stopsRgb = intArrayOf(
-        0xCDE1BE, 0xC4DEAA, 0xCEE2A0, 0xDEE496, 0xECE092, 0xEED48A, 0xE8C47E,
-        0xDEB476, 0xD2A26E, 0xC49268, 0xB88666, 0xA87A64, 0xD2C4BE,
+        0xC7DDB9, 0xCBD8BE, 0xDDE4C6, 0xF1EBD3, 0xF7EDD7, 0xF5E6CD, 0xEEDCC4,
+        0xE6D3BF, 0xDECAC0, 0xD7CBC5, 0xD2C6C2, 0xCDC2C0, 0xC9BEC0,
     )
 
     private fun tint(ft: Float): Int {
@@ -186,7 +188,7 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
             val nx = -dzdx; val ny = -dzdy
             val len = Math.sqrt(nx * nx + ny * ny + 1.0)
             val lam = ((nx * -0.5 + ny * -0.5 + 0.707) / len).coerceIn(0.0, 1.0)
-            val k = (0.62 + 0.62 * lam).coerceIn(0.55, 1.25)
+            val k = (0.80 + 0.36 * lam).coerceIn(0.78, 1.10)
             val c = tint(h)
             val r = (((c shr 16) and 0xFF) * k).toInt().coerceIn(0, 255)
             val g = (((c shr 8) and 0xFF) * k).toInt().coerceIn(0, 255)
