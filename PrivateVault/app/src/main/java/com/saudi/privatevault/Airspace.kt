@@ -221,7 +221,9 @@ object Airspace {
 }
 
 /** The airspace drawn as charts draw it, with floors and ceilings; a tap names what is underneath. */
-class AirspaceOverlay(map: MapView) : Overlay() {
+class AirspaceOverlay(map: MapView) : Overlay(), SnapChild {
+    override var hosted = false
+    override fun snapSig(): Int = Airspace.areas.size * 31 + (if (quiet) 1 else 0)
     var onPick: ((List<String>) -> Unit)? = null
     /** True when the drawn sheet already draws the airspace: this then only answers taps. */
     var quiet = false
@@ -234,7 +236,12 @@ class AirspaceOverlay(map: MapView) : Overlay() {
     private val pt = Point()
 
     override fun draw(c: Canvas, mapView: MapView, shadow: Boolean) {
-        if (shadow || quiet || mapView.zoomLevelDouble < 7) return
+        if (shadow || hosted) return
+        drawInto(c, mapView)
+    }
+
+    override fun drawInto(c: Canvas, mapView: MapView) {
+        if (quiet || mapView.zoomLevelDouble < 7) return
         val box = mapView.boundingBox
         val pr = mapView.projection
         for (a in Airspace.areas) {

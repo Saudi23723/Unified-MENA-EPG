@@ -44,6 +44,15 @@ import java.util.concurrent.Executors
  * Everything heavy — shading a tile, tracing its contours, working out a figure — is done off the
  * screen's thread and drawn when it is ready, so the map moves as fast as it is pushed.
  */
+/** An overlay whose lines and words are drawn inside the drawn sheet's picture instead of on their own. */
+interface SnapChild {
+    /** Set when the sheet has taken the overlay over: its own draw then does nothing. */
+    var hosted: Boolean
+    fun drawInto(c: android.graphics.Canvas, mv: org.osmdroid.views.MapView)
+    /** A number that changes when what the overlay would draw has changed. */
+    fun snapSig(): Int
+}
+
 class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
 
     private val d = ctx.resources.displayMetrics.density
@@ -780,6 +789,11 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
     // moment after the finger lifts, the picture is drawn afresh at the new place.
 
     @Volatile private var dirty = true
+    private class Hosted(val overlay: Overlay, val child: SnapChild)
+    private val hosted = ArrayList<Hosted>()
+
+    /** Takes an overlay's drawing into this sheet's picture, so it moves with it and costs nothing per frame. */
+    fun <T> host(o: T) where T : Overlay, T : SnapChild { hosted.add(Hosted(o, o)); o.hosted = true; dirty = true }
     private var snap: Bitmap? = null
     private var snapCanvas: Canvas? = null
     private var snapView: DoubleArray? = null
@@ -799,6 +813,7 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
         h = h * 31 + airports.size
         h = h * 31 + runways.size
         var f = 0
+        for (hd in hosted) h = h * 31 + (if (map.overlays.contains(hd.overlay)) hd.child.snapSig() else -1)
         for (b in booleanArrayOf(showTerrain, showAirspace, showObstacles, showFields, showContours, showGrid, showMef, showNavaids)) f = f * 2 + (if (b) 1 else 0)
         return h * 1031 + f
     }
@@ -827,6 +842,7 @@ class AeroMap(private val ctx: Context, private val map: MapView) : Overlay() {
             drawNavaids(sc, mv)
             drawObstacles(sc, mv)
             if (showFields) drawFields(sc, mv)
+            for (hd in hosted) if (map.overlays.contains(hd.overlay)) try { hd.child.drawInto(sc, mv) } catch (e: Throwable) { }
         } catch (e: Throwable) {
             // A map that cannot draw one thing still draws the rest.
         }

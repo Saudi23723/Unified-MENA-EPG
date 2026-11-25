@@ -14,7 +14,9 @@ import kotlin.math.hypot
  * (VFR green, MVFR blue, IFR red, LIFR magenta) when it reports a METAR.
  * Identifiers show once zoomed in; a tap opens the airport.
  */
-class AirportsOverlay(private val map: MapView) : Overlay() {
+class AirportsOverlay(private val map: MapView) : Overlay(), SnapChild {
+    override var hosted = false
+    override fun snapSig(): Int = airports.size * 31 + weather.size * 7 + data.ordinal * 3 + windsAlt + winds.length
 
     var airports: List<AviationData.Airport> = emptyList()
     var weather: Map<String, AviationData.Metar> = emptyMap()
@@ -80,7 +82,11 @@ class AirportsOverlay(private val map: MapView) : Overlay() {
     fun station(a: AviationData.Airport) = a.icao.ifEmpty { if (a.ident.length == 3) "K" + a.ident else a.ident }
 
     override fun draw(c: Canvas, mapView: MapView, shadow: Boolean) {
-        if (shadow) return
+        if (shadow || hosted) return
+        drawInto(c, mapView)
+    }
+
+    override fun drawInto(c: Canvas, mapView: MapView) {
         val zoom = mapView.zoomLevelDouble
         if (zoom < 7) return
         val box = mapView.boundingBox

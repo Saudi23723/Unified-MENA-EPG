@@ -111,7 +111,10 @@ class MapActivity : BaseActivity(), NeonHost {
             // More tiles at once, so the chart fills in quickly.
             setTileDownloadThreads(8.toShort())
             setTileFileSystemThreads(8.toShort())
-            setCacheMapTileCount(64.toShort())
+            setCacheMapTileCount(128.toShort())
+            // A chart tile is kept for three weeks, not re-asked for the moment its server's header says so;
+            // the FAA tiles are cleared when a new edition takes effect (ChartUpdates.dropOldEdition).
+            expirationOverrideDuration = 21L * 24 * 3600 * 1000
         }
         b = ActivityMapBinding.inflate(layoutInflater)
         CrashReport.showIfAny(this)
@@ -227,6 +230,9 @@ class MapActivity : BaseActivity(), NeonHost {
         airportsLayer = AirportsOverlay(map).apply { onPick = { showAirport(it) } }
         setStationData(AirportsOverlay.Data.values().firstOrNull { it.name == prefs.getString("map_data", "NONE") } ?: AirportsOverlay.Data.NONE, prefs.getInt("winds_alt", 6000))
         map.overlays.add(airportsLayer)
+        // The airspace, the weather areas and the airport dots are drawn inside the drawn sheet's picture,
+        // so they move with it for nothing instead of being worked out again on every frame.
+        aero?.let { it.host(airspace); it.host(weather); it.host(airportsLayer) }
         draw = MapDrawOverlay(map)
         draw.cruiseKt = prefs.getFloat("cruise_kt", 100f).toDouble()
         draw.showMeasures = prefs.getBoolean("map_measures", true)

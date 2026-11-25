@@ -15,7 +15,9 @@ import kotlin.math.hypot
  * SIGMETs, AIRMETs and TFRs as shaded areas, and pilot reports as small
  * marks. A tap lists everything under the finger, with its full text.
  */
-class WeatherOverlay(map: MapView) : Overlay() {
+class WeatherOverlay(map: MapView) : Overlay(), SnapChild {
+    override var hosted = false
+    override fun snapSig(): Int = areas.size * 31 + tfrs.size * 7 + pireps.size * 3 + hazards.size + (if (showAirmets) 1 else 0) * 100 + (if (showTfrs) 1 else 0) * 200 + (if (showPireps) 1 else 0) * 400
 
     var areas: List<AviationData.Area> = emptyList()
     var tfrs: List<AviationData.Area> = emptyList()
@@ -59,7 +61,11 @@ class WeatherOverlay(map: MapView) : Overlay() {
         (if (showAirmets) areas.filter { hazards.isEmpty() || hazardOf(it) in hazards } else emptyList()) + (if (showTfrs) tfrs else emptyList())
 
     override fun draw(c: Canvas, mapView: MapView, shadow: Boolean) {
-        if (shadow) return
+        if (shadow || hosted) return
+        drawInto(c, mapView)
+    }
+
+    override fun drawInto(c: Canvas, mapView: MapView) {
         val pr = mapView.projection
         val box = mapView.boundingBox
         for (a in visible()) {
