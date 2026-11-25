@@ -33,7 +33,8 @@ jobs:
           echo "::add-mask::$C"; echo "CODE=$C" >> "$GITHUB_ENV"; echo "device code found"
       - name: Remove the throw-away worker (if still there)
         if: always()
-        run: curl -sS -o /dev/null -w "%{http_code}\n" -X DELETE "https://api.cloudflare.com/client/v4/accounts/$ACC/workers/scripts/saudi1-pick?force=true" -H "Authorization: Bearer $CF_TOKEN"
+        run: |
+          curl -sS -o /dev/null -w "%{http_code}\n" -X DELETE "https://api.cloudflare.com/client/v4/accounts/$ACC/workers/scripts/saudi1-pick?force=true" -H "Authorization: Bearer $CF_TOKEN"
       - name: Play channels in WebKit (iPhone)
         run: |
           cd tools/e2e
