@@ -1252,6 +1252,10 @@ class MapActivity : BaseActivity(), NeonHost {
         }
         if (want == shownChart) return
         shownChart = want
+        // Under a printed chart the plain world map is hidden, yet it was fetched for the whole screen
+        // as well: twice the tiles to download and decode for nothing. It is only fetched when no
+        // printed chart is over it; what it already has on the phone still fills the edges.
+        map.setUseDataConnection(want.isEmpty())
         chartOverlay?.let { map.overlays.remove(it); try { it.onDetach(map) } catch (e: Throwable) { } }
         chartOverlay = null
         if (want.isNotEmpty()) {
