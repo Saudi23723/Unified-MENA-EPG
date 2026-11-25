@@ -474,7 +474,6 @@ class MapActivity : BaseActivity(), NeonHost {
         class Tile(val v: android.widget.TextView) { var isChecked = false
             fun paint() { v.setTextColor(if (isChecked) EfbUi.ACCENT else EfbUi.TEXT); v.text = (if (isChecked) "✓  " else "     ") + (v.tag as String)
                 v.background = EfbUi.cardBg(this@MapActivity, if (isChecked) 0x221E88E5 else EfbUi.CARD, 10).apply { setStroke(dp(1), if (isChecked) EfbUi.ACCENT else EfbUi.CARD_LINE) } } }
-        fun check(label: Int, on: Boolean): Tile = checkS(getString(label), on)
         fun checkS(label: String, on: Boolean): Tile {
             val v = android.widget.TextView(this).apply { tag = label; textSize = 14f; setPadding(dp(10), dp(12), dp(10), dp(12)); maxLines = 2 }
             val t = Tile(v); t.isChecked = on; t.paint()
@@ -484,6 +483,7 @@ class MapActivity : BaseActivity(), NeonHost {
             })
             return t
         }
+        fun check(label: Int, on: Boolean): Tile = checkS(getString(label), on)
         val cRadar = check(R.string.wx_radar, radar != null)
         val cAirmet = check(R.string.wx_airmet, weather.showAirmets)
         val cTfr = check(R.string.wx_tfr, weather.showTfrs)
