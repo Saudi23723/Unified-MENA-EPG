@@ -101,7 +101,9 @@ def build(key, stem, kind, title, start, end):
     out = os.path.abspath(key + ".mbtiles")
     # The FAA's charts are paletted: colours first, then onto the web map's projection.
     sh("gdal_translate", "-of", "VRT", "-expand", "rgb", src, rgb)
-    sh("gdalwarp", "-t_srs", "EPSG:3857", "-r", "bilinear", "-dstalpha", "-multi", "-wo", "NUM_THREADS=ALL_CPUS",
+    # The sheet's white margin (pure white in all three bands) becomes clear, so the chart service shows
+    # through it instead of a white band across the map. -dstalpha carries that into the tiles.
+    sh("gdalwarp", "-t_srs", "EPSG:3857", "-r", "bilinear", "-srcnodata", "255 255 255", "-dstalpha", "-multi", "-wo", "NUM_THREADS=ALL_CPUS",
        "-co", "TILED=YES", "-co", "COMPRESS=DEFLATE", "-co", "BIGTIFF=IF_SAFER", rgb, warped)
     if os.path.exists(out):
         os.remove(out)
@@ -132,6 +134,7 @@ def main():
         return
     charts = [build(*c, start, end) for c in CHARTS]
     manifest = {"edition": start.isoformat(), "expires": end.isoformat(), "built": dt.datetime.utcnow().isoformat() + "Z",
+                "rev": 2,
                 "source": "FAA Aeronautical Information Services, GeoTIFF (aeronav.faa.gov)", "charts": charts}
     with open("manifest.json", "w") as f:
         json.dump(manifest, f, indent=1)

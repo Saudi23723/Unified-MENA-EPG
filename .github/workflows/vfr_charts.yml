@@ -32,4 +32,4 @@ jobs:
       - name: Build and publish
         env:
           GH_TOKEN: ${{ github.token }}
-        run: python3 PrivateVault/charts/build_charts.py ${{ inputs.force && '--force' || '' }}
+        run: python3 PrivateVault/charts/build_charts.py ${{ (inputs.force || github.event_name == 'push') && '--force' || '' }}

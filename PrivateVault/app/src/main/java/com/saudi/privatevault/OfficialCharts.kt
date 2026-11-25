@@ -22,7 +22,12 @@ object OfficialCharts {
     /** The edition held, or null. */
     fun edition(ctx: Context): String? = manifest(ctx)?.optString("edition")?.takeIf { it.isNotEmpty() }
 
-    fun current(ctx: Context) = edition(ctx) == ChartUpdates.cycleStart(56).toString()
+    /** The build of the tiles the app wants: 2 has the sheets' white margins made clear. */
+    private const val REV = 2
+
+    fun rev(ctx: Context) = manifest(ctx)?.optInt("rev", 1) ?: 0
+
+    fun current(ctx: Context) = edition(ctx) == ChartUpdates.cycleStart(56).toString() && rev(ctx) >= REV
 
     /** The official file for a chart layer ("sectional" or "tac"), when held. */
     fun fileFor(ctx: Context, layer: String): File? {
@@ -63,7 +68,7 @@ object OfficialCharts {
         val m = open(ctx, "manifest.json")?.let { c -> try { JSONObject(c.inputStream.bufferedReader().readText()) } finally { c.disconnect() } }
             ?: return edition(ctx)
         val charts = m.optJSONArray("charts") ?: return edition(ctx)
-        val same = m.optString("edition") == edition(ctx)
+        val same = m.optString("edition") == edition(ctx) && m.optInt("rev", 1) == rev(ctx)
         for (i in 0 until charts.length()) {
             val ch = charts.getJSONObject(i)
             val file = File(dir(ctx), ch.optString("file"))

@@ -412,6 +412,7 @@ class MapActivity : BaseActivity(), NeonHost {
 
     override fun onResume() {
         super.onResume()
+        if (::map.isInitialized) setPerf()
         ProcedureUi.here = { ownship.position()?.takeIf { gotGps } ?: map.mapCenter as GeoPoint }
         ProcedureUi.pending?.let { (p, t) -> ProcedureUi.pending = null; b.root.post { showProcedure(p, t) } }
         map.onResume()
@@ -502,6 +503,7 @@ class MapActivity : BaseActivity(), NeonHost {
         val cNav = checkS("Radio beacons", prefs.getBoolean("aero_navaids", true))
         val cRoads = checkS("Roads and places", prefs.getBoolean("aero_roads", true))
         val cPerf = checkS("Performance readout", prefs.getBoolean("perf_on", true))
+        val cOfficial = checkS("Downloaded FAA chart (Las Vegas)", prefs.getBoolean("official_on", true))
         // One kind of data on the airports at a time: none, the weather (station model), or the winds aloft.
         box.addView(android.widget.TextView(this).apply {
             text = getString(R.string.map_station_data); setPadding(0, dp(14), 0, dp(4)); setTypeface(typeface, android.graphics.Typeface.BOLD)
@@ -539,7 +541,9 @@ class MapActivity : BaseActivity(), NeonHost {
                     .putBoolean("aero_airspace_over", cAsLabels.isChecked)
                     .putBoolean("aero_contours", cContours.isChecked).putBoolean("aero_mef", cMef.isChecked)
                     .putBoolean("aero_grid", cMef.isChecked).putBoolean("aero_navaids", cNav.isChecked)
-                    .putBoolean("aero_roads", cRoads.isChecked).putBoolean("perf_on", cPerf.isChecked).apply()
+                    .putBoolean("aero_roads", cRoads.isChecked).putBoolean("perf_on", cPerf.isChecked)
+                    .putBoolean("official_on", cOfficial.isChecked).apply()
+                setOfficial()
                 aeroStyle()
                 if (cRadar.isChecked != (radar != null)) setRadar(cRadar.isChecked)
                 weather.showAirmets = cAirmet.isChecked
@@ -610,7 +614,7 @@ class MapActivity : BaseActivity(), NeonHost {
      * covers (under the weather and everything drawn).
      */
     private fun setOfficial() {
-        val f = OfficialCharts.fileFor(this, layer.key)
+        val f = if (prefs.getBoolean("official_on", true)) OfficialCharts.fileFor(this, layer.key) else null
         if (f != null && f == officialFile && official != null) return
         official?.let { map.overlays.remove(it) }
         officialProvider?.detach()
