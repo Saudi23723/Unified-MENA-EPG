@@ -17,6 +17,7 @@ UA = {"User-Agent": "Unified-MENA-EPG logo fetch (github.com/Saudi23723/Unified-
 
 # key: (how, what)
 LOGOS = {
+    "dazn": ("appsearch", "DAZN"),                  # DAZN's own app (seller DAZN)
     "tvp3_bialystok": ("wiki", "pl:TVP3 Białystok"),
     "kabel_eins_doku": ("wiki", "de:Kabel Eins Doku"),
 }
@@ -28,6 +29,12 @@ def get(url: str) -> bytes:
 
 
 def source(how: str, what: str) -> str:
+    if how == "appsearch":
+        q = urllib.parse.urlencode({"term": what, "entity": "software", "limit": 10, "country": "de"})
+        for r in json.loads(get("https://itunes.apple.com/search?" + q))["results"]:
+            if r.get("trackName", "").upper().startswith(what.upper()) and what.upper() in (r.get("sellerName") or "").upper():
+                return r.get("artworkUrl512") or r["artworkUrl100"]
+        raise RuntimeError("the broadcaster's own app was not found")
     if how == "appstore":
         o = json.loads(get("https://itunes.apple.com/lookup?id=" + what))
         r = o["results"][0]

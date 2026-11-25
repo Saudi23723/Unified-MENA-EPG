@@ -456,6 +456,7 @@ OFFICIAL_LOGOS = {
     "Playlist.Guide.ytnradiokorea.us": "ytn_radio.png",
     "Playlist.Guide.Playlist.PL1TVP3Biaystokpl": "tvp3_bialystok.png",
     "Playlist.Guide.Playlist.AT1KABEL1DOKUat": "kabel_eins_doku.png",
+    "Playlist.Guide.Playlist.DE1DAZNde": "dazn.png",
 }
 
 
