@@ -54,7 +54,7 @@ class MultiviewActivity : BaseActivity() {
         stage = android.widget.FrameLayout(this).apply { setBackgroundResource(R.drawable.multi_screen_bg) }
         setContentView(stage)
         fill = App.prefs.getBoolean("mv_fill", false)
-        big = App.prefs.getInt("mv_big", -1).let { if (it >= 0) 0 else -1 }
+        big = App.prefs.getInt("mv_big", -1).takeIf { it in 0 until n } ?: -1
         val ring = android.graphics.drawable.GradientDrawable().apply { setColor(0); setStroke((2.5f * d).toInt(), getColor(R.color.accent)); cornerRadius = if (two) 0f else 15 * d }
         val round = object : ViewOutlineProvider() {
             override fun getOutline(v: View, o: Outline) { o.setRoundRect(0, 0, v.width, v.height, 15 * d) }
@@ -68,8 +68,8 @@ class MultiviewActivity : BaseActivity() {
             pv.player = p
             val t = Tile(v, pv, p, v.findViewById(R.id.bar), v.findViewById(R.id.logo), v.findViewById(R.id.name),
                 v.findViewById(R.id.now), v.findViewById(R.id.sound), v.findViewById(R.id.empty))
-            // the small screens' pictures lie on top of the big one (two screens: the small one is inside the big one)
-            if (i > 0) (pv.videoSurfaceView as? android.view.SurfaceView)?.setZOrderMediaOverlay(true)
+            // texture views (item_multiview.xml): a small screen can lie on top of the big one and screens can move
+            // without their picture going black (25 Nov 2026: with surface views the big screen stayed black)
             v.id = View.generateViewId()
             stage.addView(v, android.widget.FrameLayout.LayoutParams(10, 10))
             val idx = i
@@ -110,12 +110,18 @@ class MultiviewActivity : BaseActivity() {
         // each other screen gets its own playlist of the device, in order (none left: it shares the one in use)
         others = Device.playlists().filter { it.optString("name") != Device.active && it.optString("user").isNotEmpty() }.map { OtherList(it) }
         fillOthers()
+        if (n == 2) {
+            // ◀ ▶ ▲ ▼ always go to the other screen (the small one can lie inside the big one)
+            val a = tiles[0].root; val b = tiles[1].root
+            a.nextFocusRightId = b.id; a.nextFocusLeftId = b.id; a.nextFocusUpId = b.id; a.nextFocusDownId = b.id
+            b.nextFocusRightId = a.id; b.nextFocusLeftId = a.id; b.nextFocusUpId = a.id; b.nextFocusDownId = a.id
+        }
         tiles[0].root.post { tiles[0].root.requestFocus() }
     }
 
     private var first: Channel? = null
     private var fill = false
-    /** -1 = all the same size, 0 = screen 0 is the big one (the others small) */
+    /** -1 = all the same size, else the index of the big screen (the others small); screens move, pictures stay */
     private var big = -1
 
     /** where every screen goes: all the same size, or one big and the others small */
@@ -129,6 +135,8 @@ class MultiviewActivity : BaseActivity() {
             lp.width = w; lp.height = h; lp.leftMargin = x; lp.topMargin = y
             t.root.layoutParams = lp
         }
+        // the big screen first, then the others in their order
+        val order = if (big in tiles.indices) listOf(tiles[big]) + tiles.filterIndexed { k, _ -> k != big } else tiles
         val zoom = androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_ZOOM
         val fit = androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_FIT
         tiles.forEach { it.pv.resizeMode = fit }
@@ -138,9 +146,9 @@ class MultiviewActivity : BaseActivity() {
             tiles.forEachIndexed { k, t -> put(t, k * w, (sh - h) / 2, w, h); if (fill) t.pv.resizeMode = zoom }
         } else if (n == 2) {
             // big = the whole TV, small = a picture in the corner on top of it
-            put(tiles[0], 0, 0, sw, sh)
+            put(order[0], 0, 0, sw, sh)
             val w = sw * 30 / 100; val m = sw * 2 / 100; val h = w * 9 / 16
-            put(tiles[1], sw - w - m, sh - h - m, w, h)
+            put(order[1], sw - w - m, sh - h - m, w, h)
         } else if (big < 0) {
             // 3 or 4 the same size: two rows of two (three: the last one in the middle of the second row)
             val w = (sw - gap * 3) / 2; val h = minOf((sh - gap * 3) / 2, w * 9 / 16)
@@ -155,13 +163,13 @@ class MultiviewActivity : BaseActivity() {
             val sideW = (sw - gap * 3) * 30 / 100
             val bigW = sw - gap * 3 - sideW
             val bigH = minOf(sh - gap * 2, bigW * 9 / 16)
-            put(tiles[0], gap, (sh - bigH) / 2, bigW, bigH)
+            put(order[0], gap, (sh - bigH) / 2, bigW, bigH)
             val k = n - 1
             val h = minOf((sh - gap * (k + 1)) / k, sideW * 9 / 16)
             val top = (sh - h * k - gap * (k - 1)) / 2
-            for (j in 1 until n) put(tiles[j], gap * 2 + bigW, top + (j - 1) * (h + gap), sideW, h)
+            for (j in 1 until n) put(order[j], gap * 2 + bigW, top + (j - 1) * (h + gap), sideW, h)
         }
-        for (j in 1 until n) tiles[j].root.bringToFront()
+        for (j in 1 until n) order[j].root.bringToFront()
         dots?.bringToFront()
     }
 
@@ -188,9 +196,8 @@ class MultiviewActivity : BaseActivity() {
     /** one tap: an empty screen = choose its channel; a small screen = it becomes the big one; the big one = all the same size */
     private fun tap(i: Int) {
         if (tiles[i].channel == null) { pick(i); return }
-        if (big >= 0 && i == 0) { setBig(-1); say("Same size") }
-        else { swap(0, i); setBig(0); say("Big") }
-        tiles[0].root.requestFocus(); sel = 0; sound(0)
+        if (big == i) { setBig(-1); say("Same size") } else { setBig(i); say("Big") }
+        tiles[i].root.requestFocus(); sel = i; sound(i)
     }
     private fun say(s: String) = android.widget.Toast.makeText(this, s, android.widget.Toast.LENGTH_SHORT).show()
     private var okHeld = false
@@ -337,7 +344,7 @@ class MultiviewActivity : BaseActivity() {
         screensItem?.let { items.add(it) }
         val fillItem = if (tiles.size == 2 && big < 0) (if (fill) "Show the whole picture" else "Fill the screen (crop the sides)") else null
         fillItem?.let { items.add(it) }
-        val sizeItem = if (big >= 0) "All the same size" else "Make this screen big"
+        val sizeItem = if (big == i) "All the same size" else "Make this screen big"
         items.add(sizeItem)
         AlertDialog.Builder(this).setTitle(tiles[i].channel?.name ?: "Screen ${i + 1}").setItems(items.toTypedArray()) { _, w ->
             when (items[w]) {
@@ -358,7 +365,7 @@ class MultiviewActivity : BaseActivity() {
                     }.show()
                 }
                 fillItem -> setFill(!fill)
-                sizeItem -> if (big >= 0) setBig(-1) else { swap(0, i); setBig(0); tiles[0].root.requestFocus(); sound(0) }
+                sizeItem -> if (big == i) setBig(-1) else { setBig(i); tiles[i].root.requestFocus(); sound(i) }
             }
         }.show()
     }
