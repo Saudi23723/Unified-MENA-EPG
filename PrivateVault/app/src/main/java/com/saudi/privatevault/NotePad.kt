@@ -25,7 +25,7 @@ import java.io.File
 /** A notebook written by hand: pages of strokes on a blank, lined, grid, dotted or scratchpad page. */
 class NoteBook(val file: File) {
     enum class Style(val label: String) {
-        SCRATCHPAD("✈️ Scratchpad (ATIS + clearance)"), ATIS("📻 ATIS"), CRAFT("🛫 CRAFT clearance"), PIREP("🌦 PIREP"), LINED("📄 Lined"), BLANK("⬜ Blank"), GRID("▦ Grid"), DOTS("⠿ Dots"),
+        SPLIT("🧾 ATIS + notes"), SCRATCHPAD("✈️ Scratchpad (ATIS + clearance)"), ATIS("📻 ATIS"), CRAFT("🛫 CRAFT clearance"), PIREP("🌦 PIREP"), LINED("📄 Lined"), BLANK("⬜ Blank"), GRID("▦ Grid"), DOTS("⠿ Dots"),
     }
 
     class Stroke(val tool: NotePad.Tool, val color: Int, val width: Float, val pts: FloatArray, val pen: Int = 0)
@@ -234,8 +234,61 @@ object NotePad {
 
     private var window: FrameLayout? = null
 
+    /**
+     * Rounded cards in a grid, each with its name small and in colour at its top, under a title: the
+     * modern way an EFB lays out a scratch pad. Drawn on white and turned to black paper on the dark
+     * pad, so the colours are chosen for that: the light fill becomes a dark card, the brown a blue.
+     */
+    private fun cards(c: Canvas, title: String, names: List<String>, cols: Int, top: Float, bottom: Float, m: Float): Float {
+        val head = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0xFF9B5A00.toInt(); textSize = 20f; isFakeBoldText = true; letterSpacing = 0.12f }
+        val lab = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0xFF8A6A3A.toInt(); textSize = 15f; isFakeBoldText = true; letterSpacing = 0.06f }
+        val fill = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0xFFE6E6EA.toInt() }
+        val edge = Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.STROKE; strokeWidth = 1.4f; color = 0xFFC6C6CC.toInt() }
+        c.drawText(title.uppercase(), m, top + 20, head)
+        var y = top + 34
+        val gap = 10f
+        val rows = (names.size + cols - 1) / cols
+        val rowH = ((bottom - y - gap * (rows - 1)) / rows).coerceIn(58f, 140f)
+        val colW = (W - 2 * m - gap * (cols - 1)) / cols
+        for ((i, t) in names.withIndex()) {
+            val last = i == names.size - 1 && names.size % cols != 0
+            val x = m + (i % cols) * (colW + gap)
+            val yy = y + (i / cols) * (rowH + gap)
+            val w = if (last) W - m - x else colW
+            c.drawRoundRect(x, yy, x + w, yy + rowH, 14f, 14f, fill)
+            c.drawRoundRect(x, yy, x + w, yy + rowH, 14f, 14f, edge)
+            c.drawText(t.uppercase(), x + 12, yy + 22, lab)
+        }
+        return y + rows * (rowH + gap)
+    }
+
     /** Ruling and boxes, in page units. */
     fun background(c: Canvas, style: NoteBook.Style, page: Int, p: Paint) {
+        val mm = 44f
+        if (page == 0) when (style) {
+            NoteBook.Style.SPLIT -> {
+                // The top half for the ATIS, the bottom half free for anything.
+                val end = cards(c, "ATIS / AWOS", listOf("Info", "Time Z", "Wind", "Visibility", "Sky", "Temp / Dew", "Altimeter", "Runway"), 4, 30f, H * 0.42f, mm)
+                val head = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0xFF9B5A00.toInt(); textSize = 20f; isFakeBoldText = true; letterSpacing = 0.12f }
+                c.drawText("NOTES", mm, end + 30, head)
+                p.style = Paint.Style.STROKE; p.color = 0xFFD6D6DB.toInt(); p.strokeWidth = 1.4f
+                c.drawLine(mm, end + 42, W - mm, end + 42, p)
+                return
+            }
+            NoteBook.Style.SCRATCHPAD -> {
+                val end = cards(c, "ATIS / AWOS", listOf("Info", "Time Z", "Wind", "Visibility", "Sky", "Temp / Dew", "Altimeter", "Runway", "Remarks / NOTAMs"), 2, 30f, H * 0.52f, mm)
+                cards(c, "Clearance · CRAFT", listOf("C · Clearance limit", "R · Route", "A · Altitude", "F · Frequency", "T · Transponder"), 1, end + 10, H - mm, mm)
+                return
+            }
+            NoteBook.Style.ATIS -> { cards(c, "ATIS / AWOS", listOf("Airport", "Information", "Time Z", "Wind", "Visibility", "Weather", "Sky", "Temp / Dew", "Altimeter", "Runway / Approach", "NOTAMs", "Remarks"), 2, 30f, H - mm, mm); return }
+            NoteBook.Style.CRAFT -> { cards(c, "Clearance", listOf("C · Clearance limit", "R · Route", "A · Altitude (initial / expect)", "F · Departure frequency", "T · Transponder code"), 1, 30f, H - mm, mm); return }
+            NoteBook.Style.PIREP -> { cards(c, "PIREP · UA / UUA", listOf("OV · Location", "TM · Time Z", "FL · Altitude", "TP · Aircraft type", "SK · Sky cover", "WX · Weather / vis", "TA · Temperature", "WV · Wind", "TB · Turbulence", "IC · Icing", "RM · Remarks"), 2, 30f, H - mm, mm); return }
+            else -> {}
+        }
+        legacyBackground(c, style, page, p)
+    }
+
+    private fun legacyBackground(c: Canvas, style: NoteBook.Style, page: Int, p: Paint) {
         p.style = Paint.Style.STROKE
         var top = 70f
         val m = 60f
@@ -397,7 +450,7 @@ object NotePad {
         // The tools along the bottom, on a dark strip: pens, colours, undo / redo, pages.
         val tools = LinearLayout(act).apply {
             orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL
-            setPadding(dp(6), dp(4), dp(6), dp(6)); setBackgroundColor(0xFF1C1C1E.toInt())
+            setPadding(dp(10), dp(6), dp(10), dp(8)); setBackgroundColor(0xFF1C1C1E.toInt())
         }
         val toolViews = ArrayList<Pair<Tool, android.widget.ImageView>>()
         fun mark() = toolViews.forEach { (t, v) ->
@@ -410,7 +463,7 @@ object NotePad {
             }
             if (t == Tool.PEN) v.setOnLongClickListener { PenInk.choose(act, canvas.pen) { i -> canvas.pen = i; canvas.tool = Tool.PEN; mark() }; true }
             toolViews.add(t to v)
-            tools.addView(v, LinearLayout.LayoutParams(dp(40), dp(40)))
+            tools.addView(v, LinearLayout.LayoutParams(dp(46), dp(46)))
         }
         mark()
         tools.addView(View(act).apply { setBackgroundColor(0xFF3A3A3C.toInt()) }, LinearLayout.LayoutParams(dp(1), dp(22)).apply { setMargins(dp(4), 0, dp(6), 0) })
@@ -427,7 +480,7 @@ object NotePad {
                 }
             }
             dots.add(dot)
-            tools.addView(dot, LinearLayout.LayoutParams(dp(22), dp(22)).apply { marginStart = dp(4); marginEnd = dp(4) })
+            tools.addView(dot, LinearLayout.LayoutParams(dp(28), dp(28)).apply { marginStart = dp(5); marginEnd = dp(5) })
         }
         ring()
         tools.addView(View(act), LinearLayout.LayoutParams(0, 1, 1f))
@@ -435,11 +488,12 @@ object NotePad {
         tools.addView(icon(R.drawable.ic_redo) { canvas.redo() }, LinearLayout.LayoutParams(dp(38), dp(38)))
         tools.addView(glyph("‹", 20f) { if (canvas.page > 0) { canvas.page--; showPage() } })
         tools.addView(glyph("›", 20f) { if (canvas.page < book.pages.size - 1) { canvas.page++; showPage() } })
-        tools.addView(glyph("＋", 16f) { book.pages.add(canvas.page + 1, ArrayList()); canvas.page++; showPage(); dirty = true })
+
         tools.addView(glyph("⋯", 18f) { v ->
             val m = android.widget.PopupMenu(act, v)
             m.menu.add(0, 1, 0, act.getString(R.string.notes_clear))
             m.menu.add(0, 2, 1, "PDF")
+            m.menu.add(0, 3, 2, "New page")
             m.setOnMenuItemClickListener {
                 if (it.itemId == 1) com.google.android.material.dialog.MaterialAlertDialogBuilder(act)
                     .setMessage(R.string.notes_clear_page)
@@ -448,6 +502,7 @@ object NotePad {
                         else canvas.clearPage()
                         dirty = true
                     }.setNegativeButton(R.string.cancel, null).show()
+                else if (it.itemId == 3) { book.pages.add(canvas.page + 1, ArrayList()); canvas.page++; showPage(); dirty = true }
                 else { book.save(); Notebooks.exportPdf(act, book) }
                 true
             }
@@ -480,7 +535,10 @@ object NotePad {
             FrameLayout.LayoutParams(dp(28), dp(28), Gravity.BOTTOM or Gravity.START).apply { setMargins(dp(6), 0, 0, dp(54)) })
 
         // A note closed with nothing written is not kept.
-        frame.tag = Runnable { if (book.pages.all { it.isEmpty() } && book.style == NoteBook.Style.BLANK) book.file.delete() else if (dirty) book.save() }
+        frame.tag = Runnable {
+            val pad = book.style == NoteBook.Style.BLANK || book.style == NoteBook.Style.SPLIT || book.style == NoteBook.Style.SCRATCHPAD
+            if (book.pages.all { it.isEmpty() } && pad) book.file.delete() else if (dirty) book.save()
+        }
         content.addView(frame)
         place()
         frame.alpha = 0f; frame.scaleX = 0.94f; frame.scaleY = 0.94f

@@ -31,10 +31,23 @@ object Notebooks {
     }
 
     /** The scratchpad as a small pad over the screen in use: the last one, or a new one with ATIS and clearance boxes. */
+    /**
+     * The scratch pad: asked each time which page to open — a blank page, or the ATIS above and room to
+     * write below — or the one written last, carried on.
+     */
     fun scratch(act: Activity) {
         if (NotePad.isOpen()) { NotePad.close(act); return }
-        val last = NoteBook.all(act).firstOrNull { it.style == NoteBook.Style.SCRATCHPAD }
-        NotePad.show(act, last ?: NoteBook.create(act, NoteBook.Style.SCRATCHPAD, "Scratchpad"), false)
+        val pads = setOf(NoteBook.Style.SPLIT, NoteBook.Style.BLANK, NoteBook.Style.SCRATCHPAD)
+        val last = NoteBook.all(act).firstOrNull { it.topic == "Scratchpad" && it.style in pads && it.pages.any { p -> p.isNotEmpty() } }
+        val labels = ArrayList<String>()
+        val go = ArrayList<() -> Unit>()
+        labels.add("🧾  ATIS + notes  (ATIS on top, half the page free)"); go.add { NotePad.show(act, NoteBook.create(act, NoteBook.Style.SPLIT, "Scratchpad"), false) }
+        labels.add("⬜  Blank page"); go.add { NotePad.show(act, NoteBook.create(act, NoteBook.Style.BLANK, "Scratchpad"), false) }
+        labels.add("✈️  ATIS + clearance (CRAFT)"); go.add { NotePad.show(act, NoteBook.create(act, NoteBook.Style.SCRATCHPAD, "Scratchpad"), false) }
+        if (last != null) { labels.add(0, "↩  Continue: " + last.title); go.add(0) { NotePad.show(act, last, false) } }
+        MaterialAlertDialogBuilder(act).setTitle("Scratch pad")
+            .setItems(labels.toTypedArray()) { _, i -> go[i]() }
+            .setNegativeButton(R.string.cancel, null).show()
     }
 
     /** The PDFs made from notebooks, kept in the vault. */
