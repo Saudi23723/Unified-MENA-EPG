@@ -1,8 +1,7 @@
 name: SAUDI.TV app
 
-# Builds the SAUDI.TV app. It does NOT go to the viewers' TVs: it is put on the pre-release "saudi1-test", installed on
-# ONE TV and watched there (no freeze, no "not responding", channels play). Only then saudi1_promote.yml copies that
-# same file to the "saudi1" release that every TV updates from (owner, 13 Nov 2026: "make sure these errors never happen again").
+# Builds the SAUDI.TV app, puts it on the pre-release "saudi1-test" and then (owner, 25 Nov 2026: "always promote") on
+# the "saudi1" release that every TV updates from, with retries. saudi1_promote.yml stays for copying a build by hand.
 #   https://github.com/Saudi23723/Unified-MENA-EPG/releases/download/saudi1/SAUDI1.apk  (the Downloader link)
 on:
   push:
@@ -48,6 +47,27 @@ jobs:
           gh release upload saudi1-test SAUDI1_test.apk --clobber
           echo "build ${{ github.run_number }}" > test_version.txt
           gh release upload saudi1-test test_version.txt --clobber
+      # The owner (25 Nov 2026): "always promote" - every build that built goes to the viewers. And (26 Nov 2026, item 13):
+      # when GitHub fails on the way, try again by itself: each upload up to 5 times, then the release is read back from
+      # the public link and compared (size and version) - a copy that does not match is uploaded again.
+      - name: To the viewers (always, with retries)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          N=${{ github.run_number }}
+          cp SAUDI1_test.apk SAUDI1.apk; echo "build $N" > version.txt
+          want=$(stat -c %s SAUDI1.apk)
+          up() { for i in 1 2 3 4 5; do gh release upload saudi1 "$1" --clobber && return 0; echo "upload of $1 failed (try $i), again in $((i*15)) s"; sleep $((i*15)); done; return 1; }
+          for round in 1 2 3; do
+            up SAUDI1.apk && up version.txt || continue
+            sleep 10
+            got=$(curl -sIL "https://github.com/${{ github.repository }}/releases/download/saudi1/SAUDI1.apk?x=$RANDOM" | grep -i '^content-length' | tail -1 | tr -dc 0-9)
+            ver=$(curl -sL "https://github.com/${{ github.repository }}/releases/download/saudi1/version.txt?x=$RANDOM")
+            echo "round $round: app $got of $want bytes, '$ver'"
+            if [ "$got" = "$want" ] && [ "$ver" = "build $N" ]; then echo "the viewers have build $N"; exit 0; fi
+            sleep 30
+          done
+          echo "the viewers could not be given build $N"; exit 1
       # R8's name list, to read a crash report of this build (kept with the run, not published)
       - name: Keep the R8 mapping
         if: always()

@@ -24,10 +24,11 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
         run: |
-          gh release download saudi1-test -p SAUDI1_test.apk -p test_version.txt
+          for i in 1 2 3 4 5; do gh release download saudi1-test -p SAUDI1_test.apk -p test_version.txt --clobber && break; sleep $((i*15)); done
           got=$(cat test_version.txt)
           if [ "$got" != "build ${{ inputs.build }}" ]; then echo "the test release holds '$got', not build ${{ inputs.build }}: nothing copied"; exit 1; fi
           mv SAUDI1_test.apk SAUDI1.apk
-          gh release upload saudi1 SAUDI1.apk --clobber
           echo "build ${{ inputs.build }}" > version.txt
-          gh release upload saudi1 version.txt --clobber
+          # GitHub fails now and then: each upload up to 5 times (owner, 26 Nov 2026)
+          up() { for i in 1 2 3 4 5; do gh release upload saudi1 "$1" --clobber && return 0; echo "upload of $1 failed (try $i)"; sleep $((i*15)); done; return 1; }
+          up SAUDI1.apk && up version.txt
