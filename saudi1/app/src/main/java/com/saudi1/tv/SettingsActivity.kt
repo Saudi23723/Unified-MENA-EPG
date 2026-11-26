@@ -50,6 +50,17 @@ class SettingsActivity : BaseActivity() {
         row("Reload channels", "Get the newest lists now") { reload() }
 
         section("Picture")
+        val us = App.prefs.getInt("ui_size", 2).coerceIn(0, UI_SIZES.lastIndex)
+        row("Screen size", UI_SIZES[us].first) {
+            AlertDialog.Builder(this).setTitle("Screen size").setSingleChoiceItems(UI_SIZES.map { it.first }.toTypedArray(), us) { d, w ->
+                d.dismiss()
+                if (w != us) {
+                    App.prefs.edit().putInt("ui_size", w).apply()
+                    // every open screen is drawn again at the new size
+                    startActivity(Intent(this, HomeActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
+                }
+            }.show()
+        }
         val sizes = arrayOf("Fit", "Stretch", "Zoom"); val modes = intArrayOf(0, 3, 4)  // AspectRatioFrameLayout modes
         row("Picture size", sizes[modes.indexOf(App.prefs.getInt("resize", 0)).coerceAtLeast(0)]) {
             AlertDialog.Builder(this).setTitle("Picture size").setItems(sizes) { _, w -> App.prefs.edit().putInt("resize", modes[w]).apply(); build() }.show()

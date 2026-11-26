@@ -1,5 +1,6 @@
 package com.saudi1.tv
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.view.Gravity
@@ -140,7 +141,21 @@ val android.content.Context.isTouch: Boolean
         packageManager.hasSystemFeature("android.hardware.touchscreen")
 
 /** Every screen: night dimming on top, and the reminder countdown. */
+/** Settings › Screen size: name and how much bigger than normal */
+val UI_SIZES = listOf("Very small · TV up to 32\"" to 0.80f, "Small · 40–43\"" to 0.90f, "Normal · 50–55\"" to 1f,
+    "Large · 65\"" to 1.10f, "Very large · 75\" and up" to 1.20f)
+
 open class BaseActivity : AppCompatActivity() {
+    /** Screen size (owner, 25 Nov 2026: "sizes for the different TV screens"): the whole interface (lists, tiles,
+     *  text) drawn smaller or bigger, for a small TV seen close or a big one from far. Settings › Screen size. */
+    override fun attachBaseContext(base: Context) {
+        val k = base.getSharedPreferences("saudi1", Context.MODE_PRIVATE).getInt("ui_size", 2)
+        val f = UI_SIZES.getOrNull(k)?.second ?: 1f
+        if (f == 1f) { super.attachBaseContext(base); return }
+        val c = android.content.res.Configuration(base.resources.configuration)
+        c.densityDpi = (base.resources.displayMetrics.densityDpi * f).toInt()
+        super.attachBaseContext(base.createConfigurationContext(c))
+    }
     companion object {
         private var started = 0
         /** the app was in the background (HOME, another app, TV off) and is coming back */
