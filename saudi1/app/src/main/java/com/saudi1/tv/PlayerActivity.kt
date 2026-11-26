@@ -105,6 +105,7 @@ class PlayerActivity : BaseActivity() {
             }
         })
         lifecycleScope.launch { while (isActive) { tellNow(); delay(15_000); save() } }
+        lifecycleScope.launch { while (isActive) { delay(500); skipTick() } }
     }
 
     private var reconnects = 0
@@ -133,12 +134,14 @@ class PlayerActivity : BaseActivity() {
     // ---------------- next episode ----------------
 
     private fun playNext() {
+        learnCredits()
         closeNext()
         if (nextUrls.isEmpty()) { finish(); return }
         save()
         url = nextUrls.removeAt(0); title = nextTitles.removeAt(0); key = nextKeys.removeAt(0)
         view.setShowNextButton(nextUrls.isNotEmpty())
         load(url, Resume.get(key))
+        creditsAsked = false; hideSkip()
         android.widget.Toast.makeText(this, title, android.widget.Toast.LENGTH_SHORT).show()
     }
 
@@ -162,7 +165,8 @@ class PlayerActivity : BaseActivity() {
             addView(LinearLayout(this@PlayerActivity).apply {
                 orientation = LinearLayout.HORIZONTAL; setPadding(0, (14 * d).toInt(), 0, 0)
                 addView(playB); addView(View(this@PlayerActivity), LinearLayout.LayoutParams((14 * d).toInt(), 1))
-                addView(btn("Cancel", false) { closeNext(); finish() })
+                // at the credits (the episode still playing): Cancel = stay and watch them; at the end: close
+                addView(btn("Cancel", false) { closeNext(); if (player.playbackState == Player.STATE_ENDED) finish() })
             })
         }
         val root = window.decorView as ViewGroup
@@ -177,6 +181,68 @@ class PlayerActivity : BaseActivity() {
             playNext()
         }
     }
+
+    // ---------------- skip intro / credits (owner, 25 Nov 2026) ----------------
+    // Learnt per series, from what the viewer does once: jumping forward in the first minutes of an episode marks the
+    // intro (from where to where); going to the next episode before the end marks the credits (how long before the
+    // end). The next episodes then show "Skip intro" at that moment, and the next episode is offered when the credits
+    // begin. Shared with the customer's other devices (Backup: skip_*). Nothing learnt yet: nothing shown.
+    private val sid get() = intent.getIntExtra("sid", 0)
+    private var skipBtn: TextView? = null
+    private var creditsAsked = false
+
+    private fun marks(): org.json.JSONObject = try { org.json.JSONObject(App.prefs.getString("skip_$sid", "{}") ?: "{}") } catch (e: Exception) { org.json.JSONObject() }
+    private fun saveMarks(o: org.json.JSONObject) { if (sid != 0) { App.prefs.edit().putString("skip_$sid", o.toString()).apply(); Backup.syncSoon() } }
+
+    /** a jump forward of 20 s – 4 min that starts in the first 8 minutes = the intro, from where to where */
+    private fun learnIntro(from: Long, to: Long) {
+        if (sid == 0) return
+        val jump = to - from
+        if (from > 8 * 60_000L || jump < 20_000L || jump > 4 * 60_000L) return
+        // pressing "Skip intro" itself teaches nothing new
+        if (skipBtn != null) return
+        saveMarks(marks().put("is", from).put("ie", to))
+    }
+
+    /** the next episode asked for before the end (from 15 s to 10 min before it) = the credits' length */
+    private fun learnCredits() {
+        val dur = player.duration; val pos = player.currentPosition
+        if (sid == 0 || dur <= 0 || creditsAsked) return
+        val left = dur - pos
+        if (left in 15_000L..10 * 60_000L) saveMarks(marks().put("cr", left))
+    }
+
+    private fun skipTick() {
+        if (sid == 0 || !::player.isInitialized) return
+        val pos = player.currentPosition; val dur = player.duration
+        val m = marks()
+        val st = m.optLong("is", -1); val en = m.optLong("ie", -1)
+        // the intro: the button from 3 s before it starts until 3 s before it ends
+        if (st >= 0 && en > st && pos in (st - 3000).coerceAtLeast(0)..(en - 3000)) showSkip(en) else hideSkip()
+        // the credits: the next episode is offered when they begin
+        val cr = m.optLong("cr", -1)
+        if (cr > 0 && dur > 0 && !creditsAsked && nextUrls.isNotEmpty() && nextBox == null && player.isPlaying && pos >= dur - cr) {
+            creditsAsked = true; save(); askNext()
+        }
+    }
+
+    private fun showSkip(to: Long) {
+        if (skipBtn != null || nextBox != null || menus.isNotEmpty()) return
+        val b = TextView(this).apply {
+            text = "⏭  Skip intro"; textSize = 18f; isFocusable = true; isClickable = true; gravity = Gravity.CENTER
+            setTypeface(typeface, android.graphics.Typeface.BOLD)
+            setBackgroundResource(R.drawable.tile_bg); setTextColor(getColorStateList(R.color.on_focus))
+            setPadding((26 * d).toInt(), (14 * d).toInt(), (26 * d).toInt(), (14 * d).toInt())
+            setOnClickListener { player.seekTo(to); hideSkip() }
+        }
+        (window.decorView as ViewGroup).addView(b, FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.BOTTOM or Gravity.END).apply {
+            setMargins(0, 0, (48 * d).toInt(), (110 * d).toInt())
+        })
+        skipBtn = b
+        b.requestFocus()
+    }
+
+    private fun hideSkip() { skipBtn?.let { (window.decorView as ViewGroup).removeView(it) }; skipBtn = null }
 
     private fun closeNext() {
         nextJob?.cancel(); nextBox?.let { (window.decorView as ViewGroup).removeView(it) }; nextBox = null
@@ -202,6 +268,7 @@ class PlayerActivity : BaseActivity() {
     private fun commitSeek() {
         val t = pendingSeek ?: return
         pendingSeek = null
+        learnIntro(player.currentPosition, t)
         player.seekTo(t)
         seekJob?.cancel(); seekJob = lifecycleScope.launch { delay(900); seekLabel.visibility = View.GONE }
     }
@@ -216,7 +283,10 @@ class PlayerActivity : BaseActivity() {
         if (e.keyCode == KeyEvent.KEYCODE_BACK && nextBox == null && !overlayOpen && view.isControllerFullyVisible) {
             if (e.action == KeyEvent.ACTION_UP) view.hideController(); return true
         }
-        if (nextBox != null && e.keyCode == KeyEvent.KEYCODE_BACK) { if (e.action == KeyEvent.ACTION_UP) { closeNext(); finish() }; return true }
+        if (nextBox != null && e.keyCode == KeyEvent.KEYCODE_BACK) { if (e.action == KeyEvent.ACTION_UP) { closeNext(); if (player.playbackState == Player.STATE_ENDED) finish() }; return true }
+        // "Skip intro" on screen: OK presses it (the other keys work as always)
+        skipBtn?.let { sb -> if (!overlayOpen && nextBox == null && (e.keyCode == KeyEvent.KEYCODE_DPAD_CENTER || e.keyCode == KeyEvent.KEYCODE_ENTER)) {
+            if (e.action == KeyEvent.ACTION_UP) sb.performClick(); return true } }
         if (!overlayOpen && nextBox == null) {
             val down = e.action == KeyEvent.ACTION_DOWN
             when (e.keyCode) {

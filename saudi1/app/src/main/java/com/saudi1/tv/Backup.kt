@@ -74,7 +74,7 @@ object Backup {
     }
 
     // ---- the devices of one customer share favorites and continue watching (owner, 24 Nov 2026)
-    private fun shared(k: String) = k == "favorites" || k.startsWith("vfav_") || k.startsWith("resume_") || k.startsWith("pos_") || k.startsWith("done_")
+    private fun shared(k: String) = k == "favorites" || k.startsWith("vfav_") || k.startsWith("resume_") || k.startsWith("pos_") || k.startsWith("done_") || k.startsWith("skip_")
     private fun slice(): JSONObject { val all = dump(); val o = JSONObject(); for (k in all.keys()) if (shared(k)) o.put(k, all.get(k)); return o }
     private fun hash(s: String) = java.security.MessageDigest.getInstance("SHA-256").digest(s.toByteArray()).joinToString("") { "%02x".format(it) }.take(16)
     private var lastSync = 0L
