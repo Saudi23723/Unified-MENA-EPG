@@ -224,6 +224,7 @@ class HomeActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume(); Backup.syncSoon()
+        Updater.offer(this)
         armIdle()
         // only when "Start on the last channel" is on: straight to the channel that was on
         val fresh = !resumedOnce; resumedOnce = true

@@ -299,30 +299,14 @@ class SettingsActivity : BaseActivity() {
         }
     }
 
-    /** newest build from the release (same link as Downloader); Android asks once to allow installing it */
+    /** newest build from the release (Updater.kt); Android asks once to allow installing it */
     private fun update() {
         lifecycleScope.launch {
-            val toast = { s: String -> android.widget.Toast.makeText(this@SettingsActivity, s, android.widget.Toast.LENGTH_LONG).show() }
-            val newest = withContext(Dispatchers.IO) {
-                try {
-                    App.http.newCall(Request.Builder().url("https://github.com/Saudi23723/Unified-MENA-EPG/releases/download/saudi1/version.txt").build()).execute()
-                        .use { it.body!!.string().trim().substringAfter("build ").toIntOrNull() ?: 0 }
-                } catch (e: Exception) { -1 }
-            }
-            if (newest < 0) { toast("Could not check for updates"); return@launch }
-            if (newest <= BuildConfig.VERSION_CODE) { toast("You have the newest version"); return@launch }
-            toast("Downloading version 1.0.$newest…")
-            val f = File(cacheDir, "update.apk")
-            val ok = withContext(Dispatchers.IO) {
-                try {
-                    App.http.newCall(Request.Builder().url("https://github.com/Saudi23723/Unified-MENA-EPG/releases/download/saudi1/SAUDI1.apk").build()).execute()
-                        .use { r -> if (!r.isSuccessful) false else { f.outputStream().use { o -> r.body!!.byteStream().copyTo(o) }; true } }
-                } catch (e: Exception) { false }
-            }
-            if (!ok) { toast("Download failed"); return@launch }
-            val uri = FileProvider.getUriForFile(this@SettingsActivity, "$packageName.files", f)
-            startActivity(Intent(Intent.ACTION_VIEW).setDataAndType(uri, "application/vnd.android.package-archive")
-                .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_ACTIVITY_NEW_TASK))
+            val n = Updater.newest()
+            val toast = { m: String -> android.widget.Toast.makeText(this@SettingsActivity, m, android.widget.Toast.LENGTH_LONG).show() }
+            if (n < 0) { toast("Could not check for updates"); return@launch }
+            if (n <= BuildConfig.VERSION_CODE) { toast("You have the newest version"); return@launch }
+            Updater.install(this@SettingsActivity, n)
         }
     }
 }
