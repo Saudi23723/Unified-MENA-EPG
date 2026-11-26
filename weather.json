@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-26T15:52:32.929Z",
+  "updated_at": "2026-11-26T15:57:39.100Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -434,7 +434,7 @@
       "latitude": 40.7128,
       "longitude": -74.006,
       "temperature_c": 6.4,
-      "humidity": 86,
+      "humidity": 85,
       "wind_speed": 30.8,
       "rain_chance": 34,
       "condition": "مطر خفيف",
@@ -452,8 +452,8 @@
         },
         {
           "date": "2026-11-27",
-          "code": 61,
-          "max": 13.4,
+          "code": 53,
+          "max": 12.9,
           "min": 6.2,
           "rain": 44
         },
@@ -505,18 +505,18 @@
       "latitude": 34.0522,
       "longitude": -118.2437,
       "temperature_c": 12.8,
-      "humidity": 45,
+      "humidity": 50,
       "wind_speed": 9.4,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-11-26T07:45",
-      "feels_c": 9.4,
+      "feels_c": 9.7,
       "utc_offset": -28800,
       "days": [
         {
           "date": "2026-11-26",
-          "code": 1,
+          "code": 3,
           "max": 29.1,
           "min": 10.6,
           "rain": 0
@@ -576,7 +576,7 @@
       "latitude": 41.8781,
       "longitude": -87.6298,
       "temperature_c": 6.4,
-      "humidity": 85,
+      "humidity": 83,
       "wind_speed": 27.0,
       "rain_chance": 1,
       "condition": "غائم",
@@ -718,13 +718,13 @@
       "latitude": 32.7767,
       "longitude": -96.797,
       "temperature_c": 5.0,
-      "humidity": 55,
+      "humidity": 56,
       "wind_speed": 16.4,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-11-26T09:45",
-      "feels_c": 0.0,
+      "feels_c": 0.1,
       "utc_offset": -21600,
       "days": [
         {
@@ -789,13 +789,13 @@
       "latitude": 37.7749,
       "longitude": -122.4194,
       "temperature_c": 10.7,
-      "humidity": 95,
+      "humidity": 93,
       "wind_speed": 7.9,
       "rain_chance": 0,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-11-26T07:45",
-      "feels_c": 9.5,
+      "feels_c": 9.4,
       "utc_offset": -28800,
       "days": [
         {
