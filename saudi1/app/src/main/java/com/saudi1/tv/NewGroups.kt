@@ -23,6 +23,7 @@ object NewGroups {
         if (known.size < 20) return false
         App.prefs.edit().putLong(k, System.currentTimeMillis()).apply()
         val origin = origin(probe) ?: return false
+        App.prefs.edit().putString("ng_origin_" + pl(), origin).putString("ng_origin_for_" + pl(), Prefs.server).apply()
         val base = "$origin/player_api.php?username=${enc(Prefs.user)}&password=${enc(Prefs.pass)}&action="
         val names = HashMap<String, String>()
         val ca = App.http.newCall(Request.Builder().url(base + "get_live_categories").build()).execute().use { r ->
@@ -72,6 +73,14 @@ object NewGroups {
         if (f.isFile && f.readText() == out) return false
         f.writeText(out)
         return true
+    }
+
+    /** the provider's address found by the last check (for the guide of the new channels), or one asked now */
+    fun origin(): String? {
+        val o = App.prefs.getString("ng_origin_" + pl(), null)
+        if (o != null && App.prefs.getString("ng_origin_for_" + pl(), "") == Prefs.server) return o
+        val probe = Api.byId.keys.firstOrNull { it > 0 } ?: return null
+        return origin(probe)?.also { App.prefs.edit().putString("ng_origin_" + pl(), it).putString("ng_origin_for_" + pl(), Prefs.server).apply() }
     }
 
     /** where the provider is: the relay answers a channel link with a redirect to it */

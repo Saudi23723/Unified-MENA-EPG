@@ -309,7 +309,19 @@ object Api {
         val k = Prefs.playlist + "/" + Prefs.server.hashCode() + "/" + c.id
         // a guide that came back empty (or failed) is asked for again after 2 minutes, not half an hour
         epg[k]?.let { if (now - it.first < (if (it.second.isEmpty()) 2 else 30) * 60_000) return it.second }
-        val list = try { fromRepo(c) ?: fromServer(c) } catch (e: Exception) { emptyList() }
+        var list = try { fromRepo(c) ?: fromServer(c) } catch (e: Exception) { emptyList() }
+        // a channel the repo has no guide for (the provider's new groups, owner 26 Nov 2026): the guide of the same
+        // channel elsewhere in the list ("USA: FOX ONE" = "FOX ONE ᴴᴰ"), else the provider's own guide, asked directly
+        if (list.isEmpty()) list = try {
+            qualities(c).filter { it.id != c.id && it.id > 0 && !it.group.startsWith("pv") }.take(3)
+                .firstNotNullOfOrNull { t -> fromRepo(t)?.takeIf { it.isNotEmpty() } } ?: emptyList()
+        } catch (e: Exception) { emptyList() }
+        if (list.isEmpty() && c.id > 0 && (c.group.startsWith("pv") || c.group.startsWith("px"))) list = try {
+            NewGroups.origin()?.let { o ->
+                get("$o/player_api.php?username=${enc(Prefs.user)}&password=${enc(Prefs.pass)}&action=get_simple_data_table&stream_id=${c.id}")
+                    .use { r -> parse(r.body!!.byteStream()) }
+            } ?: emptyList()
+        } catch (e: Exception) { emptyList() }
         epg[k] = now to list
         return list
     }
