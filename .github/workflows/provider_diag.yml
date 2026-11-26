@@ -3,6 +3,11 @@ name: Why the provider refuses our server (one-off check)
 # Manual, one-off (owner, 25 Nov 2026). Same throw-away device lookup as web_e2e.yml, then tools/e2e/diag.sh.
 on:
   workflow_dispatch:
+    inputs:
+      playlists:
+        description: "playlists to test, comma separated (empty = the owner's device, all its playlists)"
+        required: false
+        default: ""
 
 permissions:
   contents: read
@@ -26,6 +31,11 @@ jobs:
           python3 -c 'import json; r=json.load(open("up.json")); print("ok" if r.get("success") else r.get("errors"))'
           curl -sS -o /dev/null -w "subdomain %{http_code}\n" -X POST "$API/saudi1-pick/subdomain" -H "Authorization: Bearer $CF_TOKEN" -H "Content-Type: application/json" --data '{"enabled":true,"previews_enabled":false}'
           for i in $(seq 1 24); do C=$(curl -s -H "x-key: $KEY" https://saudi1-pick.1saifsaudi.workers.dev/); [ ${#C} = 8 ] && break; sleep 5; done
+          if [ -n "${{ inputs.playlists }}" ]; then
+            curl -s -H "x-key: $KEY" "https://saudi1-pick.1saifsaudi.workers.dev/?for=${{ inputs.playlists }}" > picks.txt
+            while read -r pl c; do echo "::add-mask::$c"; done < picks.txt
+            echo "devices found for: $(cut -d' ' -f1 picks.txt | tr '\n' ' ')"
+          fi
           curl -sS -o /dev/null -w "throw-away worker deleted %{http_code}\n" -X DELETE "$API/saudi1-pick?force=true" -H "Authorization: Bearer $CF_TOKEN"
           [ ${#C} = 8 ] || { echo "no working device found"; exit 1; }
           echo "::add-mask::$C"; echo "CODE=$C" >> "$GITHUB_ENV"; echo "device code found"
@@ -34,4 +44,7 @@ jobs:
         run: |
           curl -sS -o /dev/null -w "%{http_code}\n" -X DELETE "https://api.cloudflare.com/client/v4/accounts/$ACC/workers/scripts/saudi1-pick?force=true" -H "Authorization: Bearer $CF_TOKEN"
       - name: Every playlist through the web player's route
-        run: bash tools/e2e/px_all.sh
+        run: |
+          if [ -s picks.txt ]; then
+            while read -r pl c; do echo "== $pl"; CODE=$c ONLY=$pl bash tools/e2e/px_all.sh; done < picks.txt
+          else bash tools/e2e/px_all.sh; fi

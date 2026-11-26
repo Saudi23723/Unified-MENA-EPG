@@ -12,6 +12,7 @@ for p in o.get("playlists",[]):
     print("\t".join([p.get("name",""),p.get("server",""),p.get("user",""),p.get("pass","")]))
 P
 while IFS=$'\t' read -r PL S U P; do
+  [ -n "${ONLY:-}" ] && [ "$PL" != "$ONLY" ] && continue
   echo "::add-mask::$U"; echo "::add-mask::$P"
   ID=$(curl -sS -m 60 "$S/player_api.php?username=$U&password=$P&action=get_live_streams" | python3 -c 'import json,sys
 try:
