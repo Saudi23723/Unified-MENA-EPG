@@ -112,7 +112,7 @@ class MapActivity : BaseActivity(), NeonHost {
             // More tiles at once, so the chart fills in quickly.
             setTileDownloadThreads(8.toShort())
             setTileFileSystemThreads(8.toShort())
-            setCacheMapTileCount(128.toShort())
+            setCacheMapTileCount(320.toShort())
             // Room in the queues for a whole screen of tiles: a full queue drops requests, and the
             // dropped tiles are asked for again and again while the chart moves.
             setTileDownloadMaxQueueSize(120.toShort())
@@ -1192,6 +1192,7 @@ class MapActivity : BaseActivity(), NeonHost {
 
     private fun idle(): Boolean {
         overzoom()
+        prefetch()
         showPattern()
         if (map.zoomLevelDouble < 7) return true
         val bb = map.boundingBox
@@ -1231,17 +1232,48 @@ class MapActivity : BaseActivity(), NeonHost {
             val cm = CacheManager(map)
             if (cm.possibleTilesInArea(bb, z, z) > 200) return
             cm.downloadAreaAsyncNoUI(this, bb, z, z, object : CacheManager.CacheManagerCallback {
-                override fun onTaskComplete() {
-                    map.tileProvider.clearTileCache()
-                    map.invalidate()
-                }
+                override fun onTaskComplete() { map.invalidate() }
                 override fun updateProgress(progress: Int, currentZoomLevel: Int, zoomMin: Int, zoomMax: Int) {}
                 override fun downloadStarted() {}
                 override fun setPossibleTilesInArea(total: Int) {}
-                override fun onTaskFailed(errors: Int) {
-                    map.tileProvider.clearTileCache()
-                    map.invalidate()
-                }
+                override fun onTaskFailed(errors: Int) { map.invalidate() }
+            })
+        } catch (e: Exception) {
+        }
+    }
+
+    private var prefetchBox = ""
+
+    /**
+     * When the chart comes to rest, the tiles around what is on the screen (one screen's width each
+     * side) and one zoom step finer are fetched in the background into the phone's tile store, so the
+     * next pan or zoom is drawn from the phone instead of waiting on the network: that wait is what
+     * makes a chart stutter as it moves. Kept to a few hundred tiles at a time.
+     */
+    private fun prefetch() {
+        if (layer.key == "topo" || layer.key == "aero") return
+        val bb = map.boundingBox
+        val dLat = bb.latNorth - bb.latSouth; val dLon = bb.lonEast - bb.lonWest
+        val big = org.osmdroid.util.BoundingBox(
+            (bb.latNorth + dLat).coerceAtMost(84.0), bb.lonEast + dLon, (bb.latSouth - dLat).coerceAtLeast(-84.0), bb.lonWest - dLon)
+        // The zoom of the tiles actually drawn: the chart is drawn at half scale for a finer print.
+        val shown = (map.zoomLevelDouble + if (prefs.getBoolean("chart_fine", true)) 1.0 else 0.0).toInt()
+        val zMin = shown.coerceAtMost(layer.maxZoom)
+        val zMax = (shown + 1).coerceAtMost(layer.maxZoom)
+        val key = "${layer.key}|$zMin|%.2f,%.2f".format(map.mapCenter.latitude, map.mapCenter.longitude)
+        if (key == prefetchBox) return
+        prefetchBox = key
+        try {
+            val cm = CacheManager(map)
+            var lo = zMin; var hi = zMax
+            if (cm.possibleTilesInArea(big, lo, hi) > 400) hi = lo
+            if (cm.possibleTilesInArea(big, lo, hi) > 400) return
+            cm.downloadAreaAsyncNoUI(this, big, lo, hi, object : CacheManager.CacheManagerCallback {
+                override fun onTaskComplete() {}
+                override fun updateProgress(progress: Int, currentZoomLevel: Int, zoomMin: Int, zoomMax: Int) {}
+                override fun downloadStarted() {}
+                override fun setPossibleTilesInArea(total: Int) {}
+                override fun onTaskFailed(errors: Int) {}
             })
         } catch (e: Exception) {
         }
