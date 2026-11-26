@@ -309,6 +309,7 @@ class StudyBookReaderActivity : BaseActivity() {
                     }
                     continue
                 }
+                if (o.has("tb")) { o.optJSONArray("tb")?.let { tableView(col, it) }; continue }
                 val d = o.optInt("d").coerceIn(0, 4)
                 val m = o.optString("m")
                 val t = o.optString("t")
@@ -340,6 +341,44 @@ class StudyBookReaderActivity : BaseActivity() {
             col.addView(EfbUi.text(this, p.optString("q"), 15f, 0xFFFFFFFF.toInt(), bold = head.isEmpty())
                 .apply { setPadding(0, dp(if (head.isEmpty()) 0 else 10), 0, 0) })
         }
+    }
+
+    /**
+     * A table from the page, set as a table: its rows and columns in words, sharp at any size,
+     * numbers lined up on the right as the book prints them, and the rule under a figure kept.
+     */
+    private fun tableView(col: LinearLayout, rows: org.json.JSONArray) {
+        if (rows.length() == 0) return
+        // Columns with nothing in any row (the page's spacing cells) are left out.
+        var cols = 0
+        for (r in 0 until rows.length()) cols = maxOf(cols, rows.optJSONArray(r)?.length() ?: 0)
+        val used = BooleanArray(cols); val numeric = BooleanArray(cols) { true }
+        for (r in 0 until rows.length()) { val a = rows.optJSONArray(r) ?: continue
+            for (c in 0 until a.length()) { val t = a.optJSONObject(c)?.optString("t").orEmpty()
+                if (t.isNotEmpty()) { used[c] = true
+                    if (r > 0 && !Regex("^[-−+?\$%.,()\\d\\s×x=]+\$").matches(t)) numeric[c] = false } } }
+        val table = android.widget.TableLayout(this).apply { setPadding(dp(10), dp(8), dp(10), dp(8)) }
+        for (r in 0 until rows.length()) { val a = rows.optJSONArray(r) ?: continue
+            val tr = android.widget.TableRow(this)
+            for (c in 0 until a.length()) { if (c >= cols || !used[c]) continue
+                val cell = a.optJSONObject(c) ?: continue
+                val head = r == 0 || cell.optInt("b") == 1
+                val tv = EfbUi.text(this, cell.optString("t"), 14f,
+                    if (r == 0) 0xFF64D2FF.toInt() else 0xFFE2E8EF.toInt(), bold = head).apply {
+                    setPadding(dp(8), dp(3), dp(8), dp(3))
+                    gravity = if (numeric[c] && c > 0) Gravity.END else Gravity.START
+                    if (cell.optInt("u") == 1) paintFlags = paintFlags or android.graphics.Paint.UNDERLINE_TEXT_FLAG
+                }
+                tr.addView(tv)
+            }
+            table.addView(tr)
+        }
+        val box = android.widget.HorizontalScrollView(this).apply {
+            addView(table)
+            background = android.graphics.drawable.GradientDrawable().apply {
+                setColor(0xFF161D25.toInt()); cornerRadius = dp(8).toFloat(); setStroke(dp(1), 0xFF2A3B4D.toInt()) }
+        }
+        col.addView(box, LinearLayout.LayoutParams(-1, -2).apply { setMargins(dp(24), dp(10), 0, dp(4)) })
     }
 
     /** Figures already set into the reading of the page being shown. */
@@ -416,7 +455,7 @@ class StudyBookReaderActivity : BaseActivity() {
             "h1{font-size:20pt;margin:0 0 4px}.pg{page-break-inside:avoid;border-top:1px solid #ccc;padding:10px 0}" +
             ".meta{color:#666;font-size:9pt}.q{font-weight:bold;margin:6px 0}.ch{margin:3px 0;padding:4px 8px;border-radius:6px;background:#f3f3f5}" +
             ".ok{background:#e3f4e8;font-weight:bold}.why{color:#2e6b40;font-size:10pt;margin-left:22px}.note{background:#fff7d6;padding:6px 8px;border-radius:6px;margin-top:6px}" +
-            "img{max-width:100%;max-height:420px;display:block;margin:6px 0;border:1px solid #ddd}li{margin:2px 0}</style></head><body>")
+            "img{max-width:100%;max-height:420px;display:block;margin:6px 0;border:1px solid #ddd}li{margin:2px 0}table.tb{border-collapse:collapse;margin:6px 0 6px 28px}table.tb td{padding:2px 10px}</style></head><body>")
         sb.append("<h1>Study book</h1><div class='meta'>${pages.length()} pages</div>")
         for (i in 0 until pages.length()) {
             val p = pages.optJSONObject(i) ?: continue
@@ -444,6 +483,16 @@ class StudyBookReaderActivity : BaseActivity() {
                         if (o.has("f")) {
                             val nm = fk?.keys()?.asSequence()?.firstOrNull { fk.optInt(it, -1) == o.optInt("f") }
                             if (nm != null && java.io.File(dir, nm).exists()) { sb.append("</ul><img src='$nm'><ul>"); inlined.add(nm) }
+                        } else if (o.has("tb")) {
+                            sb.append("</ul><table class='tb'>")
+                            val rs = o.optJSONArray("tb")
+                            if (rs != null) for (r in 0 until rs.length()) { val a = rs.optJSONArray(r) ?: continue
+                                sb.append("<tr>")
+                                for (c in 0 until a.length()) { val cl = a.optJSONObject(c) ?: continue
+                                    val st = (if (cl.optInt("u") == 1) "text-decoration:underline;" else "") + (if (r == 0 || cl.optInt("b") == 1) "font-weight:bold;" else "")
+                                    sb.append("<td colspan='${cl.optInt("s", 1)}' style='$st'>${e(cl.optString("t"))}</td>") }
+                                sb.append("</tr>") }
+                            sb.append("</table><ul>")
                         } else sb.append("<li style='margin-left:${o.optInt("d") * 16}px'>${e(o.optString("m"))} ${e(o.optString("t"))}</li>")
                     }
                     sb.append("</ul>")

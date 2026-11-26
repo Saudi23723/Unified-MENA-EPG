@@ -271,6 +271,28 @@ class StudyBookActivity : BaseActivity() {
                         'Privacy Policy':1,'Employment':1,'Terms and Conditions of Service':1};
             var out = [];
             var pts = [];
+            // A table of figures is kept as a table — its rows and cells as words — not as a picture
+            // of the screen. A picture of it had to be cut from wherever the page happened to be
+            // scrolled to, and came back as the wrong part of the page or a blank box.
+            function tbl(t){
+                var rows = [], wide = 0;
+                for (var r = 0; r < t.rows.length && rows.length < 40; r++){
+                    var cs = t.rows[r].cells, row = [];
+                    for (var c = 0; c < cs.length && c < 12; c++){
+                        var cell = cs[c];
+                        var tx = (cell.innerText || '').replace(/\s+/g, ' ').trim();
+                        var st = window.getComputedStyle ? window.getComputedStyle(cell) : null;
+                        var u = /underline/.test(st ? st.textDecorationLine || st.textDecoration || '' : '') ||
+                                !!cell.querySelector('u') || (st && parseFloat(st.borderTopWidth) > 0 && st.borderTopStyle !== 'none');
+                        row.push({ t: tx, s: cell.colSpan || 1, u: u ? 1 : 0, b: (cell.tagName.toLowerCase() === 'th' || (st && +st.fontWeight >= 600)) ? 1 : 0 });
+                    }
+                    var any = false; for (var c = 0; c < row.length; c++) if (row[c].t) any = true;
+                    if (!any) continue;
+                    rows.push(row);
+                    out.push(row.map(function(x){ return x.t; }).join(' ').trim());
+                }
+                return rows;
+            }
             // Only what the page actually shows: a bank's page carries directions, skip links,
             // spacers and an index of every question in it, none of it ever on the screen.
             function shown(el){
@@ -345,8 +367,9 @@ class StudyBookActivity : BaseActivity() {
                             if (ct === 'ol' || ct === 'ul'){ flush(); used = true; list(c, depth + 1); continue; }
                             if (ct === 'svg') continue;
                             if (ct === 'table'){
-                                // A table that is not kept as a picture is read a row to a line.
                                 flush(); used = true;
+                                if (dataTable(c)){ pts.push({ tb: tbl(c) }); continue; }
+                                // A table that only lays the page out is read a row to a line.
                                 for (var r = 0; r < (c.rows ? c.rows.length : 0); r++){
                                     var row = c.rows[r];
                                     var inr = row.querySelectorAll('[data-sb-k]');
@@ -401,7 +424,7 @@ class StudyBookActivity : BaseActivity() {
                 }
                 if (SKIP[tag]) return;
                 // A table of data is kept as a picture, so its text is not written out as well.
-                if (tag === 'table' && dataTable(el)) return;
+                if (tag === 'table' && dataTable(el)){ pts.push({ tb: tbl(el) }); return; }
                 // A row of a table is one line. This bank writes a choice as two cells — "A." in
                 // one and its words in the next — and a question as "Question: 10" in one cell and
                 // the question in another. Read cell by cell they fall onto separate lines and
@@ -445,7 +468,7 @@ class StudyBookActivity : BaseActivity() {
         // The figures of the page, in the order the page has them, by one rule shared by the text
         // reading and the picture taking, so the n-th figure in one is the n-th in the other.
         function sbFigs(){
-            var all = document.querySelectorAll('img,table,svg,canvas');
+            var all = document.querySelectorAll('img,svg,canvas');
             var list = [];
             for (var k = 0; k < all.length; k++){
                 var e = all[k];
@@ -823,7 +846,7 @@ class StudyBookActivity : BaseActivity() {
         // The figures of the page, in the order the page has them, by one rule shared by the text
         // reading and the picture taking, so the n-th figure in one is the n-th in the other.
         function sbFigs(){
-            var all = document.querySelectorAll('img,table,svg,canvas');
+            var all = document.querySelectorAll('img,svg,canvas');
             var list = [];
             for (var k = 0; k < all.length; k++){
                 var e = all[k];
