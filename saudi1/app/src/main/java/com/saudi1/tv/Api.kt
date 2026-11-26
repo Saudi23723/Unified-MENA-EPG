@@ -128,17 +128,25 @@ object Api {
         } catch (e: Exception) { }
         build(c.inputStream(), tmp.inputStream())
         cf.writeBytes(c); tmp.renameTo(sf)
+        // the provider's own list, asked now and then like TiviMate: groups the app does not have come in hidden, at the end
+        val probe = groups.firstOrNull { it.id == ALL }?.channels?.firstOrNull { it.id > 0 }?.id
+        val known = byId.keys.filter { it > 0 }.toSet(); val pl = Prefs.playlist
+        if (probe != null) Thread {
+            try { if (NewGroups.check(known, probe) && pl == Prefs.playlist) build(cf.inputStream(), sf.inputStream()) }
+            catch (e: Exception) { android.util.Log.w("SAUDI", "new groups: $e") }
+        }.start()
         return true
     }
 
     /** a group the list of groups did not name (the two lists are read a moment apart): the name the channel carries,
      *  else what the relay's extra event groups (91xx) are, never a bare "Other" twice */
-    fun unlisted(cat: String, name: String) = name.trim().ifEmpty { if (Regex("^91\\d\\d$").matches(cat)) "🔥 PPV ᴇᴠᴇɴᴛꜱ" else "Other" }
+    fun unlisted(cat: String, name: String) = name.trim().ifEmpty { if (EXTRA.matches(cat)) "🔥 PPV ᴇᴠᴇɴᴛꜱ" else "Other" }
+    private val EXTRA = Regex("^91\\d\\d$")
 
     @Volatile var rawGroups: List<Group> = emptyList()
 
-    private fun build(cats: InputStream, streams: InputStream) {
-        val order = ArrayList<Group>(); val map = HashMap<String, Group>()
+    @Synchronized private fun build(cats: InputStream, streams: InputStream) {
+        val order = ArrayList<Group>(); val map = HashMap<String, Group>(); val extras = ArrayList<Group>()
         JsonReader(InputStreamReader(cats, Charsets.UTF_8)).use { j ->
             j.beginArray()
             while (j.hasNext()) {
@@ -150,7 +158,13 @@ object Api {
                     else -> j.skipValue()
                 }
                 j.endObject()
-                if (id.isNotEmpty() && id !in map) { val g = Group(id, name.trim()); map[id] = g; order.add(g) }
+                if (id.isNotEmpty() && id !in map) {
+                    // the relay's extra PPV packages (91xx, owner 26 Nov 2026: groups the provider adds go hidden, at
+                    // the end); their number follows the provider's order, so they are kept by name
+                    val ex = EXTRA.matches(id)
+                    val g = Group(if (ex) "px" + Integer.toHexString(name.trim().hashCode()) else id, name.trim()); map[id] = g
+                    if (ex) extras.add(g) else order.add(g)
+                }
             }
             j.endArray()
         }
@@ -172,9 +186,9 @@ object Api {
                 }
                 j.endObject()
                 if (id == 0 || ids.containsKey(id)) continue
-                val ch = Channel(id, if (num > 0) num else all.size + 1, name.trim(), logo, epg, cat)
-                ids[id] = ch; all.add(ch)
-                (map[cat] ?: map.getOrPut(cat) { Group(cat, unlisted(cat, catName)).also { order.add(it) } }).channels.add(ch)
+                val g = map[cat] ?: map.getOrPut(cat) { Group(cat, unlisted(cat, catName)).also { order.add(it) } }
+                val ch = Channel(id, if (num > 0) num else all.size + 1, name.trim(), logo, epg, g.id)
+                ids[id] = ch; all.add(ch); g.channels.add(ch)
             }
             j.endArray()
         }
@@ -182,8 +196,8 @@ object Api {
         val dh = HashSet<String>()
         val copies = ArrayList<Triple<Int, String, Int>>()
         try {
-            val hf = cache("hidden_live_" + Prefs.playlist + ".json")
-            if (hf.isFile && Prefs.playlist.isNotEmpty()) JsonReader(InputStreamReader(hf.inputStream(), Charsets.UTF_8)).use { j ->
+            for (hf in listOf(cache("hidden_live_" + Prefs.playlist + ".json"), NewGroups.file()))
+            if (hf.isFile && (Prefs.playlist.isNotEmpty() || hf == NewGroups.file())) JsonReader(InputStreamReader(hf.inputStream(), Charsets.UTF_8)).use { j ->
                 // streamed like the main lists (a big file read without building it all in memory)
                 j.beginObject()
                 while (j.hasNext()) when (j.nextName()) {
@@ -215,6 +229,7 @@ object Api {
                 j.endObject()
             }
         } catch (e: Exception) { }
+        for (g in extras) { order.add(g); dh.add(g.id) }
         Arrange.defaultHidden = dh
         for ((id, cat, pos) in copies) {
             val ch = ids[id] ?: continue; val g = map[cat] ?: continue

@@ -32,9 +32,33 @@ object Arrange {
     fun vodHidden(series: Boolean): Set<String> = App.prefs.getStringSet("vh_" + vk(series), emptySet()) ?: emptySet()
     fun setVodHidden(series: Boolean, v: Set<String>) = App.prefs.edit().putStringSet("vh_" + vk(series), HashSet(v)).apply()
     fun vodOrder(series: Boolean): List<String> = try { val a = JSONArray(App.prefs.getString("vo_" + vk(series), "[]")); (0 until a.length()).map { a.getString(it) } } catch (e: Exception) { emptyList() }
+    private fun late(series: Boolean): List<String> = try { val a = JSONArray(App.prefs.getString("vl_" + vk(series), "[]")); (0 until a.length()).map { a.getString(it) } } catch (e: Exception) { emptyList() }
     fun setVodOrder(series: Boolean, v: List<String>) = App.prefs.edit().putString("vo_" + vk(series), JSONArray(v).toString()).apply()
     fun vod(series: Boolean, cats: List<VodCat>, all: Boolean = false): List<VodCat> {
         var o = vodOrder(series); val pos = HashMap<String, Int>(); o.forEachIndexed { i, id -> pos[id] = i }
+        // the groups this device has seen (owner, 26 Nov 2026): one the provider adds later goes to the END, hidden, even
+        // when the viewer never arranged the list; the first list seen is taken as it is
+        val kk = "vk_" + vk(series)
+        val seen = App.prefs.getStringSet(kk, null)
+        if (cats.size > 3) {
+            if (seen == null) App.prefs.edit().putStringSet(kk, HashSet(cats.map { it.id })).apply()
+            else {
+                val fresh = cats.map { it.id }.filter { it !in seen && it !in pos }
+                if (fresh.isNotEmpty()) {
+                    App.prefs.edit().putStringSet(kk, HashSet(seen + fresh)).apply()
+                    setVodHidden(series, vodHidden(series) + fresh)
+                    // an arranged list takes them at its end (below); an unarranged one keeps the playlist's own order
+                    // (the owner's later changes to it still reach this device) with the late groups after it
+                    if (o.isEmpty()) App.prefs.edit().putString("vl_" + vk(series), JSONArray(late(series) + fresh).toString()).apply()
+                }
+            }
+        }
+        if (o.isEmpty()) { val l = late(series).toSet(); if (l.isNotEmpty()) {
+            val (a, b) = cats.partition { it.id !in l }; val at = late(series).withIndex().associate { it.value to it.index }
+            val sorted = a + b.sortedBy { at[it.id] }
+            if (all) return sorted
+            val h = vodHidden(series); return sorted.filter { it.id !in h }
+        } }
         // a category the provider added after the viewer arranged this list goes to the END and comes hidden (owner,
         // 21 Nov 2026); the viewer shows it from Arrange like any hidden group
         if (o.isNotEmpty() && cats.size > 3) {
@@ -69,7 +93,7 @@ object Arrange {
 
     fun reset() { App.prefs.all.keys.filter { it.startsWith("co_" + pl() + "_") }.let { ks -> val e = App.prefs.edit(); ks.forEach { e.remove(it) }; e.apply() }
         App.prefs.edit().remove("gh_" + pl()).remove("ch_" + pl()).remove("go_" + pl()).remove("gs_" + pl())
-        .remove("vh_" + vk(true)).remove("vh_" + vk(false)).remove("vo_" + vk(true)).remove("vo_" + vk(false)).apply() }
+        .remove("vh_" + vk(true)).remove("vh_" + vk(false)).remove("vo_" + vk(true)).remove("vo_" + vk(false)).remove("vl_" + vk(true)).remove("vl_" + vk(false)).apply() }
 
     /** the playlist's groups in the viewer's order (hidden ones left in when all = true, for the arranging screen) */
     fun apply(groups: List<Group>, all: Boolean = false): List<Group> {
