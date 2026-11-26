@@ -1281,6 +1281,9 @@ class MapActivity : BaseActivity(), NeonHost {
         // as well: twice the tiles to download and decode for nothing. It is only fetched when no
         // printed chart is over it; what it already has on the phone still fills the edges.
         map.setUseDataConnection(want.isEmpty())
+        // Not shown at all under a printed chart: past the chart's edge (Mexico, the sea) the page is
+        // left plain rather than showing an ordinary road map that has nothing to do with the chart.
+        map.overlayManager.tilesOverlay.isEnabled = want.isEmpty()
         chartOverlay?.let { map.overlays.remove(it); try { it.onDetach(map) } catch (e: Throwable) { } }
         chartOverlay = null
         map.overlays.remove(groundUnder)
