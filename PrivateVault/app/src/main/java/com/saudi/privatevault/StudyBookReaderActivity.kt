@@ -159,6 +159,8 @@ class StudyBookReaderActivity : BaseActivity() {
         head.addView(mid, LinearLayout.LayoutParams(0, -2, 1f))
         head.addView(chip("📑", 0xFF8E5CF7.toInt()) { contents() },
             LinearLayout.LayoutParams(-2, -2).apply { marginEnd = dp(6) })
+        head.addView(chip("PDF", 0xFF2D7FF9.toInt()) { exportPdf() },
+            LinearLayout.LayoutParams(-2, -2).apply { marginEnd = dp(6) })
         head.addView(chip("›", 0xFF2A3B4D.toInt()) { if (at < pages.length() - 1) go(at + 1) })
         body.addView(head)
 
@@ -349,8 +351,89 @@ class StudyBookReaderActivity : BaseActivity() {
                 setPadding(dp(4), dp(4), dp(4), dp(4))
                 // A figure never swallows the page: tall ones are held to a readable height.
                 maxHeight = dp(420)
+                // A tap opens it on its own, full screen, to pinch and zoom into.
+                setOnClickListener { zoomFigure(f) }
             }, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(8) })
         }
+    }
+
+    /** A figure full screen, on black, to pinch, zoom and pan; a tap on the ✕ or back closes it. */
+    private fun zoomFigure(f: java.io.File) {
+        val bmp = android.graphics.BitmapFactory.decodeFile(f.path) ?: return
+        val dlg = android.app.Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
+        val box = android.widget.FrameLayout(this).apply { setBackgroundColor(0xFF000000.toInt()) }
+        box.addView(ZoomImageView(this).apply { setImageBitmap(bmp) }, android.widget.FrameLayout.LayoutParams(-1, -1))
+        box.addView(android.widget.TextView(this).apply {
+            text = "✕"; textSize = 22f; setTextColor(0xFFFFFFFF.toInt()); gravity = Gravity.CENTER
+            background = EfbUi.cardBg(this@StudyBookReaderActivity, 0x99000000.toInt(), 24)
+            setOnClickListener { dlg.dismiss() }
+        }, android.widget.FrameLayout.LayoutParams(dp(48), dp(48), Gravity.TOP or Gravity.END).apply { setMargins(0, dp(28), dp(16), 0) })
+        dlg.setContentView(box)
+        dlg.show()
+    }
+
+    private var printWeb: android.webkit.WebView? = null
+
+    /**
+     * The whole book as a PDF: every page in the book's order, its unit and question, the choices with
+     * the right one marked and why, the lesson points, the figures, and the pilot's own note — laid out
+     * for paper and handed to the phone's printer, where "Save as PDF" keeps it.
+     */
+    private fun exportPdf() {
+        save()
+        fun e(x: String) = x.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\n", "<br>")
+        val dir = java.io.File(filesDir, "studybook")
+        val sb = StringBuilder()
+        sb.append("<html><head><meta charset='utf-8'><style>body{font-family:sans-serif;font-size:11pt;color:#111;margin:18px}" +
+            "h1{font-size:20pt;margin:0 0 4px}.pg{page-break-inside:avoid;border-top:1px solid #ccc;padding:10px 0}" +
+            ".meta{color:#666;font-size:9pt}.q{font-weight:bold;margin:6px 0}.ch{margin:3px 0;padding:4px 8px;border-radius:6px;background:#f3f3f5}" +
+            ".ok{background:#e3f4e8;font-weight:bold}.why{color:#2e6b40;font-size:10pt;margin-left:22px}.note{background:#fff7d6;padding:6px 8px;border-radius:6px;margin-top:6px}" +
+            "img{max-width:100%;max-height:420px;display:block;margin:6px 0;border:1px solid #ddd}li{margin:2px 0}</style></head><body>")
+        sb.append("<h1>Study book</h1><div class='meta'>${pages.length()} pages</div>")
+        for (i in 0 until pages.length()) {
+            val p = pages.optJSONObject(i) ?: continue
+            sb.append("<div class='pg'><div class='meta'>${e(listOf(p.optString("unit"), p.optString("sub"), p.optString("t")).filter { it.isNotEmpty() }.joinToString(" · "))}</div>")
+            val head = p.optString("head")
+            if (head.isNotEmpty()) sb.append("<div class='q'>${e(head)}</div>")
+            if (p.optString("kind") == "qa") {
+                val n = p.optString("n")
+                sb.append("<div class='q'>${if (n.isNotEmpty()) "Q$n. " else ""}${e(p.optString("q"))}</div>")
+                val ans = p.optString("ans")
+                p.optJSONArray("ch")?.let { ch -> for (k in 0 until ch.length()) {
+                    val o = ch.optJSONObject(k) ?: continue
+                    val right = if (o.has("ok")) o.optBoolean("ok") else o.optString("l").equals(ans, true)
+                    sb.append("<div class='ch${if (right) " ok" else ""}'>${e(o.optString("l"))}${if (right) " ✓" else ""} &nbsp; ${e(o.optString("t"))}</div>")
+                    if (o.optString("why").isNotEmpty() && right) sb.append("<div class='why'>${e(o.optString("why"))}</div>")
+                } }
+                if (p.optString("why").isNotEmpty()) sb.append("<div class='why'>${e(p.optString("why"))}</div>")
+            } else {
+                val pl = p.optJSONArray("plist")
+                if (pl != null && pl.length() > 0) {
+                    sb.append("<ul>")
+                    for (k in 0 until pl.length()) pl.optJSONObject(k)?.let { o -> sb.append("<li style='margin-left:${o.optInt("d") * 16}px'>${e(o.optString("m"))} ${e(o.optString("t"))}</li>") }
+                    sb.append("</ul>")
+                } else p.optJSONArray("pts")?.let { a -> for (k in 0 until a.length()) sb.append("<p>${e(a.optString(k))}</p>") }
+                    ?: sb.append("<p>${e(p.optString("q"))}</p>")
+            }
+            val names = ArrayList<String>()
+            p.optJSONArray("imgs")?.let { a -> for (k in 0 until a.length()) a.optString(k).takeIf { it.isNotEmpty() }?.let(names::add) }
+            p.optString("img").takeIf { it.isNotEmpty() && it != "null" && !names.contains(it) }?.let(names::add)
+            for (nm in names) if (java.io.File(dir, nm).exists()) sb.append("<img src='$nm'>")
+            if (p.optString("e").isNotBlank()) sb.append("<div class='note'><b>My note:</b> ${e(p.optString("e"))}</div>")
+            sb.append("</div>")
+        }
+        sb.append("</body></html>")
+        val web = android.webkit.WebView(this)
+        web.settings.allowFileAccess = true
+        web.webViewClient = object : android.webkit.WebViewClient() {
+            override fun onPageFinished(v: android.webkit.WebView, url: String) {
+                getSystemService(android.print.PrintManager::class.java).print("Study book",
+                    v.createPrintDocumentAdapter("Study book"),
+                    android.print.PrintAttributes.Builder().setMediaSize(android.print.PrintAttributes.MediaSize.ISO_A4).build())
+            }
+        }
+        web.loadDataWithBaseURL("file://" + dir.absolutePath + "/", sb.toString(), "text/html", "utf-8", null)
+        printWeb = web
     }
 
     /** What the pilot wrote for themselves, which is the part worth the book. */

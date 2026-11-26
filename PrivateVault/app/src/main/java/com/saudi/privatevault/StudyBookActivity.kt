@@ -638,6 +638,19 @@ class StudyBookActivity : BaseActivity() {
             }
         }
         val bytes = best ?: return null
+        // A wide strip of lettering is the site's banner, not a figure; and a picture already taken
+        // for this page (the same file reached two ways) is not taken twice.
+        val ob = android.graphics.BitmapFactory.Options().apply { inJustDecodeBounds = true }
+        android.graphics.BitmapFactory.decodeByteArray(bytes, 0, bytes.size, ob)
+        if (ob.outHeight > 0 && ob.outWidth.toFloat() / ob.outHeight > 3.5f) return null
+        val md = java.security.MessageDigest.getInstance("MD5")
+        val hash = md.digest(bytes).joinToString("") { "%02x".format(it) }
+        synchronized(figures) {
+            for (n in figures) {
+                val f = java.io.File(dir, n)
+                if (f.length() == bytes.size.toLong() && java.security.MessageDigest.getInstance("MD5").digest(f.readBytes()).joinToString("") { "%02x".format(it) } == hash) return null
+            }
+        }
         val out = java.io.File(dir, "fig_" + System.currentTimeMillis() + "_" + i + ".png")
         return try { out.writeBytes(bytes); out.name } catch (e: Throwable) { null }
     }

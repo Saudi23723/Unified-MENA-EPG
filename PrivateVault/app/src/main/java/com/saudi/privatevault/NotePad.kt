@@ -125,7 +125,8 @@ class NoteCanvas(ctx: Context, val book: NoteBook) : View(ctx) {
         scale = if (dark) width / NotePad.W else minOf(width / NotePad.W, height / NotePad.H)
         val w = NotePad.W * scale
         val h = NotePad.H * scale
-        if (dark) box.set(0f, 0f, w, h) else box.set((width - w) / 2, (height - h) / 2, (width + w) / 2, (height + h) / 2)
+        offY = offY.coerceIn(0f, maxOf(0f, h - height))
+        if (dark) box.set(0f, -offY, w, h - offY) else box.set((width - w) / 2, (height - h) / 2, (width + w) / 2, (height + h) / 2)
         c.save()
         c.translate(box.left, box.top)
         c.scale(scale, scale)
@@ -172,9 +173,24 @@ class NoteCanvas(ctx: Context, val book: NoteBook) : View(ctx) {
         c.drawPath(path, paint)
     }
 
+    /** How far down the page the window is scrolled: the page is taller than the window. */
+    private var offY = 0f
+    private var twoY = -1f
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(e: MotionEvent): Boolean {
         parent?.requestDisallowInterceptTouchEvent(true)
+        // Two fingers move the page up and down (one finger writes), so every box on it is in reach.
+        if (e.pointerCount >= 2 || twoY != -1f) {
+            val my = if (e.pointerCount >= 2) (e.getY(0) + e.getY(1)) / 2 else e.y
+            when (e.actionMasked) {
+                MotionEvent.ACTION_POINTER_DOWN -> { current = null; twoY = my }
+                MotionEvent.ACTION_MOVE -> if (e.pointerCount >= 2 && twoY >= 0f) { offY -= my - twoY; twoY = my; invalidate() }
+                MotionEvent.ACTION_POINTER_UP -> twoY = -2f
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> twoY = -1f
+            }
+            return true
+        }
         val x = (e.x - box.left) / scale
         val y = (e.y - box.top) / scale
         val rub = tool == NotePad.Tool.ERASER || Stylus.erasing(e)
