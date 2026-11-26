@@ -115,7 +115,6 @@ header h1{flex:1;margin:0;font-size:20px;font-weight:700;white-space:nowrap;over
 (function () {
   "use strict";
   var SITE = "https://saudi1.1saifsaudi.workers.dev";
-  var DENO = "https://saudi1-px.deno.dev";   // deno/px.ts on Deno Deploy (project saudi1-px)
   var $ = function (id) { return document.getElementById(id); };
   var LS = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
              set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) { } },
@@ -344,7 +343,7 @@ header h1{flex:1;margin:0;font-size:20px;font-weight:700;white-space:nowrap;over
     live = isLive; key = k || ""; retry = 0;
     // every provider link is http (probe, 25 Nov 2026: all 7 relays send the player to http port 80/8080), and a page
     // opened over https may not play http video (Safari just keeps loading): so the video always comes through our server
-    st.viaPx = location.protocol === "https:"; st.deno = false;
+    st.viaPx = location.protocol === "https:";
     $("pt").textContent = title; $("ps").textContent = ""; $("zap").classList.toggle("hide", !live);
     v.controls = !live;
     if (cur !== "play") show("play", true);
@@ -354,8 +353,7 @@ header h1{flex:1;margin:0;font-size:20px;font-weight:700;white-space:nowrap;over
     msg(""); st.url = url;
     // second line of defence: the same link, but through our own server (it fixes http redirects, missing CORS, ts links)
     var raw = url;
-    // our server (Cloudflare), or for providers that turn Cloudflare away the second route (Deno, deno/px.ts)
-    if (st.viaPx) url = (st.deno ? DENO + "/px" : SITE + "/api/px") + "?code=" + code() + "&u=" + encodeURIComponent(raw);
+    if (st.viaPx) url = SITE + "/api/px?code=" + code() + "&u=" + encodeURIComponent(raw);
     if (hls) { hls.destroy(); hls = null; }
     v.removeAttribute("src");
     var native = v.canPlayType("application/vnd.apple.mpegurl");
@@ -375,7 +373,6 @@ header h1{flex:1;margin:0;font-size:20px;font-weight:700;white-space:nowrap;over
     // live: try again twice (a channel often answers on the second call); films that the phone cannot read say so
     if (live && retry < 2) { retry++; msg("Reconnecting…"); setTimeout(function () { if (cur === "play") load(st.url, 0); }, 1500); return; }
     // playing it directly did not work: once, try the same link through our server
-    if (st.viaPx && !st.deno && st.url) { st.deno = true; retry = 0; msg("Trying another route…"); var f2 = v.currentTime > 0 ? v.currentTime * 1000 : 0; setTimeout(function () { if (cur === "play") load(st.url, live ? 0 : f2); }, 300); return; }
     if (!st.viaPx && st.url) { st.viaPx = true; retry = 0; msg("Trying another route…"); var f = v.currentTime > 0 ? v.currentTime * 1000 : 0; setTimeout(function () { if (cur === "play") load(st.url, live ? 0 : f); }, 300); return; }
     msg((live ? "This channel is not available right now" : "This video cannot play on iPhone / iPad (its format is not supported by Safari)") + (why ? "\n(" + why + ")" : ""));
   }
