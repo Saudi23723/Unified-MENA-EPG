@@ -508,8 +508,8 @@ class StudyBookActivity : BaseActivity() {
             }
             return n;
         })()"""
-        web.evaluateJavascript(eager) { pending ->
-        val wait = if ((unJs(pending).toIntOrNull() ?: 0) > 0) 1500L else 0L
+        web.evaluateJavascript(eager) { loading ->
+        val wait = if ((unJs(loading).toIntOrNull() ?: 0) > 0) 1500L else 0L
         web.postDelayed({
         web.evaluateJavascript(js) { raw ->
             val o = try { JSONObject(unJs(raw)) } catch (e: Exception) { null }
