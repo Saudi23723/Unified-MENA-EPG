@@ -105,14 +105,17 @@ export default {
       // which is the same IP (1.2.3.4.sslip.io → 1.2.3.4)
       const named = (u) => { const x = new URL(u); if (/^\d{1,3}(\.\d{1,3}){3}$/.test(x.hostname)) x.hostname = x.hostname + ".sslip.io"; return x.toString(); };
       let r, at = named(t.toString());
+      const hops = [];   // ?dbg=1: the answer of each step (codes, schemes and ports only)
       try {
         for (let hop = 0; hop < 6; hop++) {
           r = await fetch(at, { headers: h, redirect: "manual" });
+          { const x = new URL(at); hops.push(r.status + " " + x.protocol.replace(":", "") + ":" + (x.port || "") + (x.hostname.endsWith(".sslip.io") ? " ip" : "") + (r.headers.get("server") ? " server=" + r.headers.get("server").slice(0, 20) : "")); }
           const loc = r.status >= 300 && r.status < 400 ? r.headers.get("location") : null;
           if (!loc) break;
           at = named(new URL(loc, at).toString());
         }
-      } catch (e) { return new Response("provider unreachable", { status: 502, headers: CORS }); }
+      } catch (e) { return new Response("provider unreachable " + hops.join(" > "), { status: 502, headers: CORS }); }
+      if (url.searchParams.get("dbg") === "1") return new Response(hops.join(" > "), { headers: CORS });
       const ct = r.headers.get("content-type") || "";
       const path = new URL(at).pathname.toLowerCase();
       if (r.ok && !/\.(ts|m4s|aac|mp4|mkv|avi|mp3)$/.test(path) && (/mpegurl/i.test(ct) || /\.m3u8$/.test(path))) {

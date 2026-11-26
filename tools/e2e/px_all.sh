@@ -20,6 +20,7 @@ except Exception: print("")')
   [ -z "$ID" ] && { echo "$PL: no channel list"; continue; }
   RAW="$S/live/$U/$P/$ID.m3u8"
   ENC=$(python3 -c 'import sys,urllib.parse; print(urllib.parse.quote(sys.argv[1], safe=""))' "$RAW")
+  echo "   steps: $(curl -sS -m 30 "$SITE/api/px?code=$CODE&dbg=1&u=$ENC" | head -c 300)"
   M=$(curl -sS -m 30 -o m.txt -w "%{http_code}" "$SITE/api/px?code=$CODE&u=$ENC")
   SEG=$(grep -v '^#' m.txt 2>/dev/null | grep -m1 .)
   if [ "$M" = 200 ] && [ -n "$SEG" ]; then
