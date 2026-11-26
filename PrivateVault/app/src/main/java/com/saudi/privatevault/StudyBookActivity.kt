@@ -647,11 +647,13 @@ class StudyBookActivity : BaseActivity() {
               grabLinkedFigures { n1 ->
                 grabbing = false
                 web.evaluateJavascript(unhookJs, null)
+                explainChoices(parsed) {
                 val n = n0 + n1
                 showPending()
                 Toast.makeText(this, StudyParse.describe(parsed) +
                     (if (n > 0) " · $n figure" + (if (n > 1) "s" else "") else ""),
                     Toast.LENGTH_LONG).show()
+                }
               }
             }
         }
@@ -755,35 +757,62 @@ class StudyBookActivity : BaseActivity() {
      */
     private fun bestPicture(dir: java.io.File, i: Int, data: String, url: String, link: String = "",
                             bigData: String = "", bigUrl: String = ""): String? {
-        var best: ByteArray? = null
-        var bestW = 0
-        fun consider(bytes: ByteArray?) {
-            if (bytes == null || bytes.size < 200) return
+        // Every copy is looked at, and only a copy that is a picture of this figure is let in: not
+        // blank, not a wide strip of lettering, and — where the page's own thumbnail is known —
+        // the same shape as it. The page a link leads to carries the site's own banners and icons
+        // as well as the figure, and taking the widest of those threw the figure away with it.
+        fun dims(bytes: ByteArray): Pair<Int, Int> {
             val o = android.graphics.BitmapFactory.Options().apply { inJustDecodeBounds = true }
             android.graphics.BitmapFactory.decodeByteArray(bytes, 0, bytes.size, o)
-            if (o.outWidth > bestW) { bestW = o.outWidth; best = bytes }
+            return o.outWidth to o.outHeight
         }
-        if (data.startsWith("data:image")) {
-            consider(try { android.util.Base64.decode(data.substringAfter("base64,"), android.util.Base64.DEFAULT) } catch (e: Throwable) { null })
+        fun blank(bytes: ByteArray): Boolean = try {
+            val sm = android.graphics.BitmapFactory.decodeByteArray(bytes, 0, bytes.size, android.graphics.BitmapFactory.Options().apply { inSampleSize = 8 })
+            if (sm == null) true else {
+                var mn = 255; var mx = 0
+                for (yy in 0 until sm.height step 2) for (xx in 0 until sm.width step 2) {
+                    val c = sm.getPixel(xx, yy); val l = ((c shr 16 and 255) * 3 + (c shr 8 and 255) * 6 + (c and 255)) / 10
+                    if (l < mn) mn = l; if (l > mx) mx = l
+                }
+                sm.recycle(); mx - mn < 18
+            }
+        } catch (e: Throwable) { false }
+        fun fit(bytes: ByteArray?): Boolean {
+            if (bytes == null || bytes.size < 200) return false
+            val (w, h) = dims(bytes)
+            if (w <= 0 || h <= 0) return false
+            if (w.toFloat() / h > 3.5f) return false
+            return !blank(bytes)
         }
-        if (url.startsWith("http")) consider(fetchBytes(url))
-        if (bigData.startsWith("data:image")) consider(try { android.util.Base64.decode(bigData.substringAfter("base64,"), android.util.Base64.DEFAULT) } catch (e: Throwable) { null })
+        fun b64(d: String) = try { android.util.Base64.decode(d.substringAfter("base64,"), android.util.Base64.DEFAULT) } catch (e: Throwable) { null }
+        // The thumbnail the page shows: the figure for certain, if not the sharpest copy of it.
+        var best: ByteArray? = null
+        var bestW = 0
+        val own = ArrayList<ByteArray>()
+        if (data.startsWith("data:image")) b64(data)?.let { own.add(it) }
+        if (url.startsWith("http")) fetchBytes(url)?.let { own.add(it) }
+        for (o in own) if (fit(o)) { val w = dims(o).first; if (w > bestW) { bestW = w; best = o } }
+        val shape = best?.let { val (w, h) = dims(it); w.toFloat() / h }
+        fun consider(bytes: ByteArray?) {
+            if (!fit(bytes)) return
+            val (w, h) = dims(bytes!!)
+            if (shape != null && kotlin.math.abs((w.toFloat() / h) / shape - 1f) > 0.3f) return
+            if (w > bestW) { bestW = w; best = bytes }
+        }
+        if (bigData.startsWith("data:image")) consider(b64(bigData))
         if (bigUrl.startsWith("http") && bigUrl != url) consider(fetchBytes(bigUrl))
         // What the picture's link opens, fetched behind the scenes as the signed-in page would: a
-        // picture is taken as it is; a page is searched for its pictures and the largest is taken.
-        // That is the clear figure the link shows, without having to open it.
+        // picture is taken as it is; a page is searched for its pictures, its furniture left out.
         if (link.startsWith("http") && link != url) {
             val got = fetchBytes(link)
             if (got != null) {
-                val o = android.graphics.BitmapFactory.Options().apply { inJustDecodeBounds = true }
-                android.graphics.BitmapFactory.decodeByteArray(got, 0, got.size, o)
-                if (o.outWidth > 0) consider(got) else {
+                if (dims(got).first > 0) consider(got) else {
                     val html = try { String(got, Charsets.UTF_8) } catch (e: Throwable) { "" }
                     val cands = LinkedHashSet<String>()
                     Regex("<meta[^>]+property=[\"']og:image[\"'][^>]+content=[\"']([^\"']+)", RegexOption.IGNORE_CASE).findAll(html).forEach { cands.add(it.groupValues[1]) }
                     Regex("<img[^>]+?(?:data-src|data-large|data-full|src)=[\"']([^\"']+)", RegexOption.IGNORE_CASE).findAll(html).forEach { cands.add(it.groupValues[1]) }
-                    Regex("href=[\"']([^\"']+\\.(?:png|jpe?g|webp|gif)(?:\\?[^\"']*)?)[\"']", RegexOption.IGNORE_CASE).findAll(html).forEach { cands.add(it.groupValues[1]) }
-                    for (c in cands.take(8)) {
+                    Regex("[\"']([^\"'\\s<>]+\\.(?:png|jpe?g|webp|gif)(?:\\?[^\"'\\s<>]*)?)[\"']", RegexOption.IGNORE_CASE).findAll(html).forEach { cands.add(it.groupValues[1]) }
+                    for (c in cands.filterNot { Regex("logo|icon|banner|header|sprite|button|spacer|avatar", RegexOption.IGNORE_CASE).containsMatchIn(it) }.take(12)) {
                         val abs = try { java.net.URL(java.net.URL(link), c.replace("&amp;", "&")).toString() } catch (e: Throwable) { continue }
                         if (abs.startsWith("http")) consider(fetchBytes(abs))
                     }
@@ -791,23 +820,8 @@ class StudyBookActivity : BaseActivity() {
             }
         }
         val bytes = best ?: return null
-        // A wide strip of lettering is the site's banner, not a figure; and a picture already taken
-        // for this page (the same file reached two ways) is not taken twice.
         val ob = android.graphics.BitmapFactory.Options().apply { inJustDecodeBounds = true }
         android.graphics.BitmapFactory.decodeByteArray(bytes, 0, bytes.size, ob)
-        if (ob.outHeight > 0 && ob.outWidth.toFloat() / ob.outHeight > 3.5f) return null
-        // A placeholder (a picture not loaded yet, all one colour) is not a figure.
-        try {
-            val sm = android.graphics.BitmapFactory.decodeByteArray(bytes, 0, bytes.size, android.graphics.BitmapFactory.Options().apply { inSampleSize = 8 })
-            if (sm != null) {
-                var mn = 255; var mx = 0
-                for (yy in 0 until sm.height step 2) for (xx in 0 until sm.width step 2) {
-                    val c = sm.getPixel(xx, yy); val l = ((c shr 16 and 255) * 3 + (c shr 8 and 255) * 6 + (c and 255)) / 10
-                    if (l < mn) mn = l; if (l > mx) mx = l
-                }
-                if (mx - mn < 18) return null
-            }
-        } catch (e: Throwable) { }
         // The same figure reached two ways — the thumbnail on the page and the clear one its viewer
         // opened — is one figure, not two: the sharper copy is kept in its place.
         val hNew = looksHash(bytes)
@@ -1078,6 +1092,91 @@ class StudyBookActivity : BaseActivity() {
                 }, wait)
             }
         }, 1400)
+    }
+
+    /** The answer's explanation now on the page: which letter it is for, right or wrong, and what it says. */
+    private val whyJs = """(function(){
+        var re = /^\s*Answer\s*\(([A-E])\)\s*is\s*(correct|incorrect)/i;
+        var els = document.querySelectorAll('div,td,p,span,section');
+        var best = null, len = 1e9;
+        for (var i = 0; i < els.length; i++){
+            var e = els[i];
+            if (!e.getClientRects || e.getClientRects().length === 0) continue;
+            var t = (e.innerText || '').trim();
+            if (!re.test(t) || t.length >= len) continue;
+            // The box with the explanation in it, not just the line saying which answer it is.
+            var bd = t.replace(re, '').replace(/^\s*\.?\s*(\([^)]{0,60}\))?\s*/, '').trim();
+            if (bd.length < 15) continue;
+            best = e; len = t.length;
+        }
+        if (!best) return JSON.stringify({ l: '' });
+        var t = (best.innerText || '').trim(), m = t.match(re);
+        var body = t.replace(re, '').replace(/^\s*\.?\s*(\([^)]{0,60}\))?\s*/, '').replace(/\s+/g, ' ').trim();
+        return JSON.stringify({ l: m[1].toUpperCase(), ok: /^correct$/i.test(m[2]), t: body });
+    })()"""
+
+    /** The answer button for a letter (A, B, C at the foot of the question), tapped. */
+    private fun letterJs(l: String) = """(function(L){
+        var els = document.querySelectorAll('button,input[type=button],input[type=submit],a,[role=button],[onclick],td,div,span');
+        var pick = null, rank = 9;
+        for (var i = 0; i < els.length; i++){
+            var e = els[i];
+            if (!e.getClientRects || e.getClientRects().length === 0) continue;
+            var t = ((e.innerText || e.value || '') + '').trim();
+            if (t !== L) continue;
+            var r = e.getBoundingClientRect();
+            if (r.width < 10 || r.height < 10 || r.width > 120 || r.height > 90) continue;
+            var tg = e.tagName.toLowerCase();
+            var k = (tg === 'button' || tg === 'input') ? 0 : (tg === 'a' || e.getAttribute('onclick') || e.getAttribute('role') === 'button') ? 1 : 2;
+            if (k < rank){ rank = k; pick = e; }
+        }
+        if (!pick) return 'none';
+        try { pick.click(); return 'clicked'; } catch (x) { return 'none'; }
+    })('$l')"""
+
+    /**
+     * Why every other choice is wrong, as the bank explains it on a tap of its letter. Only on a
+     * question already answered — the explanation is on the page already, so nothing is answered
+     * on the pilot's behalf — and the answer that was showing is tapped again at the end, so the
+     * page is left as it was found.
+     */
+    private fun explainChoices(p: JSONObject, done: () -> Unit) {
+        val ch = p.optJSONArray("ch")
+        if (p.optString("kind") != "qa" || ch == null || ch.length() < 2) { done(); return }
+        web.evaluateJavascript(whyJs) { raw0 ->
+            val w0 = try { JSONObject(unJs(raw0)) } catch (e: Exception) { null }
+            val start = w0?.optString("l").orEmpty()
+            if (start.isEmpty()) { done(); return@evaluateJavascript }
+            fun put(l: String, ok: Boolean, t: String) {
+                if (t.isBlank()) return
+                for (k in 0 until ch.length()) {
+                    val c = ch.optJSONObject(k) ?: continue
+                    if (!c.optString("l").equals(l, true)) continue
+                    if (c.optString("why").isEmpty()) c.put("why", t)
+                    if (!c.has("ok")) c.put("ok", ok)
+                }
+            }
+            put(start, w0!!.optBoolean("ok"), w0.optString("t"))
+            val letters = (0 until ch.length()).map { ch.optJSONObject(it)?.optString("l").orEmpty().trim().trimEnd('.') }
+                .filter { it.length == 1 && !it.equals(start, true) }
+            fun step(k: Int) {
+                if (k >= letters.size) {
+                    web.evaluateJavascript(letterJs(start)) { _ -> web.postDelayed({ showPending(); done() }, 900) }
+                    return
+                }
+                web.evaluateJavascript(letterJs(letters[k].uppercase())) { c ->
+                    if (unJs(c) != "clicked") { step(k + 1); return@evaluateJavascript }
+                    web.postDelayed({
+                        web.evaluateJavascript(whyJs) { r ->
+                            val w = try { JSONObject(unJs(r)) } catch (e: Exception) { null }
+                            if (w != null && w.optString("l").equals(letters[k], true)) put(letters[k], w.optBoolean("ok"), w.optString("t"))
+                            step(k + 1)
+                        }
+                    }, 1300)
+                }
+            }
+            step(0)
+        }
     }
 
     /** Closes the picture viewer the tap opened, the way its own close button would. */

@@ -471,7 +471,7 @@ class StudyBookReaderActivity : BaseActivity() {
                     val o = ch.optJSONObject(k) ?: continue
                     val right = if (o.has("ok")) o.optBoolean("ok") else o.optString("l").equals(ans, true)
                     sb.append("<div class='ch${if (right) " ok" else ""}'>${e(o.optString("l"))}${if (right) " ✓" else ""} &nbsp; ${e(o.optString("t"))}</div>")
-                    if (o.optString("why").isNotEmpty() && right) sb.append("<div class='why'>${e(o.optString("why"))}</div>")
+                    if (o.optString("why").isNotEmpty()) sb.append("<div class='why'>${if (right) "" else "✗ "}${e(o.optString("why"))}</div>")
                 } }
                 if (p.optString("why").isNotEmpty()) sb.append("<div class='why'>${e(p.optString("why"))}</div>")
             } else {
