@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.withResumed
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -25,22 +26,59 @@ object Updater {
         } catch (e: Exception) { -1 }
     }
 
-    /** download the newest app and hand it to Android's installer */
+    @Volatile private var busy = false
+
+    /** download the newest app and hand it to Android's installer. One press is enough (owner, 26 Nov 2026: "it says
+     *  Downloading and nothing happens, I have to press again"): the download shows its progress and keeps the screen,
+     *  a second press while it runs does nothing, a version already downloaded is not downloaded again, and the
+     *  installer opens as soon as the screen is in front (Android refuses it from behind). */
     fun install(a: AppCompatActivity, build: Int) {
+        if (busy) return
+        busy = true
+        val f = File(a.cacheDir, "update_$build.apk")
+        val bar = android.widget.ProgressBar(a, null, android.R.attr.progressBarStyleHorizontal).apply { max = 100; isIndeterminate = true }
+        val msg = android.widget.TextView(a).apply { text = "Downloading…"; textSize = 16f }
+        val box = android.widget.LinearLayout(a).apply {
+            orientation = android.widget.LinearLayout.VERTICAL; val p = (24 * a.resources.displayMetrics.density).toInt()
+            setPadding(p, p / 2, p, 0); addView(msg); addView(bar)
+        }
+        val dlg = AlertDialog.Builder(a).setTitle("Version 1.0.$build").setView(box).setCancelable(false).show()
         a.lifecycleScope.launch {
-            val toast = { s: String -> android.widget.Toast.makeText(a, s, android.widget.Toast.LENGTH_LONG).show() }
-            toast("Downloading version 1.0.$build…")
-            val f = File(a.cacheDir, "update.apk")
-            val ok = withContext(Dispatchers.IO) {
-                try {
-                    App.http.newCall(Request.Builder().url(BASE + "SAUDI1.apk").build()).execute()
-                        .use { r -> if (!r.isSuccessful) false else { f.outputStream().use { o -> r.body!!.byteStream().copyTo(o) }; true } }
-                } catch (e: Exception) { false }
-            }
-            if (!ok) { toast("Download failed"); return@launch }
-            val uri = FileProvider.getUriForFile(a, "${a.packageName}.files", f)
-            a.startActivity(Intent(Intent.ACTION_VIEW).setDataAndType(uri, "application/vnd.android.package-archive")
-                .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_ACTIVITY_NEW_TASK))
+            try {
+                val ok = withContext(Dispatchers.IO) {
+                    val done = App.prefs.getLong("upd_len_$build", -1)
+                    if (f.isFile && f.length() == done && done > 0) return@withContext true
+                    a.cacheDir.listFiles()?.filter { it.name.startsWith("update") && it.name.endsWith(".apk") }?.forEach { it.delete() }
+                    try {
+                        App.http.newCall(Request.Builder().url(BASE + "SAUDI1.apk").build()).execute().use { r ->
+                            if (!r.isSuccessful) return@use false
+                            val body = r.body!!; val total = body.contentLength()
+                            var got = 0L; var shown = -1
+                            f.outputStream().use { o -> body.byteStream().use { i ->
+                                val buf = ByteArray(64 * 1024)
+                                while (true) {
+                                    val n = i.read(buf); if (n < 0) break
+                                    o.write(buf, 0, n); got += n
+                                    val pc = if (total > 0) (got * 100 / total).toInt() else -1
+                                    if (pc != shown) { shown = pc; withContext(Dispatchers.Main) {
+                                        if (pc >= 0) { bar.isIndeterminate = false; bar.progress = pc; msg.text = "Downloading…  $pc%" }
+                                        else msg.text = "Downloading…  ${got / 1048576} MB"
+                                    } }
+                                }
+                            } }
+                            if (total > 0 && got != total) false
+                            else { App.prefs.edit().putLong("upd_len_$build", f.length()).apply(); true }
+                        }
+                    } catch (e: Exception) { false }
+                }
+                try { dlg.dismiss() } catch (e: Exception) { }
+                if (!ok) { android.widget.Toast.makeText(a, "Download failed — check the internet and try again", android.widget.Toast.LENGTH_LONG).show(); return@launch }
+                val uri = FileProvider.getUriForFile(a, "${a.packageName}.files", f)
+                a.lifecycle.withResumed {
+                    a.startActivity(Intent(Intent.ACTION_VIEW).setDataAndType(uri, "application/vnd.android.package-archive")
+                        .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_ACTIVITY_NEW_TASK))
+                }
+            } finally { busy = false; try { dlg.dismiss() } catch (e: Exception) { } }
         }
     }
 
