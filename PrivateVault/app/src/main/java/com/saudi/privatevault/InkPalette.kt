@@ -187,45 +187,50 @@ class InkSheet(ctx: Context) : View(ctx) {
             val ink = InkSheet(act).apply { color = prefs.getInt("ink_color", 0xFFFF3B30.toInt()) }
             box.addView(ink, FrameLayout.LayoutParams(-1, -1))
 
-            // The capsule.
+            // The capsule: a dark glass bar with line icons, the tool in use on a blue disc, as a
+            // modern drawing app has it; the colour, the size, undo, clear, notes and done at its end.
             val bar = LinearLayout(act).apply {
                 orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL
-                setPadding(dp(6), dp(5), dp(8), dp(5)); layoutDirection = View.LAYOUT_DIRECTION_LTR
-                background = GradientDrawable().apply { setColor(0xF01C1C1E.toInt()); cornerRadius = dp(30).toFloat(); setStroke(dp(1), 0xFF3A3A3C.toInt()) }
-                elevation = dp(14).toFloat()
+                setPadding(dp(6), dp(6), dp(8), dp(6)); layoutDirection = View.LAYOUT_DIRECTION_LTR
+                background = GradientDrawable().apply { setColor(0xEB202226.toInt()); cornerRadius = dp(28).toFloat(); setStroke(dp(1), 0x26FFFFFF) }
+                elevation = dp(16).toFloat()
             }
-            val grip = TextView(act).apply { text = "⋮⋮"; textSize = 16f; setTextColor(0xFF8E8E93.toInt()); setPadding(dp(8), dp(6), dp(6), dp(6)) }
-            bar.addView(grip)
-            val toolViews = HashMap<Tool, TextView>()
+            // The handle to drag it by: a short pill, not a symbol.
+            val grip = FrameLayout(act).apply {
+                addView(View(act).apply { background = GradientDrawable().apply { setColor(0x66FFFFFF); cornerRadius = dp(2).toFloat() } },
+                    FrameLayout.LayoutParams(dp(4), dp(20), Gravity.CENTER))
+            }
+            bar.addView(grip, LinearLayout.LayoutParams(dp(22), dp(40)))
+            val toolViews = HashMap<Tool, android.widget.ImageView>()
             fun mark() = toolViews.forEach { (t, v) ->
-                v.background = GradientDrawable().apply { shape = GradientDrawable.OVAL; setColor(if (t == ink.tool) 0xFF0A84FF.toInt() else 0x00000000) }
+                val on = t == ink.tool
+                v.background = if (on) GradientDrawable().apply { shape = GradientDrawable.OVAL; setColor(0xFF2D8CFF.toInt()) } else null
+                v.setColorFilter(if (on) 0xFFFFFFFF.toInt() else 0xD9FFFFFF.toInt())
             }
-            fun btn(glyph: String, size: Float = 18f, onClick: (TextView) -> Unit) = TextView(act).apply {
-                text = glyph; textSize = size; gravity = Gravity.CENTER; setTextColor(0xFFFFFFFF.toInt())
-                setOnClickListener { onClick(this) }
+            fun icon(res: Int, onClick: () -> Unit) = android.widget.ImageView(act).apply {
+                setImageResource(res); setColorFilter(0xD9FFFFFF.toInt())
+                scaleType = android.widget.ImageView.ScaleType.CENTER_INSIDE
+                setPadding(dp(9), dp(9), dp(9), dp(9))
+                setOnClickListener { onClick() }
             }
-            for ((t, g) in listOf(Tool.HAND to "✋", Tool.PEN to "🖊", Tool.MARKER to "🖍", Tool.ERASER to "",
-                Tool.RULER to "📏", Tool.PLANE to "✈️", Tool.NEON to "✨", Tool.NEON_FADE to "💫")) {
-                val v = btn(g, 18f) { ink.tool = t; mark() }
-                if (t == Tool.ERASER) {
-                    // A real eraser, drawn, not a delete key.
-                    val dr = androidx.core.content.ContextCompat.getDrawable(act, R.drawable.ic_tool_eraser)?.mutate()?.apply { setTint(0xFFFFFFFF.toInt()); setBounds(0, 0, dp(22), dp(22)) }
-                    v.setCompoundDrawables(dr, null, null, null)
-                    v.setPadding(dp(10), 0, 0, 0)
-                }
+            for ((t, res) in listOf(Tool.HAND to R.drawable.ic_tool_hand, Tool.PEN to R.drawable.ic_tool_pen, Tool.MARKER to R.drawable.ic_tool_highlight,
+                Tool.ERASER to R.drawable.ic_tool_eraser, Tool.RULER to R.drawable.ic_ruler, Tool.PLANE to R.drawable.ic_tool_plane,
+                Tool.NEON to R.drawable.ic_tool_neon, Tool.NEON_FADE to R.drawable.ic_tool_neon_fade)) {
+                val v = icon(res) { ink.tool = t; mark() }
+                v.contentDescription = t.name.lowercase()
                 toolViews[t] = v
-                bar.addView(v, LinearLayout.LayoutParams(dp(42), dp(42)).apply { marginEnd = dp(2) })
+                bar.addView(v, LinearLayout.LayoutParams(dp(40), dp(40)).apply { marginEnd = dp(3) })
             }
             mark()
-            bar.addView(View(act).apply { setBackgroundColor(0xFF3A3A3C.toInt()) }, LinearLayout.LayoutParams(dp(1), dp(28)).apply { setMargins(dp(4), 0, dp(6), 0) })
+            bar.addView(View(act).apply { setBackgroundColor(0x33FFFFFF) }, LinearLayout.LayoutParams(dp(1), dp(26)).apply { setMargins(dp(5), 0, dp(8), 0) })
             // The colour: a ringed dot; a tap opens the swatches under the bar.
             val swatch = View(act)
-            fun paintSwatch() { swatch.background = GradientDrawable().apply { shape = GradientDrawable.OVAL; setColor(ink.color); setStroke(dp(3), 0xFFFFFFFF.toInt()) } }
+            fun paintSwatch() { swatch.background = GradientDrawable().apply { shape = GradientDrawable.OVAL; setColor(ink.color); setStroke(dp(2), 0xFFFFFFFF.toInt()) } }
             paintSwatch()
             val colors = LinearLayout(act).apply {
                 orientation = LinearLayout.HORIZONTAL; visibility = View.GONE; setPadding(dp(10), dp(8), dp(10), dp(8))
-                background = GradientDrawable().apply { setColor(0xF01C1C1E.toInt()); cornerRadius = dp(24).toFloat() }
-                elevation = dp(14).toFloat()
+                background = GradientDrawable().apply { setColor(0xEB202226.toInt()); cornerRadius = dp(24).toFloat(); setStroke(dp(1), 0x26FFFFFF) }
+                elevation = dp(16).toFloat()
             }
             for (cl in intArrayOf(0xFFFFFFFF.toInt(), 0xFF000000.toInt(), 0xFFFF1744.toInt(), 0xFFFF9100.toInt(), 0xFFFFEA00.toInt(), 0xFF39FF14.toInt(),
                 0xFF00E5FF.toInt(), 0xFF2979FF.toInt(), 0xFFD500F9.toInt(), 0xFFFF2BD6.toInt())) {
@@ -235,15 +240,19 @@ class InkSheet(ctx: Context) : View(ctx) {
                 }, LinearLayout.LayoutParams(dp(30), dp(30)).apply { marginEnd = dp(8) })
             }
             swatch.setOnClickListener { colors.visibility = if (colors.visibility == View.VISIBLE) View.GONE else View.VISIBLE }
-            bar.addView(swatch, LinearLayout.LayoutParams(dp(30), dp(30)).apply { marginEnd = dp(6) })
-            // The size: S, M, L — a dot that grows with it.
+            bar.addView(swatch, LinearLayout.LayoutParams(dp(26), dp(26)).apply { marginEnd = dp(8) })
+            // The size: a dot that grows with it.
             val sizes = floatArrayOf(0.45f, 1f, 1.8f)
             ink.size = sizes[prefs.getInt("ink_size", 1).coerceIn(0, 2)]
-            val sizeBtn = TextView(act).apply { gravity = Gravity.CENTER; setTextColor(0xFFFFFFFF.toInt()); textSize = 11f; typeface = EfbUi.MEDIUM }
+            val sizeBtn = FrameLayout(act)
+            val sizeDot = View(act)
+            sizeBtn.addView(sizeDot)
             fun paintSize() {
                 val i = sizes.indexOfFirst { it == ink.size }.coerceAtLeast(0)
-                sizeBtn.text = listOf("S", "M", "L")[i]
-                sizeBtn.background = GradientDrawable().apply { shape = GradientDrawable.OVAL; setColor(0xFF3A3A3C.toInt()); setStroke(dp(1 + i * 2), 0xFFFFFFFF.toInt()) }
+                val px = dp(6 + i * 5)
+                sizeDot.layoutParams = FrameLayout.LayoutParams(px, px, Gravity.CENTER)
+                sizeDot.background = GradientDrawable().apply { shape = GradientDrawable.OVAL; setColor(0xFFFFFFFF.toInt()) }
+                sizeBtn.background = GradientDrawable().apply { shape = GradientDrawable.OVAL; setColor(0x22FFFFFF) }
             }
             paintSize()
             sizeBtn.setOnClickListener {
@@ -251,67 +260,36 @@ class InkSheet(ctx: Context) : View(ctx) {
                 ink.size = sizes[i]; prefs.edit().putInt("ink_size", i).apply(); paintSize()
             }
             bar.addView(sizeBtn, LinearLayout.LayoutParams(dp(32), dp(32)).apply { marginEnd = dp(6) })
-            bar.addView(btn("↶", 20f) { ink.undo() }, LinearLayout.LayoutParams(dp(38), dp(42)))
-            bar.addView(btn("🗑", 17f) { ink.clear() }, LinearLayout.LayoutParams(dp(38), dp(42)))
-            bar.addView(btn("📝", 17f) { if (NotePad.isOpen()) NotePad.close(act) else Notebooks.scratch(act) }, LinearLayout.LayoutParams(dp(38), dp(42)))
-            bar.addView(btn("✓", 20f) { (box.parent as? ViewGroup)?.removeView(box) }, LinearLayout.LayoutParams(dp(38), dp(42)))
+            bar.addView(icon(R.drawable.ic_undo) { ink.undo() }, LinearLayout.LayoutParams(dp(38), dp(40)))
+            bar.addView(icon(R.drawable.ic_delete) { ink.clear() }, LinearLayout.LayoutParams(dp(38), dp(40)))
+            bar.addView(icon(R.drawable.ic_tool_note) { if (NotePad.isOpen()) NotePad.close(act) else Notebooks.scratch(act) }, LinearLayout.LayoutParams(dp(38), dp(40)))
+            bar.addView(icon(R.drawable.ic_check) { (box.parent as? ViewGroup)?.removeView(box) }.apply {
+                background = GradientDrawable().apply { shape = GradientDrawable.OVAL; setColor(0x332D8CFF) }
+            }, LinearLayout.LayoutParams(dp(38), dp(38)).apply { marginStart = dp(2) })
 
             val holder = LinearLayout(act).apply { orientation = LinearLayout.VERTICAL; gravity = Gravity.CENTER_HORIZONTAL }
             holder.addView(HorizontalScrollView(act).apply { isHorizontalScrollBarEnabled = false; addView(bar) })
             holder.addView(colors, LinearLayout.LayoutParams(-2, -2).apply { topMargin = dp(6) })
             box.addView(holder, FrameLayout.LayoutParams(-2, -2, Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL).apply { bottomMargin = dp(150) })
-            // Dragged by its grip, and let go it settles into the nearest corner or edge — so it is
-            // never in the way, and always in a place the hand already knows.
-            run {
-                val p = act.getSharedPreferences("ink_bar", android.content.Context.MODE_PRIVATE)
-                holder.translationX = p.getFloat("x", 0f)
-                holder.translationY = p.getFloat("y", 0f)
-                var sx = 0f; var sy = 0f; var tx = 0f; var ty = 0f; var moved = false
-                grip.setOnTouchListener { v, e ->
-                    when (e.actionMasked) {
-                        MotionEvent.ACTION_DOWN -> {
-                            sx = e.rawX; sy = e.rawY; tx = holder.translationX; ty = holder.translationY; moved = false
-                            v.parent?.requestDisallowInterceptTouchEvent(true)
-                        }
-                        MotionEvent.ACTION_MOVE -> {
-                            holder.translationX = tx + e.rawX - sx
-                            holder.translationY = ty + e.rawY - sy
-                            if (Math.hypot((e.rawX - sx).toDouble(), (e.rawY - sy).toDouble()) > 8 * dd) moved = true
-                        }
-                        MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-                            if (!moved) { v.performClick() } else {
-                                // The four resting places, measured from where it normally sits.
-                                val w = box.width.toFloat(); val h = box.height.toFloat()
-                                val cx = holder.x + holder.width / 2f
-                                val cy = holder.y + holder.height / 2f
-                                val spots = listOf(
-                                    0f to 0f,                                   // where it starts: low and centred
-                                    0f to -(h - dp(330)).coerceAtLeast(0f),     // up at the top
-                                    -(w / 2 - holder.width / 2f - dp(8)) to -(h / 2 - dp(170)),   // left
-                                    (w / 2 - holder.width / 2f - dp(8)) to -(h / 2 - dp(170)),    // right
-                                )
-                                val best = spots.minByOrNull { (bx, by) ->
-                                    val px = (w - holder.width) / 2f + bx + holder.width / 2f
-                                    val py = h - dp(150) - holder.height + by + holder.height / 2f
-                                    Math.hypot((cx - px).toDouble(), (cy - py).toDouble())
-                                } ?: (0f to 0f)
-                                holder.animate().translationX(best.first).translationY(best.second).setDuration(160).start()
-                                p.edit().putFloat("x", best.first).putFloat("y", best.second).apply()
-                            }
-                        }
-                    }
-                    true
-                }
+            // Dragged by its handle anywhere on the screen; the place is kept, but never off the screen:
+            // a bar dragged out of sight earlier would open where nobody could see it.
+            fun clampIn() {
+                if (box.width == 0 || holder.width == 0) return
+                val baseX = (box.width - holder.width) / 2f
+                val baseY = box.height - dp(150) - holder.height.toFloat()
+                val minX = -baseX + dp(4); val maxX = baseX - dp(4)
+                val minY = -baseY + dp(40); val maxY = dp(140).toFloat()
+                holder.translationX = holder.translationX.coerceIn(minOf(minX, 0f), maxOf(maxX, 0f))
+                holder.translationY = holder.translationY.coerceIn(minOf(minY, 0f), maxY)
             }
             holder.translationX = prefs.getFloat("ink_x", 0f); holder.translationY = prefs.getFloat("ink_y", 0f)
-
-            // Dragged by its grip, anywhere on the screen; the place is kept.
+            holder.post { clampIn() }
             var sx = 0f; var sy = 0f; var hx = 0f; var hy = 0f
-            grip.setOnTouchListener { _, e ->
+            grip.setOnTouchListener { v, e ->
                 when (e.actionMasked) {
-                    MotionEvent.ACTION_DOWN -> { sx = e.rawX; sy = e.rawY; hx = holder.translationX; hy = holder.translationY }
+                    MotionEvent.ACTION_DOWN -> { sx = e.rawX; sy = e.rawY; hx = holder.translationX; hy = holder.translationY; v.parent?.requestDisallowInterceptTouchEvent(true) }
                     MotionEvent.ACTION_MOVE -> { holder.translationX = hx + e.rawX - sx; holder.translationY = hy + e.rawY - sy }
-                    MotionEvent.ACTION_UP -> prefs.edit().putFloat("ink_x", holder.translationX).putFloat("ink_y", holder.translationY).apply()
+                    MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> { clampIn(); prefs.edit().putFloat("ink_x", holder.translationX).putFloat("ink_y", holder.translationY).apply() }
                 }
                 true
             }

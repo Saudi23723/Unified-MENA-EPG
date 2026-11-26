@@ -498,7 +498,7 @@ class StudyBookActivity : BaseActivity() {
      * original. Whichever comes back with more pixels in it is the one kept, so a page that gives
      * no better address loses nothing.
      */
-    private fun bestPicture(dir: java.io.File, i: Int, data: String, url: String): String? {
+    private fun bestPicture(dir: java.io.File, i: Int, data: String, url: String, link: String = ""): String? {
         var best: ByteArray? = null
         var bestW = 0
         fun consider(bytes: ByteArray?) {
@@ -511,6 +511,27 @@ class StudyBookActivity : BaseActivity() {
             consider(try { android.util.Base64.decode(data.substringAfter("base64,"), android.util.Base64.DEFAULT) } catch (e: Throwable) { null })
         }
         if (url.startsWith("http")) consider(fetchBytes(url))
+        // What the picture's link opens, fetched behind the scenes as the signed-in page would: a
+        // picture is taken as it is; a page is searched for its pictures and the largest is taken.
+        // That is the clear figure the link shows, without having to open it.
+        if (link.startsWith("http") && link != url) {
+            val got = fetchBytes(link)
+            if (got != null) {
+                val o = android.graphics.BitmapFactory.Options().apply { inJustDecodeBounds = true }
+                android.graphics.BitmapFactory.decodeByteArray(got, 0, got.size, o)
+                if (o.outWidth > 0) consider(got) else {
+                    val html = try { String(got, Charsets.UTF_8) } catch (e: Throwable) { "" }
+                    val cands = LinkedHashSet<String>()
+                    Regex("<meta[^>]+property=[\"']og:image[\"'][^>]+content=[\"']([^\"']+)", RegexOption.IGNORE_CASE).findAll(html).forEach { cands.add(it.groupValues[1]) }
+                    Regex("<img[^>]+?(?:data-src|data-large|data-full|src)=[\"']([^\"']+)", RegexOption.IGNORE_CASE).findAll(html).forEach { cands.add(it.groupValues[1]) }
+                    Regex("href=[\"']([^\"']+\\.(?:png|jpe?g|webp|gif)(?:\\?[^\"']*)?)[\"']", RegexOption.IGNORE_CASE).findAll(html).forEach { cands.add(it.groupValues[1]) }
+                    for (c in cands.take(8)) {
+                        val abs = try { java.net.URL(java.net.URL(link), c.replace("&amp;", "&")).toString() } catch (e: Throwable) { continue }
+                        if (abs.startsWith("http")) consider(fetchBytes(abs))
+                    }
+                }
+            }
+        }
         val bytes = best ?: return null
         val out = java.io.File(dir, "fig_" + System.currentTimeMillis() + "_" + i + ".png")
         return try { out.writeBytes(bytes); out.name } catch (e: Throwable) { null }
@@ -602,9 +623,17 @@ class StudyBookActivity : BaseActivity() {
         // printed as a small thumbnail; copying what is on the screen copies the thumbnail and
         // its blur with it. The page usually knows a bigger one: the link the thumbnail sits in,
         // a large source named on it, or the last and biggest of its srcset.
-        var url = '';
+        var url = '', link = '';
         if (e.tagName.toLowerCase() === 'img'){
             var a2 = e.closest ? e.closest('a') : null;
+            // The link the picture sits in, whatever it leads to: on this bank a figure is a blurred
+            // thumbnail and its link opens the clear one, often through a page, not straight to a file.
+            if (a2){
+                link = a2.getAttribute('data-full') || a2.getAttribute('data-src') || a2.getAttribute('data-href') ||
+                       a2.getAttribute('data-image') || a2.getAttribute('data-large') || '';
+                if (!link && a2.href && /^https?:/i.test(a2.href)) link = a2.href;
+                try { if (link) link = new URL(link, location.href).href; } catch (x) { }
+            }
             if (a2 && a2.href && /\.(png|jpe?g|gif|webp)(\?|#|$)/i.test(a2.href)) url = a2.href;
             if (!url) url = e.getAttribute('data-large') || e.getAttribute('data-src') || e.getAttribute('data-original') || '';
             if (!url && e.srcset){
@@ -629,7 +658,7 @@ class StudyBookActivity : BaseActivity() {
         }
         var r2 = e.getBoundingClientRect();
         return JSON.stringify({ n: list.length, x: r2.left / vw, y: r2.top / vh,
-                                w: r2.width / vw, h: r2.height / vh, data: data, url: url });
+                                w: r2.width / vw, h: r2.height / vh, data: data, url: url, link: link });
     })($i)"""
 
     /**
@@ -653,9 +682,10 @@ class StudyBookActivity : BaseActivity() {
                 if (r == null || r.optBoolean("done")) { done(made); return@evaluateJavascript }
                 val data = r.optString("data")
                 val url = r.optString("url")
+                val link = r.optString("link")
                 if (data.startsWith("data:image") || url.startsWith("http")) {
                     lifecycleScope.launch {
-                        val keptName = withContext(Dispatchers.IO) { bestPicture(dir, i, data, url) }
+                        val keptName = withContext(Dispatchers.IO) { bestPicture(dir, i, data, url, link) }
                         if (keptName != null) { figures.add(keptName); made++ }
                         step(i + 1)
                     }
