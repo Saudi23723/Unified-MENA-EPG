@@ -90,6 +90,14 @@ export default {
     // the web app's way round a provider that sends the browser somewhere it may not go (an http edge server, no CORS):
     // the page asks for the stream through here ONLY after playing it directly failed. Only a working (active, not
     // expired) device may use it; a playlist's links are rewritten so the segments come through here too
+    // GET /api/ok?code=12345678 -> 200 when the device may watch (the Deno route, deno/px.ts, asks this)
+    if (p === "/api/ok") {
+      const code = (url.searchParams.get("code") || "").replace(/\D/g, "");
+      const d = code.length === 8 ? await env.DB.prepare("SELECT active, expires, login FROM devices WHERE code=?").bind(code).first() : null;
+      const yes = d && d.active && d.login && !(d.expires && d.expires < Date.now());
+      return new Response(yes ? "ok" : "no", { status: yes ? 200 : 403 });
+    }
+
     if (p === "/api/px") {
       const CORS = { "Access-Control-Allow-Origin": "*", "Access-Control-Expose-Headers": "Content-Length,Content-Range,Accept-Ranges", "Cache-Control": "no-store" };
       const code = (url.searchParams.get("code") || "").replace(/\D/g, "");
