@@ -58,7 +58,7 @@ class ArrangeActivity : BaseActivity() {
         }
         root.addView(tabRow)
         root.addView(TextView(this).apply {
-            text = "OK on a group: its channels  ·  OK on a channel: hide / show  ·  Hold OK: Move — ▲▼ one place, ◀▶ ten places, OK to drop"
+            text = "OK on a group: its channels  ·  ◀ first group, ◀ again last group  ·  OK on a channel: hide / show  ·  Hold OK: Move — ▲▼ one place, ◀▶ ten places, OK to drop"
             textSize = 13f; setTextColor(0xFF9AA3AF.toInt()); setPadding(0, 0, 0, px(8))
         })
         val cols = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
@@ -172,6 +172,13 @@ class ArrangeActivity : BaseActivity() {
         "📰", "⚽", "🏀", "🏈", "⚾", "🏒", "🎾", "⛳", "🏏", "🥊", "🤼", "🏎", "🏇", "🎬", "🎞", "📺",
         "🧸", "🕌", "📻", "🎵", "🎤", "🍿", "👑", "💎", "❤️", "✅")
 
+    private fun jump(to0: Int) {
+        if (groups.isEmpty()) return
+        val to = to0.coerceIn(0, groups.size - 1)
+        (gRv.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(to, px(40))
+        gRv.post { gRv.findViewHolderForAdapterPosition(to)?.itemView?.requestFocus() }
+    }
+
     /** carry the group from one place to another (the row keeps the focus while it moves) */
     private fun move(from: Int, to0: Int): Int {
         val to = to0.coerceIn(0, groups.size - 1); if (to == from) return from
@@ -264,6 +271,11 @@ class ArrangeActivity : BaseActivity() {
                 if (e.action == KeyEvent.ACTION_DOWN && k == KeyEvent.KEYCODE_MENU && i >= 0) { groupMenu(i); true }
                 else if (e.action == KeyEvent.ACTION_DOWN && k == KeyEvent.KEYCODE_DPAD_RIGHT && tab == 0 && i >= 0) { showChannels(i); true }
                 else if (e.action == KeyEvent.ACTION_DOWN && k == KeyEvent.KEYCODE_DPAD_UP && i == 0) { tabs[tab].requestFocus(); true }
+                // a long list (owner, 26 Nov 2026: "to the last group and to the first, a shortcut"): ◀ jumps to the
+                // first group, ◀ again on the first one to the last; channel / page keys jump ten groups
+                else if (e.action == KeyEvent.ACTION_DOWN && k == KeyEvent.KEYCODE_DPAD_LEFT && i >= 0) { jump(if (i == 0) groups.size - 1 else 0); true }
+                else if (e.action == KeyEvent.ACTION_DOWN && i >= 0 && k in setOf(KeyEvent.KEYCODE_CHANNEL_UP, KeyEvent.KEYCODE_PAGE_UP)) { jump(i - 10); true }
+                else if (e.action == KeyEvent.ACTION_DOWN && i >= 0 && k in setOf(KeyEvent.KEYCODE_CHANNEL_DOWN, KeyEvent.KEYCODE_PAGE_DOWN)) { jump(i + 10); true }
                 else false
             }
             return h
