@@ -11,7 +11,7 @@ python3 - "$S" "$U" "$P" <<'PY'
 import json,sys,urllib.request,re,time
 s,u,p=sys.argv[1:]
 api=f"{s}/player_api.php?username={u}&password={p}"
-def get(a): return json.load(urllib.request.urlopen(api+a,timeout=60))
+def get(a): return json.load(urllib.request.urlopen(urllib.request.Request(api+a,headers={"User-Agent":"Lavf/60.3.100"}),timeout=60))
 i=get("").get("user_info",{}); print("login:", "works" if str(i.get("auth"))=="1" else "REFUSED")
 cats=get("&action=get_live_categories"); print("live groups:", len(cats))
 st=get("&action=get_live_streams"); print("live channels:", len(st))
@@ -27,6 +27,6 @@ for a in ("get_vod_categories","get_series_categories"):
   try: print(a, len(get("&action="+a)))
   except Exception as e: print(a,"failed",type(e).__name__)
 PY
-ID=$(python3 -c 'import json,sys,urllib.request; s,u,p=sys.argv[1:]; a=json.load(urllib.request.urlopen(f"{s}/player_api.php?username={u}&password={p}&action=get_live_streams",timeout=60)); print(a[0]["stream_id"])' "$S" "$U" "$P")
-echo "a channel link: relay answers $(curl -sS -o /dev/null -w '%{http_code}' "$S/live/$U/$P/$ID.ts")"
-echo "the provider's own live list from this runner (one try): $(curl -sS -o /dev/null -m 60 -w '%{http_code}' -A 'Lavf/60.3.100' "$(curl -sS -o /dev/null -w '%{redirect_url}' "$S/live/$U/$P/$ID.ts" | python3 -c 'import sys,urllib.parse as q; x=q.urlparse(sys.stdin.read()); print(f"{x.scheme}://{x.netloc}")')/player_api.php?username=$U&password=$P&action=get_live_categories")"
+ID=$(python3 -c 'import json,sys,urllib.request; s,u,p=sys.argv[1:]; a=json.load(urllib.request.urlopen(urllib.request.Request(f"{s}/player_api.php?username={u}&password={p}&action=get_live_streams",headers={"User-Agent":"Lavf/60.3.100"}),timeout=60)); print(a[0]["stream_id"])' "$S" "$U" "$P")
+echo "a channel link: relay answers $(curl -A Lavf/60.3.100 -sS -o /dev/null -w '%{http_code}' "$S/live/$U/$P/$ID.ts")"
+echo "the provider's own live list from this runner (one try): $(curl -sS -o /dev/null -m 60 -w '%{http_code}' -A 'Lavf/60.3.100' "$(curl -A Lavf/60.3.100 -sS -o /dev/null -w '%{redirect_url}' "$S/live/$U/$P/$ID.ts" | python3 -c 'import sys,urllib.parse as q; x=q.urlparse(sys.stdin.read()); print(f"{x.scheme}://{x.netloc}")')/player_api.php?username=$U&password=$P&action=get_live_categories")"
