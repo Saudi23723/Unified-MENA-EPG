@@ -33,5 +33,5 @@ jobs:
         if: always()
         run: |
           curl -sS -o /dev/null -w "%{http_code}\n" -X DELETE "https://api.cloudflare.com/client/v4/accounts/$ACC/workers/scripts/saudi1-pick?force=true" -H "Authorization: Bearer $CF_TOKEN"
-      - name: One request of each kind
-        run: bash tools/e2e/diag.sh
+      - name: Every playlist through the web player's route
+        run: bash tools/e2e/px_all.sh
