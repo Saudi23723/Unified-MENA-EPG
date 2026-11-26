@@ -29,6 +29,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: GDAL
         run: sudo apt-get update -q && sudo apt-get install -y -q gdal-bin
+      - name: Python libraries
+        run: python3 -m pip install --quiet numpy pillow
       - name: Build and publish
         env:
           GH_TOKEN: ${{ github.token }}

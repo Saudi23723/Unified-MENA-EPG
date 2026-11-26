@@ -176,9 +176,9 @@ object AviationData {
 
     val LAYERS = listOf(
         Layer("aero", R.string.map_aero, "$ESRI/World_Topo_Map/MapServer", 17),
-        Layer("sectional", R.string.map_sectional, "$FAA_TILES/VFR_Sectional/MapServer", 12, true),
-        Layer("tac", R.string.map_tac, "$FAA_TILES/VFR_Terminal/MapServer", 13, true),
-        Layer("ifrlow", R.string.map_ifr_low, "$FAA_TILES/IFR_AreaLow/MapServer", 12, true),
+        Layer("sectional", R.string.map_sectional, "$FAA_TILES/VFR_Sectional/MapServer", 12),
+        Layer("tac", R.string.map_tac, "$FAA_TILES/VFR_Terminal/MapServer", 13),
+        Layer("ifrlow", R.string.map_ifr_low, "$FAA_TILES/IFR_AreaLow/MapServer", 12),
         Layer("topo", R.string.map_topo, "$ESRI/World_Topo_Map/MapServer", 17),
         Layer("imagery", R.string.map_imagery, "$ESRI/World_Imagery/MapServer", 18),
     )
