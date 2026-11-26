@@ -110,7 +110,7 @@ class StudyBookActivity : BaseActivity() {
         }
         tools.addView(chip("📋  Capture page", 0xFF2D7FF9.toInt()) { capture() },
             LinearLayout.LayoutParams(0, -2, 1f).apply { marginEnd = dp(6) })
-        tools.addView(chip("📷  Figure", 0xFFFF9F0A.toInt()) { startClip() },
+        tools.addView(chip("📷  Figure", 0xFFFF9F0A.toInt()) { takeShownFigure() },
             LinearLayout.LayoutParams(0, -2, 1f).apply { marginEnd = dp(6) })
         tools.addView(chip("➕  Add as a page", 0xFF30D158.toInt()) { addPage() },
             LinearLayout.LayoutParams(0, -2, 1f))
@@ -532,6 +532,26 @@ class StudyBookActivity : BaseActivity() {
         window.open = ow;
         return got;
     })()"""
+
+    /**
+     * The figure button: when a picture is open on the screen (the Image Viewer, a figure opened from
+     * its link) it is taken whole at its full size, straight from the page; only when there is none is
+     * the frame offered to draw round part of the screen.
+     */
+    private fun takeShownFigure() {
+        val dir = java.io.File(filesDir, "studybook").apply { mkdirs() }
+        web.evaluateJavascript(bigJs(0)) { braw ->
+            val b = try { JSONObject(unJs(braw)) } catch (e: Exception) { null }
+            if (b?.optBoolean("found") != true) { startClip(); return@evaluateJavascript }
+            val bd = b.optString("data"); val bu = b.optString("url")
+            lifecycleScope.launch {
+                val name = withContext(Dispatchers.IO) { bestPicture(dir, 200 + figures.size, "", "", "", bd, bu) }
+                if (name != null && name !in figures) { figures.add(name); showPending()
+                    Toast.makeText(this@StudyBookActivity, "Figure taken, full size", Toast.LENGTH_SHORT).show() }
+                else startClip()
+            }
+        }
+    }
 
     private fun grabLinkedFigures(done: (Int) -> Unit) {
         val dir = java.io.File(filesDir, "studybook").apply { mkdirs() }
