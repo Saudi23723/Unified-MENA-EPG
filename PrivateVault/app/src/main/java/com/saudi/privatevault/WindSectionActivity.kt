@@ -105,7 +105,7 @@ class WindSectionActivity : BaseActivity() {
             runOnUiThread {
                 val got = cells.sumOf { row -> row.count { it != null } }
                 note.text = if (got == 0) "No wind forecast could be read. Connect once and open this again."
-                else "Green helps, red hinders, in knots along the track. Blue line: freezing level. Pink: your planned ${"%,d".format(plan.altitude)} ft. Open-Meteo model winds, not an official briefing."
+                else "Barbs show the wind (staff from where it blows, a feather 10 kt, half 5, pennant 50); the number is the part along the track, green helps, red hinders. Blue line: freezing level. Pink: your planned ${"%,d".format(plan.altitude)} ft. Open-Meteo model winds, not an official briefing."
             }
         }
     }
@@ -119,6 +119,46 @@ class WindSectionActivity : BaseActivity() {
         var courses: List<Double> = emptyList()
         private val d = resources.displayMetrics.density
         private val p = Paint(Paint.ANTI_ALIAS_FLAG)
+
+        private val bp = Paint(Paint.ANTI_ALIAS_FLAG).apply { strokeCap = Paint.Cap.ROUND }
+
+        /**
+         * A wind barb as a weather chart draws one, north up: the staff points to where the wind
+         * comes from; at its end a pennant for each 50 kt, a full feather for each 10 and a half
+         * feather for 5; a circle when it is calm.
+         */
+        private fun barb(cv: Canvas, x: Float, y: Float, fromDeg: Int, kt: Int, color: Int) {
+            bp.color = color; bp.strokeWidth = 1.6f * d; bp.style = Paint.Style.STROKE
+            if (kt < 3) { cv.drawCircle(x, y, 4f * d, bp); return }
+            val a = Math.toRadians(fromDeg.toDouble())
+            val len = 22f * d
+            val ux = Math.sin(a).toFloat(); val uy = -Math.cos(a).toFloat()      // towards where it comes from
+            val ex = x + ux * len; val ey = y + uy * len
+            cv.drawLine(x, y, ex, ey, bp)
+            // Feathers on the clockwise side of the staff, as in the northern hemisphere.
+            val fx = -uy; val fy = ux
+            var left = ((kt + 2) / 5) * 5
+            var pos = 0f
+            val step = 3.6f * d; val flen = 9f * d
+            bp.style = Paint.Style.FILL
+            while (left >= 50) {
+                val bx = ex - ux * pos; val by = ey - uy * pos
+                val path = Path().apply {
+                    moveTo(bx, by); lineTo(bx + fx * flen, by + fy * flen); lineTo(bx - ux * step * 1.6f, by - uy * step * 1.6f); close()
+                }
+                cv.drawPath(path, bp); pos += step * 2f; left -= 50
+            }
+            bp.style = Paint.Style.STROKE
+            while (left >= 10) {
+                val bx = ex - ux * pos; val by = ey - uy * pos
+                cv.drawLine(bx, by, bx + fx * flen + ux * 2f * d, by + fy * flen + uy * 2f * d, bp); pos += step; left -= 10
+            }
+            if (left >= 5) {
+                if (pos == 0f) pos = step
+                val bx = ex - ux * pos; val by = ey - uy * pos
+                cv.drawLine(bx, by, bx + fx * flen * 0.5f + ux * 1f * d, by + fy * flen * 0.5f + uy * 1f * d, bp)
+            }
+        }
 
         override fun onDraw(cv: Canvas) {
             val w = width.toFloat(); val h = height.toFloat()
@@ -153,9 +193,8 @@ class WindSectionActivity : BaseActivity() {
                     p.color = when {
                         tail > 4 -> 0xFF30D158.toInt(); tail < -4 -> 0xFFFF6B5E.toInt(); else -> 0xFFD0D8E4.toInt()
                     }
-                    p.textAlign = Paint.Align.CENTER; p.isFakeBoldText = true; p.textSize = 11f * d
-                    cv.drawText("%03d".format(c.dir) + "°", x(stationNm[s]), y(levels[li].toFloat()) - 2 * d, p)
-                    p.isFakeBoldText = false; p.textSize = 10.5f * d
+                    barb(cv, x(stationNm[s]), y(levels[li].toFloat()) - 3 * d, c.dir, c.kt, p.color)
+                    p.style = Paint.Style.FILL; p.textAlign = Paint.Align.CENTER; p.isFakeBoldText = false; p.textSize = 10.5f * d
                     cv.drawText((if (tail >= 0) "+" else "−") + Math.abs(tail).toInt() + " kt", x(stationNm[s]), y(levels[li].toFloat()) + 11 * d, p)
                 }
             }
