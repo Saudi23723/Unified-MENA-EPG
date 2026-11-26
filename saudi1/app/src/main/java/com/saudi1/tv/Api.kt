@@ -132,7 +132,12 @@ object Api {
         val probe = groups.firstOrNull { it.id == ALL }?.channels?.firstOrNull { it.id > 0 }?.id
         val known = byId.keys.filter { it > 0 }.toSet(); val pl = Prefs.playlist
         if (probe != null) Thread {
-            try { if (NewGroups.check(known, probe) && pl == Prefs.playlist) build(cf.inputStream(), sf.inputStream()) }
+            try {
+                val a = NewGroups.check(known, probe)
+                // today's names of the event / PPV channels in those groups (the provider renames them for each game)
+                val b = NewGroups.names()
+                if ((a || b) && pl == Prefs.playlist) build(cf.inputStream(), sf.inputStream())
+            }
             catch (e: Exception) { android.util.Log.w("SAUDI", "new groups: $e") }
         }.start()
         return true

@@ -75,6 +75,38 @@ object NewGroups {
         return true
     }
 
+    /** The provider puts the game in the channel's name ("Hawks vs Rockets") and changes it for every game: the names
+     *  in the new event / PPV groups are asked again every 10 minutes, one small request per group (owner, 26 Nov 2026:
+     *  "the names the provider puts must always be updated"). true when a name changed. */
+    fun names(): Boolean {
+        val k = "ng_n_" + pl()
+        if (System.currentTimeMillis() - App.prefs.getLong(k, 0) < 10 * 60_000L) return false
+        val f = file(); if (!f.isFile) return false
+        App.prefs.edit().putLong(k, System.currentTimeMillis()).apply()
+        val o = JSONObject(f.readText()); val cats = o.optJSONArray("cats") ?: return false; val streams = o.optJSONArray("streams") ?: return false
+        val ev = (0 until cats.length()).map { cats.getJSONObject(it) }.filter { EVENT.containsMatchIn(it.optString("category_name")) }
+            .map { it.optString("category_id") }.take(15)
+        if (ev.isEmpty()) return false
+        val origin = origin() ?: return false
+        val base = "$origin/player_api.php?username=${enc(Prefs.user)}&password=${enc(Prefs.pass)}&action=get_live_streams&category_id="
+        val now = HashMap<Int, String>()
+        for (g in ev) try {
+            App.http.newCall(Request.Builder().url(base + enc(g.removePrefix("pv"))).build()).execute().use { r ->
+                if (!r.isSuccessful) return@use
+                val a = JSONArray(r.body!!.string())
+                for (i in 0 until a.length()) a.optJSONObject(i)?.let { x -> val n = x.optString("name"); if (n.isNotBlank()) now[x.optInt("stream_id")] = chan(n) }
+            }
+        } catch (e: Exception) { }
+        var changed = false
+        for (i in 0 until streams.length()) {
+            val x = streams.getJSONObject(i); val n = now[x.optInt("stream_id")] ?: continue
+            if (n != x.optString("name")) { x.put("name", n); changed = true }
+        }
+        if (changed) f.writeText(o.toString())
+        return changed
+    }
+    private val EVENT = Regex("PPV|ᴘᴘᴠ|EVENT|ᴇᴠᴇɴᴛ|UFC|BOXING|ʙᴏxɪɴɢ|FIGHT|ꜰɪɢʜᴛ|WWE|MMA|NBA|NFL|NHL|MLB|NCAA|MLS|LEAGUE|ʟᴇᴀɢᴜᴇ|SPORT|ꜱᴘᴏʀᴛ|LIVE|ʟɪᴠᴇ|MATCH|GAME", RegexOption.IGNORE_CASE)
+
     /** the provider's address found by the last check (for the guide of the new channels), or one asked now */
     fun origin(): String? {
         val o = App.prefs.getString("ng_origin_" + pl(), null)
