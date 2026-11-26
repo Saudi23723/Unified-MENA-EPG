@@ -482,12 +482,94 @@ class StudyBookActivity : BaseActivity() {
             question.setText(if (parsed.optString("kind") == "qa") parsed.optString("q")
                 else parsed.optString("head").ifEmpty { parsed.optString("q") })
             showPending()
-            grabFigures(o) { n ->
+            grabFigures(o) { n0 ->
+              grabLinkedFigures { n1 ->
+                val n = n0 + n1
                 showPending()
                 Toast.makeText(this, StudyParse.describe(parsed) +
                     (if (n > 0) " · $n figure" + (if (n > 1) "s" else "") else ""),
                     Toast.LENGTH_LONG).show()
+              }
             }
+        }
+    }
+
+    /**
+     * The figures a question only links to: "Figure 37", "Refer to Figure…", a link or button that
+     * opens the figure in a viewer or another window, with no picture on the page itself. Each such
+     * link is found and opened behind the scenes as the pilot would tap it: where it leads to an
+     * address (a picture, or a page holding one), that address is fetched signed in and its largest
+     * picture kept; where it opens a viewer in the page, the largest picture that appears is taken and
+     * the viewer closed. Nothing needs tapping by hand.
+     */
+    private val linkFigJs = """(function(){
+        var re = /(figure|fig\.|exhibit)\s*[0-9A-Z]*|^image viewer$/i;
+        var out = [];
+        var els = document.querySelectorAll('a,button,[onclick],[role=link],[role=button]');
+        for (var i = 0; i < els.length && out.length < 6; i++){
+            var e = els[i];
+            if (!e.getClientRects || e.getClientRects().length === 0) continue;
+            var t = (e.innerText || e.getAttribute('title') || e.getAttribute('aria-label') || '').trim();
+            var h = e.getAttribute('href') || '';
+            var oc = e.getAttribute('onclick') || '';
+            var fig = (t.length < 40 && re.test(t)) || /\.(png|jpe?g|gif|webp)(\?|#|$)/i.test(h) || /fig|image|exhibit/i.test(h + ' ' + oc);
+            if (!fig || /session tools/i.test(t)) continue;
+            e.setAttribute('data-sb-fig', String(out.length));
+            var abs = '';
+            try { if (h && !/^javascript:/i.test(h) && h !== '#') abs = new URL(h, location.href).href; } catch (x) {}
+            out.push({ i: out.length, t: t.slice(0, 30), u: abs });
+        }
+        return JSON.stringify(out);
+    })()"""
+
+    private fun clickFigJs(i: Int) = """(function(){
+        var e = document.querySelector('[data-sb-fig="$i"]');
+        if (!e) return '';
+        var got = '';
+        var ow = window.open;
+        window.open = function(u){ try { got = new URL(u, location.href).href; } catch (x) { got = String(u || ''); } return null; };
+        try { e.click(); } catch (x) {}
+        window.open = ow;
+        return got;
+    })()"""
+
+    private fun grabLinkedFigures(done: (Int) -> Unit) {
+        val dir = java.io.File(filesDir, "studybook").apply { mkdirs() }
+        web.evaluateJavascript(linkFigJs) { raw ->
+            val arr = try { org.json.JSONArray(unJs(raw)) } catch (e: Exception) { org.json.JSONArray() }
+            if (arr.length() == 0) { done(0); return@evaluateJavascript }
+            var made = 0
+            val before = web.url
+            fun step(k: Int) {
+                if (k >= arr.length()) { done(made); return }
+                val it = arr.optJSONObject(k) ?: run { step(k + 1); return }
+                fun keep(link: String, bigData: String, bigUrl: String) {
+                    lifecycleScope.launch {
+                        val name = withContext(Dispatchers.IO) { bestPicture(dir, 100 + k, "", "", link, bigData, bigUrl) }
+                        if (name != null && name !in figures) { figures.add(name); made++ }
+                        step(k + 1)
+                    }
+                }
+                val href = it.optString("u")
+                if (href.startsWith("http")) { keep(href, "", ""); return }
+                web.evaluateJavascript(clickFigJs(it.optInt("i"))) { opened ->
+                    val u = unJs(opened)
+                    if (u.startsWith("http")) { keep(u, "", ""); return@evaluateJavascript }
+                    web.postDelayed({
+                        web.evaluateJavascript(bigJs(0)) { braw ->
+                            val b = try { JSONObject(unJs(braw)) } catch (e: Exception) { null }
+                            val bd = if (b?.optBoolean("found") == true) b.optString("data") else ""
+                            val bu = if (b?.optBoolean("found") == true) b.optString("url") else ""
+                            if (web.url != before && web.canGoBack()) {
+                                val there = web.url ?: ""
+                                web.goBack()
+                                web.postDelayed({ keep(there, bd, bu) }, 1800)
+                            } else web.evaluateJavascript(closeJs) { _ -> web.postDelayed({ keep("", bd, bu) }, 300) }
+                        }
+                    }, 1500)
+                }
+            }
+            step(0)
         }
     }
 
