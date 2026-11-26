@@ -112,7 +112,13 @@ export default {
           { const x = new URL(at); hops.push(r.status + " " + x.protocol.replace(":", "") + ":" + (x.port || "") + (x.hostname.endsWith(".sslip.io") ? " ip" : "") + (r.headers.get("server") ? " server=" + r.headers.get("server").slice(0, 20) : "")); }
           const loc = r.status >= 300 && r.status < 400 ? r.headers.get("location") : null;
           if (!loc) break;
-          at = named(new URL(loc, at).toString());
+          const nx = new URL(loc, at), was = new URL(at);
+          // a provider behind Cloudflare sends a worker's http request to https (up1: 301 → 404 there, 25 Nov 2026):
+          // asked once more over http, saying so
+          if (was.protocol === "http:" && nx.protocol === "https:" && nx.hostname === was.hostname && nx.pathname === was.pathname && !h["X-Forwarded-Proto"]) {
+            h["X-Forwarded-Proto"] = "http"; h["CF-Visitor"] = '{"scheme":"http"}'; continue;
+          }
+          at = named(nx.toString());
         }
       } catch (e) { return new Response("provider unreachable " + hops.join(" > "), { status: 502, headers: CORS }); }
       if (url.searchParams.get("dbg") === "1") return new Response(hops.join(" > "), { headers: CORS });
