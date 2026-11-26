@@ -19,7 +19,9 @@ import zipfile
 
 # (key, FAA file stem, kind): kind is the folder on aeronav ("sectional-files" or "tac-files").
 CHARTS = [
-    ("sec_las_vegas", "Las_Vegas", "sectional-files", "Las Vegas Sectional"),
+    # Las Vegas with Phoenix under it: the two sheets meet at 35°30' N, where each has a white margin.
+    # Warped together with white as no-data, each fills the other's margin, so there is chart there.
+    ("sec_las_vegas", "Las_Vegas+Phoenix", "sectional-files", "Las Vegas Sectional"),
     ("tac_las_vegas", "Las_Vegas_TAC", "tac-files", "Las Vegas TAC"),
 ]
 TAG = "vfr-charts"
@@ -91,20 +93,25 @@ def find_zip(stem, kind, start):
 
 def build(key, stem, kind, title, start, end):
     os.makedirs(WORK, exist_ok=True)
-    z = fetch(find_zip(stem, kind, start), os.path.join(WORK, key + ".zip"))
-    with zipfile.ZipFile(z) as zf:
-        tif = next(n for n in zf.namelist() if n.lower().endswith(".tif"))
-        zf.extract(tif, WORK)
-    src = os.path.join(WORK, tif)
-    rgb = os.path.join(WORK, key + "_rgb.vrt")
-    warped = os.path.join(WORK, key + "_3857.tif")
     out = os.path.abspath(key + ".mbtiles")
-    # The FAA's charts are paletted: colours first, then onto the web map's projection.
-    sh("gdal_translate", "-of", "VRT", "-expand", "rgb", src, rgb)
-    # The sheet's white margin (pure white in all three bands) becomes clear, so the chart service shows
-    # through it instead of a white band across the map. -dstalpha carries that into the tiles.
+    warped = os.path.join(WORK, key + "_3857.tif")
+    rgbs = []
+    for n, st in enumerate(stem.split("+")):
+        z = fetch(find_zip(st, kind, start), os.path.join(WORK, f"{key}_{n}.zip"))
+        with zipfile.ZipFile(z) as zf:
+            tif = next(t for t in zf.namelist() if t.lower().endswith(".tif"))
+            zf.extract(tif, WORK)
+        rgb = os.path.join(WORK, f"{key}_{n}_rgb.vrt")
+        # The FAA's charts are paletted: colours first.
+        sh("gdal_translate", "-of", "VRT", "-expand", "rgb", os.path.join(WORK, tif), rgb)
+        rgbs.append(rgb)
+    # Then onto the web map's projection, all the sheets into one picture. The sheets' white margin
+    # (pure white in all three bands) is no-data, so it is clear in the tiles and where two sheets
+    # meet the next one's chart fills it; -dstalpha carries that into the tiles.
+    if os.path.exists(warped):
+        os.remove(warped)
     sh("gdalwarp", "-t_srs", "EPSG:3857", "-r", "bilinear", "-srcnodata", "255 255 255", "-dstalpha", "-multi", "-wo", "NUM_THREADS=ALL_CPUS",
-       "-co", "TILED=YES", "-co", "COMPRESS=DEFLATE", "-co", "BIGTIFF=IF_SAFER", rgb, warped)
+       "-co", "TILED=YES", "-co", "COMPRESS=DEFLATE", "-co", "BIGTIFF=IF_SAFER", *rgbs, warped)
     if os.path.exists(out):
         os.remove(out)
     sh("gdal_translate", "-of", "MBTILES", "-co", "TILE_FORMAT=WEBP", "-co", "QUALITY=65",
@@ -134,7 +141,7 @@ def main():
         return
     charts = [build(*c, start, end) for c in CHARTS]
     manifest = {"edition": start.isoformat(), "expires": end.isoformat(), "built": dt.datetime.utcnow().isoformat() + "Z",
-                "rev": 2,
+                "rev": 3,
                 "source": "FAA Aeronautical Information Services, GeoTIFF (aeronav.faa.gov)", "charts": charts}
     with open("manifest.json", "w") as f:
         json.dump(manifest, f, indent=1)

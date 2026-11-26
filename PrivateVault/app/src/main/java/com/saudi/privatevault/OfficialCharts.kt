@@ -23,7 +23,7 @@ object OfficialCharts {
     fun edition(ctx: Context): String? = manifest(ctx)?.optString("edition")?.takeIf { it.isNotEmpty() }
 
     /** The build of the tiles the app wants: 2 has the sheets' white margins made clear. */
-    private const val REV = 2
+    private const val REV = 3   // 3: Las Vegas and Phoenix warped together, each filling the other's margin
 
     fun rev(ctx: Context) = manifest(ctx)?.optInt("rev", 1) ?: 0
 

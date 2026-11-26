@@ -145,6 +145,28 @@ object AviationData {
                     else -> 0
                 }
             }
+            // Smoothed: the fill straight from the two edges streaks wherever the chart along the edge
+            // changes (lettering, hachures). Each filled pixel is evened out with its neighbours over
+            // and over, as heat spreads, until the band is a soft run of the colours around it.
+            val fill = IntArray(px.size); var nf = 0
+            for (i in px.indices) if (out[i] && px[i] != 0) fill[nf++] = i
+            if (nf > 0) {
+                val r = IntArray(px.size); val g = IntArray(px.size); val bl = IntArray(px.size)
+                for (i in px.indices) { val v = px[i]; r[i] = (v shr 16) and 0xFF; g[i] = (v shr 8) and 0xFF; bl[i] = v and 0xFF }
+                val nr = IntArray(nf); val ng = IntArray(nf); val nb = IntArray(nf)
+                repeat(28) {
+                    for (k in 0 until nf) {
+                        val i = fill[k]; val x = i % w; val y = i / w
+                        var sr = r[i] * 2; var sg = g[i] * 2; var sb = bl[i] * 2; var c = 2
+                        fun add(j: Int) { if (px[j] != 0) { sr += r[j]; sg += g[j]; sb += bl[j]; c++ } }
+                        if (x > 0) add(i - 1); if (x < w - 1) add(i + 1); if (y > 0) add(i - w); if (y < h - 1) add(i + w)
+                        if (x > 1) add(i - 2); if (x < w - 2) add(i + 2); if (y > 1) add(i - 2 * w); if (y < h - 2) add(i + 2 * w)
+                        nr[k] = sr / c; ng[k] = sg / c; nb[k] = sb / c
+                    }
+                    for (k in 0 until nf) { val i = fill[k]; r[i] = nr[k]; g[i] = ng[k]; bl[i] = nb[k] }
+                }
+                for (k in 0 until nf) { val i = fill[k]; px[i] = (0xFF shl 24) or (r[i] shl 16) or (g[i] shl 8) or bl[i] }
+            }
             bmp.setPixels(px, 0, w, 0, 0, w, h)
         }
     }
