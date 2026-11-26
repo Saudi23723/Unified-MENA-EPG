@@ -46,6 +46,16 @@ class App : Application(), ImageLoaderFactory {
             try {
                 val now = System.currentTimeMillis()
                 java.io.File(cacheDir, "update.apk").takeIf { it.isFile }?.let { del(it) }
+                // the update files (update_<build>.apk since 148): gone once that version (or a newer one) is installed
+                cacheDir.listFiles()?.forEach { f ->
+                    val b = Regex("^update_(\\d+)\\.apk$").find(f.name)?.groupValues?.get(1)?.toIntOrNull()
+                    if (b != null && b <= BuildConfig.VERSION_CODE) del(f)
+                }
+                // the lists of playlists this device no longer uses (the current one is rewritten at every refresh)
+                filesDir.listFiles()?.forEach { f ->
+                    val mine = f.name == NewGroups.file().name || f.name == "hidden_live_" + Prefs.playlist + ".json"
+                    if (!mine && (f.name.startsWith("hidden_live_") || f.name.startsWith("new_groups_")) && now - f.lastModified() > 14 * 86400_000L) del(f)
+                }
                 // the pictures: old ones always; all of them when they grew too big (or when asked by hand)
                 val img = listOf(java.io.File(cacheDir, "img"), java.io.File(cacheDir, "logos"))
                 val size = img.sumOf { d -> d.walkBottomUp().filter { it.isFile }.sumOf { it.length() } }
