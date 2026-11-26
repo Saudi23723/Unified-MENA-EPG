@@ -45,4 +45,4 @@ jobs:
           curl -sS -o /dev/null -w "%{http_code}\n" -X DELETE "https://api.cloudflare.com/client/v4/accounts/$ACC/workers/scripts/saudi1-pick?force=true" -H "Authorization: Bearer $CF_TOKEN"
       - name: Dream4k lists, names and links
         run: |
-          read -r pl c < picks.txt || true; CODE=$c WANT=$pl bash tools/e2e/series_check.sh
+          while read -r pl c; do echo "== $pl"; CODE=$c WANT=$pl bash tools/e2e/series_check.sh < /dev/null || true; done < <(cat picks.txt; echo)
