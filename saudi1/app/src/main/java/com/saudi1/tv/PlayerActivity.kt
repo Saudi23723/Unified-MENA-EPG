@@ -188,11 +188,13 @@ class PlayerActivity : BaseActivity() {
     // end). The next episodes then show "Skip intro" at that moment, and the next episode is offered when the credits
     // begin. Shared with the customer's other devices (Backup: skip_*). Nothing learnt yet: nothing shown.
     private val sid get() = intent.getIntExtra("sid", 0)
+    /** the season, from the title ("… S2 E5"): each season of a series learns its own intro and credits */
+    private val season get() = Regex("(?i)\\bS(\\d{1,2})\\s*E\\d").find(title)?.groupValues?.get(1)?.toInt() ?: 0
     private var skipBtn: TextView? = null
     private var creditsAsked = false
 
-    private fun marks(): org.json.JSONObject = try { org.json.JSONObject(App.prefs.getString("skip_$sid", "{}") ?: "{}") } catch (e: Exception) { org.json.JSONObject() }
-    private fun saveMarks(o: org.json.JSONObject) { if (sid != 0) { App.prefs.edit().putString("skip_$sid", o.toString()).apply(); Backup.syncSoon() } }
+    private fun marks(): org.json.JSONObject = try { org.json.JSONObject(App.prefs.getString("skip_${sid}_$season", "{}") ?: "{}") } catch (e: Exception) { org.json.JSONObject() }
+    private fun saveMarks(o: org.json.JSONObject) { if (sid != 0) { App.prefs.edit().putString("skip_${sid}_$season", o.toString()).apply(); Backup.syncSoon() } }
 
     /** a jump forward of 20 s – 4 min that starts in the first 8 minutes = the intro, from where to where */
     private fun learnIntro(from: Long, to: Long) {
@@ -201,7 +203,7 @@ class PlayerActivity : BaseActivity() {
         if (from > 8 * 60_000L || jump < 20_000L || jump > 4 * 60_000L) return
         // pressing "Skip intro" itself teaches nothing new
         if (skipBtn != null) return
-        saveMarks(marks().put("is", from).put("ie", to))
+        saveMarks(confirm(marks(), "is", "ie", from, to, 8_000L))
     }
 
     /** the next episode asked for before the end (from 15 s to 10 min before it) = the credits' length */
@@ -209,7 +211,23 @@ class PlayerActivity : BaseActivity() {
         val dur = player.duration; val pos = player.currentPosition
         if (sid == 0 || dur <= 0 || creditsAsked) return
         val left = dur - pos
-        if (left in 15_000L..10 * 60_000L) saveMarks(marks().put("cr", left))
+        if (left in 15_000L..10 * 60_000L) saveMarks(confirm(marks(), "cr", null, left, 0, 10_000L))
+    }
+
+    /** a mark counts only when two episodes agree (within tol): the first skip is a candidate ("c" + name), the next
+     *  one that agrees makes it the mark (the average); a skip that disagrees becomes the new candidate, and two that
+     *  agree replace the old mark. So one odd episode (a longer cold open, a skip by mistake) never moves the button. */
+    private fun confirm(o: org.json.JSONObject, a: String, b: String?, va: Long, vb: Long, tol: Long): org.json.JSONObject {
+        fun near(x: Long, y: Long) = kotlin.math.abs(x - y) <= tol
+        val ca = o.optLong("c$a", -1); val cb = if (b != null) o.optLong("c$b", -1) else 0
+        if (ca >= 0 && near(ca, va) && (b == null || near(cb, vb))) {
+            o.put(a, (ca + va) / 2); if (b != null) o.put(b, (cb + vb) / 2)
+            o.remove("c$a"); if (b != null) o.remove("c$b")
+        } else {
+            val same = o.has(a) && near(o.optLong(a), va) && (b == null || near(o.optLong(b), vb))
+            if (!same) { o.put("c$a", va); if (b != null) o.put("c$b", vb) }
+        }
+        return o
     }
 
     private fun skipTick() {
