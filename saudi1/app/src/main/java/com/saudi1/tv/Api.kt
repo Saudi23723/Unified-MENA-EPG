@@ -142,6 +142,11 @@ object Api {
      *  else what the relay's extra event groups (91xx) are, never a bare "Other" twice */
     fun unlisted(cat: String, name: String) = name.trim().ifEmpty { if (EXTRA.matches(cat)) "🔥 PPV ᴇᴠᴇɴᴛꜱ" else "Other" }
     private val EXTRA = Regex("^91\\d\\d$")
+    /** the US packages carry the US flag like ESPN's group (owner, 26 Nov 2026: "FOX ONE with the US flag") */
+    private fun flagged(n: String): String {
+        val t = n.removePrefix("🔥").trim()
+        return if (Regex("^FOX ONE\\b", RegexOption.IGNORE_CASE).containsMatchIn(t)) "🇺🇲 | $t" else n
+    }
 
     @Volatile var rawGroups: List<Group> = emptyList()
 
@@ -162,7 +167,7 @@ object Api {
                     // the relay's extra PPV packages (91xx, owner 26 Nov 2026: groups the provider adds go hidden, at
                     // the end); their number follows the provider's order, so they are kept by name
                     val ex = EXTRA.matches(id)
-                    val g = Group(if (ex) "px" + Integer.toHexString(name.trim().hashCode()) else id, name.trim()); map[id] = g
+                    val g = Group(if (ex) "px" + Integer.toHexString(name.trim().hashCode()) else id, if (ex) flagged(name.trim()) else name.trim()); map[id] = g
                     if (ex) extras.add(g) else order.add(g)
                 }
             }
@@ -372,6 +377,4 @@ object History {
 object Hls {
     private fun ids(): MutableSet<String> = (App.prefs.getStringSet("hls_ids", emptySet()) ?: emptySet()).toMutableSet()
     fun has(id: Int) = id.toString() in ids()
-    fun add(id: Int) { val s = ids(); if (s.add(id.toString())) App.prefs.edit().putStringSet("hls_ids", s).apply() }
-    fun remove(id: Int) { val s = ids(); if (s.remove(id.toString())) App.prefs.edit().putStringSet("hls_ids", s).apply() }
-}
+    fun add(id: Int) { val s = ids(); if (s.add(id.toStrin
