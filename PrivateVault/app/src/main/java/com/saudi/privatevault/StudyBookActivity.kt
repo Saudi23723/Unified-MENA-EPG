@@ -100,6 +100,15 @@ class StudyBookActivity : BaseActivity() {
         CookieManager.getInstance().setAcceptCookie(true)
         CookieManager.getInstance().setAcceptThirdPartyCookies(web, true)
         web.webViewClient = object : WebViewClient() {
+            // An address of "…/undefined" is the bank's own script going wrong, never a page; and while
+            // figures are being taken nothing takes the page away from the question — the address it
+            // would have gone to is kept and fetched behind the scenes instead.
+            override fun shouldOverrideUrlLoading(v: WebView?, req: android.webkit.WebResourceRequest?): Boolean {
+                val u = req?.url?.toString() ?: return false
+                if (u.endsWith("/undefined")) return true
+                if (grabbing && req.isForMainFrame && u.startsWith("http")) { blockedUrl = u; return true }
+                return false
+            }
             override fun onPageFinished(v: WebView?, url: String?) {
                 if (!url.isNullOrEmpty()) prefs.edit().putString("study_last_url", url).apply()
             }
@@ -268,7 +277,7 @@ class StudyBookActivity : BaseActivity() {
                         'Correct First Try':1,'Currently Correct':1,'Contact Gleim':1,'Opens in new window':1,
                         'Skip to Main Content':1,'eBook':1,'Private Pilot':1,'Study Unit':1,'Subunit':1,
                         'ACS Code:':1,'Question':1,'Study Session':1,'Image Viewer':1,
-                        'Privacy Policy':1,'Employment':1,'Terms and Conditions of Service':1};
+                        'Privacy Policy':1,'Loading complete':1,'Continue':1,'Please click continue to open the image viewer.':1,'Employment':1,'Terms and Conditions of Service':1};
             var out = [];
             var pts = [];
             // A table of figures is kept as a table — its rows and cells as words — not as a picture
@@ -429,6 +438,39 @@ class StudyBookActivity : BaseActivity() {
                 // one and its words in the next — and a question as "Question: 10" in one cell and
                 // the question in another. Read cell by cell they fall onto separate lines and
                 // stop being a choice or a question at all; read row by row they read as written.
+                // A row holding a table of figures (a question's weights and moments) is read with the
+                // table a row to a line, not run together into one line of numbers.
+                if (tag === 'tr' && el.querySelector('table')){
+                    var inTb = el.querySelectorAll('table'), hasData = false;
+                    for (var q = 0; q < inTb.length; q++) if (dataTable(inTb[q])) { hasData = true; break; }
+                    if (hasData){
+                        var cur = '';
+                        var seg = function(n){
+                            for (var k = 0; k < n.childNodes.length; k++){
+                                var c = n.childNodes[k];
+                                if (c.nodeType === 3){ cur += c.textContent; continue; }
+                                if (c.nodeType !== 1) continue;
+                                var ct = c.tagName.toLowerCase();
+                                if (SKIP[ct] || !shown(c)) continue;
+                                if (ct === 'table' && dataTable(c)){
+                                    push(cur, 0, ''); cur = '';
+                                    for (var r = 0; r < c.rows.length; r++){
+                                        var cs = c.rows[r].cells, bits = [];
+                                        for (var z = 0; z < cs.length; z++){ var tx = (cs[z].innerText || '').replace(/\s+/g, ' ').trim(); if (tx) bits.push(tx); }
+                                        if (bits.length) push(bits.join('   '), 0, '');
+                                    }
+                                    continue;
+                                }
+                                if (c.querySelector('table')){ var blk = /^(div|p|center|table|tbody|tr)$/.test(ct); if (blk) { push(cur, 0, ''); cur = ''; } seg(c); if (blk) { push(cur, 0, ''); cur = ''; } }
+                                else cur += ' ' + (c.innerText || '') + ' ';
+                            }
+                        };
+                        seg(el); push(cur, 0, '');
+                        var inr2 = el.querySelectorAll('[data-sb-k]');
+                        for (var q = 0; q < inr2.length; q++) pts.push({ f: +inr2[q].getAttribute('data-sb-k') });
+                        return;
+                    }
+                }
                 if (tag === 'tr'){
                     var rt = (el.innerText || '').replace(/\s+/g, ' ').trim();
                     if (rt.length > 0 && rt.length < 600){
@@ -599,8 +641,12 @@ class StudyBookActivity : BaseActivity() {
             question.setText(if (parsed.optString("kind") == "qa") parsed.optString("q")
                 else parsed.optString("head").ifEmpty { parsed.optString("q") })
             showPending()
+            grabbing = true; blockedUrl = ""
+            web.evaluateJavascript(hookJs, null)
             grabFigures(o) { n0 ->
               grabLinkedFigures { n1 ->
+                grabbing = false
+                web.evaluateJavascript(unhookJs, null)
                 val n = n0 + n1
                 showPending()
                 Toast.makeText(this, StudyParse.describe(parsed) +
@@ -678,7 +724,6 @@ class StudyBookActivity : BaseActivity() {
             val arr = try { org.json.JSONArray(unJs(raw)) } catch (e: Exception) { org.json.JSONArray() }
             if (arr.length() == 0) { done(0); return@evaluateJavascript }
             var made = 0
-            val before = web.url
             fun step(k: Int) {
                 if (k >= arr.length()) { done(made); return }
                 val it = arr.optJSONObject(k) ?: run { step(k + 1); return }
@@ -694,18 +739,7 @@ class StudyBookActivity : BaseActivity() {
                 web.evaluateJavascript(clickFigJs(it.optInt("i"))) { opened ->
                     val u = unJs(opened)
                     if (u.startsWith("http")) { keep(u, "", ""); return@evaluateJavascript }
-                    web.postDelayed({
-                        web.evaluateJavascript(bigJs(0)) { braw ->
-                            val b = try { JSONObject(unJs(braw)) } catch (e: Exception) { null }
-                            val bd = if (b?.optBoolean("found") == true) b.optString("data") else ""
-                            val bu = if (b?.optBoolean("found") == true) b.optString("url") else ""
-                            if (web.url != before && web.canGoBack()) {
-                                val there = web.url ?: ""
-                                web.goBack()
-                                web.postDelayed({ keep(there, bd, bu) }, 1800)
-                            } else web.evaluateJavascript(closeJs) { _ -> web.postDelayed({ keep("", bd, bu) }, 300) }
-                        }
-                    }, 1500)
+                    afterTap(0) { op, bd, bu -> keep(op, bd, bu) }
                 }
             }
             step(0)
@@ -774,6 +808,21 @@ class StudyBookActivity : BaseActivity() {
                 if (mx - mn < 18) return null
             }
         } catch (e: Throwable) { }
+        // The same figure reached two ways — the thumbnail on the page and the clear one its viewer
+        // opened — is one figure, not two: the sharper copy is kept in its place.
+        val hNew = looksHash(bytes)
+        if (hNew != 0L) synchronized(figures) {
+            for (n in figures) {
+                val f = java.io.File(dir, n)
+                val old = try { f.readBytes() } catch (e: Throwable) { continue }
+                val hOld = looksHash(old)
+                if (hOld == 0L || java.lang.Long.bitCount(hNew xor hOld) > 7) continue
+                val ow = android.graphics.BitmapFactory.Options().apply { inJustDecodeBounds = true }
+                android.graphics.BitmapFactory.decodeByteArray(old, 0, old.size, ow)
+                if (ob.outWidth > ow.outWidth) try { f.writeBytes(bytes) } catch (e: Throwable) { }
+                return null
+            }
+        }
         val md = java.security.MessageDigest.getInstance("MD5")
         val hash = md.digest(bytes).joinToString("") { "%02x".format(it) }
         synchronized(figures) {
@@ -785,6 +834,21 @@ class StudyBookActivity : BaseActivity() {
         val out = java.io.File(dir, "fig_" + System.currentTimeMillis() + "_" + i + ".png")
         return try { out.writeBytes(bytes); out.name } catch (e: Throwable) { null }
     }
+
+    /** What a picture looks like, in 64 bits: an 8×8 shrink of it, each square lighter or darker than the mean. */
+    private fun looksHash(bytes: ByteArray): Long = try {
+        val b = android.graphics.BitmapFactory.decodeByteArray(bytes, 0, bytes.size,
+            android.graphics.BitmapFactory.Options().apply { inSampleSize = 4 })
+        if (b == null) 0L else {
+            val sm = android.graphics.Bitmap.createScaledBitmap(b, 8, 8, true)
+            val l = IntArray(64) { val c = sm.getPixel(it % 8, it / 8); ((c shr 16 and 255) * 3 + (c shr 8 and 255) * 6 + (c and 255)) / 10 }
+            val mean = l.average()
+            var h = 0L
+            for (k in 0 until 64) if (l[k] > mean) h = h or (1L shl k)
+            if (sm !== b) sm.recycle(); b.recycle()
+            h
+        }
+    } catch (e: Throwable) { 0L }
 
     /** The picture's own file, asked for as the page itself would ask — signed in, and from the page. */
     private fun fetchBytes(url: String): ByteArray? = try {
@@ -959,6 +1023,63 @@ class StudyBookActivity : BaseActivity() {
         return JSON.stringify({ found: true, url: url, data: data });
     })($minW)"""
 
+    /**
+     * While figures are being taken, a window the page tries to open is caught and its address kept
+     * instead, and nothing is let take the page away from the question. This bank opens its Image
+     * Viewer that way, and left alone it sent the page to an error page ("…/undefined").
+     */
+    private val hookJs = """(function(){
+        window.__sbOpened = '';
+        if (!window.__sbOw){ window.__sbOw = window.open || 1;
+            window.open = function(u){ try { window.__sbOpened = new URL(u, location.href).href; } catch (x) { window.__sbOpened = String(u || ''); } return null; }; }
+        return 'ok';
+    })()"""
+    private val unhookJs = """(function(){ if (window.__sbOw){ if (window.__sbOw !== 1) window.open = window.__sbOw; window.__sbOw = null; } return 'ok'; })()"""
+    /** The bank's "Loading complete — click Continue to open the image viewer" box, answered. */
+    private val continueJs = """(function(){
+        var els = document.querySelectorAll('button,a,input[type=button],input[type=submit],[role=button],div,span');
+        for (var i = 0; i < els.length; i++){
+            var e = els[i];
+            if (!e.getClientRects || e.getClientRects().length === 0) continue;
+            var t = ((e.innerText || e.value || '') + '').trim();
+            if (t !== 'Continue') continue;
+            var box = e.parentElement, ok = false;
+            for (var k = 0; k < 6 && box; k++, box = box.parentElement) if (/image viewer|loading complete/i.test(box.innerText || '')) { ok = true; break; }
+            if (!ok) continue;
+            try { e.click(); return 'clicked'; } catch (x) {}
+        }
+        return 'none';
+    })()"""
+
+    @Volatile private var grabbing = false
+    @Volatile private var blockedUrl = ""
+
+    /**
+     * After a figure is tapped: the bank's Continue box answered if it shows, then whatever it opened
+     * read — the address of the window it tried to open, or the largest new picture on the screen —
+     * and the viewer closed again.
+     */
+    private fun afterTap(minW: Int, cb: (String, String, String) -> Unit) {
+        web.postDelayed({
+            web.evaluateJavascript(continueJs) { c ->
+                val wait = if (unJs(c) == "clicked") 1600L else 0L
+                web.postDelayed({
+                    web.evaluateJavascript("(function(){ var u = window.__sbOpened || ''; window.__sbOpened = ''; return u; })()") { o ->
+                        fun good(u: String) = u.startsWith("http") && !u.endsWith("/undefined")
+                        val opened = unJs(o).let { if (good(it)) it else if (good(blockedUrl)) blockedUrl else "" }
+                        blockedUrl = ""
+                        web.evaluateJavascript(bigJs(minW)) { braw ->
+                            val b = try { JSONObject(unJs(braw)) } catch (e: Exception) { null }
+                            val bd = if (b?.optBoolean("found") == true) b.optString("data") else ""
+                            val bu = if (b?.optBoolean("found") == true) b.optString("url") else ""
+                            web.evaluateJavascript(closeJs) { _ -> web.postDelayed({ cb(opened, bd, bu) }, 300) }
+                        }
+                    }
+                }, wait)
+            }
+        }, 1400)
+    }
+
     /** Closes the picture viewer the tap opened, the way its own close button would. */
     private val closeJs = """(function(){
         try { document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', keyCode: 27, bubbles: true })); } catch (x) {}
@@ -1006,32 +1127,18 @@ class StudyBookActivity : BaseActivity() {
                 if (data.startsWith("data:image") || url.startsWith("http")) {
                     // Every copy is weighed and the largest kept: the one on the page, its file, what
                     // its link leads to, and the one the Image Viewer shows when the picture is tapped.
-                    fun keep(bigData: String, bigUrl: String) {
+                    fun keep(bigData: String, bigUrl: String, opened: String = "") {
                         lifecycleScope.launch {
-                            val keptName = withContext(Dispatchers.IO) { bestPicture(dir, i, data, url, link, bigData, bigUrl) }
+                            val keptName = withContext(Dispatchers.IO) { bestPicture(dir, i, data, url, opened.ifEmpty { link }, bigData, bigUrl) }
                             if (keptName != null) { figures.add(keptName); figAt[keptName] = i; made++ }
                             step(i + 1)
                         }
                     }
-                    val before = web.url
                     web.evaluateJavascript(figureJs(i, "click")) { craw ->
                         val cj = try { JSONObject(unJs(craw)) } catch (e: Exception) { null }
                         val tw = cj?.optInt("tw") ?: 0
                         if (cj?.optBoolean("clicked") != true) { keep("", ""); return@evaluateJavascript }
-                        web.postDelayed({
-                            web.evaluateJavascript(bigJs(tw)) { braw ->
-                                val b = try { JSONObject(unJs(braw)) } catch (e: Exception) { null }
-                                val bd = if (b?.optBoolean("found") == true) b.optString("data") else ""
-                                val bu = if (b?.optBoolean("found") == true) b.optString("url") else ""
-                                if (web.url != before && web.canGoBack()) {
-                                    // The tap went to a page of its own: back to the question first.
-                                    web.goBack()
-                                    web.postDelayed({ keep(bd, bu) }, 1800)
-                                } else {
-                                    web.evaluateJavascript(closeJs) { _ -> web.postDelayed({ keep(bd, bu) }, 300) }
-                                }
-                            }
-                        }, 1400)
+                        afterTap(tw) { opened, bd, bu -> keep(bd, bu, opened) }
                     }
                     return@evaluateJavascript
                 }
