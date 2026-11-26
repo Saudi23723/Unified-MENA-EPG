@@ -116,6 +116,7 @@ object Parental {
         get() = App.prefs.getStringSet("locked_groups", emptySet()) ?: emptySet()
         set(v) = App.prefs.edit().putStringSet("locked_groups", v).apply()
     @Volatile var unlocked = false      // until the app is closed
+    fun isAdult(name: String) = adult.containsMatchIn(name)
     fun isLocked(groupId: String, groupName: String) = on && !unlocked && (groupId in locked || adult.containsMatchIn(groupName))
 
     /** asks for the PIN, then runs ok() */

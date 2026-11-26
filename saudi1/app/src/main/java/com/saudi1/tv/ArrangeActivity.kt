@@ -113,9 +113,10 @@ class ArrangeActivity : BaseActivity() {
     private fun groupMenu(i: Int) {
         val (id, name) = groups[i]; val hidden = isHid(id)
         AlertDialog.Builder(this).setTitle(name).setItems(arrayOf("✥  Move  (pick it up, ▲▼ to carry, OK to drop)", "⤒  Move to the top", "⤓  Move to the end",
-            if (hidden) "👁  Show this group" else "✕  Hide this group")) { _, a ->
+            if (hidden) "👁  Show this group" else "✕  Hide this group", "✎  Rename  (keyboard and emoji)")) { _, a ->
             when (a) {
                 0 -> pickGroup(i); 1 -> { move(i, 0); saveGroups() }; 2 -> { move(i, groups.size - 1); saveGroups() }
+                4 -> renameGroup(i)
                 3 -> {
                     if (tab == 0) Arrange.setHidden(id, !hidden)
                     else { val h = Arrange.vodHidden(tab == 2); Arrange.setVodHidden(tab == 2, if (hidden) h - id else h + id) }
@@ -124,6 +125,52 @@ class ArrangeActivity : BaseActivity() {
             }
         }.show()
     }
+
+    /** the viewer's own name for a group (owner, 26 Nov 2026): the TV keyboard for the words, and a row of flags and
+     *  emoji to pick from (TV keyboards have none); "Original name" brings the playlist's name back */
+    private fun renameGroup(i: Int) {
+        val (id, shown) = groups[i]
+        val original = (if (tab == 0) Api.rawGroups.firstOrNull { it.id == id }?.name
+            else try { Vod.cats(tab == 2).firstOrNull { it.id == id }?.name } catch (e: Exception) { null }) ?: shown
+        if (tab == 0 && Parental.isAdult(original)) { toast("This group keeps its name (parental lock)"); return }
+        val box = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(px(20), px(8), px(20), 0) }
+        val edit = android.widget.EditText(this).apply {
+            setText(shown); setSelection(text.length); textSize = 18f; isSingleLine = true
+            imeOptions = android.view.inputmethod.EditorInfo.IME_ACTION_DONE
+        }
+        box.addView(edit)
+        box.addView(TextView(this).apply { text = "Pick a flag or emoji for the front:"; textSize = 13f; setTextColor(0xFF9AA3AF.toInt()); setPadding(0, px(8), 0, px(4)) })
+        val grid = android.widget.GridLayout(this).apply { columnCount = 10 }
+        for (e in EMOJI) grid.addView(TextView(this).apply {
+            text = e; textSize = 22f; gravity = Gravity.CENTER; isFocusable = true; isClickable = true
+            setBackgroundResource(R.drawable.item_bg); setPadding(px(6), px(4), px(6), px(4))
+            setOnClickListener {
+                val rest = edit.text.toString().replace(Regex("^\\s*[^\\p{L}\\p{N}]+?\\s*\\|\\s*"), "").replace(Regex("^[^\\p{L}\\p{N}]+"), "").trim()
+                edit.setText("$e | $rest"); edit.setSelection(edit.text.length)
+            }
+        })
+        box.addView(android.widget.ScrollView(this).apply { addView(grid) }, LinearLayout.LayoutParams(-1, px(190)))
+        AlertDialog.Builder(this).setTitle("Rename").setView(box)
+            .setPositiveButton("Save") { _, _ ->
+                val n = edit.text.toString().trim()
+                Arrange.rename(tab, id, if (n.isEmpty() || n == original) null else n)
+                done(i, id)
+            }
+            .setNeutralButton("Original name") { _, _ -> Arrange.rename(tab, id, null); done(i, id) }
+            .setNegativeButton("Cancel", null).show()
+    }
+    private fun done(i: Int, id: String) {
+        val n = (if (tab == 0) Arrange.apply(Api.rawGroups.filter { it.id == id }, all = true).firstOrNull()?.name
+            else Arrange.names(tab)[id] ?: try { Vod.cats(tab == 2).firstOrNull { it.id == id }?.name } catch (e: Exception) { null }) ?: return
+        groups = groups.toMutableList().also { it[i] = id to n }
+        changed(); gAd.notifyItemChanged(i)
+        if (tab == 0 && open == i) cTitle.text = n + "  ·  " + chans.size + " channels"
+    }
+    private val EMOJI = listOf("🇯🇴", "🇸🇦", "🇦🇪", "🇶🇦", "🇰🇼", "🇧🇭", "🇴🇲", "🇪🇬", "🇱🇧", "🇵🇸", "🇸🇾", "🇮🇶", "🇾🇪", "🇲🇦", "🇩🇿", "🇹🇳",
+        "🇱🇾", "🇸🇩", "🇹🇷", "🇮🇷", "🇺🇲", "🇨🇦", "🇬🇧", "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "🇮🇪", "🇫🇷", "🇩🇪", "🇪🇸", "🇮🇹", "🇵🇹", "🇳🇱", "🇧🇪", "🇸🇪", "🇳🇴",
+        "🇩🇰", "🇵🇱", "🇬🇷", "🇦🇺", "🇳🇿", "🇮🇳", "🇵🇰", "🇧🇷", "🇦🇷", "🇲🇽", "🌍", "🌐", "🔘", "🔷", "🔥", "⭐",
+        "📰", "⚽", "🏀", "🏈", "⚾", "🏒", "🎾", "⛳", "🏏", "🥊", "🤼", "🏎", "🏇", "🎬", "🎞", "📺",
+        "🧸", "🕌", "📻", "🎵", "🎤", "🍿", "👑", "💎", "❤️", "✅")
 
     /** carry the group from one place to another (the row keeps the focus while it moves) */
     private fun move(from: Int, to0: Int): Int {

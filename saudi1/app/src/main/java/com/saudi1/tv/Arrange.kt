@@ -25,6 +25,21 @@ object Arrange {
         if (hide) { hiddenGroups = hiddenGroups + id; shownGroups = shownGroups - id }
         else { hiddenGroups = hiddenGroups - id; if (id in defaultHidden) shownGroups = shownGroups + id }
     }
+    // the viewer's own names for groups (owner, 26 Nov 2026: a keyboard with emoji for whoever wants to rename);
+    // kept by group number per playlist, like the order; an adult group keeps its name (the parental lock reads it)
+    private fun rk(kind: Int) = when (kind) { 0 -> "gr_" + pl(); else -> "vr_" + vk(kind == 2) }
+    fun names(kind: Int): Map<String, String> = try {
+        val o = org.json.JSONObject(App.prefs.getString(rk(kind), "{}")); o.keys().asSequence().associateWith { o.getString(it) }
+    } catch (e: Exception) { emptyMap() }
+    fun rename(kind: Int, id: String, name: String?) {
+        val m = names(kind).toMutableMap(); if (name.isNullOrBlank()) m.remove(id) else m[id] = name.trim()
+        App.prefs.edit().putString(rk(kind), org.json.JSONObject(m as Map<*, *>).toString()).apply()
+    }
+    private fun named(g: Group, m: Map<String, String>): Group {
+        val n = m[g.id] ?: return g
+        return if (Parental.isAdult(g.name)) g else Group(g.id, n, g.channels)
+    }
+    private fun namedVod(c: VodCat, m: Map<String, String>): VodCat = m[c.id]?.let { VodCat(c.id, it) } ?: c
     val any get() = hiddenGroups.isNotEmpty() || hiddenChannels.isNotEmpty() || order.isNotEmpty()
 
     // Movies and Series groups (owner, 11 Nov 2026): hidden and moved the same way, per playlist
@@ -35,6 +50,11 @@ object Arrange {
     private fun late(series: Boolean): List<String> = try { val a = JSONArray(App.prefs.getString("vl_" + vk(series), "[]")); (0 until a.length()).map { a.getString(it) } } catch (e: Exception) { emptyList() }
     fun setVodOrder(series: Boolean, v: List<String>) = App.prefs.edit().putString("vo_" + vk(series), JSONArray(v).toString()).apply()
     fun vod(series: Boolean, cats: List<VodCat>, all: Boolean = false): List<VodCat> {
+        val nm = names(if (series) 2 else 1)
+        val l = vodRaw(series, cats, all)
+        return if (nm.isEmpty()) l else l.map { namedVod(it, nm) }
+    }
+    private fun vodRaw(series: Boolean, cats: List<VodCat>, all: Boolean): List<VodCat> {
         var o = vodOrder(series); val pos = HashMap<String, Int>(); o.forEachIndexed { i, id -> pos[id] = i }
         // the groups this device has seen (owner, 26 Nov 2026): one the provider adds later goes to the END, hidden, even
         // when the viewer never arranged the list; the first list seen is taken as it is
@@ -93,7 +113,8 @@ object Arrange {
 
     fun reset() { App.prefs.all.keys.filter { it.startsWith("co_" + pl() + "_") }.let { ks -> val e = App.prefs.edit(); ks.forEach { e.remove(it) }; e.apply() }
         App.prefs.edit().remove("gh_" + pl()).remove("ch_" + pl()).remove("go_" + pl()).remove("gs_" + pl())
-        .remove("vh_" + vk(true)).remove("vh_" + vk(false)).remove("vo_" + vk(true)).remove("vo_" + vk(false)).remove("vl_" + vk(true)).remove("vl_" + vk(false)).apply() }
+        .remove("vh_" + vk(true)).remove("vh_" + vk(false)).remove("vo_" + vk(true)).remove("vo_" + vk(false)).remove("vl_" + vk(true)).remove("vl_" + vk(false))
+        .remove("gr_" + pl()).remove("vr_" + vk(true)).remove("vr_" + vk(false)).apply() }
 
     /** the playlist's groups in the viewer's order (hidden ones left in when all = true, for the arranging screen) */
     fun apply(groups: List<Group>, all: Boolean = false): List<Group> {
@@ -106,6 +127,11 @@ object Arrange {
             out
         }
         sorted.forEach { sortChans(it) }
+        val nm = names(0)
+        if (nm.isNotEmpty()) { val r = sorted.map { named(it, nm) }; return applyRest(r, all) }
+        return applyRest(sorted, all)
+    }
+    private fun applyRest(sorted: List<Group>, all: Boolean): List<Group> {
         if (all) return sorted
         val hc = hiddenChannels
         val shown = sorted.filter { !isHidden(it.id) }
