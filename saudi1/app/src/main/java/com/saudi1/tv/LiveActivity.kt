@@ -79,6 +79,7 @@ class LiveActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Pip.closeOther(this)
         setContentView(R.layout.activity_live)
         playerView = findViewById(R.id.player)
         groupsRv = findViewById(R.id.groups)
@@ -554,6 +555,7 @@ class LiveActivity : BaseActivity() {
             playing?.let { player.stop(); start(it) }
             toast("Decoder: " + if (Players.softwareVideo) "Software" else "Hardware")
         }
+        if (Pip.can(this) && playing != null) tiles += TvUi.Tile("⧉", "Small window", "") { menus.close(); if (!full) setFull(true); Pip.enter(this) }
         tiles += TvUi.Tile("▦", "Multiview", "") { menus.close(); startActivity(Intent(this, MultiviewActivity::class.java).putExtra("channel", playing?.id ?: -1)) }
         tiles += TvUi.Tile(if (recording) "■" else "●", if (recording) "Stop rec." else "Record", if (recording) "On" else "") {
             menus.close(); if (recording) { Recorder.stop(this); toast("Recording stopped") } else record()
@@ -759,18 +761,11 @@ class LiveActivity : BaseActivity() {
         groupAdapter.notifyItemChanged(0)
     }
 
-    // phones and tablets: going Home while something plays keeps it playing in a small window (picture-in-picture;
-    // owner, 21 Nov 2026). TVs keep their own way (Home stops the picture).
-    override fun onUserLeaveHint() {
-        super.onUserLeaveHint()
-        if (isTouch && android.os.Build.VERSION.SDK_INT >= 26 && playing != null && player.isPlaying) try {
-            if (!full) setFull(true)
-            enterPictureInPictureMode(android.app.PictureInPictureParams.Builder().setAspectRatio(android.util.Rational(16, 9)).build())
-        } catch (e: Exception) { }
-    }
+    // the small window (phones and tablets) opens from the options only (Pip.kt); closed with its ✕: this screen ends
     override fun onPictureInPictureModeChanged(pip: Boolean, cfg: android.content.res.Configuration) {
         super.onPictureInPictureModeChanged(pip, cfg)
         if (pip) { banner.visibility = View.GONE; fullClock.visibility = View.GONE; hideTouch() }
+        else { Pip.left(this); if (!lifecycle.currentState.isAtLeast(androidx.lifecycle.Lifecycle.State.STARTED)) finish() }
     }
     override fun onStop() { super.onStop(); player.pause() }
     override fun onStart() {

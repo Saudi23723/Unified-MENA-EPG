@@ -41,6 +41,7 @@ class PlayerActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Pip.closeOther(this)
         url = intent.getStringExtra("url") ?: run { finish(); return }
         title = intent.getStringExtra("title") ?: ""; key = intent.getStringExtra("key") ?: url; poster = intent.getStringExtra("poster") ?: ""
         intent.getStringArrayListExtra("nextUrls")?.let { nextUrls.addAll(it) }
@@ -320,6 +321,7 @@ class PlayerActivity : BaseActivity() {
         tiles += TvUi.Tile("▭", "Display", MODES[mode()]) { displayModes() }
         tiles += TvUi.Tile("♫", "Audio", trackNow(C.TRACK_TYPE_AUDIO)) { tracks(C.TRACK_TYPE_AUDIO) }
         tiles += TvUi.Tile("CC", "Subtitles", trackNow(C.TRACK_TYPE_TEXT)) { tracks(C.TRACK_TYPE_TEXT) }
+        if (Pip.can(this)) tiles += TvUi.Tile("⧉", "Small window", "") { closeMenus(); Pip.enter(this) }
         tiles += TvUi.Tile("»", "Speed", if (sp == 1f) "Normal" else "${sp}x") {
             pushMenu(TvUi.side(this, "Speed", speeds.map { if (it == 1f) "Normal" else "${it}x" }, speeds.indexOfFirst { it == sp }.coerceAtLeast(0), { k ->
                 player.setPlaybackSpeed(speeds[k]); closeMenus() }))
@@ -394,18 +396,12 @@ class PlayerActivity : BaseActivity() {
         }))
     }
 
-    // phones and tablets: going Home while something plays keeps it playing in a small window (picture-in-picture;
-    // owner, 21 Nov 2026). TVs keep their own way (Home stops the picture).
-    override fun onUserLeaveHint() {
-        super.onUserLeaveHint()
-        if (isTouch && android.os.Build.VERSION.SDK_INT >= 26 && player.isPlaying) try {
-            enterPictureInPictureMode(android.app.PictureInPictureParams.Builder().setAspectRatio(android.util.Rational(16, 9)).build())
-        } catch (e: Exception) { }
-    }
+    // the small window (phones and tablets) opens from the options only (Pip.kt); closed with its ✕: this screen ends
     override fun onPictureInPictureModeChanged(pip: Boolean, cfg: android.content.res.Configuration) {
         super.onPictureInPictureModeChanged(pip, cfg)
         view.useController = !pip
         if (pip) view.hideController()
+        else { Pip.left(this); if (!lifecycle.currentState.isAtLeast(androidx.lifecycle.Lifecycle.State.STARTED)) { save(); finish() } }
     }
     private val inPip get() = android.os.Build.VERSION.SDK_INT >= 24 && isInPictureInPictureMode
     override fun onPause() { super.onPause(); save(); if (!inPip) player.pause() }
