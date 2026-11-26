@@ -143,6 +143,7 @@ class StudyBookReaderActivity : BaseActivity() {
     }
 
     private fun paint() {
+        placed.clear()
         body.removeAllViews()
         val p = page()
 
@@ -299,6 +300,15 @@ class StudyBookReaderActivity : BaseActivity() {
         if (plist != null && plist.length() > 0) {
             for (i in 0 until plist.length()) {
                 val o = plist.optJSONObject(i) ?: continue
+                if (o.has("f")) {
+                    // A figure where the page had it, between the words around it.
+                    val k = o.optInt("f")
+                    val figk = p.optJSONObject("figk")
+                    figk?.keys()?.asSequence()?.firstOrNull { figk.optInt(it, -1) == k }?.let { nm ->
+                        if (placed.add(nm)) figureView(col, nm)
+                    }
+                    continue
+                }
                 val d = o.optInt("d").coerceIn(0, 4)
                 val m = o.optString("m")
                 val t = o.optString("t")
@@ -332,11 +342,29 @@ class StudyBookReaderActivity : BaseActivity() {
         }
     }
 
+    /** Figures already set into the reading of the page being shown. */
+    private val placed = HashSet<String>()
+
+    /** One figure, inline, at the width of the page; a tap opens it to zoom. */
+    private fun figureView(col: LinearLayout, name: String) {
+        val f = java.io.File(java.io.File(filesDir, "studybook"), name)
+        val bmp = (if (f.exists()) android.graphics.BitmapFactory.decodeFile(f.path) else null) ?: return
+        col.addView(android.widget.ImageView(this).apply {
+            setImageBitmap(bmp); adjustViewBounds = true
+            scaleType = android.widget.ImageView.ScaleType.FIT_CENTER
+            background = EfbUi.cardBg(this@StudyBookReaderActivity, 0xFFFFFFFF.toInt(), 8)
+            setPadding(dp(4), dp(4), dp(4), dp(4)); maxHeight = dp(420)
+            setOnClickListener { zoomFigure(f) }
+        }, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(10); bottomMargin = dp(4) })
+    }
+
     /** The figure or table framed off the page, at the width of the book's page, on white. */
     private fun figure(col: LinearLayout, p: org.json.JSONObject) {
         val names = ArrayList<String>()
         p.optJSONArray("imgs")?.let { a -> for (i in 0 until a.length()) a.optString(i).takeIf { it.isNotEmpty() }?.let(names::add) }
         p.optString("img").takeIf { it.isNotEmpty() && it != "null" && !names.contains(it) }?.let(names::add)
+        // Those already shown in their places in the reading are not shown again here.
+        names.removeAll(placed)
         var first = true
         for (name in names) {
             val f = java.io.File(java.io.File(filesDir, "studybook"), name)
@@ -392,6 +420,7 @@ class StudyBookReaderActivity : BaseActivity() {
         sb.append("<h1>Study book</h1><div class='meta'>${pages.length()} pages</div>")
         for (i in 0 until pages.length()) {
             val p = pages.optJSONObject(i) ?: continue
+            val inlined = HashSet<String>()
             sb.append("<div class='pg'><div class='meta'>${e(listOf(p.optString("unit"), p.optString("sub"), p.optString("t")).filter { it.isNotEmpty() }.joinToString(" · "))}</div>")
             val head = p.optString("head")
             if (head.isNotEmpty()) sb.append("<div class='q'>${e(head)}</div>")
@@ -410,7 +439,13 @@ class StudyBookReaderActivity : BaseActivity() {
                 val pl = p.optJSONArray("plist")
                 if (pl != null && pl.length() > 0) {
                     sb.append("<ul>")
-                    for (k in 0 until pl.length()) pl.optJSONObject(k)?.let { o -> sb.append("<li style='margin-left:${o.optInt("d") * 16}px'>${e(o.optString("m"))} ${e(o.optString("t"))}</li>") }
+                    val fk = p.optJSONObject("figk")
+                    for (k in 0 until pl.length()) pl.optJSONObject(k)?.let { o ->
+                        if (o.has("f")) {
+                            val nm = fk?.keys()?.asSequence()?.firstOrNull { fk.optInt(it, -1) == o.optInt("f") }
+                            if (nm != null && java.io.File(dir, nm).exists()) { sb.append("</ul><img src='$nm'><ul>"); inlined.add(nm) }
+                        } else sb.append("<li style='margin-left:${o.optInt("d") * 16}px'>${e(o.optString("m"))} ${e(o.optString("t"))}</li>")
+                    }
                     sb.append("</ul>")
                 } else p.optJSONArray("pts")?.let { a -> for (k in 0 until a.length()) sb.append("<p>${e(a.optString(k))}</p>") }
                     ?: sb.append("<p>${e(p.optString("q"))}</p>")
@@ -418,7 +453,7 @@ class StudyBookReaderActivity : BaseActivity() {
             val names = ArrayList<String>()
             p.optJSONArray("imgs")?.let { a -> for (k in 0 until a.length()) a.optString(k).takeIf { it.isNotEmpty() }?.let(names::add) }
             p.optString("img").takeIf { it.isNotEmpty() && it != "null" && !names.contains(it) }?.let(names::add)
-            for (nm in names) if (java.io.File(dir, nm).exists()) sb.append("<img src='$nm'>")
+            for (nm in names) if (nm !in inlined && java.io.File(dir, nm).exists()) sb.append("<img src='$nm'>")
             if (p.optString("e").isNotBlank()) sb.append("<div class='note'><b>My note:</b> ${e(p.optString("e"))}</div>")
             sb.append("</div>")
         }

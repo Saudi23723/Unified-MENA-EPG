@@ -43,6 +43,8 @@ class StudyBookActivity : BaseActivity() {
     private var clipFile: String? = null
     /** Every figure and table found on the page and copied off it. */
     private val figures = ArrayList<String>()
+    /** For each picture kept, the place of its figure in the page's reading order. */
+    private val figAt = HashMap<String, Int>()
     private var clipRow: LinearLayout? = null
     /** What was read off the page, in the shape the page had it in. */
     private var pending: JSONObject? = null
@@ -185,7 +187,7 @@ class StudyBookActivity : BaseActivity() {
 
     private fun dropFigures() {
         for (n in figures) java.io.File(java.io.File(filesDir, "studybook"), n).delete()
-        figures.clear()
+        figures.clear(); figAt.clear()
     }
 
     /** The cut shown at the size it really is, to keep or to take again. */
@@ -358,6 +360,11 @@ class StudyBookActivity : BaseActivity() {
             }
             function walk(el){
                 var tag = el.tagName ? el.tagName.toLowerCase() : '';
+                // A figure is a place in the reading: marked where it stands, between the words.
+                if (el.getAttribute && el.getAttribute('data-sb-k') !== null){
+                    pts.push({ f: +el.getAttribute('data-sb-k') });
+                    if (tag === 'img' || tag === 'svg' || tag === 'canvas' || tag === 'table') return;
+                }
                 if (SKIP[tag]) return;
                 // A table of data is kept as a picture, so its text is not written out as well.
                 if (tag === 'table' && dataTable(el)) return;
@@ -367,7 +374,12 @@ class StudyBookActivity : BaseActivity() {
                 // stop being a choice or a question at all; read row by row they read as written.
                 if (tag === 'tr'){
                     var rt = (el.innerText || '').replace(/\s+/g, ' ').trim();
-                    if (rt.length > 0 && rt.length < 600){ push(rt, 0, ''); return; }
+                    if (rt.length > 0 && rt.length < 600){
+                        push(rt, 0, '');
+                        var inr = el.querySelectorAll ? el.querySelectorAll('[data-sb-k]') : [];
+                        for (var q = 0; q < inr.length; q++) pts.push({ f: +inr[q].getAttribute('data-sb-k') });
+                        return;
+                    }
                 }
                 if (!shown(el)) return;
                 if (out.length > 500) return;
@@ -395,6 +407,37 @@ class StudyBookActivity : BaseActivity() {
                     else if (c.nodeType === 1) walk(c);
                 }
             }
+
+        // The figures of the page, in the order the page has them, by one rule shared by the text
+        // reading and the picture taking, so the n-th figure in one is the n-th in the other.
+        function sbFigs(){
+            var all = document.querySelectorAll('img,table,svg,canvas');
+            var list = [];
+            for (var k = 0; k < all.length; k++){
+                var e = all[k];
+                if (!shown(e)) continue;
+                var r = e.getBoundingClientRect();
+                var tg = e.tagName.toLowerCase();
+                if (tg === 'img'){
+                    // The site's own word-mark and the furniture round the page are not figures.
+                    var idn = ((e.currentSrc || e.src || '') + ' ' + (e.getAttribute('data-src') || '') + ' ' + (e.alt || '') + ' ' +
+                               (typeof e.className === 'string' ? e.className : '') + ' ' + (e.id || '')).toLowerCase();
+                    if (/logo|brand|masthead|sprite|icon|avatar|gleim\.(png|gif|svg|jpg)|header/.test(idn)) continue;
+                    if (e.closest && e.closest('header,nav,footer')) continue;
+                    if (r.height < 120 && r.width / Math.max(1, r.height) > 2.4) continue;
+                }
+                if (tg === 'img' || tg === 'svg' || tg === 'canvas'){ if (r.width < 60 || r.height < 45) continue; }
+                else if (r.width < 120 || r.height < 70) continue;
+                if (tg === 'table' && !dataTable(e)) continue;
+                list.push(e);
+                if (list.length >= 12) break;
+            }
+            return list;
+        }
+            var FL = sbFigs();
+            var olds = document.querySelectorAll('[data-sb-k]');
+            for (var q = 0; q < olds.length; q++) olds[q].removeAttribute('data-sb-k');
+            for (var q = 0; q < FL.length; q++) FL[q].setAttribute('data-sb-k', String(q));
             var sel = window.getSelection().toString();
             if (sel && sel.trim().length > 20) out.push(sel);
             else if (document.body) walk(document.body);
@@ -451,6 +494,23 @@ class StudyBookActivity : BaseActivity() {
             }
             return JSON.stringify(res);
         })()"""
+        // Pictures further down a page are often not loaded until scrolled to, and until then they
+        // have no size and no picture, so they were missed. They are all asked for first, and the
+        // page read a moment later.
+        val eager = """(function(){
+            var im = document.querySelectorAll('img'); var n = 0;
+            for (var i = 0; i < im.length; i++){
+                var e = im[i];
+                try { e.loading = 'eager'; } catch (x) {}
+                var ds = e.getAttribute('data-src') || e.getAttribute('data-original') || e.getAttribute('data-lazy-src');
+                if (ds && (!e.src || /data:|blank|placeholder|spacer/i.test(e.src))) { e.src = ds; n++; }
+                if (!e.complete) n++;
+            }
+            return n;
+        })()"""
+        web.evaluateJavascript(eager) { pending ->
+        val wait = if ((unJs(pending).toIntOrNull() ?: 0) > 0) 1500L else 0L
+        web.postDelayed({
         web.evaluateJavascript(js) { raw ->
             val o = try { JSONObject(unJs(raw)) } catch (e: Exception) { null }
             val text = o?.optString("text").orEmpty()
@@ -491,6 +551,8 @@ class StudyBookActivity : BaseActivity() {
                     Toast.LENGTH_LONG).show()
               }
             }
+        }
+        }, wait)
         }
     }
 
@@ -643,6 +705,18 @@ class StudyBookActivity : BaseActivity() {
         val ob = android.graphics.BitmapFactory.Options().apply { inJustDecodeBounds = true }
         android.graphics.BitmapFactory.decodeByteArray(bytes, 0, bytes.size, ob)
         if (ob.outHeight > 0 && ob.outWidth.toFloat() / ob.outHeight > 3.5f) return null
+        // A placeholder (a picture not loaded yet, all one colour) is not a figure.
+        try {
+            val sm = android.graphics.BitmapFactory.decodeByteArray(bytes, 0, bytes.size, android.graphics.BitmapFactory.Options().apply { inSampleSize = 8 })
+            if (sm != null) {
+                var mn = 255; var mx = 0
+                for (yy in 0 until sm.height step 2) for (xx in 0 until sm.width step 2) {
+                    val c = sm.getPixel(xx, yy); val l = ((c shr 16 and 255) * 3 + (c shr 8 and 255) * 6 + (c and 255)) / 10
+                    if (l < mn) mn = l; if (l > mx) mx = l
+                }
+                if (mx - mn < 18) return null
+            }
+        } catch (e: Throwable) { }
         val md = java.security.MessageDigest.getInstance("MD5")
         val hash = md.digest(bytes).joinToString("") { "%02x".format(it) }
         synchronized(figures) {
@@ -711,24 +785,35 @@ class StudyBookActivity : BaseActivity() {
             }
             return true;
         }
-        var vw = window.innerWidth || 1, vh = window.innerHeight || 1;
-        var all = document.querySelectorAll('img,table,svg,canvas');
-        var list = [];
-        for (var k = 0; k < all.length; k++){
-            var e = all[k];
-            if (!shown(e)) continue;
-            var r = e.getBoundingClientRect();
-            var tg = e.tagName.toLowerCase();
-            // The masthead is a word-mark: a strip of lettering far wider than it is tall, the
-            // same on every page of the bank. A diagram is never that shape.
-            if (tg === 'img' && r.height < 90 && r.width / r.height > 3.5) continue;
-            // A figure beside a question can be a small thumbnail; a table has to be a real one.
-            if (tg === 'img' || tg === 'svg' || tg === 'canvas'){ if (r.width < 60 || r.height < 45) continue; }
-            else if (r.width < 120 || r.height < 70) continue;
-            if (tg === 'table' && !dataTable(e)) continue;
-            list.push(e);
-            if (list.length >= 10) break;
+
+        // The figures of the page, in the order the page has them, by one rule shared by the text
+        // reading and the picture taking, so the n-th figure in one is the n-th in the other.
+        function sbFigs(){
+            var all = document.querySelectorAll('img,table,svg,canvas');
+            var list = [];
+            for (var k = 0; k < all.length; k++){
+                var e = all[k];
+                if (!shown(e)) continue;
+                var r = e.getBoundingClientRect();
+                var tg = e.tagName.toLowerCase();
+                if (tg === 'img'){
+                    // The site's own word-mark and the furniture round the page are not figures.
+                    var idn = ((e.currentSrc || e.src || '') + ' ' + (e.getAttribute('data-src') || '') + ' ' + (e.alt || '') + ' ' +
+                               (typeof e.className === 'string' ? e.className : '') + ' ' + (e.id || '')).toLowerCase();
+                    if (/logo|brand|masthead|sprite|icon|avatar|gleim\.(png|gif|svg|jpg)|header/.test(idn)) continue;
+                    if (e.closest && e.closest('header,nav,footer')) continue;
+                    if (r.height < 120 && r.width / Math.max(1, r.height) > 2.4) continue;
+                }
+                if (tg === 'img' || tg === 'svg' || tg === 'canvas'){ if (r.width < 60 || r.height < 45) continue; }
+                else if (r.width < 120 || r.height < 70) continue;
+                if (tg === 'table' && !dataTable(e)) continue;
+                list.push(e);
+                if (list.length >= 12) break;
+            }
+            return list;
         }
+        var vw = window.innerWidth || 1, vh = window.innerHeight || 1;
+        var list = sbFigs();
         if (idx >= list.length) return JSON.stringify({ n: list.length, done: true });
         var e = list[idx];
         // Opening the picture as the pilot would: a tap on it, or on the link it sits in, which on
@@ -851,7 +936,7 @@ class StudyBookActivity : BaseActivity() {
                     fun keep(bigData: String, bigUrl: String) {
                         lifecycleScope.launch {
                             val keptName = withContext(Dispatchers.IO) { bestPicture(dir, i, data, url, link, bigData, bigUrl) }
-                            if (keptName != null) { figures.add(keptName); made++ }
+                            if (keptName != null) { figures.add(keptName); figAt[keptName] = i; made++ }
                             step(i + 1)
                         }
                     }
@@ -887,7 +972,7 @@ class StudyBookActivity : BaseActivity() {
                             val out = java.io.File(dir, "fig_" + System.currentTimeMillis() + "_" + i + ".png")
                             out.outputStream().use { cut.compress(android.graphics.Bitmap.CompressFormat.PNG, 100, it) }
                             cut.recycle()
-                            figures.add(out.name)
+                            figures.add(out.name); figAt[out.name] = i
                             made++
                         }
                         full.recycle()
@@ -978,6 +1063,7 @@ class StudyBookActivity : BaseActivity() {
             .put("e", mine.text.toString().trim())
             .put("img", clipFile ?: JSONObject.NULL)
             .put("imgs", JSONArray().apply { for (n in figures) put(n) })
+            .put("figk", JSONObject().apply { for (n in figures) figAt[n]?.let { put(n, it) } })
             .put("u", prefs.getString("study_last_url", "") ?: "")
             .put("at", System.currentTimeMillis())
         val topic = topicOf(q + " " + page.optString("why") + " " + page.optString("acs") + " " + mine.text.toString())
