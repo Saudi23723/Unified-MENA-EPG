@@ -227,8 +227,8 @@ class HomeActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume(); Backup.syncSoon()
-        Updater.offer(this)
         armIdle()
+        var welcomed = false
         // only when "Start on the last channel" is on: straight to the channel that was on
         val fresh = !resumedOnce; resumedOnce = true
         if (fresh || BaseActivity.cameBack) {
@@ -240,7 +240,10 @@ class HomeActivity : BaseActivity() {
             if (Prefs.ready) {
                 val col = findViewById<View>(R.id.homeCol)
                 col.alpha = 0f
+                welcomed = true
+                // a new version is offered on Home itself, once the welcome has gone (owner, 26 Nov 2026)
                 Welcome.show(this) {
+                    col.postDelayed({ Updater.offer(this) }, 1200)
                     col.translationY = dp(26f).toFloat()
                     col.animate().alpha(1f).translationY(0f).setStartDelay(150).setDuration(650)
                         .setInterpolator(android.view.animation.PathInterpolator(0.2f, 0f, 0f, 1f)).start()
@@ -250,6 +253,7 @@ class HomeActivity : BaseActivity() {
             }
         }
         if (!Prefs.ready) { startActivity(Intent(this, SetupActivity::class.java)); return }
+        if (!welcomed) Updater.offer(this)
         vpnShow()
         status.text = (Device.name.ifEmpty { Prefs.server.substringAfter("://") }) + "   ·   Device " + Device.pretty
         // the lists are ready before Live TV opens: from the copy on the TV first, then fresh in the background

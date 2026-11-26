@@ -28,6 +28,8 @@ class SettingsActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // "Update now" on Home: straight to the download (Updater.offer)
+        if (savedInstanceState == null && intent.getBooleanExtra("update_now", false)) window.decorView.post { update() }
         val scroll = ScrollView(this)
         list = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding((60 * d).toInt(), (34 * d).toInt(), (60 * d).toInt(), (60 * d).toInt()) }
         scroll.addView(list)

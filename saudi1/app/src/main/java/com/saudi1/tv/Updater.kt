@@ -55,10 +55,14 @@ object Updater {
             if (n <= BuildConfig.VERSION_CODE) return@launch
             // "Later" for this version: asked again a day later
             if (p.getInt("upd_later", 0) == n && now - p.getLong("upd_later_at", 0) < 24 * 3600_000L) return@launch
-            if (a.isFinishing || a.isDestroyed) return@launch
+            // only on Home in front, never over the welcome or another screen
+            if (a.isFinishing || a.isDestroyed || !a.lifecycle.currentState.isAtLeast(androidx.lifecycle.Lifecycle.State.RESUMED)) {
+                p.edit().putLong("upd_checked", 0).apply(); return@launch }
             AlertDialog.Builder(a).setTitle("New version 1.0.$n")
                 .setMessage("A new version of SAUDI.TV is ready.")
-                .setPositiveButton("Update now") { _, _ -> install(a, n) }
+                // the download and the installer run from Settings, in front (from Home, Android blocked the
+                // installer when Home had gone behind another screen: "Update now" did nothing, 26 Nov 2026)
+                .setPositiveButton("Update now") { _, _ -> a.startActivity(Intent(a, SettingsActivity::class.java).putExtra("update_now", true)) }
                 .setNegativeButton("Later") { _, _ -> p.edit().putInt("upd_later", n).putLong("upd_later_at", System.currentTimeMillis()).apply() }
                 .show()
         }
