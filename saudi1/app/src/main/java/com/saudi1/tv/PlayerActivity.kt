@@ -253,7 +253,7 @@ class PlayerActivity : BaseActivity() {
     }
 
     // ---- display mode, as in TiviMate: Normal, Full, Zoom, Zoom 2.35:1, Reduced, 4:3, 16:9, 2.35:1 ----
-    private val MODES = arrayOf("Normal", "Full", "Zoom", "Zoom · 2.35:1", "Reduced", "4:3", "16:9", "2.35:1")
+    private val MODES = TvUi.MODES
     /** the title's own choice, else the one for all movies and shows (the old "Picture" choice carried over) */
     private fun mode(): Int {
         val own = App.prefs.getInt("dm_$key", -1)
@@ -263,27 +263,7 @@ class PlayerActivity : BaseActivity() {
         return when (App.prefs.getInt("vod_resize", App.prefs.getInt("resize", 0))) { 3 -> 1; 4 -> 2; else -> 0 }
     }
 
-    private fun applyMode() {
-        val m = mode()
-        val frame = view.findViewById<View>(androidx.media3.ui.R.id.exo_content_frame) ?: return
-        frame.scaleX = 1f; frame.scaleY = 1f
-        view.resizeMode = when (m) { 1 -> androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_FILL; 2 -> androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_ZOOM
-            else -> androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_FIT }
-        val vs = player.videoSize
-        val v = if (vs.width > 0 && vs.height > 0) vs.width * vs.pixelWidthHeightRatio / vs.height else 16f / 9f
-        val sc = if (view.width > 0 && view.height > 0) view.width.toFloat() / view.height else 16f / 9f
-        // the size of a picture of aspect a fitted in the screen (as parts of the screen's width and height)
-        fun fit(a: Float) = if (a >= sc) 1f to sc / a else a / sc to 1f
-        when (m) {
-            3 -> { val z = (2.35f / v).coerceAtLeast(1f); frame.scaleX = z; frame.scaleY = z }   // wide films: the black bars off
-            4 -> { frame.scaleX = 0.85f; frame.scaleY = 0.85f }                                 // a little smaller, all of it seen
-            5, 6, 7 -> {
-                val a = when (m) { 5 -> 4f / 3f; 6 -> 16f / 9f; else -> 2.35f }
-                val (wv, hv) = fit(v); val (wa, ha) = fit(a)
-                frame.scaleX = wa / wv; frame.scaleY = ha / hv
-            }
-        }
-    }
+    private fun applyMode() = TvUi.applyMode(view, player.videoSize, mode())
 
     private fun displayModes() {
         val all = App.prefs.getInt("dm_$key", -1) !in MODES.indices

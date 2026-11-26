@@ -18,7 +18,9 @@ import android.widget.TextView
 object TvUi {
     class Tile(val icon: String, val label: String, val value: String, val action: () -> Unit)
 
-    val MODES = arrayOf("Normal", "Full", "Zoom", "Zoom · 2.35:1", "Reduced", "4:3", "16:9", "2.35:1")
+    // more sizes for different screens (owner, 25 Nov 2026), added at the end so saved choices keep their meaning
+    val MODES = arrayOf("Normal", "Full", "Zoom", "Zoom · 2.35:1", "Reduced", "4:3", "16:9", "2.35:1",
+        "Zoom 110%", "Zoom 125%", "18:9 · phones", "20:9 · phones", "21:9 · wide", "5:4", "Reduced · 75%")
 
     /** TiviMate's display modes on a PlayerView: the resize mode, then a scale of the picture's frame */
     fun applyMode(pv: androidx.media3.ui.PlayerView, vs: androidx.media3.common.VideoSize, m: Int) {
@@ -32,8 +34,11 @@ object TvUi {
         when (m) {
             3 -> { val z = (2.35f / v).coerceAtLeast(1f); frame.scaleX = z; frame.scaleY = z }
             4 -> { frame.scaleX = 0.85f; frame.scaleY = 0.85f }
-            5, 6, 7 -> {
-                val a = when (m) { 5 -> 4f / 3f; 6 -> 16f / 9f; else -> 2.35f }
+            14 -> { frame.scaleX = 0.75f; frame.scaleY = 0.75f }
+            8 -> { frame.scaleX = 1.10f; frame.scaleY = 1.10f }
+            9 -> { frame.scaleX = 1.25f; frame.scaleY = 1.25f }
+            5, 6, 7, 10, 11, 12, 13 -> {
+                val a = when (m) { 5 -> 4f / 3f; 6 -> 16f / 9f; 10 -> 18f / 9f; 11 -> 20f / 9f; 12 -> 21f / 9f; 13 -> 5f / 4f; else -> 2.35f }
                 val (wv, hv) = fit(v); val (wa, ha) = fit(a)
                 frame.scaleX = wa / wv; frame.scaleY = ha / hv
             }
