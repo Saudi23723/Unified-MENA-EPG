@@ -116,14 +116,14 @@ def build(key, stem, kind, title, start, end):
         with open(prj, "w") as f:
             f.write(subprocess.run(["gdalsrsinfo", "-o", "wkt", src], capture_output=True, text=True, check=True).stdout)
         geo = os.path.join(WORK, f"{key}_{n}_geo.tif")
-        sh("gdal_translate", "-a_srs", prj, "-a_ullr", repr(ulx), repr(uly), repr(lrx), repr(lry), "-co", "COMPRESS=DEFLATE",
+        sh("gdal_translate", "-a_srs", prj, "-a_ullr", repr(ulx), repr(uly), repr(lrx), repr(lry), "-colorinterp", "red,green,blue,alpha", "-co", "COMPRESS=DEFLATE",
            os.path.join(WORK, f"{key}_{n}_map.tif"), geo)
         srcs.append(geo)
     # Onto the web map's projection, all the sheets into one picture. The sheets are listed with the
     # one the chart is named for last, so it is drawn over its neighbour where the two overlap.
     if os.path.exists(warped):
         os.remove(warped)
-    sh("gdalwarp", "-t_srs", "EPSG:3857", "-r", "bilinear", "-dstalpha", "-multi", "-wo", "NUM_THREADS=ALL_CPUS",
+    sh("gdalwarp", "-t_srs", "EPSG:3857", "-r", "bilinear", "-multi", "-wo", "NUM_THREADS=ALL_CPUS",
        "-co", "TILED=YES", "-co", "COMPRESS=DEFLATE", "-co", "BIGTIFF=IF_SAFER", *reversed(srcs), warped)
     if os.path.exists(out):
         os.remove(out)
@@ -154,7 +154,7 @@ def main():
         return
     charts = [build(*c, start, end) for c in CHARTS]
     manifest = {"edition": start.isoformat(), "expires": end.isoformat(), "built": dt.datetime.utcnow().isoformat() + "Z",
-                "rev": 4,
+                "rev": 5,
                 "source": "FAA Aeronautical Information Services, GeoTIFF (aeronav.faa.gov)", "charts": charts}
     with open("manifest.json", "w") as f:
         json.dump(manifest, f, indent=1)
