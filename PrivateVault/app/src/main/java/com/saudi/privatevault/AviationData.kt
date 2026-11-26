@@ -38,9 +38,8 @@ object AviationData {
         /**
          * The FAA's sheets are mosaicked with their white margins, and where two meet a white band
          * runs across the chart. Pure white in a run of sixteen pixels or more, along a row or down
-         * a column, is margin, not chart (text halos and symbols are never that long), and is made
-         * clear so the page's paper colour shows through; a two-pixel fringe of near-white round it
-         * goes too.
+         * a column, is margin, not chart (text halos and symbols are never that long), and is filled
+         * from the chart either side of it (see below); a two-pixel fringe of near-white round it goes too.
          */
         private fun clearMargins(bmp: android.graphics.Bitmap) {
             val w = bmp.width; val h = bmp.height
@@ -93,7 +92,59 @@ object AviationData {
                 }
             }
             if (!any) return
-            for (i in px.indices) if (out[i]) px[i] = 0
+            // The band is filled from the chart on either side of it, not left as a hole: down each
+            // column and along each row, every margin pixel takes the blend of the chart pixels where
+            // the band begins and ends, the shorter way across counting most. Colours run smoothly
+            // over it and a line that crosses it (a road, a boundary, a graticule) is carried through.
+            // Only where the band reaches the tile's edge on both sides is the pixel left clear.
+            val vC = IntArray(w * h); val vL = IntArray(w * h)
+            val hC = IntArray(w * h); val hL = IntArray(w * h)
+            fun mix(a: Int, b: Int, t: Float): Int {
+                fun ch(sh: Int) = (((a shr sh) and 0xFF) + ((((b shr sh) and 0xFF) - ((a shr sh) and 0xFF)) * t)).toInt().coerceIn(0, 255)
+                return (0xFF shl 24) or (ch(16) shl 16) or (ch(8) shl 8) or ch(0)
+            }
+            for (x in 0 until w) {
+                var y = 0
+                while (y < h) {
+                    if (!out[y * w + x]) { y++; continue }
+                    var e = y
+                    while (e < h && out[e * w + x]) e++
+                    val a = if (y > 0) px[(y - 1) * w + x] else 0
+                    val b = if (e < h) px[e * w + x] else 0
+                    if (y > 0 || e < h) for (k in y until e) {
+                        val t = (k - y + 1).toFloat() / (e - y + 1)
+                        vC[k * w + x] = if (y == 0) b else if (e == h) a else mix(a, b, t)
+                        vL[k * w + x] = e - y
+                    }
+                    y = e
+                }
+            }
+            for (yy in 0 until h) {
+                var x = 0
+                while (x < w) {
+                    if (!out[yy * w + x]) { x++; continue }
+                    var e = x
+                    while (e < w && out[yy * w + e]) e++
+                    val a = if (x > 0) px[yy * w + x - 1] else 0
+                    val b = if (e < w) px[yy * w + e] else 0
+                    if (x > 0 || e < w) for (k in x until e) {
+                        val t = (k - x + 1).toFloat() / (e - x + 1)
+                        hC[yy * w + k] = if (x == 0) b else if (e == w) a else mix(a, b, t)
+                        hL[yy * w + k] = e - x
+                    }
+                    x = e
+                }
+            }
+            for (i in px.indices) {
+                if (!out[i]) continue
+                val vl = vL[i]; val hl = hL[i]
+                px[i] = when {
+                    vl > 0 && hl > 0 -> mix(vC[i], hC[i], vl.toFloat() / (vl + hl))   // nearer to the shorter way
+                    vl > 0 -> vC[i]
+                    hl > 0 -> hC[i]
+                    else -> 0
+                }
+            }
             bmp.setPixels(px, 0, w, 0, 0, w, h)
         }
     }

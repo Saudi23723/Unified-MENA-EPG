@@ -1293,7 +1293,6 @@ class MapActivity : BaseActivity(), NeonHost {
                     loadingLineColor = android.graphics.Color.TRANSPARENT
                 }
                 map.overlays.add(0, chartOverlay)
-                map.overlays.add(0, groundUnder)
             }
         }
         bar?.setLayerName(getString(layer.label))
