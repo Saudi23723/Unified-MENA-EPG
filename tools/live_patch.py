@@ -71,7 +71,7 @@ def main(playlist, out):
     q = urllib.parse.urlencode({"username": user, "password": pw, "action": "get_live_streams"})
     try:
         with urllib.request.urlopen(urllib.request.Request(f"{host}/player_api.php?{q}",
-                                                           headers={"User-Agent": "Unified-MENA-EPG"}), timeout=90) as r:
+                                                           headers={"User-Agent": "Lavf/60.3.100"}), timeout=90) as r:
             live = json.load(r)
     except urllib.error.HTTPError as e:
         print(f"provider answered {e.code}")
@@ -82,7 +82,7 @@ def main(playlist, out):
     # the provider's group names too (no login in them): lets the repo show channels the owner's TiviMate copy hid
     try:
         with urllib.request.urlopen(urllib.request.Request(f"{host}/player_api.php?" + q.replace("get_live_streams", "get_live_categories"),
-                                                           headers={"User-Agent": "Unified-MENA-EPG"}), timeout=60) as r:
+                                                           headers={"User-Agent": "Lavf/60.3.100"}), timeout=60) as r:
             pcats = json.load(r)
     except Exception:  # noqa: BLE001
         pcats = []

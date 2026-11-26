@@ -35,7 +35,7 @@ def login():
 def get(host, user, pw, action):
     q = urllib.parse.urlencode({"username": user, "password": pw, "action": action})
     with urllib.request.urlopen(urllib.request.Request(f"{host}/player_api.php?{q}",
-                                                       headers={"User-Agent": "Unified-MENA-EPG"}), timeout=180) as r:
+                                                       headers={"User-Agent": "Lavf/60.3.100"}), timeout=180) as r:
         return json.load(r)
 
 
