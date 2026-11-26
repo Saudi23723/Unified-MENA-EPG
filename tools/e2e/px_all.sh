@@ -30,6 +30,10 @@ except Exception: print("")')
   else
     echo "$PL: list $M $(head -c 80 m.txt | tr -dc '[:print:]' | sed "s/$U//g;s/$P//g")"
   fi
+  # the second route (Deno Deploy, deno/px.ts), when it is up
+  DN=$(curl -sS -m 30 -o dm.txt -w "%{http_code}" "https://saudi1-px.deno.dev/px?code=$CODE&u=$ENC" 2>/dev/null)
+  DSEG=$(grep -v '^#' dm.txt 2>/dev/null | grep -m1 .)
+  if [ "$DN" = 200 ] && [ -n "$DSEG" ]; then echo "   Deno route: list 200, first piece $(curl -sS -m 30 -o dseg.bin -w '%{http_code}' "$DSEG") ($(stat -c %s dseg.bin 2>/dev/null) bytes)"; else echo "   Deno route: $DN"; fi
   # the same channel straight from this runner (not through Cloudflare), for comparison
   D=$(curl -sS -m 20 -o /dev/null -w "%{http_code}" -L -A "Lavf/60.3.100" "$RAW"); echo "   straight from a server (no Cloudflare): $D"
   sleep 2

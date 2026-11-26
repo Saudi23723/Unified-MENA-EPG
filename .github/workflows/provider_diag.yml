@@ -46,5 +46,5 @@ jobs:
       - name: Every playlist through the web player's route
         run: |
           if [ -s picks.txt ]; then
-            while read -r pl c; do echo "== $pl"; CODE=$c ONLY=$pl bash tools/e2e/px_all.sh; done < picks.txt
+            while read -r pl c; do echo "== $pl"; CODE=$c ONLY=$pl bash tools/e2e/px_all.sh < /dev/null; done < picks.txt
           else bash tools/e2e/px_all.sh; fi
