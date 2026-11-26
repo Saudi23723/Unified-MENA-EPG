@@ -130,12 +130,16 @@ object Api {
         cf.writeBytes(c); tmp.renameTo(sf)
         // the provider's own list, asked now and then like TiviMate: groups the app does not have come in hidden, at the end
         val probe = groups.firstOrNull { it.id == ALL }?.channels?.firstOrNull { it.id > 0 }?.id
-        val known = byId.keys.filter { it > 0 }.toSet(); val pl = Prefs.playlist
+        // what the playlist itself carries: the new groups' own channels are not "known" (else they would count as
+        // already shown at the next check and drop out, then come back the check after)
+        val known = byId.values.filter { it.id > 0 && !it.group.startsWith("pv") }.map { it.id }.toSet(); val pl = Prefs.playlist
+        val events = HashMap(eventNames)
         if (probe != null) Thread {
             try {
-                val a = NewGroups.check(known, probe)
-                // today's names of the event / PPV channels in those groups (the provider renames them for each game)
-                val b = NewGroups.names()
+                val a = NewGroups.check(known, probe, events.keys)
+                // today's names of the event / PPV channels (the provider renames them for each game), asked from the
+                // provider by the device itself: right even when the relay's names are old (Dream4k, 26 Nov 2026)
+                val b = NewGroups.names(events)
                 if ((a || b) && pl == Prefs.playlist) build(cf.inputStream(), sf.inputStream())
             }
             catch (e: Exception) { android.util.Log.w("SAUDI", "new groups: $e") }
@@ -154,6 +158,8 @@ object Api {
     }
 
     @Volatile var rawGroups: List<Group> = emptyList()
+    /** our event / PPV channels with the names the playlist gave them (before today's names from the provider) */
+    @Volatile private var eventNames: Map<Int, String> = emptyMap()
 
     @Synchronized private fun build(cats: InputStream, streams: InputStream) {
         val order = ArrayList<Group>(); val map = HashMap<String, Group>(); val extras = ArrayList<Group>()
@@ -179,6 +185,7 @@ object Api {
             j.endArray()
         }
         val all = ArrayList<Channel>(8000); val ids = HashMap<Int, Channel>(8000)
+        val today = NewGroups.overrides(); val evn = HashMap<Int, String>()
         JsonReader(InputStreamReader(streams, Charsets.UTF_8)).use { j ->
             j.beginArray()
             while (j.hasNext()) {
@@ -197,7 +204,8 @@ object Api {
                 j.endObject()
                 if (id == 0 || ids.containsKey(id)) continue
                 val g = map[cat] ?: map.getOrPut(cat) { Group(cat, unlisted(cat, catName)).also { order.add(it) } }
-                val ch = Channel(id, if (num > 0) num else all.size + 1, name.trim(), logo, epg, g.id)
+                if (NewGroups.OUR_EVENT.containsMatchIn(g.name)) evn[id] = name.trim()
+                val ch = Channel(id, if (num > 0) num else all.size + 1, (today[id] ?: name).trim(), logo, epg, g.id)
                 ids[id] = ch; all.add(ch); g.channels.add(ch)
             }
             j.endArray()
@@ -260,7 +268,7 @@ object Api {
         d?.channels?.firstOrNull { it.name.contains("Ain FM", true) }?.let { all.add(0, it) }
         out.add(2, Group(SEARCH, "🔍  Search channels & guide"))
         dash = d
-        groups = out; byId = ids; baseCache = null
+        groups = out; byId = ids; baseCache = null; eventNames = evn
     }
 
     private fun str(j: JsonReader): String = when (j.peek()) {
