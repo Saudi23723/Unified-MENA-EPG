@@ -85,7 +85,10 @@ class OwnshipOverlay(map: MapView, private val plane: Bitmap) : Overlay() {
         fixAt = SystemClock.elapsedRealtime()
         val g = GeoPoint(l.latitude, l.longitude)
         val last = trail.lastOrNull()
-        if (last == null || Nav.distanceNm(last.latitude, last.longitude, g.latitude, g.longitude) > 0.02) {
+        // Only flying is recorded: below 40 kt (standing, walking, taxiing, a GPS that wanders on the
+        // ground) nothing is added, so a phone that never left the ground draws no line.
+        val flying = l.hasSpeed() && l.speed * 1.943844 >= 40.0
+        if (flying && (last == null || Nav.distanceNm(last.latitude, last.longitude, g.latitude, g.longitude) > 0.02)) {
             trail.add(g)
             if (trail.size > 4000) trail.subList(0, 1000).clear()
         }

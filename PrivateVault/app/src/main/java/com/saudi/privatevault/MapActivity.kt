@@ -1575,9 +1575,13 @@ class MapActivity : BaseActivity(), NeonHost {
      */
     // ---- breadcrumbs and marked positions ----
 
-    private fun crumbsFile() = java.io.File(filesDir, "breadcrumbs.csv")
+    // A new file name: the old one held lines recorded on the ground before only flight was recorded.
+    private fun crumbsFile() = java.io.File(filesDir, "breadcrumbs_flight.csv")
 
     private fun loadCrumbs(): List<GeoPoint> = try {
+        java.io.File(filesDir, "breadcrumbs.csv").delete()
+        // A line kept from more than twelve hours ago belongs to another flight.
+        if (System.currentTimeMillis() - crumbsFile().lastModified() > 12 * 3600_000L) emptyList<GeoPoint>() else
         crumbsFile().readLines().mapNotNull { l -> l.split(',').takeIf { it.size >= 2 }?.let { GeoPoint(it[0].toDouble(), it[1].toDouble()) } }
     } catch (e: Exception) { emptyList() }
 
