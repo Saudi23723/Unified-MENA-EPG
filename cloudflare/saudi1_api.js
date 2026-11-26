@@ -100,11 +100,23 @@ export default {
       if (!/^https?:$/.test(t.protocol) || /^(localhost|127\.|10\.|192\.168\.|169\.254\.|0\.)/.test(t.hostname)) return new Response("bad link", { status: 400, headers: CORS });
       const h = { "User-Agent": "Lavf/60.3.100" };
       const rg = req.headers.get("Range"); if (rg) h.Range = rg;
-      let r; try { r = await fetch(t.toString(), { headers: h, redirect: "follow" }); } catch (e) { return new Response("provider unreachable", { status: 502, headers: CORS }); }
+      // redirects followed here, one by one: a provider address that is a bare IP (http://1.2.3.4:80/...) cannot be
+      // fetched from a worker (Cloudflare error 1003, seen 25 Nov 2026 on argon), so it goes by its sslip.io name,
+      // which is the same IP (1.2.3.4.sslip.io → 1.2.3.4)
+      const named = (u) => { const x = new URL(u); if (/^\d{1,3}(\.\d{1,3}){3}$/.test(x.hostname)) x.hostname = x.hostname + ".sslip.io"; return x.toString(); };
+      let r, at = named(t.toString());
+      try {
+        for (let hop = 0; hop < 6; hop++) {
+          r = await fetch(at, { headers: h, redirect: "manual" });
+          const loc = r.status >= 300 && r.status < 400 ? r.headers.get("location") : null;
+          if (!loc) break;
+          at = named(new URL(loc, at).toString());
+        }
+      } catch (e) { return new Response("provider unreachable", { status: 502, headers: CORS }); }
       const ct = r.headers.get("content-type") || "";
-      const path = new URL(r.url || t.toString()).pathname.toLowerCase();
+      const path = new URL(at).pathname.toLowerCase();
       if (r.ok && !/\.(ts|m4s|aac|mp4|mkv|avi|mp3)$/.test(path) && (/mpegurl/i.test(ct) || /\.m3u8$/.test(path))) {
-        const base = r.url || t.toString();
+        const base = at;
         const via = (u) => url.origin + "/api/px?code=" + code + "&u=" + encodeURIComponent(new URL(u, base).toString());
         const body = (await r.text()).split(/\r?\n/).map((ln) => {
           if (!ln.trim()) return ln;
