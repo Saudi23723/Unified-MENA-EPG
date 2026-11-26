@@ -498,7 +498,8 @@ class StudyBookActivity : BaseActivity() {
      * original. Whichever comes back with more pixels in it is the one kept, so a page that gives
      * no better address loses nothing.
      */
-    private fun bestPicture(dir: java.io.File, i: Int, data: String, url: String, link: String = ""): String? {
+    private fun bestPicture(dir: java.io.File, i: Int, data: String, url: String, link: String = "",
+                            bigData: String = "", bigUrl: String = ""): String? {
         var best: ByteArray? = null
         var bestW = 0
         fun consider(bytes: ByteArray?) {
@@ -511,6 +512,8 @@ class StudyBookActivity : BaseActivity() {
             consider(try { android.util.Base64.decode(data.substringAfter("base64,"), android.util.Base64.DEFAULT) } catch (e: Throwable) { null })
         }
         if (url.startsWith("http")) consider(fetchBytes(url))
+        if (bigData.startsWith("data:image")) consider(try { android.util.Base64.decode(bigData.substringAfter("base64,"), android.util.Base64.DEFAULT) } catch (e: Throwable) { null })
+        if (bigUrl.startsWith("http") && bigUrl != url) consider(fetchBytes(bigUrl))
         // What the picture's link opens, fetched behind the scenes as the signed-in page would: a
         // picture is taken as it is; a page is searched for its pictures and the largest is taken.
         // That is the clear figure the link shows, without having to open it.
@@ -566,7 +569,7 @@ class StudyBookActivity : BaseActivity() {
     } catch (e: Throwable) { null }
 
     /** The JavaScript that finds the figures and brings one of them, by number, into reach. */
-    private fun figureJs(i: Int) = """(function(idx){
+    private fun figureJs(i: Int, action: String = "info") = """(function(idx, action){
         function shown(el){
             if (!el.getClientRects || el.getClientRects().length === 0) return false;
             if (el.getAttribute && el.getAttribute('aria-hidden') === 'true') return false;
@@ -613,6 +616,15 @@ class StudyBookActivity : BaseActivity() {
         }
         if (idx >= list.length) return JSON.stringify({ n: list.length, done: true });
         var e = list[idx];
+        // Opening the picture as the pilot would: a tap on it, or on the link it sits in, which on
+        // this bank opens its Image Viewer with the clear picture.
+        if (action === 'click'){
+            var tw = e.naturalWidth || 0;
+            var target = (e.closest && e.closest('a')) || e;
+            try { target.scrollIntoView({ block: 'center', behavior: 'instant' }); } catch (x) {}
+            try { target.click(); } catch (x) { try { e.click(); } catch (y) {} }
+            return JSON.stringify({ n: list.length, clicked: true, tw: tw });
+        }
         // Brings it into view through whatever scrolls it — the window, or a box inside the page
         // with a scrollbar of its own, which is how this bank lays its lessons out.
         // Straight there, not gliding: a page that scrolls smoothly would still be moving when it
@@ -659,7 +671,42 @@ class StudyBookActivity : BaseActivity() {
         var r2 = e.getBoundingClientRect();
         return JSON.stringify({ n: list.length, x: r2.left / vw, y: r2.top / vh,
                                 w: r2.width / vw, h: r2.height / vh, data: data, url: url, link: link });
-    })($i)"""
+    })($i, "$action")"""
+
+    /** The largest picture now on the screen, bigger than the thumbnail it came from: the clear one the viewer opened. */
+    private fun bigJs(minW: Int) = """(function(minW){
+        var best = null, area = 0;
+        var im = document.querySelectorAll('img');
+        for (var i = 0; i < im.length; i++){
+            var e = im[i];
+            if (!e.getClientRects || e.getClientRects().length === 0) continue;
+            var w = e.naturalWidth || 0, h = e.naturalHeight || 0;
+            if (w <= minW || w < 200 || h < 120) continue;
+            if (w * h > area){ area = w * h; best = e; }
+        }
+        if (!best) return JSON.stringify({ found: false });
+        var data = '';
+        try {
+            var c = document.createElement('canvas'); c.width = best.naturalWidth; c.height = best.naturalHeight;
+            c.getContext('2d').drawImage(best, 0, 0); data = c.toDataURL('image/png');
+        } catch (x) { data = ''; }
+        var url = best.currentSrc || best.src || '';
+        try { url = new URL(url, location.href).href; } catch (x) {}
+        return JSON.stringify({ found: true, url: url, data: data });
+    })($minW)"""
+
+    /** Closes the picture viewer the tap opened, the way its own close button would. */
+    private val closeJs = """(function(){
+        try { document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', keyCode: 27, bubbles: true })); } catch (x) {}
+        var els = document.querySelectorAll('button,a,span,div,[role=button]');
+        for (var i = 0; i < els.length; i++){
+            var e = els[i];
+            if (!e.getClientRects || e.getClientRects().length === 0) continue;
+            var t = (e.innerText || '').trim(), al = (e.getAttribute('aria-label') || '').toLowerCase(), ti = (e.getAttribute('title') || '').toLowerCase();
+            if (t === 'Done' || t === 'Close' || t === '×' || t === '✕' || al.indexOf('close') >= 0 || ti.indexOf('close') >= 0){ try { e.click(); return 'closed'; } catch (x) {} }
+        }
+        return 'none';
+    })()"""
 
     /**
      * Every figure on the page, copied off it one at a time.
@@ -684,10 +731,32 @@ class StudyBookActivity : BaseActivity() {
                 val url = r.optString("url")
                 val link = r.optString("link")
                 if (data.startsWith("data:image") || url.startsWith("http")) {
-                    lifecycleScope.launch {
-                        val keptName = withContext(Dispatchers.IO) { bestPicture(dir, i, data, url, link) }
-                        if (keptName != null) { figures.add(keptName); made++ }
-                        step(i + 1)
+                    // Every copy is weighed and the largest kept: the one on the page, its file, what
+                    // its link leads to, and the one the Image Viewer shows when the picture is tapped.
+                    fun keep(bigData: String, bigUrl: String) {
+                        lifecycleScope.launch {
+                            val keptName = withContext(Dispatchers.IO) { bestPicture(dir, i, data, url, link, bigData, bigUrl) }
+                            if (keptName != null) { figures.add(keptName); made++ }
+                            step(i + 1)
+                        }
+                    }
+                    val before = web.url
+                    web.evaluateJavascript(figureJs(i, "click")) { craw ->
+                        val tw = try { JSONObject(unJs(craw)).optInt("tw") } catch (e: Exception) { 0 }
+                        web.postDelayed({
+                            web.evaluateJavascript(bigJs(tw)) { braw ->
+                                val b = try { JSONObject(unJs(braw)) } catch (e: Exception) { null }
+                                val bd = if (b?.optBoolean("found") == true) b.optString("data") else ""
+                                val bu = if (b?.optBoolean("found") == true) b.optString("url") else ""
+                                if (web.url != before && web.canGoBack()) {
+                                    // The tap went to a page of its own: back to the question first.
+                                    web.goBack()
+                                    web.postDelayed({ keep(bd, bu) }, 1800)
+                                } else {
+                                    web.evaluateJavascript(closeJs) { _ -> web.postDelayed({ keep(bd, bu) }, 300) }
+                                }
+                            }
+                        }, 1400)
                     }
                     return@evaluateJavascript
                 }
