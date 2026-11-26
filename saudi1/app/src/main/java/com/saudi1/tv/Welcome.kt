@@ -29,7 +29,13 @@ import java.util.Locale
 object Welcome {
     private val ease = PathInterpolator(0.2f, 0f, 0f, 1f)
 
+    /** the welcome on screen now (one at a time): closed at once when Home is left (owner, 25 Nov 2026: a welcome
+     *  from 9:41 nobody answered was still there at 9:48, coming back from Live TV, and a new one opened over it) */
+    private var closeNow: (() -> Unit)? = null
+    fun dismiss() { closeNow?.invoke() }
+
     fun show(a: Activity, onDone: () -> Unit) {
+        dismiss()
         val root = a.window.decorView as? ViewGroup ?: run { onDone(); return }
         val d = a.resources.displayMetrics.density
         fun dp(v: Float) = (v * d).toInt()
@@ -115,12 +121,14 @@ object Welcome {
         val anims = ArrayList<android.animation.Animator>()
         fun finish() {
             if (gone) return; gone = true
+            closeNow = null
             anims.forEach { it.cancel() }
             App.prefs.edit().putBoolean("welcomed", true).apply()
             stage.animate().alpha(0f).scaleX(1.04f).scaleY(1.04f).setDuration(450).setInterpolator(ease)
                 .withEndAction { root.removeView(stage) }.start()
             onDone()
         }
+        closeNow = { if (!gone) { gone = true; closeNow = null; anims.forEach { it.cancel() }; stage.animate().cancel(); root.removeView(stage); onDone() } }
         stage.setOnKeyListener { _, k, e -> if (e.action == KeyEvent.ACTION_UP && k != KeyEvent.KEYCODE_UNKNOWN) finish(); true }
         stage.setOnClickListener { finish() }
 

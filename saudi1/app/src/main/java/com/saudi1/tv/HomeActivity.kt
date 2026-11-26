@@ -222,6 +222,9 @@ class HomeActivity : BaseActivity() {
     override fun dispatchKeyEvent(event: android.view.KeyEvent): Boolean { armIdle(); return super.dispatchKeyEvent(event) }
     override fun onPause() { super.onPause(); idleJob?.cancel() }
 
+    // Home left with the welcome still up (another screen opened, HOME pressed): it goes at once
+    override fun onStop() { Welcome.dismiss(); super.onStop() }
+
     override fun onResume() {
         super.onResume(); Backup.syncSoon()
         Updater.offer(this)
