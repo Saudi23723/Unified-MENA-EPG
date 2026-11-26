@@ -625,6 +625,9 @@ class MapActivity : BaseActivity(), NeonHost {
      * The FAA's own GeoTIFF chart, when on the phone, laid over the chart service where it
      * covers (under the weather and everything drawn).
      */
+    /** Called when the FAA's own chart has finished downloading, so it shows without a restart. */
+    fun officialReady() = runOnUiThread { officialFile = null; setOfficial() }
+
     private fun setOfficial() {
         // A downloaded chart of an old edition, or an old build with the white sheet margins, is not
         // shown: the chart service (always the edition in force) is shown instead until the new one is on the phone.
@@ -1277,27 +1280,20 @@ class MapActivity : BaseActivity(), NeonHost {
         }
         if (want == shownChart) return
         shownChart = want
-        // Under a printed chart the plain world map is hidden, yet it was fetched for the whole screen
-        // as well: twice the tiles to download and decode for nothing. It is only fetched when no
-        // printed chart is over it; what it already has on the phone still fills the edges.
-        map.setUseDataConnection(want.isEmpty())
-        // Not shown at all under a printed chart: past the chart's edge (Mexico, the sea) the page is
-        // left plain rather than showing an ordinary road map that has nothing to do with the chart.
-        map.overlayManager.tilesOverlay.isEnabled = want.isEmpty()
+        // The printed chart is the map's own tile layer, not a layer laid over it: osmdroid then keeps
+        // the tiles it already has on the screen while zooming, stretched or shrunk to the new zoom,
+        // and draws the finer ones in as they arrive, instead of black squares while they download.
+        // Past the chart's edge the page is plain; the world map is the base only for the drawn sheet.
         chartOverlay?.let { map.overlays.remove(it); try { it.onDetach(map) } catch (e: Throwable) { } }
         chartOverlay = null
         map.overlays.remove(groundUnder)
-        if (want.isNotEmpty()) {
-            val src = AviationData.LAYERS.firstOrNull { it.key == want }?.source()
-            if (src != null) {
-                chartOverlay = org.osmdroid.views.overlay.TilesOverlay(
-                    org.osmdroid.tileprovider.MapTileProviderBasic(applicationContext, src), applicationContext).apply {
-                    loadingBackgroundColor = android.graphics.Color.TRANSPARENT
-                    loadingLineColor = android.graphics.Color.TRANSPARENT
-                }
-                map.overlays.add(0, chartOverlay)
-            }
-        }
+        val src = AviationData.LAYERS.firstOrNull { it.key == (if (want.isEmpty()) "topo" else want) }?.source()
+        if (src != null) map.setTileSource(src)
+        map.setUseDataConnection(true)
+        map.overlayManager.tilesOverlay.isEnabled = true
+        map.overlayManager.tilesOverlay.loadingBackgroundColor = if (want.isEmpty()) android.graphics.Color.TRANSPARENT else 0xFFF1EAD0.toInt()
+        map.overlayManager.tilesOverlay.loadingLineColor = android.graphics.Color.TRANSPARENT
+        zoomLimit()
         bar?.setLayerName(getString(layer.label))
     }
     private var aero: AeroMap? = null

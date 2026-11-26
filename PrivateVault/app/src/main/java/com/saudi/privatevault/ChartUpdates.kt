@@ -124,6 +124,19 @@ object ChartUpdates {
         val prefs = VaultLock.prefs(act)
         if (!prefs.getBoolean("charts_auto", true) || (outOfDate(act) == 0 && OfficialCharts.current(act))) return
         if (!unmetered(act)) {
+            // The FAA's own chart is not on the phone, or is an old build: offered once a day rather
+            // than waited for in silence, since without Wi-Fi it would otherwise never come.
+            if (!OfficialCharts.current(act)) {
+                val day = LocalDate.now().toString()
+                if (prefs.getString("official_asked", "") != day) {
+                    prefs.edit().putString("official_asked", day).apply()
+                    MaterialAlertDialogBuilder(act)
+                        .setTitle("FAA chart update")
+                        .setMessage("A corrected FAA chart (Las Vegas and Phoenix sectionals, Las Vegas TAC) is ready: about 115 MB. Download it now over mobile data, or wait for Wi-Fi?")
+                        .setPositiveButton("Download now") { _, _ -> update(act, quiet = false) }
+                        .setNegativeButton("Wait for Wi-Fi", null).show()
+                }
+            }
             if (outOfDate(act) == 0) return
             // Not on Wi-Fi: say so once a day, and wait for Wi-Fi.
             val day = LocalDate.now().toString()
@@ -150,6 +163,7 @@ object ChartUpdates {
                 android.os.Handler(android.os.Looper.getMainLooper()).post {
                     val now = OfficialCharts.current(ctx)
                     if (now && ed != null) Toast.makeText(ctx, ctx.getString(R.string.charts_official_done, ed), Toast.LENGTH_LONG).show()
+                    if (now) (act as? MapActivity)?.officialReady()
                     else if (!quiet) Toast.makeText(ctx, R.string.charts_official_none, Toast.LENGTH_LONG).show()
                 }
             }.start()
