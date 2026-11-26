@@ -103,7 +103,7 @@ object NewGroups {
             .replace(Regex("\\[\\s*(\\d{3,4}p|4K|UHD|FHD|HD|SD|HEVC|RAW|\\d{2}\\s*FPS)\\s*]", RegexOption.IGNORE_CASE), " ")
             .replace(Regex("[\\[\\]]"), " ").replace(Regex("\\s+"), " ").trim()
         if (flag.isEmpty()) flag = hint(t)
-        val small = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".zip("ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴘǫʀꜱᴛᴜᴠᴡxʏᴢ".toList()).toMap()
+        val small = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toList().zip("ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴘǫʀꜱᴛᴜᴠᴡxʏᴢ".toList()).toMap()
         val words = t.split(' ').mapIndexed { i, w ->
             if (i > 0 && (w.length >= 5 || w.uppercase() == "PPV") && w.all { it in 'A'..'Z' }) w.map { small[it] ?: it }.joinToString("") else w
         }
