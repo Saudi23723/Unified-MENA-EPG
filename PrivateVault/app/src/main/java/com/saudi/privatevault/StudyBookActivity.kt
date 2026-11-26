@@ -320,23 +320,57 @@ class StudyBookActivity : BaseActivity() {
                 for (var i = 0; i < el.children.length; i++){
                     var li = el.children[i];
                     if (li.tagName.toLowerCase() !== 'li' || !shown(li)) continue;
-                    var own = '';
-                    for (var k = 0; k < li.childNodes.length; k++){
-                        var c = li.childNodes[k];
-                        if (c.nodeType === 3) own += c.textContent + ' ';
-                        else if (c.nodeType === 1){
+                    // A point is read in the order the page has it: its words, a figure or a table
+                    // where the page puts one, and whatever words follow it, carried on one step in.
+                    // Gathering the words of the point first and leaving the rest for later is what
+                    // sent every figure inside a point to the end of the page.
+                    var m = ordered ? mark(depth, n++) : '\u2022', used = false, own = '';
+                    var flush = function(){
+                        if (own.replace(/\s+/g, '').length > 0){ push(own, used ? depth + 1 : depth, used ? '' : m); used = true; }
+                        own = '';
+                    };
+                    var inl = function(node){
+                        for (var k = 0; k < node.childNodes.length; k++){
+                            var c = node.childNodes[k];
+                            if (c.nodeType === 3){ own += c.textContent; continue; }
+                            if (c.nodeType !== 1) continue;
                             var ct = c.tagName.toLowerCase();
-                            if (ct === 'ol' || ct === 'ul' || ct === 'table' || SKIP[ct]) continue;
+                            if (SKIP[ct] && ct !== 'svg') continue;
+                            if (c.getAttribute('data-sb-k') !== null){
+                                flush(); used = true;
+                                pts.push({ f: +c.getAttribute('data-sb-k') });
+                                if (ct === 'img' || ct === 'svg' || ct === 'canvas' || ct === 'table') continue;
+                            }
                             if (!shown(c)) continue;
-                            own += (c.innerText || '') + ' ';
+                            if (ct === 'ol' || ct === 'ul'){ flush(); used = true; list(c, depth + 1); continue; }
+                            if (ct === 'svg') continue;
+                            if (ct === 'table'){
+                                // A table that is not kept as a picture is read a row to a line.
+                                flush(); used = true;
+                                for (var r = 0; r < (c.rows ? c.rows.length : 0); r++){
+                                    var row = c.rows[r];
+                                    var inr = row.querySelectorAll('[data-sb-k]');
+                                    var rt = (row.innerText || '').replace(/\s+/g, ' ').trim();
+                                    if (rt) push(rt, depth + 1, '');
+                                    for (var q = 0; q < inr.length; q++) pts.push({ f: +inr[q].getAttribute('data-sb-k') });
+                                }
+                                continue;
+                            }
+                            if (c.querySelector && c.querySelector('[data-sb-k],ol,ul,table')){
+                                var blk = /^(div|p|center|section|figure|blockquote|h\d)$/.test(ct);
+                                if (blk) flush();
+                                inl(c);
+                                if (blk) flush();
+                            } else {
+                                var blk2 = /^(div|p|center|section|figure|blockquote|h\d|br)$/.test(ct);
+                                if (blk2) flush();
+                                own += ' ' + (c.innerText || '') + ' ';
+                                if (blk2 && used) flush();
+                            }
                         }
-                    }
-                    push(own, depth, ordered ? mark(depth, n++) : '•');
-                    for (var k = 0; k < li.children.length; k++){
-                        var c = li.children[k];
-                        var ct = c.tagName.toLowerCase();
-                        if ((ct === 'ol' || ct === 'ul') && shown(c)) list(c, depth + 1);
-                    }
+                    };
+                    inl(li);
+                    flush();
                 }
             }
             function dataTable(t){
@@ -820,7 +854,12 @@ class StudyBookActivity : BaseActivity() {
         // this bank opens its Image Viewer with the clear picture.
         if (action === 'click'){
             var tw = e.naturalWidth || 0;
-            var target = (e.closest && e.closest('a')) || e;
+            var target = (e.closest && e.closest('a,[onclick]')) || (e.getAttribute && e.getAttribute('onclick') ? e : null);
+            // A picture that opens nothing is not tapped: a tap on it did nothing useful and the
+            // "close" that followed it hit the lesson's own Done button and shut the lesson.
+            if (!target || e.tagName.toLowerCase() !== 'img') return JSON.stringify({ n: list.length, clicked: false, tw: tw });
+            var pre = document.querySelectorAll('img');
+            for (var q = 0; q < pre.length; q++) pre[q].setAttribute('data-sb-pre', '1');
             try { target.scrollIntoView({ block: 'center', behavior: 'instant' }); } catch (x) {}
             try { target.click(); } catch (x) { try { e.click(); } catch (y) {} }
             return JSON.stringify({ n: list.length, clicked: true, tw: tw });
@@ -882,6 +921,8 @@ class StudyBookActivity : BaseActivity() {
             if (!e.getClientRects || e.getClientRects().length === 0) continue;
             var w = e.naturalWidth || 0, h = e.naturalHeight || 0;
             if (w <= minW || w < 200 || h < 120) continue;
+            // Only a picture the tap brought up, not another figure already on the page.
+            if (e.getAttribute('data-sb-pre') === '1') continue;
             if (w * h > area){ area = w * h; best = e; }
         }
         if (!best) return JSON.stringify({ found: false });
@@ -903,7 +944,16 @@ class StudyBookActivity : BaseActivity() {
             var e = els[i];
             if (!e.getClientRects || e.getClientRects().length === 0) continue;
             var t = (e.innerText || '').trim(), al = (e.getAttribute('aria-label') || '').toLowerCase(), ti = (e.getAttribute('title') || '').toLowerCase();
-            if (t === 'Done' || t === 'Close' || t === '×' || t === '✕' || al.indexOf('close') >= 0 || ti.indexOf('close') >= 0){ try { e.click(); return 'closed'; } catch (x) {} }
+            if (!(t === 'Done' || t === 'Close' || t === '×' || t === '✕' || al.indexOf('close') >= 0 || ti.indexOf('close') >= 0)) continue;
+            // Only a viewer's own close button: one inside a dialog or a box floating over the page.
+            // The lesson's Done button at the foot of the page shuts the lesson, not a viewer.
+            var inDlg = false;
+            for (var a = e; a && a !== document.body; a = a.parentElement){
+                var cs = window.getComputedStyle(a);
+                if (a.getAttribute('role') === 'dialog' || /modal|dialog|viewer|lightbox|popup/i.test((typeof a.className === 'string' ? a.className : '') + ' ' + (a.id || '')) || cs.position === 'fixed'){ inDlg = true; break; }
+            }
+            if (!inDlg) continue;
+            try { e.click(); return 'closed'; } catch (x) {}
         }
         return 'none';
     })()"""
@@ -942,7 +992,9 @@ class StudyBookActivity : BaseActivity() {
                     }
                     val before = web.url
                     web.evaluateJavascript(figureJs(i, "click")) { craw ->
-                        val tw = try { JSONObject(unJs(craw)).optInt("tw") } catch (e: Exception) { 0 }
+                        val cj = try { JSONObject(unJs(craw)) } catch (e: Exception) { null }
+                        val tw = cj?.optInt("tw") ?: 0
+                        if (cj?.optBoolean("clicked") != true) { keep("", ""); return@evaluateJavascript }
                         web.postDelayed({
                             web.evaluateJavascript(bigJs(tw)) { braw ->
                                 val b = try { JSONObject(unJs(braw)) } catch (e: Exception) { null }
@@ -969,6 +1021,13 @@ class StudyBookActivity : BaseActivity() {
                         val h = (r.optDouble("h") * full.height).toInt().coerceAtMost(full.height - y)
                         if (w >= 60 && h >= 40) {
                             val cut = android.graphics.Bitmap.createBitmap(full, x, y, w, h)
+                            // A crop of a part of the page not drawn yet is one flat colour: not a figure.
+                            var mn = 255; var mx = 0
+                            for (yy in 0 until h step 6) for (xx in 0 until w step 6) {
+                                val c = cut.getPixel(xx, yy); val l = ((c shr 16 and 255) * 3 + (c shr 8 and 255) * 6 + (c and 255)) / 10
+                                if (l < mn) mn = l; if (l > mx) mx = l
+                            }
+                            if (mx - mn < 18) { cut.recycle(); full.recycle(); step(i + 1); return@postDelayed }
                             val out = java.io.File(dir, "fig_" + System.currentTimeMillis() + "_" + i + ".png")
                             out.outputStream().use { cut.compress(android.graphics.Bitmap.CompressFormat.PNG, 100, it) }
                             cut.recycle()
