@@ -323,6 +323,9 @@ for f in sorted(glob.glob("xtream/*/channel_map.json")):
                 FILLER_TITLES[_fid] = _t
                 sp = ("f", _fid)
             icon = LOGOS.find(c["name"], g, name, sp[0] if sp else None, sp[1] if sp else None) or c.get("icon") or ""
+            # the TOD groups keep the provider's TOD logo even where the guide is beIN's (owner, 26 Nov 2026)
+            if "TOD" in g.translate(_SMALLCAPS).upper() and c.get("icon"):
+                icon = c["icon"]
             hstreams.append({"num": len(streams) + len(hstreams) + 1, "name": tod_name(c["name"], g), "stream_type": "live", "stream_id": c["stream_id"],
                              "stream_icon": icon, "epg_channel_id": sp[1] if sp else None, "category_id": cid})
             if sp:
