@@ -10,6 +10,7 @@ object StudyText {
     class Row(val label: String, val nums: List<String>)
     class Table(val head: List<String>, val rows: List<Row>, val cols: Int) : Block()
 
+    private val marker = Regex("^(\\d{1,2}|[a-z]|[ivx]{1,4})[.)]$")
     private val num = Regex("^[-−–]?\\$?[\\d,]*\\.?\\d+%?$|^-{2,}$|^—$|^\\?$")
 
     /** A line that is a row of figures: words, then one to four numbers to its end. */
@@ -55,7 +56,16 @@ object StudyText {
                 i = j
                 continue
             }
-            val l = lines[i]
+            // A number standing alone on its line ("1.", "2.", "a.") belongs to the step after it:
+            // the page puts the marker and the words in two cells.
+            val l0 = lines[i]
+            if (marker.matches(l0) && i + 1 < lines.size && row(lines[i + 1]) == null && !marker.matches(lines[i + 1])) {
+                if (para.isNotEmpty()) para.append('\n')
+                para.append(l0).append(' ').append(lines[i + 1])
+                i += 2
+                continue
+            }
+            val l = l0
             if (para.isEmpty()) para.append(l)
             else {
                 val p = para.toString()

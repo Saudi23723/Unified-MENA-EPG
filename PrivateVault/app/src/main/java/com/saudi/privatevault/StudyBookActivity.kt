@@ -823,7 +823,12 @@ class StudyBookActivity : BaseActivity() {
         // A figure the page names ("Figure 38. …") may be as wide as a table of distances is.
         var src = ""
         var bestSrc = ""
+        // Every address a copy of this figure came from, with its size: the same picture is often
+        // reached two ways at once (the viewer's copy and the file behind it), and either address
+        // must mark it as kept.
+        val seen = ArrayList<Triple<String, Int, Int>>()
         fun consider(bytes: ByteArray?, wide: Float = if (named) 9f else 3.5f) {
+            if (bytes != null && src.isNotEmpty()) dims(bytes).let { (w0, h0) -> if (w0 > 0) seen.add(Triple(src, w0, h0)) }
             if (!fit(bytes, if (shape != null) 9f else wide)) return
             val (w, h) = dims(bytes!!)
             if (shape != null && kotlin.math.abs((w.toFloat() / h) / shape - 1f) > (if (named) 0.6f else 0.3f)) return
@@ -831,7 +836,7 @@ class StudyBookActivity : BaseActivity() {
         }
         val furniture = Regex("logo|icon|banner|header|sprite|button|spacer|avatar", RegexOption.IGNORE_CASE)
         val viewerOk = !furniture.containsMatchIn(bigUrl)
-        if (bigData.startsWith("data:image") && viewerOk) consider(b64(bigData), 9f)
+        if (bigData.startsWith("data:image") && viewerOk) { src = bigUrl; consider(b64(bigData), 9f) }
         if (bigUrl.startsWith("http") && bigUrl != url && viewerOk) { src = bigUrl; consider(fetchBytes(bigUrl), 9f) }
         // What the picture's link opens, fetched behind the scenes as the signed-in page would: a
         // picture is taken as it is; a page is searched for its pictures, its furniture left out.
@@ -856,8 +861,14 @@ class StudyBookActivity : BaseActivity() {
         val bytes = best ?: return null
         // The same figure reached twice — by its thumbnail's tap and by its "Figure 23" link — is
         // kept once: the address its clear copy came from is remembered for the capture.
-        if (bestSrc.isNotEmpty()) synchronized(keptSrc) {
-            if (!keptSrc.add(bestSrc.substringBefore("&q="))) { note("picture $i: same as one already kept ($bestSrc)"); return null }
+        run {
+            val (bw, bh) = dims(bytes)
+            val keys = (seen.filter { it.second == bw && it.third == bh }.map { it.first } + bestSrc)
+                .filter { it.isNotEmpty() }.map { it.substringBefore("&q=") }.toSet()
+            synchronized(keptSrc) {
+                keys.firstOrNull { it in keptSrc }?.let { note("picture $i: same as one already kept ($it)"); return null }
+                keptSrc.addAll(keys)
+            }
         }
         // An icon (the toolbar's Image Viewer button, 32×32) is not a figure.
         dims(bytes).let { (w, h) -> if (w * h < 6000) { note("picture $i: too small, dropped"); return null } }
