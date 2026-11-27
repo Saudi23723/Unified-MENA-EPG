@@ -129,6 +129,8 @@ want = {"u": set(), "o": set(), "a": set(), "r": set(), "l": set(), "e": set(), 
 FILLER_247 = re.compile(r"24\s*/\s*7|SHOOF|NETFLIX|OSN|SHAHID|MOVIE|CINEMA|FILM|SERIES|DRAMA|KIDS|CARTOON|"
                         r"ISLAM|QURAN|REPLAY|ONBOARD|NOOR PLAY|DIZI|MUSIC|MUZIK|RADIO|"
                         r"مسلسل|افلام|أفلام|دراما|اطفال|أطفال|كرتون|رمضان|إسلام|اسلام|قرآن|القرآن", re.I)
+# the TOD logo Strong's provider uses (the owner liked it there): one logo for every TOD group, every playlist
+TOD_LOGO = "http://photo-tmdb.com/stalker_portal/misc/logos/320/13544.jpg?78268"
 _SMALLCAPS = str.maketrans("ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴘǫʀꜱᴛᴜᴠᴡʏᴢѕ", "ABCDEFGHIJKLMNOPQRSTUVWYZS")
 
 
@@ -185,6 +187,9 @@ for f in sorted(glob.glob("xtream/*/channel_map.json")):
         if sp and sp[0] == "f":
             loop_ids.add(c["stream_id"])
         icon = LOGOS.find(c["name"], c["group"], name, sp[0] if sp else None, sp[1] if sp else None)
+        # every TOD group shows the TOD logo, like Strong's (owner, 27 Nov 2026), whatever guide it takes
+        if "TOD" in _g.upper():
+            icon = TOD_LOGO
         s = {"num": n, "name": c["name"], "stream_type": "live", "stream_id": c["stream_id"], "stream_icon": icon,
              "epg_channel_id": sp[1] if sp else None, "added": "0", "category_id": cid, "custom_sid": "",
              "tv_archive": 0, "direct_source": "", "tv_archive_duration": 0}
@@ -323,9 +328,9 @@ for f in sorted(glob.glob("xtream/*/channel_map.json")):
                 FILLER_TITLES[_fid] = _t
                 sp = ("f", _fid)
             icon = LOGOS.find(c["name"], g, name, sp[0] if sp else None, sp[1] if sp else None) or c.get("icon") or ""
-            # the TOD groups keep the provider's TOD logo even where the guide is beIN's (owner, 26 Nov 2026)
-            if "TOD" in g.translate(_SMALLCAPS).upper() and c.get("icon"):
-                icon = c["icon"]
+            # the TOD groups keep the TOD logo even where the guide is beIN's (owner, 26 Nov 2026)
+            if "TOD" in g.translate(_SMALLCAPS).upper():
+                icon = TOD_LOGO if not str(c.get("name", "")).startswith("#") else (c.get("icon") or TOD_LOGO)
             hstreams.append({"num": len(streams) + len(hstreams) + 1, "name": tod_name(c["name"], g), "stream_type": "live", "stream_id": c["stream_id"],
                              "stream_icon": icon, "epg_channel_id": sp[1] if sp else None, "category_id": cid})
             if sp:
