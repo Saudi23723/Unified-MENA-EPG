@@ -11,7 +11,7 @@ export default {
     for (const r of rows) {
       let d = {}; try { d = JSON.parse(r.data); } catch (e) { continue; }
       const keep = {};
-      for (const [k, v] of Object.entries(d)) if (/^(go|gh|gs|ch|co|gr)_[a-z0-9]+$/.test(k)) keep[k] = v.v;
+      for (const [k, v] of Object.entries(d)) if (/^(go|gh|gs|ch|gr)_[a-z0-9]+$/.test(k) || /^co_[a-z0-9]+_.+$/.test(k)) keep[k] = v.v;
       if (Object.keys(keep).length) out.push({ device: r.name || "", playlist: r.pl || "", saved: new Date(r.t).toISOString(), keys: keep });
     }
     if (!out.length) {

@@ -44,7 +44,7 @@ jobs:
           import json, os
           a = json.load(open("owner_arrange.json"))
           if isinstance(a, dict): raise SystemExit("nothing found")
-          for pl in ("strong", "argon"):
+          for pl in ("strong",):
               src = next((x for x in a if ("go_" + pl) in x["keys"] or ("gs_" + pl) in x["keys"]), None)
               if not src: continue
               k = src["keys"]
@@ -54,12 +54,14 @@ jobs:
                       return json.loads(v)
                   return v
               out = {"from": src["device"], "saved": src["saved"], "order": val("go") or [], "hidden": sorted(val("gh") or []),
-                     "shown": sorted(val("gs") or []), "hidden_channels": val("ch") or [], "channel_order": val("co") or {},
+                     "shown": sorted(val("gs") or []), "hidden_channels": val("ch") or [],
+                     "channel_order": {kk[len("co_" + pl + "_"):]: json.loads(v) for kk, v in k.items() if kk.startswith("co_" + pl + "_")},
                      "names": val("gr") or {}}
               os.makedirs(f"xtream/{pl}", exist_ok=True)
               json.dump(out, open(f"xtream/{pl}/owner_arrange.json", "w", encoding="utf-8"), ensure_ascii=False, indent=1)
               print(pl, {x: len(y) for x, y in out.items() if isinstance(y, (list, dict))})
           PY
+          python3 tools/arrange_like_strong.py
           git config user.name "github-actions[bot]"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add xtream/*/owner_arrange.json
           git diff --cached --quiet && echo "no change" || git commit -qm "The owner's live group arrangement (from his backup)"

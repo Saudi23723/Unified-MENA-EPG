@@ -117,6 +117,16 @@ object Api {
             if (cf.exists() && sf.exists()) build(cf.inputStream(), sf.inputStream())
             return false
         }
+        // the owner's own arrangement of this playlist's live groups: everyone's, until he changes his own (Arrange)
+        try {
+            val pl = Prefs.playlist
+            if (pl.isNotEmpty()) get("https://raw.githubusercontent.com/Saudi23723/Unified-MENA-EPG/main/xtream/$pl/owner_arrange.json").use { r ->
+                val b = r.body?.bytes()
+                if (r.isSuccessful && b != null && b.size > 20) { val f = Arrange.defFile(pl); if (!(f.isFile && f.readBytes().contentEquals(b))) f.writeBytes(b) }
+                else if (r.code == 404) Arrange.defFile(pl).delete()
+                Unit
+            }
+        } catch (e: Exception) { }
         // the provider's groups this playlist keeps hidden (built like the others; Settings -> Arrange shows them)
         try {
             val pl = Prefs.playlist
