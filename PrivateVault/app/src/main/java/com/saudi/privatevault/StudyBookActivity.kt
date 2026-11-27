@@ -520,7 +520,15 @@ class StudyBookActivity : BaseActivity() {
                                (typeof e.className === 'string' ? e.className : '') + ' ' + (e.id || '')).toLowerCase();
                     if (/logo|brand|masthead|sprite|icon|avatar|gleim\.(png|gif|svg|jpg)|header/.test(idn)) continue;
                     if (e.closest && e.closest('header,nav,footer')) continue;
-                    if (r.height < 120 && r.width / Math.max(1, r.height) > 2.4) continue;
+                    // A wide, short strip is the site's banner — unless it is a figure's thumbnail,
+                    // which sits by its caption ("Figure 38. Airplane Landing Distance Table").
+                    var capd = false;
+                    for (var up = e.parentElement, lv = 0; up && lv < 4; up = up.parentElement, lv++){
+                        var ut = up.innerText || '';
+                        if (ut.length < 300 && /(figure|fig\.|exhibit)\s*\d+/i.test(ut)) { capd = true; break; }
+                    }
+                    if (!capd && /(figure|fig\.|exhibit)\s*\d+/i.test((e.alt || '') + ' ' + (e.title || ''))) capd = true;
+                    if (!capd && r.height < 120 && r.width / Math.max(1, r.height) > 2.4) continue;
                 }
                 if (tg === 'img' || tg === 'svg' || tg === 'canvas'){ if (r.width < 60 || r.height < 45) continue; }
                 else if (r.width < 120 || r.height < 70) continue;
@@ -676,7 +684,7 @@ class StudyBookActivity : BaseActivity() {
             var t = (e.innerText || e.getAttribute('title') || e.getAttribute('aria-label') || '').trim();
             var h = e.getAttribute('href') || '';
             var oc = e.getAttribute('onclick') || '';
-            var fig = (t.length < 40 && re.test(t)) || /\.(png|jpe?g|gif|webp)(\?|#|$)/i.test(h) || /fig|image|exhibit/i.test(h + ' ' + oc);
+            var fig = (t.length < 40 && re.test(t)) || (t.length < 90 && /^(figure|fig\.|exhibit)\s*\d+/i.test(t)) || /\.(png|jpe?g|gif|webp)(\?|#|$)/i.test(h) || /fig|image|exhibit/i.test(h + ' ' + oc);
             if (!fig || /session tools/i.test(t)) continue;
             e.setAttribute('data-sb-fig', String(out.length));
             var abs = '';
@@ -689,11 +697,11 @@ class StudyBookActivity : BaseActivity() {
     private fun clickFigJs(i: Int) = """(function(){
         var e = document.querySelector('[data-sb-fig="$i"]');
         if (!e) return '';
-        var got = '';
-        var ow = window.open;
-        window.open = function(u){ try { got = new URL(u, location.href).href; } catch (x) { got = String(u || ''); } return null; };
+        // The window the tap opens is caught by the stand-in put in place for the whole capture.
+        window.__sbOpened = '';
         try { e.click(); } catch (x) {}
-        window.open = ow;
+        var got = window.__sbOpened || '';
+        window.__sbOpened = '';
         return got;
     })()"""
 
@@ -940,7 +948,15 @@ class StudyBookActivity : BaseActivity() {
                                (typeof e.className === 'string' ? e.className : '') + ' ' + (e.id || '')).toLowerCase();
                     if (/logo|brand|masthead|sprite|icon|avatar|gleim\.(png|gif|svg|jpg)|header/.test(idn)) continue;
                     if (e.closest && e.closest('header,nav,footer')) continue;
-                    if (r.height < 120 && r.width / Math.max(1, r.height) > 2.4) continue;
+                    // A wide, short strip is the site's banner — unless it is a figure's thumbnail,
+                    // which sits by its caption ("Figure 38. Airplane Landing Distance Table").
+                    var capd = false;
+                    for (var up = e.parentElement, lv = 0; up && lv < 4; up = up.parentElement, lv++){
+                        var ut = up.innerText || '';
+                        if (ut.length < 300 && /(figure|fig\.|exhibit)\s*\d+/i.test(ut)) { capd = true; break; }
+                    }
+                    if (!capd && /(figure|fig\.|exhibit)\s*\d+/i.test((e.alt || '') + ' ' + (e.title || ''))) capd = true;
+                    if (!capd && r.height < 120 && r.width / Math.max(1, r.height) > 2.4) continue;
                 }
                 if (tg === 'img' || tg === 'svg' || tg === 'canvas'){ if (r.width < 60 || r.height < 45) continue; }
                 else if (r.width < 120 || r.height < 70) continue;
@@ -1048,7 +1064,19 @@ class StudyBookActivity : BaseActivity() {
     private val hookJs = """(function(){
         window.__sbOpened = '';
         if (!window.__sbOw){ window.__sbOw = window.open || 1;
-            window.open = function(u){ try { window.__sbOpened = new URL(u, location.href).href; } catch (x) { window.__sbOpened = String(u || ''); } return null; }; }
+            // A stand-in for the window, so the bank's own script carries on as if it had opened:
+            // where it sends that window afterwards is caught too.
+            window.open = function(u){
+                var keep = function(v){ try { window.__sbOpened = new URL(v, location.href).href; } catch (x) { window.__sbOpened = String(v || ''); } };
+                if (u) keep(u);
+                var loc = {}; Object.defineProperty(loc, 'href', { get: function(){ return window.__sbOpened || ''; }, set: keep });
+                loc.assign = keep; loc.replace = keep;
+                var w = { closed: false, opener: window, focus: function(){}, blur: function(){}, close: function(){ w.closed = true; },
+                          document: { write: function(){}, writeln: function(){}, open: function(){}, close: function(){}, body: null },
+                          addEventListener: function(){}, removeEventListener: function(){}, postMessage: function(){} };
+                Object.defineProperty(w, 'location', { get: function(){ return loc; }, set: keep });
+                return w;
+            }; }
         return 'ok';
     })()"""
     private val unhookJs = """(function(){ if (window.__sbOw){ if (window.__sbOw !== 1) window.open = window.__sbOw; window.__sbOw = null; } return 'ok'; })()"""
