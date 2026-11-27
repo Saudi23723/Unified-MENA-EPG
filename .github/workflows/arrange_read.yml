@@ -1,0 +1,40 @@
+name: "The owner arrangement (one-off read)"
+
+# Manual, one-off (owner, 25 Nov 2026). Same throw-away device lookup as web_e2e.yml, then tools/e2e/diag.sh.
+on:
+  workflow_dispatch:
+    inputs:
+      note:
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  diag:
+    runs-on: ubuntu-latest
+    env:
+      CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      ACC: 6ebea2f90132db027f0713f5ca1ffa01
+    steps:
+      - uses: actions/checkout@v4
+      - name: The owner's group arrangement
+        run: |
+          API=https://api.cloudflare.com/client/v4/accounts/$ACC/workers/scripts
+          DB=$(curl -sS "$API/saudi1/settings" -H "Authorization: Bearer $CF_TOKEN" | python3 -c 'import json,sys; print([b for b in json.load(sys.stdin)["result"]["bindings"] if b["type"]=="d1"][0]["id"])')
+          KEY=$(python3 -c 'import secrets; print(secrets.token_hex(16))'); echo "::add-mask::$KEY"
+          META=$(python3 -c 'import json,sys; print(json.dumps({"main_module":"worker.js","compatibility_date":"2024-09-01","bindings":[{"type":"d1","name":"DB","id":sys.argv[1]},{"type":"secret_text","name":"KEY","text":sys.argv[2]}]}))' "$DB" "$KEY")
+          curl -sS -o up.json -w "upload %{http_code}\n" -X PUT "$API/saudi1-arrange" -H "Authorization: Bearer $CF_TOKEN" \
+            -F "metadata=$META;type=application/json" -F 'worker.js=@tools/e2e/arrange_pick.js;type=application/javascript+module;filename=worker.js'
+          python3 -c 'import json; r=json.load(open("up.json")); print("ok" if r.get("success") else r.get("errors"))'
+          curl -sS -o /dev/null -w "subdomain %{http_code}\n" -X POST "$API/saudi1-arrange/subdomain" -H "Authorization: Bearer $CF_TOKEN" -H "Content-Type: application/json" --data '{"enabled":true,"previews_enabled":false}'
+          for i in $(seq 1 24); do curl -s -H "x-key: $KEY" https://saudi1-arrange.1saifsaudi.workers.dev/ > owner_arrange.json; python3 -c 'import json; json.load(open("owner_arrange.json"))' 2>/dev/null && break; sleep 5; done
+          curl -sS -o /dev/null -w "throw-away worker deleted %{http_code}\n" -X DELETE "$API/saudi1-arrange?force=true" -H "Authorization: Bearer $CF_TOKEN"
+          python3 -c 'import json; a=json.load(open("owner_arrange.json")); [print(x["device"], x["playlist"], x["saved"], sorted(x["keys"])) for x in a]'
+      - name: Remove the throw-away worker (if still there)
+        if: always()
+        run: |
+          curl -sS -o /dev/null -w "%{http_code}\n" -X DELETE "https://api.cloudflare.com/client/v4/accounts/$ACC/workers/scripts/saudi1-arrange?force=true" -H "Authorization: Bearer $CF_TOKEN"
+      - uses: actions/upload-artifact@v4
+        with: { name: owner-arrange, path: owner_arrange.json }
