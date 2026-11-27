@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-27T20:49:13.539Z",
+  "updated_at": "2026-11-27T20:54:37.991Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -436,7 +436,7 @@
       "temperature_c": 7.9,
       "humidity": 82,
       "wind_speed": 24.2,
-      "rain_chance": 29,
+      "rain_chance": 26,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-11-27T15:45",
@@ -462,14 +462,14 @@
           "code": 3,
           "max": 12.3,
           "min": 2.9,
-          "rain": 18
+          "rain": 7
         },
         {
           "date": "2026-11-30",
           "code": 63,
           "max": 14.4,
           "min": 5.5,
-          "rain": 96
+          "rain": 95
         },
         {
           "date": "2026-12-01",
@@ -490,7 +490,7 @@
           "code": 3,
           "max": 12.5,
           "min": 6.4,
-          "rain": 1
+          "rain": 0
         }
       ],
       "today_max": 13.9,
@@ -533,35 +533,35 @@
           "code": 51,
           "max": 22.8,
           "min": 14.7,
-          "rain": 45
+          "rain": 38
         },
         {
           "date": "2026-11-30",
           "code": 53,
           "max": 20.0,
           "min": 18.1,
-          "rain": 95
+          "rain": 98
         },
         {
           "date": "2026-12-01",
           "code": 81,
           "max": 18.3,
           "min": 13.8,
-          "rain": 95
+          "rain": 99
         },
         {
           "date": "2026-12-02",
           "code": 80,
           "max": 17.9,
           "min": 13.1,
-          "rain": 60
+          "rain": 47
         },
         {
           "date": "2026-12-03",
           "code": 3,
           "max": 19.9,
           "min": 14.4,
-          "rain": 27
+          "rain": 29
         }
       ],
       "today_max": 29.9,
@@ -604,14 +604,14 @@
           "code": 63,
           "max": 7.2,
           "min": 2.0,
-          "rain": 91
+          "rain": 96
         },
         {
           "date": "2026-11-30",
           "code": 0,
           "max": 4.5,
           "min": -0.2,
-          "rain": 16
+          "rain": 17
         },
         {
           "date": "2026-12-01",
@@ -632,7 +632,7 @@
           "code": 3,
           "max": 13.6,
           "min": 8.2,
-          "rain": 47
+          "rain": 45
         }
       ],
       "today_max": 6.6,
@@ -682,7 +682,7 @@
           "code": 3,
           "max": 17.4,
           "min": 12.6,
-          "rain": 16
+          "rain": 19
         },
         {
           "date": "2026-12-01",
@@ -696,7 +696,7 @@
           "code": 55,
           "max": 12.8,
           "min": 11.2,
-          "rain": 86
+          "rain": 82
         },
         {
           "date": "2026-12-03",
@@ -767,14 +767,14 @@
           "code": 3,
           "max": 21.4,
           "min": 14.8,
-          "rain": 9
+          "rain": 11
         },
         {
           "date": "2026-12-03",
           "code": 80,
           "max": 20.0,
           "min": 16.9,
-          "rain": 52
+          "rain": 57
         }
       ],
       "today_max": 20.0,
@@ -810,42 +810,42 @@
           "code": 3,
           "max": 17.2,
           "min": 10.8,
-          "rain": 4
+          "rain": 1
         },
         {
           "date": "2026-11-29",
           "code": 81,
           "max": 17.8,
           "min": 12.7,
-          "rain": 98
+          "rain": 96
         },
         {
           "date": "2026-11-30",
           "code": 51,
           "max": 16.3,
           "min": 13.7,
-          "rain": 67
+          "rain": 65
         },
         {
           "date": "2026-12-01",
           "code": 51,
           "max": 16.2,
           "min": 12.5,
-          "rain": 67
+          "rain": 65
         },
         {
           "date": "2026-12-02",
           "code": 3,
           "max": 17.0,
           "min": 11.8,
-          "rain": 8
+          "rain": 2
         },
         {
           "date": "2026-12-03",
           "code": 3,
           "max": 16.1,
           "min": 11.8,
-          "rain": 17
+          "rain": 22
         }
       ],
       "today_max": 15.5,
