@@ -100,13 +100,10 @@ class StudyBookActivity : BaseActivity() {
         CookieManager.getInstance().setAcceptCookie(true)
         CookieManager.getInstance().setAcceptThirdPartyCookies(web, true)
         web.webViewClient = object : WebViewClient() {
-            // An address of "…/undefined" is the bank's own script going wrong, never a page; and while
-            // figures are being taken nothing takes the page away from the question — the address it
-            // would have gone to is kept and fetched behind the scenes instead.
+            // An address of "…/undefined" is the bank's own script going wrong, never a page.
             override fun shouldOverrideUrlLoading(v: WebView?, req: android.webkit.WebResourceRequest?): Boolean {
                 val u = req?.url?.toString() ?: return false
                 if (u.endsWith("/undefined")) return true
-                if (grabbing && req.isForMainFrame && u.startsWith("http")) { blockedUrl = u; return true }
                 return false
             }
             override fun onPageFinished(v: WebView?, url: String?) {
@@ -738,11 +735,13 @@ class StudyBookActivity : BaseActivity() {
                 }
                 val href = it.optString("u")
                 if (href.startsWith("http")) { keep(href, "", ""); return }
-                web.evaluateJavascript(clickFigJs(it.optInt("i"))) { opened ->
+                // Marked afresh each time: a figure that opened a page of its own came back to a
+                // reloaded question page, without the marks put on the links before.
+                web.evaluateJavascript(linkFigJs) { _ -> web.evaluateJavascript(clickFigJs(it.optInt("i"))) { opened ->
                     val u = unJs(opened)
                     if (u.startsWith("http")) { keep(u, "", ""); return@evaluateJavascript }
                     afterTap(0) { op, bd, bu -> keep(op, bd, bu) }
-                }
+                } }
             }
             step(0)
         }
@@ -777,11 +776,13 @@ class StudyBookActivity : BaseActivity() {
                 sm.recycle(); mx - mn < 18
             }
         } catch (e: Throwable) { false }
-        fun fit(bytes: ByteArray?): Boolean {
+        // A wide figure (a table of distances) is let in from the viewer, which shows only the
+        // figure; from anywhere else a wide strip is the site's banner.
+        fun fit(bytes: ByteArray?, wide: Float = 3.5f): Boolean {
             if (bytes == null || bytes.size < 200) return false
             val (w, h) = dims(bytes)
             if (w <= 0 || h <= 0) return false
-            if (w.toFloat() / h > 3.5f) return false
+            if (w.toFloat() / h > wide) return false
             return !blank(bytes)
         }
         fun b64(d: String) = try { android.util.Base64.decode(d.substringAfter("base64,"), android.util.Base64.DEFAULT) } catch (e: Throwable) { null }
@@ -791,16 +792,18 @@ class StudyBookActivity : BaseActivity() {
         val own = ArrayList<ByteArray>()
         if (data.startsWith("data:image")) b64(data)?.let { own.add(it) }
         if (url.startsWith("http")) fetchBytes(url)?.let { own.add(it) }
-        for (o in own) if (fit(o)) { val w = dims(o).first; if (w > bestW) { bestW = w; best = o } }
+        for (o in own) if (fit(o, 9f)) { val w = dims(o).first; if (w > bestW) { bestW = w; best = o } }
         val shape = best?.let { val (w, h) = dims(it); w.toFloat() / h }
-        fun consider(bytes: ByteArray?) {
-            if (!fit(bytes)) return
+        fun consider(bytes: ByteArray?, wide: Float = 3.5f) {
+            if (!fit(bytes, if (shape != null) 9f else wide)) return
             val (w, h) = dims(bytes!!)
             if (shape != null && kotlin.math.abs((w.toFloat() / h) / shape - 1f) > 0.3f) return
             if (w > bestW) { bestW = w; best = bytes }
         }
-        if (bigData.startsWith("data:image")) consider(b64(bigData))
-        if (bigUrl.startsWith("http") && bigUrl != url) consider(fetchBytes(bigUrl))
+        val furniture = Regex("logo|icon|banner|header|sprite|button|spacer|avatar", RegexOption.IGNORE_CASE)
+        val viewerOk = !furniture.containsMatchIn(bigUrl)
+        if (bigData.startsWith("data:image") && viewerOk) consider(b64(bigData), 9f)
+        if (bigUrl.startsWith("http") && bigUrl != url && viewerOk) consider(fetchBytes(bigUrl), 9f)
         // What the picture's link opens, fetched behind the scenes as the signed-in page would: a
         // picture is taken as it is; a page is searched for its pictures, its furniture left out.
         if (link.startsWith("http") && link != url) {
@@ -1074,20 +1077,35 @@ class StudyBookActivity : BaseActivity() {
      * and the viewer closed again.
      */
     private fun afterTap(minW: Int, cb: (String, String, String) -> Unit) {
+        val before = web.url
+        fun good(u: String) = u.startsWith("http") && !u.endsWith("/undefined")
+        // The viewer read where it is: on a page of its own (the tap went to one, or the window the
+        // bank tried to open was opened here), its largest picture is taken and the question page
+        // gone back to; in the page, the largest new picture is taken and the viewer closed.
+        fun read(opened: String) {
+            val away = web.url != before
+            web.evaluateJavascript(bigJs(if (away) 0 else minW)) { braw ->
+                val b = try { JSONObject(unJs(braw)) } catch (e: Exception) { null }
+                val bd = if (b?.optBoolean("found") == true) b.optString("data") else ""
+                val bu = if (b?.optBoolean("found") == true) b.optString("url") else ""
+                if (away && web.canGoBack()) {
+                    val there = web.url ?: ""
+                    web.goBack()
+                    web.postDelayed({ web.evaluateJavascript(hookJs, null); cb(opened.ifEmpty { there }, bd, bu) }, 1800)
+                } else web.evaluateJavascript(closeJs) { _ -> web.postDelayed({ cb(opened, bd, bu) }, 300) }
+            }
+        }
         web.postDelayed({
             web.evaluateJavascript(continueJs) { c ->
                 val wait = if (unJs(c) == "clicked") 1600L else 0L
                 web.postDelayed({
                     web.evaluateJavascript("(function(){ var u = window.__sbOpened || ''; window.__sbOpened = ''; return u; })()") { o ->
-                        fun good(u: String) = u.startsWith("http") && !u.endsWith("/undefined")
-                        val opened = unJs(o).let { if (good(it)) it else if (good(blockedUrl)) blockedUrl else "" }
-                        blockedUrl = ""
-                        web.evaluateJavascript(bigJs(minW)) { braw ->
-                            val b = try { JSONObject(unJs(braw)) } catch (e: Exception) { null }
-                            val bd = if (b?.optBoolean("found") == true) b.optString("data") else ""
-                            val bu = if (b?.optBoolean("found") == true) b.optString("url") else ""
-                            web.evaluateJavascript(closeJs) { _ -> web.postDelayed({ cb(opened, bd, bu) }, 300) }
-                        }
+                        val opened = unJs(o).let { if (good(it)) it else "" }
+                        if (opened.isNotEmpty() && web.url == before) {
+                            // The window the viewer would have opened, opened here instead.
+                            web.loadUrl(opened)
+                            web.postDelayed({ read(opened) }, 2600)
+                        } else read(opened)
                     }
                 }, wait)
             }
