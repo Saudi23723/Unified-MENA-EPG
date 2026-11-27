@@ -695,7 +695,10 @@ class StudyBookActivity : BaseActivity() {
             e.setAttribute('data-sb-fig', String(out.length));
             var abs = '';
             try { if (h && !/^javascript:/i.test(h) && h !== '#') abs = new URL(h, location.href).href; } catch (x) {}
-            out.push({ i: out.length, t: t.slice(0, 30), u: abs });
+            // The thumbnail inside the link, so the clear copy can be told from the site's furniture.
+            var th = '', ti = e.querySelector ? e.querySelector('img') : null;
+            if (ti){ try { th = new URL(ti.getAttribute('src') || ti.src, location.href).href; } catch (x) {} }
+            out.push({ i: out.length, t: t.slice(0, 30), u: abs, th: th, fig: /(figure|fig\.|exhibit)\s*\d+/i.test(t + ' ' + (ti ? ti.alt : '')) });
         }
         return JSON.stringify(out);
     })()"""
@@ -741,9 +744,11 @@ class StudyBookActivity : BaseActivity() {
             fun step(k: Int) {
                 if (k >= arr.length()) { done(made); return }
                 val it = arr.optJSONObject(k) ?: run { step(k + 1); return }
+                val thumb = it.optString("th")
+                val named = it.optBoolean("fig")
                 fun keep(link: String, bigData: String, bigUrl: String) {
                     lifecycleScope.launch {
-                        val name = withContext(Dispatchers.IO) { bestPicture(dir, 100 + k, "", "", link, bigData, bigUrl) }
+                        val name = withContext(Dispatchers.IO) { bestPicture(dir, 100 + k, "", thumb, link, bigData, bigUrl, named) }
                         if (name != null && name !in figures) { figures.add(name); made++ }
                         step(k + 1)
                     }
@@ -771,7 +776,7 @@ class StudyBookActivity : BaseActivity() {
      * no better address loses nothing.
      */
     private fun bestPicture(dir: java.io.File, i: Int, data: String, url: String, link: String = "",
-                            bigData: String = "", bigUrl: String = ""): String? {
+                            bigData: String = "", bigUrl: String = "", named: Boolean = false): String? {
         // Every copy is looked at, and only a copy that is a picture of this figure is let in: not
         // blank, not a wide strip of lettering, and — where the page's own thumbnail is known —
         // the same shape as it. The page a link leads to carries the site's own banners and icons
@@ -810,10 +815,11 @@ class StudyBookActivity : BaseActivity() {
         if (url.startsWith("http")) fetchBytes(url)?.let { own.add(it) }
         for (o in own) if (fit(o, 9f)) { val w = dims(o).first; if (w > bestW) { bestW = w; best = o } }
         val shape = best?.let { val (w, h) = dims(it); w.toFloat() / h }
-        fun consider(bytes: ByteArray?, wide: Float = 3.5f) {
+        // A figure the page names ("Figure 38. …") may be as wide as a table of distances is.
+        fun consider(bytes: ByteArray?, wide: Float = if (named) 9f else 3.5f) {
             if (!fit(bytes, if (shape != null) 9f else wide)) return
             val (w, h) = dims(bytes!!)
-            if (shape != null && kotlin.math.abs((w.toFloat() / h) / shape - 1f) > 0.3f) return
+            if (shape != null && kotlin.math.abs((w.toFloat() / h) / shape - 1f) > (if (named) 0.6f else 0.3f)) return
             if (w > bestW) { bestW = w; best = bytes }
         }
         val furniture = Regex("logo|icon|banner|header|sprite|button|spacer|avatar", RegexOption.IGNORE_CASE)
@@ -824,6 +830,7 @@ class StudyBookActivity : BaseActivity() {
         // picture is taken as it is; a page is searched for its pictures, its furniture left out.
         if (link.startsWith("http") && link != url) {
             val got = fetchBytes(link)
+            note("picture $i: link gave " + (got?.let { b -> dims(b).let { d -> if (d.first > 0) "image ${d.first}x${d.second}" else "page ${b.size} bytes" } } ?: "nothing"))
             if (got != null) {
                 if (dims(got).first > 0) consider(got) else {
                     val html = try { String(got, Charsets.UTF_8) } catch (e: Throwable) { "" }
@@ -833,7 +840,7 @@ class StudyBookActivity : BaseActivity() {
                     Regex("[\"']([^\"'\\s<>]+\\.(?:png|jpe?g|webp|gif)(?:\\?[^\"'\\s<>]*)?)[\"']", RegexOption.IGNORE_CASE).findAll(html).forEach { cands.add(it.groupValues[1]) }
                     for (c in cands.filterNot { Regex("logo|icon|banner|header|sprite|button|spacer|avatar", RegexOption.IGNORE_CASE).containsMatchIn(it) }.take(12)) {
                         val abs = try { java.net.URL(java.net.URL(link), c.replace("&amp;", "&")).toString() } catch (e: Throwable) { continue }
-                        if (abs.startsWith("http")) consider(fetchBytes(abs))
+                        if (abs.startsWith("http")) { val cb = fetchBytes(abs); note("  candidate $abs -> " + (cb?.let { b -> dims(b).let { d -> "${d.first}x${d.second}" } } ?: "nothing")); consider(cb) }
                     }
                 }
             }
