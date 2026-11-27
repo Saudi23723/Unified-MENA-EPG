@@ -292,6 +292,16 @@ for f in sorted(glob.glob("xtream/*/channel_map.json")):
                 else:
                     out.append(w)
             return f"{flag} | " + " ".join(out)
+        def tod_name(n, g):
+            # the TOD groups (owner, 26 Nov 2026: "take F: off the channels, keep the TOD logo, tidy the names"):
+            # "F: BEIN SPORT TOD 8 ᴿᴬᵂ" -> "beIN SPORTS TOD 8 ᴿᴬᵂ"; the logo was picked from the provider's name before
+            if "TOD" not in g.translate(_SMALLCAPS).upper():
+                return n
+            t = re.sub(r"^\s*[A-Z]{1,3}\s*:\s*", "", n)
+            t = re.sub(r"\bBEIN\b", "beIN", t, flags=re.I)
+            t = re.sub(r"\bSPORT\b", "SPORTS", t)
+            t = t.replace("(", "").replace(")", "")
+            return re.sub(r"\s+", " ", t).strip()
         hcats, hstreams, hseen = [], [], set()
         for c in provider:
             if c["stream_id"] in shown_ids or c["stream_id"] in hseen:
@@ -313,7 +323,7 @@ for f in sorted(glob.glob("xtream/*/channel_map.json")):
                 FILLER_TITLES[_fid] = _t
                 sp = ("f", _fid)
             icon = LOGOS.find(c["name"], g, name, sp[0] if sp else None, sp[1] if sp else None) or c.get("icon") or ""
-            hstreams.append({"num": len(streams) + len(hstreams) + 1, "name": c["name"], "stream_type": "live", "stream_id": c["stream_id"],
+            hstreams.append({"num": len(streams) + len(hstreams) + 1, "name": tod_name(c["name"], g), "stream_type": "live", "stream_id": c["stream_id"],
                              "stream_icon": icon, "epg_channel_id": sp[1] if sp else None, "category_id": cid})
             if sp:
                 want[sp[0]].add(sp[1])
