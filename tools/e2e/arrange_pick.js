@@ -14,6 +14,17 @@ export default {
       for (const [k, v] of Object.entries(d)) if (/^(go|gh|gs|ch|co|gr)_[a-z0-9]+$/.test(k)) keep[k] = v.v;
       if (Object.keys(keep).length) out.push({ device: r.name || "", playlist: r.pl || "", saved: new Date(r.t).toISOString(), keys: keep });
     }
+    if (!out.length) {
+      // nothing found: counts only, to see why (no names, no codes)
+      const c = async (q) => ((await env.DB.prepare(q).first()) || {}).n;
+      return new Response(JSON.stringify({ found: 0,
+        owner_devices: await c("SELECT count(*) n FROM devices WHERE lower(coalesce(grp,''))='saif' OR lower(coalesce(name,'')) LIKE 'saif%'"),
+        owner_backups: await c("SELECT count(*) n FROM backup b JOIN devices d ON d.code=b.code WHERE lower(coalesce(d.grp,''))='saif' OR lower(coalesce(d.name,'')) LIKE 'saif%'"),
+        backups_all: await c("SELECT count(*) n FROM backup"),
+        backups_with_arrange: await c("SELECT count(*) n FROM backup WHERE data LIKE '%\"go_strong\"%' OR data LIKE '%\"gh_strong\"%' OR data LIKE '%\"gs_strong\"%'"),
+        groups: (await env.DB.prepare("SELECT coalesce(grp,'') g, count(*) n FROM devices GROUP BY g ORDER BY n DESC LIMIT 12").all()).results }),
+        { headers: { "content-type": "application/json" } });
+    }
     return new Response(JSON.stringify(out), { headers: { "content-type": "application/json" } });
   },
 };

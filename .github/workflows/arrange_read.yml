@@ -31,7 +31,7 @@ jobs:
           curl -sS -o /dev/null -w "subdomain %{http_code}\n" -X POST "$API/saudi1-arrange/subdomain" -H "Authorization: Bearer $CF_TOKEN" -H "Content-Type: application/json" --data '{"enabled":true,"previews_enabled":false}'
           for i in $(seq 1 24); do curl -s -H "x-key: $KEY" https://saudi1-arrange.1saifsaudi.workers.dev/ > owner_arrange.json; python3 -c 'import json; json.load(open("owner_arrange.json"))' 2>/dev/null && break; sleep 5; done
           curl -sS -o /dev/null -w "throw-away worker deleted %{http_code}\n" -X DELETE "$API/saudi1-arrange?force=true" -H "Authorization: Bearer $CF_TOKEN"
-          python3 -c 'import json; a=json.load(open("owner_arrange.json")); [print(x["device"], x["playlist"], x["saved"], sorted(x["keys"])) for x in a]'
+          python3 -c 'import json; a=json.load(open("owner_arrange.json")); print(a) if isinstance(a,dict) else [print(x["device"], x["playlist"], x["saved"], {k:(len(v) if isinstance(v,(list,dict)) else len(str(v))) for k,v in x["keys"].items()}) for x in a]'
       - name: Remove the throw-away worker (if still there)
         if: always()
         run: |
