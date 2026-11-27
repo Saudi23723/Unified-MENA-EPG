@@ -233,6 +233,16 @@ for f in sorted(glob.glob("xtream/*/channel_map.json")):
     except Exception:
         if os.path.exists(f"{play}/channels.json"):
             provider = json.load(open(f"{play}/channels.json", encoding="utf-8"))
+    # the catalog carries no guide ids: a channel the owner's export matched keeps that guide (owner, 26 Nov 2026:
+    # "TOD SPORTS F" showed "No guide" though TOD 8 = beIN SPORTS 8 Qatar, which the export had matched)
+    if provider and os.path.exists(f"{play}/channels.json"):
+        try:
+            _ep = {c["stream_id"]: c.get("epg") or "" for c in json.load(open(f"{play}/channels.json", encoding="utf-8"))}
+            for c in provider:
+                if not c.get("epg") and _ep.get(c["stream_id"]):
+                    c["epg"] = _ep[c["stream_id"]]
+        except Exception as exc:  # noqa: BLE001 - the guide ids are a bonus; the hidden groups are built anyway
+            print(f"{name}: export guide ids not read: {exc}", file=sys.stderr)
     if provider and name in ("strong", "dream4k", "family4k"):
         shown_ids = {c["stream_id"] for c in chans}
         def hname(g, legacy=False):
