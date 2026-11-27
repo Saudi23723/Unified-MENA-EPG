@@ -22,7 +22,7 @@ import kotlinx.coroutines.withContext
 /** Multiview (owner, 25 Nov 2026): as many screens as the device has playlists (each screen its own playlist, so no
  *  provider cuts one off): 2 playlists = 2 screens; 3 or 4 = a choice of 2, 3 or 4 (⋮ › Screens). A Chromecast decodes
  *  2 pictures at most. One tap (OK) on a screen makes it the big one, a tap on the big one = all the same size;
- *  ⋮ (MENU) = the options of the selected screen. Hold OK = that channel full screen. */
+ *  ⋮ (MENU) or hold OK = the options of the selected screen. CH+/CH- (▲▼ where no screen is above/below) = next/previous channel. */
 class MultiviewActivity : BaseActivity() {
     private class Tile(val root: View, val pv: PlayerView, var player: ExoPlayer, val bar: View, val logo: ImageView,
                        val name: TextView, val now: TextView, val sound: TextView, val empty: View) {
@@ -304,6 +304,23 @@ class MultiviewActivity : BaseActivity() {
         return q.firstOrNull { Regex("(?i)\\bfhd|1080").containsMatchIn(it.name) } ?: q.firstOrNull() ?: c
     }
 
+    private fun hasTile(i: Int, dir: Int): Boolean {
+        val f = tiles[i].root.focusSearch(dir) ?: return false
+        return tiles.any { t -> t.root === f || (f.parent as? View)?.let { p -> generateSequence(p) { it.parent as? View }.any { it === t.root } } == true }
+    }
+    /** the next / previous channel of the group the screen's channel is in (its own playlist for another playlist) */
+    private fun zap(i: Int, dir: Int) {
+        val c = tiles[i].channel ?: return
+        val src = tiles[i].src
+        val list = if (src == null) (Api.group(c.group)?.channels ?: Api.groups.firstOrNull { g -> g.channels.any { it.id == c.id } }?.channels)
+            else src.groups.firstOrNull { g -> g.channels.any { it.id == c.id } }?.channels
+        val l = list?.filter { it.id > 0 || it.url.isNotEmpty() } ?: return
+        if (l.size < 2) return
+        val at = l.indexOfFirst { it.id == c.id }.coerceAtLeast(0)
+        val n = l[(at + dir + l.size) % l.size]
+        set(i, n); say("${n.num}   ${n.name}")
+    }
+
     private fun pick(i: Int) {
         val src = tiles[i].src
         if (src != null) {
@@ -376,10 +393,24 @@ class MultiviewActivity : BaseActivity() {
             // OK is read here: a short press = big / same size (on release), a hold = that channel full screen
             if ((e.keyCode == KeyEvent.KEYCODE_DPAD_CENTER || e.keyCode == KeyEvent.KEYCODE_ENTER) && i >= 0) {
                 if (e.repeatCount == 0) { okHeld = false; okDown = true }
-                else if (!okHeld && e.repeatCount >= 1) { okHeld = true; tiles[i].channel?.let { openFull(it) } ?: pick(i) }
+                // hold OK = this screen's options (change channel, full screen...): TV remotes without a MENU key
+                // had no way to change a channel (owner, 27 Nov 2026)
+                else if (!okHeld && e.repeatCount >= 1) { okHeld = true; if (tiles[i].channel == null) pick(i) else menu(i) }
                 return true
             }
             if (e.keyCode == KeyEvent.KEYCODE_MENU && i >= 0) { menu(i); return true }
+            // CH+ / CH- (and ▲▼ where no screen is above / below): the next / previous channel of the same group
+            if (i >= 0 && tiles[i].channel != null) {
+                val k = e.keyCode
+                val dir = when {
+                    k == KeyEvent.KEYCODE_CHANNEL_UP || k == KeyEvent.KEYCODE_PAGE_UP -> -1
+                    k == KeyEvent.KEYCODE_CHANNEL_DOWN || k == KeyEvent.KEYCODE_PAGE_DOWN -> 1
+                    k == KeyEvent.KEYCODE_DPAD_UP && !hasTile(i, View.FOCUS_UP) -> -1
+                    k == KeyEvent.KEYCODE_DPAD_DOWN && !hasTile(i, View.FOCUS_DOWN) -> 1
+                    else -> 0
+                }
+                if (dir != 0) { zap(i, dir); return true }
+            }
         }
         if (!overlayOpen && e.action == KeyEvent.ACTION_UP && (e.keyCode == KeyEvent.KEYCODE_DPAD_CENTER || e.keyCode == KeyEvent.KEYCODE_ENTER)) {
             val i = tiles.indexOfFirst { it.root.hasFocus() }
@@ -389,6 +420,10 @@ class MultiviewActivity : BaseActivity() {
         return super.dispatchKeyEvent(e)
     }
 
+    override fun onPostCreate(b: android.os.Bundle?) {
+        super.onPostCreate(b)
+        if (!isTouch) android.widget.Toast.makeText(this, "OK: big / same size  ·  Hold OK: options  ·  ▲▼ or CH: change channel", android.widget.Toast.LENGTH_LONG).show()
+    }
     override fun onStop() { super.onStop(); tiles.forEach { it.player.pause() } }
     override fun onStart() { super.onStart(); tiles.forEach { if (it.channel != null) it.player.play() } }
     override fun onDestroy() { super.onDestroy(); tiles.forEach { it.player.release() } }
