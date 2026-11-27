@@ -122,6 +122,10 @@ class StudyBookActivity : BaseActivity() {
             LinearLayout.LayoutParams(0, -2, 1f).apply { marginEnd = dp(6) })
         tools.addView(chip("➕  Add as a page", 0xFF30D158.toInt()) { addPage() },
             LinearLayout.LayoutParams(0, -2, 1f))
+        // How the page is built and what the last capture did, as a file to send for a fix: no
+        // password, no cookies — the page's pictures, its figure links and the viewer's own script.
+        tools.addView(chip("🔍", 0xFF5E5CE6.toInt()) { report() },
+            LinearLayout.LayoutParams(-2, -2).apply { marginStart = dp(6) })
         root.addView(tools)
 
         pad = LinearLayout(this).apply {
@@ -646,6 +650,8 @@ class StudyBookActivity : BaseActivity() {
             question.setText(if (parsed.optString("kind") == "qa") parsed.optString("q")
                 else parsed.optString("head").ifEmpty { parsed.optString("q") })
             showPending()
+            synchronized(diag) { diag.setLength(0) }
+            note("capture " + (web.url ?: "") + " figs=" + (o?.optJSONArray("figs")?.length() ?: 0))
             grabbing = true; blockedUrl = ""
             web.evaluateJavascript(hookJs, null)
             grabFigures(o) { n0 ->
@@ -729,6 +735,7 @@ class StudyBookActivity : BaseActivity() {
         val dir = java.io.File(filesDir, "studybook").apply { mkdirs() }
         web.evaluateJavascript(linkFigJs) { raw ->
             val arr = try { org.json.JSONArray(unJs(raw)) } catch (e: Exception) { org.json.JSONArray() }
+            note("figure links: " + arr.toString())
             if (arr.length() == 0) { done(0); return@evaluateJavascript }
             var made = 0
             fun step(k: Int) {
@@ -747,6 +754,7 @@ class StudyBookActivity : BaseActivity() {
                 // reloaded question page, without the marks put on the links before.
                 web.evaluateJavascript(linkFigJs) { _ -> web.evaluateJavascript(clickFigJs(it.optInt("i"))) { opened ->
                     val u = unJs(opened)
+                    note("link $k tapped, opened=$u url now=${web.url}")
                     if (u.startsWith("http")) { keep(u, "", ""); return@evaluateJavascript }
                     afterTap(0) { op, bd, bu -> keep(op, bd, bu) }
                 } }
@@ -830,6 +838,7 @@ class StudyBookActivity : BaseActivity() {
                 }
             }
         }
+        note("picture $i: thumb=${own.size} shape=$shape link=$link bigUrl=$bigUrl -> " + (best?.let { dims(it).let { d -> "${d.first}x${d.second}" } } ?: "NOTHING kept"))
         val bytes = best ?: return null
         val ob = android.graphics.BitmapFactory.Options().apply { inJustDecodeBounds = true }
         android.graphics.BitmapFactory.decodeByteArray(bytes, 0, bytes.size, ob)
@@ -1116,6 +1125,7 @@ class StudyBookActivity : BaseActivity() {
                 val b = try { JSONObject(unJs(braw)) } catch (e: Exception) { null }
                 val bd = if (b?.optBoolean("found") == true) b.optString("data") else ""
                 val bu = if (b?.optBoolean("found") == true) b.optString("url") else ""
+                note("viewer read: away=$away url=${web.url} big=${b?.optBoolean("found")} bigUrl=$bu bigData=${bd.length}")
                 if (away && web.canGoBack()) {
                     val there = web.url ?: ""
                     web.goBack()
@@ -1125,9 +1135,11 @@ class StudyBookActivity : BaseActivity() {
         }
         web.postDelayed({
             web.evaluateJavascript(continueJs) { c ->
+                note("after tap: continue=" + unJs(c) + " url=" + web.url)
                 val wait = if (unJs(c) == "clicked") 1600L else 0L
                 web.postDelayed({
                     web.evaluateJavascript("(function(){ var u = window.__sbOpened || ''; window.__sbOpened = ''; return u; })()") { o ->
+                        note("window opened: " + unJs(o))
                         val opened = unJs(o).let { if (good(it)) it else "" }
                         if (opened.isNotEmpty() && web.url == before) {
                             // The window the viewer would have opened, opened here instead.
@@ -1225,6 +1237,75 @@ class StudyBookActivity : BaseActivity() {
         }
     }
 
+    /** What the last capture did, step by step, for the report. */
+    private val diag = StringBuilder()
+    private fun note(t: String) = synchronized(diag) {
+        if (diag.length < 60000) diag.append(java.text.SimpleDateFormat("HH:mm:ss", java.util.Locale.US).format(java.util.Date())).append("  ").append(t).append('\n')
+    }
+
+    private val reportJs = """(function(){
+        var out = [];
+        function cut(v, n){ v = String(v == null ? '' : v); return v.length > n ? v.slice(0, n) + '…' : v; }
+        function desc(e){
+            if (!e || !e.tagName) return '';
+            var a = e.tagName.toLowerCase();
+            if (e.id) a += '#' + e.id;
+            if (typeof e.className === 'string' && e.className) a += '.' + e.className.trim().split(/\s+/).join('.');
+            ['href','onclick','src','data-src','data-full','data-href','target','role','title'].forEach(function(k){
+                var v = e.getAttribute && e.getAttribute(k); if (v) a += ' ' + k + '="' + cut(v, 240) + '"';
+            });
+            return a;
+        }
+        out.push('URL ' + location.href);
+        out.push('UA ' + navigator.userAgent);
+        out.push('frames ' + window.frames.length);
+        var im = document.querySelectorAll('img');
+        out.push('--- IMAGES ' + im.length);
+        for (var i = 0; i < im.length && i < 40; i++){
+            var e = im[i], r = e.getBoundingClientRect();
+            out.push('img ' + i + ' shown=' + (e.getClientRects().length > 0) + ' box=' + Math.round(r.width) + 'x' + Math.round(r.height) +
+                     ' natural=' + e.naturalWidth + 'x' + e.naturalHeight + ' alt="' + cut(e.alt, 80) + '" ' + desc(e));
+            for (var up = e.parentElement, lv = 0; up && lv < 4; up = up.parentElement, lv++) out.push('    ^' + lv + ' ' + desc(up));
+        }
+        out.push('--- CLICKABLE FIGURE THINGS');
+        var cl = document.querySelectorAll('a,button,[onclick],[role=button],input');
+        for (var i = 0, n = 0; i < cl.length && n < 40; i++){
+            var e = cl[i], t = (e.innerText || e.value || '').trim();
+            var h = (e.getAttribute('href') || '') + ' ' + (e.getAttribute('onclick') || '');
+            if (!/figure|fig\.|image|viewer|exhibit|continue/i.test(t + ' ' + h)) continue;
+            n++; out.push('el text="' + cut(t, 80) + '" ' + desc(e));
+        }
+        out.push('--- PAGE FUNCTIONS (viewer)');
+        var seen = 0;
+        try { for (var k in window){
+            if (seen > 25) break;
+            if (!/image|viewer|fig|popup|open|exhibit|continue/i.test(k)) continue;
+            var f; try { f = window[k]; } catch (x) { continue; }
+            if (typeof f !== 'function') continue;
+            var src = ''; try { src = Function.prototype.toString.call(f); } catch (x) {}
+            if (/\[native code\]/.test(src)) continue;
+            seen++; out.push('fn ' + k + ' = ' + cut(src, 1500));
+        } } catch (x) { out.push('fn error ' + x); }
+        var sc = document.querySelectorAll('script[src]');
+        out.push('--- SCRIPTS');
+        for (var i = 0; i < sc.length && i < 30; i++) out.push('script ' + sc[i].getAttribute('src'));
+        return out.join('\n');
+    })()"""
+
+    /** The page's build and the last capture's steps, written to a file and handed to the share sheet. */
+    private fun report() {
+        web.evaluateJavascript(reportJs) { raw ->
+            val page = try { org.json.JSONTokener(raw ?: "\"\"").nextValue() as? String ?: "" } catch (e: Exception) { unJs(raw) }
+            val text = "STUDY BOOK REPORT\n\n" + page + "\n\n--- LAST CAPTURE\n" + synchronized(diag) { diag.toString() }
+            val dir = java.io.File(cacheDir, "exports").apply { mkdirs() }
+            val f = java.io.File(dir, "studybook_report.txt").apply { writeText(text) }
+            val uri = androidx.core.content.FileProvider.getUriForFile(this, "$packageName.files", f)
+            startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).apply {
+                type = "text/plain"; putExtra(Intent.EXTRA_STREAM, uri); addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }, "Study Book report"))
+        }
+    }
+
     /** Closes the picture viewer the tap opened, the way its own close button would. */
     private val closeJs = """(function(){
         try { document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', keyCode: 27, bubbles: true })); } catch (x) {}
@@ -1269,6 +1350,7 @@ class StudyBookActivity : BaseActivity() {
                 val data = r.optString("data")
                 val url = r.optString("url")
                 val link = r.optString("link")
+                note("fig $i n=${r.optInt("n")} data=${r.optString("data").length} url=$url link=$link")
                 if (data.startsWith("data:image") || url.startsWith("http")) {
                     // Every copy is weighed and the largest kept: the one on the page, its file, what
                     // its link leads to, and the one the Image Viewer shows when the picture is tapped.
@@ -1282,6 +1364,7 @@ class StudyBookActivity : BaseActivity() {
                     web.evaluateJavascript(figureJs(i, "click")) { craw ->
                         val cj = try { JSONObject(unJs(craw)) } catch (e: Exception) { null }
                         val tw = cj?.optInt("tw") ?: 0
+                        note("fig $i tap clicked=${cj?.optBoolean("clicked")} tw=$tw")
                         if (cj?.optBoolean("clicked") != true) { keep("", ""); return@evaluateJavascript }
                         afterTap(tw) { opened, bd, bu -> keep(bd, bu, opened) }
                     }
