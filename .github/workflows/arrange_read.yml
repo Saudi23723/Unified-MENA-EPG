@@ -9,7 +9,7 @@ on:
         default: ""
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   diag:
@@ -38,3 +38,29 @@ jobs:
           curl -sS -o /dev/null -w "%{http_code}\n" -X DELETE "https://api.cloudflare.com/client/v4/accounts/$ACC/workers/scripts/saudi1-arrange?force=true" -H "Authorization: Bearer $CF_TOKEN"
       - uses: actions/upload-artifact@v4
         with: { name: owner-arrange, path: owner_arrange.json }
+      - name: Keep it in the repo (live groups only; no favorites, no series)
+        run: |
+          python3 - <<'PY'
+          import json, os
+          a = json.load(open("owner_arrange.json"))
+          if isinstance(a, dict): raise SystemExit("nothing found")
+          for pl in ("strong", "argon"):
+              src = next((x for x in a if ("go_" + pl) in x["keys"] or ("gs_" + pl) in x["keys"]), None)
+              if not src: continue
+              k = src["keys"]
+              def val(n):
+                  v = k.get(n + "_" + pl)
+                  if isinstance(v, str) and v[:1] in "[{":
+                      return json.loads(v)
+                  return v
+              out = {"from": src["device"], "saved": src["saved"], "order": val("go") or [], "hidden": sorted(val("gh") or []),
+                     "shown": sorted(val("gs") or []), "hidden_channels": val("ch") or [], "channel_order": val("co") or {},
+                     "names": val("gr") or {}}
+              os.makedirs(f"xtream/{pl}", exist_ok=True)
+              json.dump(out, open(f"xtream/{pl}/owner_arrange.json", "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+              print(pl, {x: len(y) for x, y in out.items() if isinstance(y, (list, dict))})
+          PY
+          git config user.name "github-actions[bot]"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add xtream/*/owner_arrange.json
+          git diff --cached --quiet && echo "no change" || git commit -qm "The owner's live group arrangement (from his backup)"
+          for i in 1 2 3 4 5; do git pull -q --rebase origin main && git push -q origin HEAD:main && break; sleep 5; done
