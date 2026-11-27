@@ -22,7 +22,9 @@ export default {
         owner_backups: await c("SELECT count(*) n FROM backup b JOIN devices d ON d.code=b.code WHERE lower(coalesce(d.grp,''))='saif' OR lower(coalesce(d.name,'')) LIKE 'saif%'"),
         backups_all: await c("SELECT count(*) n FROM backup"),
         backups_with_arrange: await c("SELECT count(*) n FROM backup WHERE data LIKE '%\"go_strong\"%' OR data LIKE '%\"gh_strong\"%' OR data LIKE '%\"gs_strong\"%'"),
-        groups: (await env.DB.prepare("SELECT coalesce(grp,'') g, count(*) n FROM devices GROUP BY g ORDER BY n DESC LIMIT 12").all()).results }),
+        groups: (await env.DB.prepare("SELECT coalesce(grp,'') g, count(*) n FROM devices GROUP BY g ORDER BY n DESC LIMIT 12").all()).results,
+        owner_backup_keys: rows.map(r => { let d = {}; try { d = JSON.parse(r.data); } catch (e) {}
+          return { pl: r.pl, saved: new Date(r.t).toISOString(), prefixes: [...new Set(Object.keys(d).map(k => k.replace(/_.*$/, "_")))].sort().join(" ") }; }) }),
         { headers: { "content-type": "application/json" } });
     }
     return new Response(JSON.stringify(out), { headers: { "content-type": "application/json" } });
