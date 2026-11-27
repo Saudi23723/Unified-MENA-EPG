@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-27T15:02:00.955Z",
+  "updated_at": "2026-11-27T15:09:43.000Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -171,21 +171,21 @@
           "code": 45,
           "max": 28.5,
           "min": 21.4,
-          "rain": 0
+          "rain": 12
         },
         {
           "date": "2026-11-29",
           "code": 51,
           "max": 28.6,
           "min": 22.1,
-          "rain": 8
+          "rain": 37
         },
         {
           "date": "2026-11-30",
           "code": 3,
           "max": 28.4,
           "min": 23.4,
-          "rain": 6
+          "rain": 8
         },
         {
           "date": "2026-12-01",
@@ -294,7 +294,7 @@
       "temperature_c": 4.4,
       "humidity": 83,
       "wind_speed": 13.3,
-      "rain_chance": 10,
+      "rain_chance": 75,
       "condition": "غائم",
       "weather_code": 3,
       "observed_at": "2026-11-27T15:00",
@@ -306,7 +306,7 @@
           "code": 51,
           "max": 4.6,
           "min": 2.0,
-          "rain": 30
+          "rain": 75
         },
         {
           "date": "2026-11-28",
@@ -320,35 +320,35 @@
           "code": 3,
           "max": 10.9,
           "min": 5.0,
-          "rain": 10
+          "rain": 25
         },
         {
           "date": "2026-11-30",
           "code": 3,
           "max": 11.7,
           "min": 8.6,
-          "rain": 23
+          "rain": 24
         },
         {
           "date": "2026-12-01",
           "code": 53,
           "max": 13.1,
           "min": 10.4,
-          "rain": 35
+          "rain": 52
         },
         {
           "date": "2026-12-02",
           "code": 55,
           "max": 13.0,
           "min": 6.0,
-          "rain": 61
+          "rain": 76
         },
         {
           "date": "2026-12-03",
           "code": 2,
           "max": 6.2,
           "min": 3.7,
-          "rain": 8
+          "rain": 4
         }
       ],
       "today_max": 4.6,
@@ -365,7 +365,7 @@
       "temperature_c": 3.5,
       "humidity": 95,
       "wind_speed": 9.4,
-      "rain_chance": 92,
+      "rain_chance": 98,
       "condition": "رذاذ خفيف",
       "weather_code": 51,
       "observed_at": "2026-11-27T15:00",
@@ -384,42 +384,42 @@
           "code": 61,
           "max": 9.5,
           "min": 3.9,
-          "rain": 99
+          "rain": 100
         },
         {
           "date": "2026-11-29",
           "code": 51,
           "max": 9.3,
           "min": 4.5,
-          "rain": 76
+          "rain": 83
         },
         {
           "date": "2026-11-30",
           "code": 53,
           "max": 12.0,
           "min": 7.6,
-          "rain": 94
+          "rain": 92
         },
         {
           "date": "2026-12-01",
           "code": 53,
           "max": 13.1,
           "min": 6.8,
-          "rain": 83
+          "rain": 90
         },
         {
           "date": "2026-12-02",
           "code": 51,
           "max": 7.8,
           "min": 5.2,
-          "rain": 78
+          "rain": 80
         },
         {
           "date": "2026-12-03",
           "code": 3,
           "max": 6.8,
           "min": 4.4,
-          "rain": 21
+          "rain": 13
         }
       ],
       "today_max": 4.1,
