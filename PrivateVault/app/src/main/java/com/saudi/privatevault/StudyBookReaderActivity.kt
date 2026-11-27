@@ -271,8 +271,7 @@ class StudyBookReaderActivity : BaseActivity() {
                         if (right) 0xFF5BBF7A.toInt() else 0xFFC9757E.toInt(), bold = true).apply {
                         letterSpacing = 0.12f; setPadding(dp(42), dp(8), 0, dp(3))
                     })
-                    card.addView(EfbUi.text(this, reason, 13f,
-                        if (right) 0xFFB7D9C2.toInt() else 0xFFD9B7BC.toInt()).apply { setPadding(dp(42), 0, 0, 0) })
+                    rich(card, reason, 13f, if (right) 0xFFB7D9C2.toInt() else 0xFFD9B7BC.toInt(), dp(42))
                 }
                 col.addView(card, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(7) })
             }
@@ -281,7 +280,62 @@ class StudyBookReaderActivity : BaseActivity() {
         val carried = (0 until (ch?.length() ?: 0)).any { ch?.optJSONObject(it)?.optString("why")?.isNotEmpty() == true }
         if (why.isNotEmpty() && !carried) {
             label(col, "WHY" + (if (ans.isNotEmpty()) "  ·  ($ans) IS CORRECT" else ""), 0xFF30D158.toInt())
-            col.addView(EfbUi.text(this, why, 14.5f, 0xFFB7D9C2.toInt()))
+            rich(col, why, 14.5f, 0xFFB7D9C2.toInt(), 0)
+        }
+    }
+
+    /**
+     * An explanation as the book prints it. The page's text breaks a line wherever a link or a
+     * number sits in a sentence ("…empty weight in" / "Fig. 67" / "is given as…"); those pieces
+     * are put back into their sentence. And the schedule worked out under it — a label and its
+     * figures, row after row — is set as a table with its numbers lined up, as on the page,
+     * instead of running down the left as loose lines.
+     */
+    private fun rich(into: LinearLayout, raw: String, size: Float, colour: Int, left: Int) {
+        val text = raw.replace(Regex("\\s*Click here to watch a video explanation\\.?", RegexOption.IGNORE_CASE), "")
+        for (b in StudyText.blocks(text)) {
+            if (b is StudyText.Para) {
+                into.addView(EfbUi.text(this, b.text, size, colour).apply { setPadding(left, dp(2), 0, dp(2)) })
+                continue
+            }
+            val t = b as StudyText.Table
+            val table = android.widget.TableLayout(this).apply {
+                setPadding(dp(10), dp(6), dp(10), dp(6))
+                setColumnStretchable(0, true)
+            }
+            val cols = t.cols
+            if (t.head.isNotEmpty()) {
+                val tr = android.widget.TableRow(this)
+                tr.addView(EfbUi.text(this, "", size, colour))
+                val h = t.head.takeLast(cols)
+                for (k in 0 until cols) tr.addView(EfbUi.text(this, h.getOrElse(k - (cols - h.size)) { "" }, size - 1f, colour, bold = true).apply {
+                    gravity = Gravity.END; setPadding(dp(14), 0, 0, dp(3))
+                    paintFlags = paintFlags or android.graphics.Paint.UNDERLINE_TEXT_FLAG })
+                table.addView(tr)
+            }
+            for ((ri, r) in t.rows.withIndex()) {
+                val tr = android.widget.TableRow(this)
+                val total = r.label.isEmpty() && ri == t.rows.size - 1
+                tr.addView(EfbUi.text(this, if (total) "Total" else r.label, size, colour, bold = total))
+                val nums = r.nums
+                for (k in 0 until cols) {
+                    val v = nums.getOrElse(k - (cols - nums.size)) { "" }
+                    tr.addView(EfbUi.text(this, v, size, colour, bold = total).apply {
+                        gravity = Gravity.END; setPadding(dp(14), if (total) dp(4) else 0, 0, 0)
+                        typeface = android.graphics.Typeface.create(android.graphics.Typeface.MONOSPACE, if (total) android.graphics.Typeface.BOLD else android.graphics.Typeface.NORMAL)
+                    })
+                }
+                if (total) table.addView(android.view.View(this).apply { setBackgroundColor(colour and 0x00FFFFFF or 0x66000000) },
+                    android.widget.TableLayout.LayoutParams(-1, dp(1)).apply { topMargin = dp(3) })
+                table.addView(tr)
+            }
+            val box = android.widget.HorizontalScrollView(this).apply {
+                isFillViewport = true
+                addView(table)
+                background = android.graphics.drawable.GradientDrawable().apply {
+                    setColor(0x22000000); cornerRadius = dp(8).toFloat(); setStroke(dp(1), colour and 0x00FFFFFF or 0x44000000) }
+            }
+            into.addView(box, LinearLayout.LayoutParams(-1, -2).apply { setMargins(left, dp(6), 0, dp(6)) })
         }
     }
 
