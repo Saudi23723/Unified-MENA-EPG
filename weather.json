@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-27T12:31:14.389Z",
+  "updated_at": "2026-11-27T12:37:46.608Z",
   "source": "Open-Meteo",
   "cities": [
     {
@@ -150,25 +150,25 @@
       "latitude": 24.4539,
       "longitude": 54.3773,
       "temperature_c": 26.8,
-      "humidity": 52,
-      "wind_speed": 12.6,
+      "humidity": 51,
+      "wind_speed": 12.0,
       "rain_chance": 0,
       "condition": "صافٍ",
       "weather_code": 0,
       "observed_at": "2026-11-27T16:30",
-      "feels_c": 27.0,
+      "feels_c": 26.9,
       "utc_offset": 14400,
       "days": [
         {
           "date": "2026-11-27",
           "code": 0,
-          "max": 28.4,
+          "max": 28.2,
           "min": 22.7,
           "rain": 0
         },
         {
           "date": "2026-11-28",
-          "code": 0,
+          "code": 45,
           "max": 28.5,
           "min": 21.7,
           "rain": 0
@@ -176,28 +176,28 @@
         {
           "date": "2026-11-29",
           "code": 45,
-          "max": 29.1,
+          "max": 28.6,
           "min": 21.2,
           "rain": 8
         },
         {
           "date": "2026-11-30",
           "code": 3,
-          "max": 28.6,
+          "max": 28.4,
           "min": 22.4,
           "rain": 6
         },
         {
           "date": "2026-12-01",
-          "code": 1,
+          "code": 3,
           "max": 29.9,
           "min": 21.9,
           "rain": 0
         },
         {
           "date": "2026-12-02",
-          "code": 2,
-          "max": 29.9,
+          "code": 0,
+          "max": 29.8,
           "min": 21.3,
           "rain": 0
         },
@@ -209,7 +209,7 @@
           "rain": 5
         }
       ],
-      "today_max": 28.4,
+      "today_max": 28.2,
       "today_min": 22.7,
       "sunrise": "06:46",
       "sunset": "17:33",
