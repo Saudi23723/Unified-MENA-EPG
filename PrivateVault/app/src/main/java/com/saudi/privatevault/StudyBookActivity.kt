@@ -195,9 +195,13 @@ class StudyBookActivity : BaseActivity() {
         }
     }
 
+    /** Where each figure of this capture came from, so one figure is not kept twice. */
+    private val keptSrc = HashSet<String>()
+
     private fun dropFigures() {
         for (n in figures) java.io.File(java.io.File(filesDir, "studybook"), n).delete()
         figures.clear(); figAt.clear()
+        synchronized(keptSrc) { keptSrc.clear() }
     }
 
     /** The cut shown at the size it really is, to keep or to take again. */
@@ -817,23 +821,25 @@ class StudyBookActivity : BaseActivity() {
         for (o in own) if (fit(o, 9f)) { val w = dims(o).first; if (w > bestW) { bestW = w; best = o } }
         val shape = best?.let { val (w, h) = dims(it); w.toFloat() / h }
         // A figure the page names ("Figure 38. …") may be as wide as a table of distances is.
+        var src = ""
+        var bestSrc = ""
         fun consider(bytes: ByteArray?, wide: Float = if (named) 9f else 3.5f) {
             if (!fit(bytes, if (shape != null) 9f else wide)) return
             val (w, h) = dims(bytes!!)
             if (shape != null && kotlin.math.abs((w.toFloat() / h) / shape - 1f) > (if (named) 0.6f else 0.3f)) return
-            if (w > bestW) { bestW = w; best = bytes }
+            if (w > bestW) { bestW = w; best = bytes; bestSrc = src }
         }
         val furniture = Regex("logo|icon|banner|header|sprite|button|spacer|avatar", RegexOption.IGNORE_CASE)
         val viewerOk = !furniture.containsMatchIn(bigUrl)
         if (bigData.startsWith("data:image") && viewerOk) consider(b64(bigData), 9f)
-        if (bigUrl.startsWith("http") && bigUrl != url && viewerOk) consider(fetchBytes(bigUrl), 9f)
+        if (bigUrl.startsWith("http") && bigUrl != url && viewerOk) { src = bigUrl; consider(fetchBytes(bigUrl), 9f) }
         // What the picture's link opens, fetched behind the scenes as the signed-in page would: a
         // picture is taken as it is; a page is searched for its pictures, its furniture left out.
         if (link.startsWith("http") && link != url) {
             val got = fetchBytes(link)
             note("picture $i: link gave " + (got?.let { b -> dims(b).let { d -> if (d.first > 0) "image ${d.first}x${d.second}" else "page ${b.size} bytes" } } ?: "nothing"))
             if (got != null) {
-                if (dims(got).first > 0) consider(got) else {
+                if (dims(got).first > 0) { src = link; consider(got) } else {
                     val html = try { String(got, Charsets.UTF_8) } catch (e: Throwable) { "" }
                     val cands = LinkedHashSet<String>()
                     Regex("<meta[^>]+property=[\"']og:image[\"'][^>]+content=[\"']([^\"']+)", RegexOption.IGNORE_CASE).findAll(html).forEach { cands.add(it.groupValues[1]) }
@@ -841,13 +847,18 @@ class StudyBookActivity : BaseActivity() {
                     Regex("[\"']([^\"'\\s<>]+\\.(?:png|jpe?g|webp|gif)(?:\\?[^\"'\\s<>]*)?)[\"']", RegexOption.IGNORE_CASE).findAll(html).forEach { cands.add(it.groupValues[1]) }
                     for (c in cands.filterNot { Regex("logo|icon|banner|header|sprite|button|spacer|avatar", RegexOption.IGNORE_CASE).containsMatchIn(it) }.take(12)) {
                         val abs = try { java.net.URL(java.net.URL(link), c.replace("&amp;", "&")).toString() } catch (e: Throwable) { continue }
-                        if (abs.startsWith("http")) { val cb = fetchBytes(abs); note("  candidate $abs -> " + (cb?.let { b -> dims(b).let { d -> "${d.first}x${d.second}" } } ?: "nothing")); consider(cb) }
+                        if (abs.startsWith("http")) { val cb = fetchBytes(abs); note("  candidate $abs -> " + (cb?.let { b -> dims(b).let { d -> "${d.first}x${d.second}" } } ?: "nothing")); src = abs; consider(cb) }
                     }
                 }
             }
         }
         note("picture $i: thumb=${own.size} shape=$shape link=$link bigUrl=$bigUrl -> " + (best?.let { dims(it).let { d -> "${d.first}x${d.second}" } } ?: "NOTHING kept"))
         val bytes = best ?: return null
+        // The same figure reached twice — by its thumbnail's tap and by its "Figure 23" link — is
+        // kept once: the address its clear copy came from is remembered for the capture.
+        if (bestSrc.isNotEmpty()) synchronized(keptSrc) {
+            if (!keptSrc.add(bestSrc.substringBefore("&q="))) { note("picture $i: same as one already kept ($bestSrc)"); return null }
+        }
         // An icon (the toolbar's Image Viewer button, 32×32) is not a figure.
         dims(bytes).let { (w, h) -> if (w * h < 6000) { note("picture $i: too small, dropped"); return null } }
         val ob = android.graphics.BitmapFactory.Options().apply { inJustDecodeBounds = true }
@@ -860,7 +871,8 @@ class StudyBookActivity : BaseActivity() {
                 val f = java.io.File(dir, n)
                 val old = try { f.readBytes() } catch (e: Throwable) { continue }
                 val hOld = looksHash(old)
-                if (hOld == 0L || java.lang.Long.bitCount(hNew xor hOld) > 7) continue
+                note("picture $i: looks-distance to $n = ${java.lang.Long.bitCount(hNew xor hOld)}")
+                if (hOld == 0L || java.lang.Long.bitCount(hNew xor hOld) > 10) continue
                 val ow = android.graphics.BitmapFactory.Options().apply { inJustDecodeBounds = true }
                 android.graphics.BitmapFactory.decodeByteArray(old, 0, old.size, ow)
                 if (ob.outWidth > ow.outWidth) try { f.writeBytes(bytes) } catch (e: Throwable) { }
