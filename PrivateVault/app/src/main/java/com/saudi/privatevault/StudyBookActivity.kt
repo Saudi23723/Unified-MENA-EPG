@@ -696,7 +696,8 @@ class StudyBookActivity : BaseActivity() {
             var abs = '';
             try { if (h && !/^javascript:/i.test(h) && h !== '#') abs = new URL(h, location.href).href; } catch (x) {}
             // The thumbnail inside the link, so the clear copy can be told from the site's furniture.
-            var th = '', ti = e.querySelector ? e.querySelector('img') : null;
+            // Only a link's own picture is a thumbnail; a button's picture is its icon.
+            var th = '', ti = (e.tagName.toLowerCase() === 'a' && e.querySelector) ? e.querySelector('img') : null;
             if (ti){ try { th = new URL(ti.getAttribute('src') || ti.src, location.href).href; } catch (x) {} }
             out.push({ i: out.length, t: t.slice(0, 30), u: abs, th: th, fig: /(figure|fig\.|exhibit)\s*\d+/i.test(t + ' ' + (ti ? ti.alt : '')) });
         }
@@ -847,6 +848,8 @@ class StudyBookActivity : BaseActivity() {
         }
         note("picture $i: thumb=${own.size} shape=$shape link=$link bigUrl=$bigUrl -> " + (best?.let { dims(it).let { d -> "${d.first}x${d.second}" } } ?: "NOTHING kept"))
         val bytes = best ?: return null
+        // An icon (the toolbar's Image Viewer button, 32×32) is not a figure.
+        dims(bytes).let { (w, h) -> if (w * h < 6000) { note("picture $i: too small, dropped"); return null } }
         val ob = android.graphics.BitmapFactory.Options().apply { inJustDecodeBounds = true }
         android.graphics.BitmapFactory.decodeByteArray(bytes, 0, bytes.size, ob)
         // The same figure reached two ways — the thumbnail on the page and the clear one its viewer
